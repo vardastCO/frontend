@@ -6,6 +6,9 @@ module.exports = {
       fontFamily: {
         yekanBakh: ["Yekan Bakh", "sans-serif"],
       },
+      fontWeight: {
+        extrablack: "950",
+      },
     },
   },
   plugins: [require("@noqte/ui")],
