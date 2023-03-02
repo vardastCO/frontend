@@ -5,7 +5,7 @@ import Sidebar from "../Sidebar/Sidebar";
 export default function DashboardLayout({
   children,
 }: {
-  children: React.ReactElement;
+  children: React.ReactNode;
 }) {
   return (
     <>

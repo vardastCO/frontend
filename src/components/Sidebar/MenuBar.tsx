@@ -2,6 +2,7 @@ import {
   IconAddressBook,
   IconCalendarEvent,
   IconChevronDown,
+  IconInbox,
   IconMessages,
   IconSmartHome,
   IconWallet,
@@ -20,6 +21,11 @@ const Sidebar = (props: Props) => {
       title: "تقویم کاری",
       path: "/calendar",
       icon: IconCalendarEvent,
+    },
+    {
+      title: "مدیریت وظایف",
+      path: "/tasks",
+      icon: IconInbox,
     },
     {
       title: "پیام‌رسان",
