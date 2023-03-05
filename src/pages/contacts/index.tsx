@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/Layouts/DashboardLayout";
+import { NextPageWithLayout } from "@/pages/_app";
 import { NextSeo } from "next-seo";
 import { ReactElement } from "react";
-import { NextPageWithLayout } from "../_app";
 
 const ContactsPage: NextPageWithLayout = () => {
   return (

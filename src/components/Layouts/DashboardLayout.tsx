@@ -1,6 +1,6 @@
+import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import Sidebar from "@/components/Sidebar/Sidebar";
 import { IconSearch } from "@tabler/icons-react";
-import Breadcrumb from "../Breadcrumb/Breadcrumb";
-import Sidebar from "../Sidebar/Sidebar";
 
 export default function DashboardLayout({
   children,
@@ -15,7 +15,7 @@ export default function DashboardLayout({
           <div className="max-w-7xl relative flex flex-col w-full h-auto px-4 py-6 mx-auto">
             <div className="flex items-center mb-3">
               <Breadcrumb />
-              <div className="mr-auto">
+              <form autoComplete="off" action="" className="mr-auto">
                 <div className="input-inset">
                   <div className="input-element">
                     <IconSearch className="w-4 h-4 text-gray-400" />
@@ -24,6 +24,10 @@ export default function DashboardLayout({
                     type="text"
                     className="input-field"
                     placeholder="جستجو..."
+                    autoComplete="off"
+                    name="search"
+                    tabIndex={-1}
+                    role="presentation"
                   />
                   <div className="input-element" dir="ltr">
                     <span className="text-n-gray-500 font-sans text-sm">
@@ -31,7 +35,7 @@ export default function DashboardLayout({
                     </span>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
             {children}
           </div>

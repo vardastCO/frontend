@@ -1,11 +1,11 @@
 import DashboardLayout from "@/components/Layouts/DashboardLayout";
+import { NextPageWithLayout } from "@/pages/_app";
 import fa from "@fullcalendar/core/locales/fa";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { NextSeo } from "next-seo";
 import { ReactElement } from "react";
-import { NextPageWithLayout } from "../_app";
 
 const CalendarPage: NextPageWithLayout = () => {
   return (

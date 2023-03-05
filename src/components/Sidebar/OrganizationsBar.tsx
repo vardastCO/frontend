@@ -1,4 +1,5 @@
-import { IconHelp, IconPlus, IconSettings } from "@tabler/icons-react";
+import { IconHelp, IconPlus } from "@tabler/icons-react";
+import SettingMenu from "./SettingMenu";
 
 type Props = {};
 
@@ -39,9 +40,7 @@ const Sidebar = (props: Props) => {
           <button className="text-n-gray-600 hover:bg-n-gray-200 flex items-center justify-center w-8 h-8 rounded-md">
             <IconHelp className="w-5 h-5" />
           </button>
-          <button className="text-n-gray-600 hover:bg-n-gray-200 flex items-center justify-center w-8 h-8 rounded-md">
-            <IconSettings className="w-5 h-5" />
-          </button>
+          <SettingMenu />
           <button className="bg-n-yellow-400 avatar avatar-sm text-white">
             ع
           </button>

@@ -4,7 +4,23 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        yekanBakh: ["Yekan Bakh", "sans-serif"],
+        yekanBakh: [
+          "Yekan Bakh",
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "Noto Sans",
+          "sans-serif",
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          "Segoe UI Symbol",
+          "Noto Color Emoji",
+        ],
       },
       fontWeight: {
         extrablack: "950",

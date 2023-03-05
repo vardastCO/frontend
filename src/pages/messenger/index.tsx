@@ -1,9 +1,9 @@
 import DashboardLayout from "@/components/Layouts/DashboardLayout";
+import { NextPageWithLayout } from "@/pages/_app";
 import "@ndpco/messenger/dist/style.css";
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 import { ReactElement, Suspense } from "react";
-import { NextPageWithLayout } from "../_app";
 
 const DynamicMessenger = dynamic(
   () => import("@ndpco/messenger").then((res) => res.Messenger),

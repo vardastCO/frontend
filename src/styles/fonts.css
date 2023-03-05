@@ -25,7 +25,7 @@
 @font-face {
   font-family: Yekan Bakh;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500 600;
   src: url("/fonts/yekan-bakh/woff/YekanBakh-SemiBold.woff") format("woff"),
     url("/fonts/yekan-bakh/woff2/YekanBakh-SemiBold.woff2") format("woff2");
 }
