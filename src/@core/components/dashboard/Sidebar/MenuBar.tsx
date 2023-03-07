@@ -14,32 +14,32 @@ const Sidebar = (props: Props) => {
   const menus = [
     {
       title: "خانه",
-      path: "/",
+      path: "/dashboard",
       icon: IconSmartHome,
     },
     {
       title: "تقویم کاری",
-      path: "/calendar",
+      path: "/dashboard/calendar",
       icon: IconCalendarEvent,
     },
     {
       title: "مدیریت وظایف",
-      path: "/tasks",
+      path: "/dashboard/tasks",
       icon: IconInbox,
     },
     {
       title: "پیام‌رسان",
-      path: "/messenger",
+      path: "/dashboard/messenger",
       icon: IconMessages,
     },
     {
       title: "مخاطبین",
-      path: "/contacts",
+      path: "/dashboard/contacts",
       icon: IconAddressBook,
     },
     {
       title: "امور مالی",
-      path: "/finance",
+      path: "/dashboard/finance",
       icon: IconWallet,
     },
   ];

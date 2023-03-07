@@ -1,10 +1,12 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { IconSettings } from "@tabler/icons-react";
+import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
 
 type Props = {};
 
 const SettingMenu = (props: Props) => {
+  const { t } = useTranslation("common");
   return (
     <DropdownMenu.Root dir="rtl">
       <DropdownMenu.Trigger asChild>
@@ -20,10 +22,21 @@ const SettingMenu = (props: Props) => {
           side="left"
         >
           <DropdownMenu.Label className="dropdown-menu-label">
-            سازمان
+            {t("Organization")}
           </DropdownMenu.Label>
           <DropdownMenu.Item className="dropdown-menu-item">
-            <Link href="/organization/settings">تنظیمات سازمان</Link>
+            <Link href="/organization/settings">
+              {t("Organization Settings")}
+            </Link>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item className="dropdown-menu-item">
+            <Link href="/organization/people">{t("Manage People")}</Link>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item className="dropdown-menu-item">
+            <Link href="/organization/integrations">{t("Integrations")}</Link>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item className="dropdown-menu-item">
+            <Link href="/organization/apps">{t("Apps")}</Link>
           </DropdownMenu.Item>
 
           <DropdownMenu.Arrow className="dropdown-menu-arrow" />

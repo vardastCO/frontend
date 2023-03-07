@@ -1,5 +1,5 @@
-import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
-import Sidebar from "@/components/Sidebar/Sidebar";
+import Sidebar from "@/@core/components/dashboard/Sidebar/Sidebar";
+import Breadcrumb from "@/@core/components/shared/Breadcrumb/Breadcrumb";
 import { IconSearch } from "@tabler/icons-react";
 
 export default function DashboardLayout({

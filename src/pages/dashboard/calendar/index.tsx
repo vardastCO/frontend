@@ -1,4 +1,4 @@
-import DashboardLayout from "@/components/Layouts/DashboardLayout";
+import DashboardLayout from "@/@core/layouts/DashboardLayout";
 import { NextPageWithLayout } from "@/pages/_app";
 import fa from "@fullcalendar/core/locales/fa";
 import dayGridPlugin from "@fullcalendar/daygrid";

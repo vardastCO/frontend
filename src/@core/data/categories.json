@@ -1,0 +1,723 @@
+[
+    {
+        "parent": "--",
+        "title": "خانواده",
+        "slug": "Family",
+        "children": [
+            {
+                "title": "مهریه",
+                "slug": "Dowry"
+            },
+            {
+                "title": "نفقه",
+                "slug": "Alimony"
+            },
+            {
+                "title": "طلاق از طرف زن",
+                "slug": "Divorce"
+            },
+            {
+                "title": "طلاق از طرف مرد",
+                "slug": "Divorce"
+            },
+            {
+                "title": "حضانت فرزند",
+                "slug": "Child custody"
+            },
+            {
+                "title": "ملاقات فرزند",
+                "slug": "Meet the child"
+            },
+            {
+                "title": "تمکین",
+                "slug": "Observing"
+            },
+            {
+                "title": "جهیزیه",
+                "slug": "Dowry"
+            },
+            {
+                "title": "قیومیت",
+                "slug": "Qayyum"
+            },
+            {
+                "title": "فرزند خواندگی",
+                "slug": "Adoption"
+            },
+            {
+                "title": "ازدواج موقت",
+                "slug": "Temporary marriage"
+            },
+            {
+                "title": "اجرت المثل و نحله",
+                "slug": "Proverb"
+            },
+            {
+                "title": "طلاق توافقی",
+                "slug": "Divorce"
+            },
+            {
+                "title": "مسکن",
+                "slug": "Housing"
+            },
+            {
+                "title": "ازدواج",
+                "slug": "Marriage"
+            },
+            {
+                "title": "رجوع",
+                "slug": "Reference"
+            },
+            {
+                "title": "نسب",
+                "slug": "Relative"
+            },
+            {
+                "title": "کفالت",
+                "slug": "Belief"
+            },
+            {
+                "title": "طلاق",
+                "slug": "Divorce"
+            },
+            {
+                "title": "خروج از کشور",
+                "slug": "Exit from the country"
+            },
+            {
+                "title": "اشتغال",
+                "slug": "Employment"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "بیمه",
+        "slug": "Insurance",
+        "children": [
+            {
+                "title": "تامین اجتماعی",
+                "slug": "Social Security"
+            },
+            {
+                "title": "اتومبیل",
+                "slug": "Car"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "کار و کارگری",
+        "slug": "Workers",
+        "children": [
+            {
+                "title": "کارگر",
+                "slug": "manual worker"
+            },
+            {
+                "title": "کارفرما",
+                "slug": "The employer"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "کیفری",
+        "slug": "Criminal",
+        "children": [
+            {
+                "title": "سرقت",
+                "slug": "Theft"
+            },
+            {
+                "title": "اختلاس",
+                "slug": "Embezzlement"
+            },
+            {
+                "title": "آدم ربایی",
+                "slug": "kidnap"
+            },
+            {
+                "title": "پزشکی",
+                "slug": "medical"
+            },
+            {
+                "title": "خیانت در امانت",
+                "slug": "Malversation"
+            },
+            {
+                "title": "روابط نا مشروع",
+                "slug": "Illegal relationships"
+            },
+            {
+                "title": "مزاحمت",
+                "slug": "Disruption"
+            },
+            {
+                "title": "استراق سمع",
+                "slug": "Eavesdropping"
+            },
+            {
+                "title": "تصادفات",
+                "slug": "Accidents"
+            },
+            {
+                "title": "تحصیل مال نامشروع",
+                "slug": "Illegal education"
+            },
+            {
+                "title": "افترا",
+                "slug": "Defam"
+            },
+            {
+                "title": "ضرب و جرح",
+                "slug": "Multiplication"
+            },
+            {
+                "title": "قتل",
+                "slug": "Murder"
+            },
+            {
+                "title": "مواد مخدر",
+                "slug": "drugs"
+            },
+            {
+                "title": "سقط جنین",
+                "slug": "Abortion"
+            },
+            {
+                "title": "دیه",
+                "slug": "Diyat"
+            },
+            {
+                "title": "جعل",
+                "slug": "fake"
+            },
+            {
+                "title": "انتقال مال غیر",
+                "slug": "Transfer of non -property"
+            },
+            {
+                "title": "تهدید",
+                "slug": "Threat"
+            },
+            {
+                "title": "شرب خمر",
+                "slug": "Khmer drinking"
+            },
+            {
+                "title": "کلاهبرداری",
+                "slug": "Scam"
+            },
+            {
+                "title": "ممانعت از حق",
+                "slug": "Preventing the right"
+            },
+            {
+                "title": "توهین و فحاشی",
+                "slug": "Insult and insult"
+            },
+            {
+                "title": "جرایم سایبری",
+                "slug": "Cyber ​​crimes"
+            },
+            {
+                "title": "تخریب",
+                "slug": "Destruction"
+            },
+            {
+                "title": "پولشویی",
+                "slug": "money laundering"
+            },
+            {
+                "title": "اتلاف",
+                "slug": "Lay"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "تعزیرات",
+        "slug": "Ta'zir",
+        "children": [
+            {
+                "title": "احتکار",
+                "slug": "Hoarding"
+            },
+            {
+                "title": "گرانفروشی",
+                "slug": "extortion"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "مالیات",
+        "slug": "Tax",
+        "children": [
+            {
+                "title": "اشخاص حقیقی",
+                "slug": "Individuals"
+            },
+            {
+                "title": "اشخاص حقوقی",
+                "slug": "Legal entities"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "وصول مطالبات",
+        "slug": "Get the claims",
+        "children": [
+            {
+                "title": "چک",
+                "slug": "Czech"
+            },
+            {
+                "title": "سفته",
+                "slug": "Promissory note"
+            },
+            {
+                "title": "اوراق بهادار",
+                "slug": "\"important papers"
+            },
+            {
+                "title": "قرارداد",
+                "slug": "Contract"
+            },
+            {
+                "title": "تعهدات",
+                "slug": "Obligations"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "بین الملل",
+        "slug": "The International",
+        "children": [
+            {
+                "title": "مهاجرت",
+                "slug": "Migration"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "املاک",
+        "slug": "Property",
+        "children": [
+            {
+                "title": "تصرف عدوانی",
+                "slug": "Takenny"
+            },
+            {
+                "title": "صورتمجلس تفکیکی",
+                "slug": "Separate Majlis"
+            },
+            {
+                "title": "ملک مشاعی",
+                "slug": "Property"
+            },
+            {
+                "title": "سرقفلی",
+                "slug": "right of business"
+            },
+            {
+                "title": "مالکیت",
+                "slug": "Ownership"
+            },
+            {
+                "title": "آپارتمان",
+                "slug": "the apartment"
+            },
+            {
+                "title": "موجر",
+                "slug": "The landlord"
+            },
+            {
+                "title": "مستاجر",
+                "slug": "Tenant"
+            },
+            {
+                "title": "خلع ید",
+                "slug": "Iodine"
+            },
+            {
+                "title": "پایان کار",
+                "slug": "end of work"
+            },
+            {
+                "title": "سرقفلی",
+                "slug": "right of business"
+            },
+            {
+                "title": "اوقاف",
+                "slug": "Endowments"
+            },
+            {
+                "title": "تفکیک",
+                "slug": "Separation"
+            },
+            {
+                "title": "معوض یا قیمت روز",
+                "slug": "The day or the price of the day"
+            },
+            {
+                "title": "خسارات ملکی",
+                "slug": "Civil damages"
+            },
+            {
+                "title": "موات",
+                "slug": "Mohammed"
+            },
+            {
+                "title": "اراضی ملی",
+                "slug": "National lands"
+            },
+            {
+                "title": "واگذاری اراضی",
+                "slug": "Land assignment"
+            },
+            {
+                "title": "کاربری",
+                "slug": "user"
+            },
+            {
+                "title": "افراز",
+                "slug": "Frequently"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "شهرداری",
+        "slug": "Municipality",
+        "children": [
+            {
+                "title": "کمیسیون ماده ۱۰۰",
+                "slug": "Article 1 Commission"
+            },
+            {
+                "title": "جواز",
+                "slug": "Permit"
+            },
+            {
+                "title": "پروانه",
+                "slug": "the butterfly"
+            },
+            {
+                "title": "عوارض",
+                "slug": "Complications"
+            },
+            {
+                "title": "کمیسیون ها",
+                "slug": "Committees"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "قرارداد",
+        "slug": "Contract",
+        "children": []
+    },
+    {
+        "parent": "--",
+        "title": "مالکیت معنوی",
+        "slug": "Intellectual Property",
+        "children": []
+    },
+    {
+        "parent": "--",
+        "title": "نظام وظیفه",
+        "slug": "Duty system",
+        "children": []
+    },
+    {
+        "parent": "--",
+        "title": "حصروراثت",
+        "slug": "Inheritance",
+        "children": []
+    },
+    {
+        "parent": "--",
+        "title": "شرکت ها",
+        "slug": "companies",
+        "children": [
+            {
+                "title": "ثبت شرکت",
+                "slug": "Company registration"
+            },
+            {
+                "title": "تغییرات شرکت",
+                "slug": "Company changes"
+            },
+            {
+                "title": "انحلال",
+                "slug": "Dissolution"
+            },
+            {
+                "title": "ورشکستگی",
+                "slug": "Bankruptcy"
+            },
+            {
+                "title": "ابطال",
+                "slug": "Revitation"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "ثبت احوال",
+        "slug": "District",
+        "children": [
+            {
+                "title": "شناسنامه",
+                "slug": "Birth certificate"
+            },
+            {
+                "title": "کارت ملی",
+                "slug": "National card"
+            },
+            {
+                "title": "سند سجلی",
+                "slug": "Document"
+            },
+            {
+                "title": "فوت",
+                "slug": "Death"
+            },
+            {
+                "title": "سن",
+                "slug": "Age"
+            },
+            {
+                "title": "نام و نام خانوادگی",
+                "slug": "first name and last name"
+            },
+            {
+                "title": "جنسیت",
+                "slug": "Gender"
+            },
+            {
+                "title": "حذف نام همسر",
+                "slug": "Remove the spouse's name"
+            },
+            {
+                "title": "تغییر نسب",
+                "slug": "Change of the lineage"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "وصیت",
+        "slug": "Will",
+        "children": [
+            {
+                "title": "ترکه",
+                "slug": "Wicker"
+            },
+            {
+                "title": "وصیت نامه",
+                "slug": "will"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "قاچاق",
+        "slug": "Trafficking",
+        "children": []
+    },
+    {
+        "parent": "--",
+        "title": "اجرای احکام",
+        "slug": "Enforcement of orders",
+        "children": [
+            {
+                "title": "اجراییات",
+                "slug": "Implementation"
+            },
+            {
+                "title": "توقیف",
+                "slug": "Seeking"
+            },
+            {
+                "title": "جلب",
+                "slug": "Attraction"
+            },
+            {
+                "title": "مزایده و حراج",
+                "slug": "Auction and auction"
+            },
+            {
+                "title": "دستور",
+                "slug": "Recipe"
+            },
+            {
+                "title": "ابطال",
+                "slug": "Revitation"
+            },
+            {
+                "title": "اعتراض",
+                "slug": "Protest"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "بورس",
+        "slug": "Exchange",
+        "children": []
+    },
+    {
+        "parent": "--",
+        "title": "ثبت اسناد",
+        "slug": "Registration",
+        "children": [
+            {
+                "title": "ملک",
+                "slug": "Property"
+            },
+            {
+                "title": "سند",
+                "slug": "Document"
+            },
+            {
+                "title": "تفکیک",
+                "slug": "Separation"
+            },
+            {
+                "title": "هیئت حل اختلاف",
+                "slug": "Dispute Resolution Board"
+            },
+            {
+                "title": "معارض",
+                "slug": "Conflict"
+            },
+            {
+                "title": "مستثنیات دین",
+                "slug": "Expectations of religion"
+            },
+            {
+                "title": "مزایده",
+                "slug": "Auction"
+            },
+            {
+                "title": "عملیات ها",
+                "slug": "Operations"
+            },
+            {
+                "title": "اختلافات و اشتباهات",
+                "slug": "Disputes and mistakes"
+            },
+            {
+                "title": "اجرای ثبت",
+                "slug": "Implementation of registration"
+            },
+            {
+                "title": "مامورین اجرا",
+                "slug": "Implementation Officers"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "اموال و مالکیت",
+        "slug": "Property and ownership",
+        "children": [
+            {
+                "title": "مالکیت",
+                "slug": "Ownership"
+            },
+            {
+                "title": "شراکت",
+                "slug": "partnership"
+            },
+            {
+                "title": "حق ارتفاق / انتفاع",
+                "slug": "The right of the vigor / profit"
+            },
+            {
+                "title": "نسق زارعانه",
+                "slug": "The farmer"
+            },
+            {
+                "title": "حریم ملک",
+                "slug": "Property privacy"
+            },
+            {
+                "title": "تسلیط ید (وضع ید)",
+                "slug": "Iodine (iodine status)"
+            },
+            {
+                "title": "قلع و قمع مستحدثات/ نزع اشجار",
+                "slug": "Tale"
+            },
+            {
+                "title": "رفع مزاحمت و ممانعت از حق",
+                "slug": "Eliminate the harassment and prohibit the right"
+            },
+            {
+                "title": "مطالبه حق زارعانه  (حق ریشه)",
+                "slug": "The claim of the farmer's right (root right)"
+            },
+            {
+                "title": "رجوع از اذن",
+                "slug": "Refer to permission"
+            },
+            {
+                "title": "سهم الشرکه",
+                "slug": "Partner's share"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "وقف",
+        "slug": "Waqf",
+        "children": [
+            {
+                "title": "وقفیت",
+                "slug": "Endowment"
+            },
+            {
+                "title": "تولیت",
+                "slug": "Tulle"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "حسبی",
+        "slug": "Hassabi",
+        "children": [
+            {
+                "title": "کفالت و سرپرستی",
+                "slug": "Belief and supervision"
+            },
+            {
+                "title": "حکم رشد",
+                "slug": "Growth"
+            },
+            {
+                "title": "حکم حجر",
+                "slug": "Stone sentence"
+            }
+        ]
+    },
+    {
+        "parent": "--",
+        "title": "سایبری",
+        "slug": "cyber",
+        "children": [
+            {
+                "title": "نفوذ",
+                "slug": "infiltrate"
+            }
+        ]
+    }
+]

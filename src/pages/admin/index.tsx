@@ -1,17 +1,13 @@
-import DashboardLayout from "@/@core/layouts/DashboardLayout";
+import AdminLayout from "@/@core/layouts/AdminLayout";
 import { NextPageWithLayout } from "@/pages/_app";
 import { ReactElement } from "react";
 
 const Home: NextPageWithLayout = () => {
-  return (
-    <>
-      <div>Index</div>
-    </>
-  );
+  return <></>;
 };
 
 Home.getLayout = function getLayout(page: ReactElement) {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  return <AdminLayout>{page}</AdminLayout>;
 };
 
 export default Home;
