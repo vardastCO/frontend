@@ -1,3 +1,4 @@
+import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed";
 import AdminLayout from "@/@core/layouts/AdminLayout";
 import { NextPageWithLayout } from "@/pages/_app";
 import Link from "next/link";
@@ -11,7 +12,7 @@ const Home: NextPageWithLayout = () => {
   const { data, error } = useSWR("/api/geolocations", fetcher);
 
   //Handle the error state
-  if (error) return <div>Failed to load</div>;
+  if (error) return <LoadingFailed />;
   //Handle the loading state
   if (!data) return <div>Loading...</div>;
   //Handle the ready state and display the result contained in the data object mapped to the structure of the json file

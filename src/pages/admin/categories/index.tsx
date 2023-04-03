@@ -1,13 +1,53 @@
+import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed";
 import AdminLayout from "@/@core/layouts/AdminLayout";
 import { NextPageWithLayout } from "@/pages/_app";
+import Link from "next/link";
 import { ReactElement } from "react";
+import useSWR from "swr";
 
-const Home: NextPageWithLayout = () => {
-  return <></>;
+//Write a fetcher function to wrap the native fetch function and return the result of a call to url in json format
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+const AdminCategoriesPage: NextPageWithLayout = () => {
+  const { data, error } = useSWR("/api/categories", fetcher);
+
+  //Handle the error state
+  if (error) return <LoadingFailed />;
+  //Handle the loading state
+  if (!data) return <div>Loading...</div>;
+  //Handle the ready state and display the result contained in the data object mapped to the structure of the json file
+
+  const categories = JSON.parse(data);
+  return (
+    <>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>نام</th>
+            <th>نامک</th>
+            <th>تعداد زیردسته‌ها</th>
+          </tr>
+        </thead>
+        <tbody>
+          {categories.map((category, idx) => (
+            <tr key={idx}>
+              <td>
+                <Link href={`/admin/categories/${category.id}`}>
+                  {category.title}
+                </Link>
+              </td>
+              <td>{category.slug}</td>
+              <td>{category.children && category.children.length}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
 };
 
-Home.getLayout = function getLayout(page: ReactElement) {
+AdminCategoriesPage.getLayout = function getLayout(page: ReactElement) {
   return <AdminLayout>{page}</AdminLayout>;
 };
 
-export default Home;
+export default AdminCategoriesPage;
