@@ -1,8 +1,8 @@
-import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed";
 import AdminLayout from "@/@core/layouts/AdminLayout";
-import { IGeolocation } from "@/@core/types/Geolocation";
+import { ICategory } from "@/@core/types/Category";
 import { NextPageWithLayout } from "@/pages/_app";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ReactElement } from "react";
 import useSWR from "swr";
 
@@ -10,15 +10,20 @@ import useSWR from "swr";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Home: NextPageWithLayout = () => {
-  const { data, error } = useSWR("/api/geolocations", fetcher);
+  const router = useRouter();
+  const { slug: categorySlug } = router.query;
+  const { data, error } = useSWR("/api/categories", fetcher);
 
   //Handle the error state
-  if (error) return <LoadingFailed />;
+  if (error) return <div>Failed to load</div>;
   //Handle the loading state
   if (!data) return <div>Loading...</div>;
   //Handle the ready state and display the result contained in the data object mapped to the structure of the json file
 
-  const geolocations: Array<IGeolocation> = JSON.parse(data);
+  const parentCategory: ICategory = JSON.parse(data)
+    .filter((category: ICategory) => category.slug == categorySlug)
+    .at(0);
+
   return (
     <>
       <table className="table">
@@ -30,15 +35,18 @@ const Home: NextPageWithLayout = () => {
           </tr>
         </thead>
         <tbody>
-          {geolocations.map((geo: IGeolocation, idx: number) => (
-            <tr key={idx}>
-              <td>
-                <Link href={`/admin/geolocations/${geo.id}`}>{geo.name}</Link>
-              </td>
-              <td>{geo.slug}</td>
-              <td>{geo.children && geo.children.length - 1}</td>
-            </tr>
-          ))}
+          {parentCategory.children &&
+            parentCategory.children.map((category: ICategory, idx: number) => (
+              <tr key={idx}>
+                <td>
+                  <Link href={`/admin/categories/${category.slug}`}>
+                    {category.title}
+                  </Link>
+                </td>
+                <td>{category.slug}</td>
+                <td>{category.children && category.children.length - 1}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </>
