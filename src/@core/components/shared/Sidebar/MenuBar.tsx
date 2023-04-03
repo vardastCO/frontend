@@ -1,48 +1,14 @@
-import {
-  IconAddressBook,
-  IconCalendarEvent,
-  IconChevronDown,
-  IconInbox,
-  IconMessages,
-  IconSmartHome,
-  IconWallet,
-} from "@tabler/icons-react";
+import { IconChevronDown, type Icon } from "@tabler/icons-react";
 
-type Props = {};
+type Props = {
+  menus: {
+    title: string;
+    path: string;
+    icon: Icon;
+  }[];
+};
 
 const Sidebar = (props: Props) => {
-  const menus = [
-    {
-      title: "خانه",
-      path: "/dashboard",
-      icon: IconSmartHome,
-    },
-    {
-      title: "تقویم کاری",
-      path: "/dashboard/calendar",
-      icon: IconCalendarEvent,
-    },
-    {
-      title: "مدیریت وظایف",
-      path: "/dashboard/tasks",
-      icon: IconInbox,
-    },
-    {
-      title: "پیام‌رسان",
-      path: "/dashboard/messenger",
-      icon: IconMessages,
-    },
-    {
-      title: "مخاطبین",
-      path: "/dashboard/contacts",
-      icon: IconAddressBook,
-    },
-    {
-      title: "امور مالی",
-      path: "/dashboard/finance",
-      icon: IconWallet,
-    },
-  ];
   return (
     <div className="border-n-gray-200 flex-shrink-0 w-64 py-5 border-l">
       <div className="flex flex-col w-full h-full">
@@ -62,7 +28,7 @@ const Sidebar = (props: Props) => {
           </div>
           <div>
             <ol>
-              {menus.map((menu, idx) => {
+              {props.menus.map((menu, idx) => {
                 return (
                   <li key={idx}>
                     <a
