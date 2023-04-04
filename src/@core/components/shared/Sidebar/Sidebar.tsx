@@ -12,7 +12,7 @@ type Props = {
 
 const Sidebar = (props: Props) => {
   return (
-    <div className="sticky top-0 flex-shrink-0 h-auto">
+    <div className="sticky top-0 flex-shrink-0">
       <div className="flex h-full">
         <SpacesBar />
         <MenuBar menus={props.menus} />
