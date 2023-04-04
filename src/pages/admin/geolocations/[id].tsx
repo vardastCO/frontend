@@ -26,29 +26,31 @@ const Home: NextPageWithLayout = () => {
 
   return (
     <>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>نام</th>
-            <th>نامک</th>
-            <th>تعداد شهر</th>
-          </tr>
-        </thead>
-        <tbody>
-          {province.children &&
-            province.children.map((city: IGeolocation, idx: number) => (
-              <tr key={idx}>
-                <td>
-                  <Link href={`/admin/geolocations/${city.id}`}>
-                    {city.name}
-                  </Link>
-                </td>
-                <td>{city.slug}</td>
-                <td>{city.children && city.children.length - 1}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      <div className="table-responsive">
+        <table className="table-striped table">
+          <thead>
+            <tr>
+              <th>نام</th>
+              <th>نامک</th>
+              <th>تعداد شهر</th>
+            </tr>
+          </thead>
+          <tbody>
+            {province.children &&
+              province.children.map((city: IGeolocation, idx: number) => (
+                <tr key={idx}>
+                  <td>
+                    <Link href={`/admin/geolocations/${city.id}`}>
+                      {city.name}
+                    </Link>
+                  </td>
+                  <td>{city.slug}</td>
+                  <td>{city.children && city.children.length - 1}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };

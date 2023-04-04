@@ -1,8 +1,10 @@
+import CategoryList from "@/@core/components/admin/Category/CategoryList";
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed";
 import AdminLayout from "@/@core/layouts/AdminLayout";
 import { ICategory } from "@/@core/types/Category";
 import { NextPageWithLayout } from "@/pages/_app";
-import Link from "next/link";
+import { IconMinus, IconPlus, IconSearch } from "@tabler/icons-react";
+import useTranslation from "next-translate/useTranslation";
 import { ReactElement } from "react";
 import useSWR from "swr";
 
@@ -10,6 +12,7 @@ import useSWR from "swr";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const AdminCategoriesPage: NextPageWithLayout = () => {
+  const { t } = useTranslation("common");
   const { data, error } = useSWR("/api/categories", fetcher);
 
   //Handle the error state
@@ -21,28 +24,40 @@ const AdminCategoriesPage: NextPageWithLayout = () => {
   const categories: Array<ICategory> = JSON.parse(data);
   return (
     <>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>نام</th>
-            <th>نامک</th>
-            <th>تعداد زیردسته‌ها</th>
-          </tr>
-        </thead>
-        <tbody>
-          {categories.map((category: ICategory, idx: number) => (
-            <tr key={idx}>
-              <td>
-                <Link href={`/admin/categories/${category.slug}`}>
-                  {category.title}
-                </Link>
-              </td>
-              <td>{category.slug}</td>
-              <td>{category.children && category.children.length}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h1 className="text-n-gray-800 mb-8 text-3xl font-black">
+        {t("Categories")}
+      </h1>
+      <div>
+        <div className="flex items-center gap-6">
+          <div className="w-1/2">
+            <div className="input-inset">
+              <div className="input-element">
+                <IconSearch className="text-n-gray-400 w-4 h-4" />
+              </div>
+              <input
+                type="text"
+                className="input-field"
+                placeholder={t("Search in {{ entity }}", {
+                  entity: t("Categories"),
+                })}
+              />
+            </div>
+          </div>
+          <div className="btn-group mr-auto">
+            <button className="btn btn-xs btn-secondary">
+              <IconMinus className="icon" />
+              <span>{t("Collapse All")}</span>
+            </button>
+            <button className="btn btn-xs btn-secondary">
+              <IconPlus className="icon" />
+              <span>{t("Expand All")}</span>
+            </button>
+          </div>
+        </div>
+        <div className="mt-12">
+          <CategoryList categories={categories} />
+        </div>
+      </div>
     </>
   );
 };

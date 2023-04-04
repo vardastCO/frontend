@@ -21,26 +21,28 @@ const Home: NextPageWithLayout = () => {
   const geolocations: Array<IGeolocation> = JSON.parse(data);
   return (
     <>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>نام</th>
-            <th>نامک</th>
-            <th>تعداد شهر</th>
-          </tr>
-        </thead>
-        <tbody>
-          {geolocations.map((geo: IGeolocation, idx: number) => (
-            <tr key={idx}>
-              <td>
-                <Link href={`/admin/geolocations/${geo.id}`}>{geo.name}</Link>
-              </td>
-              <td>{geo.slug}</td>
-              <td>{geo.children && geo.children.length - 1}</td>
+      <div className="table-responsive">
+        <table className="table-striped table">
+          <thead>
+            <tr>
+              <th>نام</th>
+              <th>نامک</th>
+              <th>تعداد شهر</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {geolocations.map((geo: IGeolocation, idx: number) => (
+              <tr key={idx}>
+                <td>
+                  <Link href={`/admin/geolocations/${geo.id}`}>{geo.name}</Link>
+                </td>
+                <td>{geo.slug}</td>
+                <td>{geo.children && geo.children.length - 1}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };

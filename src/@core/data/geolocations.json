@@ -5,24 +5,6 @@
         "slug": "azarbaijan-east-province",
         "children": [
             {
-                "id": 891,
-                "name": "همهٔ شهرهای آذربایجان شرقی",
-                "slug": "azarbaijan-east-province",
-                "parent": 891,
-                "relativeChildren": [
-                    853,
-                    759,
-                    760,
-                    5,
-                    852,
-                    761,
-                    762,
-                    763,
-                    764
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 853,
                 "name": "آذرشهر",
                 "slug": "azarshahr",
@@ -101,27 +83,6 @@
         "name": "آذربایجان غربی",
         "slug": "azerbaijan-west-province",
         "children": [
-            {
-                "id": 881,
-                "name": "همهٔ شهرهای آذربایجان غربی",
-                "slug": "azerbaijan-west-province",
-                "parent": 881,
-                "relativeChildren": [
-                    10,
-                    859,
-                    765,
-                    766,
-                    767,
-                    857,
-                    768,
-                    858,
-                    856,
-                    769,
-                    792,
-                    770
-                ],
-                "isProvince": true
-            },
             {
                 "id": 10,
                 "name": "ارومیه",
@@ -226,22 +187,6 @@
         "slug": "ardabil-province",
         "children": [
             {
-                "id": 906,
-                "name": "همهٔ شهرهای اردبیل",
-                "slug": "ardabil-province",
-                "parent": 906,
-                "relativeChildren": [
-                    17,
-                    771,
-                    772,
-                    1741,
-                    1743,
-                    773,
-                    1742
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 17,
                 "name": "اردبیل",
                 "slug": "ardabil",
@@ -304,32 +249,6 @@
         "name": "اصفهان",
         "slug": "isfahan-province",
         "children": [
-            {
-                "id": 890,
-                "name": "همهٔ شهرهای اصفهان",
-                "slug": "isfahan-province",
-                "parent": 890,
-                "relativeChildren": [
-                    1737,
-                    1723,
-                    4,
-                    1747,
-                    1727,
-                    1750,
-                    1724,
-                    1725,
-                    1744,
-                    849,
-                    1745,
-                    1746,
-                    30,
-                    848,
-                    1749,
-                    1748,
-                    31
-                ],
-                "isProvince": true
-            },
             {
                 "id": 1737,
                 "name": "آران و بیدگل",
@@ -474,28 +393,6 @@
         "slug": "alborz-province",
         "children": [
             {
-                "id": 895,
-                "name": "همهٔ شهرهای البرز",
-                "slug": "alborz-province",
-                "parent": 895,
-                "relativeChildren": [
-                    1722,
-                    1721,
-                    1739,
-                    1740,
-                    850,
-                    1751,
-                    2,
-                    1738,
-                    1720,
-                    1753,
-                    1752,
-                    774,
-                    1754
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 1722,
                 "name": "آسارا",
                 "slug": "asara",
@@ -607,20 +504,6 @@
         "slug": "ilam-province",
         "children": [
             {
-                "id": 888,
-                "name": "همهٔ شهرهای ایلام",
-                "slug": "ilam-province",
-                "parent": 888,
-                "relativeChildren": [
-                    775,
-                    32,
-                    776,
-                    777,
-                    1823
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 775,
                 "name": "آبدانان",
                 "slug": "abdanan",
@@ -667,22 +550,6 @@
         "name": "بوشهر",
         "slug": "bushehr-province",
         "children": [
-            {
-                "id": 900,
-                "name": "همهٔ شهرهای بوشهر",
-                "slug": "bushehr-province",
-                "parent": 900,
-                "relativeChildren": [
-                    778,
-                    1756,
-                    779,
-                    780,
-                    25,
-                    1757,
-                    1755
-                ],
-                "isProvince": true
-            },
             {
                 "id": 778,
                 "name": "برازجان",
@@ -746,50 +613,6 @@
         "name": "تهران",
         "slug": "tehran-province",
         "children": [
-            {
-                "id": 904,
-                "name": "همهٔ شهرهای تهران",
-                "slug": "tehran-province",
-                "parent": 904,
-                "relativeChildren": [
-                    1709,
-                    1715,
-                    1714,
-                    29,
-                    1764,
-                    1707,
-                    1768,
-                    1760,
-                    1767,
-                    1766,
-                    781,
-                    1,
-                    1718,
-                    782,
-                    783,
-                    1765,
-                    1769,
-                    1763,
-                    1713,
-                    1717,
-                    1759,
-                    1712,
-                    1710,
-                    1716,
-                    1772,
-                    1770,
-                    1758,
-                    1761,
-                    1708,
-                    1719,
-                    1706,
-                    1771,
-                    784,
-                    1711,
-                    1762
-                ],
-                "isProvince": true
-            },
             {
                 "id": 1709,
                 "name": "آبسرد",
@@ -1078,20 +901,6 @@
         "slug": "chahar-mahaal-and-bakhtiari-province",
         "children": [
             {
-                "id": 903,
-                "name": "همهٔ شهرهای چهارمحال و بختیاری",
-                "slug": "chahar-mahaal-and-bakhtiari-province",
-                "parent": 903,
-                "relativeChildren": [
-                    785,
-                    1833,
-                    36,
-                    786,
-                    787
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 785,
                 "name": "بروجن",
                 "slug": "boroujen",
@@ -1139,19 +948,6 @@
         "slug": "khorasan-south-province",
         "children": [
             {
-                "id": 876,
-                "name": "همهٔ شهرهای خراسان جنوبی",
-                "slug": "khorasan-south-province",
-                "parent": 876,
-                "relativeChildren": [
-                    34,
-                    788,
-                    789,
-                    790
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 34,
                 "name": "بیرجند",
                 "slug": "birjand",
@@ -1190,31 +986,6 @@
         "name": "خراسان رضوی",
         "slug": "khorasan-razavi-province",
         "children": [
-            {
-                "id": 880,
-                "name": "همهٔ شهرهای خراسان رضوی",
-                "slug": "khorasan-razavi-province",
-                "parent": 880,
-                "relativeChildren": [
-                    1735,
-                    1729,
-                    791,
-                    1776,
-                    1732,
-                    1736,
-                    316,
-                    1775,
-                    1774,
-                    1733,
-                    1777,
-                    1773,
-                    847,
-                    3,
-                    1778,
-                    318
-                ],
-                "isProvince": true
-            },
             {
                 "id": 1735,
                 "name": "بردسکن",
@@ -1351,19 +1122,6 @@
         "slug": "khorasan-north-province",
         "children": [
             {
-                "id": 896,
-                "name": "همهٔ شهرهای خراسان شمالی",
-                "slug": "khorasan-north-province",
-                "parent": 896,
-                "relativeChildren": [
-                    793,
-                    794,
-                    39,
-                    795
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 793,
                 "name": "آشخانه",
                 "slug": "ashkhaneh",
@@ -1402,35 +1160,6 @@
         "name": "خوزستان",
         "slug": "khuzestan-province",
         "children": [
-            {
-                "id": 902,
-                "name": "همهٔ شهرهای خوزستان",
-                "slug": "khuzestan-province",
-                "parent": 902,
-                "relativeChildren": [
-                    24,
-                    1779,
-                    796,
-                    7,
-                    797,
-                    798,
-                    37,
-                    314,
-                    1782,
-                    1784,
-                    799,
-                    23,
-                    1781,
-                    800,
-                    756,
-                    1780,
-                    754,
-                    602,
-                    317,
-                    1783
-                ],
-                "isProvince": true
-            },
             {
                 "id": 24,
                 "name": "آبادان",
@@ -1599,19 +1328,6 @@
         "slug": "zanjan-province",
         "children": [
             {
-                "id": 879,
-                "name": "همهٔ شهرهای زنجان",
-                "slug": "zanjan-province",
-                "parent": 879,
-                "relativeChildren": [
-                    802,
-                    803,
-                    20,
-                    804
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 802,
                 "name": "ابهر",
                 "slug": "abhar",
@@ -1651,19 +1367,6 @@
         "slug": "semnan-province",
         "children": [
             {
-                "id": 882,
-                "name": "همهٔ شهرهای سمنان",
-                "slug": "semnan-province",
-                "parent": 882,
-                "relativeChildren": [
-                    805,
-                    35,
-                    707,
-                    806
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 805,
                 "name": "دامغان",
                 "slug": "damghan",
@@ -1702,23 +1405,6 @@
         "name": "سیستان و بلوچستان",
         "slug": "sistan-and-baluchestan-province",
         "children": [
-            {
-                "id": 883,
-                "name": "همهٔ شهرهای سیستان و بلوچستان",
-                "slug": "sistan-and-baluchestan-province",
-                "parent": 883,
-                "relativeChildren": [
-                    807,
-                    747,
-                    1785,
-                    706,
-                    11,
-                    1787,
-                    865,
-                    1786
-                ],
-                "isProvince": true
-            },
             {
                 "id": 807,
                 "name": "ایرانشهر",
@@ -1790,32 +1476,6 @@
         "name": "فارس",
         "slug": "fars-province",
         "children": [
-            {
-                "id": 898,
-                "name": "همهٔ شهرهای فارس",
-                "slug": "fars-province",
-                "parent": 898,
-                "relativeChildren": [
-                    851,
-                    1728,
-                    808,
-                    1793,
-                    809,
-                    1791,
-                    6,
-                    810,
-                    1789,
-                    1734,
-                    1790,
-                    1730,
-                    1731,
-                    1788,
-                    1792,
-                    1794,
-                    1726
-                ],
-                "isProvince": true
-            },
             {
                 "id": 851,
                 "name": "آباده",
@@ -1960,22 +1620,6 @@
         "slug": "qazvin-province",
         "children": [
             {
-                "id": 878,
-                "name": "همهٔ شهرهای قزوین",
-                "slug": "qazvin-province",
-                "parent": 878,
-                "relativeChildren": [
-                    869,
-                    1795,
-                    872,
-                    811,
-                    1796,
-                    19,
-                    873
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 869,
                 "name": "آبیک",
                 "slug": "abyek",
@@ -2039,16 +1683,6 @@
         "slug": "qom-province",
         "children": [
             {
-                "id": 892,
-                "name": "همهٔ شهرهای قم",
-                "slug": "qom-province",
-                "parent": 892,
-                "relativeChildren": [
-                    8
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 8,
                 "name": "قم",
                 "slug": "qom",
@@ -2063,23 +1697,6 @@
         "name": "کردستان",
         "slug": "kurdistan-province",
         "children": [
-            {
-                "id": 885,
-                "name": "همهٔ شهرهای کردستان",
-                "slug": "kurdistan-province",
-                "parent": 885,
-                "relativeChildren": [
-                    662,
-                    868,
-                    1798,
-                    812,
-                    28,
-                    813,
-                    1797,
-                    814
-                ],
-                "isProvince": true
-            },
             {
                 "id": 662,
                 "name": "بانه",
@@ -2151,26 +1768,6 @@
         "name": "کرمان",
         "slug": "kerman-province",
         "children": [
-            {
-                "id": 877,
-                "name": "همهٔ شهرهای کرمان",
-                "slug": "kerman-province",
-                "parent": 877,
-                "relativeChildren": [
-                    1804,
-                    1805,
-                    1807,
-                    815,
-                    816,
-                    817,
-                    867,
-                    818,
-                    13,
-                    1803,
-                    1806
-                ],
-                "isProvince": true
-            },
             {
                 "id": 1804,
                 "name": "بافت",
@@ -2267,25 +1864,6 @@
         "slug": "kermanshah-province",
         "children": [
             {
-                "id": 905,
-                "name": "همهٔ شهرهای کرمانشاه",
-                "slug": "kermanshah-province",
-                "parent": 905,
-                "relativeChildren": [
-                    819,
-                    1801,
-                    820,
-                    854,
-                    855,
-                    1800,
-                    9,
-                    821,
-                    1802,
-                    1799
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 819,
                 "name": "اسلام‌‌آباد غرب",
                 "slug": "eslamabad-gharb",
@@ -2373,19 +1951,6 @@
         "slug": "kohgiluyeh-and-boyer-ahmad-province",
         "children": [
             {
-                "id": 887,
-                "name": "همهٔ شهرهای کهگیلویه و بویراحمد",
-                "slug": "kohgiluyeh-and-boyer-ahmad-province",
-                "parent": 887,
-                "relativeChildren": [
-                    874,
-                    822,
-                    1808,
-                    38
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 874,
                 "name": "دوگنبدان",
                 "slug": "dogonbadan",
@@ -2424,26 +1989,6 @@
         "name": "گلستان",
         "slug": "golestan-province",
         "children": [
-            {
-                "id": 897,
-                "name": "همهٔ شهرهای گلستان",
-                "slug": "golestan-province",
-                "parent": 897,
-                "relativeChildren": [
-                    1691,
-                    748,
-                    751,
-                    823,
-                    750,
-                    1692,
-                    1832,
-                    21,
-                    749,
-                    743,
-                    1693
-                ],
-                "isProvince": true
-            },
             {
                 "id": 1691,
                 "name": "آزادشهر",
@@ -2539,64 +2084,6 @@
         "name": "گیلان",
         "slug": "gilan-province",
         "children": [
-            {
-                "id": 889,
-                "name": "همهٔ شهرهای گیلان",
-                "slug": "gilan-province",
-                "parent": 889,
-                "relativeChildren": [
-                    824,
-                    825,
-                    1852,
-                    1812,
-                    1688,
-                    1854,
-                    708,
-                    1841,
-                    829,
-                    1855,
-                    1850,
-                    864,
-                    1686,
-                    1844,
-                    1847,
-                    1689,
-                    1809,
-                    1814,
-                    1851,
-                    1839,
-                    1835,
-                    12,
-                    1684,
-                    1810,
-                    1849,
-                    826,
-                    1683,
-                    1811,
-                    861,
-                    1813,
-                    1845,
-                    827,
-                    860,
-                    863,
-                    1840,
-                    1843,
-                    1687,
-                    1846,
-                    746,
-                    1690,
-                    828,
-                    1836,
-                    1842,
-                    1837,
-                    1848,
-                    862,
-                    1815,
-                    1853,
-                    1834
-                ],
-                "isProvince": true
-            },
             {
                 "id": 824,
                 "name": "آستارا",
@@ -2997,24 +2484,6 @@
         "slug": "lorestan-province",
         "children": [
             {
-                "id": 884,
-                "name": "همهٔ شهرهای لرستان",
-                "slug": "lorestan-province",
-                "parent": 884,
-                "relativeChildren": [
-                    870,
-                    1816,
-                    830,
-                    26,
-                    1817,
-                    27,
-                    752,
-                    831,
-                    753
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 870,
                 "name": "ازنا",
                 "slug": "azna",
@@ -3093,62 +2562,6 @@
         "name": "مازندران",
         "slug": "mazandaran-province",
         "children": [
-            {
-                "id": 893,
-                "name": "همهٔ شهرهای مازندران",
-                "slug": "mazandaran-province",
-                "parent": 893,
-                "relativeChildren": [
-                    1871,
-                    663,
-                    1703,
-                    1701,
-                    664,
-                    710,
-                    1873,
-                    832,
-                    1865,
-                    1702,
-                    833,
-                    834,
-                    835,
-                    1694,
-                    1861,
-                    1868,
-                    745,
-                    1860,
-                    1698,
-                    1872,
-                    1859,
-                    22,
-                    1700,
-                    1699,
-                    1862,
-                    1863,
-                    1697,
-                    1819,
-                    836,
-                    1875,
-                    665,
-                    1858,
-                    1695,
-                    1696,
-                    1870,
-                    1869,
-                    1864,
-                    1866,
-                    1876,
-                    1856,
-                    837,
-                    1867,
-                    1874,
-                    1818,
-                    838,
-                    744,
-                    709
-                ],
-                "isProvince": true
-            },
             {
                 "id": 1871,
                 "name": "آلاشت",
@@ -3533,22 +2946,6 @@
         "slug": "markazi-province",
         "children": [
             {
-                "id": 901,
-                "name": "همهٔ شهرهای مرکزی",
-                "slug": "markazi-province",
-                "parent": 901,
-                "relativeChildren": [
-                    15,
-                    839,
-                    1824,
-                    671,
-                    1825,
-                    840,
-                    1826
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 15,
                 "name": "اراک",
                 "slug": "arak",
@@ -3611,22 +3008,6 @@
         "name": "هرمزگان",
         "slug": "hormozgan-province",
         "children": [
-            {
-                "id": 894,
-                "name": "همهٔ شهرهای هرمزگان",
-                "slug": "hormozgan-province",
-                "parent": 894,
-                "relativeChildren": [
-                    18,
-                    1822,
-                    1820,
-                    660,
-                    33,
-                    841,
-                    1821
-                ],
-                "isProvince": true
-            },
             {
                 "id": 18,
                 "name": "بندرعباس",
@@ -3691,22 +3072,6 @@
         "slug": "hamadan-province",
         "children": [
             {
-                "id": 899,
-                "name": "همهٔ شهرهای همدان",
-                "slug": "hamadan-province",
-                "parent": 899,
-                "relativeChildren": [
-                    842,
-                    1828,
-                    866,
-                    1827,
-                    843,
-                    844,
-                    14
-                ],
-                "isProvince": true
-            },
-            {
                 "id": 842,
                 "name": "اسدآباد",
                 "slug": "asadabad",
@@ -3769,22 +3134,6 @@
         "name": "یزد",
         "slug": "yazd-province",
         "children": [
-            {
-                "id": 886,
-                "name": "همهٔ شهرهای یزد",
-                "slug": "yazd-province",
-                "parent": 886,
-                "relativeChildren": [
-                    846,
-                    1829,
-                    1831,
-                    871,
-                    1830,
-                    845,
-                    16
-                ],
-                "isProvince": true
-            },
             {
                 "id": 846,
                 "name": "اردکان",

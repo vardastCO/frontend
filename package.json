@@ -17,6 +17,7 @@
         "@hookform/resolvers": "^3.0.0",
         "@ndpco/messenger": "^0.0.13",
         "@persian-tools/persian-tools": "^3.4.1",
+        "@radix-ui/react-collapsible": "^1.0.2",
         "@radix-ui/react-direction": "^1.0.0",
         "@radix-ui/react-dropdown-menu": "^2.0.4",
         "@tabler/icons-react": "^2.13.1",

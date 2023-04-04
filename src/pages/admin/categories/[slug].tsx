@@ -26,29 +26,33 @@ const Home: NextPageWithLayout = () => {
 
   return (
     <>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>نام</th>
-            <th>نامک</th>
-            <th>تعداد شهر</th>
-          </tr>
-        </thead>
-        <tbody>
-          {parentCategory.children &&
-            parentCategory.children.map((category: ICategory, idx: number) => (
-              <tr key={idx}>
-                <td>
-                  <Link href={`/admin/categories/${category.slug}`}>
-                    {category.title}
-                  </Link>
-                </td>
-                <td>{category.slug}</td>
-                <td>{category.children && category.children.length - 1}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      <div className="table-responsive">
+        <table className="table-striped table">
+          <thead>
+            <tr>
+              <th>نام</th>
+              <th>نامک</th>
+              <th>تعداد زیردسته‌ها</th>
+            </tr>
+          </thead>
+          <tbody>
+            {parentCategory.children &&
+              parentCategory.children.map(
+                (category: ICategory, idx: number) => (
+                  <tr key={idx}>
+                    <td>
+                      <Link href={`/admin/categories/${category.slug}`}>
+                        {category.title}
+                      </Link>
+                    </td>
+                    <td>{category.slug}</td>
+                    <td>{category.children && category.children.length - 1}</td>
+                  </tr>
+                )
+              )}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };
