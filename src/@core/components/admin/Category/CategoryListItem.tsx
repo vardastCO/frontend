@@ -16,16 +16,17 @@ const CategoryListItem = (props: Props) => {
   const hasChildren: boolean = !!category.children?.length;
   return (
     <Collapsible.Root open={open} onOpenChange={setOpen}>
-      <li>
+      <li draggable>
         <div className="card ps-4 flex items-center py-2 rounded">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-px">
             {hasChildren && (
               <Collapsible.Trigger asChild>
-                <button className="focus:outline-none w-6 h-6">
+                <button
+                  className="focus:outline-none text-n-gray-400 w-6 h-6"
+                  type="button"
+                >
                   <IconChevronDown
-                    className={`w-4 h-4 text-n-gray-400 ${
-                      open ? "rotate-270" : "rotate-90"
-                    }`}
+                    className={`w-4 h-4 ${open ? "rotate-270" : "rotate-90"}`}
                   />
                 </button>
               </Collapsible.Trigger>
@@ -41,8 +42,11 @@ const CategoryListItem = (props: Props) => {
               </span>
             )}
           </div>
-          <button className="btn btn-xs text-n-gray-400 mr-auto">
-            <IconGripVertical className="icon" />
+          <button
+            className="focus:outline-none text-n-gray-400 cursor-grab w-6 h-6 mr-auto"
+            type="button"
+          >
+            <IconGripVertical className="w-4 h-4" />
           </button>
         </div>
         {hasChildren && (

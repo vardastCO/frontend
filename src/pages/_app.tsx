@@ -6,7 +6,6 @@ import { NextPage } from "next";
 import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
 import NextNProgress from "nextjs-progressbar";
-import { ReactElement, ReactNode } from "react";
 
 setDefaultOptions({
   locale: faIR,
@@ -14,7 +13,7 @@ setDefaultOptions({
 });
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode;
+  getLayout?: (page: JSX.Element) => JSX.Element;
 };
 
 type AppPropsWithLayout<P = {}> = AppProps<P> & {
@@ -23,7 +22,7 @@ type AppPropsWithLayout<P = {}> = AppProps<P> & {
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout =
-    Component.getLayout ?? ((page: ReactNode): ReactNode => page);
+    Component.getLayout ?? ((page: JSX.Element): JSX.Element => page);
 
   return getLayout(
     <>
