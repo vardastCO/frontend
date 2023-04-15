@@ -7,7 +7,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "ngrok": "ngrok http 3000"
+        "ngrok": "ngrok http 3000",
+        "analyze": "ANALYZE=true pnpm run build"
     },
     "dependencies": {
         "@fullcalendar/core": "^6.1.5",
@@ -35,7 +36,7 @@
         "next": "13.3.0",
         "next-i18next": "^13.2.2",
         "next-seo": "^6.0.0",
-        "nprogress": "^0.2.0",
+        "nextjs-progressbar": "^0.0.16",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-hook-form": "^7.43.9",
@@ -46,9 +47,11 @@
         "zod-i18n-map": "^2.9.1"
     },
     "devDependencies": {
+        "@next/bundle-analyzer": "^13.3.0",
         "@noqte/ui": "^0.14.0",
         "@types/nprogress": "^0.2.0",
         "autoprefixer": "^10.4.14",
+        "cross-env": "^7.0.3",
         "ngrok": "^4.3.3",
         "postcss": "^8.4.21",
         "postcss-import": "^15.1.0",

@@ -43,7 +43,7 @@ const OranizationManagePeoplePage: NextPageWithLayout = () => {
   ];
   return (
     <>
-      <NextSeo title={t("Manage People")} />
+      <NextSeo title={t("Manage People").toString()} />
       <div className="flex flex-col flex-1 h-auto">
         <h1 className="text-n-gray-800 mb-8 text-3xl font-black">
           {t("Manage People")}

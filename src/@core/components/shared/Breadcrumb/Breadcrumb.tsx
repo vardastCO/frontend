@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 type Props = {};
 
 const Breadcrumb = (props: Props) => {
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   const router = useRouter();
   const [breadcrumbs, setBreadcrumbs] = useState<
     {
@@ -48,7 +48,7 @@ const Breadcrumb = (props: Props) => {
             aria-current={router.pathname === "/" ? "page" : "false"}
             legacyBehavior
           >
-            <a title={t("Home")}>
+            <a title={t("Home").toString()}>
               <IconSmartHome className="text-n-gray-400 w-4 h-4" />
             </a>
           </Link>
@@ -61,7 +61,7 @@ const Breadcrumb = (props: Props) => {
               )}
               <Link href={crumb.href} passHref legacyBehavior>
                 <a
-                  title={t(crumb.label)}
+                  title={t(crumb.label).toString()}
                   aria-current={crumb.isCurrent ? "page" : "false"}
                   className="text-n-gray-600"
                 >

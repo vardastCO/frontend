@@ -8,7 +8,7 @@ const OranizationAppsPage: NextPageWithLayout = () => {
   const { t } = useTranslation("common");
   return (
     <>
-      <NextSeo title={t("Apps")} />
+      <NextSeo title={t("Apps").toString()} />
       <div className="flex flex-col flex-1 h-auto">
         <h1 className="text-n-gray-800 mb-8 text-3xl font-black">
           {t("Apps")}

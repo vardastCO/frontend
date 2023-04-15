@@ -10,7 +10,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactElement } from "react";
 import useSWR from "swr";
 
-export async function getStaticProps({ locale }) {
+export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
       ...(await serverSideTranslations(locale)),
@@ -54,7 +54,7 @@ const AdminCategoriesPage: NextPageWithLayout = () => {
                 className="input-field"
                 placeholder={t("Search in {{ entity }}", {
                   entity: t("Categories"),
-                })}
+                }).toString()}
               />
             </div>
           </div>

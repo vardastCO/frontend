@@ -5,15 +5,8 @@ import setDefaultOptions from "date-fns/setDefaultOptions";
 import { NextPage } from "next";
 import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
-import Router from "next/router";
-import NProgress from "nprogress"; //nprogress module
-import "nprogress/nprogress.css";
+import NextNProgress from "nextjs-progressbar";
 import { ReactElement, ReactNode } from "react";
-
-NProgress.configure({ showSpinner: false });
-Router.events.on("routeChangeStart", () => NProgress.start());
-Router.events.on("routeChangeComplete", () => NProgress.done());
-Router.events.on("routeChangeError", () => NProgress.done());
 
 setDefaultOptions({
   locale: faIR,
@@ -24,18 +17,21 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
+type AppPropsWithLayout<P = {}> = AppProps<P> & {
+  Component: NextPageWithLayout<P>;
 };
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-  // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout ?? ((page) => page);
+  const getLayout =
+    Component.getLayout ?? ((page: ReactNode): ReactNode => page);
 
   return getLayout(
-    <MessengerContext.Provider value={DefaultContext}>
-      <Component {...pageProps} />
-    </MessengerContext.Provider>
+    <>
+      <NextNProgress />
+      <MessengerContext.Provider value={DefaultContext}>
+        <Component {...pageProps} />
+      </MessengerContext.Provider>
+    </>
   );
 };
 
