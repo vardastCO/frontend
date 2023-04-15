@@ -3,8 +3,8 @@ import { NextPageWithLayout } from "@/pages/_app";
 import { digitsEnToFa } from "@persian-tools/persian-tools";
 import { IconDots } from "@tabler/icons-react";
 import { formatDistanceToNow } from "date-fns";
+import { useTranslation } from "next-i18next";
 import { NextSeo } from "next-seo";
-import useTranslation from "next-translate/useTranslation";
 import Image from "next/image";
 import { ReactElement } from "react";
 

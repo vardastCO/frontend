@@ -5,7 +5,7 @@ import {
   IconSearch,
   IconSmartHome,
 } from "@tabler/icons-react";
-import useTranslation from "next-translate/useTranslation";
+import { useTranslation } from "next-i18next";
 import Sidebar from "../components/shared/Sidebar/Sidebar";
 
 export default function DashboardLayout({

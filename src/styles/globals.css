@@ -2,5 +2,7 @@
 @import "fonts.css";
 @import "base.css";
 @import "tailwindcss/components";
+@import "dialog.css";
+@import "form.css";
 @import "tailwindcss/utilities";
 @import "full-calendar.css";

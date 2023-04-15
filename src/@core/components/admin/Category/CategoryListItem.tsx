@@ -21,9 +21,11 @@ const CategoryListItem = (props: Props) => {
           <div className="flex items-center gap-2">
             {hasChildren && (
               <Collapsible.Trigger asChild>
-                <button className="btn btn-xs">
+                <button className="focus:outline-none w-6 h-6">
                   <IconChevronDown
-                    className={`icon ${open ? "rotate-270" : "rotate-90"}`}
+                    className={`w-4 h-4 text-n-gray-400 ${
+                      open ? "rotate-270" : "rotate-90"
+                    }`}
                   />
                 </button>
               </Collapsible.Trigger>
@@ -45,7 +47,7 @@ const CategoryListItem = (props: Props) => {
         </div>
         {hasChildren && (
           <Collapsible.Content>
-            <div className="ms-4 my-2">
+            <div className="ms-6 ps-4 border-s my-2 border-0">
               <CategoryList categories={category.children as ICategory[]} />
             </div>
           </Collapsible.Content>

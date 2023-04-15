@@ -1,7 +1,7 @@
 import DashboardLayout from "@/@core/layouts/DashboardLayout";
 import { NextPageWithLayout } from "@/pages/_app";
+import { useTranslation } from "next-i18next";
 import { NextSeo } from "next-seo";
-import useTranslation from "next-translate/useTranslation";
 import { ReactElement } from "react";
 
 const OranizationSettingsPage: NextPageWithLayout = () => {

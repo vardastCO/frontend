@@ -1,5 +1,5 @@
 import { IconSmartHome } from "@tabler/icons-react";
-import useTranslation from "next-translate/useTranslation";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";

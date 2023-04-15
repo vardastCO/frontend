@@ -1,0 +1,15 @@
+.form-field {
+  @apply flex flex-col gap-1.5;
+}
+.form-label {
+  @apply text-sm text-n-gray-600 font-medium inline-block;
+}
+.form-control {
+}
+.form-message {
+  @apply text-sm text-n-gray-500;
+
+  &.error {
+    @apply text-n-red-600;
+  }
+}

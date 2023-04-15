@@ -1,6 +1,6 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { IconSettings } from "@tabler/icons-react";
-import useTranslation from "next-translate/useTranslation";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 
 type Props = {};

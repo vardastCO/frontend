@@ -1,6 +1,8 @@
 import { IconChevronDown, type Icon } from "@tabler/icons-react";
+import { clsx } from "clsx";
 
 type Props = {
+  open: boolean;
   menus: {
     title: string;
     path: string;
@@ -10,7 +12,14 @@ type Props = {
 
 const Sidebar = (props: Props) => {
   return (
-    <div className="border-n-gray-200 flex-shrink-0 w-64 py-5 border-l">
+    <div
+      className={clsx([
+        "border-n-gray-200 flex-shrink-0 py-5 border-l z-10 transition-all",
+        props.open && "w-64",
+        ,
+        !props.open && "w-0 overflow-hidden translate-x-full opacity-0",
+      ])}
+    >
       <div className="flex flex-col w-full h-full">
         <div className="px-4">
           <div className="mb-3">
