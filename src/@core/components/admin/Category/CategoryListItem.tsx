@@ -17,7 +17,7 @@ const CategoryListItem = (props: Props) => {
   return (
     <Collapsible.Root open={open} onOpenChange={setOpen}>
       <li draggable>
-        <div className="card ps-4 flex items-center py-2 rounded">
+        <div className="card ps-4 flex items-center py-2 bg-white rounded">
           <div className="flex items-center gap-px">
             {hasChildren && (
               <Collapsible.Trigger asChild>

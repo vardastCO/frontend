@@ -1,6 +1,7 @@
 import CategoryList from "@/@core/components/admin/Category/CategoryList";
 import CreateCategory from "@/@core/components/admin/Category/CreateCategory";
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed";
+import PageHeader from "@/@core/components/shared/PageHeader/PageHeader";
 import AdminLayout from "@/@core/layouts/AdminLayout";
 import { ICategory } from "@/@core/types/Category";
 import { NextPageWithLayout } from "@/pages/_app";
@@ -10,6 +11,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactElement } from "react";
 import useSWR from "swr";
 
+//Write a fetcher function to wrap the native fetch function and return the result of a call to url in json format
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
@@ -17,9 +21,6 @@ export async function getStaticProps({ locale }: { locale: string }) {
     },
   };
 }
-
-//Write a fetcher function to wrap the native fetch function and return the result of a call to url in json format
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const AdminCategoriesPage: NextPageWithLayout = () => {
   const { t } = useTranslation("common");
@@ -34,14 +35,10 @@ const AdminCategoriesPage: NextPageWithLayout = () => {
   const categories: Array<ICategory> = JSON.parse(data);
   return (
     <>
-      <div className="flex items-end mt-8 mb-6">
-        <h1 className="text-n-gray-800 text-3xl font-black">
-          {t("Categories")}
-        </h1>
-        <div className="mr-auto">
-          <CreateCategory />
-        </div>
-      </div>
+      <PageHeader
+        title={t("categories_index_title")}
+        slot={<CreateCategory />}
+      />
       <div>
         <div className="flex items-center gap-6">
           <div className="w-1/2">

@@ -22,7 +22,7 @@ const CreateCategory = (props: Props) => {
             توسط فرم زیر دسته‌بندی جدید را اضافه کنید
           </Dialog.Description>
           <CreateCategoryForm />
-          <Dialog.Close>
+          <Dialog.Close asChild>
             <button className="dialog-close btn" aria-label="Close">
               <IconX className="icon" />
             </button>
