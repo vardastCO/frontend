@@ -6,7 +6,7 @@ import { GetStaticPaths } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
@@ -25,15 +25,25 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
 
 const Home: NextPageWithLayout = () => {
   const { t } = useTranslation("common");
-  const { slug } = useRouter().query;
+  const router = useRouter();
+  const slug = router.query.slug as string[];
   let queries: { [k: string]: string } = {};
-  if (Array.isArray(slug)) {
-    slug.forEach((current, idx) => {
-      if (idx % 2) queries[slug[idx - 1]] = current;
-    });
-  }
+  slug.forEach((current, idx) => {
+    if (idx % 2) queries[slug[idx - 1]] = current;
+  });
 
   const listType = Object.keys(queries).at(-1);
+
+  useEffect(() => {
+    const allowedRoutes = ["country", "province", "city", "state", "area"];
+    if (
+      !(slug.length % 2 === 0) ||
+      !listType ||
+      allowedRoutes.indexOf(listType) === -1
+    ) {
+      router.push("/admin/locations");
+    }
+  }, [listType, slug, router]);
 
   return (
     <>
