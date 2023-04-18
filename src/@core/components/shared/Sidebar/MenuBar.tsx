@@ -1,5 +1,7 @@
 import { IconChevronDown, type Icon } from "@tabler/icons-react";
 import { clsx } from "clsx";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 type Props = {
   open: boolean;
@@ -11,6 +13,18 @@ type Props = {
 };
 
 const Sidebar = (props: Props) => {
+  const router = useRouter();
+
+  const isActive = (linkPath: string): boolean => {
+    const currentPathModified = router.pathname.split("/").slice(2).join("/");
+    const linkPathModified = linkPath.split("/").slice(2).join("/");
+    console.log(currentPathModified, linkPathModified);
+    return linkPathModified === currentPathModified
+      ? true
+      : linkPathModified !== "" &&
+          currentPathModified.startsWith(linkPathModified);
+  };
+
   return (
     <div
       className={clsx([
@@ -40,16 +54,19 @@ const Sidebar = (props: Props) => {
               {props.menus.map((menu, idx) => {
                 return (
                   <li key={idx}>
-                    <a
+                    <Link
                       href={menu.path}
-                      className="hover:bg-n-gray-100 text-n-gray-700 flex items-center w-full px-2 py-3 space-x-2 space-x-reverse font-semibold leading-normal rounded"
+                      className={clsx([
+                        "hover:bg-n-gray-100 text-n-gray-700 flex items-center w-full px-2 py-3 space-x-2 space-x-reverse font-semibold leading-normal rounded",
+                        isActive(menu.path) ? "bg-n-gray-100" : "",
+                      ])}
                     >
                       <menu.icon
                         className="text-n-gray-400 w-5 h-5"
                         strokeWidth={1.5}
                       />
                       <span>{menu.title}</span>
-                    </a>
+                    </Link>
                   </li>
                 );
               })}
