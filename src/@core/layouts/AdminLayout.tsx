@@ -21,13 +21,13 @@ export default function DashboardLayout({
       icon: IconSmartHome,
     },
     {
-      title: t("Categories"),
+      title: t("categories_menu_title"),
       path: "/admin/categories",
       icon: IconCategory,
     },
     {
-      title: t("Geolocations"),
-      path: "/admin/geolocations",
+      title: t("locations_menu_title"),
+      path: "/admin/locations",
       icon: IconMap2,
     },
   ];
@@ -36,7 +36,7 @@ export default function DashboardLayout({
       <div className="flex flex-col h-screen bg-white">
         <div className="flex flex-1 h-auto overflow-hidden">
           <Sidebar menus={menus} />
-          <div className="overscroll-contain relative flex flex-col w-full h-auto px-4 py-6 overflow-auto">
+          <div className="overscroll-contain bg-n-gray-50 relative flex flex-col w-full h-auto px-4 py-6 overflow-auto">
             <div className="max-w-7xl flex flex-col w-full mx-auto">
               <div className="flex items-center mb-3">
                 <Breadcrumb />
