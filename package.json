@@ -15,7 +15,7 @@
         "@fullcalendar/daygrid": "^6.1.5",
         "@fullcalendar/react": "^6.1.5",
         "@fullcalendar/timegrid": "^6.1.5",
-        "@hookform/resolvers": "^3.0.1",
+        "@hookform/resolvers": "^3.1.0",
         "@ndpco/messenger": "^0.0.13",
         "@persian-tools/persian-tools": "^3.4.1",
         "@radix-ui/react-collapsible": "^1.0.2",
@@ -25,7 +25,7 @@
         "@tabler/icons-react": "^2.16.0",
         "@ts-react/form": "^1.6.3",
         "@types/node": "18.15.11",
-        "@types/react": "18.0.35",
+        "@types/react": "18.0.37",
         "@types/react-dom": "18.0.11",
         "clsx": "^1.2.1",
         "core": "link: @fullcalendar/core",
@@ -53,7 +53,7 @@
         "autoprefixer": "^10.4.14",
         "cross-env": "^7.0.3",
         "ngrok": "^4.3.3",
-        "postcss": "^8.4.21",
+        "postcss": "^8.4.22",
         "postcss-import": "^15.1.0",
         "tailwindcss": "^3.3.1"
     }
