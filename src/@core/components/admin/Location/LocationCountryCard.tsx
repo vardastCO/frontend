@@ -1,14 +1,22 @@
+import { getFlagEmoji } from "@/@core/utils/getFlagEmoji";
+import { slugify } from "@/@core/utils/slugify";
+import { Country } from "@/gql/graphql";
 import Link from "next/link";
 
-type Props = {};
+type Props = {
+  country: Country;
+};
 
-const LocationCountryCard = (props: Props) => {
+const LocationCountryCard = ({ country }: Props) => {
+  const { id, name, nameEn, alphaTwo } = country;
   return (
-    <Link href="/admin/locations/country/iran">
+    <Link href={`/admin/locations/country/${slugify(nameEn)}`}>
       <div className="card ps-4 flex items-center gap-3 py-2 bg-white rounded">
-        <span className=" text-3xl leading-none align-baseline">🇮🇷</span>
+        <span className=" text-3xl leading-none align-baseline">
+          {getFlagEmoji(alphaTwo)}
+        </span>
         <div className="flex flex-col">
-          <strong>ایران</strong>
+          <strong>{name}</strong>
           <div className="flex items-center gap-2 mt-1 text-sm">
             <div className="flex items-center gap-1">
               <span>۳۲</span>

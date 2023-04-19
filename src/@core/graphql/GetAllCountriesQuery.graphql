@@ -1,0 +1,8 @@
+query GetAllCountries {
+  countries {
+    id
+    name
+    alphaTwo
+    nameEn
+  }
+}

@@ -4,4 +4,7 @@
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
     },
+    "[graphql]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
 }
