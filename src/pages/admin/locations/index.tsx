@@ -1,5 +1,8 @@
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient";
+import CreateCountry from "@/@core/components/admin/Location/CreateCountry";
 import LocationCountryCard from "@/@core/components/admin/Location/LocationCountryCard";
+import Loading from "@/@core/components/shared/Loading/Loading";
+import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed";
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader";
 import AdminLayout from "@/@core/layouts/AdminLayout";
 import { useGetAllCountriesQuery } from "@/generated";
@@ -22,11 +25,11 @@ const Home: NextPageWithLayout = () => {
   const { isLoading, error, data } =
     useGetAllCountriesQuery(graphqlRequestClient);
 
-  if (isLoading) return <>Loooooooo</>;
-  if (error) return <>Errrrrrr</>;
+  if (isLoading) return <Loading />;
+  if (error) return <LoadingFailed />;
   return (
     <>
-      <PageHeader title={t("locations_index_title")} />
+      <PageHeader title={t("locations_index_title")} slot={<CreateCountry />} />
       <div>
         <div className="flex flex-col gap-2">
           {data?.countries?.map((country) => (

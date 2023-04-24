@@ -14,9 +14,9 @@ const LoadingFailed = (props: Props) => {
           <IconRefresh className="text-n-gray-400 w-6 h-6" />
         </button>
         <h3 className="text-n-gray-700 mb-1 font-bold">
-          {t("Something Went Wrong")}
+          {t("something_went_wrong")}
         </h3>
-        <p className="text-n-gray-500">{t("Try to reload the page")}</p>
+        <p className="text-n-gray-500">{t("try_to_reload_the_page")}</p>
       </div>
     </div>
   );

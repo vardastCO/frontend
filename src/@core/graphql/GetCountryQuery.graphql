@@ -1,0 +1,14 @@
+query GetCountry($id: Int!) {
+  country(id: $id) {
+    id
+    name
+    alphaTwo
+    nameEn
+    provinces {
+      id
+      name
+      nameEn
+      slug
+    }
+  }
+}

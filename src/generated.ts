@@ -1,6 +1,11 @@
 import { GraphQLClient } from "graphql-request";
 import { RequestInit } from "graphql-request/dist/types.dom";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  UseMutationOptions,
+  UseQueryOptions,
+} from "@tanstack/react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -385,6 +390,24 @@ export type Vocabulary = {
   updatedAt: Scalars["DateTime"];
 };
 
+export type CreateCountryMutationVariables = Exact<{
+  input: CreateCountryInput;
+}>;
+
+export type CreateCountryMutation = {
+  __typename?: "Mutation";
+  createCountry: {
+    __typename?: "Country";
+    id: number;
+    name: string;
+    nameEn: string;
+    alphaTwo: string;
+    iso: string;
+    phonePrefix: string;
+    sort: number;
+  };
+};
+
 export type GetAllCountriesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAllCountriesQuery = {
@@ -398,6 +421,67 @@ export type GetAllCountriesQuery = {
   }>;
 };
 
+export type GetCountryQueryVariables = Exact<{
+  id: Scalars["Int"];
+}>;
+
+export type GetCountryQuery = {
+  __typename?: "Query";
+  country: {
+    __typename?: "Country";
+    id: number;
+    name: string;
+    alphaTwo: string;
+    nameEn: string;
+    provinces?: Array<{
+      __typename?: "Province";
+      id: number;
+      name: string;
+      nameEn: string;
+      slug: string;
+    }> | null;
+  };
+};
+
+export const CreateCountryDocument = `
+    mutation CreateCountry($input: CreateCountryInput!) {
+  createCountry(createCountryInput: $input) {
+    id
+    name
+    nameEn
+    alphaTwo
+    iso
+    phonePrefix
+    sort
+  }
+}
+    `;
+export const useCreateCountryMutation = <TError = unknown, TContext = unknown>(
+  client: GraphQLClient,
+  options?: UseMutationOptions<
+    CreateCountryMutation,
+    TError,
+    CreateCountryMutationVariables,
+    TContext
+  >,
+  headers?: RequestInit["headers"]
+) =>
+  useMutation<
+    CreateCountryMutation,
+    TError,
+    CreateCountryMutationVariables,
+    TContext
+  >(
+    ["CreateCountry"],
+    (variables?: CreateCountryMutationVariables) =>
+      fetcher<CreateCountryMutation, CreateCountryMutationVariables>(
+        client,
+        CreateCountryDocument,
+        variables,
+        headers
+      )(),
+    options
+  );
 export const GetAllCountriesDocument = `
     query GetAllCountries {
   countries {
@@ -424,6 +508,38 @@ export const useGetAllCountriesQuery = <
     fetcher<GetAllCountriesQuery, GetAllCountriesQueryVariables>(
       client,
       GetAllCountriesDocument,
+      variables,
+      headers
+    ),
+    options
+  );
+export const GetCountryDocument = `
+    query GetCountry($id: Int!) {
+  country(id: $id) {
+    id
+    name
+    alphaTwo
+    nameEn
+    provinces {
+      id
+      name
+      nameEn
+      slug
+    }
+  }
+}
+    `;
+export const useGetCountryQuery = <TData = GetCountryQuery, TError = unknown>(
+  client: GraphQLClient,
+  variables: GetCountryQueryVariables,
+  options?: UseQueryOptions<GetCountryQuery, TError, TData>,
+  headers?: RequestInit["headers"]
+) =>
+  useQuery<GetCountryQuery, TError, TData>(
+    ["GetCountry", variables],
+    fetcher<GetCountryQuery, GetCountryQueryVariables>(
+      client,
+      GetCountryDocument,
       variables,
       headers
     ),

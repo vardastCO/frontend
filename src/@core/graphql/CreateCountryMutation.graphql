@@ -1,0 +1,11 @@
+mutation CreateCountry($input: CreateCountryInput!) {
+  createCountry(createCountryInput: $input) {
+    id
+    name
+    nameEn
+    alphaTwo
+    iso
+    phonePrefix
+    sort
+  }
+}

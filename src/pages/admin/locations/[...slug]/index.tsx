@@ -32,6 +32,10 @@ const Home: NextPageWithLayout = () => {
     if (idx % 2) queries[slug[idx - 1]] = current;
   });
 
+  //   const { isLoading, error, data } = useGetCountryQuery(graphqlRequestClient, {
+  //     id: queries.country,
+  //   });
+
   const listType = Object.keys(queries).at(-1);
 
   useEffect(() => {

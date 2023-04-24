@@ -1,5 +1,15 @@
 {
+    "name": "نام",
+    "english_name": "نام انگلیسی",
+    "alpha_two_name": "نام مختصر دو حرفی",
+    "iso_name": "نام استاندارد",
+    "phone_prefix": "پیش‌شماره تلفن",
+    "sort": "ترتیب",
+    "is_active": "فعال؟",
+    "new_country": "کشور جدید",
+    "new_country_description": "فرم افزودن کشور جدید",
     "Add": "افزودن",
+    "add_country": "افزودن کشور",
     "Add category": "افزودن دسته‌بندی",
     "Admin": "مدیریت",
     "All": "همه",
@@ -10,6 +20,7 @@
     "Categories": "دسته‌بندی‌ها",
     "categories_index_title": "دسته‌بندی‌ها",
     "categories_menu_title": "دسته‌بندی‌ها",
+    "loading_please_wait": "در حال بارگذاری اطلاعات، لطفاً صبر کنید.",
     "Category": "دسته‌بندی",
     "Collapse": "بستن",
     "Collapse All": "بستن همه",
@@ -42,10 +53,10 @@
     "Search in {{ entity }}": "جستجو در {{ entity }}",
     "Settings": "تنظیمات",
     "slug": "نامک",
-    "Something Went Wrong": "خطایی رخ داده!",
+    "something_went_wrong": "خطایی رخ داده!",
     "submit": "ثبت",
     "Task Manager": "مدیریت وظایف",
     "This action can't be undone": "",
     "title": "عنوان",
-    "Try to reload the page": "صفحه را دوباره بارگزاری کنید"
+    "try_to_reload_the_page": "صفحه را دوباره بارگزاری کنید"
 }
