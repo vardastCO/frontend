@@ -36,9 +36,9 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type IArea = {
+export type Area = {
   __typename?: "Area";
-  city: ICity;
+  city: City;
   id: Scalars["Int"];
   isActive: Scalars["Boolean"];
   latitude?: Maybe<Scalars["Float"]>;
@@ -49,38 +49,38 @@ export type IArea = {
   sort: Scalars["Int"];
 };
 
-export type ICategory = {
+export type Category = {
   __typename?: "Category";
-  children?: Maybe<Array<ICategory>>;
+  children?: Maybe<Array<Category>>;
   createdAt: Scalars["DateTime"];
   icon?: Maybe<Scalars["String"]>;
   id: Scalars["Int"];
-  parentCategory?: Maybe<ICategory>;
+  parentCategory?: Maybe<Category>;
   slug: Scalars["String"];
   sort: Scalars["Int"];
   title: Scalars["String"];
   titleEn?: Maybe<Scalars["String"]>;
   updatedAt: Scalars["DateTime"];
-  vocabulary: IVocabulary;
+  vocabulary: Vocabulary;
 };
 
-export type ICity = {
+export type City = {
   __typename?: "City";
-  areas: Array<IArea>;
+  areas: Array<Area>;
   id: Scalars["Int"];
   isActive: Scalars["Boolean"];
   latitude?: Maybe<Scalars["Float"]>;
   longitude?: Maybe<Scalars["Float"]>;
   name: Scalars["String"];
   nameEn: Scalars["String"];
-  parentCity: ICity;
-  province: IProvince;
+  parentCity: City;
+  province: Province;
   slug: Scalars["String"];
   sort: Scalars["Int"];
   type: Scalars["Float"];
 };
 
-export type ICountry = {
+export type Country = {
   __typename?: "Country";
   alphaTwo: Scalars["String"];
   id: Scalars["Int"];
@@ -91,11 +91,11 @@ export type ICountry = {
   name: Scalars["String"];
   nameEn: Scalars["String"];
   phonePrefix: Scalars["String"];
-  provinces?: Maybe<Array<IProvince>>;
+  provinces?: Maybe<Array<Province>>;
   sort: Scalars["Int"];
 };
 
-export type ICreateAreaInput = {
+export type CreateAreaInput = {
   cityId: Scalars["Int"];
   isActive: Scalars["Boolean"];
   latitude?: InputMaybe<Scalars["Float"]>;
@@ -106,7 +106,7 @@ export type ICreateAreaInput = {
   sort: Scalars["Int"];
 };
 
-export type ICreateCategoryInput = {
+export type CreateCategoryInput = {
   icon?: InputMaybe<Scalars["String"]>;
   parentCategoryId?: InputMaybe<Scalars["Int"]>;
   slug: Scalars["String"];
@@ -116,7 +116,7 @@ export type ICreateCategoryInput = {
   vocabularyId: Scalars["Int"];
 };
 
-export type ICreateCityInput = {
+export type CreateCityInput = {
   isActive: Scalars["Boolean"];
   latitude?: InputMaybe<Scalars["Float"]>;
   longitude?: InputMaybe<Scalars["Float"]>;
@@ -128,7 +128,7 @@ export type ICreateCityInput = {
   type: Scalars["Float"];
 };
 
-export type ICreateCountryInput = {
+export type CreateCountryInput = {
   alphaTwo: Scalars["String"];
   isActive: Scalars["Boolean"];
   iso: Scalars["String"];
@@ -140,7 +140,7 @@ export type ICreateCountryInput = {
   sort: Scalars["Int"];
 };
 
-export type ICreateProvinceInput = {
+export type CreateProvinceInput = {
   countryId: Scalars["Int"];
   isActive: Scalars["Boolean"];
   latitude?: InputMaybe<Scalars["Float"]>;
@@ -152,109 +152,111 @@ export type ICreateProvinceInput = {
   sort: Scalars["Int"];
 };
 
-export type ICreateVocabularyInput = {
-  /** Example field (placeholder) */
-  exampleField: Scalars["Int"];
+export type CreateVocabularyInput = {
+  slug: Scalars["String"];
+  sort?: Scalars["Int"];
+  title: Scalars["String"];
+  titleEn?: InputMaybe<Scalars["String"]>;
 };
 
-export type IMutation = {
+export type Mutation = {
   __typename?: "Mutation";
-  createArea: IArea;
-  createCategory: ICategory;
-  createCity: ICity;
-  createCountry: ICountry;
-  createProvince: IProvince;
-  createVocabulary: IVocabulary;
-  removeArea: IArea;
-  removeCategory: ICategory;
-  removeCity: ICity;
-  removeCountry: ICountry;
-  removeProvince: IProvince;
-  removeVocabulary: IVocabulary;
-  updateArea: IArea;
-  updateCategory: ICategory;
-  updateCity: ICity;
-  updateCountry: ICountry;
-  updateProvince: IProvince;
-  updateVocabulary: IVocabulary;
+  createArea: Area;
+  createCategory: Category;
+  createCity: City;
+  createCountry: Country;
+  createProvince: Province;
+  createVocabulary: Vocabulary;
+  removeArea: Area;
+  removeCategory: Category;
+  removeCity: City;
+  removeCountry: Country;
+  removeProvince: Province;
+  removeVocabulary: Vocabulary;
+  updateArea: Area;
+  updateCategory: Category;
+  updateCity: City;
+  updateCountry: Country;
+  updateProvince: Province;
+  updateVocabulary: Vocabulary;
 };
 
-export type IMutationCreateAreaArgs = {
-  createAreaInput: ICreateAreaInput;
+export type MutationCreateAreaArgs = {
+  createAreaInput: CreateAreaInput;
 };
 
-export type IMutationCreateCategoryArgs = {
-  createCategoryInput: ICreateCategoryInput;
+export type MutationCreateCategoryArgs = {
+  createCategoryInput: CreateCategoryInput;
 };
 
-export type IMutationCreateCityArgs = {
-  createCityInput: ICreateCityInput;
+export type MutationCreateCityArgs = {
+  createCityInput: CreateCityInput;
 };
 
-export type IMutationCreateCountryArgs = {
-  createCountryInput: ICreateCountryInput;
+export type MutationCreateCountryArgs = {
+  createCountryInput: CreateCountryInput;
 };
 
-export type IMutationCreateProvinceArgs = {
-  createProvinceInput: ICreateProvinceInput;
+export type MutationCreateProvinceArgs = {
+  createProvinceInput: CreateProvinceInput;
 };
 
-export type IMutationCreateVocabularyArgs = {
-  createVocabularyInput: ICreateVocabularyInput;
+export type MutationCreateVocabularyArgs = {
+  createVocabularyInput: CreateVocabularyInput;
 };
 
-export type IMutationRemoveAreaArgs = {
+export type MutationRemoveAreaArgs = {
   id: Scalars["Int"];
 };
 
-export type IMutationRemoveCategoryArgs = {
+export type MutationRemoveCategoryArgs = {
   id: Scalars["Int"];
 };
 
-export type IMutationRemoveCityArgs = {
+export type MutationRemoveCityArgs = {
   id: Scalars["Int"];
 };
 
-export type IMutationRemoveCountryArgs = {
+export type MutationRemoveCountryArgs = {
   id: Scalars["Int"];
 };
 
-export type IMutationRemoveProvinceArgs = {
+export type MutationRemoveProvinceArgs = {
   id: Scalars["Int"];
 };
 
-export type IMutationRemoveVocabularyArgs = {
+export type MutationRemoveVocabularyArgs = {
   id: Scalars["Int"];
 };
 
-export type IMutationUpdateAreaArgs = {
-  updateAreaInput: IUpdateAreaInput;
+export type MutationUpdateAreaArgs = {
+  updateAreaInput: UpdateAreaInput;
 };
 
-export type IMutationUpdateCategoryArgs = {
-  updateCategoryInput: IUpdateCategoryInput;
+export type MutationUpdateCategoryArgs = {
+  updateCategoryInput: UpdateCategoryInput;
 };
 
-export type IMutationUpdateCityArgs = {
-  updateCityInput: IUpdateCityInput;
+export type MutationUpdateCityArgs = {
+  updateCityInput: UpdateCityInput;
 };
 
-export type IMutationUpdateCountryArgs = {
-  updateCountryInput: IUpdateCountryInput;
+export type MutationUpdateCountryArgs = {
+  updateCountryInput: UpdateCountryInput;
 };
 
-export type IMutationUpdateProvinceArgs = {
-  updateProvinceInput: IUpdateProvinceInput;
+export type MutationUpdateProvinceArgs = {
+  updateProvinceInput: UpdateProvinceInput;
 };
 
-export type IMutationUpdateVocabularyArgs = {
-  updateVocabularyInput: IUpdateVocabularyInput;
+export type MutationUpdateVocabularyArgs = {
+  updateVocabularyInput: UpdateVocabularyInput;
 };
 
-export type IProvince = {
+export type Province = {
   __typename?: "Province";
-  cities: Array<ICity>;
-  country: ICountry;
+  cities: Array<City>;
+  country: Country;
   id: Scalars["Int"];
   isActive: Scalars["Boolean"];
   latitude?: Maybe<Scalars["Float"]>;
@@ -266,42 +268,42 @@ export type IProvince = {
   sort: Scalars["Int"];
 };
 
-export type IQuery = {
+export type Query = {
   __typename?: "Query";
-  area: IArea;
-  category: ICategory;
-  city: ICity;
-  countries: Array<ICountry>;
-  country: ICountry;
-  province: IProvince;
-  vocabulary: IVocabulary;
+  area: Area;
+  category: Category;
+  city: City;
+  countries: Array<Country>;
+  country: Country;
+  province: Province;
+  vocabulary: Vocabulary;
 };
 
-export type IQueryAreaArgs = {
+export type QueryAreaArgs = {
   id: Scalars["Int"];
 };
 
-export type IQueryCategoryArgs = {
+export type QueryCategoryArgs = {
   id: Scalars["Int"];
 };
 
-export type IQueryCityArgs = {
+export type QueryCityArgs = {
   id: Scalars["Int"];
 };
 
-export type IQueryCountryArgs = {
+export type QueryCountryArgs = {
   id: Scalars["Int"];
 };
 
-export type IQueryProvinceArgs = {
+export type QueryProvinceArgs = {
   id: Scalars["Int"];
 };
 
-export type IQueryVocabularyArgs = {
+export type QueryVocabularyArgs = {
   id: Scalars["Int"];
 };
 
-export type IUpdateAreaInput = {
+export type UpdateAreaInput = {
   cityId?: InputMaybe<Scalars["Int"]>;
   id: Scalars["Int"];
   isActive?: InputMaybe<Scalars["Boolean"]>;
@@ -313,7 +315,7 @@ export type IUpdateAreaInput = {
   sort?: InputMaybe<Scalars["Int"]>;
 };
 
-export type IUpdateCategoryInput = {
+export type UpdateCategoryInput = {
   icon?: InputMaybe<Scalars["String"]>;
   id: Scalars["Int"];
   parentCategoryId?: InputMaybe<Scalars["Int"]>;
@@ -324,7 +326,7 @@ export type IUpdateCategoryInput = {
   vocabularyId?: InputMaybe<Scalars["Int"]>;
 };
 
-export type IUpdateCityInput = {
+export type UpdateCityInput = {
   id: Scalars["Int"];
   isActive?: InputMaybe<Scalars["Boolean"]>;
   latitude?: InputMaybe<Scalars["Float"]>;
@@ -337,7 +339,7 @@ export type IUpdateCityInput = {
   type?: InputMaybe<Scalars["Float"]>;
 };
 
-export type IUpdateCountryInput = {
+export type UpdateCountryInput = {
   alphaTwo?: InputMaybe<Scalars["String"]>;
   id: Scalars["Int"];
   isActive?: InputMaybe<Scalars["Boolean"]>;
@@ -350,7 +352,7 @@ export type IUpdateCountryInput = {
   sort?: InputMaybe<Scalars["Int"]>;
 };
 
-export type IUpdateProvinceInput = {
+export type UpdateProvinceInput = {
   countryId?: InputMaybe<Scalars["Int"]>;
   id: Scalars["Int"];
   isActive?: InputMaybe<Scalars["Boolean"]>;
@@ -363,27 +365,29 @@ export type IUpdateProvinceInput = {
   sort?: InputMaybe<Scalars["Int"]>;
 };
 
-export type IUpdateVocabularyInput = {
-  /** Example field (placeholder) */
-  exampleField?: InputMaybe<Scalars["Int"]>;
+export type UpdateVocabularyInput = {
   id: Scalars["Int"];
+  slug?: InputMaybe<Scalars["String"]>;
+  sort?: InputMaybe<Scalars["Int"]>;
+  title?: InputMaybe<Scalars["String"]>;
+  titleEn?: InputMaybe<Scalars["String"]>;
 };
 
-export type IVocabulary = {
+export type Vocabulary = {
   __typename?: "Vocabulary";
-  categories?: Maybe<Array<ICategory>>;
+  categories?: Maybe<Array<Category>>;
   createdAt: Scalars["DateTime"];
   id: Scalars["Int"];
   slug: Scalars["String"];
   sort: Scalars["Int"];
   title: Scalars["String"];
-  titleEn: Scalars["String"];
+  titleEn?: Maybe<Scalars["String"]>;
   updatedAt: Scalars["DateTime"];
 };
 
-export type IGetAllCountriesQueryVariables = Exact<{ [key: string]: never }>;
+export type GetAllCountriesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type IGetAllCountriesQuery = {
+export type GetAllCountriesQuery = {
   __typename?: "Query";
   countries: Array<{
     __typename?: "Country";
@@ -405,19 +409,19 @@ export const GetAllCountriesDocument = `
 }
     `;
 export const useGetAllCountriesQuery = <
-  TData = IGetAllCountriesQuery,
+  TData = GetAllCountriesQuery,
   TError = unknown
 >(
   client: GraphQLClient,
-  variables?: IGetAllCountriesQueryVariables,
-  options?: UseQueryOptions<IGetAllCountriesQuery, TError, TData>,
+  variables?: GetAllCountriesQueryVariables,
+  options?: UseQueryOptions<GetAllCountriesQuery, TError, TData>,
   headers?: RequestInit["headers"]
 ) =>
-  useQuery<IGetAllCountriesQuery, TError, TData>(
+  useQuery<GetAllCountriesQuery, TError, TData>(
     variables === undefined
       ? ["GetAllCountries"]
       : ["GetAllCountries", variables],
-    fetcher<IGetAllCountriesQuery, IGetAllCountriesQueryVariables>(
+    fetcher<GetAllCountriesQuery, GetAllCountriesQueryVariables>(
       client,
       GetAllCountriesDocument,
       variables,
