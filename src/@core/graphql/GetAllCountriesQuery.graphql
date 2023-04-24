@@ -2,7 +2,11 @@ query GetAllCountries {
   countries {
     id
     name
-    alphaTwo
     nameEn
+    alphaTwo
+    iso
+    isActive
+    sort
+    phonePrefix
   }
 }

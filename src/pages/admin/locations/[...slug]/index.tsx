@@ -1,68 +1,56 @@
-import LocationProvinceCard from "@/@core/components/admin/Location/LocationProvinceCard";
-import PageHeader from "@/@core/components/shared/PageHeader/PageHeader";
-import AdminLayout from "@/@core/layouts/AdminLayout";
-import { NextPageWithLayout } from "@/pages/_app";
-import { GetStaticPaths } from "next";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/router";
-import { ReactElement, useEffect } from "react";
+import LocationCountryPage from "@/@core/components/admin/Location/LocationCountryPage"
+import LocationProvincePage from "@/@core/components/admin/Location/LocationProvincePage"
+import AdminLayout from "@/@core/layouts/AdminLayout"
+import { NextPageWithLayout } from "@/pages/_app"
+import { GetStaticPaths } from "next"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useRouter } from "next/router"
+import { ReactElement, useEffect } from "react"
 
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale)),
-    },
-  };
+      ...(await serverSideTranslations(locale))
+    }
+  }
 }
 
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   return {
     paths: [],
-    fallback: "blocking",
-  };
-};
+    fallback: "blocking"
+  }
+}
 
-const Home: NextPageWithLayout = () => {
-  const { t } = useTranslation("common");
-  const router = useRouter();
-  const slug = router.query.slug as string[];
-  let queries: { [k: string]: string } = {};
+const LocationsSlug: NextPageWithLayout = () => {
+  const { t } = useTranslation("common")
+  const router = useRouter()
+  const slug = router.query.slug as string[]
+  let queries: { [k: string]: string } = {}
   slug.forEach((current, idx) => {
-    if (idx % 2) queries[slug[idx - 1]] = current;
-  });
+    if (idx % 2) queries[slug[idx - 1]] = current
+  })
 
-  //   const { isLoading, error, data } = useGetCountryQuery(graphqlRequestClient, {
-  //     id: queries.country,
-  //   });
-
-  const listType = Object.keys(queries).at(-1);
+  const listType = Object.keys(queries).at(-1)
 
   useEffect(() => {
-    const allowedRoutes = ["country", "province", "city", "state", "area"];
+    const allowedRoutes = ["country", "province", "city", "state", "area"]
     if (
       !(slug.length % 2 === 0) ||
       !listType ||
       allowedRoutes.indexOf(listType) === -1
     ) {
-      router.push("/admin/locations");
+      router.push("/admin/locations")
     }
-  }, [listType, slug, router]);
+  }, [listType, slug, router])
 
-  return (
-    <>
-      <PageHeader title={t("locations_index_title")} />
-      <div>
-        <div className="flex flex-col gap-2">
-          {listType === "country" && <LocationProvinceCard />}
-        </div>
-      </div>
-    </>
-  );
-};
+  if (listType === "country") return <LocationCountryPage countryId={1} />
+  if (listType === "province") return <LocationProvincePage provinceId={4} />
+}
 
-Home.getLayout = function getLayout(page: ReactElement) {
-  return <AdminLayout>{page}</AdminLayout>;
-};
+LocationsSlug.getLayout = function getLayout(page: ReactElement) {
+  return <AdminLayout>{page}</AdminLayout>
+}
 
-export default Home;
+export default LocationsSlug

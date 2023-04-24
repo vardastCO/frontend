@@ -1,5 +1,5 @@
 import { slugify } from "@/@core/utils/slugify"
-import { Province } from "@/generated"
+import { City } from "@/generated"
 import * as Switch from "@radix-ui/react-switch"
 import { IconDots, IconGripVertical } from "@tabler/icons-react"
 import Link from "next/link"
@@ -7,15 +7,17 @@ import { useTranslation } from "react-i18next"
 
 interface ILocationProvinceCard {
   countrySlug: string
-  province: Province
+  provinceSlug: string
+  city: City
 }
 
-const LocationProvinceCard = ({
+const LocationCityCard = ({
   countrySlug,
-  province
+  provinceSlug,
+  city
 }: ILocationProvinceCard) => {
   const { t } = useTranslation("common")
-  const { name, slug, isActive } = province
+  const { name, slug, isActive } = city
   return (
     <div className="card flex items-center gap-3 rounded bg-white px-4 py-2 ps-2">
       <div>
@@ -24,7 +26,7 @@ const LocationProvinceCard = ({
       <Link
         href={`/admin/locations/country/${slugify(
           countrySlug
-        )}/province/${slug}`}
+        )}/province/${provinceSlug}/city/${slug}`}
       >
         <div className="flex flex-col">
           <strong>{name}</strong>
@@ -65,4 +67,4 @@ const LocationProvinceCard = ({
   )
 }
 
-export default LocationProvinceCard
+export default LocationCityCard

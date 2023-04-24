@@ -1,32 +1,32 @@
-import graphqlRequestClient from "@/@core/clients/graphqlRequestClient";
-import CreateCountry from "@/@core/components/admin/Location/CreateCountry";
-import LocationCountryCard from "@/@core/components/admin/Location/LocationCountryCard";
-import Loading from "@/@core/components/shared/Loading/Loading";
-import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed";
-import PageHeader from "@/@core/components/shared/PageHeader/PageHeader";
-import AdminLayout from "@/@core/layouts/AdminLayout";
-import { useGetAllCountriesQuery } from "@/generated";
-import { NextPageWithLayout } from "@/pages/_app";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ReactElement } from "react";
+import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
+import CreateCountry from "@/@core/components/admin/Location/CreateCountry"
+import LocationCountryCard from "@/@core/components/admin/Location/LocationCountryCard"
+import Loading from "@/@core/components/shared/Loading/Loading"
+import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed"
+import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
+import AdminLayout from "@/@core/layouts/AdminLayout"
+import { useGetAllCountriesQuery } from "@/generated"
+import { NextPageWithLayout } from "@/pages/_app"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { ReactElement } from "react"
 
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale)),
-    },
-  };
+      ...(await serverSideTranslations(locale))
+    }
+  }
 }
 
-const Home: NextPageWithLayout = () => {
-  const { t } = useTranslation("common");
+const LocationsIndex: NextPageWithLayout = () => {
+  const { t } = useTranslation("common")
 
   const { isLoading, error, data } =
-    useGetAllCountriesQuery(graphqlRequestClient);
+    useGetAllCountriesQuery(graphqlRequestClient)
 
-  if (isLoading) return <Loading />;
-  if (error) return <LoadingFailed />;
+  if (isLoading) return <Loading />
+  if (error) return <LoadingFailed />
   return (
     <>
       <PageHeader title={t("locations_index_title")} slot={<CreateCountry />} />
@@ -38,11 +38,11 @@ const Home: NextPageWithLayout = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-Home.getLayout = function getLayout(page: ReactElement) {
-  return <AdminLayout>{page}</AdminLayout>;
-};
+LocationsIndex.getLayout = function getLayout(page: ReactElement) {
+  return <AdminLayout>{page}</AdminLayout>
+}
 
-export default Home;
+export default LocationsIndex

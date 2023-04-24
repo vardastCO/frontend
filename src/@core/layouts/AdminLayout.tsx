@@ -1,49 +1,49 @@
-import Breadcrumb from "@/@core/components/shared/Breadcrumb/Breadcrumb";
+import Breadcrumb from "@/@core/components/shared/Breadcrumb/Breadcrumb"
 import {
   IconCategory,
   IconMap2,
   IconSearch,
-  IconSmartHome,
-} from "@tabler/icons-react";
-import { useTranslation } from "next-i18next";
-import Sidebar from "../components/shared/Sidebar/Sidebar";
+  IconSmartHome
+} from "@tabler/icons-react"
+import { useTranslation } from "next-i18next"
+import Sidebar from "../components/shared/Sidebar/Sidebar"
 
 export default function DashboardLayout({
-  children,
+  children
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("common")
   const menus = [
     {
       title: t("Home"),
       path: "/admin",
-      icon: IconSmartHome,
+      icon: IconSmartHome
     },
     {
       title: t("categories_menu_title"),
       path: "/admin/categories",
-      icon: IconCategory,
+      icon: IconCategory
     },
     {
       title: t("locations_menu_title"),
       path: "/admin/locations",
-      icon: IconMap2,
-    },
-  ];
+      icon: IconMap2
+    }
+  ]
   return (
     <>
-      <div className="flex flex-col h-screen bg-white">
-        <div className="flex flex-1 h-auto overflow-hidden">
+      <div className="flex h-screen flex-col bg-white">
+        <div className="flex h-auto flex-1 overflow-hidden">
           <Sidebar menus={menus} />
-          <div className="overscroll-contain bg-n-gray-50 relative flex flex-col w-full h-auto px-4 py-6 overflow-auto">
-            <div className="max-w-7xl flex flex-col w-full mx-auto">
-              <div className="flex items-center mb-3">
+          <div className="relative flex h-auto w-full flex-col overflow-auto overscroll-contain bg-n-gray-100 px-4 py-6">
+            <div className="mx-auto flex w-full max-w-5xl flex-col">
+              <div className="mb-3 flex items-center">
                 <Breadcrumb />
                 <form autoComplete="off" action="" className="mr-auto">
                   <div className="input-inset">
                     <div className="input-element">
-                      <IconSearch className="w-4 h-4 text-gray-400" />
+                      <IconSearch className="h-4 w-4 text-gray-400" />
                     </div>
                     <input
                       type="text"
@@ -55,7 +55,7 @@ export default function DashboardLayout({
                       role="presentation"
                     />
                     <div className="input-element" dir="ltr">
-                      <span className="text-n-gray-500 font-sans text-sm">
+                      <span className="font-sans text-sm text-n-gray-500">
                         ⌘K
                       </span>
                     </div>
@@ -68,5 +68,5 @@ export default function DashboardLayout({
         </div>
       </div>
     </>
-  );
+  )
 }

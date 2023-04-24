@@ -1,12 +1,11 @@
-query GetCountry($id: Int!) {
-  country(id: $id) {
+query GetProvince($id: Int!) {
+  province(id: $id) {
     id
     name
     nameEn
-    alphaTwo
-    iso
+    slug
     isActive
-    provinces {
+    cities {
       id
       name
       nameEn
