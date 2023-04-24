@@ -9,8 +9,8 @@
         "lint": "next lint",
         "ngrok": "ngrok http 3000",
         "analyze": "ANALYZE=true pnpm run build",
-        "prettier": "prettier src/*",
-        "prettier:write": "prettier src/* --wirte",
+        "prettier": "prettier src/**/*.{ts,tsx,css}",
+        "prettier:write": "prettier src/**/*.{ts,tsx,css} --write",
         "codegen": "graphql-codegen --config codegen.ts",
         "codegen:watch": "graphql-codegen --config codegen.ts --watch"
     },
