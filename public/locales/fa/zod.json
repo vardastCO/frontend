@@ -1,6 +1,6 @@
 {
     "errors": {
-        "invalid_type": "Expected {{expected}}, received {{received}}",
+        "invalid_type": "مقدار ورودی باید {{expected}} باشد, مقدار وارد شده {{received}} است",
         "invalid_type_received_undefined": "پر کردن این فیلد الزامیست",
         "invalid_literal": "Invalid literal value, expected {{expected}}",
         "unrecognized_keys": "Unrecognized key(s) in object: {{- keys}}",
@@ -31,9 +31,9 @@
                 "not_inclusive": "Array must contain more than {{minimum}} element(s)"
             },
             "string": {
-                "exact": "String must contain exactly {{minimum}} character(s)",
-                "inclusive": "String must contain at least {{minimum}} character(s)",
-                "not_inclusive": "String must contain over {{minimum}} character(s)"
+                "exact": "مقدار وارد شده باید دقیقاً {{minimum}} کاراکتر باشد",
+                "inclusive": "مقدار وارد شده باید حداقل {{minimum}} کاراکتر باشد",
+                "not_inclusive": "مقدار وارد شده باید بیش از {{minimum}} کاراکتر باشد"
             },
             "number": {
                 "exact": "Number must be exactly {{minimum}}",
@@ -58,9 +58,9 @@
                 "not_inclusive": "Array must contain less than {{maximum}} element(s)"
             },
             "string": {
-                "exact": "String must contain exactly {{maximum}} character(s)",
-                "inclusive": "String must contain at most {{maximum}} character(s)",
-                "not_inclusive": "String must contain under {{maximum}} character(s)"
+                "exact": "مقدار وارد شده باید دقیقاً {{maximum}} کاراکتر باشد",
+                "inclusive": "مقدار وارد شده می‌تواند حداکثر {{maximum}} کاراکتر باشد",
+                "not_inclusive": "مقدار وارد شده باید کمتر از {{maximum}} کاراکتر باشد"
             },
             "number": {
                 "exact": "Number must be exactly {{maximum}}",
@@ -88,20 +88,20 @@
         "datetime": "datetime"
     },
     "types": {
-        "function": "function",
-        "number": "number",
-        "string": "string",
+        "function": "تابع",
+        "number": "عدد",
+        "string": "متن",
         "nan": "nan",
-        "integer": "integer",
-        "float": "float",
-        "boolean": "boolean",
-        "date": "date",
+        "integer": "عدد صحیح",
+        "float": "عدد عشاری",
+        "boolean": "منطقی",
+        "date": "تاریخ",
         "bigint": "bigint",
         "undefined": "undefined",
         "symbol": "symbol",
         "null": "null",
-        "array": "array",
-        "object": "object",
+        "array": "آرایه",
+        "object": "شیء",
         "unknown": "unknown",
         "promise": "promise",
         "void": "void",

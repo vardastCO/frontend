@@ -1,10 +1,10 @@
 import { useDescription, useTsController } from "@ts-react/form"
 
-function TextField() {
+function NumberField() {
   const {
     field: { onChange, value },
     error
-  } = useTsController<string>()
+  } = useTsController<number>()
   const { label, placeholder } = useDescription()
   return (
     <>
@@ -12,11 +12,15 @@ function TextField() {
         <label className="form-label">{label}</label>
         <div className="form-control">
           <input
-            type="text"
+            type="number"
             className="input-field"
             placeholder={placeholder}
-            onChange={(e) => onChange(e.target.value)}
-            value={value ? value : ""}
+            value={value !== undefined ? value + "" : ""}
+            onChange={(e) => {
+              const value = parseInt(e.target.value)
+              if (isNaN(value)) onChange(undefined)
+              else onChange(value)
+            }}
           />
         </div>
         {error?.errorMessage && (
@@ -27,4 +31,4 @@ function TextField() {
   )
 }
 
-export default TextField
+export default NumberField

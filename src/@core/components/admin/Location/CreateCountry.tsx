@@ -13,20 +13,29 @@ const CreateCountry = (props: Props) => {
         <button className="btn-primary btn">{t("add_country")}</button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="dialog-overlay" />
-        <Dialog.Content className="dialog-content">
-          <Dialog.Title className="dialog-title">
-            {t("new_country")}
-          </Dialog.Title>
-          <Dialog.Description className="dialog-description">
-            {t("new_country_description")}
-          </Dialog.Description>
-          <CreateCountryForm />
-          <Dialog.Close asChild>
-            <button className="dialog-close btn" aria-label="Close">
-              <IconX className="icon" />
-            </button>
-          </Dialog.Close>
+        <Dialog.Overlay className="d-dialog-overlay" />
+        <Dialog.Content className="d-dialog-container">
+          <div className="d-dialog-inner">
+            <div className="d-dialog-header">
+              <Dialog.Title className="d-dialog-title">
+                {t("new_country")}
+              </Dialog.Title>
+              <Dialog.Description className="d-dialog-description">
+                {t("new_country_description")}
+              </Dialog.Description>
+              <Dialog.Close asChild>
+                <button
+                  className="d-dialog-close btn-ghost btn rounded-full"
+                  aria-label="Close"
+                >
+                  <IconX className="icon" />
+                </button>
+              </Dialog.Close>
+            </div>
+            <div className="d-dialog-content">
+              <CreateCountryForm />
+            </div>
+          </div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

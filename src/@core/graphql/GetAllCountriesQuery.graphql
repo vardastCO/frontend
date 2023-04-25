@@ -3,6 +3,7 @@ query GetAllCountries {
     id
     name
     nameEn
+    slug
     alphaTwo
     iso
     isActive
