@@ -1,5 +1,5 @@
-query GetAllCountries {
-  countries {
+query GetAllCountries($args: IndexCountryInput) {
+  countries(indexCountryInput: $args) {
     id
     name
     nameEn
@@ -9,5 +9,6 @@ query GetAllCountries {
     isActive
     sort
     phonePrefix
+    provincesCount
   }
 }
