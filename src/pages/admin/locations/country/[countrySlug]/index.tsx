@@ -1,13 +1,14 @@
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
 import CreateCountry from "@/@core/components/admin/Location/CreateCountry"
-import LocationCityCard from "@/@core/components/admin/Location/LocationCityCard"
 import LocationNoCountryFound from "@/@core/components/admin/Location/LocationNoCountryFound"
+import LocationProvinceCard from "@/@core/components/admin/Location/LocationProvinceCard"
 import Loading from "@/@core/components/shared/Loading/Loading"
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed"
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
 import AdminLayout from "@/@core/layouts/AdminLayout"
-import { City, useGetProvinceQuery } from "@/generated"
+import { Province, useGetCountryQuery } from "@/generated"
 import { NextPageWithLayout } from "@/pages/_app"
+import { GetStaticPaths } from "next"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useRouter } from "next/router"
@@ -21,31 +22,36 @@ export async function getStaticProps({ locale }: { locale: string }) {
   }
 }
 
+export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
+  return {
+    paths: [],
+    fallback: "blocking"
+  }
+}
+
 const LocationsIndex: NextPageWithLayout = () => {
   const { t } = useTranslation("common")
   const router = useRouter()
   const countrySlug = router.query.countrySlug as string
-  const provinceSlug = router.query.provinceSlug as string
 
-  const { isLoading, error, data } = useGetProvinceQuery(graphqlRequestClient, {
-    slug: provinceSlug
+  const { isLoading, error, data } = useGetCountryQuery(graphqlRequestClient, {
+    slug: countrySlug
   })
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.province.cities) return <LocationNoCountryFound />
+  if (!data?.country.provinces) return <LocationNoCountryFound />
 
   return (
     <>
       <PageHeader title={t("locations_index_title")} slot={<CreateCountry />} />
       <div>
         <div className="flex flex-col gap-2">
-          {data?.province.cities?.map((city) => (
-            <LocationCityCard
-              key={city.id}
-              city={city as City}
+          {data?.country.provinces?.map((province) => (
+            <LocationProvinceCard
+              key={province.id}
+              province={province as Province}
               countrySlug={countrySlug}
-              provinceSlug={provinceSlug}
             />
           ))}
         </div>

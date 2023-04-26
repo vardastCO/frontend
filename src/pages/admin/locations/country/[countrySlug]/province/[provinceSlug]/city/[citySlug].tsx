@@ -8,6 +8,7 @@ import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
 import AdminLayout from "@/@core/layouts/AdminLayout"
 import { Area, useGetCityQuery } from "@/generated"
 import { NextPageWithLayout } from "@/pages/_app"
+import { GetStaticPaths } from "next"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useRouter } from "next/router"
@@ -18,6 +19,13 @@ export async function getStaticProps({ locale }: { locale: string }) {
     props: {
       ...(await serverSideTranslations(locale))
     }
+  }
+}
+
+export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
+  return {
+    paths: [],
+    fallback: "blocking"
   }
 }
 
