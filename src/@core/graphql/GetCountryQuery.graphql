@@ -1,5 +1,5 @@
-query GetCountry($id: Int!) {
-  country(id: $id) {
+query GetCountry($id: Int, $slug: String) {
+  country(id: $id, slug: $slug) {
     id
     name
     nameEn
