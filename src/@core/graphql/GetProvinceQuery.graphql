@@ -4,14 +4,18 @@ query GetProvince($id: Int, $slug: String) {
     name
     nameEn
     slug
+    path
+    sort
     isActive
+    latitude
+    longitude
     cities {
-      id
       name
       nameEn
-      isActive
-      sort
       slug
+      type
+      sort
+      isActive
     }
   }
 }

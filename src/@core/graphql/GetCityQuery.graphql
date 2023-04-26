@@ -1,17 +1,20 @@
 query GetCity($id: Int!) {
   city(id: $id) {
-    id
     name
     nameEn
     slug
+    type
+    sort
     isActive
+    latitude
+    longitude
     areas {
       id
       name
       nameEn
-      isActive
-      sort
       slug
+      sort
+      isActive
     }
   }
 }

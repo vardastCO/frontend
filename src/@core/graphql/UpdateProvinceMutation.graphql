@@ -1,0 +1,13 @@
+mutation UpdateProvinceMutation($input: UpdateProvinceInput!) {
+  updateProvince(updateProvinceInput: $input) {
+    id
+    name
+    nameEn
+    slug
+    path
+    sort
+    isActive
+    latitude
+    longitude
+  }
+}

@@ -1,0 +1,19 @@
+mutation UpdateCityMutation($input: UpdateCityInput!) {
+  updateCity(updateCityInput: $input) {
+    id
+    name
+    nameEn
+    slug
+    type
+    sort
+    isActive
+    latitude
+    longitude
+    province {
+      id
+    }
+    parentCity {
+      id
+    }
+  }
+}

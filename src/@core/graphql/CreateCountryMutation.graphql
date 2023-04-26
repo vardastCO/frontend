@@ -3,9 +3,13 @@ mutation CreateCountry($input: CreateCountryInput!) {
     id
     name
     nameEn
+    slug
     alphaTwo
     iso
     phonePrefix
     sort
+    isActive
+    latitude
+    longitude
   }
 }
