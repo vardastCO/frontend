@@ -1,0 +1,15 @@
+mutation RemoveCountryMutation($id: Int!) {
+  removeCountry(id: $id) {
+    id
+    name
+    nameEn
+    slug
+    alphaTwo
+    iso
+    phonePrefix
+    sort
+    isActive
+    latitude
+    longitude
+  }
+}
