@@ -14,6 +14,7 @@
         "invalid_intersection_types": "Intersection results could not be merged",
         "not_multiple_of": "Number must be a multiple of {{multipleOf}}",
         "not_finite": "Number must be finite",
+        "invalid_chars_just_persian_allowed": "مقدار فیلد باید فارسی باشد",
         "invalid_string": {
             "email": "Invalid {{validation}}",
             "url": "Invalid {{validation}}",

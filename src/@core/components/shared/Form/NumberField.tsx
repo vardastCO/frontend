@@ -2,7 +2,7 @@ import { useDescription, useTsController } from "@ts-react/form"
 
 function NumberField() {
   const {
-    field: { onChange, value },
+    field: { onChange, value, name },
     error
   } = useTsController<number>()
   const { label, placeholder } = useDescription()
@@ -13,6 +13,7 @@ function NumberField() {
         <div className="form-control">
           <input
             type="number"
+            name={name}
             className="input-field"
             placeholder={placeholder}
             value={value !== undefined ? value + "" : ""}

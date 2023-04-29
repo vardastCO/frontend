@@ -1,5 +1,5 @@
-query GetCity($id: Int!) {
-  city(id: $id) {
+query GetCity($id: Int, $slug: String) {
+  city(id: $id, slug: $slug) {
     name
     nameEn
     slug

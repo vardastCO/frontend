@@ -2,7 +2,7 @@ import { useDescription, useTsController } from "@ts-react/form"
 
 function CheckboxField() {
   const {
-    field: { onChange, value },
+    field: { onChange, value, name },
     error
   } = useTsController<boolean>()
   const { label, placeholder } = useDescription()
@@ -13,6 +13,7 @@ function CheckboxField() {
           <div className="form-control">
             <input
               type="checkbox"
+              name={name}
               checked={value ? value : false}
               onChange={(e) => onChange(e.target.checked)}
             />

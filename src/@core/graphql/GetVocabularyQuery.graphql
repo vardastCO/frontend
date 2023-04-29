@@ -1,0 +1,22 @@
+query GetVocabulary($id: Int!) {
+  vocabulary(id: $id) {
+    id
+    title
+    titleEn
+    slug
+    sort
+    createdAt
+    updatedAt
+    categories {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+    }
+  }
+}

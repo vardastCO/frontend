@@ -32,11 +32,11 @@
         "@radix-ui/react-switch": "^1.0.2",
         "@tabler/icons-react": "^2.17.0",
         "@tanstack/react-query": "^4.29.5",
-        "@tanstack/react-query-devtools": "^4.29.5",
+        "@tanstack/react-query-devtools": "^4.29.6",
         "@ts-react/form": "^1.6.4",
-        "@types/node": "18.16.0",
+        "@types/node": "18.16.3",
         "@types/react": "18.2.0",
-        "@types/react-dom": "18.2.0",
+        "@types/react-dom": "18.2.1",
         "clsx": "^1.2.1",
         "core": "link: @fullcalendar/core",
         "date-fns": "^2.29.3",
@@ -56,7 +56,7 @@
         "swr": "^2.1.5",
         "typescript": "5.0.4",
         "zod": "^3.21.4",
-        "zod-i18n-map": "^2.9.1"
+        "zod-i18n-map": "^2.11.0"
     },
     "devDependencies": {
         "@graphql-codegen/cli": "3.3.1",
@@ -71,7 +71,7 @@
         "ngrok": "^4.3.3",
         "postcss": "^8.4.23",
         "postcss-import": "^15.1.0",
-        "prettier-plugin-tailwindcss": "^0.2.7",
-        "tailwindcss": "^3.3.1"
+        "prettier-plugin-tailwindcss": "^0.2.8",
+        "tailwindcss": "^3.3.2"
     }
 }

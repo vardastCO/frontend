@@ -1,11 +1,10 @@
-import { ReactElement } from "react"
-
 interface PageHeaderProps {
+  children?: React.ReactNode
   title: string
-  slot?: ReactElement
+  slot?: React.ReactNode
 }
 
-function PageHeader({ title, slot }: PageHeaderProps) {
+function PageHeader({ children, title, slot }: PageHeaderProps) {
   return (
     <div className="mb-6 mt-8">
       {/* <button className="btn-sm btn">
@@ -14,7 +13,7 @@ function PageHeader({ title, slot }: PageHeaderProps) {
       </button> */}
       <div className="flex items-end">
         <h1 className="text-3xl font-black text-n-gray-800">{title}</h1>
-        {slot && <div className="mr-auto">{slot}</div>}
+        <div className="mr-auto">{children}</div>
       </div>
     </div>
   )

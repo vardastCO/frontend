@@ -1,7 +1,9 @@
 import { getFlagEmoji } from "@/@core/utils/getFlagEmoji"
 import { Country } from "@/generated"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import * as Switch from "@radix-ui/react-switch"
+import { IconDots } from "@tabler/icons-react"
 import Link from "next/link"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -51,6 +53,26 @@ const LocationCountryCard = ({ country }: Props) => {
           >
             {t("is_active")}
           </label>
+        </div>
+        <div>
+          <DropdownMenu.Root dir="rtl">
+            <DropdownMenu.Trigger asChild>
+              <button className="btn-sm btn-ghost btn">
+                <IconDots className="icon" />
+              </button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Portal>
+              <DropdownMenu.Content className="dropdown-menu-content">
+                <DropdownMenu.Item className="dropdown-menu-item">
+                  ویرایش
+                </DropdownMenu.Item>
+                <DropdownMenu.Separator className="dropdown-menu-separator" />
+                <DropdownMenu.Item className="dropdown-menu-item">
+                  حذف
+                </DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Root>
         </div>
       </div>
     </div>
