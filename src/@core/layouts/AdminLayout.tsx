@@ -22,7 +22,7 @@ export default function DashboardLayout({
     },
     {
       title: t("categories_menu_title"),
-      path: "/admin/categories",
+      path: "/admin/vocabularies",
       icon: IconCategory
     },
     {

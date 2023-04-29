@@ -1,5 +1,5 @@
-query GetVocabulary($id: Int!) {
-  vocabulary(id: $id) {
+query GetVocabulary($id: Int, $slug: String) {
+  vocabulary(id: $id, slug: $slug) {
     id
     title
     titleEn

@@ -1,0 +1,11 @@
+query GetAllVocabularies {
+  vocabularies {
+    id
+    title
+    titleEn
+    slug
+    sort
+    createdAt
+    updatedAt
+  }
+}

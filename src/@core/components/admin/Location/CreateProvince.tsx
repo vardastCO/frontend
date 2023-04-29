@@ -4,9 +4,10 @@ import {
   slugSchema,
   tsReactFormDefaultMapping
 } from "@/@core/utils/tsReactFormDefaultMapping"
-import { useCreateCountryMutation } from "@/generated"
+import { useCreateProvinceMutation } from "@/generated"
 import * as Dialog from "@radix-ui/react-dialog"
 import { IconX } from "@tabler/icons-react"
+import { useQueryClient } from "@tanstack/react-query"
 import { createTsForm } from "@ts-react/form"
 import { useTranslation } from "next-i18next"
 import { useState } from "react"
@@ -15,41 +16,42 @@ import { makeZodI18nMap } from "zod-i18n-map"
 
 const MyForm = createTsForm(tsReactFormDefaultMapping)
 
-type Props = {}
+type Props = {
+  countryId: number
+}
 
-const CreateCountry = (props: Props) => {
+const CreateProvince = ({ countryId }: Props) => {
   const { t } = useTranslation("common")
   const [open, setOpen] = useState(false)
   z.setErrorMap(makeZodI18nMap({ t }))
-  const createCountryMutation = useCreateCountryMutation(graphqlRequestClient, {
-    onSuccess: () => {
-      setOpen(false)
+  const queryClient = useQueryClient()
+  const createProvinceMutation = useCreateProvinceMutation(
+    graphqlRequestClient,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["GetCountry"] })
+        setOpen(false)
+      }
     }
-  })
+  )
 
   const CreateCategorySchema = z.object({
     name: persianInputSchema.describe(t("name")),
     nameEn: z.string().describe(t("english_name")),
     slug: slugSchema.describe(t("slug")),
-    alphaTwo: z.string().length(2).describe(t("alpha_two_name")),
-    iso: z.string().describe(t("iso_name")),
-    phonePrefix: z.string().describe(t("phone_prefix")),
     sort: z.number().optional().default(0).describe(t("sort")),
     isActive: z.boolean().optional().default(true).describe(t("is_active"))
   })
   function onSubmit(data: z.infer<typeof CreateCategorySchema>) {
-    const { name, nameEn, alphaTwo, slug, phonePrefix, sort, isActive, iso } =
-      data
-    createCountryMutation.mutate({
+    const { name, nameEn, slug, sort, isActive } = data
+    createProvinceMutation.mutate({
       input: {
+        countryId,
         name,
         nameEn,
-        alphaTwo,
         slug,
-        phonePrefix,
         sort,
-        isActive,
-        iso
+        isActive
       }
     })
   }
@@ -57,7 +59,7 @@ const CreateCountry = (props: Props) => {
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <button className="btn-primary btn">{t("add_country")}</button>
+        <button className="btn-primary btn">{t("add_province")}</button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="d-dialog-overlay" />
@@ -65,10 +67,10 @@ const CreateCountry = (props: Props) => {
           <div className="d-dialog-inner">
             <div className="d-dialog-header">
               <Dialog.Title className="d-dialog-title">
-                {t("new_country")}
+                {t("new_province")}
               </Dialog.Title>
               <Dialog.Description className="d-dialog-description">
-                {t("new_country_description")}
+                {t("new_province_description")}
               </Dialog.Description>
               <Dialog.Close asChild>
                 <button
@@ -80,7 +82,7 @@ const CreateCountry = (props: Props) => {
               </Dialog.Close>
             </div>
             <div className="d-dialog-content">
-              {createCountryMutation.isError && <p>خطایی رخ داده</p>}
+              {createProvinceMutation.isError && <p>خطایی رخ داده</p>}
               <MyForm
                 formProps={{
                   className: "flex flex-col gap-4"
@@ -92,16 +94,6 @@ const CreateCountry = (props: Props) => {
                   slug: {
                     direction: "ltr",
                     prefixAddon: "https://"
-                  },
-                  alphaTwo: {
-                    direction: "ltr"
-                  },
-                  iso: {
-                    direction: "ltr"
-                  },
-                  phonePrefix: {
-                    direction: "ltr",
-                    prefixElement: <span className="text-n-gray-400">+</span>
                   }
                 }}
                 defaultValues={{
@@ -131,4 +123,4 @@ const CreateCountry = (props: Props) => {
   )
 }
 
-export default CreateCountry
+export default CreateProvince

@@ -1,5 +1,5 @@
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
-import CreateCountry from "@/@core/components/admin/Location/CreateCountry"
+import CreateCity from "@/@core/components/admin/Location/CreateCity"
 import LocationCityCard from "@/@core/components/admin/Location/LocationCityCard"
 import LocationNoCountryFound from "@/@core/components/admin/Location/LocationNoCountryFound"
 import Loading from "@/@core/components/shared/Loading/Loading"
@@ -45,7 +45,9 @@ const LocationsIndex: NextPageWithLayout = () => {
 
   return (
     <>
-      <PageHeader title={t("locations_index_title")} slot={<CreateCountry />} />
+      <PageHeader title={t("locations_index_title")}>
+        <CreateCity provinceId={data?.province.id} />
+      </PageHeader>
       <div>
         <div className="flex flex-col gap-2">
           {data?.province.cities?.map((city) => (

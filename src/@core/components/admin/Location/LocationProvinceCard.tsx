@@ -34,10 +34,6 @@ const LocationProvinceCard = ({
               <span>۸۴۷۳</span>
               <span>شهر</span>
             </div>
-            <div className="flex items-center gap-1">
-              <span>۸۴۷۳</span>
-              <span>منطقه</span>
-            </div>
           </div>
         </div>
       </Link>
