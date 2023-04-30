@@ -1,12 +1,10 @@
 import { getFlagEmoji } from "@/@core/utils/getFlagEmoji"
 import { Country } from "@/generated"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
-import * as Switch from "@radix-ui/react-switch"
-import { IconDots } from "@tabler/icons-react"
 import Link from "next/link"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { Switch } from "../../ui/Switch"
 
 type Props = {
   country: Country
@@ -19,61 +17,26 @@ const LocationCountryCard = ({ country }: Props) => {
 
   return (
     <div className="card flex items-center gap-3 rounded bg-white px-4 py-2">
-      <Link href={`/admin/locations/country/${slug}`}>
-        <div className="flex items-center gap-2">
-          <span className=" align-baseline text-3xl leading-none">
-            {getFlagEmoji(alphaTwo)}
+      <div className="flex items-center gap-2">
+        <span className="align-baseline text-2xl leading-none">
+          {getFlagEmoji(alphaTwo)}
+        </span>
+        <Link
+          href={`/admin/locations/country/${slug}`}
+          className="font-bold text-n-gray-800 underline-offset-2 hover:text-n-gray-900 hover:underline"
+        >
+          {name}
+        </Link>
+        {provincesCount !== 0 && (
+          <span className="text-sm text-n-gray-500">
+            {digitsEnToFa(provincesCount)} استان
           </span>
-          <div className="flex flex-col">
-            <strong>{name}</strong>
-            <div className="mt-1 flex items-center gap-2 text-sm">
-              {provincesCount !== 0 && (
-                <div className="flex items-center gap-1">
-                  <span>{digitsEnToFa(provincesCount)}</span>
-                  <span>استان</span>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </Link>
+        )}
+      </div>
       <div className="mr-auto flex items-center gap-2">
-        <div className="flex items-center">
-          <Switch.Root
-            checked={active}
-            onCheckedChange={() => setActive(!active)}
-            className="switch group"
-            id="is_active"
-          >
-            <Switch.Thumb className="switch-thumb" />
-          </Switch.Root>
-          <label
-            className="text-sm font-medium leading-none text-n-gray-700"
-            htmlFor="is_active"
-          >
-            {t("is_active")}
-          </label>
-        </div>
-        <div>
-          <DropdownMenu.Root dir="rtl">
-            <DropdownMenu.Trigger asChild>
-              <button className="btn-sm btn-ghost btn">
-                <IconDots className="icon" />
-              </button>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Portal>
-              <DropdownMenu.Content className="dropdown-menu-content">
-                <DropdownMenu.Item className="dropdown-menu-item">
-                  ویرایش
-                </DropdownMenu.Item>
-                <DropdownMenu.Separator className="dropdown-menu-separator" />
-                <DropdownMenu.Item className="dropdown-menu-item">
-                  حذف
-                </DropdownMenu.Item>
-              </DropdownMenu.Content>
-            </DropdownMenu.Portal>
-          </DropdownMenu.Root>
-        </div>
+        <Switch onChange={setActive} isSelected={active} size="small">
+          {t("is_active")}
+        </Switch>
       </div>
     </div>
   )

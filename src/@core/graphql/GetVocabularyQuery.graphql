@@ -17,6 +17,7 @@ query GetVocabulary($id: Int, $slug: String) {
       isActive
       createdAt
       updatedAt
+      childrenCount
     }
   }
 }

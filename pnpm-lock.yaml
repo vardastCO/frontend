@@ -103,6 +103,9 @@ dependencies:
   react-aria:
     specifier: ^3.24.0
     version: 3.24.0(react-dom@18.2.0)(react@18.2.0)
+  react-aria-components:
+    specifier: 1.0.0-alpha.3
+    version: 1.0.0-alpha.3(react-dom@18.2.0)(react@18.2.0)
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
@@ -6762,6 +6765,27 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
     dev: true
+
+  /react-aria-components@1.0.0-alpha.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-rhakTyOPsTwk/ylCCcK38/y3yN2SXPWN2wPknNwDQ9wE+P/PQWIrc3WxOlhTFGltLC1/KXAAIvJrkPgPBFTE1g==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
+      '@internationalized/date': 3.2.0
+      '@react-aria/focus': 3.12.0(react@18.2.0)
+      '@react-aria/utils': 3.16.0(react@18.2.0)
+      '@react-stately/table': 3.9.0(react@18.2.0)
+      '@react-types/grid': 3.1.7(react@18.2.0)
+      '@react-types/shared': 3.18.0(react@18.2.0)
+      '@react-types/table': 3.6.0(react@18.2.0)
+      '@swc/helpers': 0.4.14
+      react: 18.2.0
+      react-aria: 3.24.0(react-dom@18.2.0)(react@18.2.0)
+      react-dom: 18.2.0(react@18.2.0)
+      react-stately: 3.22.0(react@18.2.0)
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
 
   /react-aria@3.24.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-uqqUOTlRVbOTsbCMr2+SVgRg4345LYBnpBXpLZnYwhlDwDK+w7qXf+AO0cUty6fD3jYw0FmCp0PhyF1bfk1MGg==}

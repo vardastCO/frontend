@@ -8,7 +8,6 @@ import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
 import AdminLayout from "@/@core/layouts/AdminLayout"
 import { Category, useGetVocabularyQuery } from "@/generated"
 import { NextPageWithLayout } from "@/pages/_app"
-import { IconMinus, IconPlus, IconSearch } from "@tabler/icons-react"
 import { GetStaticPaths } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useRouter } from "next/router"
@@ -52,38 +51,14 @@ const VocabularyPage: NextPageWithLayout = () => {
         <CreateCategory />
       </PageHeader>
       <div>
-        <div className="flex items-center gap-6">
-          <div className="w-1/2">
-            <div className="input-inset">
-              <div className="input-element">
-                <IconSearch className="h-4 w-4 text-n-gray-400" />
-              </div>
-              <input
-                type="text"
-                className="input-field"
-                placeholder={t("Search in {{ entity }}", {
-                  entity: t("Categories")
-                }).toString()}
-              />
-            </div>
-          </div>
-          <div className="btn-group mr-auto">
-            <button className="btn-xs btn-secondary btn">
-              <IconMinus className="icon" />
-              <span>{t("Collapse All")}</span>
-            </button>
-            <button className="btn-xs btn-secondary btn">
-              <IconPlus className="icon" />
-              <span>{t("Expand All")}</span>
-            </button>
-          </div>
-        </div>
-        <div className="mt-12">
-          <div className="flex flex-col gap-2">
-            {data?.vocabulary.categories.map((category) => (
-              <CategoryCard category={category as Category} key={category.id} />
-            ))}
-          </div>
+        <div className="flex flex-col gap-2">
+          {data?.vocabulary.categories.map((category) => (
+            <CategoryCard
+              category={category as Category}
+              vocabularySlug={data?.vocabulary.slug}
+              key={category.id}
+            />
+          ))}
         </div>
       </div>
     </>

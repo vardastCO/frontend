@@ -1,7 +1,7 @@
 import type { VariantProps } from "class-variance-authority"
 import { cva } from "class-variance-authority"
-import { useRef } from "react"
-import { AriaButtonProps, useButton } from "react-aria"
+import { ComponentProps, ReactNode } from "react"
+import { Button as AriaButton } from "react-aria-components"
 
 const button = cva("btn", {
   variants: {
@@ -20,6 +20,9 @@ const button = cva("btn", {
     },
     loading: {
       true: "btn-loading"
+    },
+    iconOnly: {
+      true: "btn-icon-only"
     }
   },
   compoundVariants: [
@@ -34,22 +37,22 @@ const button = cva("btn", {
   }
 })
 
-interface ButtonProps extends AriaButtonProps, VariantProps<typeof button> {
+interface ButtonProps
+  extends ComponentProps<typeof AriaButton>,
+    VariantProps<typeof button> {
+  children: ReactNode
   className?: string
 }
 
-export const Button = (props: ButtonProps) => {
-  let ref = useRef(null)
-  let { buttonProps } = useButton(props, ref)
-  let { children, className, intent, size, loading } = props
+export const Button = ({ children, ...props }: ButtonProps) => {
+  let { className, intent, size, loading, iconOnly } = props
 
   return (
-    <button
-      {...buttonProps}
-      className={button({ intent, size, loading, className })}
-      ref={ref}
+    <AriaButton
+      {...props}
+      className={button({ intent, size, loading, iconOnly, className })}
     >
       {children}
-    </button>
+    </AriaButton>
   )
 }

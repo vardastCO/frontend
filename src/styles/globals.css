@@ -5,12 +5,5 @@
 @import "base.css";
 @import "dialog.css";
 @import "form.css";
+@import "switch.css";
 @import "full-calendar.css";
-
-.switch {
-  @apply ml-2 h-6 w-9 cursor-pointer touch-none rounded-full border-2 border-transparent bg-n-gray-400 ring-offset-2 ring-offset-n-gray-100 transition duration-200 focus-visible:ring-2 data-[state='checked']:bg-n-green-600;
-  -webkit-tap-highlight-color: transparent;
-}
-.switch-thumb {
-  @apply block h-5 w-5 origin-right rounded-full bg-white shadow transition-all duration-200 group-focus-visible:w-6 data-[state='checked']:mr-3 data-[state='checked']:group-focus-visible:mr-2;
-}

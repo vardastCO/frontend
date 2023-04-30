@@ -17,6 +17,7 @@ query GetCountry($id: Int, $slug: String) {
       slug
       sort
       isActive
+      citiesCount
     }
   }
 }
