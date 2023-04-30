@@ -1,7 +1,7 @@
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
 import CreateProvince from "@/@core/components/admin/Location/CreateProvince"
-import LocationNoCountryFound from "@/@core/components/admin/Location/LocationNoCountryFound"
-import LocationProvinceCard from "@/@core/components/admin/Location/LocationProvinceCard"
+import NoCountryFound from "@/@core/components/admin/Location/NoCountryFound"
+import ProvinceCard from "@/@core/components/admin/Location/ProvinceCard"
 import Loading from "@/@core/components/shared/Loading/Loading"
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed"
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
@@ -40,7 +40,7 @@ const LocationsIndex: NextPageWithLayout = () => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.country.provinces) return <LocationNoCountryFound />
+  if (!data?.country.provinces) return <NoCountryFound />
 
   return (
     <>
@@ -50,7 +50,7 @@ const LocationsIndex: NextPageWithLayout = () => {
       <div>
         <div className="flex flex-col gap-2">
           {data?.country.provinces?.map((province) => (
-            <LocationProvinceCard
+            <ProvinceCard
               key={province.id}
               province={province as Province}
               countrySlug={countrySlug}

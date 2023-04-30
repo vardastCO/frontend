@@ -2,9 +2,7 @@ import { IconWorldExclamation } from "@tabler/icons-react"
 import { useTranslation } from "react-i18next"
 import CreateCountry from "./CreateCountry"
 
-type Props = {}
-
-const LocationNoCountryFound = (props: Props) => {
+const NoCountryFound = () => {
   const { t } = useTranslation("common")
 
   return (
@@ -23,4 +21,4 @@ const LocationNoCountryFound = (props: Props) => {
   )
 }
 
-export default LocationNoCountryFound
+export default NoCountryFound

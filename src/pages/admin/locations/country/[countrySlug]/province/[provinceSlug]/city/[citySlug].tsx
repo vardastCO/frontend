@@ -1,7 +1,7 @@
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
+import AreaCard from "@/@core/components/admin/Location/AreaCard"
 import CreateCountry from "@/@core/components/admin/Location/CreateCountry"
-import LocationAreaCard from "@/@core/components/admin/Location/LocationAreaCard"
-import LocationNoCountryFound from "@/@core/components/admin/Location/LocationNoCountryFound"
+import NoCountryFound from "@/@core/components/admin/Location/NoCountryFound"
 import Loading from "@/@core/components/shared/Loading/Loading"
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed"
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
@@ -42,7 +42,7 @@ const LocationsIndex: NextPageWithLayout = () => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.city.areas) return <LocationNoCountryFound />
+  if (!data?.city.areas) return <NoCountryFound />
 
   return (
     <>
@@ -50,7 +50,7 @@ const LocationsIndex: NextPageWithLayout = () => {
       <div>
         <div className="flex flex-col gap-2">
           {data?.city.areas?.map((area) => (
-            <LocationAreaCard key={area.id} area={area as Area} />
+            <AreaCard key={area.id} area={area as Area} />
           ))}
         </div>
       </div>

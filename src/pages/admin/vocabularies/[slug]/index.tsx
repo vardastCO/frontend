@@ -1,5 +1,5 @@
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
-import LocationNoCountryFound from "@/@core/components/admin/Location/LocationNoCountryFound"
+import NoCountryFound from "@/@core/components/admin/Location/NoCountryFound"
 import CategoryCard from "@/@core/components/admin/Vocabulary/CategoryCard"
 import CreateCategory from "@/@core/components/admin/Vocabulary/CreateCategory"
 import Loading from "@/@core/components/shared/Loading/Loading"
@@ -43,7 +43,7 @@ const VocabularyPage: NextPageWithLayout = () => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.vocabulary.categories) return <LocationNoCountryFound />
+  if (!data?.vocabulary.categories) return <NoCountryFound />
 
   return (
     <>

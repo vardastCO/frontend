@@ -6,11 +6,11 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Switch } from "../../ui/Switch"
 
-type Props = {
+type CountryCardProps = {
   country: Country
 }
 
-const LocationCountryCard = ({ country }: Props) => {
+const CountryCard = ({ country }: CountryCardProps) => {
   const { t } = useTranslation("common")
   const { name, slug, alphaTwo, isActive, provincesCount } = country
   const [active, setActive] = useState(isActive)
@@ -42,4 +42,4 @@ const LocationCountryCard = ({ country }: Props) => {
   )
 }
 
-export default LocationCountryCard
+export default CountryCard

@@ -1,7 +1,7 @@
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
+import CityCard from "@/@core/components/admin/Location/CityCard"
 import CreateCity from "@/@core/components/admin/Location/CreateCity"
-import LocationCityCard from "@/@core/components/admin/Location/LocationCityCard"
-import LocationNoCountryFound from "@/@core/components/admin/Location/LocationNoCountryFound"
+import NoCountryFound from "@/@core/components/admin/Location/NoCountryFound"
 import Loading from "@/@core/components/shared/Loading/Loading"
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed"
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
@@ -41,7 +41,7 @@ const LocationsIndex: NextPageWithLayout = () => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.province.cities) return <LocationNoCountryFound />
+  if (!data?.province.cities) return <NoCountryFound />
 
   return (
     <>
@@ -51,7 +51,7 @@ const LocationsIndex: NextPageWithLayout = () => {
       <div>
         <div className="flex flex-col gap-2">
           {data?.province.cities?.map((city) => (
-            <LocationCityCard
+            <CityCard
               key={city.id}
               city={city as City}
               countrySlug={countrySlug}

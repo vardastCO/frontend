@@ -3,14 +3,14 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Switch } from "../../ui/Switch"
 
-interface ILocationAreaCard {
+interface AreaCardProps {
   countrySlug?: string
   provinceSlug?: string
   citySlug?: string
   area: Area
 }
 
-const LocationAreaCard = ({ area }: ILocationAreaCard) => {
+const AreaCard = ({ area }: AreaCardProps) => {
   const { name, slug, isActive } = area
   const { t } = useTranslation("common")
   const [active, setActive] = useState(isActive)
@@ -26,4 +26,4 @@ const LocationAreaCard = ({ area }: ILocationAreaCard) => {
   )
 }
 
-export default LocationAreaCard
+export default AreaCard
