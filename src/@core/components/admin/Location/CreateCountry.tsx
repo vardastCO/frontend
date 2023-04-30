@@ -5,13 +5,14 @@ import {
   tsReactFormDefaultMapping
 } from "@/@core/utils/tsReactFormDefaultMapping"
 import { useCreateCountryMutation } from "@/generated"
-import * as Dialog from "@radix-ui/react-dialog"
-import { IconX } from "@tabler/icons-react"
 import { createTsForm } from "@ts-react/form"
 import { useTranslation } from "next-i18next"
 import { useState } from "react"
 import { z } from "zod"
 import { makeZodI18nMap } from "zod-i18n-map"
+import { Button } from "../../ui/Button"
+import { Dialog } from "../../ui/Dialog"
+import { ModalTrigger } from "../../ui/Modal"
 
 const MyForm = createTsForm(tsReactFormDefaultMapping)
 
@@ -55,79 +56,51 @@ const CreateCountry = (props: Props) => {
   }
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild>
-        <button className="btn-primary btn">{t("add_country")}</button>
-      </Dialog.Trigger>
-      <Dialog.Portal>
-        <Dialog.Overlay className="d-dialog-overlay" />
-        <Dialog.Content className="d-dialog-container">
-          <div className="d-dialog-inner">
-            <div className="d-dialog-header">
-              <Dialog.Title className="d-dialog-title">
-                {t("new_country")}
-              </Dialog.Title>
-              <Dialog.Description className="d-dialog-description">
-                {t("new_country_description")}
-              </Dialog.Description>
-              <Dialog.Close asChild>
-                <button
-                  className="d-dialog-close btn-icon-only btn-ghost btn rounded-full"
-                  aria-label="Close"
-                >
-                  <IconX className="icon" />
-                </button>
-              </Dialog.Close>
-            </div>
-            <div className="d-dialog-content">
-              {createCountryMutation.isError && <p>خطایی رخ داده</p>}
-              <MyForm
-                formProps={{
-                  className: "flex flex-col gap-4"
-                }}
-                props={{
-                  nameEn: {
-                    direction: "ltr"
-                  },
-                  slug: {
-                    direction: "ltr",
-                    prefixAddon: "https://"
-                  },
-                  alphaTwo: {
-                    direction: "ltr"
-                  },
-                  iso: {
-                    direction: "ltr"
-                  },
-                  phonePrefix: {
-                    direction: "ltr",
-                    prefixElement: <span className="text-n-gray-400">+</span>
-                  }
-                }}
-                defaultValues={{
-                  sort: 0,
-                  isActive: true
-                }}
-                schema={CreateCategorySchema}
-                onSubmit={onSubmit}
-                renderAfter={() => (
-                  <div className="flex items-center justify-end gap-2">
-                    <Dialog.Close asChild>
-                      <button className="btn-ghost btn" type="button">
-                        {t("cancel")}
-                      </button>
-                    </Dialog.Close>
-                    <button className="btn-primary btn" type="submit">
-                      {t("submit")}
-                    </button>
-                  </div>
-                )}
-              />
-            </div>
-          </div>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+    <ModalTrigger isDismissable label={t("add_country")}>
+      {(close) => (
+        <Dialog title={t("new_country")}>
+          {createCountryMutation.isError && <p>خطایی رخ داده</p>}
+          <MyForm
+            formProps={{
+              className: "flex flex-col gap-4"
+            }}
+            props={{
+              nameEn: {
+                direction: "ltr"
+              },
+              slug: {
+                direction: "ltr",
+                prefixAddon: "https://"
+              },
+              alphaTwo: {
+                direction: "ltr"
+              },
+              iso: {
+                direction: "ltr"
+              },
+              phonePrefix: {
+                direction: "ltr",
+                prefixElement: <span className="text-n-gray-400">+</span>
+              }
+            }}
+            defaultValues={{
+              sort: 0,
+              isActive: true
+            }}
+            schema={CreateCategorySchema}
+            onSubmit={onSubmit}
+            renderAfter={() => (
+              <div className="flex items-center justify-end gap-2">
+                <Button intent="ghost" onPress={close}>
+                  {t("cancel")}
+                </Button>
+                <Button type="submit">{t("submit")}</Button>
+              </div>
+            )}
+          />
+        </Dialog>
+      )}
+    </ModalTrigger>
   )
 }
 

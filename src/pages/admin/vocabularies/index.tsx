@@ -39,25 +39,27 @@ const VocabulariesPage: NextPageWithLayout = () => {
       <div>
         <div className="flex items-center gap-6">
           <div className="w-1/2">
-            <div className="input-inset">
-              <div className="input-element">
-                <IconSearch className="h-4 w-4 text-n-gray-400" />
+            <div className="form-control form-control-sm">
+              <div className="input-inset">
+                <span className="input-element">
+                  <IconSearch className="h-4 w-4" />
+                </span>
+                <input
+                  type="text"
+                  className="input-field"
+                  placeholder={t("Search in {{ entity }}", {
+                    entity: t("Categories")
+                  }).toString()}
+                />
               </div>
-              <input
-                type="text"
-                className="input-field"
-                placeholder={t("Search in {{ entity }}", {
-                  entity: t("Categories")
-                }).toString()}
-              />
             </div>
           </div>
           <div className="btn-group mr-auto">
-            <button className="btn-xs btn-secondary btn">
+            <button className="btn-sm btn-secondary btn">
               <IconMinus className="icon" />
               <span>{t("Collapse All")}</span>
             </button>
-            <button className="btn-xs btn-secondary btn">
+            <button className="btn-sm btn-secondary btn">
               <IconPlus className="icon" />
               <span>{t("Expand All")}</span>
             </button>
