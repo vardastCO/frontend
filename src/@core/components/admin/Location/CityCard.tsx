@@ -1,4 +1,5 @@
 import { City } from "@/generated"
+import { digitsEnToFa } from "@persian-tools/persian-tools"
 import Link from "next/link"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -11,7 +12,7 @@ interface ProvinceCardProps {
 }
 
 const CityCard = ({ countrySlug, provinceSlug, city }: ProvinceCardProps) => {
-  const { name, slug, isActive } = city
+  const { name, slug, isActive, areasCount } = city
   const { t } = useTranslation("common")
   const [active, setActive] = useState(isActive)
 
@@ -23,11 +24,11 @@ const CityCard = ({ countrySlug, provinceSlug, city }: ProvinceCardProps) => {
       >
         {name}
       </Link>
-      {/* {areasCount !== 0 && (
+      {areasCount !== 0 && (
         <span className="text-sm text-n-gray-500">
-          {digitsEnToFa(areasCount)} استان
+          {digitsEnToFa(areasCount)} منطقه
         </span>
-      )} */}
+      )}
       <div className="mr-auto flex items-center gap-2">
         <Switch onChange={setActive} isSelected={active} size="small">
           {t("is_active")}

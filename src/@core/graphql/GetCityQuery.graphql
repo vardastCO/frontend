@@ -6,6 +6,7 @@ query GetCity($id: Int, $slug: String) {
     type
     sort
     isActive
+    areasCount
     latitude
     longitude
     areas {

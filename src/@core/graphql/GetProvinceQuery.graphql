@@ -16,6 +16,7 @@ query GetProvince($id: Int, $slug: String) {
       type
       sort
       isActive
+      areasCount
     }
   }
 }
