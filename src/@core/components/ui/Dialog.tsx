@@ -19,9 +19,17 @@ export const Dialog = ({
 
   return (
     <div {...dialogProps} ref={ref}>
-      {title && <h3 {...titleProps}>{title}</h3>}
-      {description && <p>{description}</p>}
-      {children}
+      {(title || description) && (
+        <div className="dialog-header">
+          {title && (
+            <h3 className="dialog-title" {...titleProps}>
+              {title}
+            </h3>
+          )}
+          {description && <p className="dialog-description">{description}</p>}
+        </div>
+      )}
+      <div className="dialog-content">{children}</div>
     </div>
   )
 }

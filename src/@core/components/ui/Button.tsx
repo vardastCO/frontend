@@ -37,7 +37,7 @@ const button = cva("btn", {
   }
 })
 
-interface ButtonProps
+export interface ButtonProps
   extends ComponentProps<typeof AriaButton>,
     VariantProps<typeof button> {
   children: ReactNode

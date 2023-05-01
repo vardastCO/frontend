@@ -4,6 +4,7 @@
 @import "tailwindcss/utilities";
 @import "base.css";
 @import "dialog.css";
+@import "dropdown.css";
 @import "form.css";
 @import "switch.css";
 @import "full-calendar.css";

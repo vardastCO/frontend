@@ -1,35 +1,35 @@
-.d-dialog-overlay {
+.dialog-overlay {
   @apply fixed inset-0 z-50 bg-n-gray-900 bg-opacity-40 backdrop-blur-sm;
 
   animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.d-dialog-container {
+.dialog-container {
   @apply fixed left-1/2 top-1/2 z-50 flex max-h-[85vh] w-[90vw] max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-md bg-white shadow-2xl focus:outline-none;
 
   animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.d-dialog-inner {
+.dialog-inner {
   @apply w-full flex-1 overflow-y-auto;
 }
 
-.d-dialog-header {
+.dialog-header {
   @apply sticky top-0 bg-white p-6 pb-1;
 }
 
-.d-dialog-content {
+.dialog-content {
   @apply p-6;
 }
 
-.d-dialog-title {
+.dialog-title {
   @apply text-lg font-extrabold text-n-gray-800;
 }
 
-.d-dialog-description {
+.dialog-description {
   @apply mb-5 mt-2 text-base font-normal text-n-gray-500;
 }
 
-.d-dialog-close {
+.dialog-close {
   @apply absolute left-1 top-1;
 }
 

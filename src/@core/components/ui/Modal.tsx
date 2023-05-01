@@ -1,14 +1,14 @@
 import { ReactNode, cloneElement, useRef } from "react"
 import {
-  AriaModalOverlayProps,
-  Overlay,
-  useModalOverlay,
-  useOverlayTrigger
+    AriaModalOverlayProps,
+    Overlay,
+    useModalOverlay,
+    useOverlayTrigger
 } from "react-aria"
 import {
-  OverlayTriggerProps,
-  OverlayTriggerState,
-  useOverlayTriggerState
+    OverlayTriggerProps,
+    OverlayTriggerState,
+    useOverlayTriggerState
 } from "react-stately"
 import { Button } from "./Button"
 
@@ -24,8 +24,10 @@ export const Modal = ({ state, children, ...props }: ModalProps) => {
   return (
     <Overlay>
       <div className="dialog-overlay" {...underlayProps}>
-        <div {...modalProps} ref={ref} className="dialog-content">
+        <div {...modalProps} ref={ref} className="dialog-container">
+            <div className="dialog-inner">
           {children}
+          </div>
         </div>
       </div>
     </Overlay>

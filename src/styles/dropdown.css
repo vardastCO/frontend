@@ -1,0 +1,112 @@
+.dropdown-menu {
+    --border-opacity: 0.1;
+    --border-color: rgba(theme(colors.n-gray.700), var(--border-opacity));
+  @apply
+      will-change-[opacity,transform]
+      min-w-[200px]
+      rounded-md
+      bg-white
+      p-1.5
+      outline-none
+      shadow-[0_0_0_1px_var(--border-color),0_1px_0_0_rgba(0,0,0,0.08),0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)]
+      ring-0;
+
+  & .dropdown-menu-separator {
+    @apply m-1.5 h-px bg-n-gray-200;
+  }
+
+  & .dropdown-menu-arrow svg {
+    @apply block
+        fill-white;
+        stroke: var(--border-color);
+        stroke-width: 1px;
+  }
+
+  & .dropdown-menu-item {
+    @apply relative
+          flex
+          select-none
+          items-center
+          gap-1
+          rounded
+          p-2
+          text-base
+          leading-none
+          text-n-gray-700
+          outline-none
+          ring-0
+          ring-offset-0
+          cursor-pointer
+          data-[hovered]:bg-n-gray-100
+          data-[focus-visible]:bg-n-gray-100
+          data-[focused]:bg-n-gray-100;
+
+    &.dropdown-menu-item-danger {
+        @apply text-n-red-700
+            data-[hovered]:bg-n-red-50/50
+            data-[focus-visible]:bg-n-red-50/50
+            data-[focused]:bg-n-red-50/50;
+
+        & .dropdown-menu-item-icon {
+            @apply text-n-red-200
+        }
+    }
+  }
+
+  & .dropdown-menu-item-icon {
+    @apply h-4 w-4 text-n-gray-400;
+    stroke-width: 1.5;
+  }
+
+  &[data-placement="top"] {
+    margin-bottom: 2px;
+    --origin: translateY(8px);
+  }
+
+  &[data-placement="bottom"] {
+    margin-top: 2px;
+    --origin: translateY(-8px);
+
+    & .dropdown-menu-arrow svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  &[data-placement="right"] {
+    margin-left: 2px;
+    --origin: translateX(-8px);
+
+    & .dropdown-menu-arrow svg {
+      transform: rotate(90deg);
+    }
+  }
+
+  &[data-placement="left"] {
+    margin-right: 2px;
+    --origin: translateX(8px);
+
+    & .dropdown-menu-arrow svg {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &[data-entering] {
+    animation: dropdown-menu-slide 200ms;
+  }
+
+  &[data-exiting] {
+    animation: dropdown-menu-slide 200ms reverse ease-in;
+  }
+}
+
+@keyframes dropdown-menu-slide {
+  from {
+    transform: var(--origin);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
