@@ -5,6 +5,8 @@ import NoCountryFound from "@/@core/components/admin/Location/NoCountryFound"
 import Loading from "@/@core/components/shared/Loading/Loading"
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed"
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
+import { Dialog } from "@/@core/components/ui/Dialog"
+import { Modal } from "@/@core/components/ui/Modal"
 import AdminLayout from "@/@core/layouts/AdminLayout"
 import { Country, useGetAllCountriesQuery } from "@/generated"
 import { NextPageWithLayout } from "@/pages/_app"
@@ -32,6 +34,9 @@ const LocationsIndex: NextPageWithLayout = () => {
 
   return (
     <>
+      <Modal isDismissable state={close}>
+        <Dialog>asdf</Dialog>
+      </Modal>
       <PageHeader title={t("locations_index_title")}>
         <CreateCountry />
       </PageHeader>
