@@ -1,3 +1,4 @@
+import { VariantProps, cva } from "class-variance-authority"
 import { ReactNode, cloneElement, useRef } from "react"
 import {
   AriaModalOverlayProps,
@@ -12,20 +13,46 @@ import {
 } from "react-stately"
 import { Button } from "./Button"
 
-interface ModalProps extends AriaModalOverlayProps {
+const dialog = cva("dialog", {
+  variants: {
+    size: {
+      small: "dialog-sm",
+      DEFAULT: "",
+      medium: "dialog-md",
+      large: "dialog-lg",
+      xlarge: "dialog-xl"
+    }
+  },
+  defaultVariants: {
+    size: "DEFAULT"
+  }
+})
+
+interface ModalProps
+  extends AriaModalOverlayProps,
+    VariantProps<typeof dialog> {
   state: OverlayTriggerState
   children: ReactNode
+  className?: string
 }
 
-export const Modal = ({ state, children, ...props }: ModalProps) => {
+export const Modal = ({
+  state,
+  children,
+  size,
+  className,
+  ...props
+}: ModalProps) => {
   let ref = useRef(null)
   let { modalProps, underlayProps } = useModalOverlay(props, state, ref)
 
   return (
     <Overlay>
-      <div className="dialog-overlay" {...underlayProps}>
-        <div {...modalProps} ref={ref} className="dialog-container">
-          <div className="dialog-inner">{children}</div>
+      <div className={dialog({ size, className })}>
+        <div className="dialog-overlay" {...underlayProps}>
+          <div {...modalProps} ref={ref} className="dialog-container">
+            <div className="dialog-inner">{children}</div>
+          </div>
         </div>
       </div>
     </Overlay>

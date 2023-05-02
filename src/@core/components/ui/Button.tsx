@@ -8,6 +8,7 @@ const button = cva("btn", {
     intent: {
       primary: "btn-primary",
       secondary: "btn-secondary",
+      danger: "btn-danger",
       ghost: "btn-ghost"
     },
     size: {
