@@ -67,7 +67,6 @@
         "@graphql-codegen/typescript-operations": "^3.0.4",
         "@graphql-codegen/typescript-react-query": "^4.1.0",
         "@next/bundle-analyzer": "^13.4.0",
-        "@noqte/ui": "^0.17.0",
         "autoprefixer": "^10.4.14",
         "cross-env": "^7.0.3",
         "ngrok": "^4.3.3",

@@ -1,0 +1,105 @@
+.tag {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  gap: 1ch;
+  padding-inline: 1ch;
+  padding-block: 0.45ch;
+  font-weight: theme(fontWeight.normal);
+  line-height: theme(lineHeight.normal);
+  font-size: theme(fontSize.base);
+  border-radius: theme(borderRadius.DEFAULT);
+
+  &-xs {
+    font-size: theme(fontSize.xs);
+  }
+  &-sm {
+    font-size: theme(fontSize.sm);
+  }
+  &-md {
+    font-size: theme(fontSize.base);
+  }
+  &-lg {
+    font-size: theme(fontSize.lg);
+  }
+  &-xl {
+    font-size: theme(fontSize.xl);
+  }
+
+  &-dot {
+    &::before {
+      display: block;
+      content: '';
+      width: 0.75ch;
+      height: 0.75ch;
+      border-radius: theme(borderRadius.full);
+      background-color: currentColor;
+      opacity: 0.6;
+    }
+  }
+
+  &-avatar {
+    > .avatar {
+      width: 2ch;
+      height: 2ch;
+      border-radius: theme(borderRadius.full);
+    }
+  }
+
+  &-icon {
+    > .icon,
+    > svg {
+      width: 2ch;
+      height: 2ch;
+      opacity: 0.6;
+    }
+  }
+
+  &-close-button {
+    > button {
+      display: flex;
+      position: relative;
+      width: 2ch;
+      height: 2ch;
+      align-items: center;
+      justify-content: center;
+      border-style: none;
+      background: theme(backgroundColor.white / 0.2);
+      background-blend-mode: overlay;
+      border-radius: theme(borderRadius.full);
+      transition-property: theme(transitionProperty.DEFAULT);
+      transition-duration: theme(transitionDuration.200);
+
+      > svg {
+        width: 70%;
+        height: 70%;
+        color: currentColor;
+      }
+
+      &:hover {
+        background: theme(backgroundColor.white / 0.5);
+      }
+    }
+  }
+
+  &-gray {
+    @apply bg-n-gray-100 text-n-gray-700;
+  }
+  &-primary {
+    @apply bg-indigo-100 text-indigo-700;
+  }
+  &-danger {
+    @apply bg-red-100 text-red-700;
+  }
+  &-warning {
+    @apply bg-amber-100 text-amber-700;
+  }
+  &-success {
+    @apply bg-emerald-100 text-emerald-700;
+  }
+  &-info {
+    @apply bg-blue-100 text-blue-700;
+  }
+}

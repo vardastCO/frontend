@@ -147,9 +147,6 @@ devDependencies:
   '@next/bundle-analyzer':
     specifier: ^13.4.0
     version: 13.4.0
-  '@noqte/ui':
-    specifier: ^0.17.0
-    version: 0.17.0(autoprefixer@10.4.14)(postcss@8.4.23)(tailwindcss@3.3.2)
   autoprefixer:
     specifier: ^10.4.14
     version: 10.4.14(postcss@8.4.23)
@@ -1773,18 +1770,6 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
-
-  /@noqte/ui@0.17.0(autoprefixer@10.4.14)(postcss@8.4.23)(tailwindcss@3.3.2):
-    resolution: {integrity: sha512-3IhfNPcqpXRVQrEMTcc+zoPM//I9XLUqW1IxTH9dZJyGgp2C9PlSov7T38wkQNKgT7h5Lkn07npiXB99Sf0+2w==}
-    peerDependencies:
-      autoprefixer: ^10.4.14
-      postcss: ^8.4.21
-      tailwindcss: ^3.3.1
-    dependencies:
-      autoprefixer: 10.4.14(postcss@8.4.23)
-      postcss: 8.4.23
-      tailwindcss: 3.3.2
-    dev: true
 
   /@parcel/watcher@2.1.0:
     resolution: {integrity: sha512-8s8yYjd19pDSsBpbkOHnT6Z2+UJSuLQx61pCFM0s5wSRvKCEMDjd/cHY3/GI1szHIWbpXpsJdg3V6ISGGx9xDw==}

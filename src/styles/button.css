@@ -1,0 +1,181 @@
+.btn {
+  --ring-width: 0px;
+  @apply relative
+  inline-flex
+  cursor-pointer
+  select-none
+  appearance-none
+  items-center
+  justify-center
+  whitespace-nowrap
+  rounded
+  border-0
+  text-center
+  align-baseline
+  text-base
+  font-medium
+  leading-none
+  transition-all
+  duration-200
+  ease-linear
+  focus:outline-none
+  focus-visible:outline-none;
+  gap: 1ch;
+  padding-inline: 1.5ch;
+  padding-block: 1.75ch;
+  -webkit-tap-highlight-color: transparent;
+
+  & > .icon {
+    width: 1em;
+    height: 1em;
+  }
+
+  &-xs {
+    @apply text-xs;
+  }
+  &-sm {
+    @apply text-sm;
+  }
+  &-md {
+    @apply text-lg;
+  }
+  &-lg {
+    @apply text-xl;
+  }
+  &-xl {
+    @apply text-2xl;
+  }
+
+  &.btn-primary {
+    @apply bg-n-blue-600
+     focus-visible:bg-n-blue-700
+     focus:bg-n-blue-700
+     hover:bg-n-blue-700
+     data-[pressed]::bg-n-blue-700
+     ring-n-blue-300/40
+     text-white
+     ring-0
+     focus:ring-4
+     focus-visible:ring-4;
+    /* box-shadow: rgba(theme(colors.n-blue.600), 0.8) 0 0 0 1px,
+      rgba(0, 0, 0) 0 1px 0 0, rgba(0, 0, 0, 0.04) 0 2px 2px 0,
+      rgba(0, 0, 0, 0.02) 0 3px 3px 0, rgba(0, 0, 0, 0.01) 0 4px 4px 0,
+      rgba(theme(colors.n-blue.200), 0.4) 0 0 0 var(--ring-width); */
+  }
+
+  &.btn-secondary {
+    --border-opacity: 0.1;
+    --border-color: rgba(theme(colors.n-gray.700), var(--border-opacity));
+    @apply text-n-gray-700
+    hover:bg-n-gray-50
+    data-[pressed]:bg-n-gray-50
+    active:bg-n-gray-50
+    focus-visible:bg-n-gray-50
+    ring-n-gray-700/5
+    bg-white
+    shadow-[0_0_0_1px_var(--border-color),0_1px_0_0_rgba(0,0,0,0.08),0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)]
+    ring-0
+    focus:ring-4
+    focus-visible:ring-4;
+
+    &:where(:hover, :focus, :focus-visible) {
+      --border-opacity: 0.2;
+    }
+
+    & > .icon {
+      @apply text-n-gray-500;
+    }
+  }
+
+  &.btn-ghost {
+    @apply text-n-gray-700
+    hover:bg-n-gray-100
+    data-[pressed]:bg-n-gray-100
+    active:bg-n-gray-100
+    focus-visible:bg-n-gray-100
+    bg-transparent
+    ring-0;
+
+    & > .icon {
+      @apply text-n-gray-500;
+    }
+  }
+
+  &.btn-disabled,
+  &[disabled] {
+    @apply bg-n-gray-50
+    border-n-gray-300
+    text-n-gray-400
+    cursor-not-allowed
+    border
+    shadow-none
+    ring-0
+    hover:shadow-none
+    hover:ring-0
+    focus:shadow-none
+    focus:ring-0
+    focus-visible:shadow-none
+    focus-visible:ring-0;
+
+    & > .icon {
+      @apply text-n-gray-400;
+    }
+  }
+
+  &.btn-loading,
+  &[loading] {
+    @apply cursor-progress;
+
+    &::before {
+      right: 0;
+      content: "";
+      width: 1em;
+      height: 1em;
+      margin: auto;
+      border: 2px solid transparent;
+      border-top-color: currentColor;
+      border-radius: 50%;
+      animation: button-loading-spinner 1s ease infinite;
+      user-select: none;
+    }
+  }
+
+  &.btn-icon-only {
+    padding-inline: 1.75ch;
+    padding-block: 1.75ch;
+  }
+}
+
+.btn-group {
+  @apply relative inline-flex -space-x-px space-x-reverse align-middle;
+
+  & > .btn {
+    @apply flex-1 rounded-none first:rounded-s last:rounded-e;
+
+    &:where(:focus, :focus-visible, :hover) {
+      z-index: 10;
+    }
+  }
+}
+
+.btn-group-vertical {
+  @apply relative inline-flex flex-col items-start justify-center -space-y-px space-y-reverse align-middle;
+
+  & > .btn {
+    @apply w-full flex-1 rounded-none first:rounded-t last:rounded-b;
+
+    &:where(:focus, :focus-visible, :hover) {
+      z-index: 10;
+    }
+  }
+}
+
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+}

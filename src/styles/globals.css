@@ -1,10 +1,14 @@
 @import "fonts.css";
 @import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
 @import "base.css";
+@import "tailwindcss/components";
 @import "dialog.css";
 @import "dropdown.css";
 @import "form.css";
 @import "switch.css";
+@import "input.css";
+@import "avatar.css";
 @import "full-calendar.css";
+@import "tooltip.css";
+@import "card.css";
+@import "tailwindcss/utilities";
