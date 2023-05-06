@@ -48,15 +48,15 @@
 
   &.btn-primary {
     @apply bg-n-blue-600
-     focus-visible:bg-n-blue-700
-     focus:bg-n-blue-700
-     hover:bg-n-blue-700
-     data-[pressed]::bg-n-blue-700
-     ring-n-blue-300/40
      text-white
      ring-0
+     ring-n-blue-300/40
+     hover:bg-n-blue-700
+     focus:bg-n-blue-700
      focus:ring-4
-     focus-visible:ring-4;
+     focus-visible:bg-n-blue-700
+     focus-visible:ring-4
+     data-[pressed]:bg-n-blue-700;
     /* box-shadow: rgba(theme(colors.n-blue.600), 0.8) 0 0 0 1px,
       rgba(0, 0, 0) 0 1px 0 0, rgba(0, 0, 0, 0.04) 0 2px 2px 0,
       rgba(0, 0, 0, 0.02) 0 3px 3px 0, rgba(0, 0, 0, 0.01) 0 4px 4px 0,
@@ -66,17 +66,17 @@
   &.btn-secondary {
     --border-opacity: 0.1;
     --border-color: rgba(theme(colors.n-gray.700), var(--border-opacity));
-    @apply text-n-gray-700
-    hover:bg-n-gray-50
-    data-[pressed]:bg-n-gray-50
-    active:bg-n-gray-50
-    focus-visible:bg-n-gray-50
-    ring-n-gray-700/5
-    bg-white
+    @apply bg-white
+    text-n-gray-700
     shadow-[0_0_0_1px_var(--border-color),0_1px_0_0_rgba(0,0,0,0.08),0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)]
     ring-0
+    ring-n-gray-700/5
+    hover:bg-n-gray-50
     focus:ring-4
-    focus-visible:ring-4;
+    focus-visible:bg-n-gray-50
+    focus-visible:ring-4
+    active:bg-n-gray-50
+    data-[pressed]:bg-n-gray-50;
 
     &:where(:hover, :focus, :focus-visible) {
       --border-opacity: 0.2;
@@ -88,13 +88,13 @@
   }
 
   &.btn-ghost {
-    @apply text-n-gray-700
+    @apply bg-transparent
+    text-n-gray-700
+    ring-0
     hover:bg-n-gray-100
-    data-[pressed]:bg-n-gray-100
-    active:bg-n-gray-100
     focus-visible:bg-n-gray-100
-    bg-transparent
-    ring-0;
+    active:bg-n-gray-100
+    data-[pressed]:bg-n-gray-100;
 
     & > .icon {
       @apply text-n-gray-500;
@@ -103,11 +103,11 @@
 
   &.btn-disabled,
   &[disabled] {
-    @apply bg-n-gray-50
-    border-n-gray-300
-    text-n-gray-400
-    cursor-not-allowed
+    @apply cursor-not-allowed
     border
+    border-n-gray-300
+    bg-n-gray-50
+    text-n-gray-400
     shadow-none
     ring-0
     hover:shadow-none

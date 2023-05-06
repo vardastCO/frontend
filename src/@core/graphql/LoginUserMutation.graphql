@@ -1,0 +1,41 @@
+mutation LoginUser($loginInput: LoginInput!) {
+  login(loginInput: $loginInput) {
+    accessToken
+    user {
+      id
+      uuid
+      firstName
+      lastName
+      email
+      cellphone
+      telegramChatId
+      isCellphoneVerified
+      isEmailVerified
+      isTelegramVerified
+      username
+      mustChangePassword
+      lastPasswordChangeAt
+      language
+      timezone
+      country {
+        id
+        name
+        nameEn
+        slug
+      }
+      status
+      suspensionReason
+      customDisplayRole
+      adminComments
+      lastLoginAt
+      lastLoginIP
+      lastFailedLoginAt
+      failedLoginAttempts
+      isLockedOut
+      lockedOutAt
+      createdAt
+      updatedAt
+      fullName
+    }
+  }
+}

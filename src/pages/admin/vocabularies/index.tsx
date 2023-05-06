@@ -6,26 +6,43 @@ import Loading from "@/@core/components/shared/Loading/Loading"
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed"
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
 import AdminLayout from "@/@core/layouts/AdminLayout"
+import { withSessionSsr } from "@/@core/lib/withSession"
 import { Vocabulary, useGetAllVocabulariesQuery } from "@/generated"
 import { NextPageWithLayout } from "@/pages/_app"
 import { IconMinus, IconPlus, IconSearch } from "@tabler/icons-react"
+import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { ReactElement } from "react"
 
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale))
+export const getServerSideProps: GetServerSideProps = withSessionSsr(
+  async function getServerSideProps({ locale, req }) {
+    const user = req.session.user
+    graphqlRequestClient.setHeader(
+      "authorization",
+      `Bearer ${user.login.accessToken}`
+    )
+
+    return {
+      props: {
+        user: req.session.user,
+        ...(await serverSideTranslations(locale as string))
+      }
     }
   }
-}
+)
 
-const VocabulariesPage: NextPageWithLayout = () => {
+const VocabulariesPage: NextPageWithLayout = ({
+  user
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { t } = useTranslation("common")
 
-  const { isLoading, error, data } =
-    useGetAllVocabulariesQuery(graphqlRequestClient)
+  const { isLoading, error, data } = useGetAllVocabulariesQuery(
+    graphqlRequestClient.setHeader(
+      "authorization",
+      `Bearer ${user.login.accessToken}`
+    )
+  )
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />

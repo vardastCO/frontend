@@ -22,6 +22,9 @@ const button = cva("btn", {
     loading: {
       true: "btn-loading"
     },
+    fullWidth: {
+      true: "w-full"
+    },
     iconOnly: {
       true: "btn-icon-only"
     }
@@ -46,12 +49,19 @@ export interface ButtonProps
 }
 
 export const Button = ({ children, ...props }: ButtonProps) => {
-  let { className, intent, size, loading, iconOnly } = props
+  let { className, intent, size, loading, iconOnly, fullWidth } = props
 
   return (
     <AriaButton
       {...props}
-      className={button({ intent, size, loading, iconOnly, className })}
+      className={button({
+        intent,
+        size,
+        loading,
+        iconOnly,
+        fullWidth,
+        className
+      })}
     >
       {children}
     </AriaButton>

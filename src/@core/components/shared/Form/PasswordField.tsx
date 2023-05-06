@@ -1,6 +1,6 @@
 import { useDescription, useTsController } from "@ts-react/form"
 
-interface TextFieldProps {
+interface PasswordFieldProps {
   direction?: "rtl" | "ltr"
   prefixAddon?: React.ReactNode
   suffixAddon?: React.ReactNode
@@ -8,7 +8,7 @@ interface TextFieldProps {
   suffixElement?: React.ReactNode
 }
 
-function TextField(props: TextFieldProps) {
+function PasswordField(props: PasswordFieldProps) {
   const {
     field: { onChange, value, name },
     error
@@ -29,7 +29,7 @@ function TextField(props: TextFieldProps) {
                 <div className="input-element">{props.prefixElement}</div>
               )}
               <input
-                type="text"
+                type="password"
                 name={name}
                 className="input-field"
                 placeholder={placeholder}
@@ -53,4 +53,4 @@ function TextField(props: TextFieldProps) {
   )
 }
 
-export default TextField
+export default PasswordField

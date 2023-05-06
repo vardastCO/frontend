@@ -1,0 +1,36 @@
+mutation CreateUser($createUserInput: CreateUserInput!) {
+  createUser(createUserInput: $createUserInput) {
+    id
+    uuid
+    firstName
+    lastName
+    email
+    cellphone
+    # telegramChatId
+    isCellphoneVerified
+    isEmailVerified
+    isTelegramVerified
+    username
+    mustChangePassword
+    lastPasswordChangeAt
+    language
+    timezone
+    # country {
+    #     id
+    #     name
+    # }
+    status
+    suspensionReason
+    customDisplayRole
+    adminComments
+    lastLoginAt
+    lastLoginIP
+    lastFailedLoginAt
+    failedLoginAttempts
+    isLockedOut
+    lockedOutAt
+    createdAt
+    updatedAt
+    fullName
+  }
+}
