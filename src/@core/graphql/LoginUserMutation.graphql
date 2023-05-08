@@ -1,6 +1,7 @@
 mutation LoginUser($loginInput: LoginInput!) {
   login(loginInput: $loginInput) {
     accessToken
+    accessTokenTtl
     user {
       id
       uuid

@@ -17,14 +17,15 @@ import AdminLayout from "@/@core/layouts/AdminLayout"
 import { Country, useGetAllCountriesQuery } from "@/generated"
 import { NextPageWithLayout } from "@/pages/_app"
 import { IconAlertOctagon } from "@tabler/icons-react"
+import { GetServerSideProps } from "next"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { ReactElement } from "react"
 
-export async function getStaticProps({ locale }: { locale: string }) {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale))
+      ...(await serverSideTranslations(locale as string))
     }
   }
 }

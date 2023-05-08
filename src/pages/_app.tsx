@@ -5,6 +5,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { faIR } from "date-fns/locale"
 import setDefaultOptions from "date-fns/setDefaultOptions"
 import { NextPage } from "next"
+import type { Session } from "next-auth"
+import { SessionProvider } from "next-auth/react"
 import { appWithTranslation } from "next-i18next"
 import type { AppProps } from "next/app"
 import NextNProgress from "nextjs-progressbar"
@@ -24,7 +26,10 @@ type AppPropsWithLayout<P = {}> = AppProps<P> & {
   Component: NextPageWithLayout<P>
 }
 
-const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+const App = ({
+  Component,
+  pageProps
+}: AppPropsWithLayout<{ session: Session }>) => {
   const getLayout =
     Component.getLayout ?? ((page: JSX.Element): JSX.Element => page)
 
@@ -35,12 +40,14 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
           showSpinner: false
         }}
       />
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <MessengerContext.Provider value={DefaultContext}>
-          <Component {...pageProps} />
-        </MessengerContext.Provider>
-      </QueryClientProvider>
+      <SessionProvider session={pageProps.session}>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <MessengerContext.Provider value={DefaultContext}>
+            <Component {...pageProps} />
+          </MessengerContext.Provider>
+        </QueryClientProvider>
+      </SessionProvider>
     </>
   )
 }
