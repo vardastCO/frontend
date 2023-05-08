@@ -1,54 +1,54 @@
-import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
 import { Button } from "@/@core/components/ui/Button"
 import BlankLayout from "@/@core/layouts/BlankLayout"
 import {
   passwordInputSchema,
   tsReactFormDefaultMapping
 } from "@/@core/utils/tsReactFormDefaultMapping"
-import { useLoginUserMutation } from "@/generated"
 import { NextPageWithLayout } from "@/pages/_app"
 import { createTsForm } from "@ts-react/form"
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType
+} from "next"
+import { getCsrfToken, signIn } from "next-auth/react"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { ReactElement } from "react"
 import { z } from "zod"
 import { makeZodI18nMap } from "zod-i18n-map"
 
-export async function getServerSideProps({ locale }: { locale: string }) {
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale))
+      csrfToken: await getCsrfToken(context),
+      ...(await serverSideTranslations(context.locale as string))
     }
   }
 }
 
 const MyForm = createTsForm(tsReactFormDefaultMapping)
 
-const LoginPage: NextPageWithLayout = () => {
+const LoginPage: NextPageWithLayout = ({
+  csrfToken
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { t } = useTranslation("common")
   z.setErrorMap(makeZodI18nMap({ t }))
-  const loginMutation = useLoginUserMutation(graphqlRequestClient, {
-    onSuccess: async (data) => {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user: data })
-      })
-    }
-  })
 
   const LoginSchema = z.object({
     username: z.string().describe(t("username")),
     password: passwordInputSchema.describe(t("password"))
   })
 
-  function onSubmit(data: z.infer<typeof LoginSchema>) {
+  const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
     const { username, password } = data
-    loginMutation.mutate({
-      loginInput: {
-        username,
-        password
-      }
+    signIn("credentials", {
+      redirect: true,
+      callbackUrl: "/admin",
+      username,
+      password
     })
   }
 
@@ -57,10 +57,15 @@ const LoginPage: NextPageWithLayout = () => {
       <div className="card w-full max-w-sm bg-white p-6">
         <MyForm
           formProps={{
+            action: "/api/auth/callback/credentials",
+            method: "POST",
             className: "flex flex-col gap-6"
           }}
           schema={LoginSchema}
           onSubmit={onSubmit}
+          renderBefore={() => (
+            <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+          )}
           renderAfter={() => (
             <div>
               <Button intent="primary" type="submit" fullWidth>
