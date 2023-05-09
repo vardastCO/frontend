@@ -2,19 +2,19 @@
   --fc-small-font-size: theme(fontSize.sm);
   --fc-page-bg-color: #fff;
   --fc-neutral-bg-color: rgba(208, 208, 208, 0.3);
-  --fc-neutral-text-color: theme(colors.n-gray.700);
-  --fc-border-color: theme(colors.n-gray.200);
+  --fc-neutral-text-color: theme(colors.gray.700);
+  --fc-border-color: theme(colors.gray.200);
 
-  --fc-button-text-color: theme(colors.n-gray.700);
+  --fc-button-text-color: theme(colors.gray.700);
   --fc-button-bg-color: white;
-  --fc-button-border-color: theme(colors.n-gray.200);
-  --fc-button-hover-bg-color: theme(colors.n-gray.200);
-  --fc-button-hover-border-color: theme(colors.n-gray.300);
-  --fc-button-active-bg-color: theme(colors.n-gray.200);
-  --fc-button-active-border-color: theme(colors.n-gray.300);
+  --fc-button-border-color: theme(colors.gray.200);
+  --fc-button-hover-bg-color: theme(colors.gray.200);
+  --fc-button-hover-border-color: theme(colors.gray.300);
+  --fc-button-active-bg-color: theme(colors.gray.200);
+  --fc-button-active-border-color: theme(colors.gray.300);
 
-  --fc-event-bg-color: theme(colors.n-blue.500);
-  --fc-event-border-color: theme(colors.n-blue.500);
+  --fc-event-bg-color: theme(colors.blue.500);
+  --fc-event-border-color: theme(colors.blue.500);
   --fc-event-text-color: #fff;
   --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.25);
 
@@ -29,8 +29,8 @@
   --fc-bg-event-color: rgb(143, 223, 130);
   --fc-bg-event-opacity: 0.3;
   --fc-highlight-color: rgba(188, 232, 241, 0.3);
-  --fc-today-bg-color: theme(colors.n-yellow.100);
-  --fc-now-indicator-color: theme(colors.n-red.500);
+  --fc-today-bg-color: theme(colors.amber.100);
+  --fc-now-indicator-color: theme(colors.red.500);
 
   --fc-daygrid-event-dot-width: 8px;
 

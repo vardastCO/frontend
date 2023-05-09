@@ -32,7 +32,7 @@ const Sidebar = (props: Props) => {
   return (
     <div
       className={clsx([
-        "z-10 flex-shrink-0 border-l border-n-gray-200 py-5 transition-all",
+        "z-10 flex-shrink-0 border-l border-gray-200 py-5 transition-all",
         props.open && "w-64",
         ,
         !props.open && "w-0 translate-x-full overflow-hidden opacity-0"
@@ -51,16 +51,16 @@ const Sidebar = (props: Props) => {
                       className={clsx([
                         "flex w-full items-center space-x-2 space-x-reverse rounded px-2 py-3 font-semibold leading-normal ",
                         isActive(menu.path)
-                          ? "bg-n-gray-200 text-n-gray-800"
-                          : "text-n-gray-700 hover:bg-n-gray-100"
+                          ? "bg-gray-200 text-gray-800"
+                          : "text-gray-700 hover:bg-gray-100"
                       ])}
                     >
                       <menu.icon
                         className={clsx([
                           "h-5 w-5",
                           isActive(menu.path)
-                            ? "text-n-gray-700"
-                            : "text-n-gray-400"
+                            ? "text-gray-700"
+                            : "text-gray-400"
                         ])}
                         strokeWidth={1.5}
                       />
@@ -82,7 +82,7 @@ const Sidebar = (props: Props) => {
                   <span className="truncate font-medium">
                     {session?.user?.profile.fullName}
                   </span>
-                  <span className="truncate text-sm text-n-gray-500" dir="ltr">
+                  <span className="truncate text-sm text-gray-500" dir="ltr">
                     {session?.user?.profile.email}
                   </span>
                 </div>

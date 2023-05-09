@@ -42,7 +42,7 @@ export default function DashboardLayout({
       <div className="flex h-screen flex-col bg-white">
         <div className="flex h-auto flex-1 overflow-hidden">
           <Sidebar menus={menus} />
-          <div className="relative flex h-auto w-full flex-col overflow-auto overscroll-contain bg-n-gray-100 px-4 py-6">
+          <div className="relative flex h-auto w-full flex-col overflow-auto overscroll-contain bg-gray-100 px-4 py-6">
             <div className="mx-auto flex w-full max-w-5xl flex-col">
               <div className="mb-3 flex items-center">
                 <Breadcrumb />
@@ -61,7 +61,7 @@ export default function DashboardLayout({
                       role="presentation"
                     />
                     <div className="input-element" dir="ltr">
-                      <span className="font-sans text-sm text-n-gray-500">
+                      <span className="font-sans text-sm text-gray-500">
                         ⌘K
                       </span>
                     </div>

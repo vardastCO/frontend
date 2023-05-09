@@ -1,23 +1,23 @@
-import DashboardLayout from "@/@core/layouts/DashboardLayout";
-import { NextPageWithLayout } from "@/pages/_app";
-import { useTranslation } from "next-i18next";
-import { NextSeo } from "next-seo";
-import { ReactElement } from "react";
+import DashboardLayout from "@/@core/layouts/DashboardLayout"
+import { NextPageWithLayout } from "@/pages/_app"
+import { useTranslation } from "next-i18next"
+import { NextSeo } from "next-seo"
+import { ReactElement } from "react"
 
 const OranizationSettingsPage: NextPageWithLayout = () => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("common")
   return (
     <>
       <NextSeo title={t("Organization Settings").toString()} />
-      <div className="flex flex-col flex-1 h-auto">
-        <h1 className="text-n-gray-800 mb-8 text-3xl font-black">
+      <div className="flex h-auto flex-1 flex-col">
+        <h1 className="mb-8 text-3xl font-black text-gray-800">
           {t("Organization Settings")}
         </h1>
 
         <div>
           <div className="flex gap-6">
             <div className="w-1/3">
-              <strong className="text-n-gray-800 block font-bold">
+              <strong className="block font-bold text-gray-800">
                 تنظیمات عمومی سازمان
               </strong>
             </div>
@@ -26,7 +26,7 @@ const OranizationSettingsPage: NextPageWithLayout = () => {
                 <div className="flex flex-col space-y-1.5">
                   <label
                     htmlFor="org_name"
-                    className="text-n-gray-500 text-sm font-medium"
+                    className="text-sm font-medium text-gray-500"
                   >
                     نام سازمان
                   </label>
@@ -40,7 +40,7 @@ const OranizationSettingsPage: NextPageWithLayout = () => {
                 <div className="flex flex-col space-y-1.5">
                   <label
                     htmlFor="org_url"
-                    className="text-n-gray-500 text-sm font-medium"
+                    className="text-sm font-medium text-gray-500"
                   >
                     آدرس سازمان
                   </label>
@@ -58,7 +58,7 @@ const OranizationSettingsPage: NextPageWithLayout = () => {
                 <div className="flex flex-col space-y-1.5">
                   <label
                     htmlFor="org_country"
-                    className="text-n-gray-500 text-sm font-medium"
+                    className="text-sm font-medium text-gray-500"
                   >
                     کشور
                   </label>
@@ -75,7 +75,7 @@ const OranizationSettingsPage: NextPageWithLayout = () => {
                 <div className="flex flex-col space-y-1.5">
                   <label
                     htmlFor="org_locale"
-                    className="text-n-gray-500 text-sm font-medium"
+                    className="text-sm font-medium text-gray-500"
                   >
                     زبان
                   </label>
@@ -95,11 +95,11 @@ const OranizationSettingsPage: NextPageWithLayout = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
 OranizationSettingsPage.getLayout = function getLayout(page: ReactElement) {
-  return <DashboardLayout>{page}</DashboardLayout>;
-};
+  return <DashboardLayout>{page}</DashboardLayout>
+}
 
-export default OranizationSettingsPage;
+export default OranizationSettingsPage

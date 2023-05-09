@@ -20,12 +20,12 @@ const CityCard = ({ countrySlug, provinceSlug, city }: ProvinceCardProps) => {
     <div className="card flex items-center gap-3 rounded bg-white px-4 py-2">
       <Link
         href={`/admin/locations/country/${countrySlug}/province/${provinceSlug}/city/${slug}`}
-        className="font-bold text-n-gray-800 underline-offset-2 hover:text-n-gray-900 hover:underline"
+        className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline"
       >
         {name}
       </Link>
       {areasCount !== 0 && (
-        <span className="text-sm text-n-gray-500">
+        <span className="text-sm text-gray-500">
           {digitsEnToFa(areasCount)} منطقه
         </span>
       )}

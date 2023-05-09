@@ -22,7 +22,7 @@ const CategoryCard = ({ category, vocabularySlug }: CategoryCardProps) => {
       <div className="flex flex-1 items-center gap-2">
         <div className="flex h-6 w-6 items-center justify-center">
           {hasChildren && (
-            <span className="flex h-6 w-6 cursor-pointer items-center justify-center text-n-gray-400 hover:bg-n-gray-50">
+            <span className="flex h-6 w-6 cursor-pointer items-center justify-center text-gray-400 hover:bg-gray-50">
               <IconChevronDown
                 className={`h-4 w-4 ${open ? "rotate-270" : "rotate-90"}`}
               />
@@ -31,12 +31,12 @@ const CategoryCard = ({ category, vocabularySlug }: CategoryCardProps) => {
         </div>
         <Link
           href={`admin/vocabularies/${vocabularySlug}/category/${slug}`}
-          className="font-bold text-n-gray-800 underline-offset-2 hover:text-n-gray-900 hover:underline"
+          className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline"
         >
           {title}
         </Link>
         {hasChildren && (
-          <span className="text-sm text-n-gray-500">
+          <span className="text-sm text-gray-500">
             {digitsEnToFa(childrenCount)} زیر دسته
           </span>
         )}
@@ -45,7 +45,7 @@ const CategoryCard = ({ category, vocabularySlug }: CategoryCardProps) => {
             <Switch onChange={setActive} isSelected={active} size="small">
               {t("is_active")}
             </Switch>
-            <IconGripVertical className="h-4 w-4 text-n-gray-400" />
+            <IconGripVertical className="h-4 w-4 text-gray-400" />
           </div>
         </div>
       </div>

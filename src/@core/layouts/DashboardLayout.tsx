@@ -74,9 +74,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     role="presentation"
                   />
                   <div className="input-element" dir="ltr">
-                    <span className="font-sans text-sm text-n-gray-500">
-                      ⌘K
-                    </span>
+                    <span className="font-sans text-sm text-gray-500">⌘K</span>
                   </div>
                 </div>
               </form>

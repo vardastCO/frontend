@@ -18,7 +18,7 @@ const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
       <div className="flex items-center gap-2">
         <Link
           href={`/admin/vocabularies/${slug}`}
-          className="font-bold text-n-gray-800 underline-offset-2 hover:text-n-gray-900 hover:underline"
+          className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline"
         >
           {title}
         </Link>

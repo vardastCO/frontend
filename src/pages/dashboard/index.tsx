@@ -7,46 +7,46 @@ const Home: NextPageWithLayout = () => {
   return (
     <>
       <div className="flex flex-1 flex-col">
-        <h1 className="mb-8 text-3xl font-black text-n-gray-800">تنظیمات</h1>
+        <h1 className="mb-8 text-3xl font-black text-gray-800">تنظیمات</h1>
 
-        <div className="rounded border border-n-gray-200 bg-white p-5 shadow-sm">
+        <div className="rounded border border-gray-200 bg-white p-5 shadow-sm">
           <div className="flex gap-6">
             <div className="w-1/3">
               <div className="flex items-center gap-2">
-                <IconAsterisk className="h-4 w-4 text-n-gray-500" />
-                <span className="font-semibold text-n-gray-800">کلمه عبور</span>
+                <IconAsterisk className="h-4 w-4 text-gray-500" />
+                <span className="font-semibold text-gray-800">کلمه عبور</span>
               </div>
             </div>
             <div className="w-2/3">
               <div className="flex flex-col gap-6">
                 <label htmlFor="" className="flex flex-col space-y-1">
-                  <span className="font-semibold text-n-gray-600">
+                  <span className="font-semibold text-gray-600">
                     کلمه عبور فعلی
                   </span>
                   <input
                     type="password"
                     placeholder="کلمه عبور فعلی خود را وارد کنید"
-                    className="block w-full rounded border border-n-gray-300 bg-white px-3 py-2 shadow-sm transition-all duration-200 focus:border-n-blue-300 focus:outline-none focus:ring focus:ring-n-blue-50"
+                    className="block w-full rounded border border-gray-300 bg-white px-3 py-2 shadow-sm transition-all duration-200 focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-50"
                   />
                 </label>
                 <label htmlFor="" className="flex flex-col space-y-1">
-                  <span className="font-semibold text-n-gray-600">
+                  <span className="font-semibold text-gray-600">
                     کلمه عبور جدید
                   </span>
                   <input
                     type="password"
                     placeholder="کلمه عبور جدید را وارد کنید"
-                    className="shadow-xs block w-full rounded border border-n-gray-300 bg-white px-3 py-2 transition-all duration-200 focus:border-n-blue-300 focus:outline-none focus:ring focus:ring-n-blue-50"
+                    className="shadow-xs block w-full rounded border border-gray-300 bg-white px-3 py-2 transition-all duration-200 focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-50"
                   />
                 </label>
                 <label htmlFor="" className="flex flex-col space-y-1">
-                  <span className="font-semibold text-n-gray-600">
+                  <span className="font-semibold text-gray-600">
                     تکرار کلمه عبور جدید
                   </span>
                   <input
                     type="password"
                     placeholder="کلمه عبور جدید را مجدد وارد کنید"
-                    className="block w-full rounded border border-n-gray-300 bg-white px-3 py-2 shadow-sm transition-all duration-200 focus:border-n-blue-300 focus:outline-none focus:ring focus:ring-n-blue-50"
+                    className="block w-full rounded border border-gray-300 bg-white px-3 py-2 shadow-sm transition-all duration-200 focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-50"
                   />
                 </label>
               </div>

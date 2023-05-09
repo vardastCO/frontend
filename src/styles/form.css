@@ -2,14 +2,14 @@
   @apply flex flex-col gap-1.5;
 }
 .form-label {
-  @apply inline-block text-sm font-medium text-n-gray-600;
+  @apply inline-block text-sm font-medium text-gray-600;
 }
 .form-control {
 }
 .form-message {
-  @apply text-sm text-n-gray-500;
+  @apply text-sm text-gray-500;
 
   &.error {
-    @apply text-n-red-600;
+    @apply text-red-600;
   }
 }

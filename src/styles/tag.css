@@ -1,37 +1,29 @@
 .tag {
-  display: inline-flex;
-  position: relative;
-  align-items: center;
-  white-space: nowrap;
-  vertical-align: baseline;
+  @apply relative inline-flex items-center whitespace-nowrap rounded align-baseline text-base font-normal leading-normal;
   gap: 1ch;
   padding-inline: 1ch;
   padding-block: 0.45ch;
-  font-weight: theme(fontWeight.normal);
-  line-height: theme(lineHeight.normal);
-  font-size: theme(fontSize.base);
-  border-radius: theme(borderRadius.DEFAULT);
 
   &-xs {
-    font-size: theme(fontSize.xs);
+    @apply text-xs;
   }
   &-sm {
-    font-size: theme(fontSize.sm);
+    @apply text-sm;
   }
   &-md {
-    font-size: theme(fontSize.base);
+    @apply text-base;
   }
   &-lg {
-    font-size: theme(fontSize.lg);
+    @apply text-lg;
   }
   &-xl {
-    font-size: theme(fontSize.xl);
+    @apply text-xl;
   }
 
   &-dot {
     &::before {
       display: block;
-      content: '';
+      content: "";
       width: 0.75ch;
       height: 0.75ch;
       border-radius: theme(borderRadius.full);
@@ -85,19 +77,19 @@
   }
 
   &-gray {
-    @apply bg-n-gray-100 text-n-gray-700;
+    @apply bg-gray-100 text-gray-700;
   }
   &-primary {
     @apply bg-indigo-100 text-indigo-700;
   }
   &-danger {
-    @apply bg-red-100 text-red-700;
+    @apply bg-red-50 text-red-900;
   }
   &-warning {
     @apply bg-amber-100 text-amber-700;
   }
   &-success {
-    @apply bg-emerald-100 text-emerald-700;
+    @apply bg-emerald-50 text-emerald-900;
   }
   &-info {
     @apply bg-blue-100 text-blue-700;

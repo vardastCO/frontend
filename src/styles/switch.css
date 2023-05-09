@@ -10,12 +10,12 @@
         rounded-full
         border-2
         border-transparent
-        bg-n-gray-500
+        bg-gray-500
         ring-offset-2
-        ring-offset-n-gray-700
+        ring-offset-gray-700
         transition
         duration-200
-        group-data-[selected]:bg-n-green-700
+        group-data-[selected]:bg-emerald-700
         group-data-[focus-visible]:ring-2;
   }
 

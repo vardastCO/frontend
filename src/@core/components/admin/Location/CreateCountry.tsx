@@ -84,7 +84,7 @@ const CreateCountry = (props: Props) => {
                   },
                   phonePrefix: {
                     direction: "ltr",
-                    prefixElement: <span className="text-n-gray-400">+</span>
+                    prefixElement: <span className="text-gray-400">+</span>
                   }
                 }}
                 defaultValues={{

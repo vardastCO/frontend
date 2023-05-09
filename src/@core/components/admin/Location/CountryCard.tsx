@@ -26,12 +26,12 @@ const CountryCard = ({ country }: CountryCardProps) => {
         </span>
         <Link
           href={`/admin/locations/country/${slug}`}
-          className="font-bold text-n-gray-800 underline-offset-2 hover:text-n-gray-900 hover:underline"
+          className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline"
         >
           {name}
         </Link>
         {provincesCount !== 0 && (
-          <span className="text-sm text-n-gray-500">
+          <span className="text-sm text-gray-500">
             {digitsEnToFa(provincesCount)} استان
           </span>
         )}
@@ -52,12 +52,12 @@ const CountryCard = ({ country }: CountryCardProps) => {
           <Item id="edit">
             <IconEdit className="dropdown-menu-item-icon" />
             ویرایش
-            </Item>
+          </Item>
           <Separator className="dropdown-menu-separator" />
           <Item id="delete" className="dropdown-menu-item-danger">
             <IconTrash className="dropdown-menu-item-icon" />
             حذف
-            </Item>
+          </Item>
         </Menu>
       </div>
     </div>

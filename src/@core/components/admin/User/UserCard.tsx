@@ -8,7 +8,7 @@ const UserCard = ({ user }: UserCardProps) => {
   const { fullName, email, cellphone, isEmailVerified, isCellphoneVerified } =
     user
   return (
-    <div>
+    <div className="card rounded p-2">
       {fullName}
       {email}
       {cellphone}

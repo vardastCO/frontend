@@ -1,69 +1,69 @@
-import { IconSmartHome } from "@tabler/icons-react";
-import { useTranslation } from "next-i18next";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { IconSmartHome } from "@tabler/icons-react"
+import { useTranslation } from "next-i18next"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
 
-type Props = {};
+type Props = {}
 
 const Breadcrumb = (props: Props) => {
-  const { t } = useTranslation("common");
-  const router = useRouter();
+  const { t } = useTranslation("common")
+  const router = useRouter()
   const [breadcrumbs, setBreadcrumbs] = useState<
     {
-      href: string;
-      label: string;
-      isCurrent: boolean;
+      href: string
+      label: string
+      isCurrent: boolean
     }[]
-  >();
+  >()
 
   useEffect(() => {
-    const pathWithoutQuery = router.asPath.split("?")[0];
-    let pathArray = pathWithoutQuery.split("/");
-    pathArray.shift();
+    const pathWithoutQuery = router.asPath.split("?")[0]
+    let pathArray = pathWithoutQuery.split("/")
+    pathArray.shift()
 
-    pathArray = pathArray.filter((path) => path !== "");
+    pathArray = pathArray.filter((path) => path !== "")
 
     const breadcrumbs = pathArray.map((path, index) => {
-      const href = "/" + pathArray.slice(0, index + 1).join("/");
+      const href = "/" + pathArray.slice(0, index + 1).join("/")
       return {
         href,
         label: path.charAt(0).toUpperCase() + path.slice(1),
-        isCurrent: index === pathArray.length - 1,
-      };
-    });
+        isCurrent: index === pathArray.length - 1
+      }
+    })
 
-    setBreadcrumbs(breadcrumbs);
-  }, [router.asPath]);
+    setBreadcrumbs(breadcrumbs)
+  }, [router.asPath])
 
   return (
     <div role="presentation">
       <ol
-        className="flex items-end text-sm leading-none align-middle"
+        className="flex items-end align-middle text-sm leading-none"
         aria-label="breadcrumb"
       >
-        <li className="flex items-end leading-none align-middle">
+        <li className="flex items-end align-middle leading-none">
           <Link
             href="/"
             aria-current={router.pathname === "/" ? "page" : "false"}
             legacyBehavior
           >
             <a title={t("Home").toString()}>
-              <IconSmartHome className="text-n-gray-400 w-4 h-4" />
+              <IconSmartHome className="h-4 w-4 text-gray-400" />
             </a>
           </Link>
         </li>
         {breadcrumbs &&
           breadcrumbs.map((crumb, idx) => (
-            <li key={idx} className="flex items-end leading-none align-middle">
+            <li key={idx} className="flex items-end align-middle leading-none">
               {idx !== breadcrumbs.length && (
-                <span className="text-n-gray-400 mx-1">/</span>
+                <span className="mx-1 text-gray-400">/</span>
               )}
               <Link href={crumb.href} passHref legacyBehavior>
                 <a
                   title={t(crumb.label).toString()}
                   aria-current={crumb.isCurrent ? "page" : "false"}
-                  className="text-n-gray-600"
+                  className="text-gray-600"
                 >
                   {t(crumb.label)}
                 </a>
@@ -72,7 +72,7 @@ const Breadcrumb = (props: Props) => {
           ))}
       </ol>
     </div>
-  );
-};
+  )
+}
 
-export default Breadcrumb;
+export default Breadcrumb
