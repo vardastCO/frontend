@@ -70,7 +70,7 @@ const LocationsIndex: NextPageWithLayout = () => {
         </Dialog>
       </Modal>
 
-      <PageHeader title={t("locations_index_title")}>
+      <PageHeader title={t("locations.indexTitle")}>
         <CreateCountry />
       </PageHeader>
       <div>

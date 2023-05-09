@@ -37,7 +37,7 @@ const VocabulariesPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <PageHeader title={t("categories_index_title")}>
+      <PageHeader title={t("vocabularies.indexTitle")}>
         <CreateCategory />
       </PageHeader>
       <div>

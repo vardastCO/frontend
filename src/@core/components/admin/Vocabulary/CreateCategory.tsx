@@ -25,7 +25,9 @@ const CreateCategory = (props: Props) => {
   }
   return (
     <DialogTrigger>
-      <Button size="medium">{t("add_category")}</Button>
+      <Button size="medium">
+        {t("add_entity", { entity: t("category") })}
+      </Button>
       <Modal>
         <Dialog>
           {({ close }) => (

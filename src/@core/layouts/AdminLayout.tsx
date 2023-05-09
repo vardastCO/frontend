@@ -3,7 +3,8 @@ import {
   IconCategory,
   IconMap2,
   IconSearch,
-  IconSmartHome
+  IconSmartHome,
+  IconUsers
 } from "@tabler/icons-react"
 import { useTranslation } from "next-i18next"
 import Sidebar from "../components/shared/Sidebar/Sidebar"
@@ -21,14 +22,19 @@ export default function DashboardLayout({
       icon: IconSmartHome
     },
     {
-      title: t("categories_menu_title"),
+      title: t("vocabularies.menuTitle"),
       path: "/admin/vocabularies",
       icon: IconCategory
     },
     {
-      title: t("locations_menu_title"),
+      title: t("locations.menuTitle"),
       path: "/admin/locations",
       icon: IconMap2
+    },
+    {
+      title: t("users.menuTitle"),
+      path: "/admin/users",
+      icon: IconUsers
     }
   ]
   return (

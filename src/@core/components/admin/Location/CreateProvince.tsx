@@ -60,7 +60,9 @@ const CreateProvince = ({ countryId }: Props) => {
 
   return (
     <DialogTrigger>
-      <Button size="medium">{t("add_province")}</Button>
+      <Button size="medium">
+        {t("add_entity", { entity: t("province") })}
+      </Button>
       <Modal>
         <Dialog>
           {({ close }) => (

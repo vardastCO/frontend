@@ -58,7 +58,7 @@ const CreateCountry = (props: Props) => {
 
   return (
     <DialogTrigger>
-      <Button size="medium">{t("add_country")}</Button>
+      <Button size="medium">{t("add_entity", { entity: t("country") })}</Button>
       <Modal>
         <Dialog>
           {({ close }) => (
