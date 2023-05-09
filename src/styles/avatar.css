@@ -1,53 +1,40 @@
 .avatar {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-  overflow: hidden;
-  user-select: none;
-  flex-shrink: 0;
-  border-radius: theme(borderRadius.md);
-  width: theme(spacing.12);
-  height: theme(spacing.12);
-  background-color: theme(colors.n-gray.200);
-  color: theme(colors.n-gray.800);
-  font-weight: theme(fontWeight.semibold);
-  font-size: theme(fontSize.base);
-  overflow: hidden;
-  line-height: 1;
-  text-transform: uppercase;
+  @apply relative
+    inline-flex
+    h-12
+    w-12
+    shrink-0
+    select-none
+    items-center
+    justify-center
+    overflow-hidden
+    rounded-md
+    bg-n-gray-200
+    align-middle
+    text-base
+    font-medium
+    uppercase
+    leading-none
+    text-n-gray-800;
 
   > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    @apply h-full w-full object-cover;
     border-radius: inherit;
   }
 
   &-xs {
-    width: theme(spacing.6);
-    height: theme(spacing.6);
-    font-size: theme(fontSize.xs);
+    @apply h-6 w-6 text-xs;
   }
   &-sm {
-    width: theme(spacing.8);
-    height: theme(spacing.8);
-    font-size: theme(fontSize.sm);
+    @apply h-8 w-8 text-sm;
   }
   &-md {
-    width: theme(spacing.12);
-    height: theme(spacing.12);
-    font-size: theme(fontSize.base);
+    @apply h-14 w-14 text-base;
   }
   &-lg {
-    width: theme(spacing.16);
-    height: theme(spacing.16);
-    font-size: theme(fontSize.lg);
+    @apply h-16 w-16 text-lg;
   }
   &-xl {
-    width: theme(spacing.24);
-    height: theme(spacing.24);
-    font-size: theme(fontSize.2xl);
+    @apply h-24 w-24 text-2xl;
   }
 }

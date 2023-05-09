@@ -1,9 +1,9 @@
 import { IconLogout, type Icon } from "@tabler/icons-react"
 import { clsx } from "clsx"
 import { signOut, useSession } from "next-auth/react"
-import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { Avatar } from "../../ui/Avatar"
 import { Button } from "../../ui/Button"
 import OrganizationMenu from "../OrganizationMenu/OrganizationMenu"
 
@@ -74,19 +74,16 @@ const Sidebar = (props: Props) => {
           {session && (
             <div className="w-full">
               <div className="flex w-full items-center gap-2">
-                <div className="avatar">
-                  <Image
-                    src="https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=Convertible"
-                    fill
-                    alt="..."
-                  />
-                </div>
+                <Avatar
+                  src="https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=Convertible"
+                  alt="..."
+                />
                 <div className="flex flex-1 flex-col truncate">
-                  <span className="truncate">
+                  <span className="truncate font-medium">
                     {session?.user?.profile.fullName}
                   </span>
-                  <span className="truncate">
-                    {session?.user?.profile.cellphone}
+                  <span className="truncate text-sm text-n-gray-500" dir="ltr">
+                    {session?.user?.profile.email}
                   </span>
                 </div>
                 <Button
@@ -95,7 +92,7 @@ const Sidebar = (props: Props) => {
                   iconOnly
                   onPress={() => signOut()}
                 >
-                  <IconLogout className="icon" />
+                  <IconLogout className="icon -scale-x-100" />
                 </Button>
               </div>
             </div>

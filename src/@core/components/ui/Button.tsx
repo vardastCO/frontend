@@ -3,7 +3,7 @@ import { cva } from "class-variance-authority"
 import { ComponentProps, ReactNode } from "react"
 import { Button as AriaButton } from "react-aria-components"
 
-const button = cva("btn", {
+const buttonClasses = cva("btn", {
   variants: {
     intent: {
       primary: "btn-primary",
@@ -43,7 +43,7 @@ const button = cva("btn", {
 
 export interface ButtonProps
   extends ComponentProps<typeof AriaButton>,
-    VariantProps<typeof button> {
+    VariantProps<typeof buttonClasses> {
   children: ReactNode
   className?: string
 }
@@ -54,7 +54,7 @@ export const Button = ({ children, ...props }: ButtonProps) => {
   return (
     <AriaButton
       {...props}
-      className={button({
+      className={buttonClasses({
         intent,
         size,
         loading,
