@@ -1,7 +1,10 @@
-import { type Icon } from "@tabler/icons-react"
+import { IconLogout, type Icon } from "@tabler/icons-react"
 import { clsx } from "clsx"
+import { signOut, useSession } from "next-auth/react"
+import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { Button } from "../../ui/Button"
 import OrganizationMenu from "../OrganizationMenu/OrganizationMenu"
 
 type Props = {
@@ -15,6 +18,7 @@ type Props = {
 
 const Sidebar = (props: Props) => {
   const router = useRouter()
+  const { data: session } = useSession()
 
   const isActive = (linkPath: string): boolean => {
     const currentPathModified = router.pathname.split("/").slice(2).join("/")
@@ -35,9 +39,9 @@ const Sidebar = (props: Props) => {
       ])}
     >
       <div className="flex h-full w-full flex-col">
-        <div className="px-4">
+        <div className="flex h-full flex-col px-4">
           <OrganizationMenu />
-          <div>
+          <div className="flex-1">
             <ol className="flex flex-col gap-1">
               {props.menus.map((menu, idx) => {
                 return (
@@ -67,6 +71,35 @@ const Sidebar = (props: Props) => {
               })}
             </ol>
           </div>
+          {session && (
+            <div className="w-full">
+              <div className="flex w-full items-center gap-2">
+                <div className="avatar">
+                  <Image
+                    src="https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=Convertible"
+                    fill
+                    alt="..."
+                  />
+                </div>
+                <div className="flex flex-1 flex-col truncate">
+                  <span className="truncate">
+                    {session?.user?.profile.fullName}
+                  </span>
+                  <span className="truncate">
+                    {session?.user?.profile.cellphone}
+                  </span>
+                </div>
+                <Button
+                  intent="ghost"
+                  size="small"
+                  iconOnly
+                  onPress={() => signOut()}
+                >
+                  <IconLogout className="icon" />
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

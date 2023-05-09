@@ -29,11 +29,11 @@ type AppPropsWithLayout<P = {}> = AppProps<P> & {
 const App = ({
   Component,
   pageProps
-}: AppPropsWithLayout<{ session: Session }>) => {
+}: AppPropsWithLayout<{ session: Session | null }>) => {
   const getLayout =
     Component.getLayout ?? ((page: JSX.Element): JSX.Element => page)
 
-  return getLayout(
+  return (
     <>
       <NextNProgress
         options={{
@@ -44,7 +44,7 @@ const App = ({
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
           <MessengerContext.Provider value={DefaultContext}>
-            <Component {...pageProps} />
+            {getLayout(<Component {...pageProps} />)}
           </MessengerContext.Provider>
         </QueryClientProvider>
       </SessionProvider>
