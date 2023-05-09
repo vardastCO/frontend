@@ -36,7 +36,7 @@ const UsersIndex: NextPageWithLayout = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr onClick={() => console.log("123")}>
               <td>
                 <Avatar
                   size="small"
