@@ -17,10 +17,10 @@
         "codegen:watch": "graphql-codegen --config codegen.ts --watch"
     },
     "dependencies": {
-        "@fullcalendar/core": "^6.1.6",
-        "@fullcalendar/daygrid": "^6.1.6",
-        "@fullcalendar/react": "^6.1.6",
-        "@fullcalendar/timegrid": "^6.1.6",
+        "@fullcalendar/core": "^6.1.7",
+        "@fullcalendar/daygrid": "^6.1.7",
+        "@fullcalendar/react": "^6.1.7",
+        "@fullcalendar/timegrid": "^6.1.7",
         "@graphql-typed-document-node/core": "^3.2.0",
         "@hookform/resolvers": "^3.1.0",
         "@ndpco/messenger": "^0.0.13",
@@ -29,7 +29,7 @@
         "@tanstack/react-query": "^4.29.5",
         "@tanstack/react-query-devtools": "^4.29.6",
         "@ts-react/form": "^1.6.4",
-        "@types/node": "20.1.0",
+        "@types/node": "20.1.1",
         "@types/react": "18.2.6",
         "@types/react-dom": "18.2.4",
         "class-variance-authority": "^0.6.0",

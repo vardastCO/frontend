@@ -6,13 +6,8 @@ import Loading from "@/@core/components/shared/Loading/Loading"
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed"
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
 import { Button } from "@/@core/components/ui/Button"
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader
-} from "@/@core/components/ui/Dialog"
-import { Modal } from "@/@core/components/ui/Modal"
+import { Dialog } from "@/@core/components/ui/Dialog"
+import { Modal, ModalContent, ModalHeader } from "@/@core/components/ui/Modal"
 import AdminLayout from "@/@core/layouts/AdminLayout"
 import { Country, useGetAllCountriesQuery } from "@/generated"
 import { NextPageWithLayout } from "@/pages/_app"
@@ -20,7 +15,7 @@ import { IconAlertOctagon } from "@tabler/icons-react"
 import { GetServerSideProps } from "next"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { ReactElement } from "react"
+import { ReactElement, useState } from "react"
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
@@ -32,6 +27,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
 
 const LocationsIndex: NextPageWithLayout = () => {
   const { t } = useTranslation("common")
+  const [open, setOpen] = useState(false)
 
   const { isLoading, error, data } =
     useGetAllCountriesQuery(graphqlRequestClient)
@@ -42,35 +38,35 @@ const LocationsIndex: NextPageWithLayout = () => {
 
   return (
     <>
-      <Modal isDismissable state={close} size="large">
+      <Modal size="large" isOpen={open} onOpenChange={setOpen}>
         <Dialog>
-          <div className="flex">
-            <div className="flex-1 pr-6 pt-6">
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600">
-                <IconAlertOctagon className="h-6 w-6" />
-              </span>
+          {({ close }) => (
+            <div className="flex">
+              <div className="flex-1 pr-6 pt-6">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600">
+                  <IconAlertOctagon className="h-6 w-6" />
+                </span>
+              </div>
+              <div>
+                <ModalHeader title={t("warning")} />
+                <ModalContent>
+                  <p className="leading-loose">
+                    {t(
+                      "are_you_sure_you_want_to_delete_this_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
+                      {
+                        entity: `${t("country")}`,
+                        interpolation: { escapeValue: false }
+                      }
+                    )}
+                  </p>
+                  <div className="mt-8 flex items-center justify-end gap-2">
+                    <Button intent="ghost">{t("cancel")}</Button>
+                    <Button intent="danger">{t("delete")}</Button>
+                  </div>
+                </ModalContent>
+              </div>
             </div>
-            <div>
-              <DialogHeader title={t("warning")} />
-              <DialogContent>
-                <p className="leading-loose">
-                  {t(
-                    "are_you_sure_you_want_to_delete_this_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
-                    {
-                      entity: `${t("country")}`,
-                      interpolation: { escapeValue: false }
-                    }
-                  )}
-                </p>
-              </DialogContent>
-            </div>
-          </div>
-          <DialogFooter>
-            <div className="flex items-center justify-end">
-              <Button intent="ghost">{t("cancel")}</Button>
-              <Button intent="danger">{t("delete")}</Button>
-            </div>
-          </DialogFooter>
+          )}
         </Dialog>
       </Modal>
 

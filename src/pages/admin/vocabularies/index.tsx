@@ -43,7 +43,7 @@ const VocabulariesPage: NextPageWithLayout = () => {
       <div>
         <div className="flex items-center gap-6">
           <div className="w-1/2">
-            <div className="form-control form-control-sm">
+            <div className="form-control">
               <div className="input-inset">
                 <span className="input-element">
                   <IconSearch className="h-4 w-4" />
@@ -59,11 +59,11 @@ const VocabulariesPage: NextPageWithLayout = () => {
             </div>
           </div>
           <div className="btn-group mr-auto">
-            <button className="btn-sm btn-secondary btn">
+            <button className="btn-secondary btn">
               <IconMinus className="icon" />
               <span>{t("Collapse All")}</span>
             </button>
-            <button className="btn-sm btn-secondary btn">
+            <button className="btn-secondary btn">
               <IconPlus className="icon" />
               <span>{t("Expand All")}</span>
             </button>

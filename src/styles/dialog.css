@@ -1,4 +1,4 @@
-.dialog {
+.modal {
   &-overlay {
     @apply fixed inset-0 z-50 bg-n-gray-900 bg-opacity-40 backdrop-blur-sm;
 
@@ -6,28 +6,28 @@
   }
 
   &-container {
-    @apply fixed left-1/2 top-1/2 z-50 flex max-h-[85vh] w-[90vw] max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-md bg-white shadow-2xl focus:outline-none;
+    @apply fixed left-1/2 top-1/2 z-50 max-h-[85vh] w-[90vw] max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-md bg-white shadow-2xl focus:outline-none;
 
     animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   &-sm {
-    & .dialog-container {
+    & .modal-container {
       @apply max-w-sm;
     }
   }
   &-md {
-    & .dialog-container {
+    & .modal-container {
       @apply max-w-md;
     }
   }
   &-lg {
-    & .dialog-container {
+    & .modal-container {
       @apply max-w-lg;
     }
   }
   &-xl {
-    & .dialog-container {
+    & .modal-container {
       @apply max-w-xl;
     }
   }

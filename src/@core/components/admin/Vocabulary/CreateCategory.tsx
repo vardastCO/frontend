@@ -1,11 +1,12 @@
 import { tsReactFormDefaultMapping } from "@/@core/utils/tsReactFormDefaultMapping"
 import { createTsForm } from "@ts-react/form"
 import { useTranslation } from "next-i18next"
+import { DialogTrigger } from "react-aria-components"
 import { z } from "zod"
 import { makeZodI18nMap } from "zod-i18n-map"
 import { Button } from "../../ui/Button"
 import { Dialog } from "../../ui/Dialog"
-import { ModalTrigger } from "../../ui/Modal"
+import { Modal, ModalContent } from "../../ui/Modal"
 
 type Props = {}
 
@@ -23,27 +24,32 @@ const CreateCategory = (props: Props) => {
     // gets typesafe data when form is submitted
   }
   return (
-    <ModalTrigger isDismissable label={t("Add category")}>
-      {(close) => (
-        <Dialog title={t("New category")}>
-          <MyForm
-            formProps={{
-              className: "flex flex-col gap-4"
-            }}
-            schema={CreateCategorySchema}
-            onSubmit={onSubmit}
-            renderAfter={() => (
-              <div className="flex items-center justify-end gap-2">
-                <Button intent="ghost" onPress={close}>
-                  {t("cancel")}
-                </Button>
-                <Button type="submit">{t("submit")}</Button>
-              </div>
-            )}
-          />
+    <DialogTrigger>
+      <Button size="medium">{t("add_category")}</Button>
+      <Modal>
+        <Dialog>
+          {({ close }) => (
+            <ModalContent>
+              <MyForm
+                formProps={{
+                  className: "flex flex-col gap-4"
+                }}
+                schema={CreateCategorySchema}
+                onSubmit={onSubmit}
+                renderAfter={() => (
+                  <div className="flex items-center justify-end gap-2">
+                    <Button intent="ghost" onPress={close}>
+                      {t("cancel")}
+                    </Button>
+                    <Button type="submit">{t("submit")}</Button>
+                  </div>
+                )}
+              />
+            </ModalContent>
+          )}
         </Dialog>
-      )}
-    </ModalTrigger>
+      </Modal>
+    </DialogTrigger>
   )
 }
 
