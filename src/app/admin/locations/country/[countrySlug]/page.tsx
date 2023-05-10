@@ -1,35 +1,17 @@
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
-import CreateProvince from "@/@core/components/admin/Location/CreateProvince"
-import NoCountryFound from "@/@core/components/admin/Location/NoCountryFound"
-import ProvinceCard from "@/@core/components/admin/Location/ProvinceCard"
 import Loading from "@/@core/components/shared/Loading/Loading"
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed"
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
-import AdminLayout from "@/@core/layouts/AdminLayout"
+import CreateProvince from "@/app/admin/locations/components/CreateProvince"
+import NoCountryFound from "@/app/admin/locations/components/NoCountryFound"
+import ProvinceCard from "@/app/admin/locations/components/ProvinceCard"
 import { Province, useGetCountryQuery } from "@/generated"
-import { NextPageWithLayout } from "@/pages-old/_app"
-import { GetStaticPaths } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import useTranslation from "next-translate/useTranslation"
 
 import { useRouter } from "next/router"
-import { ReactElement } from "react"
 
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale))
-    }
-  }
-}
-
-export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
-  return {
-    paths: [],
-    fallback: "blocking"
-  }
-}
-
-const LocationsIndex: NextPageWithLayout = () => {
+export default function LocationsIndex() {
+  const { t } = useTranslation()
   const router = useRouter()
   const countrySlug = router.query.countrySlug as string
 
@@ -60,9 +42,3 @@ const LocationsIndex: NextPageWithLayout = () => {
     </>
   )
 }
-
-LocationsIndex.getLayout = function getLayout(page: ReactElement) {
-  return <AdminLayout>{page}</AdminLayout>
-}
-
-export default LocationsIndex

@@ -1,18 +1,22 @@
+"use client"
+
 import { tsReactFormDefaultMapping } from "@/@core/utils/tsReactFormDefaultMapping"
 import { createTsForm } from "@ts-react/form"
 
 import { DialogTrigger } from "react-aria-components"
 import { z } from "zod"
 
-import { Button } from "../../ui/Button"
-import { Dialog } from "../../ui/Dialog"
-import { Modal, ModalContent } from "../../ui/Modal"
+import useTranslation from "next-translate/useTranslation"
+import { Button } from "../../../../@core/components/ui/Button"
+import { Dialog } from "../../../../@core/components/ui/Dialog"
+import { Modal, ModalContent } from "../../../../@core/components/ui/Modal"
 
 type Props = {}
 
 const MyForm = createTsForm(tsReactFormDefaultMapping)
 
 const CreateCategory = (props: Props) => {
+  const { t } = useTranslation()
   const CreateCategorySchema = z.object({
     parent: z.string().describe(t("parent")),
     title: z.string().describe(t("title")),

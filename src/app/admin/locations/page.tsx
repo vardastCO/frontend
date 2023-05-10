@@ -1,31 +1,21 @@
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
-import CountryCard from "@/@core/components/admin/Location/CountryCard"
-import CreateCountry from "@/@core/components/admin/Location/CreateCountry"
-import NoCountryFound from "@/@core/components/admin/Location/NoCountryFound"
 import Loading from "@/@core/components/shared/Loading/Loading"
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed"
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
 import { Button } from "@/@core/components/ui/Button"
 import { Dialog } from "@/@core/components/ui/Dialog"
 import { Modal, ModalContent, ModalHeader } from "@/@core/components/ui/Modal"
-import AdminLayout from "@/@core/layouts/AdminLayout"
+import CountryCard from "@/app/admin/locations/components/CountryCard"
+import CreateCountry from "@/app/admin/locations/components/CreateCountry"
+import NoCountryFound from "@/app/admin/locations/components/NoCountryFound"
 import { Country, useGetAllCountriesQuery } from "@/generated"
-import { NextPageWithLayout } from "@/pages-old/_app"
 import { IconAlertOctagon } from "@tabler/icons-react"
-import { GetServerSideProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import useTranslation from "next-translate/useTranslation"
 
-import { ReactElement, useState } from "react"
+import { useState } from "react"
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale as string))
-    }
-  }
-}
-
-const LocationsIndex: NextPageWithLayout = () => {
+export default function LocationsIndex() {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
   const { isLoading, error, data } =
@@ -82,9 +72,3 @@ const LocationsIndex: NextPageWithLayout = () => {
     </>
   )
 }
-
-LocationsIndex.getLayout = function getLayout(page: ReactElement) {
-  return <AdminLayout>{page}</AdminLayout>
-}
-
-export default LocationsIndex

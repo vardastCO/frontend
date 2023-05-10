@@ -1,9 +1,11 @@
+"use client"
+
 import { City } from "@/generated"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
 import Link from "next/link"
 import { useState } from "react"
-import { Switch } from "../../ui/Switch"
+import { Switch } from "../../../../@core/components/ui/Switch"
 
 interface ProvinceCardProps {
   countrySlug: string

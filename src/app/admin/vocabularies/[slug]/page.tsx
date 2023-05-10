@@ -1,35 +1,16 @@
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
-import NoCountryFound from "@/@core/components/admin/Location/NoCountryFound"
-import CategoryCard from "@/@core/components/admin/Vocabulary/CategoryCard"
-import CreateCategory from "@/@core/components/admin/Vocabulary/CreateCategory"
 import Loading from "@/@core/components/shared/Loading/Loading"
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed"
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
-import AdminLayout from "@/@core/layouts/AdminLayout"
+import NoCountryFound from "@/app/admin/locations/components/NoCountryFound"
+import CategoryCard from "@/app/admin/vocabularies/components/CategoryCard"
+import CreateCategory from "@/app/admin/vocabularies/components/CreateCategory"
 import { Category, useGetVocabularyQuery } from "@/generated"
-import { NextPageWithLayout } from "@/pages-old/_app"
-import { GetStaticPaths } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/navigation"
 
-import { useRouter } from "next/router"
-import { ReactElement } from "react"
-
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale))
-    }
-  }
-}
-
-export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
-  return {
-    paths: [],
-    fallback: "blocking"
-  }
-}
-
-const VocabularyPage: NextPageWithLayout = () => {
+export default function VocabularyPage() {
+  const { t } = useTranslation()
   const router = useRouter()
   const slug = router.query.slug as string
 
@@ -63,9 +44,3 @@ const VocabularyPage: NextPageWithLayout = () => {
     </>
   )
 }
-
-VocabularyPage.getLayout = function getLayout(page: ReactElement) {
-  return <AdminLayout>{page}</AdminLayout>
-}
-
-export default VocabularyPage

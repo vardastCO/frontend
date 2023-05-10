@@ -1,7 +1,9 @@
+"use client"
+
 import { Area } from "@/generated"
 
 import { useState } from "react"
-import { Switch } from "../../ui/Switch"
+import { Switch } from "../../../../@core/components/ui/Switch"
 
 interface AreaCardProps {
   countrySlug?: string

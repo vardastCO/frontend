@@ -1,3 +1,5 @@
+"use client"
+
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
 import {
   persianInputSchema,
@@ -12,9 +14,9 @@ import { useState } from "react"
 import { DialogTrigger } from "react-aria-components"
 import { z } from "zod"
 
-import { Button } from "../../ui/Button"
-import { Dialog } from "../../ui/Dialog"
-import { Modal, ModalContent } from "../../ui/Modal"
+import { Button } from "../../../../@core/components/ui/Button"
+import { Dialog } from "../../../../@core/components/ui/Dialog"
+import { Modal, ModalContent } from "../../../../@core/components/ui/Modal"
 
 const MyForm = createTsForm(tsReactFormDefaultMapping)
 

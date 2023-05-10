@@ -1,24 +1,11 @@
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
 import { Avatar } from "@/@core/components/ui/Avatar"
-import AdminLayout from "@/@core/layouts/AdminLayout"
 import { useGetAllUsersQuery } from "@/generated"
-import { NextPageWithLayout } from "@/pages-old/_app"
-import { GetServerSideProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import useTranslation from "next-translate/useTranslation"
 
-import { ReactElement, useState } from "react"
-
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale as string))
-    }
-  }
-}
-
-const UsersIndex: NextPageWithLayout = () => {
-  const [open, setOpen] = useState(false)
+export default function UsersIndex() {
+  const { t } = useTranslation()
 
   const { isLoading, error, data } = useGetAllUsersQuery(graphqlRequestClient)
 
@@ -86,9 +73,3 @@ const UsersIndex: NextPageWithLayout = () => {
   //     </>
   //   )
 }
-
-UsersIndex.getLayout = function getLayout(page: ReactElement) {
-  return <AdminLayout>{page}</AdminLayout>
-}
-
-export default UsersIndex

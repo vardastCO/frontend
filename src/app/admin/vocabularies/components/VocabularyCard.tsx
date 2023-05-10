@@ -1,14 +1,18 @@
+"use client"
+
 import { Vocabulary } from "@/generated"
 
+import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 import { useState } from "react"
-import { Switch } from "../../ui/Switch"
+import { Switch } from "../../../../@core/components/ui/Switch"
 
 type VocabularyCardProps = {
   vocabulary: Vocabulary
 }
 
 const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
+  const { t } = useTranslation()
   const { slug, title } = vocabulary
   const [active, setActive] = useState(false)
 

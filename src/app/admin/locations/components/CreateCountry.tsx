@@ -1,72 +1,72 @@
+"use client"
+
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
 import {
   persianInputSchema,
   slugSchema,
   tsReactFormDefaultMapping
 } from "@/@core/utils/tsReactFormDefaultMapping"
-import { useCreateProvinceMutation } from "@/generated"
-import { useQueryClient } from "@tanstack/react-query"
+import { useCreateCountryMutation } from "@/generated"
 import { createTsForm } from "@ts-react/form"
 
 import { useState } from "react"
 import { DialogTrigger } from "react-aria-components"
 import { z } from "zod"
 
-import { Button } from "../../ui/Button"
-import { Dialog } from "../../ui/Dialog"
-import { Modal, ModalContent } from "../../ui/Modal"
+import useTranslation from "next-translate/useTranslation"
+import { Button } from "../../../../@core/components/ui/Button"
+import { Dialog } from "../../../../@core/components/ui/Dialog"
+import { Modal, ModalContent } from "../../../../@core/components/ui/Modal"
 
 const MyForm = createTsForm(tsReactFormDefaultMapping)
 
-type Props = {
-  countryId: number
-}
+type Props = {}
 
-const CreateProvince = ({ countryId }: Props) => {
+const CreateCountry = (props: Props) => {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
-  const queryClient = useQueryClient()
-  const createProvinceMutation = useCreateProvinceMutation(
-    graphqlRequestClient,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["GetCountry"] })
-        setOpen(false)
-      }
+  const createCountryMutation = useCreateCountryMutation(graphqlRequestClient, {
+    onSuccess: () => {
+      setOpen(false)
     }
-  )
+  })
 
   const CreateCategorySchema = z.object({
     name: persianInputSchema.describe(t("name")),
     nameEn: z.string().describe(t("english_name")),
     slug: slugSchema.describe(t("slug")),
+    alphaTwo: z.string().length(2).describe(t("alpha_two_name")),
+    iso: z.string().describe(t("iso_name")),
+    phonePrefix: z.string().describe(t("phone_prefix")),
     sort: z.number().optional().default(0).describe(t("sort")),
     isActive: z.boolean().optional().default(true).describe(t("is_active"))
   })
   function onSubmit(data: z.infer<typeof CreateCategorySchema>) {
-    const { name, nameEn, slug, sort, isActive } = data
-    createProvinceMutation.mutate({
+    const { name, nameEn, alphaTwo, slug, phonePrefix, sort, isActive, iso } =
+      data
+    createCountryMutation.mutate({
       input: {
-        countryId,
         name,
         nameEn,
+        alphaTwo,
         slug,
+        phonePrefix,
         sort,
-        isActive
+        isActive,
+        iso
       }
     })
   }
 
   return (
     <DialogTrigger>
-      <Button size="medium">
-        {t("add_entity", { entity: t("province") })}
-      </Button>
+      <Button size="medium">{t("add_entity", { entity: t("country") })}</Button>
       <Modal>
         <Dialog>
           {({ close }) => (
             <ModalContent>
-              {createProvinceMutation.isError && <p>خطایی رخ داده</p>}
+              {createCountryMutation.isError && <p>خطایی رخ داده</p>}
               <MyForm
                 formProps={{
                   className: "flex flex-col gap-4"
@@ -78,6 +78,16 @@ const CreateProvince = ({ countryId }: Props) => {
                   slug: {
                     direction: "ltr",
                     prefixAddon: "https://"
+                  },
+                  alphaTwo: {
+                    direction: "ltr"
+                  },
+                  iso: {
+                    direction: "ltr"
+                  },
+                  phonePrefix: {
+                    direction: "ltr",
+                    prefixElement: <span className="text-gray-400">+</span>
                   }
                 }}
                 defaultValues={{
@@ -103,4 +113,4 @@ const CreateProvince = ({ countryId }: Props) => {
   )
 }
 
-export default CreateProvince
+export default CreateCountry

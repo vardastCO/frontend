@@ -1,31 +1,16 @@
 import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
-import NoCountryFound from "@/@core/components/admin/Location/NoCountryFound"
-import CreateCategory from "@/@core/components/admin/Vocabulary/CreateCategory"
-import VocabularyCard from "@/@core/components/admin/Vocabulary/VocabularyCard"
 import Loading from "@/@core/components/shared/Loading/Loading"
 import LoadingFailed from "@/@core/components/shared/LoadingFailed/LoadingFailed"
 import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
-import AdminLayout from "@/@core/layouts/AdminLayout"
+import NoCountryFound from "@/app/admin/locations/components/NoCountryFound"
+import CreateCategory from "@/app/admin/vocabularies/components/CreateCategory"
+import VocabularyCard from "@/app/admin/vocabularies/components/VocabularyCard"
 import { Vocabulary, useGetAllVocabulariesQuery } from "@/generated"
-import { NextPageWithLayout } from "@/pages-old/_app"
 import { IconMinus, IconPlus, IconSearch } from "@tabler/icons-react"
-import { GetServerSideProps } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import useTranslation from "next-translate/useTranslation"
 
-import { ReactElement } from "react"
-
-export const getServerSideProps: GetServerSideProps = async ({
-  locale,
-  req
-}) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale as string))
-    }
-  }
-}
-
-const VocabulariesPage: NextPageWithLayout = () => {
+export default function VocabulariesPage() {
+  const { t } = useTranslation()
   const { isLoading, error, data } =
     useGetAllVocabulariesQuery(graphqlRequestClient)
 
@@ -81,9 +66,3 @@ const VocabulariesPage: NextPageWithLayout = () => {
     </>
   )
 }
-
-VocabulariesPage.getLayout = function getLayout(page: ReactElement) {
-  return <AdminLayout>{page}</AdminLayout>
-}
-
-export default VocabulariesPage

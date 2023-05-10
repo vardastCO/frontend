@@ -1,9 +1,12 @@
+"use client"
+
 import { Province } from "@/generated"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
+import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 import { useState } from "react"
-import { Switch } from "../../ui/Switch"
+import { Switch } from "../../../../@core/components/ui/Switch"
 
 interface ProvinceCardProps {
   countrySlug: string
@@ -11,6 +14,7 @@ interface ProvinceCardProps {
 }
 
 const ProvinceCard = ({ countrySlug, province }: ProvinceCardProps) => {
+  const { t } = useTranslation()
   const { name, slug, isActive, citiesCount } = province
 
   const [active, setActive] = useState(isActive)

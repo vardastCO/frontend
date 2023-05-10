@@ -1,10 +1,12 @@
+"use client"
+
 import { Category } from "@/generated"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconChevronDown, IconGripVertical } from "@tabler/icons-react"
 
 import Link from "next/link"
 import { useState } from "react"
-import { Switch } from "../../ui/Switch"
+import { Switch } from "../../../../@core/components/ui/Switch"
 
 interface CategoryCardProps {
   vocabularySlug: string
