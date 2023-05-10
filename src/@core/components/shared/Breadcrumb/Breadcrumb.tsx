@@ -1,14 +1,17 @@
+"use client"
+
 import { IconSmartHome } from "@tabler/icons-react"
-import { useTranslation } from "next-i18next"
+import useTranslation from "next-translate/useTranslation"
+
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 
 type Props = {}
 
 const Breadcrumb = (props: Props) => {
-  const { t } = useTranslation("common")
-  const router = useRouter()
+  const { t } = useTranslation()
+  const pathname = usePathname()
   const [breadcrumbs, setBreadcrumbs] = useState<
     {
       href: string
@@ -18,7 +21,7 @@ const Breadcrumb = (props: Props) => {
   >()
 
   useEffect(() => {
-    const pathWithoutQuery = router.asPath.split("?")[0]
+    const pathWithoutQuery = pathname.split("?")[0]
     let pathArray = pathWithoutQuery.split("/")
     pathArray.shift()
 
@@ -34,7 +37,7 @@ const Breadcrumb = (props: Props) => {
     })
 
     setBreadcrumbs(breadcrumbs)
-  }, [router.asPath])
+  }, [pathname])
 
   return (
     <div role="presentation">
@@ -45,7 +48,7 @@ const Breadcrumb = (props: Props) => {
         <li className="flex items-end align-middle leading-none">
           <Link
             href="/"
-            aria-current={router.pathname === "/" ? "page" : "false"}
+            aria-current={pathname === "/" ? "page" : "false"}
             legacyBehavior
           >
             <a title={t("Home").toString()}>

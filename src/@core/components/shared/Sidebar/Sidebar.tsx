@@ -1,3 +1,5 @@
+"use client"
+
 import { type Icon } from "@tabler/icons-react"
 import { useState } from "react"
 import MenuBar from "./MenuBar"

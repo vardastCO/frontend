@@ -1,12 +1,12 @@
 import { IconRefresh } from "@tabler/icons-react"
-import { useTranslation } from "next-i18next"
+
 import { useRouter } from "next/navigation"
 
 type Props = {}
 
 const LoadingFailed = (props: Props) => {
   const router = useRouter()
-  const { t } = useTranslation("common")
+
   return (
     <div className="flex h-auto items-center justify-center py-8">
       <div className="text-center">

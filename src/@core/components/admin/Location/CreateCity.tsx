@@ -7,11 +7,11 @@ import {
 import { useCreateCityMutation } from "@/generated"
 import { useQueryClient } from "@tanstack/react-query"
 import { createTsForm } from "@ts-react/form"
-import { useTranslation } from "next-i18next"
+
 import { useState } from "react"
 import { DialogTrigger } from "react-aria-components"
 import { z } from "zod"
-import { makeZodI18nMap } from "zod-i18n-map"
+
 import { Button } from "../../ui/Button"
 import { Dialog } from "../../ui/Dialog"
 import { Modal, ModalContent } from "../../ui/Modal"
@@ -23,9 +23,8 @@ type Props = {
 }
 
 const CreateCity = ({ provinceId }: Props) => {
-  const { t } = useTranslation("common")
   const [open, setOpen] = useState(false)
-  z.setErrorMap(makeZodI18nMap({ t }))
+
   const queryClient = useQueryClient()
   const createProvinceMutation = useCreateCityMutation(graphqlRequestClient, {
     onSuccess: () => {

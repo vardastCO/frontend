@@ -1,10 +1,8 @@
 import { IconWorldExclamation } from "@tabler/icons-react"
-import { useTranslation } from "react-i18next"
+
 import CreateCountry from "./CreateCountry"
 
 const NoCountryFound = () => {
-  const { t } = useTranslation("common")
-
   return (
     <div className="mx-auto mt-12 max-w-sm">
       <span className="mb-1 flex h-8 w-8 items-center justify-center rounded bg-gray-300/50 text-gray-500">

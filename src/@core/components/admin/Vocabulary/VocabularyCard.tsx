@@ -1,7 +1,7 @@
 import { Vocabulary } from "@/generated"
+
 import Link from "next/link"
 import { useState } from "react"
-import { useTranslation } from "react-i18next"
 import { Switch } from "../../ui/Switch"
 
 type VocabularyCardProps = {
@@ -9,7 +9,6 @@ type VocabularyCardProps = {
 }
 
 const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
-  const { t } = useTranslation("common")
   const { slug, title } = vocabulary
   const [active, setActive] = useState(false)
 

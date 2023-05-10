@@ -1,39 +1,33 @@
 import Breadcrumb from "@/@core/components/shared/Breadcrumb/Breadcrumb"
-import {
-  IconCategory,
-  IconMap2,
-  IconSearch,
-  IconSmartHome,
-  IconUsers
-} from "@tabler/icons-react"
+import Sidebar from "@/@core/components/shared/Sidebar/Sidebar"
+import useTranslation from "next-translate/useTranslation"
 
-import Sidebar from "../components/shared/Sidebar/Sidebar"
-
-export default function DashboardLayout({
+export default function AdminLayout({
   children
 }: {
   children: React.ReactNode
 }) {
+  const { t } = useTranslation("common")
   const menus = [
     {
       title: t("Home"),
       path: "/admin",
-      icon: IconSmartHome
+      icon: "IconSmartHome"
     },
     {
       title: t("vocabularies.menuTitle"),
       path: "/admin/vocabularies",
-      icon: IconCategory
+      icon: "IconCategory"
     },
     {
       title: t("locations.menuTitle"),
       path: "/admin/locations",
-      icon: IconMap2
+      icon: "IconMap2"
     },
     {
       title: t("users.menuTitle"),
       path: "/admin/users",
-      icon: IconUsers
+      icon: "IconUsers"
     }
   ]
   return (
@@ -48,7 +42,7 @@ export default function DashboardLayout({
                 <form autoComplete="off" action="" className="mr-auto">
                   <div className="input-inset">
                     <div className="input-element">
-                      <IconSearch className="h-4 w-4 text-gray-400" />
+                      {/* <IconSearch className="h-4 w-4 text-gray-400" /> */}
                     </div>
                     <input
                       type="text"

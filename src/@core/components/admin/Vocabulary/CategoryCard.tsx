@@ -1,9 +1,9 @@
 import { Category } from "@/generated"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconChevronDown, IconGripVertical } from "@tabler/icons-react"
+
 import Link from "next/link"
 import { useState } from "react"
-import { useTranslation } from "react-i18next"
 import { Switch } from "../../ui/Switch"
 
 interface CategoryCardProps {
@@ -13,7 +13,7 @@ interface CategoryCardProps {
 
 const CategoryCard = ({ category, vocabularySlug }: CategoryCardProps) => {
   const { slug, title, isActive, childrenCount } = category
-  const { t } = useTranslation("common")
+
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState(isActive)
   const hasChildren: boolean = !!category.childrenCount

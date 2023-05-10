@@ -1,8 +1,10 @@
+"use client"
+
 import { IconLogout, type Icon } from "@tabler/icons-react"
 import { clsx } from "clsx"
 import { signOut, useSession } from "next-auth/react"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { usePathname } from "next/navigation"
 import { Avatar } from "../../ui/Avatar"
 import { Button } from "../../ui/Button"
 import OrganizationMenu from "../OrganizationMenu/OrganizationMenu"
@@ -16,12 +18,12 @@ type Props = {
   }[]
 }
 
-const Sidebar = (props: Props) => {
-  const router = useRouter()
+const MenuBar = (props: Props) => {
+  const pathname = usePathname()
   const { data: session } = useSession()
 
   const isActive = (linkPath: string): boolean => {
-    const currentPathModified = router.pathname.split("/").slice(2).join("/")
+    const currentPathModified = pathname.split("/").slice(2).join("/")
     const linkPathModified = linkPath.split("/").slice(2).join("/")
     return linkPathModified === currentPathModified
       ? true
@@ -103,4 +105,4 @@ const Sidebar = (props: Props) => {
   )
 }
 
-export default Sidebar
+export default MenuBar

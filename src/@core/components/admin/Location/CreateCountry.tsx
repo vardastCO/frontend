@@ -6,11 +6,11 @@ import {
 } from "@/@core/utils/tsReactFormDefaultMapping"
 import { useCreateCountryMutation } from "@/generated"
 import { createTsForm } from "@ts-react/form"
-import { useTranslation } from "next-i18next"
+
 import { useState } from "react"
 import { DialogTrigger } from "react-aria-components"
 import { z } from "zod"
-import { makeZodI18nMap } from "zod-i18n-map"
+
 import { Button } from "../../ui/Button"
 import { Dialog, DialogContent } from "../../ui/Dialog"
 import { Modal } from "../../ui/Modal"
@@ -20,9 +20,8 @@ const MyForm = createTsForm(tsReactFormDefaultMapping)
 type Props = {}
 
 const CreateCountry = (props: Props) => {
-  const { t } = useTranslation("common")
   const [open, setOpen] = useState(false)
-  z.setErrorMap(makeZodI18nMap({ t }))
+
   const createCountryMutation = useCreateCountryMutation(graphqlRequestClient, {
     onSuccess: () => {
       setOpen(false)

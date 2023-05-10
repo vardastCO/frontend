@@ -2,10 +2,10 @@ import { getFlagEmoji } from "@/@core/utils/getFlagEmoji"
 import { Country } from "@/generated"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
+
 import Link from "next/link"
 import { useState } from "react"
 import { Separator } from "react-aria-components"
-import { useTranslation } from "react-i18next"
 import { Item, Menu } from "../../ui/Menu"
 import { Switch } from "../../ui/Switch"
 
@@ -14,7 +14,6 @@ type CountryCardProps = {
 }
 
 const CountryCard = ({ country }: CountryCardProps) => {
-  const { t } = useTranslation("common")
   const { name, slug, alphaTwo, isActive, provincesCount } = country
   const [active, setActive] = useState(isActive)
 

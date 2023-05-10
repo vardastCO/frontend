@@ -1,9 +1,9 @@
 import { tsReactFormDefaultMapping } from "@/@core/utils/tsReactFormDefaultMapping"
 import { createTsForm } from "@ts-react/form"
-import { useTranslation } from "next-i18next"
+
 import { DialogTrigger } from "react-aria-components"
 import { z } from "zod"
-import { makeZodI18nMap } from "zod-i18n-map"
+
 import { Button } from "../../ui/Button"
 import { Dialog } from "../../ui/Dialog"
 import { Modal, ModalContent } from "../../ui/Modal"
@@ -13,8 +13,6 @@ type Props = {}
 const MyForm = createTsForm(tsReactFormDefaultMapping)
 
 const CreateCategory = (props: Props) => {
-  const { t } = useTranslation("common")
-  z.setErrorMap(makeZodI18nMap({ t }))
   const CreateCategorySchema = z.object({
     parent: z.string().describe(t("parent")),
     title: z.string().describe(t("title")),

@@ -1,8 +1,8 @@
 import { Province } from "@/generated"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
+
 import Link from "next/link"
 import { useState } from "react"
-import { useTranslation } from "react-i18next"
 import { Switch } from "../../ui/Switch"
 
 interface ProvinceCardProps {
@@ -12,7 +12,7 @@ interface ProvinceCardProps {
 
 const ProvinceCard = ({ countrySlug, province }: ProvinceCardProps) => {
   const { name, slug, isActive, citiesCount } = province
-  const { t } = useTranslation("common")
+
   const [active, setActive] = useState(isActive)
 
   return (

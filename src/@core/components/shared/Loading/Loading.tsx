@@ -1,10 +1,8 @@
 import { IconRefresh } from "@tabler/icons-react"
-import { useTranslation } from "next-i18next"
 
 type Props = {}
 
 const Loading = (props: Props) => {
-  const { t } = useTranslation("common")
   return (
     <div className="flex h-auto items-center justify-center py-8">
       <div className="text-center">

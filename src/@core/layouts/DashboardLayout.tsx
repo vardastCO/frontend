@@ -9,7 +9,6 @@ import {
   IconSmartHome,
   IconWallet
 } from "@tabler/icons-react"
-import { useTranslation } from "next-i18next"
 
 import { ReactNode } from "react"
 
@@ -18,7 +17,6 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const { t } = useTranslation("common")
   const menus = [
     {
       title: t("Home"),

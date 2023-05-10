@@ -1,6 +1,6 @@
 import { Area } from "@/generated"
+
 import { useState } from "react"
-import { useTranslation } from "react-i18next"
 import { Switch } from "../../ui/Switch"
 
 interface AreaCardProps {
@@ -12,7 +12,7 @@ interface AreaCardProps {
 
 const AreaCard = ({ area }: AreaCardProps) => {
   const { name, slug, isActive } = area
-  const { t } = useTranslation("common")
+
   const [active, setActive] = useState(isActive)
   return (
     <div className="card flex items-center gap-3 rounded bg-white px-4 py-2">
