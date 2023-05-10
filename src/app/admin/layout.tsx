@@ -1,5 +1,6 @@
 import Breadcrumb from "@/@core/components/shared/Breadcrumb/Breadcrumb"
 import Sidebar from "@/@core/components/shared/Sidebar/Sidebar"
+import { IconSearch } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 
 export default function AdminLayout({
@@ -42,7 +43,7 @@ export default function AdminLayout({
                 <form autoComplete="off" action="" className="mr-auto">
                   <div className="input-inset">
                     <div className="input-element">
-                      {/* <IconSearch className="h-4 w-4 text-gray-400" /> */}
+                      <IconSearch className="h-4 w-4 text-gray-400" />
                     </div>
                     <input
                       type="text"
