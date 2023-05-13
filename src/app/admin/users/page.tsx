@@ -1,7 +1,7 @@
-import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
-import PageHeader from "@/@core/components/shared/PageHeader/PageHeader"
-import { Avatar } from "@/@core/components/ui/Avatar"
+import PageHeader from "@/@core/components/shared/PageHeader"
 import { useGetAllUsersQuery } from "@/generated"
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { Avatar } from "@core/components/ui/Avatar"
 import useTranslation from "next-translate/useTranslation"
 
 export default function UsersIndex() {

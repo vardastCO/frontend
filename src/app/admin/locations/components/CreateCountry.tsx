@@ -1,12 +1,12 @@
 "use client"
 
-import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
+import { useCreateCountryMutation } from "@/generated"
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import {
   persianInputSchema,
   slugSchema,
   tsReactFormDefaultMapping
-} from "@/@core/utils/tsReactFormDefaultMapping"
-import { useCreateCountryMutation } from "@/generated"
+} from "@core/utils/tsReactFormDefaultMapping"
 import { createTsForm } from "@ts-react/form"
 
 import { useState } from "react"

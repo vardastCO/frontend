@@ -1,5 +1,5 @@
-import AuthProvider from "@/@core/components/shared/AuthProvider"
 import "@/styles/globals.css"
+import AuthProvider from "@core/components/shared/AuthProvider"
 import useTranslation from "next-translate/useTranslation"
 // import NextNProgress from "nextjs-progressbar"
 

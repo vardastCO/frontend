@@ -1,6 +1,6 @@
 "use client"
 
-import { tsReactFormDefaultMapping } from "@/@core/utils/tsReactFormDefaultMapping"
+import { tsReactFormDefaultMapping } from "@core/utils/tsReactFormDefaultMapping"
 import { createTsForm } from "@ts-react/form"
 
 import { DialogTrigger } from "react-aria-components"

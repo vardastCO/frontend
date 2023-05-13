@@ -1,7 +1,7 @@
 "use client"
 
-import { getFlagEmoji } from "@/@core/utils/getFlagEmoji"
 import { Country } from "@/generated"
+import { getFlagEmoji } from "@core/utils/getFlagEmoji"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
 

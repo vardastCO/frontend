@@ -1,4 +1,4 @@
-import Breadcrumb from "@/@core/components/shared/Breadcrumb/Breadcrumb"
+import Breadcrumb from "@/@core/components/shared/Breadcrumb"
 import {
   IconCategory,
   IconMap2,
@@ -7,7 +7,7 @@ import {
   IconUsers
 } from "@tabler/icons-react"
 
-import Sidebar from "../components/shared/Sidebar/Sidebar"
+import Sidebar from "../components/shared/Sidebar"
 
 export default function DashboardLayout({
   children

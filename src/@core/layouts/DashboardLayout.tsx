@@ -1,5 +1,5 @@
-import Breadcrumb from "@/@core/components/shared/Breadcrumb/Breadcrumb"
-import Sidebar from "@/@core/components/shared/Sidebar/Sidebar"
+import Breadcrumb from "@/@core/components/shared/Breadcrumb"
+import Sidebar from "@core/components/shared/Sidebar"
 import {
   IconAddressBook,
   IconCalendarEvent,

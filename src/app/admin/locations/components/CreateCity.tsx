@@ -1,12 +1,12 @@
 "use client"
 
-import graphqlRequestClient from "@/@core/clients/graphqlRequestClient"
+import { useCreateCityMutation } from "@/generated"
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import {
   persianInputSchema,
   slugSchema,
   tsReactFormDefaultMapping
-} from "@/@core/utils/tsReactFormDefaultMapping"
-import { useCreateCityMutation } from "@/generated"
+} from "@core/utils/tsReactFormDefaultMapping"
 import { useQueryClient } from "@tanstack/react-query"
 import { createTsForm } from "@ts-react/form"
 
