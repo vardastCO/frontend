@@ -28,7 +28,7 @@ const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
       </div>
       <div className="mr-auto flex items-center gap-2">
         <Switch onChange={setActive} isSelected={active} size="small">
-          {t("is_active")}
+          {t("common:is_active")}
         </Switch>
       </div>
     </div>

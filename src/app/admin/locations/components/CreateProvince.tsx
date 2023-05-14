@@ -45,7 +45,11 @@ const CreateProvince = ({ countryId }: Props) => {
     nameEn: z.string().describe(t("english_name")),
     slug: slugSchema.describe(t("slug")),
     sort: z.number().optional().default(0).describe(t("sort")),
-    isActive: z.boolean().optional().default(true).describe(t("is_active"))
+    isActive: z
+      .boolean()
+      .optional()
+      .default(true)
+      .describe(t("common:is_active"))
   })
   function onSubmit(data: z.infer<typeof CreateCategorySchema>) {
     const { name, nameEn, slug, sort, isActive } = data
@@ -64,7 +68,7 @@ const CreateProvince = ({ countryId }: Props) => {
   return (
     <DialogTrigger>
       <Button size="medium">
-        {t("add_entity", { entity: t("province") })}
+        {t("common:add_entity", { entity: t("province") })}
       </Button>
       <Modal>
         <Dialog>

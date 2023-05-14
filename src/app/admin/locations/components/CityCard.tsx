@@ -3,6 +3,7 @@
 import { City } from "@/generated"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
+import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 import { useState } from "react"
 import { Switch } from "../../../../@core/components/ui/Switch"
@@ -14,6 +15,7 @@ interface ProvinceCardProps {
 }
 
 const CityCard = ({ countrySlug, provinceSlug, city }: ProvinceCardProps) => {
+  const { t } = useTranslation()
   const { name, slug, isActive, areasCount } = city
 
   const [active, setActive] = useState(isActive)
@@ -33,7 +35,7 @@ const CityCard = ({ countrySlug, provinceSlug, city }: ProvinceCardProps) => {
       )}
       <div className="mr-auto flex items-center gap-2">
         <Switch onChange={setActive} isSelected={active} size="small">
-          {t("is_active")}
+          {t("common:is_active")}
         </Switch>
       </div>
     </div>

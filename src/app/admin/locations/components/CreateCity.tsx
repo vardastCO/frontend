@@ -14,6 +14,7 @@ import { useState } from "react"
 import { DialogTrigger } from "react-aria-components"
 import { z } from "zod"
 
+import useTranslation from "next-translate/useTranslation"
 import { Button } from "../../../../@core/components/ui/Button"
 import { Dialog } from "../../../../@core/components/ui/Dialog"
 import { Modal, ModalContent } from "../../../../@core/components/ui/Modal"
@@ -25,6 +26,7 @@ type Props = {
 }
 
 const CreateCity = ({ provinceId }: Props) => {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
   const queryClient = useQueryClient()
@@ -40,7 +42,11 @@ const CreateCity = ({ provinceId }: Props) => {
     nameEn: z.string().describe(t("english_name")),
     slug: slugSchema.describe(t("slug")),
     sort: z.number().optional().default(0).describe(t("sort")),
-    isActive: z.boolean().optional().default(true).describe(t("is_active"))
+    isActive: z
+      .boolean()
+      .optional()
+      .default(true)
+      .describe(t("common:is_active"))
   })
   function onSubmit(data: z.infer<typeof CreateCategorySchema>) {
     const { name, nameEn, slug, sort, isActive } = data
@@ -58,7 +64,9 @@ const CreateCity = ({ provinceId }: Props) => {
 
   return (
     <DialogTrigger>
-      <Button size="medium">{t("add_entity", { entity: t("city") })}</Button>
+      <Button size="medium">
+        {t("common:add_entity", { entity: t("city") })}
+      </Button>
       <Modal>
         <Dialog>
           {({ close }) => (

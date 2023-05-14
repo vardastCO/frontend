@@ -2,6 +2,7 @@
 
 import { Area } from "@/generated"
 
+import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
 import { Switch } from "../../../../@core/components/ui/Switch"
 
@@ -13,6 +14,7 @@ interface AreaCardProps {
 }
 
 const AreaCard = ({ area }: AreaCardProps) => {
+  const { t } = useTranslation()
   const { name, slug, isActive } = area
 
   const [active, setActive] = useState(isActive)
@@ -21,7 +23,7 @@ const AreaCard = ({ area }: AreaCardProps) => {
       <span>{name}</span>
       <div className="mr-auto flex items-center gap-2">
         <Switch onChange={setActive} isSelected={active} size="small">
-          {t("is_active")}
+          {t("common:is_active")}
         </Switch>
       </div>
     </div>

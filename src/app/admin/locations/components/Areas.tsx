@@ -1,3 +1,5 @@
+"use client"
+
 import { Area, useGetCityQuery } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
