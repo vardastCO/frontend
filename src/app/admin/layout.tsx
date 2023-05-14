@@ -1,47 +1,42 @@
 import Breadcrumb from "@core/components/shared/Breadcrumb"
-import {
-  IconCategory,
-  IconMap2,
-  IconSearch,
-  IconSmartHome,
-  IconUsers
-} from "@tabler/icons-react"
+import Sidebar from "@core/components/shared/Sidebar"
+import { IconSearch } from "@tabler/icons-react"
+import useTranslation from "next-translate/useTranslation"
 
-import Sidebar from "../components/shared/Sidebar"
-
-export default function DashboardLayout({
+export default function AdminLayout({
   children
 }: {
   children: React.ReactNode
 }) {
+  const { t } = useTranslation("common")
   const menus = [
     {
       title: t("Home"),
       path: "/admin",
-      icon: IconSmartHome
+      icon: "IconSmartHome"
     },
     {
       title: t("vocabularies.menuTitle"),
       path: "/admin/vocabularies",
-      icon: IconCategory
+      icon: "IconCategory"
     },
     {
       title: t("locations.menuTitle"),
       path: "/admin/locations",
-      icon: IconMap2
+      icon: "IconMap2"
     },
     {
       title: t("users.menuTitle"),
       path: "/admin/users",
-      icon: IconUsers
+      icon: "IconUsers"
     }
   ]
   return (
     <>
-      <div className="flex h-screen flex-col bg-white">
+      <div className="flex h-screen flex-col bg-gray-100">
         <div className="flex h-auto flex-1 overflow-hidden">
           <Sidebar menus={menus} />
-          <div className="relative flex h-auto w-full flex-col overflow-auto overscroll-contain bg-gray-100 px-4 py-6">
+          <div className="relative flex h-auto w-full flex-col overflow-auto overscroll-contain bg-white px-4 py-6">
             <div className="mx-auto flex w-full max-w-5xl flex-col">
               <div className="mb-3 flex items-center">
                 <Breadcrumb />
