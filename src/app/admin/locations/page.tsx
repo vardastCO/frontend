@@ -1,16 +1,10 @@
 import CreateCountry from "@/app/admin/locations/components/CreateCountry"
 import PageHeader from "@core/components/shared/PageHeader"
 import useTranslation from "next-translate/useTranslation"
+import Countries from "./components/Countries"
 
 export default function LocationsIndex() {
   const { t } = useTranslation()
-
-  //   const { isLoading, error, data } =
-  //     useGetAllCountriesQuery(graphqlRequestClient)
-
-  //   if (isLoading) return <Loading />
-  //   if (error) return <LoadingFailed />
-  //   if (!data?.countries) return <NoCountryFound />
 
   return (
     <>
@@ -18,11 +12,7 @@ export default function LocationsIndex() {
         <CreateCountry />
       </PageHeader>
       <div>
-        <div className="flex flex-col gap-2">
-          {/* {data?.countries?.map((country) => (
-            <CountryCard key={country.id} country={country as Country} />
-          ))} */}
-        </div>
+        <Countries />
       </div>
     </>
   )

@@ -5,6 +5,7 @@ import { getFlagEmoji } from "@core/utils/getFlagEmoji"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
 
+import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 import { useState } from "react"
 import { Separator } from "react-aria-components"
@@ -16,6 +17,7 @@ type CountryCardProps = {
 }
 
 const CountryCard = ({ country }: CountryCardProps) => {
+  const { t } = useTranslation()
   const { name, slug, alphaTwo, isActive, provincesCount } = country
   const [active, setActive] = useState(isActive)
 

@@ -1,22 +1,11 @@
-import NoCountryFound from "@/app/admin/locations/components/NoCountryFound"
 import CreateCategory from "@/app/admin/vocabularies/components/CreateCategory"
-import VocabularyCard from "@/app/admin/vocabularies/components/VocabularyCard"
-import { Vocabulary, useGetAllVocabulariesQuery } from "@/generated"
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import Loading from "@core/components/shared/Loading"
-import LoadingFailed from "@core/components/shared/LoadingFailed"
 import PageHeader from "@core/components/shared/PageHeader"
 import { IconMinus, IconPlus, IconSearch } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
+import Vocabularies from "./components/Vocabularies"
 
 export default function VocabulariesPage() {
   const { t } = useTranslation()
-  const { isLoading, error, data } =
-    useGetAllVocabulariesQuery(graphqlRequestClient)
-
-  if (isLoading) return <Loading />
-  if (error) return <LoadingFailed />
-  if (!data?.vocabularies) return <NoCountryFound />
 
   return (
     <>
@@ -53,14 +42,7 @@ export default function VocabulariesPage() {
           </div>
         </div>
         <div className="mt-12">
-          <div className="flex flex-col gap-2">
-            {data?.vocabularies.map((vocabulary) => (
-              <VocabularyCard
-                vocabulary={vocabulary as Vocabulary}
-                key={vocabulary.id}
-              />
-            ))}
-          </div>
+          <Vocabularies />
         </div>
       </div>
     </>

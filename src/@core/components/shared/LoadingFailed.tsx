@@ -1,10 +1,12 @@
 import { IconRefresh } from "@tabler/icons-react"
+import useTranslation from "next-translate/useTranslation"
 
 import { useRouter } from "next/navigation"
 
 type Props = {}
 
 const LoadingFailed = (props: Props) => {
+  const { t } = useTranslation()
   const router = useRouter()
 
   return (

@@ -14,6 +14,7 @@ import { useState } from "react"
 import { DialogTrigger } from "react-aria-components"
 import { z } from "zod"
 
+import useTranslation from "next-translate/useTranslation"
 import { Button } from "../../../../@core/components/ui/Button"
 import { Dialog } from "../../../../@core/components/ui/Dialog"
 import { Modal, ModalContent } from "../../../../@core/components/ui/Modal"
@@ -25,6 +26,7 @@ type Props = {
 }
 
 const CreateProvince = ({ countryId }: Props) => {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
   const queryClient = useQueryClient()
