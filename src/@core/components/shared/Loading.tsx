@@ -11,7 +11,7 @@ const Loading = (props: Props) => {
       <div className="text-center">
         <IconRefresh className="mx-auto mb-3 h-6 w-6 animate-spin text-gray-400" />
         <h3 className="mb-1 font-bold text-gray-700">
-          {t("loading_please_wait")}
+          {t("common:loadingPleaseWait")}
         </h3>
       </div>
     </div>
