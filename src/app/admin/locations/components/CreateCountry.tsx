@@ -33,14 +33,18 @@ const CreateCountry = (props: Props) => {
   })
 
   const CreateCategorySchema = z.object({
-    name: persianInputSchema.describe(t("name")),
-    nameEn: z.string().describe(t("english_name")),
-    slug: slugSchema.describe(t("slug")),
-    alphaTwo: z.string().length(2).describe(t("alpha_two_name")),
-    iso: z.string().describe(t("iso_name")),
-    phonePrefix: z.string().describe(t("phone_prefix")),
-    sort: z.number().optional().default(0).describe(t("sort")),
-    isActive: z.boolean().optional().default(true).describe(t("is_active"))
+    name: persianInputSchema.describe(t("common:name")),
+    nameEn: z.string().describe(t("common:english_name")),
+    slug: slugSchema.describe(t("common:slug")),
+    alphaTwo: z.string().length(2).describe(t("common:alpha_two_name")),
+    iso: z.string().describe(t("common:iso_name")),
+    phonePrefix: z.string().describe(t("common:phone_prefix")),
+    sort: z.number().optional().default(0).describe(t("common:sort")),
+    isActive: z
+      .boolean()
+      .optional()
+      .default(true)
+      .describe(t("common:is_active"))
   })
   function onSubmit(data: z.infer<typeof CreateCategorySchema>) {
     const { name, nameEn, alphaTwo, slug, phonePrefix, sort, isActive, iso } =
@@ -61,7 +65,9 @@ const CreateCountry = (props: Props) => {
 
   return (
     <DialogTrigger>
-      <Button size="medium">{t("add_entity", { entity: t("country") })}</Button>
+      <Button size="medium">
+        {t("common:add_entity", { entity: t("common:country") })}
+      </Button>
       <Modal>
         <Dialog>
           {({ close }) => (
@@ -99,9 +105,9 @@ const CreateCountry = (props: Props) => {
                 renderAfter={() => (
                   <div className="flex items-center justify-end gap-2">
                     <Button intent="ghost" onPress={close}>
-                      {t("cancel")}
+                      {t("common:cancel")}
                     </Button>
-                    <Button type="submit">{t("submit")}</Button>
+                    <Button type="submit">{t("common:submit")}</Button>
                   </div>
                 )}
               />

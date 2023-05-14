@@ -20,11 +20,11 @@
         "incremental": true,
         "baseUrl": ".",
         "paths": {
-            "@/*": [
-                "./src/*"
-            ],
             "@core/*": [
                 "./src/@core/*"
+            ],
+            "@/*": [
+                "./src/*"
             ]
         },
         "plugins": [

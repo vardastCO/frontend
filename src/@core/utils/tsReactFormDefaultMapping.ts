@@ -1,9 +1,9 @@
 import { createUniqueFieldSchema } from "@ts-react/form"
 import { z } from "zod"
-import CheckboxField from "../components/shared/Form/CheckboxField"
-import NumberField from "../components/shared/Form/NumberField"
-import PasswordField from "../components/shared/Form/PasswordField"
-import TextField from "../components/shared/Form/TextField"
+import CheckboxField from "../components/form/CheckboxField"
+import NumberField from "../components/form/NumberField"
+import PasswordField from "../components/form/PasswordField"
+import TextField from "../components/form/TextField"
 import { persianCharactersValidator } from "./persianCharactersValidator"
 import { slugValidator } from "./slugValidator"
 

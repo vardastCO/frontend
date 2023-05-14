@@ -1,4 +1,4 @@
-import Breadcrumb from "@/@core/components/shared/Breadcrumb"
+import Breadcrumb from "@core/components/shared/Breadcrumb"
 import {
   IconCategory,
   IconMap2,

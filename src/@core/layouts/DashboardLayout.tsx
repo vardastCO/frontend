@@ -1,4 +1,4 @@
-import Breadcrumb from "@/@core/components/shared/Breadcrumb"
+import Breadcrumb from "@core/components/shared/Breadcrumb"
 import Sidebar from "@core/components/shared/Sidebar"
 import {
   IconAddressBook,

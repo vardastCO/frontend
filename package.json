@@ -23,7 +23,6 @@
         "@fullcalendar/timegrid": "^6.1.7",
         "@graphql-typed-document-node/core": "^3.2.0",
         "@hookform/resolvers": "^3.1.0",
-        "@ndpco/messenger": "^0.0.13",
         "@persian-tools/persian-tools": "^3.4.1",
         "@tabler/icons-react": "^2.18.0",
         "@tanstack/react-query": "^4.29.5",

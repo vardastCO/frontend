@@ -1,6 +1,6 @@
-import PageHeader from "@/@core/components/shared/PageHeader"
 import { useGetAllUsersQuery } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import PageHeader from "@core/components/shared/PageHeader"
 import { Avatar } from "@core/components/ui/Avatar"
 import useTranslation from "next-translate/useTranslation"
 

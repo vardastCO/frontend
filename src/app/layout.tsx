@@ -1,5 +1,6 @@
 import "@/styles/globals.css"
-import AuthProvider from "@core/components/shared/AuthProvider"
+import AuthProvider from "@core/providers/AuthProvider"
+import ReactQueryProvider from "@core/providers/ReactQueryProvider"
 import useTranslation from "next-translate/useTranslation"
 // import NextNProgress from "nextjs-progressbar"
 
@@ -12,10 +13,12 @@ export default function RootLayout({
 }) {
   const { lang } = useTranslation()
   return (
-    <AuthProvider>
-      <html lang={lang}>
-        <body>{children}</body>
-      </html>
-    </AuthProvider>
+    <html lang={lang}>
+      <body>
+        <AuthProvider>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </AuthProvider>
+      </body>
+    </html>
   )
 }

@@ -34,7 +34,6 @@
     "iso_name": "نام استاندارد",
     "Learn more about {{ entity }}": "در مورد {{ entity }} بیشتر بدانید",
     "loading_please_wait": "در حال بارگذاری اطلاعات، لطفاً صبر کنید.",
-    "Locations": "مناطق جغرافیایی",
     "locations": {
         "indexTitle": "مناطق جغرافیایی",
         "menuTitle": "مناطق جغرافیایی"
