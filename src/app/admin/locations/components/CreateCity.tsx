@@ -4,22 +4,22 @@ import { useCreateCityMutation } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import {
   persianInputSchema,
-  slugSchema,
-  tsReactFormDefaultMapping
+  slugSchema
 } from "@core/utils/tsReactFormDefaultMapping"
 import { useQueryClient } from "@tanstack/react-query"
-import { createTsForm } from "@ts-react/form"
 
 import { useState } from "react"
 import { DialogTrigger } from "react-aria-components"
-import { z } from "zod"
+import { TypeOf, z } from "zod"
 
+import CheckboxField from "@core/components/form/CheckboxField"
+import TextField from "@core/components/form/TextField"
+import { Button } from "@core/components/ui/Button"
+import { Dialog } from "@core/components/ui/Dialog"
+import { Modal, ModalContent } from "@core/components/ui/Modal"
+import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
-import { Button } from "../../../../@core/components/ui/Button"
-import { Dialog } from "../../../../@core/components/ui/Dialog"
-import { Modal, ModalContent } from "../../../../@core/components/ui/Modal"
-
-const MyForm = createTsForm(tsReactFormDefaultMapping)
+import { useForm } from "react-hook-form"
 
 type Props = {
   provinceId: number
@@ -37,18 +37,24 @@ const CreateCity = ({ provinceId }: Props) => {
     }
   })
 
-  const CreateCategorySchema = z.object({
-    name: persianInputSchema.describe(t("name")),
-    nameEn: z.string().describe(t("english_name")),
-    slug: slugSchema.describe(t("slug")),
-    sort: z.number().optional().default(0).describe(t("sort")),
-    isActive: z
-      .boolean()
-      .optional()
-      .default(true)
-      .describe(t("common:isActive"))
+  const CreateCitySchema = z.object({
+    name: persianInputSchema,
+    nameEn: z.string(),
+    slug: slugSchema,
+    sort: z.number().optional().default(0),
+    isActive: z.boolean().optional().default(true)
   })
-  function onSubmit(data: z.infer<typeof CreateCategorySchema>) {
+  type CreateCity = TypeOf<typeof CreateCitySchema>
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<CreateCity>({
+    resolver: zodResolver(CreateCitySchema)
+  })
+
+  function onSubmit(data: CreateCity) {
     const { name, nameEn, slug, sort, isActive } = data
     createProvinceMutation.mutate({
       input: {
@@ -65,41 +71,59 @@ const CreateCity = ({ provinceId }: Props) => {
   return (
     <DialogTrigger>
       <Button size="medium">
-        {t("common:add_entity", { entity: t("city") })}
+        {t("common:add_entity", { entity: t("common:city") })}
       </Button>
       <Modal>
         <Dialog>
           {({ close }) => (
             <ModalContent>
               {createProvinceMutation.isError && <p>خطایی رخ داده</p>}
-              <MyForm
-                formProps={{
-                  className: "flex flex-col gap-4"
-                }}
-                props={{
-                  nameEn: {
-                    direction: "ltr"
-                  },
-                  slug: {
-                    direction: "ltr",
-                    prefixAddon: "https://"
-                  }
-                }}
-                defaultValues={{
-                  sort: 0,
-                  isActive: true
-                }}
-                schema={CreateCategorySchema}
-                onSubmit={onSubmit}
-                renderAfter={() => (
-                  <div className="flex items-center justify-end gap-2">
-                    <Button intent="ghost" onPress={close}>
-                      {t("cancel")}
-                    </Button>
-                    <Button type="submit">{t("submit")}</Button>
-                  </div>
-                )}
-              />
+              <form
+                className="flex flex-col gap-6"
+                onSubmit={handleSubmit(onSubmit)}
+                noValidate
+              >
+                <TextField
+                  label={t("common:name")}
+                  type="text"
+                  name="name"
+                  control={control}
+                  errorMessage={errors.name && errors.name.message}
+                />
+                <TextField
+                  label={t("common:englishName")}
+                  type="text"
+                  name="nameEn"
+                  control={control}
+                  errorMessage={errors.nameEn && errors.nameEn.message}
+                />
+                <TextField
+                  label={t("common:slug")}
+                  type="text"
+                  name="slug"
+                  control={control}
+                  errorMessage={errors.slug && errors.slug.message}
+                />
+                <TextField
+                  label={t("common:displaySort")}
+                  type="number"
+                  name="sort"
+                  control={control}
+                  errorMessage={errors.sort && errors.sort.message}
+                />
+                <CheckboxField
+                  label={t("common:isActive")}
+                  name="isActive"
+                  control={control}
+                  errorMessage={errors.isActive && errors.isActive.message}
+                />
+                <div className="flex items-center justify-end gap-2">
+                  <Button intent="ghost" onPress={close}>
+                    {t("common:cancel")}
+                  </Button>
+                  <Button type="submit">{t("common:submit")}</Button>
+                </div>
+              </form>
             </ModalContent>
           )}
         </Dialog>

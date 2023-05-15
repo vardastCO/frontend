@@ -14,7 +14,7 @@ export default function LocationsIndex({
 
   return (
     <>
-      <PageHeader title={t("locations_index_title")} />
+      <PageHeader title={t("common:locations.indexTitle")} />
       <div>
         <Areas citySlug={citySlug} />
       </div>

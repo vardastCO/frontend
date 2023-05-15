@@ -13,7 +13,7 @@ export default function LocationsIndex({
 
   return (
     <>
-      <PageHeader title={t("locations_index_title")}>
+      <PageHeader title={t("common:locations.indexTitle")}>
         <CreateProvince countryId={0} />
       </PageHeader>
       <div>

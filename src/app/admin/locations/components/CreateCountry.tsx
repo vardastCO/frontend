@@ -32,7 +32,7 @@ const CreateCountry = (props: Props) => {
     }
   })
 
-  const CreateCategorySchema = z.object({
+  const CreateCountrySchema = z.object({
     name: persianInputSchema,
     nameEn: z.string(),
     slug: slugSchema,
@@ -42,16 +42,16 @@ const CreateCountry = (props: Props) => {
     sort: z.number().optional().default(0),
     isActive: z.boolean().optional().default(true)
   })
-  type CreateCategory = TypeOf<typeof CreateCategorySchema>
+  type CreateCountry = TypeOf<typeof CreateCountrySchema>
 
   const {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<CreateCategory>({
-    resolver: zodResolver(CreateCategorySchema)
+  } = useForm<CreateCountry>({
+    resolver: zodResolver(CreateCountrySchema)
   })
-  function onSubmit(data: z.infer<typeof CreateCategorySchema>) {
+  function onSubmit(data: CreateCountry) {
     const { name, nameEn, alphaTwo, slug, phonePrefix, sort, isActive, iso } =
       data
     createCountryMutation.mutate({
@@ -81,6 +81,7 @@ const CreateCountry = (props: Props) => {
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col gap-6"
+                noValidate
               >
                 <TextField
                   label={t("common:name")}
