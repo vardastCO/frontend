@@ -1,6 +1,6 @@
 "use client"
 
-import { useGetCityQuery } from "@/generated"
+import { Area, useGetCityQuery } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
@@ -23,7 +23,7 @@ const Areas = ({ citySlug }: Props) => {
   return (
     <div className="flex flex-col gap-2">
       {data?.city.areas.map(
-        (area) => area && <AreaCard key={area.id} area={area} />
+        (area) => area && <AreaCard key={area.id} area={area as Area} />
       )}
     </div>
   )
