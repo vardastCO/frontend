@@ -1,6 +1,6 @@
 "use client"
 
-import { Country, useGetAllCountriesQuery } from "@/generated"
+import { useGetAllCountriesQuery } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
@@ -19,9 +19,10 @@ const Countries = (props: Props) => {
 
   return (
     <div className="flex flex-col gap-2">
-      {data?.countries?.map((country) => (
-        <CountryCard key={country.id} country={country as Country} />
-      ))}
+      {data?.countries?.map(
+        (country) =>
+          country && <CountryCard key={country.id} country={country} />
+      )}
     </div>
   )
 }

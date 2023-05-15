@@ -3,7 +3,7 @@ import { GraphQLClient } from "graphql-request";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt'
     },
@@ -51,11 +51,11 @@ export const authOptions: NextAuthOptions = {
             return token;
         },
         session: async ({ session, token }) => {
-            session.user = token.user;  // Setting token in session
+            session.user = token.user as any;
             return session;
         },
     }
 }
 
-export const handler = NextAuth(authOptions);
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

@@ -10,11 +10,11 @@ export default withAuth(
         request.nextUrl.href = request.nextUrl.href.replace(`/${locale}`, '')
         return NextResponse.rewrite(request.nextUrl)
     },
-    // {
-    //     callbacks: {
-    //         authorized: ({ token }) => token?.role === "admin",
-    //     },
-    // }
+    {
+        callbacks: {
+            authorized: ({ token }) => !!token,
+        },
+    }
 )
 
 export const config = { matcher: ["/admin/:path*"] }

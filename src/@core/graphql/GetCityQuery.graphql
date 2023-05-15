@@ -1,5 +1,6 @@
 query GetCity($id: Int, $slug: String) {
   city(id: $id, slug: $slug) {
+    id
     name
     nameEn
     slug

@@ -1,6 +1,6 @@
 "use client"
 
-import { City, useGetProvinceQuery } from "@/generated"
+import { useGetProvinceQuery } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
@@ -23,14 +23,17 @@ const Cities = ({ provinceSlug, countrySlug }: Props) => {
 
   return (
     <div className="flex flex-col gap-2">
-      {data?.province.cities?.map((city) => (
-        <CityCard
-          key={city.id}
-          city={city as City}
-          countrySlug={countrySlug}
-          provinceSlug={provinceSlug}
-        />
-      ))}
+      {data?.province.cities?.map(
+        (city) =>
+          city && (
+            <CityCard
+              key={city.id}
+              city={city}
+              countrySlug={countrySlug}
+              provinceSlug={provinceSlug}
+            />
+          )
+      )}
     </div>
   )
 }
