@@ -34,7 +34,7 @@ const ProvinceCard = ({ countrySlug, province }: ProvinceCardProps) => {
       )}
       <div className="mr-auto flex items-center gap-2">
         <Switch onChange={setActive} isSelected={active} size="small">
-          {t("common:is_active")}
+          {t("common:isActive")}
         </Switch>
       </div>
     </div>

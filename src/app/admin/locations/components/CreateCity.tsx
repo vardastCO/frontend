@@ -46,7 +46,7 @@ const CreateCity = ({ provinceId }: Props) => {
       .boolean()
       .optional()
       .default(true)
-      .describe(t("common:is_active"))
+      .describe(t("common:isActive"))
   })
   function onSubmit(data: z.infer<typeof CreateCategorySchema>) {
     const { name, nameEn, slug, sort, isActive } = data
