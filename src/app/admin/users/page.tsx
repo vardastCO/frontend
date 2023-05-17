@@ -2,7 +2,7 @@ import PageHeader from "@core/components/shared/PageHeader"
 import useTranslation from "next-translate/useTranslation"
 import Users from "./components/Users"
 
-export default function UsersIndex() {
+const UsersIndex = () => {
   const { t } = useTranslation()
 
   return (
@@ -12,3 +12,5 @@ export default function UsersIndex() {
     </>
   )
 }
+
+export default UsersIndex

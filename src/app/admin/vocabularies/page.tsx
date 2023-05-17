@@ -4,7 +4,7 @@ import { IconMinus, IconPlus, IconSearch } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 import Vocabularies from "./components/Vocabularies"
 
-export default function VocabulariesPage() {
+const VocabulariesPage = () => {
   const { t } = useTranslation()
 
   return (
@@ -48,3 +48,5 @@ export default function VocabulariesPage() {
     </>
   )
 }
+
+export default VocabulariesPage

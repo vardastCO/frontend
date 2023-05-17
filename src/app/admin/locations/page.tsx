@@ -3,7 +3,7 @@ import PageHeader from "@core/components/shared/PageHeader"
 import useTranslation from "next-translate/useTranslation"
 import Countries from "./components/Countries"
 
-export default function LocationsIndex() {
+const LocationsIndex = () => {
   const { t } = useTranslation()
 
   return (
@@ -17,3 +17,5 @@ export default function LocationsIndex() {
     </>
   )
 }
+
+export default LocationsIndex

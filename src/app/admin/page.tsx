@@ -5,9 +5,11 @@ export const metadata: Metadata = {
   description: "Welcome to Next.js"
 }
 
-export default function AdminIndex() {
+const AdminIndex = () => {
   //   const { data: session } = useSession()
   //   console.log(session)
 
   return <>asdfasdfasdfasd</>
 }
+
+export default AdminIndex

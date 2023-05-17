@@ -3,11 +3,7 @@ import PageHeader from "@core/components/shared/PageHeader"
 import useTranslation from "next-translate/useTranslation"
 import Categories from "../components/Categories"
 
-export default function VocabularyPage({
-  params
-}: {
-  params: { slug: string }
-}) {
+const CategoriesPage = ({ params }: { params: { slug: string } }) => {
   const { t } = useTranslation()
   const slug = params.slug as string
 
@@ -22,3 +18,5 @@ export default function VocabularyPage({
     </>
   )
 }
+
+export default CategoriesPage

@@ -3,11 +3,11 @@ import CreateCity from "@/app/admin/locations/components/CreateCity"
 import PageHeader from "@core/components/shared/PageHeader"
 import useTranslation from "next-translate/useTranslation"
 
-export default function LocationsIndex({
+const CitiesPage = ({
   params
 }: {
   params: { countrySlug: string; provinceSlug: string }
-}) {
+}) => {
   const { t } = useTranslation()
   const countrySlug = params.countrySlug as string
   const provinceSlug = params.provinceSlug as string
@@ -23,3 +23,5 @@ export default function LocationsIndex({
     </>
   )
 }
+
+export default CitiesPage

@@ -3,11 +3,7 @@ import PageHeader from "@core/components/shared/PageHeader"
 import useTranslation from "next-translate/useTranslation"
 import Provinces from "../../components/Provinces"
 
-export default function LocationsIndex({
-  params
-}: {
-  params: { countrySlug: string }
-}) {
+const ProvincesPage = ({ params }: { params: { countrySlug: string } }) => {
   const { t } = useTranslation()
   const countrySlug = params.countrySlug as string
 
@@ -22,3 +18,5 @@ export default function LocationsIndex({
     </>
   )
 }
+
+export default ProvincesPage
