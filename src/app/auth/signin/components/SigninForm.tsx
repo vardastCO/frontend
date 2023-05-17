@@ -2,6 +2,7 @@
 
 import TextField from "@core/components/form/TextField"
 import { Button } from "@core/components/ui/Button"
+import zodI18nMap from "@core/utils/zodErrorMap"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
@@ -9,6 +10,7 @@ import { useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
+z.setErrorMap(zodI18nMap)
 const SigninFormSchema = z
   .object({
     username: z.string(),
