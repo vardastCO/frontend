@@ -18,6 +18,7 @@ query GetAllUsers {
     country {
       id
       name
+      phonePrefix
     }
     status
     suspensionReason

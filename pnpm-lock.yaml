@@ -67,6 +67,9 @@ dependencies:
   graphql-request:
     specifier: ^6.0.0
     version: 6.0.0(graphql@16.6.0)
+  libphonenumber-js:
+    specifier: ^1.10.30
+    version: 1.10.30
   next:
     specifier: 13.4.2
     version: 13.4.2(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
@@ -126,6 +129,9 @@ devDependencies:
   '@next/bundle-analyzer':
     specifier: ^13.4.2
     version: 13.4.2
+  '@storybook/addon-actions':
+    specifier: ^7.0.12
+    version: 7.0.12(react-dom@18.2.0)(react@18.2.0)
   '@storybook/addon-essentials':
     specifier: ^7.0.12
     version: 7.0.12(react-dom@18.2.0)(react@18.2.0)
@@ -9605,6 +9611,10 @@ packages:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+
+  /libphonenumber-js@1.10.30:
+    resolution: {integrity: sha512-PLGc+xfrQrkya/YK2/5X+bPpxRmyJBHM+xxz9krUdSgk4Vs2ZwxX5/Ow0lv3r9PDlDtNWb4u+it8MY5rZ0IyGw==}
+    dev: false
 
   /lilconfig@2.1.0:
     resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}

@@ -1,5 +1,6 @@
 "use client"
 
+import { VariantProps, cva } from "class-variance-authority"
 import { ReactNode } from "react"
 import {
   Input as AriaInput,
@@ -9,7 +10,33 @@ import {
 } from "react-aria-components"
 import { FieldValues, UseControllerProps, useController } from "react-hook-form"
 
-interface TextFieldProps extends AriaTextFieldProps {
+const formControlClasses = cva("form-control", {
+  variants: {
+    size: {
+      xsmall: "form-control-xs",
+      small: "form-control-sm",
+      DEFAULT: "",
+      medium: "form-control-md",
+      large: "form-control-lg",
+      xlarge: "form-control-xl"
+    },
+    rounded: {
+      true: "form-control-rounded"
+    }
+  },
+  compoundVariants: [
+    {
+      size: "DEFAULT"
+    }
+  ],
+  defaultVariants: {
+    size: "DEFAULT"
+  }
+})
+
+interface TextFieldProps
+  extends AriaTextFieldProps,
+    VariantProps<typeof formControlClasses> {
   label?: string
   prefixAddon?: ReactNode
   suffixAddon?: ReactNode
@@ -28,7 +55,10 @@ function TextField<T extends FieldValues>({
   label,
   name,
   control,
+  description,
   errorMessage,
+  size,
+  rounded,
   ...props
 }: TextFieldProps & UseControllerProps<T>) {
   const { field } = useController({
@@ -39,7 +69,12 @@ function TextField<T extends FieldValues>({
   return (
     <AriaTextField {...props} className="form-field">
       <AriaLabel className="form-label">{label}</AriaLabel>
-      <div className="form-control">
+      <div
+        className={formControlClasses({
+          size,
+          rounded
+        })}
+      >
         <div className="input-group">
           {prefixAddon && <div className="input-addon">{prefixAddon}</div>}
           <div className="input-inset">
@@ -53,10 +88,11 @@ function TextField<T extends FieldValues>({
           </div>
           {suffixAddon && <div className="input-addon">{suffixAddon}</div>}
         </div>
-        {errorMessage && (
-          <span className="form-message error">{errorMessage}</span>
-        )}
       </div>
+      {errorMessage && (
+        <span className="form-message error">{errorMessage}</span>
+      )}
+      {description && <span className="form-message">{description}</span>}
     </AriaTextField>
   )
 }

@@ -6,6 +6,7 @@ import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import { Avatar } from "@core/components/ui/Avatar"
 import clsx from "clsx"
+import parsePhoneNumber from "libphonenumber-js"
 import NoCountryFound from "../../locations/components/NoCountryFound"
 
 type Props = {}
@@ -29,7 +30,7 @@ const Users = (props: Props) => {
         </thead>
         <tbody>
           {data?.users.map((user) => (
-            <tr onClick={() => console.log("123")}>
+            <tr key={user.uuid} onClick={() => console.log("123")}>
               <td>
                 <Avatar
                   size="small"
@@ -72,7 +73,9 @@ const Users = (props: Props) => {
                         )}
                       ></span>
                       <span className="font-mono" dir="ltr">
-                        {user.cellphone}
+                        {parsePhoneNumber(
+                          `+${user.country.phonePrefix}${user.cellphone}`
+                        )?.formatInternational()}
                       </span>
                     </>
                   )}

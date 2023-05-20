@@ -70,9 +70,7 @@ input {
   --border-opacity: 0.1;
   --border-color: rgba(theme(colors.gray.700), var(--border-opacity));
   --padding-inline: 1.5ch;
-  --padding-block: 1.5ch;
   padding-inline: var(--padding-inline);
-  padding-block: var(--padding-block);
 
   @apply flex
     items-center
@@ -102,6 +100,10 @@ input {
 
   &:has(button, a) {
     @apply pointer-events-auto;
+  }
+
+  & .icon {
+    @apply p-[0.15em];
   }
 }
 
