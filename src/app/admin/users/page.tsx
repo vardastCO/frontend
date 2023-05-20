@@ -7,7 +7,7 @@ const UsersIndex = () => {
 
   return (
     <>
-      <PageHeader title={t("users.indexTitle")}></PageHeader>
+      <PageHeader title={t("common:users_index_title")}></PageHeader>
       <Users />
     </>
   )

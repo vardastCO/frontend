@@ -2,12 +2,21 @@
 
 import { useGetAllUsersQuery } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import Loading from "@core/components/shared/Loading"
+import LoadingFailed from "@core/components/shared/LoadingFailed"
 import { Avatar } from "@core/components/ui/Avatar"
+import clsx from "clsx"
+import NoCountryFound from "../../locations/components/NoCountryFound"
 
 type Props = {}
 
 const Users = (props: Props) => {
   const { isLoading, error, data } = useGetAllUsersQuery(graphqlRequestClient)
+
+  if (isLoading) return <Loading />
+  if (error) return <LoadingFailed />
+  if (!data?.users) return <NoCountryFound />
+
   return (
     <div className="card table-responsive rounded">
       <table className="table-hover table">
@@ -19,34 +28,58 @@ const Users = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-          <tr onClick={() => console.log("123")}>
-            <td>
-              <Avatar
-                size="small"
-                src="https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=Convertible"
-                alt="..."
-              />
-              <span className="ms-2 font-medium text-gray-800">
-                علیرضا سرابچی
-              </span>
-            </td>
-            <td>
-              <div className="flex items-center gap-2">
-                <span className="block h-2 w-2 rounded-full bg-emerald-400 ring-2 ring-emerald-50"></span>
-                <span className="font-mono" dir="ltr">
-                  a.sarabchi@gmail.com
+          {data?.users.map((user) => (
+            <tr onClick={() => console.log("123")}>
+              <td>
+                <Avatar
+                  size="small"
+                  src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=${user.fullName}`}
+                  alt={user.fullName}
+                />
+                <span className="ms-2 font-medium text-gray-800">
+                  {user.fullName}
                 </span>
-              </div>
-            </td>
-            <td>
-              <div className="flex items-center gap-2">
-                <span className="block h-2 w-2 rounded-full bg-red-400 ring-2 ring-red-50"></span>
-                <span className="font-mono" dir="ltr">
-                  +98-9124204964
-                </span>
-              </div>
-            </td>
-          </tr>
+              </td>
+              <td>
+                <div className="flex items-center gap-2">
+                  {user.email && (
+                    <>
+                      <span
+                        className={clsx(
+                          "block h-2 w-2 rounded-full ring-2",
+                          user.isEmailVerified
+                            ? "bg-emerald-400 ring-emerald-50"
+                            : "bg-red-400 ring-red-50"
+                        )}
+                      ></span>
+                      <span className="font-mono" dir="ltr">
+                        {user.email}
+                      </span>
+                    </>
+                  )}
+                </div>
+              </td>
+              <td>
+                <div className="flex items-center gap-2">
+                  {user.cellphone && (
+                    <>
+                      <span
+                        className={clsx(
+                          "block h-2 w-2 rounded-full ring-2",
+                          user.isCellphoneVerified
+                            ? "bg-emerald-400 ring-emerald-50"
+                            : "bg-red-400 ring-red-50"
+                        )}
+                      ></span>
+                      <span className="font-mono" dir="ltr">
+                        {user.cellphone}
+                      </span>
+                    </>
+                  )}
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

@@ -1,9 +1,8 @@
 "use client"
 
-import { IconLogout } from "@tabler/icons-react"
-import { signOut, useSession } from "next-auth/react"
+import { IconSelector } from "@tabler/icons-react"
+import { useSession } from "next-auth/react"
 import { Avatar } from "../ui/Avatar"
-import { Button } from "../ui/Button"
 type Props = {}
 
 const UserMenu = (props: Props) => {
@@ -13,7 +12,8 @@ const UserMenu = (props: Props) => {
       <div className="w-full">
         <div className="flex w-full items-center gap-2">
           <Avatar
-            src="https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=Convertible"
+            src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=
+            ${session?.user?.profile.fullName}`}
             alt="..."
           />
           <div className="flex flex-1 flex-col truncate">
@@ -24,14 +24,7 @@ const UserMenu = (props: Props) => {
               {session?.user?.profile.email}
             </span>
           </div>
-          <Button
-            intent="ghost"
-            size="small"
-            iconOnly
-            onPress={() => signOut()}
-          >
-            <IconLogout className="icon -scale-x-100" />
-          </Button>
+          <IconSelector className="h-3 w-3 text-gray-600" />
         </div>
       </div>
     )
