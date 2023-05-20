@@ -8,16 +8,17 @@ import { signIn } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { TypeOf, z } from "zod"
+import { z } from "zod"
 
 z.setErrorMap(zodI18nMap)
+
 const SigninFormSchema = z
   .object({
     username: z.string(),
     password: z.string()
   })
   .required()
-type SigninForm = TypeOf<typeof SigninFormSchema>
+type SigninForm = z.infer<typeof SigninFormSchema>
 
 const SigninForm = () => {
   const searchParams = useSearchParams()

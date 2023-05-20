@@ -14,7 +14,7 @@ const AreasPage = ({
 
   return (
     <>
-      <PageHeader title={t("common:locations.indexTitle")} />
+      <PageHeader title={t("common:locations_index_title")} />
       <div>
         <Areas citySlug={citySlug} />
       </div>

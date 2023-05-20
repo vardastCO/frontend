@@ -9,7 +9,7 @@ const VocabulariesPage = () => {
 
   return (
     <>
-      <PageHeader title={t("vocabularies.indexTitle")}>
+      <PageHeader title={t("common:vocabularies_index_title")}>
         <CreateCategory />
       </PageHeader>
       <div>
@@ -23,8 +23,8 @@ const VocabulariesPage = () => {
                 <input
                   type="text"
                   className="input-field"
-                  placeholder={t("Search in {{ entity }}", {
-                    entity: t("Categories")
+                  placeholder={t("common:search_in_entity", {
+                    entity: t("common:categories")
                   }).toString()}
                 />
               </div>
@@ -33,11 +33,11 @@ const VocabulariesPage = () => {
           <div className="btn-group mr-auto">
             <button className="btn-secondary btn">
               <IconMinus className="icon" />
-              <span>{t("Collapse All")}</span>
+              <span>{t("common:collapse_all")}</span>
             </button>
             <button className="btn-secondary btn">
               <IconPlus className="icon" />
-              <span>{t("Expand All")}</span>
+              <span>{t("common:expand_all")}</span>
             </button>
           </div>
         </div>

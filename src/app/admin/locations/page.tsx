@@ -8,7 +8,7 @@ const LocationsIndex = () => {
 
   return (
     <>
-      <PageHeader title={t("common:locations.indexTitle")}>
+      <PageHeader title={t("common:location.index_title")}>
         <CreateCountry />
       </PageHeader>
       <div>

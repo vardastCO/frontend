@@ -31,7 +31,7 @@ const Breadcrumb = (props: Props) => {
       const href = "/" + pathArray.slice(0, index + 1).join("/")
       return {
         href,
-        label: path.charAt(0).toUpperCase() + path.slice(1),
+        label: path,
         isCurrent: index === pathArray.length - 1
       }
     })
@@ -51,7 +51,7 @@ const Breadcrumb = (props: Props) => {
             aria-current={pathname === "/" ? "page" : "false"}
             legacyBehavior
           >
-            <a title={t("Home").toString()}>
+            <a title={t("common:home").toString()}>
               <IconSmartHome className="h-4 w-4 text-gray-400" />
             </a>
           </Link>
@@ -64,11 +64,11 @@ const Breadcrumb = (props: Props) => {
               )}
               <Link href={crumb.href} passHref legacyBehavior>
                 <a
-                  title={t(crumb.label).toString()}
+                  title={t(`common:${crumb.label}`).toString()}
                   aria-current={crumb.isCurrent ? "page" : "false"}
                   className="text-gray-600"
                 >
-                  {t(crumb.label)}
+                  {t(`common:${crumb.label}`)}
                 </a>
               </Link>
             </li>

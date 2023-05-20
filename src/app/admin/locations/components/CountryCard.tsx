@@ -41,7 +41,7 @@ const CountryCard = ({ country }: CountryCardProps) => {
       </div>
       <div className="mr-auto flex items-center gap-2">
         <Switch onChange={setActive} isSelected={active} size="small">
-          {t("common:isActive")}
+          {t("common:is_active")}
         </Switch>
         <Menu
           onAction={alert}

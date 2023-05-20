@@ -7,21 +7,20 @@ import {
   TextField as AriaTextField,
   TextFieldProps as AriaTextFieldProps
 } from "react-aria-components"
-import { Control, useController } from "react-hook-form"
+import { FieldValues, UseControllerProps, useController } from "react-hook-form"
 
 interface TextFieldProps extends AriaTextFieldProps {
-  name: string
-  control: Control
   label?: string
   prefixAddon?: ReactNode
   suffixAddon?: ReactNode
   prefixElement?: ReactNode
   suffixElement?: ReactNode
+  placeholder?: string
   description?: string
   errorMessage?: string
 }
 
-function TextField({
+function TextField<T extends FieldValues>({
   prefixAddon,
   suffixAddon,
   prefixElement,
@@ -31,7 +30,7 @@ function TextField({
   control,
   errorMessage,
   ...props
-}: TextFieldProps) {
+}: TextFieldProps & UseControllerProps<T>) {
   const { field } = useController({
     name,
     control

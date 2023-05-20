@@ -14,7 +14,7 @@ const CitiesPage = ({
 
   return (
     <>
-      <PageHeader title={t("common:locations.indexTitle")}>
+      <PageHeader title={t("common:locations_index_title")}>
         <CreateCity provinceId={0} />
       </PageHeader>
       <div>

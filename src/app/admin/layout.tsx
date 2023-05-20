@@ -11,22 +11,22 @@ export default function AdminLayout({
   const { t } = useTranslation("common")
   const menus = [
     {
-      title: t("Home"),
+      title: t("common:home"),
       path: "/admin",
       icon: "IconSmartHome"
     },
     {
-      title: t("vocabularies.menuTitle"),
+      title: t("common:vocabularies_menu_title"),
       path: "/admin/vocabularies",
       icon: "IconCategory"
     },
     {
-      title: t("locations.menuTitle"),
+      title: t("common:locations_menu_title"),
       path: "/admin/locations",
       icon: "IconMap2"
     },
     {
-      title: t("users.menuTitle"),
+      title: t("common:users_menu_title"),
       path: "/admin/users",
       icon: "IconUsers"
     }

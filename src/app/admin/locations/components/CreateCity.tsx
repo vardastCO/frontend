@@ -91,7 +91,7 @@ const CreateCity = ({ provinceId }: Props) => {
                   errorMessage={errors.name && errors.name.message}
                 />
                 <TextField
-                  label={t("common:englishName")}
+                  label={t("common:english_name")}
                   type="text"
                   name="nameEn"
                   control={control}
@@ -105,14 +105,14 @@ const CreateCity = ({ provinceId }: Props) => {
                   errorMessage={errors.slug && errors.slug.message}
                 />
                 <TextField
-                  label={t("common:displaySort")}
+                  label={t("common:display_sort")}
                   type="number"
                   name="sort"
                   control={control}
                   errorMessage={errors.sort && errors.sort.message}
                 />
                 <CheckboxField
-                  label={t("common:isActive")}
+                  label={t("common:is_active")}
                   name="isActive"
                   control={control}
                   errorMessage={errors.isActive && errors.isActive.message}

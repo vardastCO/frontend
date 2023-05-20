@@ -91,7 +91,7 @@ const CreateCountry = (props: Props) => {
                   errorMessage={errors.name && errors.name.message}
                 />
                 <TextField
-                  label={t("common:englishName")}
+                  label={t("common:english_name")}
                   type="text"
                   name="nameEn"
                   control={control}
@@ -105,21 +105,21 @@ const CreateCountry = (props: Props) => {
                   errorMessage={errors.slug && errors.slug.message}
                 />
                 <TextField
-                  label={t("common:alphaTwoName")}
+                  label={t("common:alpha_two_name")}
                   type="text"
                   name="alphaTwo"
                   control={control}
                   errorMessage={errors.alphaTwo && errors.alphaTwo.message}
                 />
                 <TextField
-                  label={t("common:isoName")}
+                  label={t("common:iso_name")}
                   type="text"
                   name="iso"
                   control={control}
                   errorMessage={errors.iso && errors.iso.message}
                 />
                 <TextField
-                  label={t("common:phonePrefix")}
+                  label={t("common:phone_prefix")}
                   type="text"
                   name="phonePrefix"
                   control={control}
@@ -128,14 +128,14 @@ const CreateCountry = (props: Props) => {
                   }
                 />
                 <TextField
-                  label={t("common:displaySort")}
+                  label={t("common:display_sort")}
                   type="number"
                   name="sort"
                   control={control}
                   errorMessage={errors.sort && errors.sort.message}
                 />
                 <CheckboxField
-                  label={t("common:isActive")}
+                  label={t("common:is_active")}
                   name="isActive"
                   control={control}
                   errorMessage={errors.isActive && errors.isActive.message}

@@ -8,4 +8,7 @@
     "[graphql]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
+    "files.associations": {
+        "*.css": "tailwindcss"
+    }
 }

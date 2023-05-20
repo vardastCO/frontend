@@ -47,7 +47,7 @@ const CategoryCard = ({ category, vocabularySlug }: CategoryCardProps) => {
         <div className="mr-auto">
           <div className="flex items-center gap-2">
             <Switch onChange={setActive} isSelected={active} size="small">
-              {t("common:isActive")}
+              {t("common:is_active")}
             </Switch>
             <IconGripVertical className="h-4 w-4 text-gray-400" />
           </div>
