@@ -4,8 +4,8 @@ import { useCreateCountryMutation } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import {
   persianInputSchema,
-  slugSchema
-} from "@core/utils/tsReactFormDefaultMapping"
+  slugInputSchema
+} from "@core/utils/zodValidationSchemas"
 
 import { useState } from "react"
 import { DialogTrigger } from "react-aria-components"
@@ -35,7 +35,7 @@ const CreateCountry = (props: Props) => {
   const CreateCountrySchema = z.object({
     name: persianInputSchema,
     nameEn: z.string(),
-    slug: slugSchema,
+    slug: slugInputSchema,
     alphaTwo: z.string().length(2),
     iso: z.string(),
     phonePrefix: z.string(),

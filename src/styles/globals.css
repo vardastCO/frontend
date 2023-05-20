@@ -2,7 +2,7 @@
 @import "tailwindcss/base";
 @import "base.css";
 @import "tailwindcss/components";
-@import "dialog.css";
+@import "modal.css";
 @import "dropdown.css";
 @import "form.css";
 @import "switch.css";

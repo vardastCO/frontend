@@ -51,19 +51,6 @@ input {
     background-position: left 1.25ch center;
     background-size: 1.5ch;
   }
-
-  &-plaintext {
-    padding-inline: 0;
-    @apply border-transparent
-        shadow-none
-        ring-0
-        focus:border-transparent
-        focus:shadow-none
-        focus:ring-0
-        focus-visible:border-transparent
-        focus-visible:shadow-none
-        focus-visible:ring-0;
-  }
 }
 
 .input-addon {
@@ -194,6 +181,21 @@ input {
   }
   &-xl {
     @apply text-2xl;
+  }
+
+  &-plaintext {
+    & .input-field {
+        padding-inline: 0;
+        @apply border-transparent
+            shadow-none
+            ring-0
+            focus:border-transparent
+            focus:shadow-none
+            focus:ring-0
+            focus-visible:border-transparent
+            focus-visible:shadow-none
+            focus-visible:ring-0;
+    }
   }
 
   &-rounded {

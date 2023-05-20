@@ -1,11 +1,11 @@
 "use client"
 
 import { Vocabulary } from "@/generated"
+import { IconFolder } from "@tabler/icons-react"
 
 import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 import { useState } from "react"
-import { Switch } from "../../../../@core/components/ui/Switch"
 
 type VocabularyCardProps = {
   vocabulary: Vocabulary
@@ -17,19 +17,15 @@ const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
   const [active, setActive] = useState(false)
 
   return (
-    <div className="card flex items-center gap-3 rounded bg-white px-4 py-2">
+    <div className="card flex items-center gap-3 rounded bg-white px-4 py-4">
       <div className="flex items-center gap-2">
         <Link
           href={`/admin/vocabularies/${slug}`}
-          className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline"
+          className="flex items-center gap-1 font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline"
         >
+          <IconFolder className="h-6 w-6 text-gray-500" />
           {title}
         </Link>
-      </div>
-      <div className="mr-auto flex items-center gap-2">
-        <Switch onChange={setActive} isSelected={active} size="small">
-          {t("common:is_active")}
-        </Switch>
       </div>
     </div>
   )

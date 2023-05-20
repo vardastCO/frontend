@@ -1,0 +1,26 @@
+query GetCategory($id: Int, $slug: String) {
+  category(id: $id, slug: $slug) {
+    title
+    titleEn
+    slug
+    icon
+    sort
+    isActive
+    createdAt
+    updatedAt
+    childrenCount
+    id
+    children {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
+    }
+  }
+}

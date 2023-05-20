@@ -22,6 +22,9 @@ const formControlClasses = cva("form-control", {
     },
     rounded: {
       true: "form-control-rounded"
+    },
+    plaintext: {
+      true: "form-control-plaintext"
     }
   },
   compoundVariants: [
@@ -45,6 +48,7 @@ interface TextFieldProps
   placeholder?: string
   description?: string
   errorMessage?: string
+  dir?: "rtl" | "ltr"
 }
 
 function TextField<T extends FieldValues>({
@@ -59,6 +63,8 @@ function TextField<T extends FieldValues>({
   errorMessage,
   size,
   rounded,
+  plaintext,
+  dir,
   ...props
 }: TextFieldProps & UseControllerProps<T>) {
   const { field } = useController({
@@ -72,7 +78,8 @@ function TextField<T extends FieldValues>({
       <div
         className={formControlClasses({
           size,
-          rounded
+          rounded,
+          plaintext
         })}
       >
         <div className="input-group">
@@ -81,7 +88,7 @@ function TextField<T extends FieldValues>({
             {prefixElement && (
               <div className="input-element">{prefixElement}</div>
             )}
-            <AriaInput className="input-field" {...field} />
+            <AriaInput className="input-field" dir={dir} {...field} />
             {suffixElement && (
               <div className="input-element">{suffixElement}</div>
             )}

@@ -4,8 +4,8 @@ import { useCreateCityMutation } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import {
   persianInputSchema,
-  slugSchema
-} from "@core/utils/tsReactFormDefaultMapping"
+  slugInputSchema
+} from "@core/utils/zodValidationSchemas"
 import { useQueryClient } from "@tanstack/react-query"
 
 import { useState } from "react"
@@ -40,7 +40,7 @@ const CreateCity = ({ provinceId }: Props) => {
   const CreateCitySchema = z.object({
     name: persianInputSchema,
     nameEn: z.string(),
-    slug: slugSchema,
+    slug: slugInputSchema,
     sort: z.number().optional().default(0),
     isActive: z.boolean().optional().default(true)
   })

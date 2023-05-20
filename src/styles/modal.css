@@ -45,11 +45,11 @@
   }
 
   & .react-aria-Dialog {
-    @apply overflow-auto;
+    @apply overflow-auto focus-visible:outline-none focus:outline-none;
   }
 
   &-content {
-    @apply p-6;
+    @apply p-6 focus-visible:outline-none focus:outline-none;
   }
 
   &-title {

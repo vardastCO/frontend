@@ -15,7 +15,7 @@
         ring-offset-gray-700
         transition
         duration-200
-        group-data-[selected]:bg-emerald-700
+        group-data-[selected]:bg-emerald-400
         group-data-[focus-visible]:ring-2;
   }
 

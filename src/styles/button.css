@@ -150,8 +150,8 @@
   }
 
   &.btn-icon-only {
-    padding-inline: 1.75ch;
-    padding-block: 1.75ch;
+    padding-inline: 1.25ch;
+    padding-block: 1.25ch;
   }
 }
 
