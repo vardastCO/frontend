@@ -22,9 +22,15 @@ dependencies:
   '@persian-tools/persian-tools':
     specifier: ^3.4.1
     version: 3.4.1
+  '@react-aria/toast':
+    specifier: 3.0.0-beta.0
+    version: 3.0.0-beta.0(react@18.2.0)
+  '@react-stately/toast':
+    specifier: 3.0.0-beta.0
+    version: 3.0.0-beta.0(react@18.2.0)
   '@tabler/icons-react':
-    specifier: ^2.19.0
-    version: 2.19.0(react@18.2.0)
+    specifier: ^2.20.0
+    version: 2.20.0(react@18.2.0)
   '@tanstack/react-query':
     specifier: ^4.29.7
     version: 4.29.7(react-dom@18.2.0)(react@18.2.0)
@@ -2435,7 +2441,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
       graphql: 16.6.0
-      tslib: 2.4.1
+      tslib: 2.5.2
     dev: true
 
   /@graphql-tools/prisma-loader@7.2.72(@types/node@20.2.1)(graphql@16.6.0):
@@ -2478,7 +2484,7 @@ packages:
       '@ardatan/relay-compiler': 12.0.0(graphql@16.6.0)
       '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
       graphql: 16.6.0
-      tslib: 2.4.1
+      tslib: 2.5.2
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -3201,6 +3207,19 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@react-aria/landmark@3.0.0-beta.0(react@18.2.0):
+    resolution: {integrity: sha512-ms6xS2qbpoEed1J0nwH8u7xaTlyf6TyoXF/6w7hSIma24TmxxqpIRfSrhO+y3z65zZPMMTV8V+qDBRP86+poQA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
+      '@react-aria/focus': 3.12.0(react@18.2.0)
+      '@react-aria/utils': 3.16.0(react@18.2.0)
+      '@react-types/shared': 3.18.0(react@18.2.0)
+      '@swc/helpers': 0.4.14
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+
   /@react-aria/link@3.5.0(react@18.2.0):
     resolution: {integrity: sha512-GcQEHL1MauvTEfqWy4JGP7/bHPaJZ8QJKmDOKrCQCzcT4ts+YaaG6dGGzkkaKK7gymRAF4ePHWWFHySN5mSE7w==}
     peerDependencies:
@@ -3528,6 +3547,22 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@react-aria/toast@3.0.0-beta.0(react@18.2.0):
+    resolution: {integrity: sha512-7TiTaZ+2x5VG41JW+V8RUh6sV1cUECRWlcssaRMXio5anV55x4auDXkjnkH0ejcnpMOBfGvQmK0SlOY6fG/wuQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
+      '@react-aria/i18n': 3.7.1(react@18.2.0)
+      '@react-aria/interactions': 3.15.0(react@18.2.0)
+      '@react-aria/landmark': 3.0.0-beta.0(react@18.2.0)
+      '@react-aria/utils': 3.16.0(react@18.2.0)
+      '@react-stately/toast': 3.0.0-beta.0(react@18.2.0)
+      '@react-types/button': 3.7.2(react@18.2.0)
+      '@react-types/shared': 3.18.0(react@18.2.0)
+      '@swc/helpers': 0.4.14
+      react: 18.2.0
+    dev: false
+
   /@react-aria/toggle@3.6.0(react@18.2.0):
     resolution: {integrity: sha512-W6xncx5zzqCaPU2XsgjWnACHL3WBpxphYLvF5XlICRg0nZVjGPIWPDDUGyDoPsSUeGMW2vxtFY6erKXtcy4Kgw==}
     peerDependencies:
@@ -3844,6 +3879,16 @@ packages:
       '@react-types/tabs': 3.2.1(react@18.2.0)
       '@swc/helpers': 0.4.14
       react: 18.2.0
+    dev: false
+
+  /@react-stately/toast@3.0.0-beta.0(react@18.2.0):
+    resolution: {integrity: sha512-oQ1i2yD3BM37rNx/RoIwyPE3Cxsk8mQrNfGHvPTH6GQxd8gPXnJgIeRL772sNE5sWruZf0znjDieMmbNd5V/gw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
+      '@swc/helpers': 0.4.14
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
   /@react-stately/toggle@3.5.1(react@18.2.0):
@@ -5253,18 +5298,18 @@ packages:
     dependencies:
       tslib: 2.5.2
 
-  /@tabler/icons-react@2.19.0(react@18.2.0):
-    resolution: {integrity: sha512-CitxGhjGcvxSmvK5JJ7JUAal5ifygUQzfMrVt/pOg+XELIt+3jtRDTyhZHHz84XoIddxRTQMZTl/11GOjtZ9SA==}
+  /@tabler/icons-react@2.20.0(react@18.2.0):
+    resolution: {integrity: sha512-r2uC0Mi3ozHD2G+IYi0A0Iy2203dbQo5EAFxn055MyIhH7U2VNsvyopTqOj+AVedy7cqR86T9zhryRUGC78WZA==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@tabler/icons': 2.19.0
+      '@tabler/icons': 2.20.0
       prop-types: 15.8.1
       react: 18.2.0
     dev: false
 
-  /@tabler/icons@2.19.0:
-    resolution: {integrity: sha512-3bqWTxFOFkrld+hx0nDSgwGWPrP2NeB9ySCAqWjXMN0hwewXYnNPpDKkOYtDfUDRtB+iiR/0FyW+kki6tu6qkQ==}
+  /@tabler/icons@2.20.0:
+    resolution: {integrity: sha512-BsUEJoqREs8bqcrf5HfJBq6/rDvsRI3h+T+0X1o7i8LBHonsH0iAngcyL0I82YKoSy9NiVDvM3LV63zDP0nPYQ==}
     dev: false
 
   /@tanstack/eslint-plugin-query@4.29.8:
@@ -6500,7 +6545,7 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001488
       electron-to-chromium: 1.4.402
-      node-releases: 2.0.10
+      node-releases: 2.0.11
       update-browserslist-db: 1.0.11(browserslist@4.21.5)
 
   /bser@2.1.1:
@@ -8618,7 +8663,7 @@ packages:
       graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       graphql: 16.6.0
-      tslib: 2.4.1
+      tslib: 2.5.2
     dev: true
 
   /graphql-ws@5.12.1(graphql@16.6.0):
@@ -10101,8 +10146,8 @@ packages:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
     dev: true
 
-  /node-releases@2.0.10:
-    resolution: {integrity: sha512-5GFldHPXVG/YZmFzJvKK2zDSzPKhEp0+ZR5SVaoSag9fsL5YgHbUHDfnG5494ISANDcK4KwPXAx2xqVEydmd7w==}
+  /node-releases@2.0.11:
+    resolution: {integrity: sha512-+M0PwXeU80kRohZ3aT4J/OnR+l9/KD2nVLNNoRgFtnf+umQVFdGBAO2N8+nCnEi0xlh/Wk3zOGC+vNNx+uM79Q==}
 
   /normalize-package-data@2.5.0:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}

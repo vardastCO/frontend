@@ -23,9 +23,9 @@ interface ModalProps
   className?: string
 }
 
-export const Modal = ({ children, size, className }: ModalProps) => {
+export const Modal = ({ children, size, className, ...props }: ModalProps) => {
   return (
-    <ModalOverlay className={modalClasses({ className, size })}>
+    <ModalOverlay {...props} className={modalClasses({ className, size })}>
       <div className="modal-overlay">
         <AriaModal className="modal-container">{children}</AriaModal>
       </div>

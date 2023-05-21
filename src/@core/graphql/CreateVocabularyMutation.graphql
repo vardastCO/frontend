@@ -1,4 +1,6 @@
-mutation CreateVocabulary($createVocabularyInput: CreateVocabularyInput!) {
+mutation CreateVocabularyMutation(
+  $createVocabularyInput: CreateVocabularyInput!
+) {
   createVocabulary(createVocabularyInput: $createVocabularyInput) {
     id
     title

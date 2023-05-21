@@ -6,15 +6,16 @@ import {
   slugInputSchema
 } from "@core/utils/zodValidationSchemas"
 
-import { DialogTrigger } from "react-aria-components"
 import { TypeOf, z } from "zod"
 
 import { useCreateVocabularyMutation } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import TextField from "@core/components/form/TextField"
+import { toastQueue } from "@core/components/ui/Toast"
 import { slugify } from "@core/utils/slugify"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useQueryClient } from "@tanstack/react-query"
 import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -33,11 +34,22 @@ const CreateVocavulary = (props: Props) => {
 
   const [open, setOpen] = useState(false)
 
+  const queryClient = useQueryClient()
   const createVocabularyMutation = useCreateVocabularyMutation(
     graphqlRequestClient,
     {
       onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["GetAllVocabularies"] })
         setOpen(false)
+        toastQueue.add(
+          t("common:entity_added_successfully", {
+            entity: t("common:vocabulary")
+          }),
+          {
+            timeout: 2000,
+            intent: "success"
+          }
+        )
       }
     }
   )
@@ -72,7 +84,7 @@ const CreateVocavulary = (props: Props) => {
     } else {
       setValue("slug", "")
     }
-  }, [titleEn])
+  }, [titleEn, setValue])
 
   function onSubmit(data: CreateVocavulary) {
     const { title, titleEn, slug, sort } = data
@@ -88,81 +100,79 @@ const CreateVocavulary = (props: Props) => {
   }
 
   return (
-    <DialogTrigger>
-      <Button size="medium">
+    <>
+      <Button size="medium" onPress={() => setOpen(true)}>
         {t("common:add_entity", { entity: t("common:vocabulary") })}
       </Button>
-      <Modal>
+      <Modal isDismissable isOpen={open} onOpenChange={setOpen}>
         <Dialog>
-          {({ close }) => (
-            <>
-              <ModalHeader
-                title={t("common:create_new_entity", {
-                  entity: t("common:vocabulary")
-                })}
-              />
-              <ModalContent>
-                <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  className="flex flex-col gap-6"
-                  noValidate
-                >
-                  <TextField
-                    label={t("common:title")}
-                    type="text"
-                    name="title"
-                    control={control}
-                    errorMessage={errors.title && errors.title.message}
+          <>
+            <ModalHeader
+              title={t("common:create_new_entity", {
+                entity: t("common:vocabulary")
+              })}
+            />
+            <ModalContent>
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col gap-6"
+                noValidate
+              >
+                <TextField
+                  label={t("common:title")}
+                  type="text"
+                  name="title"
+                  control={control}
+                  errorMessage={errors.title && errors.title.message}
+                  isDisabled={isSubmitting}
+                />
+                <TextField
+                  label={t("common:english_title")}
+                  type="text"
+                  name="titleEn"
+                  control={control}
+                  errorMessage={errors.titleEn && errors.titleEn.message}
+                  isDisabled={isSubmitting}
+                  dir="ltr"
+                />
+                <TextField
+                  label={t("common:slug")}
+                  type="text"
+                  name="slug"
+                  control={control}
+                  errorMessage={errors.slug && errors.slug.message}
+                  isDisabled={isSubmitting}
+                  isReadOnly
+                  plaintext
+                  dir="ltr"
+                />
+                <TextField
+                  label={t("common:display_sort")}
+                  type="number"
+                  name="sort"
+                  control={control}
+                  errorMessage={errors.sort && errors.sort.message}
+                  isDisabled={isSubmitting}
+                />
+                <div className="flex items-center justify-end gap-2">
+                  <Button
+                    intent="ghost"
+                    onPress={() => setOpen(false)}
+                    loading={isSubmitting}
                     isDisabled={isSubmitting}
-                  />
-                  <TextField
-                    label={t("common:english_title")}
-                    type="text"
-                    name="titleEn"
-                    control={control}
-                    errorMessage={errors.titleEn && errors.titleEn.message}
-                    isDisabled={isSubmitting}
-                    dir="ltr"
-                  />
-                  <TextField
-                    label={t("common:slug")}
-                    type="text"
-                    name="slug"
-                    control={control}
-                    errorMessage={errors.slug && errors.slug.message}
-                    isDisabled={isSubmitting}
-                    isReadOnly
-                    plaintext
-                    dir="ltr"
-                  />
-                  <TextField
-                    label={t("common:display_sort")}
-                    type="number"
-                    name="sort"
-                    control={control}
-                    errorMessage={errors.sort && errors.sort.message}
-                    isDisabled={isSubmitting}
-                  />
-                  <div className="flex items-center justify-end gap-2">
-                    <Button
-                      intent="ghost"
-                      onPress={close}
-                      loading={isSubmitting}
-                      isDisabled={isSubmitting}
-                    >
-                      {t("common:cancel")}
-                    </Button>
-                    <Button type="submit" isDisabled={isSubmitting}>
-                      {t("common:submit")}
-                    </Button>
-                  </div>
-                </form>
-              </ModalContent>
-            </>
-          )}
+                  >
+                    {t("common:cancel")}
+                  </Button>
+                  <Button type="submit" isDisabled={isSubmitting}>
+                    {t("common:submit")}
+                  </Button>
+                </div>
+              </form>
+            </ModalContent>
+          </>
         </Dialog>
       </Modal>
-    </DialogTrigger>
+    </>
   )
 }
 

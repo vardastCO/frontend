@@ -14,13 +14,13 @@ const UserMenu = (props: Props) => {
           <Avatar
             src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=
             ${session?.user?.profile.fullName}`}
-            alt="..."
+            alt={session?.user?.profile.fullName || ""}
           />
           <div className="flex flex-1 flex-col truncate">
             <span className="truncate font-medium">
               {session?.user?.profile.fullName}
             </span>
-            <span className="truncate text-sm text-gray-500" dir="ltr">
+            <span className="truncate text-sm text-gray-500">
               {session?.user?.profile.email}
             </span>
           </div>

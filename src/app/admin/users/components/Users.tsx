@@ -7,7 +7,7 @@ import LoadingFailed from "@core/components/shared/LoadingFailed"
 import { Avatar } from "@core/components/ui/Avatar"
 import clsx from "clsx"
 import parsePhoneNumber from "libphonenumber-js"
-import NoCountryFound from "../../locations/components/NoCountryFound"
+import NoResult from "../../../../@core/components/shared/NoResult"
 
 type Props = {}
 
@@ -16,7 +16,7 @@ const Users = (props: Props) => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.users) return <NoCountryFound />
+  if (!data?.users) return <NoResult entity="user" />
 
   return (
     <div className="card table-responsive rounded">

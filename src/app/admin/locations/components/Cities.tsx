@@ -4,8 +4,8 @@ import { City, useGetProvinceQuery } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
+import NoResult from "../../../../@core/components/shared/NoResult"
 import CityCard from "./CityCard"
-import NoCountryFound from "./NoCountryFound"
 
 type Props = {
   countrySlug: string
@@ -19,7 +19,7 @@ const Cities = ({ provinceSlug, countrySlug }: Props) => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.province.cities) return <NoCountryFound />
+  if (!data?.province.cities) return <NoResult entity="city" />
 
   return (
     <div className="flex flex-col gap-2">

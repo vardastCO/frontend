@@ -4,7 +4,7 @@ import { Category, useGetVocabularyQuery } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
-import NoCountryFound from "../../locations/components/NoCountryFound"
+import NoResult from "../../../../@core/components/shared/NoResult"
 import CategoryCard from "./CategoryCard"
 
 type Props = {
@@ -21,7 +21,8 @@ const Categories = ({ slug }: Props) => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.vocabulary.categories) return <NoCountryFound />
+  if (!data?.vocabulary.categories.length) return <NoResult entity="category" />
+
   return (
     <div className="flex flex-col gap-2">
       {data?.vocabulary.categories.map((category) => (

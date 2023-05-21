@@ -1,4 +1,5 @@
 import "@/styles/globals.css"
+import { GlobalToastRegion } from "@core/components/ui/Toast"
 import NextAuthProvider from "@core/providers/NextAuthProvider"
 import ReactAriaSSRProvider from "@core/providers/ReactAriaSSRProvider"
 import ReactQueryProvider from "@core/providers/ReactQueryProvider"
@@ -10,12 +11,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const { lang } = useTranslation()
+
   return (
     <ReactAriaSSRProvider>
       <html lang={lang}>
         <body>
           <NextAuthProvider>
-            <ReactQueryProvider>{children}</ReactQueryProvider>
+            <ReactQueryProvider>
+              {children}
+              <GlobalToastRegion />
+            </ReactQueryProvider>
           </NextAuthProvider>
         </body>
       </html>
