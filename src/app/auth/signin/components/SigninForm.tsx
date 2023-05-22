@@ -1,7 +1,7 @@
 "use client"
 
-import TextField from "@core/components/form/TextField"
-import { Button } from "@core/components/ui/Button"
+import { Button } from "@core/components/Button"
+import TextField from "@core/components/TextField"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"

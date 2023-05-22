@@ -2,7 +2,7 @@
 
 import { IconSelector } from "@tabler/icons-react"
 import { useSession } from "next-auth/react"
-import { Avatar } from "../ui/Avatar"
+import { Avatar } from "../Avatar"
 type Props = {}
 
 const UserMenu = (props: Props) => {

@@ -11,14 +11,14 @@ import { useState } from "react"
 import { DialogTrigger } from "react-aria-components"
 import { TypeOf, z } from "zod"
 
-import CheckboxField from "@core/components/form/CheckboxField"
-import TextField from "@core/components/form/TextField"
+import { Button } from "@core/components/Button"
+import CheckboxField from "@core/components/CheckboxField"
+import { Dialog } from "@core/components/Dialog"
+import { Modal, ModalContent } from "@core/components/Modal"
+import TextField from "@core/components/TextField"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
-import { Button } from "../../../../@core/components/ui/Button"
-import { Dialog } from "../../../../@core/components/ui/Dialog"
-import { Modal, ModalContent } from "../../../../@core/components/ui/Modal"
 
 type Props = {}
 

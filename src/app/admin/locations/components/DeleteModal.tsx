@@ -1,8 +1,8 @@
 "use client"
 
-import { Button } from "@core/components/ui/Button"
-import { Dialog } from "@core/components/ui/Dialog"
-import { Modal, ModalContent, ModalHeader } from "@core/components/ui/Modal"
+import { Button } from "@core/components/Button"
+import { Dialog } from "@core/components/Dialog"
+import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
 import { IconAlertOctagon } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"

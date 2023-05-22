@@ -3,10 +3,10 @@
 import { Province } from "@/generated"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
+import { Switch } from "@core/components/Switch"
 import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 import { useState } from "react"
-import { Switch } from "../../../../@core/components/ui/Switch"
 
 interface ProvinceCardProps {
   countrySlug: string

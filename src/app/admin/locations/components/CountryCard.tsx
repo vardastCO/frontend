@@ -5,12 +5,12 @@ import { getFlagEmoji } from "@core/utils/getFlagEmoji"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
 
+import { Item, Menu } from "@core/components/Menu"
+import { Switch } from "@core/components/Switch"
 import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 import { useState } from "react"
 import { Separator } from "react-aria-components"
-import { Item, Menu } from "../../../../@core/components/ui/Menu"
-import { Switch } from "../../../../@core/components/ui/Switch"
 
 type CountryCardProps = {
   country: Country

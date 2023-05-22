@@ -2,9 +2,9 @@
 
 import { Area } from "@/generated"
 
+import { Switch } from "@core/components/Switch"
 import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
-import { Switch } from "../../../../@core/components/ui/Switch"
 
 interface AreaCardProps {
   countrySlug?: string

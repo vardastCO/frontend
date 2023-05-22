@@ -4,7 +4,7 @@ import { useGetCountryQuery } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
-import NoResult from "../../../../@core/components/shared/NoResult"
+import NoResult from "@core/components/shared/NoResult"
 import ProvinceCard from "./ProvinceCard"
 
 type Props = {

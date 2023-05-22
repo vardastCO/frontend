@@ -10,7 +10,7 @@ const CategoriesPage = ({ params }: { params: { slug: string } }) => {
   return (
     <>
       <PageHeader title={t("common:categories_index_title")}>
-        <CreateCategory />
+        <CreateCategory vocabularySlug={slug} />
       </PageHeader>
       <div>
         <Categories slug={slug} />

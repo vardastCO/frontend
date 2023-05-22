@@ -10,8 +10,11 @@ import { TypeOf, z } from "zod"
 
 import { useCreateVocabularyMutation } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import TextField from "@core/components/form/TextField"
-import { toastQueue } from "@core/components/ui/Toast"
+import { Button } from "@core/components/Button"
+import { Dialog } from "@core/components/Dialog"
+import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
+import TextField from "@core/components/TextField"
+import { toastQueue } from "@core/components/Toast"
 import { slugify } from "@core/utils/slugify"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -19,13 +22,6 @@ import { useQueryClient } from "@tanstack/react-query"
 import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-import { Button } from "../../../../@core/components/ui/Button"
-import { Dialog } from "../../../../@core/components/ui/Dialog"
-import {
-  Modal,
-  ModalContent,
-  ModalHeader
-} from "../../../../@core/components/ui/Modal"
 
 type Props = {}
 

@@ -2,12 +2,12 @@
 
 import { useGetAllUsersQuery } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { Avatar } from "@core/components/Avatar"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
-import { Avatar } from "@core/components/ui/Avatar"
+import NoResult from "@core/components/shared/NoResult"
 import clsx from "clsx"
 import parsePhoneNumber from "libphonenumber-js"
-import NoResult from "../../../../@core/components/shared/NoResult"
 
 type Props = {}
 
