@@ -5,6 +5,8 @@ import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
+import PageHeader from "@core/components/shared/PageHeader"
+import { notFound } from "next/navigation"
 import AreaCard from "./AreaCard"
 
 type Props = {
@@ -18,14 +20,20 @@ const Areas = ({ citySlug }: Props) => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.city.areas) return <NoResult entity="area" />
+  if (!data) notFound()
 
   return (
-    <div className="flex flex-col gap-2">
-      {data?.city.areas.map(
-        (area) => area && <AreaCard key={area.id} area={area as Area} />
-      )}
-    </div>
+    <>
+      <PageHeader title={data.city.name}></PageHeader>
+      {!data.city.areas.length && <NoResult entity="area" />}
+      <div>
+        <div className="flex flex-col gap-2">
+          {data.city.areas.map(
+            (area) => area && <AreaCard key={area.id} area={area as Area} />
+          )}
+        </div>
+      </div>
+    </>
   )
 }
 

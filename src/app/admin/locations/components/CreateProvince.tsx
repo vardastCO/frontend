@@ -3,21 +3,22 @@
 import { useCreateProvinceMutation } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import {
+  englishInputSchema,
   persianInputSchema,
   slugInputSchema
 } from "@core/utils/zodValidationSchemas"
 import { useQueryClient } from "@tanstack/react-query"
 
-import { useState } from "react"
-import { DialogTrigger } from "react-aria-components"
+import { useEffect, useState } from "react"
 import { TypeOf, z } from "zod"
 
 import { Button } from "@core/components/Button"
 import CheckboxField from "@core/components/CheckboxField"
 import { Dialog } from "@core/components/Dialog"
 import { Input } from "@core/components/Input"
-import { Modal, ModalContent } from "@core/components/Modal"
+import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
 import { TextField } from "@core/components/TextField"
+import { slugify } from "@core/utils/slugify"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
@@ -43,7 +44,7 @@ const CreateProvince = ({ countryId }: Props) => {
 
   const CreateProvinceSchema = z.object({
     name: persianInputSchema,
-    nameEn: z.string(),
+    nameEn: englishInputSchema,
     slug: slugInputSchema,
     sort: z.number().optional().default(0),
     isActive: z.boolean().optional().default(true)
@@ -54,10 +55,25 @@ const CreateProvince = ({ countryId }: Props) => {
     register,
     handleSubmit,
     control,
-    formState: { errors }
+    watch,
+    setValue,
+    formState: { errors, isSubmitting }
   } = useForm<CreateProvince>({
-    resolver: zodResolver(CreateProvinceSchema)
+    resolver: zodResolver(CreateProvinceSchema),
+    defaultValues: {
+      sort: 0
+    }
   })
+
+  const nameEn = watch("nameEn")
+
+  useEffect(() => {
+    if (nameEn) {
+      setValue("slug", slugify(nameEn))
+    } else {
+      setValue("slug", "")
+    }
+  }, [nameEn, setValue])
 
   function onSubmit(data: CreateProvince) {
     const { name, nameEn, slug, sort, isActive } = data
@@ -74,13 +90,18 @@ const CreateProvince = ({ countryId }: Props) => {
   }
 
   return (
-    <DialogTrigger>
-      <Button size="medium">
+    <>
+      <Button size="medium" onPress={() => setOpen(true)}>
         {t("common:add_entity", { entity: t("common:province") })}
       </Button>
-      <Modal>
+      <Modal isDismissable isOpen={open} onOpenChange={setOpen}>
         <Dialog>
-          {({ close }) => (
+          <>
+            <ModalHeader
+              title={t("common:create_new_entity", {
+                entity: t("common:province")
+              })}
+            />
             <ModalContent>
               {createProvinceMutation.isError && <p>خطایی رخ داده</p>}
               <form
@@ -88,38 +109,41 @@ const CreateProvince = ({ countryId }: Props) => {
                 onSubmit={handleSubmit(onSubmit)}
                 noValidate
               >
-                {" "}
                 <TextField
+                  isDisabled={isSubmitting}
                   label={t("common:name")}
-                  type="text"
-                  name="name"
                   errorMessage={errors.name && errors.name.message}
                 >
                   <Input {...register("name")} />
                 </TextField>
                 <TextField
+                  isDisabled={isSubmitting}
                   label={t("common:english_name")}
-                  type="text"
-                  name="nameEn"
                   errorMessage={errors.nameEn && errors.nameEn.message}
                 >
-                  <Input {...register("nameEn")} />
+                  <Input {...register("nameEn")} dir="ltr" />
                 </TextField>
                 <TextField
+                  isDisabled={isSubmitting}
                   label={t("common:slug")}
-                  type="text"
-                  name="slug"
                   errorMessage={errors.slug && errors.slug.message}
+                  isReadOnly
                 >
-                  <Input {...register("slug")} />
+                  <Input {...register("slug")} plaintext dir="ltr" />
                 </TextField>
                 <TextField
+                  isDisabled={isSubmitting}
                   label={t("common:display_sort")}
                   type="number"
-                  name="sort"
                   errorMessage={errors.sort && errors.sort.message}
                 >
-                  <Input {...register("sort")} />
+                  <Input
+                    min={0}
+                    {...register("sort", {
+                      valueAsNumber: true,
+                      min: 0
+                    })}
+                  />
                 </TextField>
                 <CheckboxField
                   label={t("common:is_active")}
@@ -127,19 +151,30 @@ const CreateProvince = ({ countryId }: Props) => {
                   //   @ts-ignore
                   control={control}
                   errorMessage={errors.isActive && errors.isActive.message}
+                  isDisabled={isSubmitting}
                 />
                 <div className="flex items-center justify-end gap-2">
-                  <Button intent="ghost" onPress={close}>
+                  <Button
+                    intent="ghost"
+                    onPress={() => setOpen(false)}
+                    isDisabled={isSubmitting}
+                  >
                     {t("common:cancel")}
                   </Button>
-                  <Button type="submit">{t("common:submit")}</Button>
+                  <Button
+                    type="submit"
+                    isDisabled={isSubmitting}
+                    loading={isSubmitting}
+                  >
+                    {t("common:submit")}
+                  </Button>
                 </div>
               </form>
             </ModalContent>
-          )}
+          </>
         </Dialog>
       </Modal>
-    </DialogTrigger>
+    </>
   )
 }
 
