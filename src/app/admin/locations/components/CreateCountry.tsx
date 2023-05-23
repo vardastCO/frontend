@@ -3,20 +3,21 @@
 import { useCreateCountryMutation } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import {
+  englishInputSchema,
   persianInputSchema,
   slugInputSchema
 } from "@core/utils/zodValidationSchemas"
 
-import { useState } from "react"
-import { DialogTrigger } from "react-aria-components"
+import { useEffect, useState } from "react"
 import { TypeOf, z } from "zod"
 
 import { Button } from "@core/components/Button"
 import CheckboxField from "@core/components/CheckboxField"
 import { Dialog } from "@core/components/Dialog"
 import { Input } from "@core/components/Input"
-import { Modal, ModalContent } from "@core/components/Modal"
+import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
 import { TextField } from "@core/components/TextField"
+import { slugify } from "@core/utils/slugify"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
@@ -35,7 +36,7 @@ const CreateCountry = (props: Props) => {
 
   const CreateCountrySchema = z.object({
     name: persianInputSchema,
-    nameEn: z.string(),
+    nameEn: englishInputSchema,
     slug: slugInputSchema,
     alphaTwo: z.string().length(2),
     iso: z.string(),
@@ -49,10 +50,26 @@ const CreateCountry = (props: Props) => {
     register,
     control,
     handleSubmit,
-    formState: { errors }
+    watch,
+    setValue,
+    formState: { errors, isSubmitting }
   } = useForm<CreateCountry>({
-    resolver: zodResolver(CreateCountrySchema)
+    resolver: zodResolver(CreateCountrySchema),
+    defaultValues: {
+      sort: 0
+    }
   })
+
+  const nameEn = watch("nameEn")
+
+  useEffect(() => {
+    if (nameEn) {
+      setValue("slug", slugify(nameEn))
+    } else {
+      setValue("slug", "")
+    }
+  }, [nameEn, setValue])
+
   function onSubmit(data: CreateCountry) {
     const { name, nameEn, alphaTwo, slug, phonePrefix, sort, isActive, iso } =
       data
@@ -71,13 +88,18 @@ const CreateCountry = (props: Props) => {
   }
 
   return (
-    <DialogTrigger>
-      <Button size="medium">
+    <>
+      <Button size="medium" onPress={() => setOpen(true)}>
         {t("common:add_entity", { entity: t("common:country") })}
       </Button>
-      <Modal>
+      <Modal isDismissable isOpen={open} onOpenChange={setOpen}>
         <Dialog>
-          {({ close }) => (
+          <>
+            <ModalHeader
+              title={t("common:create_new_entity", {
+                entity: t("common:country")
+              })}
+            />
             <ModalContent>
               {createCountryMutation.isError && <p>خطایی رخ داده</p>}
               <form
@@ -86,36 +108,43 @@ const CreateCountry = (props: Props) => {
                 noValidate
               >
                 <TextField
+                  isDisabled={isSubmitting}
                   label={t("common:name")}
                   errorMessage={errors.name && errors.name.message}
                 >
                   <Input {...register("name")} />
                 </TextField>
                 <TextField
+                  isDisabled={isSubmitting}
                   label={t("common:english_name")}
                   errorMessage={errors.nameEn && errors.nameEn.message}
                 >
-                  <Input {...register("nameEn")} />
+                  <Input {...register("nameEn")} dir="ltr" />
                 </TextField>
                 <TextField
+                  isDisabled={isSubmitting}
                   label={t("common:slug")}
                   errorMessage={errors.slug && errors.slug.message}
+                  isReadOnly
                 >
-                  <Input {...register("slug")} />
+                  <Input {...register("slug")} plaintext dir="ltr" />
                 </TextField>
                 <TextField
+                  isDisabled={isSubmitting}
                   label={t("common:alpha_two_name")}
                   errorMessage={errors.alphaTwo && errors.alphaTwo.message}
                 >
                   <Input {...register("alphaTwo")} />
                 </TextField>
                 <TextField
+                  isDisabled={isSubmitting}
                   label={t("common:iso_name")}
                   errorMessage={errors.iso && errors.iso.message}
                 >
                   <Input {...register("iso")} />
                 </TextField>
                 <TextField
+                  isDisabled={isSubmitting}
                   label={t("common:phone_prefix")}
                   errorMessage={
                     errors.phonePrefix && errors.phonePrefix.message
@@ -124,11 +153,18 @@ const CreateCountry = (props: Props) => {
                   <Input {...register("phonePrefix")} />
                 </TextField>
                 <TextField
+                  isDisabled={isSubmitting}
                   label={t("common:display_sort")}
                   type="number"
                   errorMessage={errors.sort && errors.sort.message}
                 >
-                  <Input {...register("sort")} />
+                  <Input
+                    min={0}
+                    {...register("sort", {
+                      valueAsNumber: true,
+                      min: 0
+                    })}
+                  />
                 </TextField>
                 <CheckboxField
                   label={t("common:is_active")}
@@ -138,17 +174,27 @@ const CreateCountry = (props: Props) => {
                   errorMessage={errors.isActive && errors.isActive.message}
                 />
                 <div className="flex items-center justify-end gap-2">
-                  <Button intent="ghost" onPress={close}>
+                  <Button
+                    intent="ghost"
+                    isDisabled={isSubmitting}
+                    onPress={() => setOpen(false)}
+                  >
                     {t("common:cancel")}
                   </Button>
-                  <Button type="submit">{t("common:submit")}</Button>
+                  <Button
+                    type="submit"
+                    loading={isSubmitting}
+                    isDisabled={isSubmitting}
+                  >
+                    {t("common:submit")}
+                  </Button>
                 </div>
               </form>
             </ModalContent>
-          )}
+          </>
         </Dialog>
       </Modal>
-    </DialogTrigger>
+    </>
   )
 }
 
