@@ -1,7 +1,8 @@
 "use client"
 
 import { Button } from "@core/components/Button"
-import TextField from "@core/components/TextField"
+import { Input } from "@core/components/Input"
+import { TextField } from "@core/components/TextField"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
@@ -47,20 +48,19 @@ const SigninForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       <TextField
         label={t("common:username")}
-        type="text"
-        name="username"
         placeholder={t("common:username")}
-        control={control}
         errorMessage={errors.username && errors.username.message}
-      />
+      >
+        <Input {...register("username")} />
+      </TextField>
       <TextField
         label={t("common:password")}
         type="password"
-        name="password"
         placeholder={t("common:password")}
-        control={control}
         errorMessage={errors.password && errors.password.message}
-      />
+      >
+        <Input type="password" {...register("password")} />
+      </TextField>
       <Button type="submit" fullWidth>
         {t("common:login")}
       </Button>

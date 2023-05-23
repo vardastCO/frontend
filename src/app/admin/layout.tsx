@@ -1,6 +1,7 @@
+import { Button } from "@core/components/Button"
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import Sidebar from "@core/components/shared/Sidebar"
-import { IconSearch } from "@tabler/icons-react"
+import { IconLayoutSidebarRightCollapse, IconSearch } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 
 export default function AdminLayout({
@@ -37,9 +38,14 @@ export default function AdminLayout({
         <div className="flex h-auto flex-1 overflow-hidden">
           <Sidebar menus={menus} />
           <div className="relative flex h-auto w-full flex-col overflow-auto overscroll-contain bg-white px-4 py-6">
-            <div className="mx-auto flex w-full max-w-5xl flex-col">
+            <div className="mx-auto flex w-full flex-col">
               <div className="mb-3 flex items-center">
-                <Breadcrumb />
+                <div className="flex items-center gap-2">
+                  <Button intent="ghost" iconOnly>
+                    <IconLayoutSidebarRightCollapse className="icon" />
+                  </Button>
+                  <Breadcrumb />
+                </div>
                 <form autoComplete="off" action="" className="mr-auto">
                   <div className="input-inset">
                     <div className="input-element">
@@ -62,7 +68,7 @@ export default function AdminLayout({
                   </div>
                 </form>
               </div>
-              {children}
+              <div className="mx-auto w-full max-w-5xl">{children}</div>
             </div>
           </div>
         </div>
