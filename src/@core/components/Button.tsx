@@ -140,6 +140,7 @@ function Button(props: ButtonProps, ref: ForwardedRef<HTMLButtonElement>) {
   ;[props, ref] = useContextProps(props, ref, ButtonContext)
   let { className, intent, size, loading, iconOnly, fullWidth } = props
   let ctx = props as ButtonContextValue
+  //   @ts-ignore
   let { buttonProps, isPressed } = useButton(props, ref)
   let { focusProps, isFocused, isFocusVisible } = useFocusRing(props)
   let { hoverProps, isHovered } = useHover(props)

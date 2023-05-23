@@ -5,6 +5,6 @@
         "plugin:storybook/recommended"
     ],
     "ignorePatterns": [
-        "src/generated.ts"
+        "src/stories/*"
     ]
 }

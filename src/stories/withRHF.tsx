@@ -16,7 +16,8 @@ const StorybookFormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   )
 }
 
-export default (showSubmitButton: boolean) =>
+const withRHF =
+  (showSubmitButton: boolean) =>
   (Story: FC): ReturnType<StoryFn<ReactElement>> =>
     (
       <StorybookFormProvider>
@@ -24,3 +25,7 @@ export default (showSubmitButton: boolean) =>
         {showSubmitButton && <button type="submit">Submit</button>}
       </StorybookFormProvider>
     )
+
+withRHF.displayName = "withRHF"
+
+export default withRHF

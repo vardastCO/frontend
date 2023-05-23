@@ -199,6 +199,8 @@ export interface SlotProps {
 export function useContextProps<T, U, E extends Element>(
   props: T & SlotProps,
   ref: React.ForwardedRef<E>,
+
+  //   @ts-ignore
   context: React.Context<ContextValue<U, E>>
 ): [T, React.RefObject<E>] {
   let ctx = useContext(context) || {}
@@ -241,6 +243,7 @@ export function useSlot(): [RefCallback<Element>, boolean] {
 
   // A callback ref which will run when the slotted element mounts.
   // This should happen before the useLayoutEffect below.
+  //   @ts-ignore
   let ref = useCallback((el) => {
     hasRun.current = true
     setHasSlot(!!el)

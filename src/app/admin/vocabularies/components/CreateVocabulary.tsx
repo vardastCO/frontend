@@ -12,8 +12,9 @@ import { useCreateVocabularyMutation } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/Button"
 import { Dialog } from "@core/components/Dialog"
+import { Input } from "@core/components/Input"
 import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
-import TextField from "@core/components/TextField"
+import { TextField } from "@core/components/TextField"
 import { toastQueue } from "@core/components/Toast"
 import { slugify } from "@core/utils/slugify"
 import zodI18nMap from "@core/utils/zodErrorMap"
@@ -60,6 +61,7 @@ const CreateVocavulary = (props: Props) => {
   type CreateVocavulary = TypeOf<typeof CreateVocabularySchema>
 
   const {
+    register,
     control,
     handleSubmit,
     watch,
@@ -117,39 +119,36 @@ const CreateVocavulary = (props: Props) => {
                 <TextField
                   label={t("common:title")}
                   type="text"
-                  name="title"
-                  control={control}
                   errorMessage={errors.title && errors.title.message}
                   isDisabled={isSubmitting}
-                />
+                >
+                  <Input {...register("title")} />
+                </TextField>
                 <TextField
                   label={t("common:english_title")}
                   type="text"
-                  name="titleEn"
-                  control={control}
                   errorMessage={errors.titleEn && errors.titleEn.message}
                   isDisabled={isSubmitting}
-                  dir="ltr"
-                />
+                >
+                  <Input {...register("titleEn")} dir="ltr" />
+                </TextField>
                 <TextField
                   label={t("common:slug")}
                   type="text"
-                  name="slug"
-                  control={control}
                   errorMessage={errors.slug && errors.slug.message}
                   isDisabled={isSubmitting}
                   isReadOnly
-                  plaintext
-                  dir="ltr"
-                />
+                >
+                  <Input {...register("slug")} plaintext dir="ltr" />
+                </TextField>
                 <TextField
                   label={t("common:display_sort")}
                   type="number"
-                  name="sort"
-                  control={control}
                   errorMessage={errors.sort && errors.sort.message}
                   isDisabled={isSubmitting}
-                />
+                >
+                  <Input {...register("sort")} />
+                </TextField>
                 <div className="flex items-center justify-end gap-2">
                   <Button
                     intent="ghost"

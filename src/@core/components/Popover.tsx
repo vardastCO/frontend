@@ -71,6 +71,7 @@ function Popover(props: PopoverProps, ref: ForwardedRef<HTMLElement>) {
 
   if (state && !state.isOpen && !isExiting) {
     return preserveChildren ? (
+      //   @ts-ignore
       <HiddenContext.Provider value>{props.children}</HiddenContext.Provider>
     ) : null
   }

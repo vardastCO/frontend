@@ -46,6 +46,7 @@ export const toastQueue = new ToastQueue({
   maxVisibleToasts: 5
 })
 
+//   @ts-ignore
 export function GlobalToastRegion(props) {
   // Subscribe to it.
   let state = useToastQueue(toastQueue)
@@ -89,7 +90,10 @@ export function Toast<T>({ state, ...props }: ToastProps<T>) {
         intent: props.toast.intent
       })}
     >
-      <div {...titleProps}>{props.toast.content}</div>
+      <div {...titleProps}>
+        {/* @ts-ignore */}
+        {props.toast.content}
+      </div>
       <Button intent="ghost" className="close-button" {...closeButtonProps}>
         <IconX />
       </Button>

@@ -15,8 +15,9 @@ import { TypeOf, z } from "zod"
 import { Button } from "@core/components/Button"
 import CheckboxField from "@core/components/CheckboxField"
 import { Dialog } from "@core/components/Dialog"
+import { Input } from "@core/components/Input"
 import { Modal, ModalContent } from "@core/components/Modal"
-import TextField from "@core/components/TextField"
+import { TextField } from "@core/components/TextField"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
@@ -50,6 +51,7 @@ const CreateProvince = ({ countryId }: Props) => {
   type CreateProvince = TypeOf<typeof CreateProvinceSchema>
 
   const {
+    register,
     handleSubmit,
     control,
     formState: { errors }
@@ -91,33 +93,38 @@ const CreateProvince = ({ countryId }: Props) => {
                   label={t("common:name")}
                   type="text"
                   name="name"
-                  control={control}
                   errorMessage={errors.name && errors.name.message}
-                />
+                >
+                  <Input {...register("name")} />
+                </TextField>
                 <TextField
                   label={t("common:english_name")}
                   type="text"
                   name="nameEn"
-                  control={control}
                   errorMessage={errors.nameEn && errors.nameEn.message}
-                />
+                >
+                  <Input {...register("nameEn")} />
+                </TextField>
                 <TextField
                   label={t("common:slug")}
                   type="text"
                   name="slug"
-                  control={control}
                   errorMessage={errors.slug && errors.slug.message}
-                />
+                >
+                  <Input {...register("slug")} />
+                </TextField>
                 <TextField
                   label={t("common:display_sort")}
                   type="number"
                   name="sort"
-                  control={control}
                   errorMessage={errors.sort && errors.sort.message}
-                />
+                >
+                  <Input {...register("sort")} />
+                </TextField>
                 <CheckboxField
                   label={t("common:is_active")}
                   name="isActive"
+                  //   @ts-ignore
                   control={control}
                   errorMessage={errors.isActive && errors.isActive.message}
                 />

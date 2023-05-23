@@ -1,6 +1,6 @@
 "use client"
 
-import { useGetCountryQuery } from "@/generated"
+import { Province, useGetCountryQuery } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
@@ -27,7 +27,7 @@ const Provinces = ({ countrySlug }: Props) => {
           province && (
             <ProvinceCard
               key={province.id}
-              province={province}
+              province={province as Province}
               countrySlug={countrySlug}
             />
           )

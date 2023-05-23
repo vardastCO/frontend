@@ -29,7 +29,7 @@ const Categories = ({ slug }: Props) => {
         <CategoryCard
           category={category as Category}
           vocabularySlug={data?.vocabulary.slug}
-          key={category.id}
+          key={category?.id}
         />
       ))}
     </div>

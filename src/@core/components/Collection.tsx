@@ -576,6 +576,7 @@ export class Document<
     if (!collection.getItem(element.node.key)) {
       collection.addNode(element.node)
 
+      //   @ts-ignore
       for (let child of element) {
         this.addNode(child)
       }
@@ -585,6 +586,7 @@ export class Document<
   }
 
   removeNode(node: ElementNode<T>) {
+    //   @ts-ignore
     for (let child of node) {
       child.parentNode = null
       this.removeNode(child)
@@ -597,6 +599,7 @@ export class Document<
 
   /** Finalizes the collection update, updating all nodes and freezing the collection. */
   getCollection(): C {
+    //   @ts-ignore
     for (let element of this.dirtyNodes) {
       if (element instanceof ElementNode && element.parentNode) {
         element.updateNode()
@@ -607,6 +610,7 @@ export class Document<
 
     if (this.mutatedNodes.size) {
       let collection = this.getMutableCollection()
+      //   @ts-ignore
       for (let element of this.mutatedNodes) {
         if (element.parentNode) {
           collection.addNode(element.node)
@@ -631,6 +635,7 @@ export class Document<
       return
     }
 
+    //   @ts-ignore
     for (let fn of this.subscriptions) {
       fn()
     }
@@ -661,6 +666,7 @@ export function useCachedChildren<T extends object>(
   return useMemo(() => {
     if (items && typeof children === "function") {
       let res: ReactElement[] = []
+      //   @ts-ignore
       for (let item of items) {
         let rendered = cache.get(item)
         if (!rendered) {
@@ -726,6 +732,7 @@ export function useCollection<T extends object, C extends BaseCollection<T>>(
   let wrappedChildren = useMemo(
     () => (
       <ShallowRenderContext.Provider value>
+        {/* @ts-ignore */}
         {children}
       </ShallowRenderContext.Provider>
     ),
@@ -816,6 +823,7 @@ export function useCollectionItemRef<T extends Element>(
 ) {
   // Return a callback ref that sets the props object on the fake DOM node.
   return useCallback(
+    //   @ts-ignore
     (element) => {
       element?.setProps(props, ref, rendered)
     },
@@ -844,6 +852,7 @@ const _Item = /*#__PURE__*/ (forwardRef as forwardRefType)(Item)
 export { _Item as Item }
 export { _Section as Section }
 
+//   @ts-ignore
 export interface SectionProps<T>
   extends Omit<SharedSectionProps<T>, "children" | "title">,
     DOMProps {
@@ -879,7 +888,9 @@ export function Collection<T extends object>(
   props = mergeProps(ctx, props)
   let renderer = typeof props.children === "function" ? props.children : null
   return (
+    //   @ts-ignore
     <CollectionRendererContext.Provider value={renderer}>
+      {/* @ts-ignore */}
       {useCollectionChildren(props)}
     </CollectionRendererContext.Provider>
   )

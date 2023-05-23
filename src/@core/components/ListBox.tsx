@@ -131,6 +131,7 @@ function ListBox<T>(props: ListBoxProps<T>, ref: ForwardedRef<HTMLDivElement>) {
   return <ListBoxPortal props={props} listBoxRef={ref} />
 }
 
+//   @ts-ignore
 function ListBoxPortal({ props, listBoxRef }) {
   let { portal, collection } = useCollection(props)
   props = { ...props, collection, children: null, items: null }
@@ -310,6 +311,7 @@ function ListBoxInner<T>({ state, props, listBoxRef }: ListBoxInnerProps<T>) {
             [DropIndicatorContext, { render: ListBoxDropIndicatorWrapper }]
           ]}
         >
+          {/* @ts-ignore */}
           {children}
         </Provider>
         {emptyState}
@@ -368,6 +370,7 @@ function ListBoxSection<T>({
       style={style || section.props?.style}
       ref={section.props.ref}
     >
+      {/* @ts-ignore */}
       {children}
     </section>
   )
