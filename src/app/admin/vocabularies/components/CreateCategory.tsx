@@ -26,27 +26,27 @@ import {
   slugInputSchema
 } from "@core/utils/zodValidationSchemas"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { IconSelector } from "@tabler/icons-react"
 import { useQueryClient } from "@tanstack/react-query"
 import useTranslation from "next-translate/useTranslation"
-import { useEffect, useState } from "react"
+import { Key, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
 type Props = {
-  vocabularySlug: string
+  vocabularyId: number
 }
 
-const CreateCategory = ({ vocabularySlug }: Props) => {
+const CreateCategory = ({ vocabularyId }: Props) => {
   const { t } = useTranslation()
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState<boolean>(false)
+  const [parentCategoryId, setParentCategoryId] = useState<Key | null>(null)
 
   const queryClient = useQueryClient()
 
   const { error, data, isLoading } = useGetVocabularyQuery(
     graphqlRequestClient,
     {
-      slug: vocabularySlug
+      id: vocabularyId
     }
   )
 
@@ -58,7 +58,7 @@ const CreateCategory = ({ vocabularySlug }: Props) => {
         setOpen(false)
         toastQueue.add(
           t("common:entity_added_successfully", {
-            entity: t("common:vocabulary")
+            entity: t("common:category")
           }),
           {
             timeout: 2000,
@@ -71,8 +71,6 @@ const CreateCategory = ({ vocabularySlug }: Props) => {
 
   z.setErrorMap(zodI18nMap)
   const CreateCategorySchema = z.object({
-    vocabularyId: z.number().int(),
-    parentCategoryId: z.number().int().optional(),
     title: persianInputSchema,
     titleEn: englishInputSchema,
     slug: slugInputSchema,
@@ -82,7 +80,6 @@ const CreateCategory = ({ vocabularySlug }: Props) => {
   type CreateCategory = TypeOf<typeof CreateCategorySchema>
 
   const {
-    control,
     register,
     handleSubmit,
     watch,
@@ -106,12 +103,12 @@ const CreateCategory = ({ vocabularySlug }: Props) => {
   }, [titleEn, setValue])
 
   function onSubmit(data: CreateCategory) {
-    const { vocabularyId, parentCategoryId, title, titleEn, slug, sort } = data
+    const { title, titleEn, slug, sort } = data
 
     createCategoryMutation.mutate({
       createCategoryInput: {
         vocabularyId,
-        parentCategoryId,
+        parentCategoryId: parentCategoryId as number,
         title,
         titleEn,
         slug,
@@ -139,22 +136,17 @@ const CreateCategory = ({ vocabularySlug }: Props) => {
                 className="flex flex-col gap-6"
                 noValidate
               >
-                <input type="hidden" name="vocabularyId" value="" />
                 <ComboBox
                   label={t("common:parent")}
-                  errorMessage={
-                    errors.parentCategoryId && errors.parentCategoryId.message
-                  }
+                  onSelectionChange={setParentCategoryId}
                   isDisabled={isSubmitting}
                 >
-                  <Input
-                    {...register("parentCategoryId")}
-                    suffixElement={<IconSelector className="icon" />}
-                  />
                   <Popover>
                     <ListBox items={data?.vocabulary.categories as Category[]}>
                       {(item) => (
-                        <Item textValue={item.title}>{item.title}</Item>
+                        <Item id={item.id} textValue={item.title}>
+                          {item.title}
+                        </Item>
                       )}
                     </ListBox>
                   </Popover>
@@ -183,10 +175,17 @@ const CreateCategory = ({ vocabularySlug }: Props) => {
                 </TextField>
                 <TextField
                   label={t("common:display_sort")}
+                  type="number"
                   errorMessage={errors.sort && errors.sort.message}
                   isDisabled={isSubmitting}
                 >
-                  <Input {...register("sort")} />
+                  <Input
+                    min={0}
+                    {...register("sort", {
+                      valueAsNumber: true,
+                      min: 0
+                    })}
+                  />
                 </TextField>
                 <div className="flex items-center justify-end gap-2">
                   <Button

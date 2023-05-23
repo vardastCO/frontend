@@ -80,17 +80,19 @@ export const InputContext = createContext<
   ContextValue<InputProps, HTMLInputElement>
 >({})
 
-function Input(props: InputProps, ref: ForwardedRef<HTMLInputElement>) {
-  const {
+function Input(
+  {
     prefixAddon,
     suffixAddon,
     prefixElement,
     suffixElement,
     inputSize,
     rounded,
-    plaintext
-  } = props
-
+    plaintext,
+    ...props
+  }: InputProps,
+  ref: ForwardedRef<HTMLInputElement>
+) {
   ;[props, ref] = useContextProps(props, ref, InputContext)
 
   let { hoverProps, isHovered } = useHover({})

@@ -12,6 +12,7 @@ import {
   useSlot
 } from "@core/utils/react-aria-utils"
 import { filterDOMProps, useResizeObserver } from "@react-aria/utils"
+import { IconSelector } from "@tabler/icons-react"
 import React, {
   ForwardedRef,
   createContext,
@@ -23,8 +24,9 @@ import React, {
 } from "react"
 import { AriaComboBoxProps, useComboBox, useFilter } from "react-aria"
 import { useComboBoxState } from "react-stately"
+import { Button } from "./Button"
 import { useCollection } from "./Collection"
-import { InputContext } from "./Input"
+import { Input } from "./Input"
 import { Label } from "./Label"
 import { ListBoxContext, ListBoxProps } from "./ListBox"
 import { PopoverContext } from "./Popover"
@@ -140,22 +142,30 @@ function ComboBox<T extends object>(
       <Label {...labelProps} ref={labelRef}>
         {props.label}
       </Label>
+      <Input
+        {...inputProps}
+        ref={inputRef}
+        suffixElement={
+          <Button
+            intent="ghost"
+            size="large"
+            className="p-0"
+            {...buttonProps}
+            ref={buttonRef}
+          >
+            <IconSelector className="icon" />
+          </Button>
+        }
+      />
       <Provider
         values={[
-          [
-            InputContext,
-            {
-              ...inputProps,
-              ref: inputRef
-            }
-          ],
           [
             PopoverContext,
             {
               state,
               ref: popoverRef,
               triggerRef: inputRef,
-              placement: "bottom start",
+              placement: "bottom end",
               preserveChildren: true,
               isNonModal: true,
               className: "combobox-list-container",
