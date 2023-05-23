@@ -147,7 +147,13 @@ const CreateVocavulary = (props: Props) => {
                   errorMessage={errors.sort && errors.sort.message}
                   isDisabled={isSubmitting}
                 >
-                  <Input {...register("sort")} />
+                  <Input
+                    min={0}
+                    {...register("sort", {
+                      valueAsNumber: true,
+                      min: 0
+                    })}
+                  />
                 </TextField>
                 <div className="flex items-center justify-end gap-2">
                   <Button
