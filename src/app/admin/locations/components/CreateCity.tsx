@@ -14,7 +14,7 @@ import { TypeOf, z } from "zod"
 
 import { CityTypesEnum } from "@/generated"
 import { Button } from "@core/components/Button"
-import CheckboxField from "@core/components/CheckboxField"
+import CheckboxField from "@core/components/Checkbox"
 import { Dialog } from "@core/components/Dialog"
 import { Input } from "@core/components/Input"
 import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"

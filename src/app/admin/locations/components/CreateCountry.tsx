@@ -12,15 +12,17 @@ import { useEffect, useState } from "react"
 import { TypeOf, z } from "zod"
 
 import { Button } from "@core/components/Button"
-import CheckboxField from "@core/components/CheckboxField"
+import { Checkbox } from "@core/components/Checkbox"
 import { Dialog } from "@core/components/Dialog"
 import { Input } from "@core/components/Input"
 import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
 import { TextField } from "@core/components/TextField"
+import { toastQueue } from "@core/components/Toast"
 import { slugify } from "@core/utils/slugify"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useQueryClient } from "@tanstack/react-query"
 import useTranslation from "next-translate/useTranslation"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 
 type Props = {}
 
@@ -28,9 +30,20 @@ const CreateCountry = (props: Props) => {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
+  const queryClient = useQueryClient()
   const createCountryMutation = useCreateCountryMutation(graphqlRequestClient, {
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["GetAllCountries"] })
       setOpen(false)
+      toastQueue.add(
+        t("common:entity_added_successfully", {
+          entity: t("common:country")
+        }),
+        {
+          timeout: 2000,
+          intent: "success"
+        }
+      )
     }
   })
 
@@ -42,7 +55,7 @@ const CreateCountry = (props: Props) => {
     iso: z.string(),
     phonePrefix: z.string(),
     sort: z.number().optional().default(0),
-    isActive: z.boolean().optional().default(true)
+    isActive: z.boolean().optional()
   })
   type CreateCountry = TypeOf<typeof CreateCountrySchema>
 
@@ -56,7 +69,8 @@ const CreateCountry = (props: Props) => {
   } = useForm<CreateCountry>({
     resolver: zodResolver(CreateCountrySchema),
     defaultValues: {
-      sort: 0
+      sort: 0,
+      isActive: true
     }
   })
 
@@ -73,8 +87,9 @@ const CreateCountry = (props: Props) => {
   function onSubmit(data: CreateCountry) {
     const { name, nameEn, alphaTwo, slug, phonePrefix, sort, isActive, iso } =
       data
+
     createCountryMutation.mutate({
-      input: {
+      createCountryInput: {
         name,
         nameEn,
         alphaTwo,
@@ -166,12 +181,20 @@ const CreateCountry = (props: Props) => {
                     })}
                   />
                 </TextField>
-                <CheckboxField
-                  label={t("common:is_active")}
+                <Controller
                   name="isActive"
-                  //   @ts-ignore
                   control={control}
-                  errorMessage={errors.isActive && errors.isActive.message}
+                  render={({ field, fieldState: { error } }) => (
+                    <Checkbox
+                      label={t("common:is_active")}
+                      ref={field.ref}
+                      name={field.name}
+                      isSelected={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      errorMessage={error && error.message}
+                    />
+                  )}
                 />
                 <div className="flex items-center justify-end gap-2">
                   <Button
