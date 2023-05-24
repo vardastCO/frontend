@@ -1,5 +1,5 @@
-mutation CreateCountry($input: CreateCountryInput!) {
-  createCountry(createCountryInput: $input) {
+mutation CreateCountry($createCountryInput: CreateCountryInput!) {
+  createCountry(createCountryInput: $createCountryInput) {
     id
     name
     nameEn

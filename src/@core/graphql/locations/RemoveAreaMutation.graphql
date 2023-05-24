@@ -1,8 +1,9 @@
-mutation CreateArea($input: CreateAreaInput!) {
-  createArea(createAreaInput: $input) {
+mutation RemoveAreaMutation($id: Int!) {
+  removeArea(id: $id) {
     id
     name
     nameEn
+    municipalityDistrict
     slug
     sort
     isActive
