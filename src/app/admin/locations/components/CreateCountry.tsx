@@ -33,6 +33,7 @@ const CreateCountry = (props: Props) => {
   const queryClient = useQueryClient()
   const createCountryMutation = useCreateCountryMutation(graphqlRequestClient, {
     onSuccess: () => {
+      reset()
       queryClient.invalidateQueries({ queryKey: ["GetAllCountries"] })
       setOpen(false)
       toastQueue.add(
@@ -55,7 +56,7 @@ const CreateCountry = (props: Props) => {
     iso: z.string(),
     phonePrefix: z.string(),
     sort: z.number().optional().default(0),
-    isActive: z.boolean().optional()
+    isActive: z.boolean().optional().default(true)
   })
   type CreateCountry = TypeOf<typeof CreateCountrySchema>
 
@@ -65,6 +66,7 @@ const CreateCountry = (props: Props) => {
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors, isSubmitting }
   } = useForm<CreateCountry>({
     resolver: zodResolver(CreateCountrySchema),

@@ -54,6 +54,7 @@ const CreateCategory = ({ vocabularyId }: Props) => {
     graphqlRequestClient,
     {
       onSuccess: () => {
+        reset()
         queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
         setOpen(false)
         toastQueue.add(
@@ -75,11 +76,12 @@ const CreateCategory = ({ vocabularyId }: Props) => {
     titleEn: englishInputSchema,
     slug: slugInputSchema,
     sort: z.number().optional().default(0),
-    isActive: z.boolean().default(true)
+    isActive: z.boolean().optional().default(true)
   })
   type CreateCategory = TypeOf<typeof CreateCategorySchema>
 
   const {
+    reset,
     register,
     handleSubmit,
     watch,
@@ -88,7 +90,8 @@ const CreateCategory = ({ vocabularyId }: Props) => {
   } = useForm<CreateCategory>({
     resolver: zodResolver(CreateCategorySchema),
     defaultValues: {
-      sort: 0
+      sort: 0,
+      isActive: true
     }
   })
 

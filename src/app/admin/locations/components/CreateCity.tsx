@@ -14,15 +14,16 @@ import { TypeOf, z } from "zod"
 
 import { CityTypesEnum } from "@/generated"
 import { Button } from "@core/components/Button"
-import CheckboxField from "@core/components/Checkbox"
+import { Checkbox } from "@core/components/Checkbox"
 import { Dialog } from "@core/components/Dialog"
 import { Input } from "@core/components/Input"
 import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
 import { TextField } from "@core/components/TextField"
+import { toastQueue } from "@core/components/Toast"
 import { slugify } from "@core/utils/slugify"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 
 type Props = {
   provinceId: number
@@ -35,8 +36,18 @@ const CreateCity = ({ provinceId }: Props) => {
   const queryClient = useQueryClient()
   const createProvinceMutation = useCreateCityMutation(graphqlRequestClient, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["GetCountry"] })
+      reset()
+      queryClient.invalidateQueries({ queryKey: ["GetProvince"] })
       setOpen(false)
+      toastQueue.add(
+        t("common:entity_added_successfully", {
+          entity: t("common:province")
+        }),
+        {
+          timeout: 2000,
+          intent: "success"
+        }
+      )
     }
   })
 
@@ -50,6 +61,7 @@ const CreateCity = ({ provinceId }: Props) => {
   type CreateCity = TypeOf<typeof CreateCitySchema>
 
   const {
+    reset,
     register,
     control,
     handleSubmit,
@@ -59,7 +71,8 @@ const CreateCity = ({ provinceId }: Props) => {
   } = useForm<CreateCity>({
     resolver: zodResolver(CreateCitySchema),
     defaultValues: {
-      sort: 0
+      sort: 0,
+      isActive: true
     }
   })
 
@@ -76,7 +89,7 @@ const CreateCity = ({ provinceId }: Props) => {
   function onSubmit(data: CreateCity) {
     const { name, nameEn, slug, sort, isActive } = data
     createProvinceMutation.mutate({
-      input: {
+      createCityInput: {
         provinceId,
         name,
         nameEn,
@@ -144,13 +157,20 @@ const CreateCity = ({ provinceId }: Props) => {
                     })}
                   />
                 </TextField>
-                <CheckboxField
-                  isDisabled={isSubmitting}
-                  label={t("common:is_active")}
+                <Controller
                   name="isActive"
-                  //   @ts-ignore
                   control={control}
-                  errorMessage={errors.isActive && errors.isActive.message}
+                  render={({ field, fieldState: { error } }) => (
+                    <Checkbox
+                      label={t("common:is_active")}
+                      ref={field.ref}
+                      name={field.name}
+                      isSelected={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      errorMessage={error && error.message}
+                    />
+                  )}
                 />
                 <div className="flex items-center justify-end gap-2">
                   <Button

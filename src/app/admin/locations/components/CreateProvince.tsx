@@ -13,15 +13,16 @@ import { useEffect, useState } from "react"
 import { TypeOf, z } from "zod"
 
 import { Button } from "@core/components/Button"
-import CheckboxField from "@core/components/Checkbox"
+import { Checkbox } from "@core/components/Checkbox"
 import { Dialog } from "@core/components/Dialog"
 import { Input } from "@core/components/Input"
 import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
 import { TextField } from "@core/components/TextField"
+import { toastQueue } from "@core/components/Toast"
 import { slugify } from "@core/utils/slugify"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 
 type Props = {
   countryId: number
@@ -36,8 +37,18 @@ const CreateProvince = ({ countryId }: Props) => {
     graphqlRequestClient,
     {
       onSuccess: () => {
+        reset()
         queryClient.invalidateQueries({ queryKey: ["GetCountry"] })
         setOpen(false)
+        toastQueue.add(
+          t("common:entity_added_successfully", {
+            entity: t("common:province")
+          }),
+          {
+            timeout: 2000,
+            intent: "success"
+          }
+        )
       }
     }
   )
@@ -57,11 +68,13 @@ const CreateProvince = ({ countryId }: Props) => {
     control,
     watch,
     setValue,
+    reset,
     formState: { errors, isSubmitting }
   } = useForm<CreateProvince>({
     resolver: zodResolver(CreateProvinceSchema),
     defaultValues: {
-      sort: 0
+      sort: 0,
+      isActive: true
     }
   })
 
@@ -78,7 +91,7 @@ const CreateProvince = ({ countryId }: Props) => {
   function onSubmit(data: CreateProvince) {
     const { name, nameEn, slug, sort, isActive } = data
     createProvinceMutation.mutate({
-      input: {
+      createProvinceInput: {
         countryId,
         name,
         nameEn,
@@ -145,13 +158,20 @@ const CreateProvince = ({ countryId }: Props) => {
                     })}
                   />
                 </TextField>
-                <CheckboxField
-                  label={t("common:is_active")}
+                <Controller
                   name="isActive"
-                  //   @ts-ignore
                   control={control}
-                  errorMessage={errors.isActive && errors.isActive.message}
-                  isDisabled={isSubmitting}
+                  render={({ field, fieldState: { error } }) => (
+                    <Checkbox
+                      label={t("common:is_active")}
+                      ref={field.ref}
+                      name={field.name}
+                      isSelected={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      errorMessage={error && error.message}
+                    />
+                  )}
                 />
                 <div className="flex items-center justify-end gap-2">
                   <Button

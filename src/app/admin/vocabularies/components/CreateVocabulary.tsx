@@ -36,6 +36,7 @@ const CreateVocavulary = (props: Props) => {
     graphqlRequestClient,
     {
       onSuccess: () => {
+        reset()
         queryClient.invalidateQueries({ queryKey: ["GetAllVocabularies"] })
         setOpen(false)
         toastQueue.add(
@@ -61,6 +62,7 @@ const CreateVocavulary = (props: Props) => {
   type CreateVocavulary = TypeOf<typeof CreateVocabularySchema>
 
   const {
+    reset,
     register,
     control,
     handleSubmit,
