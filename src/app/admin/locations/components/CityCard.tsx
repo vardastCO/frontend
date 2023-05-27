@@ -10,7 +10,7 @@ import { Popover } from "@core/components/Popover"
 import { Separator } from "@core/components/Separator"
 import { Switch } from "@core/components/Switch"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
-import { useAtom } from "jotai"
+import { useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 import { Key, useContext, useState } from "react"
@@ -23,8 +23,9 @@ interface ProvinceCardProps {
 }
 
 const CityCard = ({ countrySlug, provinceSlug, city }: ProvinceCardProps) => {
-  const { removeStateAtom } = useContext(LocationsContext)
-  const [removeState, setRemoveState] = useAtom(removeStateAtom)
+  const { removeStateAtom, entityToRemoveAtom } = useContext(LocationsContext)
+  const setRemoveState = useSetAtom(removeStateAtom)
+  const setEntityToRemove = useSetAtom(entityToRemoveAtom)
   const { t } = useTranslation()
   const { name, slug, isActive, areasCount } = city
 
@@ -33,6 +34,10 @@ const CityCard = ({ countrySlug, provinceSlug, city }: ProvinceCardProps) => {
   const onAction = (key: Key) => {
     switch (key) {
       case "remove":
+        setEntityToRemove({
+          type: "city",
+          entity: city
+        })
         setRemoveState(true)
         break
     }
