@@ -1,14 +1,16 @@
 "use client"
 
-import { City } from "@/generated"
+import { City, useUpdateCityMutation } from "@/generated"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/Button"
 import { Item } from "@core/components/Collection"
 import { Menu, MenuTrigger } from "@core/components/Menu"
 import { Popover } from "@core/components/Popover"
 import { Separator } from "@core/components/Separator"
 import { Switch } from "@core/components/Switch"
+import { toastQueue } from "@core/components/Toast"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
 import { useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
@@ -30,6 +32,31 @@ const CityCard = ({ countrySlug, provinceSlug, city }: ProvinceCardProps) => {
   const { name, slug, isActive, areasCount } = city
 
   const [active, setActive] = useState(isActive)
+
+  const updateCityMutation = useUpdateCityMutation(graphqlRequestClient, {
+    onSuccess: () => {
+      toastQueue.add(
+        t("common:entity_updated_successfully", {
+          entity: t("common:city")
+        }),
+        {
+          timeout: 2000,
+          intent: "success"
+        }
+      )
+      setActive((value) => !value)
+    }
+  })
+
+  const toggleActive = () => {
+    const oldActiveMode = active
+    updateCityMutation.mutate({
+      updateCityInput: {
+        id: city.id,
+        isActive: !oldActiveMode
+      }
+    })
+  }
 
   const onAction = (key: Key) => {
     switch (key) {
@@ -57,7 +84,12 @@ const CityCard = ({ countrySlug, provinceSlug, city }: ProvinceCardProps) => {
         </span>
       )}
       <div className="mr-auto flex items-center gap-2">
-        <Switch onChange={setActive} isSelected={active} size="small">
+        <Switch
+          onChange={toggleActive}
+          isSelected={active}
+          size="small"
+          isDisabled={updateCityMutation.isLoading}
+        >
           {t("common:is_active")}
         </Switch>
         <MenuTrigger>

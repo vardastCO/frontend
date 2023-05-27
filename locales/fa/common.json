@@ -23,6 +23,7 @@
     "create_new_entity": "ساخت {{ entity }} جدید",
     "entity_added_successfully": "{{ entity }} با موفقیت اضافه شد",
     "entity_removed_successfully": "{{ entity }} با موفقیت حذف شد",
+    "entity_updated_successfully": "{{ entity }} با موفقیت بروزرسانی شد",
     "create_category": "ساخت دسته‌بندی",
     "create_first_entity_title": "اولین {{ entity }} را اضافه کنید",
     "delete": "حذف",

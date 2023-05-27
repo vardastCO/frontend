@@ -1,15 +1,17 @@
 "use client"
 
-import { Country } from "@/generated"
+import { Country, useUpdateCountryMutation } from "@/generated"
 import { getFlagEmoji } from "@core/utils/getFlagEmoji"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/Button"
 import { Item } from "@core/components/Collection"
 import { Menu, MenuTrigger } from "@core/components/Menu"
 import { Popover } from "@core/components/Popover"
 import { Separator } from "@core/components/Separator"
 import { Switch } from "@core/components/Switch"
+import { toastQueue } from "@core/components/Toast"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
 import { useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
@@ -28,6 +30,31 @@ const CountryCard = ({ country }: CountryCardProps) => {
   const { t } = useTranslation()
   const { name, slug, alphaTwo, isActive, provincesCount } = country
   const [active, setActive] = useState(isActive)
+
+  const updateCountryMutation = useUpdateCountryMutation(graphqlRequestClient, {
+    onSuccess: () => {
+      toastQueue.add(
+        t("common:entity_updated_successfully", {
+          entity: t("common:country")
+        }),
+        {
+          timeout: 2000,
+          intent: "success"
+        }
+      )
+      setActive((value) => !value)
+    }
+  })
+
+  const toggleActive = () => {
+    const oldActiveMode = active
+    updateCountryMutation.mutate({
+      updateCountryInput: {
+        id: country.id,
+        isActive: !oldActiveMode
+      }
+    })
+  }
 
   const onAction = (key: Key) => {
     switch (key) {
@@ -60,7 +87,12 @@ const CountryCard = ({ country }: CountryCardProps) => {
         )}
       </div>
       <div className="mr-auto flex items-center gap-2">
-        <Switch onChange={setActive} isSelected={active} size="small">
+        <Switch
+          onChange={toggleActive}
+          isSelected={active}
+          size="small"
+          isDisabled={updateCountryMutation.isLoading}
+        >
           {t("common:is_active")}
         </Switch>
         <MenuTrigger>
