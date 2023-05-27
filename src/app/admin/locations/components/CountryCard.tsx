@@ -3,14 +3,17 @@
 import { Country } from "@/generated"
 import { getFlagEmoji } from "@core/utils/getFlagEmoji"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
-import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
 
-import { Item, Menu } from "@core/components/Menu"
+import { Button } from "@core/components/Button"
+import { Item } from "@core/components/Collection"
+import { Menu, MenuTrigger } from "@core/components/Menu"
+import { Popover } from "@core/components/Popover"
+import { Separator } from "@core/components/Separator"
 import { Switch } from "@core/components/Switch"
+import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 import { useState } from "react"
-import { Separator } from "react-aria-components"
 
 type CountryCardProps = {
   country: Country
@@ -43,25 +46,24 @@ const CountryCard = ({ country }: CountryCardProps) => {
         <Switch onChange={setActive} isSelected={active} size="small">
           {t("common:is_active")}
         </Switch>
-        <Menu
-          onAction={alert}
-          buttonProps={{
-            intent: "ghost",
-            size: "xsmall",
-            children: <IconDots className="icon" />,
-            iconOnly: true
-          }}
-        >
-          <Item id="edit">
-            <IconEdit className="dropdown-menu-item-icon" />
-            ویرایش
-          </Item>
-          <Separator className="dropdown-menu-separator" />
-          <Item id="delete" className="dropdown-menu-item-danger">
-            <IconTrash className="dropdown-menu-item-icon" />
-            حذف
-          </Item>
-        </Menu>
+        <MenuTrigger>
+          <Button intent="ghost" iconOnly>
+            <IconDots className="icon" />
+          </Button>
+          <Popover>
+            <Menu onAction={alert}>
+              <Item id="edit">
+                <IconEdit className="dropdown-menu-item-icon" />
+                ویرایش
+              </Item>
+              <Separator />
+              <Item id="remove" className="danger">
+                <IconTrash className="dropdown-menu-item-icon" />
+                حذف
+              </Item>
+            </Menu>
+          </Popover>
+        </MenuTrigger>
       </div>
     </div>
   )

@@ -8,7 +8,14 @@
       shadow-[0_0_0_1px_var(--border-color),0_1px_0_0_rgba(0,0,0,0.08),0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)]
       outline-none
       ring-0
-      will-change-[opacity,transform];
+      will-change-[opacity,transform]
+      focus:outline-none
+      focus-visible:outline-none;
+
+  & .dropdown-menu-inner {
+    @apply focus:outline-none
+        focus-visible:outline-none;
+  }
 
   & .dropdown-menu-separator {
     @apply m-1.5 h-px bg-gray-200;
@@ -40,7 +47,7 @@
           data-[focused]:bg-gray-100
           data-[hovered]:bg-gray-100;
 
-    &.dropdown-menu-item-danger {
+    &.danger {
       @apply text-red-700
             data-[focus-visible]:bg-red-50/50
             data-[focused]:bg-red-50/50
