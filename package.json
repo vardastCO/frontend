@@ -46,6 +46,7 @@
         "eslint-config-next": "13.4.4",
         "graphql": "^16.6.0",
         "graphql-request": "^6.1.0",
+        "jotai": "^2.1.0",
         "libphonenumber-js": "^1.10.30",
         "next": "13.4.3",
         "next-auth": "^4.22.1",

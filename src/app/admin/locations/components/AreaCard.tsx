@@ -3,8 +3,10 @@
 import { Area } from "@/generated"
 
 import { Switch } from "@core/components/Switch"
+import { useAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { LocationsContext } from "./LocationsProvider"
 
 interface AreaCardProps {
   countrySlug?: string
@@ -14,6 +16,8 @@ interface AreaCardProps {
 }
 
 const AreaCard = ({ area }: AreaCardProps) => {
+  const { removeStateAtom } = useContext(LocationsContext)
+  const [removeState, setRemoveState] = useAtom(removeStateAtom)
   const { t } = useTranslation()
   const { name, slug, isActive } = area
 
