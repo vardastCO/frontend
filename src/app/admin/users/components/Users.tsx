@@ -8,10 +8,12 @@ import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
 import clsx from "clsx"
 import parsePhoneNumber from "libphonenumber-js"
+import { useRouter } from "next/navigation"
 
 type Props = {}
 
 const Users = (props: Props) => {
+  const router = useRouter()
   const { isLoading, error, data } = useGetAllUsersQuery(graphqlRequestClient)
 
   if (isLoading) return <Loading />
@@ -30,7 +32,10 @@ const Users = (props: Props) => {
         </thead>
         <tbody>
           {data?.users.map((user) => (
-            <tr key={user.uuid} onClick={() => console.log("123")}>
+            <tr
+              key={user.uuid}
+              onClick={() => router.push(`/admin/users/edit/${user.uuid}`)}
+            >
               <td>
                 <Avatar
                   size="small"
