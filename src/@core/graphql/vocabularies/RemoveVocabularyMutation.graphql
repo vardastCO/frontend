@@ -1,0 +1,11 @@
+mutation RemoveVocabularyMutation($id: Int!) {
+  removeVocabulary(id: $id) {
+    id
+    title
+    titleEn
+    slug
+    sort
+    createdAt
+    updatedAt
+  }
+}

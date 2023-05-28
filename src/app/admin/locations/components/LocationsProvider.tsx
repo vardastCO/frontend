@@ -2,7 +2,7 @@
 
 import { Area, City, Country, Province } from "@/generated"
 import { PrimitiveAtom, atom, useAtom } from "jotai"
-import { createContext } from "react"
+import { createContext, useState } from "react"
 import DeleteModal from "./DeleteModal"
 
 interface entityToRemoveAtomType {
@@ -13,6 +13,9 @@ interface entityToRemoveAtomType {
 interface LocationsContextType {
   removeStateAtom: PrimitiveAtom<boolean>
   entityToRemoveAtom: PrimitiveAtom<entityToRemoveAtomType>
+  activesOnly: boolean
+  setActivesOnly: (state: boolean) => void
+  toggleActivesOnly: () => void
 }
 
 const removeStateAtom = atom<boolean>(false)
@@ -23,7 +26,10 @@ const entityToRemoveAtom = atom<entityToRemoveAtomType>({
 
 export const LocationsContext = createContext<LocationsContextType>({
   removeStateAtom,
-  entityToRemoveAtom
+  entityToRemoveAtom,
+  activesOnly: false,
+  setActivesOnly: (state: boolean) => {},
+  toggleActivesOnly: () => {}
 })
 
 type Props = {
@@ -31,10 +37,24 @@ type Props = {
 }
 
 export default function LocationsProvider({ children }: Props) {
+  const [activesOnly, setActivesOnly] = useState<boolean>(false)
   const [removeState, setRemoveState] = useAtom(removeStateAtom)
 
+  const toggleActivesOnly = () => {
+    const oldActivesOnlyMode = activesOnly
+    setActivesOnly(!oldActivesOnlyMode)
+  }
+
   return (
-    <LocationsContext.Provider value={{ removeStateAtom, entityToRemoveAtom }}>
+    <LocationsContext.Provider
+      value={{
+        removeStateAtom,
+        entityToRemoveAtom,
+        activesOnly,
+        setActivesOnly,
+        toggleActivesOnly
+      }}
+    >
       <DeleteModal isOpen={removeState} onChange={setRemoveState} />
       {children}
     </LocationsContext.Provider>

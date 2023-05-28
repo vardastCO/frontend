@@ -13,6 +13,7 @@ import { Separator } from "@core/components/Separator"
 import { Switch } from "@core/components/Switch"
 import { toastQueue } from "@core/components/Toast"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
+import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
@@ -20,10 +21,11 @@ import { Key, useContext, useState } from "react"
 import { LocationsContext } from "./LocationsProvider"
 
 type CountryCardProps = {
+  show: boolean
   country: Country
 }
 
-const CountryCard = ({ country }: CountryCardProps) => {
+const CountryCard = ({ show, country }: CountryCardProps) => {
   const { removeStateAtom, entityToRemoveAtom } = useContext(LocationsContext)
   const setEntityToRemove = useSetAtom(entityToRemoveAtom)
   const setRemoveState = useSetAtom(removeStateAtom)
@@ -69,7 +71,12 @@ const CountryCard = ({ country }: CountryCardProps) => {
   }
 
   return (
-    <div className="card flex items-center gap-3 rounded bg-white px-4 py-2 pe-2">
+    <div
+      className={clsx([
+        "card flex items-center gap-3 rounded bg-white px-4 py-2 pe-2",
+        !show && "hidden"
+      ])}
+    >
       <div className="flex items-center gap-2">
         <span className="align-baseline text-2xl leading-none">
           {getFlagEmoji(alphaTwo)}

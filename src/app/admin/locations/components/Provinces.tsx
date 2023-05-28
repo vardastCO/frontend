@@ -6,9 +6,11 @@ import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
 import PageHeader from "@core/components/shared/PageHeader"
-import useTranslation from "next-translate/useTranslation"
 import { notFound } from "next/navigation"
+import { useContext } from "react"
 import CreateProvince from "./CreateProvince"
+import FiltersBar from "./FiltersBar"
+import { LocationsContext } from "./LocationsProvider"
 import ProvinceCard from "./ProvinceCard"
 
 type Props = {
@@ -16,7 +18,7 @@ type Props = {
 }
 
 const Provinces = ({ countrySlug }: Props) => {
-  const { t } = useTranslation()
+  const { activesOnly } = useContext(LocationsContext)
   const { isLoading, error, data } = useGetCountryQuery(graphqlRequestClient, {
     slug: countrySlug
   })
@@ -31,13 +33,15 @@ const Provinces = ({ countrySlug }: Props) => {
         <CreateProvince countryId={data.country.id} />
       </PageHeader>
       {!data.country.provinces.length && <NoResult entity="province" />}
+      <FiltersBar />
       <div>
         <div className="flex flex-col gap-2">
-          {data.country.provinces.map(
+          {data.country?.provinces.map(
             (province) =>
               province && (
                 <ProvinceCard
                   key={province.id}
+                  show={activesOnly ? province.isActive : true}
                   province={province as Province}
                   countrySlug={countrySlug}
                 />
