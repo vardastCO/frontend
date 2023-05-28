@@ -6,10 +6,12 @@ import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
 import PageHeader from "@core/components/shared/PageHeader"
-import useTranslation from "next-translate/useTranslation"
 import { notFound } from "next/navigation"
+import { useContext } from "react"
 import CityCard from "./CityCard"
 import CreateCity from "./CreateCity"
+import FiltersBar from "./FiltersBar"
+import { LocationsContext } from "./LocationsProvider"
 
 type Props = {
   countrySlug: string
@@ -17,7 +19,7 @@ type Props = {
 }
 
 const Cities = ({ provinceSlug, countrySlug }: Props) => {
-  const { t } = useTranslation()
+  const { activesOnly } = useContext(LocationsContext)
   const { isLoading, error, data } = useGetProvinceQuery(graphqlRequestClient, {
     slug: provinceSlug
   })
@@ -32,6 +34,7 @@ const Cities = ({ provinceSlug, countrySlug }: Props) => {
         <CreateCity provinceId={data.province.id} />
       </PageHeader>
       {!data.province.cities.length && <NoResult entity="city" />}
+      <FiltersBar />
       <div>
         <div className="flex flex-col gap-2">
           {data.province.cities.map(
@@ -39,6 +42,7 @@ const Cities = ({ provinceSlug, countrySlug }: Props) => {
               city && (
                 <CityCard
                   key={city.id}
+                  show={activesOnly ? city.isActive : true}
                   city={city as City}
                   countrySlug={countrySlug}
                   provinceSlug={provinceSlug}

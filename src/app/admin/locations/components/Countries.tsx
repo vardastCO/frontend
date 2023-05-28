@@ -7,11 +7,15 @@ import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
 import PageHeader from "@core/components/shared/PageHeader"
 import useTranslation from "next-translate/useTranslation"
+import { useContext } from "react"
 import CountryCard from "./CountryCard"
 import CreateCountry from "./CreateCountry"
+import FiltersBar from "./FiltersBar"
+import { LocationsContext } from "./LocationsProvider"
 
 const Countries = () => {
   const { t } = useTranslation()
+  const { activesOnly } = useContext(LocationsContext)
   const { isLoading, error, data } =
     useGetAllCountriesQuery(graphqlRequestClient)
 
@@ -24,10 +28,15 @@ const Countries = () => {
       <PageHeader title={t("common:locations_index_title")}>
         <CreateCountry />
       </PageHeader>
+      <FiltersBar />
       <div>
         <div className="flex flex-col gap-2">
           {data?.countries?.map((country) => (
-            <CountryCard key={country.id} country={country as Country} />
+            <CountryCard
+              show={activesOnly ? country.isActive : true}
+              key={country.id}
+              country={country as Country}
+            />
           ))}
         </div>
       </div>

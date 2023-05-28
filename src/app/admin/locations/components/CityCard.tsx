@@ -12,6 +12,7 @@ import { Separator } from "@core/components/Separator"
 import { Switch } from "@core/components/Switch"
 import { toastQueue } from "@core/components/Toast"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
+import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
@@ -19,12 +20,18 @@ import { Key, useContext, useState } from "react"
 import { LocationsContext } from "./LocationsProvider"
 
 interface ProvinceCardProps {
+  show: boolean
   countrySlug: string
   provinceSlug: string
   city: City
 }
 
-const CityCard = ({ countrySlug, provinceSlug, city }: ProvinceCardProps) => {
+const CityCard = ({
+  show,
+  countrySlug,
+  provinceSlug,
+  city
+}: ProvinceCardProps) => {
   const { removeStateAtom, entityToRemoveAtom } = useContext(LocationsContext)
   const setRemoveState = useSetAtom(removeStateAtom)
   const setEntityToRemove = useSetAtom(entityToRemoveAtom)
@@ -71,7 +78,12 @@ const CityCard = ({ countrySlug, provinceSlug, city }: ProvinceCardProps) => {
   }
 
   return (
-    <div className="card flex items-center gap-3 rounded bg-white px-4 py-2">
+    <div
+      className={clsx([
+        "card flex items-center gap-3 rounded bg-white px-4 py-2 pe-2",
+        !show && "hidden"
+      ])}
+    >
       <Link
         href={`/admin/locations/country/${countrySlug}/province/${provinceSlug}/city/${slug}`}
         className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline"
