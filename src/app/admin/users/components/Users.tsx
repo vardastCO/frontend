@@ -24,8 +24,8 @@ const Users = (props: Props) => {
         <thead>
           <tr>
             <th></th>
-            <th>موبایل</th>
             <th>ایمیل</th>
+            <th>موبایل</th>
           </tr>
         </thead>
         <tbody>
