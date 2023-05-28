@@ -288,6 +288,7 @@ function GridList<T extends object>(
             [DropIndicatorContext, { render: GridListDropIndicatorWrapper }]
           ]}
         >
+          {/* @ts-ignore */}
           {isListDroppable && <RootDropIndicator />}
           {children}
         </Provider>
@@ -306,6 +307,7 @@ function GridList<T extends object>(
 const _GridList = /*#__PURE__*/ (forwardRef as forwardRefType)(GridList)
 export { _GridList as GridList }
 
+// @ts-ignore
 function GridListItem({ item }) {
   let { state, dragAndDropHooks, dragState, dropState } = useContext(
     InternalGridListContext
