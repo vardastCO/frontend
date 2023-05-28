@@ -1,5 +1,5 @@
-mutation CreateUser($createUserInput: CreateUserInput!) {
-  createUser(createUserInput: $createUserInput) {
+mutation RemoveUserMutation($id: Int!) {
+  removeUser(id: $id) {
     id
     uuid
     firstName
@@ -27,5 +27,6 @@ mutation CreateUser($createUserInput: CreateUserInput!) {
     lockedOutAt
     createdAt
     updatedAt
+    fullName
   }
 }
