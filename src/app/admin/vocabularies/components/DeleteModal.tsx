@@ -1,6 +1,9 @@
 "use client"
 
-import { useRemoveVocabularyMutation } from "@/generated"
+import {
+  useRemoveCategoryMutation,
+  useRemoveVocabularyMutation
+} from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/Button"
 import { Dialog } from "@core/components/Dialog"
@@ -56,16 +59,29 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
       }
     }
   )
+  const removeCategoryMutation = useRemoveCategoryMutation(
+    graphqlRequestClient,
+    {
+      onSuccess: () => {
+        mutationSuccessCommon()
+        queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
+      }
+    }
+  )
 
   const removeLocation = () => {
     switch (entityType) {
       case "vocabulary":
         removeVocabularyMutation.mutate(mutationVariables)
         break
+      case "category":
+        removeCategoryMutation.mutate(mutationVariables)
+        break
     }
   }
 
-  let isLoading = removeVocabularyMutation.isLoading
+  let isLoading =
+    removeVocabularyMutation.isLoading || removeCategoryMutation.isLoading
 
   return (
     <Modal
