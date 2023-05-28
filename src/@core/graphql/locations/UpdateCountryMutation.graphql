@@ -1,5 +1,5 @@
-mutation UpdateCountryMutation($input: UpdateCountryInput!) {
-  updateCountry(updateCountryInput: $input) {
+mutation UpdateCountryMutation($updateCountryInput: UpdateCountryInput!) {
+  updateCountry(updateCountryInput: $updateCountryInput) {
     id
     name
     nameEn
@@ -11,5 +11,7 @@ mutation UpdateCountryMutation($input: UpdateCountryInput!) {
     isActive
     latitude
     longitude
+    flagEmoji
+    provincesCount
   }
 }

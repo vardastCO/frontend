@@ -5,11 +5,13 @@ import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
+import PageHeader from "@core/components/shared/PageHeader"
+import useTranslation from "next-translate/useTranslation"
 import CountryCard from "./CountryCard"
+import CreateCountry from "./CreateCountry"
 
-type Props = {}
-
-const Countries = (props: Props) => {
+const Countries = () => {
+  const { t } = useTranslation()
   const { isLoading, error, data } =
     useGetAllCountriesQuery(graphqlRequestClient)
 
@@ -18,14 +20,18 @@ const Countries = (props: Props) => {
   if (!data?.countries) return <NoResult entity="country" />
 
   return (
-    <div className="flex flex-col gap-2">
-      {data?.countries?.map(
-        (country) =>
-          country && (
+    <>
+      <PageHeader title={t("common:locations_index_title")}>
+        <CreateCountry />
+      </PageHeader>
+      <div>
+        <div className="flex flex-col gap-2">
+          {data?.countries?.map((country) => (
             <CountryCard key={country.id} country={country as Country} />
-          )
-      )}
-    </div>
+          ))}
+        </div>
+      </div>
+    </>
   )
 }
 

@@ -8,6 +8,7 @@ import NoResult from "@core/components/shared/NoResult"
 import PageHeader from "@core/components/shared/PageHeader"
 import { notFound } from "next/navigation"
 import AreaCard from "./AreaCard"
+import CreateArea from "./CreateArea"
 
 type Props = {
   citySlug: string
@@ -24,7 +25,9 @@ const Areas = ({ citySlug }: Props) => {
 
   return (
     <>
-      <PageHeader title={data.city.name}></PageHeader>
+      <PageHeader title={data.city.name}>
+        <CreateArea cityId={data.city.id} />
+      </PageHeader>
       {!data.city.areas.length && <NoResult entity="area" />}
       <div>
         <div className="flex flex-col gap-2">

@@ -1,6 +1,6 @@
 "use client"
 
-import { useCreateCityMutation } from "@/generated"
+import { useCreateAreaMutation } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import {
   englishInputSchema,
@@ -12,7 +12,6 @@ import { useQueryClient } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 import { TypeOf, z } from "zod"
 
-import { CityTypesEnum } from "@/generated"
 import { Button } from "@core/components/Button"
 import { Checkbox } from "@core/components/Checkbox"
 import { Dialog } from "@core/components/Dialog"
@@ -26,22 +25,22 @@ import useTranslation from "next-translate/useTranslation"
 import { Controller, useForm } from "react-hook-form"
 
 type Props = {
-  provinceId: number
+  cityId: number
 }
 
-const CreateCity = ({ provinceId }: Props) => {
+const CreateArea = ({ cityId }: Props) => {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
   const queryClient = useQueryClient()
-  const createCityMutation = useCreateCityMutation(graphqlRequestClient, {
+  const createAreaMutation = useCreateAreaMutation(graphqlRequestClient, {
     onSuccess: () => {
       reset()
-      queryClient.invalidateQueries({ queryKey: ["GetProvince"] })
+      queryClient.invalidateQueries({ queryKey: ["GetCity"] })
       setOpen(false)
       toastQueue.add(
         t("common:entity_added_successfully", {
-          entity: t("common:city")
+          entity: t("common:area")
         }),
         {
           timeout: 2000,
@@ -51,14 +50,14 @@ const CreateCity = ({ provinceId }: Props) => {
     }
   })
 
-  const CreateCitySchema = z.object({
+  const CreateAreaSchema = z.object({
     name: persianInputSchema,
     nameEn: englishInputSchema,
     slug: slugInputSchema,
     sort: z.number().optional().default(0),
     isActive: z.boolean().optional().default(true)
   })
-  type CreateCity = TypeOf<typeof CreateCitySchema>
+  type CreateArea = TypeOf<typeof CreateAreaSchema>
 
   const {
     reset,
@@ -68,8 +67,8 @@ const CreateCity = ({ provinceId }: Props) => {
     watch,
     setValue,
     formState: { errors, isSubmitting }
-  } = useForm<CreateCity>({
-    resolver: zodResolver(CreateCitySchema),
+  } = useForm<CreateArea>({
+    resolver: zodResolver(CreateAreaSchema),
     defaultValues: {
       sort: 0,
       isActive: true
@@ -86,17 +85,16 @@ const CreateCity = ({ provinceId }: Props) => {
     }
   }, [nameEn, setValue])
 
-  function onSubmit(data: CreateCity) {
+  function onSubmit(data: CreateArea) {
     const { name, nameEn, slug, sort, isActive } = data
-    createCityMutation.mutate({
-      createCityInput: {
-        provinceId,
+    createAreaMutation.mutate({
+      createAreaInput: {
+        cityId,
         name,
         nameEn,
         slug,
         sort,
-        isActive,
-        type: CityTypesEnum.City
+        isActive
       }
     })
   }
@@ -104,18 +102,18 @@ const CreateCity = ({ provinceId }: Props) => {
   return (
     <>
       <Button size="medium" onPress={() => setOpen(true)}>
-        {t("common:add_entity", { entity: t("common:city") })}
+        {t("common:add_entity", { entity: t("common:area") })}
       </Button>
       <Modal isDismissable isOpen={open} onOpenChange={setOpen}>
         <Dialog>
           <>
             <ModalHeader
               title={t("common:create_new_entity", {
-                entity: t("common:city")
+                entity: t("common:area")
               })}
             />
             <ModalContent>
-              {createCityMutation.isError && <p>خطایی رخ داده</p>}
+              {createAreaMutation.isError && <p>خطایی رخ داده</p>}
               <form
                 className="flex flex-col gap-6"
                 onSubmit={handleSubmit(onSubmit)}
@@ -197,4 +195,4 @@ const CreateCity = ({ provinceId }: Props) => {
   )
 }
 
-export default CreateCity
+export default CreateArea

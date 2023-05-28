@@ -1,5 +1,5 @@
-mutation UpdateProvinceMutation($input: UpdateProvinceInput!) {
-  updateProvince(updateProvinceInput: $input) {
+mutation UpdateProvinceMutation($updateProvinceInput: UpdateProvinceInput!) {
+  updateProvince(updateProvinceInput: $updateProvinceInput) {
     id
     name
     nameEn
@@ -9,5 +9,6 @@ mutation UpdateProvinceMutation($input: UpdateProvinceInput!) {
     isActive
     latitude
     longitude
+    citiesCount
   }
 }

@@ -6,7 +6,6 @@ import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
 import PageHeader from "@core/components/shared/PageHeader"
-import useTranslation from "next-translate/useTranslation"
 import { notFound } from "next/navigation"
 import CategoryCard from "./CategoryCard"
 import CreateCategory from "./CreateCategory"
@@ -16,7 +15,6 @@ type Props = {
 }
 
 const Categories = ({ slug }: Props) => {
-  const { t } = useTranslation()
   const { isLoading, error, data } = useGetVocabularyQuery(
     graphqlRequestClient,
     {
