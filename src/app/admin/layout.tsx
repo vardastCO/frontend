@@ -1,6 +1,7 @@
 import { Button } from "@core/components/Button"
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import Sidebar from "@core/components/shared/Sidebar"
+import { NavigationType } from "@core/types/Navigation"
 import { IconLayoutSidebarRightCollapse, IconSearch } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 
@@ -10,26 +11,40 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   const { t } = useTranslation("common")
-  const menus = [
+  const menus: NavigationType[] = [
     {
-      title: t("common:home"),
-      path: "/admin",
-      icon: "IconSmartHome"
+      items: [
+        {
+          title: t("common:home"),
+          path: "/admin",
+          icon: "IconSmartHome"
+        },
+        {
+          title: t("common:products"),
+          path: "/admin/products",
+          icon: "IconPackage"
+        }
+      ]
     },
     {
-      title: t("common:vocabularies_menu_title"),
-      path: "/admin/vocabularies",
-      icon: "IconCategory"
-    },
-    {
-      title: t("common:locations_menu_title"),
-      path: "/admin/locations",
-      icon: "IconMap2"
-    },
-    {
-      title: t("common:users_menu_title"),
-      path: "/admin/users",
-      icon: "IconUsers"
+      title: t("common:administration"),
+      items: [
+        {
+          title: t("common:vocabularies_menu_title"),
+          path: "/admin/vocabularies",
+          icon: "IconCategory"
+        },
+        {
+          title: t("common:locations_menu_title"),
+          path: "/admin/locations",
+          icon: "IconMap2"
+        },
+        {
+          title: t("common:users_menu_title"),
+          path: "/admin/users",
+          icon: "IconUsers"
+        }
+      ]
     }
   ]
   return (

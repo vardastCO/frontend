@@ -1,14 +1,11 @@
 "use client"
 
+import { NavigationType } from "@core/types/Navigation"
 import { usePathname } from "next/navigation"
 import MenuItem from "./NavigationItem"
 
 type Props = {
-  menus: {
-    title: string
-    path: string
-    icon: string
-  }[]
+  menus: NavigationType[]
 }
 
 const Navigation = (props: Props) => {
@@ -25,15 +22,28 @@ const Navigation = (props: Props) => {
   }
 
   return (
-    <ol className="flex flex-col gap-1">
-      {menus.map((menu, idx) => {
+    <>
+      {menus.map((menuSection, sectionId) => {
         return (
-          <li key={idx}>
-            <MenuItem menu={menu} isActive={isActive(menu.path)} />
-          </li>
+          <section key={sectionId}>
+            <ol className="flex flex-col gap-1">
+              {menuSection.title && <li>{menuSection.title}</li>}
+              {menuSection.items &&
+                menuSection.items.map((menuItem, idx) => {
+                  return (
+                    <li key={idx}>
+                      <MenuItem
+                        menu={menuItem}
+                        isActive={isActive(menuItem.path)}
+                      />
+                    </li>
+                  )
+                })}
+            </ol>
+          </section>
         )
       })}
-    </ol>
+    </>
   )
 }
 

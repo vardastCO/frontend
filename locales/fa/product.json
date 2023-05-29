@@ -1,4 +1,6 @@
 {
+    "product_name": "نام کالا",
+    "product_type": "نوع کالا",
     "physical": "فیزیکی",
     "physical_product_type_description": "کالاهایی که نیاز به حمل دارند",
     "digital": "دیجیتال",

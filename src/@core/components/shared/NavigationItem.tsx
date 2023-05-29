@@ -1,15 +1,12 @@
 "use client"
 
+import { NavigationItemType } from "@core/types/Navigation"
 import clsx from "clsx"
 import Link from "next/link"
 import { TablerIcons } from "./TablerIcon"
 
 type Props = {
-  menu: {
-    path: string
-    icon: string
-    title: string
-  }
+  menu: NavigationItemType
   isActive: boolean
 }
 

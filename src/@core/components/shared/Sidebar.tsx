@@ -1,13 +1,10 @@
+import { NavigationType } from "@core/types/Navigation"
 import Navigation from "./Navigation"
 import OrganizationMenu from "./OrganizationMenu"
 import UserMenu from "./UserMenu"
 
 type Props = {
-  menus: {
-    title: string
-    path: string
-    icon: string
-  }[]
+  menus: NavigationType[]
 }
 
 const Sidebar = (props: Props) => {
@@ -20,7 +17,7 @@ const Sidebar = (props: Props) => {
           <div className="flex h-full w-full flex-col">
             <div className="flex h-full flex-col px-4">
               <OrganizationMenu />
-              <div className="flex-1">
+              <div className="flex flex-1 flex-col gap-8">
                 <Navigation menus={menus} />
               </div>
               <UserMenu />

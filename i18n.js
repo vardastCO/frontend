@@ -3,6 +3,6 @@ module.exports = {
   defaultLocale: "fa",
   pages: {
     "*": ["common", "zod"],
-    "rgx:^/dashboard/products": ["product"]
+    "rgx:^/admin/products": ["product"]
   }
 }
