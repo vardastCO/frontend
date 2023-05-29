@@ -1,0 +1,10 @@
+{
+    "physical": "فیزیکی",
+    "physical_product_type_description": "کالاهایی که نیاز به حمل دارند",
+    "digital": "دیجیتال",
+    "digital_product_type_description": "کالایی که بصورت دیجیتال و یا خدمات ارائه می‌شوند",
+    "bundle": "دسته",
+    "bundle_product_type_description": "مجموعه‌ای از کالاهای فیزیکی و دیجیتال",
+    "gift_card": "کارت هدیه",
+    "gift_card_product_type_description": "کارت هدیه قابل استفاده هنگام خرید"
+}

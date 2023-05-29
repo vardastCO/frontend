@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
+import colors from "tailwindcss/colors"
 import plugin from "tailwindcss/plugin"
 
 module.exports = {
@@ -27,6 +28,9 @@ module.exports = {
       },
       fontWeight: {
         extrablack: "950"
+      },
+      colors: {
+        brand: colors.blue
       }
     }
   },
