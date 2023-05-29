@@ -16,7 +16,7 @@ import { Button } from "@core/components/Button"
 import { Checkbox } from "@core/components/Checkbox"
 import { Dialog } from "@core/components/Dialog"
 import { Input } from "@core/components/Input"
-import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
+import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
 import { TextField } from "@core/components/TextField"
 import { toastQueue } from "@core/components/Toast"
 import { slugify } from "@core/utils/slugify"
@@ -112,7 +112,7 @@ const CreateArea = ({ cityId }: Props) => {
                 entity: t("common:area")
               })}
             />
-            <ModalContent>
+            <ModalBody>
               {createAreaMutation.isError && <p>خطایی رخ داده</p>}
               <form
                 className="flex flex-col gap-6"
@@ -187,7 +187,7 @@ const CreateArea = ({ cityId }: Props) => {
                   </Button>
                 </div>
               </form>
-            </ModalContent>
+            </ModalBody>
           </>
         </Dialog>
       </Modal>

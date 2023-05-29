@@ -9,7 +9,7 @@ import {
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/Button"
 import { Dialog } from "@core/components/Dialog"
-import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
+import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
 import { toastQueue } from "@core/components/Toast"
 import { IconAlertOctagon } from "@tabler/icons-react"
 import { useQueryClient } from "@tanstack/react-query"
@@ -118,7 +118,7 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
           </div>
           <div>
             <ModalHeader title={t("common:warning")} />
-            <ModalContent>
+            <ModalBody>
               <p className="leading-loose">
                 {t(
                   "common:are_you_sure_you_want_to_delete_x_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
@@ -145,7 +145,7 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
                   {t("common:delete")}
                 </Button>
               </div>
-            </ModalContent>
+            </ModalBody>
           </div>
         </div>
       </Dialog>

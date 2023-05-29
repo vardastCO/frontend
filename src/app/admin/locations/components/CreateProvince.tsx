@@ -16,7 +16,7 @@ import { Button } from "@core/components/Button"
 import { Checkbox } from "@core/components/Checkbox"
 import { Dialog } from "@core/components/Dialog"
 import { Input } from "@core/components/Input"
-import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
+import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
 import { TextField } from "@core/components/TextField"
 import { toastQueue } from "@core/components/Toast"
 import { slugify } from "@core/utils/slugify"
@@ -115,7 +115,7 @@ const CreateProvince = ({ countryId }: Props) => {
                 entity: t("common:province")
               })}
             />
-            <ModalContent>
+            <ModalBody>
               {createProvinceMutation.isError && <p>خطایی رخ داده</p>}
               <form
                 className="flex flex-col gap-6"
@@ -134,7 +134,7 @@ const CreateProvince = ({ countryId }: Props) => {
                   label={t("common:english_name")}
                   errorMessage={errors.nameEn && errors.nameEn.message}
                 >
-                  <Input {...register("nameEn")} dir="ltr" />
+                  <Input {...register("nameEn")} dir="ltr" direction="ltr" />
                 </TextField>
                 <TextField
                   isDisabled={isSubmitting}
@@ -142,7 +142,12 @@ const CreateProvince = ({ countryId }: Props) => {
                   errorMessage={errors.slug && errors.slug.message}
                   isReadOnly
                 >
-                  <Input {...register("slug")} plaintext dir="ltr" />
+                  <Input
+                    {...register("slug")}
+                    plaintext
+                    dir="ltr"
+                    direction="ltr"
+                  />
                 </TextField>
                 <TextField
                   isDisabled={isSubmitting}
@@ -190,7 +195,7 @@ const CreateProvince = ({ countryId }: Props) => {
                   </Button>
                 </div>
               </form>
-            </ModalContent>
+            </ModalBody>
           </>
         </Dialog>
       </Modal>

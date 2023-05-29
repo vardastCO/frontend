@@ -67,7 +67,7 @@ export interface InputRenderProps {
 }
 
 export interface InputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "style">,
+  extends Omit<InputHTMLAttributes<HTMLTextAreaElement>, "className" | "style">,
     StyleRenderProps<InputRenderProps>,
     VariantProps<typeof formControlClasses> {
   prefixAddon?: ReactNode
@@ -78,10 +78,10 @@ export interface InputProps
 }
 
 export const InputContext = createContext<
-  ContextValue<InputProps, HTMLInputElement>
+  ContextValue<InputProps, HTMLTextAreaElement>
 >({})
 
-function Input(
+function Textarea(
   {
     prefixAddon,
     suffixAddon,
@@ -93,7 +93,7 @@ function Input(
     plaintext,
     ...props
   }: InputProps,
-  ref: ForwardedRef<HTMLInputElement>
+  ref: ForwardedRef<HTMLTextAreaElement>
 ) {
   ;[props, ref] = useContextProps(props, ref, InputContext)
 
@@ -129,13 +129,13 @@ function Input(
           {prefixElement && (
             <div className="input-element">{prefixElement}</div>
           )}
-          <input
+          <textarea
             {...mergeProps(props, focusProps, hoverProps)}
             {...renderProps}
             ref={ref}
             data-hovered={isHovered || undefined}
             data-focus-visible={isFocusVisible || undefined}
-          />
+          ></textarea>
           {suffixElement && (
             <div className="input-element">{suffixElement}</div>
           )}
@@ -149,5 +149,5 @@ function Input(
 /**
  * An input allows a user to input text.
  */
-const _Input = forwardRef(Input)
-export { _Input as Input }
+const _Textarea = forwardRef(Textarea)
+export { _Textarea as Textarea }

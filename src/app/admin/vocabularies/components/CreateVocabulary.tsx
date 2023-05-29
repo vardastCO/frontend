@@ -13,7 +13,7 @@ import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/Button"
 import { Dialog } from "@core/components/Dialog"
 import { Input } from "@core/components/Input"
-import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
+import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
 import { TextField } from "@core/components/TextField"
 import { toastQueue } from "@core/components/Toast"
 import { slugify } from "@core/utils/slugify"
@@ -112,7 +112,7 @@ const CreateVocavulary = (props: Props) => {
                 entity: t("common:vocabulary")
               })}
             />
-            <ModalContent>
+            <ModalBody>
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col gap-6"
@@ -132,7 +132,7 @@ const CreateVocavulary = (props: Props) => {
                   errorMessage={errors.titleEn && errors.titleEn.message}
                   isDisabled={isSubmitting}
                 >
-                  <Input {...register("titleEn")} dir="ltr" />
+                  <Input {...register("titleEn")} dir="ltr" direction="ltr" />
                 </TextField>
                 <TextField
                   label={t("common:slug")}
@@ -141,7 +141,12 @@ const CreateVocavulary = (props: Props) => {
                   isDisabled={isSubmitting}
                   isReadOnly
                 >
-                  <Input {...register("slug")} plaintext dir="ltr" />
+                  <Input
+                    {...register("slug")}
+                    plaintext
+                    dir="ltr"
+                    direction="ltr"
+                  />
                 </TextField>
                 <TextField
                   label={t("common:display_sort")}
@@ -171,7 +176,7 @@ const CreateVocavulary = (props: Props) => {
                   </Button>
                 </div>
               </form>
-            </ModalContent>
+            </ModalBody>
           </>
         </Dialog>
       </Modal>

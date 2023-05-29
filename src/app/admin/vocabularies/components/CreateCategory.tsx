@@ -14,7 +14,7 @@ import { ComboBox } from "@core/components/ComboBox"
 import { Dialog } from "@core/components/Dialog"
 import { Input } from "@core/components/Input"
 import { ListBox } from "@core/components/ListBox"
-import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
+import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
 import { Popover } from "@core/components/Popover"
 import { TextField } from "@core/components/TextField"
 import { toastQueue } from "@core/components/Toast"
@@ -133,7 +133,7 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                 entity: t("common:category")
               })}
             />
-            <ModalContent>
+            <ModalBody>
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col gap-6"
@@ -166,7 +166,7 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                   errorMessage={errors.titleEn && errors.titleEn.message}
                   isDisabled={isSubmitting}
                 >
-                  <Input {...register("titleEn")} dir="ltr" />
+                  <Input {...register("titleEn")} dir="ltr" direction="ltr" />
                 </TextField>
                 <TextField
                   label={t("common:slug")}
@@ -174,7 +174,12 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                   isDisabled={isSubmitting}
                   isReadOnly
                 >
-                  <Input {...register("slug")} plaintext dir="ltr" />
+                  <Input
+                    {...register("slug")}
+                    plaintext
+                    dir="ltr"
+                    direction="ltr"
+                  />
                 </TextField>
                 <TextField
                   label={t("common:display_sort")}
@@ -204,7 +209,7 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                   </Button>
                 </div>
               </form>
-            </ModalContent>
+            </ModalBody>
           </>
         </Dialog>
       </Modal>
