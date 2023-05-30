@@ -1,0 +1,80 @@
+.app {
+  @apply flex h-screen flex-col bg-gray-100 dark:bg-gray-900;
+}
+
+.app-inner {
+  @apply flex h-auto flex-1 overflow-hidden;
+}
+
+.app-content {
+  @apply relative
+    flex
+    h-auto
+    w-full
+    flex-col
+    overflow-auto
+    overscroll-contain
+    bg-gray-50
+    px-4
+    py-6
+    dark:bg-gray-950;
+}
+
+.app-sidebar {
+  @apply sticky top-0 flex-shrink-0;
+
+  .app-sidebar-inner {
+    @apply relative flex h-full;
+  }
+}
+
+.app-navigation {
+  @apply z-10
+    w-80
+    flex-shrink-0
+    border-l
+    border-gray-200
+    py-5
+    transition-all
+    dark:border-gray-800;
+
+  .app-navigation-container {
+    @apply flex flex-1 flex-col gap-8;
+  }
+  .app-navigation-section {
+    &-list {
+      @apply flex flex-col gap-1;
+    }
+    &-label {
+      @apply py-2 text-sm font-medium text-gray-600 dark:text-gray-400;
+    }
+  }
+  .app-navigation-item {
+    @apply flex
+        w-full
+        items-center
+        space-x-2
+        space-x-reverse
+        rounded
+        px-2
+        py-3
+        font-medium
+        leading-normal
+        text-gray-700
+        hover:bg-gray-100
+        dark:text-gray-100
+        dark:hover:bg-gray-800;
+
+    .icon {
+      @apply h-5 w-5 text-gray-400 dark:text-gray-500;
+    }
+
+    &.active {
+      @apply bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-100;
+
+      .icon {
+        @apply text-gray-700 dark:text-gray-100;
+      }
+    }
+  }
+}

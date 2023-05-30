@@ -25,9 +25,13 @@ const Navigation = (props: Props) => {
     <>
       {menus.map((menuSection, sectionId) => {
         return (
-          <section key={sectionId}>
-            <ol className="flex flex-col gap-1">
-              {menuSection.title && <li>{menuSection.title}</li>}
+          <section className="app-navigation-section" key={sectionId}>
+            <ol className="app-navigation-section-list">
+              {menuSection.title && (
+                <li className="app-navigation-section-label">
+                  {menuSection.title}
+                </li>
+              )}
               {menuSection.items &&
                 menuSection.items.map((menuItem, idx) => {
                   return (

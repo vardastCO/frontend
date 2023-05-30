@@ -16,6 +16,6 @@ export const TablerIcons = (props: Props): JSX.Element => {
 
   return (
     // @ts-ignore
-    <Icon width={size} color={color} stroke={stroke} className={className} />
+    <Icon stroke={stroke} className={className} />
   )
 }

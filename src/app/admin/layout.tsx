@@ -49,10 +49,10 @@ export default function AdminLayout({
   ]
   return (
     <>
-      <div className="flex h-screen flex-col bg-gray-100">
-        <div className="flex h-auto flex-1 overflow-hidden">
+      <div className="app">
+        <div className="app-inner">
           <Sidebar menus={menus} />
-          <div className="relative flex h-auto w-full flex-col overflow-auto overscroll-contain bg-white px-4 py-6">
+          <div className="app-content">
             <div className="mx-auto flex w-full flex-col">
               <div className="mb-3 flex items-center">
                 <div className="flex items-center gap-2">

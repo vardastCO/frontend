@@ -15,21 +15,9 @@ const MenuItem = (props: Props) => {
   return (
     <Link
       href={menu.path}
-      className={clsx([
-        "flex w-full items-center space-x-2 space-x-reverse rounded px-2 py-3 font-semibold leading-normal ",
-        isActive
-          ? "bg-gray-200 text-gray-800"
-          : "text-gray-700 hover:bg-gray-100"
-      ])}
+      className={clsx(["app-navigation-item", isActive && "active"])}
     >
-      <TablerIcons
-        icon={menu.icon}
-        className={clsx([
-          "h-5 w-5",
-          isActive ? "text-gray-700" : "text-gray-400"
-        ])}
-        stroke={1.5}
-      />
+      <TablerIcons icon={menu.icon} className="icon" stroke={1.5} />
       <span>{menu.title}</span>
     </Link>
   )
