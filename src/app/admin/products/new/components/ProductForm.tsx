@@ -1,5 +1,6 @@
 "use client"
 
+import Dropzone from "@core/components/Dropzone"
 import { Input } from "@core/components/Input"
 import { Radio, RadioGroup } from "@core/components/RadioGroup"
 import { Switch } from "@core/components/Switch"
@@ -11,7 +12,6 @@ import {
   IconGift,
   IconPackage,
   IconPackages,
-  IconPhotoPlus,
   IconWorld
 } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
@@ -148,17 +148,7 @@ const ProductForm = () => {
             />
             {/* TODO: Categories */}
             {/* TODO: images */}
-            <div className="card h-60 rounded p-4">
-              <div className="flex h-full w-full flex-col items-center justify-center gap-1">
-                <IconPhotoPlus className="h-12 w-12 text-gray-400" />
-                <span className="font-medium text-gray-800">
-                  {t("common:add_images_dropzone_title")}
-                </span>
-                <span className="text-sm text-gray-500">
-                  {t("common:add_images_dropzone_description")}
-                </span>
-              </div>
-            </div>
+            <Dropzone />
           </div>
           <div>
             <h2 className="section-title">

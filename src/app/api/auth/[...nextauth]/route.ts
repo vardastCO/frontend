@@ -3,7 +3,7 @@ import { GraphQLClient } from "graphql-request";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt'
     },
@@ -26,21 +26,26 @@ const authOptions: NextAuthOptions = {
                 }
 
 
-                const client = new GraphQLClient('http://localhost:3080/graphql')
-                const data: LoginUserMutation = await client.request(LoginUserDocument, {
-                    loginInput: {
-                        username,
-                        password
+                const client = new GraphQLClient(process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || '')
+                try {
+                    const data: LoginUserMutation = await client.request(LoginUserDocument, {
+                        loginInput: {
+                            username,
+                            password
+                        }
+                    })
+
+                    if (!data) {
+                        return null
                     }
-                })
 
-                if (!data) {
-                    return null
-                }
-
-                return {
-                    token: data.login.accessToken,
-                    profile: data.login.user
+                    return {
+                        token: data.login.accessToken,
+                        profile: data.login.user
+                    }
+                } catch (error) {
+                    // @ts-ignore
+                    throw new Error(error.response.errors[0].extensions.displayMessage);
                 }
             }
         })
