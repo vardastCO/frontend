@@ -34,7 +34,7 @@ const Users = (props: Props) => {
           {data?.users.map((user) => (
             <tr
               key={user.uuid}
-              onClick={() => router.push(`/admin/users/edit/${user.uuid}`)}
+              onClick={() => router.push(`/admin/users/${user.uuid}`)}
             >
               <td>
                 <Avatar
