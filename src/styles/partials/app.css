@@ -1,5 +1,5 @@
 .app {
-  @apply flex h-screen flex-col bg-gray-100 dark:bg-gray-900;
+  @apply flex h-screen flex-col bg-gray-50 dark:bg-gray-900;
 }
 
 .app-inner {
@@ -14,14 +14,19 @@
     flex-col
     overflow-auto
     overscroll-contain
-    bg-gray-50
     px-4
-    py-6
-    dark:bg-gray-950;
+    py-6;
 }
 
 .app-sidebar {
-  @apply sticky top-0 flex-shrink-0;
+  @apply sticky
+    top-0
+    flex-shrink-0
+    bg-gray-100
+    bg-opacity-60
+    backdrop-blur-sm
+    dark:bg-gray-950
+    dark:bg-opacity-10;
 
   .app-sidebar-inner {
     @apply relative flex h-full;
@@ -33,10 +38,11 @@
     w-80
     flex-shrink-0
     border-l
-    border-gray-200
+    border-gray-100
     py-5
     transition-all
-    dark:border-gray-800;
+    dark:border-gray-800
+    dark:border-opacity-40;
 
   .app-navigation-container {
     @apply flex flex-1 flex-col gap-8;
@@ -46,7 +52,11 @@
       @apply flex flex-col gap-1;
     }
     &-label {
-      @apply py-2 text-sm font-medium text-gray-600 dark:text-gray-400;
+      @apply py-2
+        text-sm
+        font-medium
+        text-gray-600
+        dark:text-gray-500;
     }
   }
   .app-navigation-item {
@@ -58,22 +68,32 @@
         rounded
         px-2
         py-3
-        font-medium
         leading-normal
         text-gray-700
-        hover:bg-gray-100
-        dark:text-gray-100
-        dark:hover:bg-gray-800;
+        hover:bg-gray-200
+        hover:bg-opacity-50
+        dark:text-gray-400
+        dark:hover:bg-gray-800
+        dark:hover:bg-opacity-30;
 
     .icon {
-      @apply h-5 w-5 text-gray-400 dark:text-gray-500;
+      @apply h-5
+        w-5
+        text-gray-400
+        dark:text-gray-600;
     }
 
     &.active {
-      @apply bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-100;
+      @apply bg-gray-200
+        font-medium
+        text-gray-800
+        dark:bg-gray-800
+        dark:bg-opacity-50
+        dark:text-gray-200;
 
       .icon {
-        @apply text-gray-700 dark:text-gray-100;
+        @apply text-gray-700
+            dark:text-gray-300;
       }
     }
   }
