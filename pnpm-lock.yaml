@@ -104,6 +104,9 @@ dependencies:
   next-seo:
     specifier: ^6.0.0
     version: 6.0.0(next@13.4.3)(react-dom@18.2.0)(react@18.2.0)
+  next-themes:
+    specifier: ^0.2.1
+    version: 0.2.1(next@13.4.3)(react-dom@18.2.0)(react@18.2.0)
   next-translate:
     specifier: ^2.0.5
     version: 2.0.5(next@13.4.3)(react@18.2.0)
@@ -137,6 +140,9 @@ dependencies:
   use-sync-external-store:
     specifier: ^1.2.0
     version: 1.2.0(react@18.2.0)
+  usehooks-ts:
+    specifier: ^2.9.1
+    version: 2.9.1(react-dom@18.2.0)(react@18.2.0)
   zod:
     specifier: ^3.21.4
     version: 3.21.4
@@ -11623,6 +11629,18 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /next-themes@0.2.1(next@13.4.3)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==}
+    peerDependencies:
+      next: '*'
+      react: '*'
+      react-dom: '*'
+    dependencies:
+      next: 13.4.3(@babel/core@7.22.1)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /next-translate-plugin@2.0.5(next-translate@2.0.5):
     resolution: {integrity: sha512-H5Wecew+EQvrcCfnUiWwev8jS8ICH2Mw1SwWY8v8gXQfCpZ/ubpx+dinMhNZt+1BzqtEke53GHWov6gMvDB8tw==}
     engines: {node: '>=14.15.0'}
@@ -14407,6 +14425,17 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /usehooks-ts@2.9.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-2FAuSIGHlY+apM9FVlj8/oNhd+1y+Uwv5QNkMQz1oSfdHk4PXo1qoCw9I5M7j0vpH8CSWFJwXbVPeYDjLCx9PA==}
+    engines: {node: '>=16.15.0', npm: '>=8'}
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0  || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /util-deprecate@1.0.2:

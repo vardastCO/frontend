@@ -115,6 +115,7 @@ export interface ButtonProps
   name?: string
   /** The value associated with the button's name when it's submitted with the form data. */
   value?: string
+  noStyle?: boolean
 }
 
 interface ButtonContextValue extends ButtonProps {
@@ -138,7 +139,7 @@ export const ButtonContext = createContext<
 
 function Button(props: ButtonProps, ref: ForwardedRef<HTMLButtonElement>) {
   ;[props, ref] = useContextProps(props, ref, ButtonContext)
-  let { className, intent, size, loading, iconOnly, fullWidth } = props
+  let { noStyle, className, intent, size, loading, iconOnly, fullWidth } = props
   let ctx = props as ButtonContextValue
   //   @ts-ignore
   let { buttonProps, isPressed } = useButton(props, ref)
@@ -163,14 +164,18 @@ function Button(props: ButtonProps, ref: ForwardedRef<HTMLButtonElement>) {
       {...renderProps}
       ref={ref}
       slot={props.slot}
-      className={buttonClasses({
-        intent,
-        size,
-        loading,
-        iconOnly,
-        fullWidth,
-        className
-      })}
+      className={
+        noStyle
+          ? `${className}`
+          : buttonClasses({
+              intent,
+              size,
+              loading,
+              iconOnly,
+              fullWidth,
+              className
+            })
+      }
       data-pressed={ctx.isPressed || isPressed || undefined}
       data-hovered={isHovered || undefined}
       data-focus-visible={isFocusVisible || undefined}

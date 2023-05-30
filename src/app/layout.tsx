@@ -1,6 +1,7 @@
 import "@/styles/globals.css"
 import { GlobalToastRegion } from "@core/components/Toast"
 import NextAuthProvider from "@core/providers/NextAuthProvider"
+import NextThemeProvider from "@core/providers/NextThemeProvider"
 import ReactAriaSSRProvider from "@core/providers/ReactAriaSSRProvider"
 import ReactQueryProvider from "@core/providers/ReactQueryProvider"
 import useTranslation from "next-translate/useTranslation"
@@ -24,8 +25,10 @@ export default function RootLayout({
           />
           <NextAuthProvider>
             <ReactQueryProvider>
-              {children}
-              <GlobalToastRegion />
+              <NextThemeProvider>
+                {children}
+                <GlobalToastRegion />
+              </NextThemeProvider>
             </ReactQueryProvider>
           </NextAuthProvider>
         </body>
