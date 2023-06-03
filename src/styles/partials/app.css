@@ -60,40 +60,91 @@
     }
   }
   .app-navigation-item {
-    @apply flex
-        w-full
-        items-center
-        space-x-2
-        space-x-reverse
-        rounded
-        px-2
-        py-3
-        leading-normal
-        text-gray-700
-        hover:bg-gray-200
-        hover:bg-opacity-50
-        dark:text-gray-400
-        dark:hover:bg-gray-800
-        dark:hover:bg-opacity-30;
+    > span {
+      @apply flex
+          w-full
+          items-center
+          gap-2
+          rounded
+          px-2
+          py-3
+          leading-normal
+          text-gray-700
+          hover:bg-gray-200
+          hover:bg-opacity-50
+          dark:text-gray-400
+          dark:hover:bg-gray-800
+          dark:hover:bg-opacity-30;
+    }
 
-    .icon {
-      @apply h-5
+    .app-navigation-item-link {
+      @apply flex flex-1 items-center gap-2;
+
+      .icon {
+        @apply h-5
         w-5
         text-gray-400
         dark:text-gray-600;
+      }
+    }
+
+    .app-navigation-item-arrow {
+      @apply mr-auto
+            flex
+            h-6
+            w-6
+            items-center
+            justify-center
+            focus:outline-none
+            focus-visible:outline-none;
     }
 
     &.active {
-      @apply bg-gray-200
-        font-medium
-        text-gray-800
-        dark:bg-gray-800
-        dark:bg-opacity-50
-        dark:text-gray-200;
+      > span {
+        @apply bg-gray-200
+              font-medium
+              text-gray-800
+              dark:bg-gray-800
+              dark:bg-opacity-50
+              dark:text-gray-200;
+      }
 
-      .icon {
-        @apply text-gray-700
-            dark:text-gray-300;
+      .app-navigation-item-link {
+        .icon {
+          @apply text-gray-700
+                  dark:text-gray-300;
+        }
+      }
+    }
+
+    .app-navigation-item-children {
+      @apply ms-4 flex flex-col border-s border-gray-300 pt-3;
+
+      .app-navigation-item-children-item {
+        .app-navigation-item-children-item-link {
+          @apply flex
+            w-full
+            items-center
+            space-x-2
+            space-x-reverse
+            rounded
+            px-2
+            py-3
+            leading-normal
+            text-gray-600
+            before:-ms-3
+            before:me-3
+            before:block
+            before:h-2
+            before:w-2
+            before:rounded-full
+            before:bg-gray-300
+            hover:text-gray-700;
+
+          &.active {
+            @apply before:bg-brand-600;
+          }
+        }
       }
     }
   }

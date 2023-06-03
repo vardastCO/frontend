@@ -22,7 +22,19 @@ export default function AdminLayout({
         {
           title: t("common:products"),
           path: "/admin/products",
-          icon: "IconPackage"
+          icon: "IconPackage",
+          items: [
+            {
+              title: t("common:all_entities", { entity: t("common:products") }),
+              path: "/admin/products",
+              icon: "IconPackage"
+            },
+            {
+              title: t("product:attributes"),
+              path: "/admin/attributes/",
+              icon: "IconStack2"
+            }
+          ]
         }
       ]
     },

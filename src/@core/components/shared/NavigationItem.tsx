@@ -1,26 +1,81 @@
 "use client"
-
 import { NavigationItemType } from "@core/types/Navigation"
+import { IconChevronDown } from "@tabler/icons-react"
 import clsx from "clsx"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useState } from "react"
+import { Button } from "../Button"
 import { TablerIcons } from "./TablerIcon"
 
 type Props = {
   menu: NavigationItemType
-  isActive: boolean
 }
 
-const MenuItem = (props: Props) => {
-  const { menu, isActive } = props
+const NavigationItem = (props: Props) => {
+  const pathname = usePathname()
+  const [open, setOpen] = useState<boolean>(false)
+  const { menu } = props
+
+  const toggleOpen = () => {
+    const oldOpen = open
+    setOpen(!oldOpen)
+  }
+
+  const isActive = (linkPath: string): boolean => {
+    const currentPathModified = pathname.split("/").slice(2).join("/")
+    const linkPathModified = linkPath.split("/").slice(2).join("/")
+    return linkPathModified === currentPathModified
+      ? true
+      : linkPathModified !== "" &&
+          currentPathModified.startsWith(linkPathModified)
+  }
+
   return (
-    <Link
-      href={menu.path}
-      className={clsx(["app-navigation-item", isActive && "active"])}
-    >
-      <TablerIcons icon={menu.icon} className="icon" stroke={1.5} />
-      <span>{menu.title}</span>
-    </Link>
+    <>
+      <li
+        className={clsx([
+          "app-navigation-item",
+          isActive(menu.path) && "active"
+        ])}
+      >
+        <span>
+          <Link href={menu.path} className="app-navigation-item-link">
+            <TablerIcons icon={menu.icon} className="icon" stroke={1.5} />
+            <span className="flex-1">{menu.title}</span>
+          </Link>
+          {menu.items && (
+            <Button
+              className="app-navigation-item-arrow"
+              noStyle
+              onPress={() => toggleOpen()}
+            >
+              <IconChevronDown className="h-4 w-4" />
+            </Button>
+          )}
+        </span>
+        {menu.items && (open || isActive(menu.path)) && (
+          <ol className="app-navigation-item-children">
+            {menu.items.map((menuChildren, idx) => {
+              return (
+                <li key={idx} className="app-navigation-item-children-item">
+                  <Link
+                    href={menuChildren.path}
+                    className={clsx([
+                      "app-navigation-item-children-item-link",
+                      isActive(menuChildren.path) && "active"
+                    ])}
+                  >
+                    <span>{menuChildren.title}</span>
+                  </Link>
+                </li>
+              )
+            })}
+          </ol>
+        )}
+      </li>
+    </>
   )
 }
 
-export default MenuItem
+export default NavigationItem
