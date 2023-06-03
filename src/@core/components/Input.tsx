@@ -91,6 +91,7 @@ function Input(
     inputSize,
     rounded,
     plaintext,
+    className,
     ...props
   }: InputProps,
   ref: ForwardedRef<HTMLInputElement>
@@ -119,7 +120,8 @@ function Input(
       className={formControlClasses({
         inputSize,
         rounded,
-        plaintext
+        plaintext,
+        className
       })}
       dir={direction}
     >

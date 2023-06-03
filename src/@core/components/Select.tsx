@@ -12,6 +12,7 @@ import {
   useSlot
 } from "@core/utils/react-aria-utils"
 import { filterDOMProps, useResizeObserver } from "@react-aria/utils"
+import { IconSelector } from "@tabler/icons-react"
 import React, {
   ForwardedRef,
   HTMLAttributes,
@@ -26,9 +27,10 @@ import React, {
 } from "react"
 import { AriaSelectProps, HiddenSelect, useSelect } from "react-aria"
 import { SelectState, useSelectState } from "react-stately"
-import { ButtonContext } from "./Button"
+import { Button } from "./Button"
 import { ItemRenderProps, useCollection } from "./Collection"
-import { LabelContext } from "./Label"
+import { Input } from "./Input"
+import { Label } from "./Label"
 import { ListBoxContext, ListBoxProps } from "./ListBox"
 import { PopoverContext } from "./Popover"
 import { TextContext } from "./Text"
@@ -47,10 +49,7 @@ export interface SelectRenderProps {
 }
 
 export interface SelectProps<T extends object>
-  extends Omit<
-      AriaSelectProps<T>,
-      "children" | "label" | "description" | "errorMessage"
-    >,
+  extends Omit<AriaSelectProps<T>, "children">,
     RenderProps<SelectRenderProps>,
     SlotProps {}
 
@@ -124,58 +123,86 @@ function Select<T extends object>(
   delete DOMProps.id
 
   return (
-    <Provider
-      values={[
-        [
-          InternalSelectContext,
-          { state, valueProps, placeholder: props.placeholder }
-        ],
-        [LabelContext, { ...labelProps, ref: labelRef, elementType: "span" }],
-        [
-          ButtonContext,
-          { ...triggerProps, ref: buttonRef, isPressed: state.isOpen }
-        ],
-        [
-          PopoverContext,
-          {
-            state,
-            triggerRef: buttonRef,
-            preserveChildren: true,
-            placement: "bottom start",
-            style: { "--trigger-width": buttonWidth } as React.CSSProperties
+    <div className="form-field">
+      <Label {...labelProps} ref={labelRef}>
+        {props.label}
+      </Label>
+      <Button
+        noStyle
+        className="cursor-pointer"
+        {...triggerProps}
+        ref={buttonRef}
+      >
+        <Input
+          {...valueProps}
+          className="cursor-pointer"
+          value={
+            state.selectedItem
+              ? (state.selectedItem.rendered as string)
+              : "Select an option"
           }
-        ],
-        [
-          ListBoxContext,
-          { state, [slotCallbackSymbol]: setListBoxProps, ...menuProps }
-        ],
-        [
-          TextContext,
-          {
-            slots: {
-              description: descriptionProps,
-              errorMessage: errorMessageProps
+          suffixElement={<IconSelector className="icon" />}
+        />
+      </Button>
+      <Provider
+        values={[
+          //   [
+          //     InternalSelectContext,
+          //     { state, valueProps, placeholder: props.placeholder }
+          //   ],
+          //   [
+          //     ButtonContext,
+          //     { ...triggerProps, ref: buttonRef, isPressed: state.isOpen }
+          //   ],
+          [
+            PopoverContext,
+            {
+              state,
+              triggerRef: buttonRef,
+              preserveChildren: true,
+              placement: "bottom end",
+              className: "combobox-list-container",
+              style: { "--trigger-width": buttonWidth } as React.CSSProperties
             }
-          }
-        ]
-      ]}
-    >
-      <div
-        {...DOMProps}
-        {...renderProps}
-        ref={ref}
-        slot={props.slot}
-        data-focused={state.isFocused || undefined}
-        data-open={state.isOpen || undefined}
-      />
-      {portal}
-      <HiddenSelect
-        state={state}
-        triggerRef={buttonRef}
-        label={label}
-        name={props.name}
-      />
-    </Provider>
+          ],
+          [
+            ListBoxContext,
+            {
+              state,
+              [slotCallbackSymbol]: setListBoxProps,
+              ...menuProps,
+              className: "combobox-list"
+            }
+          ]
+        ]}
+      >
+        <div
+          {...DOMProps}
+          {...renderProps}
+          ref={ref}
+          slot={props.slot}
+          data-focused={state.isFocused || undefined}
+          data-open={state.isOpen || undefined}
+        />
+        {portal}
+        {props.description && (
+          <span className="form-message" {...descriptionProps}>
+            {props.description}
+          </span>
+        )}
+        {props.errorMessage && (
+          <span className="form-message error" {...errorMessageProps}>
+            {props.errorMessage}
+          </span>
+        )}
+        <HiddenSelect
+          state={state}
+          triggerRef={buttonRef}
+          label={label}
+          name={props.name}
+        />
+      </Provider>
+    </div>
   )
 }
 

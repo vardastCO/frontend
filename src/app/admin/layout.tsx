@@ -30,7 +30,7 @@ export default function AdminLayout({
               icon: "IconPackage"
             },
             {
-              title: t("product:attributes"),
+              title: t("common:attributes"),
               path: "/admin/attributes/",
               icon: "IconStack2"
             }

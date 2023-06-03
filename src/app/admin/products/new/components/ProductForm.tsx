@@ -54,12 +54,12 @@ const ProductForm = () => {
       <div className="create-product">
         <div className="mb-6 mt-8">
           <h1 className="text-3xl font-black text-gray-800">
-            {productName ? productName : t("product:new_product")}
+            {productName ? productName : t("common:new_product")}
           </h1>
         </div>
         <div className="flex flex-col gap-24">
           <div className="flex flex-col gap-6">
-            <TextField label={t("product:product_name")}>
+            <TextField label={t("common:product_name")}>
               <Input inputSize="large" {...register("productName")} />
             </TextField>
             <Controller
@@ -70,7 +70,7 @@ const ProductForm = () => {
                   defaultValue={field.value}
                   onChange={field.onChange}
                   name={field.name}
-                  label={t("product:product_type")}
+                  label={t("common:product_type")}
                 >
                   <div className="grid grid-cols-4 gap-6">
                     <Radio value="physical" className="product-type-item">
@@ -80,11 +80,11 @@ const ProductForm = () => {
                           stroke={1.5}
                         />
                         <span className="product-type-item-title">
-                          {t("product:physical")}
+                          {t("common:physical")}
                         </span>
                       </div>
                       <span className="product-type-item-description">
-                        {t("product:physical_product_type_description")}
+                        {t("common:physical_product_type_description")}
                       </span>
                     </Radio>
                     <Radio value="digital" className="product-type-item">
@@ -94,11 +94,11 @@ const ProductForm = () => {
                           stroke={1.5}
                         />
                         <span className="product-type-item-title">
-                          {t("product:digital")}
+                          {t("common:digital")}
                         </span>
                       </div>
                       <span className="product-type-item-description">
-                        {t("product:digital_product_type_description")}
+                        {t("common:digital_product_type_description")}
                       </span>
                     </Radio>
                     <Radio value="bundle" className="product-type-item">
@@ -108,11 +108,11 @@ const ProductForm = () => {
                           stroke={1.5}
                         />
                         <span className="product-type-item-title">
-                          {t("product:bundle")}
+                          {t("common:bundle")}
                         </span>
                       </div>
                       <span className="product-type-item-description">
-                        {t("product:bundle_product_type_description")}
+                        {t("common:bundle_product_type_description")}
                       </span>
                     </Radio>
                     <Radio value="gift_card" className="product-type-item">
@@ -122,11 +122,11 @@ const ProductForm = () => {
                           stroke={1.5}
                         />
                         <span className="product-type-item-title">
-                          {t("product:gift_card")}
+                          {t("common:gift_card")}
                         </span>
                       </div>
                       <span className="product-type-item-description">
-                        {t("product:gift_card_product_type_description")}
+                        {t("common:gift_card_product_type_description")}
                       </span>
                     </Radio>
                   </div>
@@ -152,18 +152,18 @@ const ProductForm = () => {
           </div>
           <div>
             <h2 className="section-title">
-              {t("product:create_product_pricing_section_title")}
+              {t("common:create_product_pricing_section_title")}
             </h2>
             <p className="section-description">
-              {t("product:create_product_pricing_section_description")}
+              {t("common:create_product_pricing_section_description")}
             </p>
           </div>
           <div>
             <h2 className="section-title">
-              {t("product:create_product_content_section_title")}
+              {t("common:create_product_content_section_title")}
             </h2>
             <p className="section-description">
-              {t("product:create_product_content_section_description")}
+              {t("common:create_product_content_section_description")}
             </p>
             <div className="section-body">
               <div className="flex flex-col gap-6">

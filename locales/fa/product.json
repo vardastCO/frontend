@@ -1,18 +1,1 @@
-{
-    "attributes": "مشخصه‌ها",
-    "new_product": "کالای جدید",
-    "product_name": "نام کالا",
-    "product_type": "نوع کالا",
-    "physical": "فیزیکی",
-    "physical_product_type_description": "کالاهایی که نیاز به حمل دارند",
-    "digital": "دیجیتال",
-    "digital_product_type_description": "کالایی که بصورت دیجیتال و یا خدمات ارائه می‌شوند",
-    "bundle": "دسته",
-    "bundle_product_type_description": "مجموعه‌ای از کالاهای فیزیکی و دیجیتال",
-    "gift_card": "کارت هدیه",
-    "gift_card_product_type_description": "کارت هدیه قابل استفاده هنگام خرید",
-    "create_product_pricing_section_title": "قیمت",
-    "create_product_pricing_section_description": "مدیریت نحوه قیمت گذاری کالا",
-    "create_product_content_section_title": "محتوا",
-    "create_product_content_section_description": "اطلاعات تکمیلی جهت راهنمایی کاربر برای سریع‌تر پیدا کردن کالا مورد نظر"
-}
+{}
