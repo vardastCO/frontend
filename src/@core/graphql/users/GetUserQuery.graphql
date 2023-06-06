@@ -33,5 +33,23 @@ query GetUser($id: Int, $uuid: String) {
       name
       nameEn
     }
+    roles {
+      id
+      name
+      displayName
+      description
+      isActive
+      createdAt
+      updatedAt
+    }
+    permissions {
+      id
+      name
+      displayName
+      action
+      subject
+      field
+      conditions
+    }
   }
 }

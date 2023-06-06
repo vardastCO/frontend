@@ -1,6 +1,6 @@
 "use client"
 
-import { User, useGetUserQuery } from "@/generated"
+import { Permission, Role, User, useGetUserQuery } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@core/components/Tabs"
 import Loading from "@core/components/shared/Loading"
@@ -9,6 +9,7 @@ import PageHeader from "@core/components/shared/PageHeader"
 import useTranslation from "next-translate/useTranslation"
 import { notFound } from "next/navigation"
 import UserEditForm from "./UserEditForm"
+import UserPermissionsForm from "./UserPermissionsForm"
 
 type Props = {
   uuid: string
@@ -36,7 +37,12 @@ const UserEdit = ({ uuid }: Props) => {
           <TabPanel id="information">
             <UserEditForm user={data.user as User} />
           </TabPanel>
-          <TabPanel id="permissions"></TabPanel>
+          <TabPanel id="permissions">
+            <UserPermissionsForm
+              userRoles={data.user.roles as Role[]}
+              userPermissions={data.user.permissions as Permission[]}
+            />
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </>

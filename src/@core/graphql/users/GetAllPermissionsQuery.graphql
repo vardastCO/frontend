@@ -1,0 +1,11 @@
+query GetAllPermissions {
+  permissions {
+    id
+    name
+    displayName
+    action
+    subject
+    field
+    conditions
+  }
+}
