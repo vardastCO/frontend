@@ -31,7 +31,7 @@ export default function AdminLayout({
             },
             {
               title: t("common:attributes"),
-              path: "/admin/attributes/",
+              path: "/admin/attributes",
               icon: "IconStack2"
             }
           ]

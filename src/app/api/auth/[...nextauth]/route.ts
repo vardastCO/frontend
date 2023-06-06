@@ -41,6 +41,7 @@ export const authOptions: NextAuthOptions = {
 
                     return {
                         token: data.login.accessToken,
+                        expires: data.login.accessTokenTtl,
                         profile: data.login.user
                     }
                 } catch (error) {
@@ -52,11 +53,12 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         jwt: async ({ token, user }) => {
-            user && (token.user = user);
+            user && (token.user = user)
             return token;
         },
         session: async ({ session, token }) => {
-            session.user = token.user as any;
+            session.user = token.user as any
+            session.expires = token.expires as any
             return session;
         },
     }
