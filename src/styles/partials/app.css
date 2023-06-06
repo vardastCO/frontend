@@ -99,6 +99,7 @@
             focus-visible:outline-none;
     }
 
+    &:has(.active),
     &.active {
       > span {
         @apply bg-gray-200
@@ -115,10 +116,25 @@
                   dark:text-gray-300;
         }
       }
+      .app-navigation-item-arrow {
+        @apply rotate-180;
+      }
+      .app-navigation-item-children {
+        @apply flex;
+      }
+    }
+
+    &.has-child.open {
+      .app-navigation-item-arrow {
+        @apply rotate-180;
+      }
+      .app-navigation-item-children {
+        @apply flex;
+      }
     }
 
     .app-navigation-item-children {
-      @apply ms-4 flex flex-col border-s border-gray-300 pt-3;
+      @apply ms-4 hidden flex-col border-s border-gray-300 pt-3;
 
       .app-navigation-item-children-item {
         .app-navigation-item-children-item-link {

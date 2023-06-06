@@ -25,7 +25,6 @@ const NavigationItem = (props: Props) => {
   const isActive = (linkPath: string): boolean => {
     const currentPathModified = pathname.split("/").slice(2).join("/")
     const linkPathModified = linkPath.split("/").slice(2).join("/")
-    console.log(currentPathModified, linkPathModified)
     return linkPathModified === currentPathModified
       ? true
       : linkPathModified !== "" &&
@@ -37,7 +36,9 @@ const NavigationItem = (props: Props) => {
       <li
         className={clsx([
           "app-navigation-item",
-          isActive(menu.path) && "active"
+          menu.items && "has-child",
+          isActive(menu.path) && "active",
+          open && "open"
         ])}
       >
         <span>
@@ -49,13 +50,13 @@ const NavigationItem = (props: Props) => {
             <Button
               className="app-navigation-item-arrow"
               noStyle
-              onPress={() => toggleOpen()}
+              onPress={() => !isActive(menu.path) && toggleOpen()}
             >
               <IconChevronDown className="h-4 w-4" />
             </Button>
           )}
         </span>
-        {menu.items && (open || isActive(menu.path)) && (
+        {menu.items && (
           <ol className="app-navigation-item-children">
             {menu.items.map((menuChildren, idx) => {
               return (
