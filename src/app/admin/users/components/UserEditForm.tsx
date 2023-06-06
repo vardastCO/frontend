@@ -139,13 +139,13 @@ const UserEditForm = ({ user }: Props) => {
           </div>
           <div className="w-2/3">
             <div className="grid grid-cols-2 gap-6">
-              <TextField label={t("common:new_password")}>
+              <TextField label={t("common:new_password")} type="password">
                 <Input {...register("newPassword")} />
               </TextField>
-              <TextField label={t("common:repeat_password")}>
+              <TextField label={t("common:repeat_password")} type="password">
                 <Input {...register("repeatPassword")} />
               </TextField>
-              <TextField label={t("common:current_password")}>
+              <TextField label={t("common:current_password")} type="password">
                 <Input {...register("currentPassword")} />
               </TextField>
             </div>

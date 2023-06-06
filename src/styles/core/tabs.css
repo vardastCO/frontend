@@ -1,0 +1,55 @@
+.tabs {
+  --highlight-color: theme(colors.brand.600);
+  @apply flex;
+
+  &[data-orientation="horizontal"] {
+    @apply flex-col;
+  }
+
+  &[data-orientation="vertical"] {
+    @apply flex-row;
+  }
+}
+
+.tab-list {
+  --border-color: transparent;
+  @apply mb-4 flex;
+
+  &[aria-orientation="horizontal"] {
+    .tab {
+      @apply border-b-2 border-[var(--border-color)];
+    }
+  }
+
+  &[aria-orientation="vertical"] {
+    @apply flex-col;
+    .tab {
+      @apply border-e-2 border-[var(--border-color)];
+    }
+  }
+}
+
+.tab {
+  @apply relative cursor-default p-3 text-gray-700 outline-none transition;
+
+  &[data-hovered],
+  &:focus {
+    @apply text-gray-800;
+  }
+
+  &[aria-selected="true"] {
+    --border-color: var(--highlight-color);
+    @apply text-gray-800;
+  }
+
+  &[aria-disabled] {
+    @apply text-gray-500;
+
+    &[aria-selected="true"] {
+      --border-color: theme(colors.gray.300);
+    }
+  }
+}
+
+.tab-panel {
+}
