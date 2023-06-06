@@ -8,11 +8,13 @@ import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
 import clsx from "clsx"
 import parsePhoneNumber from "libphonenumber-js"
+import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/navigation"
 
 type Props = {}
 
 const Users = (props: Props) => {
+  const { t } = useTranslation()
   const router = useRouter()
   const { isLoading, error, data } = useGetAllUsersQuery(graphqlRequestClient)
 
@@ -26,8 +28,8 @@ const Users = (props: Props) => {
         <thead>
           <tr>
             <th></th>
-            <th>ایمیل</th>
-            <th>موبایل</th>
+            <th>{t("common:email")}</th>
+            <th>{t("common:cellphone")}</th>
           </tr>
         </thead>
         <tbody>

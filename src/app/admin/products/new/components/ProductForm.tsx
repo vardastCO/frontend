@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@core/components/Button"
 import Dropzone from "@core/components/Dropzone"
 import { Input } from "@core/components/Input"
 import { Radio, RadioGroup } from "@core/components/RadioGroup"
@@ -52,10 +53,11 @@ const ProductForm = () => {
   return (
     <>
       <div className="create-product">
-        <div className="mb-6 mt-8">
+        <div className="mb-6 mt-8 flex items-end justify-between">
           <h1 className="text-3xl font-black text-gray-800">
             {productName ? productName : t("common:new_product")}
           </h1>
+          <Button className="sticky top-0">{t("common:save")}</Button>
         </div>
         <div className="flex flex-col gap-24">
           <div className="flex flex-col gap-6">

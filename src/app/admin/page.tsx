@@ -9,7 +9,7 @@ const AdminIndex = () => {
   //   const { data: session } = useSession()
   //   console.log(session)
 
-  return <>asdfasdfasdfasd</>
+  return <>admin</>
 }
 
 export default AdminIndex

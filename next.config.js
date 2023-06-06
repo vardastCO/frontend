@@ -9,6 +9,15 @@ const nextConfig = withBundleAnalyzer(
   nextTranslate({
     experimental: { appDir: true },
     reactStrictMode: true,
+    async redirects() {
+      return [
+        {
+          source: "/",
+          destination: "/admin",
+          permanent: true
+        }
+      ]
+    },
     images: {
       dangerouslyAllowSVG: true,
       domains: ["api.dicebear.com"]

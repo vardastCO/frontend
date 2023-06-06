@@ -7,9 +7,6 @@ export const metadata: Metadata = {
 }
 
 const ProductCreatePage = () => {
-  //   const { data: session } = useSession()
-  //   console.log(session)
-
   return <ProductForm />
 }
 
