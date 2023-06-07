@@ -16,7 +16,7 @@ export default function RootLayout({
 
   return (
     <ReactAriaSSRProvider>
-      <html lang={lang}>
+      <html lang={lang} suppressHydrationWarning>
         <body>
           <NextTopLoader
             color="#030712"
