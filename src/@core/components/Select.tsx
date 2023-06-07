@@ -13,6 +13,7 @@ import {
 } from "@core/utils/react-aria-utils"
 import { filterDOMProps, useResizeObserver } from "@react-aria/utils"
 import { IconSelector } from "@tabler/icons-react"
+import { VariantProps, cva } from "class-variance-authority"
 import React, {
   ForwardedRef,
   HTMLAttributes,
@@ -29,11 +30,37 @@ import { AriaSelectProps, HiddenSelect, useSelect } from "react-aria"
 import { SelectState, useSelectState } from "react-stately"
 import { Button } from "./Button"
 import { ItemRenderProps, useCollection } from "./Collection"
-import { Input } from "./Input"
 import { Label } from "./Label"
 import { ListBoxContext, ListBoxProps } from "./ListBox"
 import { PopoverContext } from "./Popover"
 import { TextContext } from "./Text"
+
+const formControlClasses = cva("form-control", {
+  variants: {
+    inputSize: {
+      xsmall: "form-control-xs",
+      small: "form-control-sm",
+      DEFAULT: "",
+      medium: "form-control-md",
+      large: "form-control-lg",
+      xlarge: "form-control-xl"
+    },
+    rounded: {
+      true: "form-control-rounded"
+    },
+    plaintext: {
+      true: "form-control-plaintext"
+    }
+  },
+  compoundVariants: [
+    {
+      inputSize: "DEFAULT"
+    }
+  ],
+  defaultVariants: {
+    inputSize: "DEFAULT"
+  }
+})
 
 export interface SelectRenderProps {
   /**
@@ -51,7 +78,13 @@ export interface SelectRenderProps {
 export interface SelectProps<T extends object>
   extends Omit<AriaSelectProps<T>, "children">,
     RenderProps<SelectRenderProps>,
-    SlotProps {}
+    VariantProps<typeof formControlClasses>,
+    SlotProps {
+  prefixAddon?: ReactNode
+  suffixAddon?: ReactNode
+  prefixElement?: ReactNode
+  suffixElement?: ReactNode
+}
 
 interface SelectValueContext {
   state: SelectState<unknown>
@@ -64,7 +97,16 @@ export const SelectContext =
 const InternalSelectContext = createContext<SelectValueContext | null>(null)
 
 function Select<T extends object>(
-  props: SelectProps<T>,
+  {
+    prefixAddon,
+    suffixAddon,
+    prefixElement,
+    suffixElement,
+    inputSize,
+    rounded,
+    plaintext,
+    ...props
+  }: SelectProps<T>,
   ref: ForwardedRef<HTMLDivElement>
 ) {
   ;[props, ref] = useContextProps(props, ref, SelectContext)
@@ -129,20 +171,32 @@ function Select<T extends object>(
       </Label>
       <Button
         noStyle
-        className="cursor-pointer"
         {...triggerProps}
         ref={buttonRef}
+        className={`appreance-none text-start ${formControlClasses({
+          inputSize,
+          rounded,
+          plaintext
+        })}`}
       >
-        <Input
-          {...valueProps}
-          className="cursor-pointer"
-          value={
-            state.selectedItem
-              ? (state.selectedItem.rendered as string)
-              : "Select an option"
-          }
-          suffixElement={<IconSelector className="icon" />}
-        />
+        <div className="input-group">
+          {prefixAddon && <div className="input-addon">{prefixAddon}</div>}
+          <div className="input-inset">
+            {prefixElement && (
+              <div className="input-element">{prefixElement}</div>
+            )}
+            <div className="input-field !cursor-pointer" {...valueProps}>
+              {state.selectedItem
+                ? (state.selectedItem.rendered as string)
+                : props.placeholder}
+            </div>
+            <div className="input-element">
+              <IconSelector className="icon" />
+              {suffixElement && suffixElement}
+            </div>
+          </div>
+          {suffixAddon && <div className="input-addon">{suffixAddon}</div>}
+        </div>
       </Button>
       <Provider
         values={[

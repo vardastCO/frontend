@@ -1,4 +1,4 @@
-import CreateAttribute from "../components/CreateAttribute"
+import CreateAttribute from "./components/CreateAttribute"
 
 const CreateAttributePage = () => {
   return <CreateAttribute />
