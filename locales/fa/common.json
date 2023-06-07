@@ -105,6 +105,7 @@
     "repeat_password": "تکرار کلمه عبور",
     "required": "ضروری",
     "save": "ذخیره",
+    "save_entity": "ذخیره {{ entity }}",
     "search": "جستجو",
     "search_in_entity": "جستجو در {{ entity }}",
     "settings": "تنظیمات",

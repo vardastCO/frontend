@@ -50,7 +50,9 @@ const CreateAttribute = () => {
             ? name
             : t("common:new_entity", { entity: t("common:attribute") })}
         </h1>
-        <Button className="sticky top-0">{t("common:save")}</Button>
+        <Button className="sticky top-0">
+          {t("common:save_entity", { entity: t("common:attribute") })}
+        </Button>
       </div>
       <form>
         <div className="flex flex-col gap-6">

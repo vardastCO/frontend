@@ -57,7 +57,9 @@ const ProductForm = () => {
           <h1 className="text-3xl font-black text-gray-800">
             {productName ? productName : t("common:new_product")}
           </h1>
-          <Button className="sticky top-0">{t("common:save")}</Button>
+          <Button className="sticky top-0">
+            {t("common:save_entity", { entity: t("common:product") })}
+          </Button>
         </div>
         <div className="flex flex-col gap-24">
           <div className="flex flex-col gap-6">
