@@ -19,6 +19,11 @@
         "build-storybook": "storybook build",
         "coupling-graph": "pnpx madge --extensions js,jsx,ts,tsx,css,md,mdx ./ --exclude '.next|tailwind.config.js|reset.d.ts|prettier.config.js|postcss.config.js|playwright.config.ts|next.config.js|next-env.d.ts|instrumentation.ts|e2e/|README.md|.storybook/|.eslintrc.js' --image graph.svg"
     },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+    ],
     "dependencies": {
         "@formatjs/intl-enumerator": "^1.3.2",
         "@fullcalendar/core": "^6.1.8",
@@ -52,6 +57,7 @@
         "libphonenumber-js": "^1.10.34",
         "next": "13.4.5",
         "next-auth": "^4.22.1",
+        "next-compose-plugins": "^2.2.1",
         "next-seo": "^6.0.0",
         "next-themes": "^0.2.1",
         "next-translate": "^2.0.6",

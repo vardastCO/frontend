@@ -5,11 +5,7 @@ import { NavigationType } from "@core/types/Navigation"
 import { IconLayoutSidebarRightCollapse, IconSearch } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 
-export default function AdminLayout({
-  children
-}: {
-  children: React.ReactNode
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation("common")
   const menus: NavigationType[] = [
     {
@@ -57,6 +53,15 @@ export default function AdminLayout({
           icon: "IconUsers"
         }
       ]
+    },
+    {
+      items: [
+        {
+          title: t("common:storybook"),
+          path: "/admin/storybook",
+          icon: "IconPalette"
+        }
+      ]
     }
   ]
   return (
@@ -88,9 +93,7 @@ export default function AdminLayout({
                       role="presentation"
                     />
                     <div className="input-element" dir="ltr">
-                      <span className="font-sans text-sm text-gray-500">
-                        ⌘K
-                      </span>
+                      <span className="font-sans text-sm text-gray-500">⌘K</span>
                     </div>
                   </div>
                 </form>

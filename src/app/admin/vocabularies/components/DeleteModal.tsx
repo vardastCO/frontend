@@ -72,7 +72,13 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
   const removeCategoryMutation = useRemoveCategoryMutation(graphqlRequestClient, {
     onSuccess: () => {
       mutationSuccessCommon()
-      queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
+      queryClient.invalidateQueries([
+        "GetCategory",
+        {
+          refetchInactive: true
+        }
+      ])
+      queryClient.invalidateQueries(["GetVocabulary"])
     },
     onError: (error: ClientError) => {
       setRemoveState(false)
