@@ -60,9 +60,11 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
       })
       if (error.response && error.response.errors) {
         const { errors } = error.response
-        toastQueue.add(errors[0].extensions.displayMessage, {
-          timeout: 4000,
-          intent: "danger"
+        errors.forEach((err) => {
+          toastQueue.add(err.extensions.displayMessage, {
+            timeout: 4000,
+            intent: "danger"
+          })
         })
       }
     }
@@ -71,6 +73,22 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
     onSuccess: () => {
       mutationSuccessCommon()
       queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
+    },
+    onError: (error: ClientError) => {
+      setRemoveState(false)
+      setEntityToRemove({
+        type: "undefined",
+        entity: undefined
+      })
+      if (error.response && error.response.errors) {
+        const { errors } = error.response
+        errors.forEach((err) => {
+          toastQueue.add(err.extensions.displayMessage, {
+            timeout: 4000,
+            intent: "danger"
+          })
+        })
+      }
     }
   })
 
