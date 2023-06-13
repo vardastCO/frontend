@@ -29,6 +29,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               title: t("common:attributes"),
               path: "/admin/attributes",
               icon: "IconStack2"
+            },
+            {
+              title: t("common:brands"),
+              path: "/admin/brands",
+              icon: "IconTrademark"
+            },
+            {
+              title: t("common:uoms"),
+              path: "/admin/uoms",
+              icon: "IconRuler"
             }
           ]
         }
