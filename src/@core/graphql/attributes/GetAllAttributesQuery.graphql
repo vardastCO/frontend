@@ -1,0 +1,11 @@
+query GetAllAttributes {
+  attributes {
+    id
+    name
+    slug
+    values
+    type
+    createdAt
+    updatedAt
+  }
+}
