@@ -1,5 +1,10 @@
 "use client"
 
+import { useGetAllBrandsQuery } from "@/generated"
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import Loading from "@core/components/shared/Loading"
+import LoadingFailed from "@core/components/shared/LoadingFailed"
+import NoResult from "@core/components/shared/NoResult"
 import useTranslation from "next-translate/useTranslation"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -7,6 +12,11 @@ import { useRouter } from "next/navigation"
 const Brands = () => {
   const { t } = useTranslation()
   const router = useRouter()
+  const { isLoading, error, data } = useGetAllBrandsQuery(graphqlRequestClient)
+
+  if (isLoading) return <Loading />
+  if (error) return <LoadingFailed />
+  if (!data?.brands) return <NoResult entity="user" />
 
   return (
     <div className="card table-responsive rounded">
@@ -18,16 +28,18 @@ const Brands = () => {
           </tr>
         </thead>
         <tbody>
-          <tr onClick={() => router.push("/admin/brands/123")}>
-            <td>
-              <div className="relative aspect-square h-12 w-12 overflow-hidden rounded">
-                <Image src="https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=" alt="..." fill />
-              </div>
-            </td>
-            <td>
-              <span className="font-medium text-gray-800">دات</span>
-            </td>
-          </tr>
+          {data?.brands.map((brand) => (
+            <tr key={brand.id} onClick={() => router.push(`/admin/users/${brand.id}`)}>
+              <td>
+                <div className="relative aspect-square h-12 w-12 overflow-hidden rounded">
+                  <Image src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=${brand.name}`} alt="..." fill />
+                </div>
+              </td>
+              <td>
+                <span className="font-medium text-gray-800">{brand.name}</span>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
