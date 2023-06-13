@@ -1,0 +1,11 @@
+query GetAttribute($id: Int!, $slug: String) {
+  attribute(id: $id, slug: $slug) {
+    id
+    name
+    slug
+    values
+    type
+    createdAt
+    updatedAt
+  }
+}
