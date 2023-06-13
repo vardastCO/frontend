@@ -3,21 +3,22 @@ import clsx from "clsx"
 import useTranslation from "next-translate/useTranslation"
 import Image from "next/image"
 import { useCallback, useEffect, useState } from "react"
-import { useDropzone } from "react-dropzone"
+import { FileWithPath, useDropzone } from "react-dropzone"
 import { Button } from "./Button"
 
 type Props = {}
 
 const Dropzone = (props: Props) => {
+  interface FilesWithPreview extends FileWithPath {
+    preview: string
+  }
   const { t } = useTranslation()
-  const [files, setFiles] = useState([])
-  const onDrop = useCallback((acceptedFiles) => {
+  const [files, setFiles] = useState<FilesWithPreview[]>([])
+  const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles?.length) {
-      setFiles((previousFiles) => [
+      setFiles((previousFiles: FilesWithPreview[]) => [
         ...previousFiles,
-        ...acceptedFiles.map((file) =>
-          Object.assign(file, { preview: URL.createObjectURL(file) })
-        )
+        ...acceptedFiles.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) }))
       ])
     }
   }, [])
@@ -27,7 +28,7 @@ const Dropzone = (props: Props) => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview))
   }, [files])
 
-  const removeFile = (name) => {
+  const removeFile = (name: string) => {
     setFiles((files) => files.filter((file) => file.name !== name))
   }
 
@@ -46,26 +47,15 @@ const Dropzone = (props: Props) => {
     <>
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        <div
-          className={clsx([
-            "card relative rounded p-4 transition",
-            isDragActive && "bg-gray-50"
-          ])}
-        >
+        <div className={clsx(["card relative rounded p-4 transition", isDragActive && "bg-gray-50"])}>
           {files.length ? (
             <>
-              <Button
-                onPress={open}
-                className="absolute bottom-0 left-0 z-10 m-2"
-              >
+              <Button onPress={open} className="absolute bottom-0 left-0 z-10 m-2">
                 {t("common:add_entity", { entity: t("common:image") })}
               </Button>
               <ul className="relative z-0 flex flex-wrap gap-8">
                 {files.map((file) => (
-                  <li
-                    key={file.name}
-                    className="relative h-32 overflow-hidden rounded border border-gray-200"
-                  >
+                  <li key={file.name} className="relative h-32 overflow-hidden rounded border border-gray-200">
                     <Image
                       src={file.preview}
                       alt={file.name}
@@ -90,12 +80,8 @@ const Dropzone = (props: Props) => {
           ) : (
             <div className="flex h-60 w-full flex-col items-center justify-center gap-1">
               <IconPhotoPlus className="h-12 w-12 text-gray-400" />
-              <span className="font-medium text-gray-800">
-                {t("common:add_images_dropzone_title")}
-              </span>
-              <span className="text-sm text-gray-500">
-                {t("common:add_images_dropzone_description")}
-              </span>
+              <span className="font-medium text-gray-800">{t("common:add_images_dropzone_title")}</span>
+              <span className="text-sm text-gray-500">{t("common:add_images_dropzone_description")}</span>
             </div>
           )}
         </div>

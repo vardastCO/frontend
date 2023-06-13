@@ -23,17 +23,13 @@ const UserEditForm = ({ user }: Props) => {
   const [countryId, setCountryId] = useState<Key | null>(null)
   const [timezone, setTimezone] = useState<Key | null>(null)
 
-  const {
-    isLoading,
-    error,
-    data: countries
-  } = useGetAllCountriesQuery(graphqlRequestClient)
+  const { isLoading, error, data: countries } = useGetAllCountriesQuery(graphqlRequestClient)
 
   const UserEditFormSchema = z.object({
     firstName: z.string(),
     lastName: z.string(),
-    email: z.string().email(),
-    cellphone: z.string(),
+    email: z.string().email().nullable(),
+    cellphone: z.string().nullable(),
     country: z.number(),
     timezone: z.string(),
     newPassword: z.string(),
@@ -69,9 +65,7 @@ const UserEditForm = ({ user }: Props) => {
       <div className="flex flex-col gap-8">
         <div className="card flex items-start rounded p-4">
           <div className="w-1/3">
-            <h2 className="font-medium text-gray-800">
-              {t("common:personal_information")}
-            </h2>
+            <h2 className="font-medium text-gray-800">{t("common:personal_information")}</h2>
           </div>
           <div className="w-2/3">
             <div className="grid grid-cols-2 gap-6">
@@ -92,9 +86,7 @@ const UserEditForm = ({ user }: Props) => {
         </div>
         <div className="card flex items-start rounded p-4">
           <div className="w-1/3">
-            <h2 className="font-medium text-gray-800">
-              {t("common:settings")}
-            </h2>
+            <h2 className="font-medium text-gray-800">{t("common:settings")}</h2>
           </div>
           <div className="w-2/3">
             <div className="grid grid-cols-2 gap-6">
@@ -117,15 +109,11 @@ const UserEditForm = ({ user }: Props) => {
               <ComboBox
                 label={t("common:timezone")}
                 onSelectionChange={setTimezone}
-                selectedKey={
-                  timezones.find((item) => item.title === user.timezone)?.id
-                }
+                selectedKey={timezones.find((item) => item.title === user.timezone)?.id}
                 isDisabled={isSubmitting}
               >
                 <Popover>
-                  <ListBox items={timezones as Timezone[]}>
-                    {(item) => <Item id={item.id}>{item.title}</Item>}
-                  </ListBox>
+                  <ListBox items={timezones as Timezone[]}>{(item) => <Item id={item.id}>{item.title}</Item>}</ListBox>
                 </Popover>
               </ComboBox>
             </div>
@@ -133,9 +121,7 @@ const UserEditForm = ({ user }: Props) => {
         </div>
         <div className="card flex items-start rounded p-4">
           <div className="w-1/3">
-            <h2 className="font-medium text-gray-800">
-              {t("common:password")}
-            </h2>
+            <h2 className="font-medium text-gray-800">{t("common:password")}</h2>
           </div>
           <div className="w-2/3">
             <div className="grid grid-cols-2 gap-6">

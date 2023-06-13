@@ -1,3 +1,4 @@
+import { User } from "@/generated";
 import "next-auth";
 
 declare module "next-auth" {
@@ -8,10 +9,5 @@ declare module "next-auth" {
             expires?: number,
             profile: User
         }
-    }
-    interface User {
-        token?: string,
-        expires?: number,
-        profile: User
     }
 }

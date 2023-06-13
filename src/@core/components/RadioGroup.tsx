@@ -22,24 +22,15 @@ import {
   useRadio,
   useRadioGroup
 } from "react-aria"
-import {
-  RadioGroupState,
-  ValidationState,
-  useRadioGroupState
-} from "react-stately"
+import { RadioGroupState, ValidationState, useRadioGroupState } from "react-stately"
 import { Label, LabelContext } from "./Label"
 import { TextContext } from "./Text"
 
 export interface RadioGroupProps
-  extends Omit<
-      AriaRadioGroupProps,
-      "children" | "description" | "errorMessage"
-    >,
+  extends Omit<AriaRadioGroupProps, "children" | "description" | "errorMessage">,
     RenderProps<RadioGroupRenderProps>,
     SlotProps {}
-export interface RadioProps
-  extends Omit<AriaRadioProps, "children">,
-    RenderProps<RadioRenderProps> {}
+export interface RadioProps extends Omit<AriaRadioProps, "children">, RenderProps<RadioRenderProps> {}
 
 export interface RadioGroupRenderProps {
   /**
@@ -117,22 +108,20 @@ export interface RadioRenderProps {
   isRequired: boolean
 }
 
-export const RadioGroupContext =
-  createContext<ContextValue<RadioGroupProps, HTMLDivElement>>(null)
+export const RadioGroupContext = createContext<ContextValue<RadioGroupProps, HTMLDivElement>>(null)
 let InternalRadioContext = createContext<RadioGroupState | null>(null)
 
 function RadioGroup(props: RadioGroupProps, ref: ForwardedRef<HTMLDivElement>) {
   ;[props, ref] = useContextProps(props, ref, RadioGroupContext)
   let state = useRadioGroupState(props)
   let [labelRef, label] = useSlot()
-  let { radioGroupProps, labelProps, descriptionProps, errorMessageProps } =
-    useRadioGroup(
-      {
-        ...props,
-        label
-      },
-      state
-    )
+  let { radioGroupProps, labelProps, descriptionProps, errorMessageProps } = useRadioGroup(
+    {
+      ...props,
+      label
+    },
+    state
+  )
 
   let renderProps = useRenderProps({
     ...props,
@@ -177,12 +166,10 @@ function RadioGroup(props: RadioGroupProps, ref: ForwardedRef<HTMLDivElement>) {
 function Radio(props: RadioProps, ref: ForwardedRef<HTMLInputElement>) {
   let state = React.useContext(InternalRadioContext)!
   let domRef = useObjectRef(ref)
-  let {
-    inputProps,
-    isSelected,
-    isDisabled,
-    isPressed: isPressedKeyboard
-  } = useRadio(props, state, domRef)
+
+  let { inputProps, isSelected, isDisabled, isPressed: isPressedKeyboard } =
+    //   @ts-ignore
+    useRadio(props, state, domRef)
   let { isFocused, isFocusVisible, focusProps } = useFocusRing()
   let interactionDisabled = isDisabled || state.isReadOnly
 
@@ -259,4 +246,4 @@ const _RadioGroup = forwardRef(RadioGroup)
  */
 const _Radio = forwardRef(Radio)
 
-export { _RadioGroup as RadioGroup, _Radio as Radio }
+export { _Radio as Radio, _RadioGroup as RadioGroup }
