@@ -74,6 +74,7 @@ export interface InputProps
   suffixAddon?: ReactNode
   prefixElement?: ReactNode
   suffixElement?: ReactNode
+  direction?: "rtl" | "ltr"
 }
 
 export const InputContext = createContext<
@@ -86,9 +87,11 @@ function Input(
     suffixAddon,
     prefixElement,
     suffixElement,
+    direction,
     inputSize,
     rounded,
     plaintext,
+    className,
     ...props
   }: InputProps,
   ref: ForwardedRef<HTMLInputElement>
@@ -117,8 +120,10 @@ function Input(
       className={formControlClasses({
         inputSize,
         rounded,
-        plaintext
+        plaintext,
+        className
       })}
+      dir={direction}
     >
       <div className="input-group">
         {prefixAddon && <div className="input-addon">{prefixAddon}</div>}

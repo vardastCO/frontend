@@ -1,0 +1,9 @@
+mutation UpdateBrandMutation($updateBrandInput: UpdateBrandInput!) {
+  updateBrand(updateBrandInput: $updateBrandInput) {
+    id
+    name
+    slug
+    createdAt
+    updatedAt
+  }
+}

@@ -1,0 +1,55 @@
+query GetUser($id: Int, $uuid: String) {
+  user(id: $id, uuid: $uuid) {
+    id
+    uuid
+    firstName
+    lastName
+    email
+    cellphone
+    telegramChatId
+    isCellphoneVerified
+    isEmailVerified
+    isTelegramVerified
+    username
+    mustChangePassword
+    lastPasswordChangeAt
+    language
+    timezone
+    status
+    suspensionReason
+    customDisplayRole
+    adminComments
+    lastLoginAt
+    lastLoginIP
+    lastFailedLoginAt
+    failedLoginAttempts
+    isLockedOut
+    lockedOutAt
+    createdAt
+    updatedAt
+    fullName
+    country {
+      id
+      name
+      nameEn
+    }
+    roles {
+      id
+      name
+      displayName
+      description
+      isActive
+      createdAt
+      updatedAt
+    }
+    permissions {
+      id
+      name
+      displayName
+      action
+      subject
+      field
+      conditions
+    }
+  }
+}

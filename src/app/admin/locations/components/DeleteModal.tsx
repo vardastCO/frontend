@@ -9,10 +9,11 @@ import {
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/Button"
 import { Dialog } from "@core/components/Dialog"
-import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
+import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
 import { toastQueue } from "@core/components/Toast"
 import { IconAlertOctagon } from "@tabler/icons-react"
 import { useQueryClient } from "@tanstack/react-query"
+import { ClientError } from "graphql-request/build/esm/types"
 import { useAtom, useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
 import { useContext } from "react"
@@ -55,6 +56,20 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
     onSuccess: () => {
       mutationSuccessCommon()
       queryClient.invalidateQueries({ queryKey: ["GetAllCountries"] })
+    },
+    onError: (error: ClientError) => {
+      setRemoveState(false)
+      setEntityToRemove({
+        type: "undefined",
+        entity: undefined
+      })
+      if (error.response && error.response.errors) {
+        const { errors } = error.response
+        toastQueue.add(errors[0].extensions.displayMessage, {
+          timeout: 4000,
+          intent: "danger"
+        })
+      }
     }
   })
   const removeProvinceMutation = useRemoveProvinceMutation(
@@ -118,7 +133,7 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
           </div>
           <div>
             <ModalHeader title={t("common:warning")} />
-            <ModalContent>
+            <ModalBody>
               <p className="leading-loose">
                 {t(
                   "common:are_you_sure_you_want_to_delete_x_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
@@ -145,7 +160,7 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
                   {t("common:delete")}
                 </Button>
               </div>
-            </ModalContent>
+            </ModalBody>
           </div>
         </div>
       </Dialog>

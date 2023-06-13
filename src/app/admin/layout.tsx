@@ -1,43 +1,85 @@
 import { Button } from "@core/components/Button"
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import Sidebar from "@core/components/shared/Sidebar"
+import { NavigationType } from "@core/types/Navigation"
 import { IconLayoutSidebarRightCollapse, IconSearch } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 
-export default function AdminLayout({
-  children
-}: {
-  children: React.ReactNode
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation("common")
-  const menus = [
+  const menus: NavigationType[] = [
     {
-      title: t("common:home"),
-      path: "/admin",
-      icon: "IconSmartHome"
+      items: [
+        {
+          title: t("common:home"),
+          path: "/admin",
+          icon: "IconSmartHome"
+        },
+        {
+          title: t("common:products"),
+          path: "/admin/products",
+          icon: "IconPackage",
+          items: [
+            {
+              title: t("common:all_entities", { entity: t("common:products") }),
+              path: "/admin/products",
+              icon: "IconPackage"
+            },
+            {
+              title: t("common:attributes"),
+              path: "/admin/attributes",
+              icon: "IconStack2"
+            },
+            {
+              title: t("common:brands"),
+              path: "/admin/brands",
+              icon: "IconTrademark"
+            },
+            {
+              title: t("common:uoms"),
+              path: "/admin/uoms",
+              icon: "IconRuler"
+            }
+          ]
+        }
+      ]
     },
     {
-      title: t("common:vocabularies_menu_title"),
-      path: "/admin/vocabularies",
-      icon: "IconCategory"
+      title: t("common:administration"),
+      items: [
+        {
+          title: t("common:vocabularies_menu_title"),
+          path: "/admin/vocabularies",
+          icon: "IconCategory"
+        },
+        {
+          title: t("common:locations_menu_title"),
+          path: "/admin/locations",
+          icon: "IconMap2"
+        },
+        {
+          title: t("common:users_menu_title"),
+          path: "/admin/users",
+          icon: "IconUsers"
+        }
+      ]
     },
     {
-      title: t("common:locations_menu_title"),
-      path: "/admin/locations",
-      icon: "IconMap2"
-    },
-    {
-      title: t("common:users_menu_title"),
-      path: "/admin/users",
-      icon: "IconUsers"
+      items: [
+        {
+          title: t("common:storybook"),
+          path: "/admin/storybook",
+          icon: "IconPalette"
+        }
+      ]
     }
   ]
   return (
     <>
-      <div className="flex h-screen flex-col bg-gray-100">
-        <div className="flex h-auto flex-1 overflow-hidden">
+      <div className="app">
+        <div className="app-inner">
           <Sidebar menus={menus} />
-          <div className="relative flex h-auto w-full flex-col overflow-auto overscroll-contain bg-white px-4 py-6">
+          <div className="app-content">
             <div className="mx-auto flex w-full flex-col">
               <div className="mb-3 flex items-center">
                 <div className="flex items-center gap-2">
@@ -61,9 +103,7 @@ export default function AdminLayout({
                       role="presentation"
                     />
                     <div className="input-element" dir="ltr">
-                      <span className="font-sans text-sm text-gray-500">
-                        ⌘K
-                      </span>
+                      <span className="font-sans text-sm text-gray-500">⌘K</span>
                     </div>
                   </div>
                 </form>

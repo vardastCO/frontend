@@ -6,7 +6,7 @@ mutation CreateUser($createUserInput: CreateUserInput!) {
     lastName
     email
     cellphone
-    # telegramChatId
+    telegramChatId
     isCellphoneVerified
     isEmailVerified
     isTelegramVerified
@@ -15,10 +15,6 @@ mutation CreateUser($createUserInput: CreateUserInput!) {
     lastPasswordChangeAt
     language
     timezone
-    # country {
-    #     id
-    #     name
-    # }
     status
     suspensionReason
     customDisplayRole
@@ -31,6 +27,5 @@ mutation CreateUser($createUserInput: CreateUserInput!) {
     lockedOutAt
     createdAt
     updatedAt
-    fullName
   }
 }

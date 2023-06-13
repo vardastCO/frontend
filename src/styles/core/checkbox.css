@@ -1,0 +1,97 @@
+.checkbox-group {
+  @apply flex flex-col gap-4;
+}
+
+.checkbox {
+  --checkmark-color: white;
+  --invalid-color: var(--spectrum-global-color-static-red-600);
+  --invalid-color-pressed: var(--spectrum-global-color-static-red-700);
+
+  @apply flex items-center gap-2 text-base text-gray-700;
+
+  .checkbox-indicator {
+    --border-opacity: 0.1;
+    --border-color: rgba(theme(colors.gray.700), var(--border-opacity));
+    @apply flex
+        h-4
+        w-4
+        items-center
+        justify-center
+        rounded
+        bg-white
+        shadow-[0_0_0_1px_var(--border-color),0_1px_0_0_rgba(0,0,0,0.08),0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)]
+        ring
+        ring-transparent
+        transition-all
+        dark:bg-gray-950
+        dark:bg-opacity-20;
+  }
+
+  & svg {
+    width: 0.5rem;
+    height: 0.5rem;
+    fill: none;
+    stroke: var(--checkmark-color);
+    stroke-width: 3px;
+    stroke-dasharray: 22px;
+    stroke-dashoffset: 66;
+    transition: all 200ms;
+  }
+
+  &[data-pressed] .checkbox-indicator {
+    @apply bg-brand-50;
+  }
+
+  &[data-selected],
+  &[data-indeterminate] {
+    .checkbox-indicator {
+      --border-color: rgba(theme(colors.brand.600), var(--border-opacity));
+      @apply bg-brand-600 shadow-none;
+    }
+
+    &[data-pressed] .checkbox-indicator {
+      @apply bg-brand-400;
+    }
+
+    & svg {
+      stroke-dashoffset: 44;
+    }
+  }
+
+  &[data-validation-state="invalid"] {
+    .checkbox-indicator {
+      border-color: var(--invalid-color);
+    }
+
+    &[data-pressed] .checkbox-indicator {
+      border-color: var(--invalid-color-pressed);
+    }
+
+    &[data-selected],
+    &[data-indeterminate] {
+      .checkbox-indicator {
+        background: var(--invalid-color);
+      }
+
+      &[data-pressed] .checkbox-indicator {
+        background: var(--invalid-color-pressed);
+      }
+    }
+  }
+
+  &[data-indeterminate] {
+    & svg {
+      stroke: none;
+      fill: var(--checkmark-color);
+    }
+  }
+
+  &[data-focus-visible] .checkbox-indicator {
+    --border-color: rgba(theme(colors.brand.600), var(--border-opacity));
+    @apply ring-brand-300 ring-opacity-30;
+  }
+
+  &[data-disabled] {
+    opacity: 0.4;
+  }
+}

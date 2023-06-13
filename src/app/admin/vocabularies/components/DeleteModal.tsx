@@ -1,16 +1,14 @@
 "use client"
 
-import {
-  useRemoveCategoryMutation,
-  useRemoveVocabularyMutation
-} from "@/generated"
+import { useRemoveCategoryMutation, useRemoveVocabularyMutation } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/Button"
 import { Dialog } from "@core/components/Dialog"
-import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
+import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
 import { toastQueue } from "@core/components/Toast"
 import { IconAlertOctagon } from "@tabler/icons-react"
 import { useQueryClient } from "@tanstack/react-query"
+import { ClientError } from "graphql-request"
 import { useAtom, useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
 import { useContext } from "react"
@@ -23,8 +21,7 @@ type Props = {
 
 const DeleteModal = ({ isOpen, onChange }: Props) => {
   const { t } = useTranslation()
-  const { removeStateAtom, entityToRemoveAtom } =
-    useContext(VocabulariesContext)
+  const { removeStateAtom, entityToRemoveAtom } = useContext(VocabulariesContext)
   const setRemoveState = useSetAtom(removeStateAtom)
   const [entityToRemove, setEntityToRemove] = useAtom(entityToRemoveAtom)
 
@@ -50,24 +47,56 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
   }
 
   const queryClient = useQueryClient()
-  const removeVocabularyMutation = useRemoveVocabularyMutation(
-    graphqlRequestClient,
-    {
-      onSuccess: () => {
-        mutationSuccessCommon()
-        queryClient.invalidateQueries({ queryKey: ["GetAllVocabularies"] })
+  const removeVocabularyMutation = useRemoveVocabularyMutation(graphqlRequestClient, {
+    onSuccess: () => {
+      mutationSuccessCommon()
+      queryClient.invalidateQueries({ queryKey: ["GetAllVocabularies"] })
+    },
+    onError: (error: ClientError) => {
+      setRemoveState(false)
+      setEntityToRemove({
+        type: "undefined",
+        entity: undefined
+      })
+      if (error.response && error.response.errors) {
+        const { errors } = error.response
+        errors.forEach((err) => {
+          toastQueue.add(err.extensions.displayMessage, {
+            timeout: 4000,
+            intent: "danger"
+          })
+        })
       }
     }
-  )
-  const removeCategoryMutation = useRemoveCategoryMutation(
-    graphqlRequestClient,
-    {
-      onSuccess: () => {
-        mutationSuccessCommon()
-        queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
+  })
+  const removeCategoryMutation = useRemoveCategoryMutation(graphqlRequestClient, {
+    onSuccess: () => {
+      mutationSuccessCommon()
+      queryClient.invalidateQueries([
+        "GetCategory",
+        {
+          refetchInactive: true
+        }
+      ])
+      queryClient.invalidateQueries(["GetVocabulary"])
+    },
+    onError: (error: ClientError) => {
+      setRemoveState(false)
+      setEntityToRemove({
+        type: "undefined",
+        entity: undefined
+      })
+      if (error.response && error.response.errors) {
+        const { errors } = error.response
+        errors.forEach((err) => {
+          toastQueue.add(err.extensions.displayMessage, {
+            timeout: 4000,
+            intent: "danger"
+          })
+        })
       }
     }
-  )
+  })
 
   const removeLocation = () => {
     switch (entityType) {
@@ -80,16 +109,10 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
     }
   }
 
-  let isLoading =
-    removeVocabularyMutation.isLoading || removeCategoryMutation.isLoading
+  let isLoading = removeVocabularyMutation.isLoading || removeCategoryMutation.isLoading
 
   return (
-    <Modal
-      isDismissable={!isLoading}
-      size="large"
-      isOpen={isOpen}
-      onOpenChange={onChange}
-    >
+    <Modal isDismissable={!isLoading} size="large" isOpen={isOpen} onOpenChange={onChange}>
       <Dialog>
         <div className="flex">
           <div className="flex-1 pr-6 pt-6">
@@ -99,7 +122,7 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
           </div>
           <div>
             <ModalHeader title={t("common:warning")} />
-            <ModalContent>
+            <ModalBody>
               <p className="leading-loose">
                 {t(
                   "common:are_you_sure_you_want_to_delete_x_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
@@ -110,23 +133,14 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
                 )}
               </p>
               <div className="mt-8 flex items-center justify-end gap-2">
-                <Button
-                  intent="ghost"
-                  onPress={() => setRemoveState(false)}
-                  isDisabled={isLoading}
-                >
+                <Button intent="ghost" onPress={() => setRemoveState(false)} isDisabled={isLoading}>
                   {t("common:cancel")}
                 </Button>
-                <Button
-                  intent="danger"
-                  onPress={() => removeLocation()}
-                  isDisabled={isLoading}
-                  loading={isLoading}
-                >
+                <Button intent="danger" onPress={() => removeLocation()} isDisabled={isLoading} loading={isLoading}>
                   {t("common:delete")}
                 </Button>
               </div>
-            </ModalContent>
+            </ModalBody>
           </div>
         </div>
       </Dialog>

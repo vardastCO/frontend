@@ -15,7 +15,7 @@ import { Button } from "@core/components/Button"
 import { Checkbox } from "@core/components/Checkbox"
 import { Dialog } from "@core/components/Dialog"
 import { Input } from "@core/components/Input"
-import { Modal, ModalContent, ModalHeader } from "@core/components/Modal"
+import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
 import { TextField } from "@core/components/TextField"
 import { toastQueue } from "@core/components/Toast"
 import { slugify } from "@core/utils/slugify"
@@ -117,7 +117,7 @@ const CreateCountry = (props: Props) => {
                 entity: t("common:country")
               })}
             />
-            <ModalContent>
+            <ModalBody>
               {createCountryMutation.isError && <p>خطایی رخ داده</p>}
               <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -136,7 +136,7 @@ const CreateCountry = (props: Props) => {
                   label={t("common:english_name")}
                   errorMessage={errors.nameEn && errors.nameEn.message}
                 >
-                  <Input {...register("nameEn")} dir="ltr" />
+                  <Input {...register("nameEn")} dir="ltr" direction="ltr" />
                 </TextField>
                 <TextField
                   isDisabled={isSubmitting}
@@ -144,7 +144,12 @@ const CreateCountry = (props: Props) => {
                   errorMessage={errors.slug && errors.slug.message}
                   isReadOnly
                 >
-                  <Input {...register("slug")} plaintext dir="ltr" />
+                  <Input
+                    {...register("slug")}
+                    plaintext
+                    dir="ltr"
+                    direction="ltr"
+                  />
                 </TextField>
                 <TextField
                   isDisabled={isSubmitting}
@@ -215,7 +220,7 @@ const CreateCountry = (props: Props) => {
                   </Button>
                 </div>
               </form>
-            </ModalContent>
+            </ModalBody>
           </>
         </Dialog>
       </Modal>

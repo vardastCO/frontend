@@ -1,0 +1,9 @@
+query GetAllBrands {
+  brands {
+    id
+    name
+    slug
+    createdAt
+    updatedAt
+  }
+}

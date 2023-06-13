@@ -41,7 +41,7 @@ function TextField(props: TextFieldProps, ref: ForwardedRef<HTMLDivElement>) {
       {...filterDOMProps(props)}
       ref={ref}
       slot={props.slot}
-      className="form-field"
+      className={`form-field ${props.className}`}
       style={props.style}
     >
       <Label {...labelProps} ref={labelRef}>
