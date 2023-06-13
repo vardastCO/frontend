@@ -1,4 +1,4 @@
-mutation CreateUomMutation($createUomInput: CreateUomInput!) {
+mutation CreateUOMMutation($createUomInput: CreateUomInput!) {
   createUom(createUomInput: $createUomInput) {
     id
     name
