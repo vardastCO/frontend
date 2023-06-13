@@ -16,7 +16,7 @@ const Brands = () => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.brands) return <NoResult entity="user" />
+  if (!data?.brands) return <NoResult entity="brand" />
 
   return (
     <div className="card table-responsive rounded">
@@ -29,10 +29,17 @@ const Brands = () => {
         </thead>
         <tbody>
           {data?.brands.map((brand) => (
-            <tr key={brand.id} onClick={() => router.push(`/admin/users/${brand.id}`)}>
+            <tr
+              key={brand.id}
+              onClick={() => router.push(`/admin/users/${brand.id}`)}
+            >
               <td>
                 <div className="relative aspect-square h-12 w-12 overflow-hidden rounded">
-                  <Image src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=${brand.name}`} alt="..." fill />
+                  <Image
+                    src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=${brand.name}`}
+                    alt="..."
+                    fill
+                  />
                 </div>
               </td>
               <td>

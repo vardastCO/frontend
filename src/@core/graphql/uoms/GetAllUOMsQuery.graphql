@@ -1,0 +1,9 @@
+query GetAllUOMs {
+  uoms {
+    id
+    name
+    slug
+    symbol
+    isActive
+  }
+}
