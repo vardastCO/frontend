@@ -95,8 +95,10 @@
             w-6
             items-center
             justify-center
+            text-gray-500
             focus:outline-none
-            focus-visible:outline-none;
+            focus-visible:outline-none
+            dark:text-gray-600;
     }
 
     &:has(.active),
@@ -134,7 +136,13 @@
     }
 
     .app-navigation-item-children {
-      @apply ms-4 hidden flex-col border-s border-gray-300 pt-3;
+      @apply ms-4
+        hidden
+        flex-col
+        border-s
+        border-gray-300
+        pt-3
+        dark:border-gray-700;
 
       .app-navigation-item-children-item {
         .app-navigation-item-children-item-link {
@@ -155,10 +163,13 @@
             before:w-2
             before:rounded-full
             before:bg-gray-300
-            hover:text-gray-700;
+            hover:text-gray-700
+            dark:text-gray-500
+            dark:before:bg-gray-700
+            dark:hover:text-gray-400;
 
           &.active {
-            @apply before:bg-brand-600;
+            @apply text-gray-700 before:bg-brand-600 dark:text-gray-400;
           }
         }
       }

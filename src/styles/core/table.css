@@ -1,29 +1,44 @@
 .table {
   --table-bg: theme(colors.transparent);
+  --table-text-color: theme(colors.gray.700);
   --table-accent-bg: theme(colors.transparent);
   --table-striped-bg: theme(colors.gray.50);
   --table-border-color: theme(colors.gray.200);
   --table-border-width: 1px;
 
-  width: 100%;
-  vertical-align: top;
+  .dark & {
+    --table-bg: rgba(theme(colors.gray.800), 0.1);
+    --table-accent-bg: rgba(theme(colors.gray.800), 0.4);
+    --table-striped-bg: theme(colors.gray.600);
+    --table-border-color: rgba(theme(colors.gray.800), 0.8);
+    --table-text-color: theme(colors.gray.400);
+  }
+
+  @apply w-full align-top;
 
   & > :not(caption) > * > * {
-    padding: theme(spacing.3) theme(spacing.4);
-    background-color: var(--table-bg);
-    border-color: var(--table-border-color);
-    border-bottom-width: var(--table-border-width);
-    box-shadow: inset 0 0 0 9999px var(--table-accent-bg);
+    @apply border-b
+        border-[var(--table-border-color)]
+        bg-[var(--table-bg)]
+        px-4
+        py-3
+        text-[var(--table-text-color)]
+        shadow-[inset_0_0_0_9999px_var(--table-accent-bg)];
   }
 
   & > :not(caption) > tr:last-child > td {
-    border-bottom: 0;
+    @apply border-b-0;
   }
 
   & > thead {
+    @apply align-bottom;
+    --table-text-color: theme(colors.gray.600);
     --table-accent-bg: theme(colors.gray.50);
-    color: theme(colors.gray.600);
-    vertical-align: bottom;
+
+    .dark & {
+      --table-text-color: theme(colors.gray.600);
+      --table-accent-bg: rgba(theme(colors.gray.900), 0.3);
+    }
   }
 
   & > thead {
@@ -51,7 +66,7 @@
 
   &-sm {
     & > :not(caption) > * > * {
-      padding: theme(spacing.2) theme(spacing.3);
+      @apply px-3 py-2;
     }
   }
 
