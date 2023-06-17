@@ -5,6 +5,7 @@
     "scripts": {
         "check-env": "node -e 'console.log(process.env)' | grep npm",
         "preinstall": "npx only-allow pnpm",
+        "predev": "pnpm run codegen",
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
