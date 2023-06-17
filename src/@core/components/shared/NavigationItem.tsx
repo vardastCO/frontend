@@ -1,11 +1,14 @@
 "use client"
-import { NavigationItemType } from "@core/types/Navigation"
-import { IconChevronDown } from "@tabler/icons-react"
-import clsx from "clsx"
+
+import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
-import { Button } from "../Button"
+import { IconChevronDown } from "@tabler/icons-react"
+import clsx from "clsx"
+
+import { Button } from "@core/components/ui/button"
+import { NavigationItemType } from "@core/types/Navigation"
+
 import { TablerIcons } from "./TablerIcon"
 
 type Props = {
@@ -50,7 +53,7 @@ const NavigationItem = (props: Props) => {
             <Button
               className="app-navigation-item-arrow"
               noStyle
-              onPress={() => !isActive(menu.path) && toggleOpen()}
+              onClick={() => !isActive(menu.path) && toggleOpen()}
             >
               <IconChevronDown className="h-4 w-4" />
             </Button>

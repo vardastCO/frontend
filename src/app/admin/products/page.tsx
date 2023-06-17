@@ -1,8 +1,10 @@
-import { Button } from "@core/components/Button"
-import PageHeader from "@core/components/shared/PageHeader"
 import type { Metadata } from "next"
-import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
+import useTranslation from "next-translate/useTranslation"
+
+import PageHeader from "@core/components/shared/PageHeader"
+import { Button } from "@core/components/ui/button"
+
 import Products from "./components/Products"
 
 export const metadata: Metadata = {

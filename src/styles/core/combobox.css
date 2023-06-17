@@ -3,7 +3,7 @@
   --border-color: rgba(theme(colors.gray.700), var(--border-opacity));
   @apply !max-h-64
     w-full
-    max-w-[var(--trigger-width)]
+    max-w-[var(--radix-popper-anchor-width)]
     overflow-y-auto
     rounded
     bg-white

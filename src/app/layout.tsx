@@ -1,11 +1,13 @@
 import "@/styles/globals.css"
-import { GlobalToastRegion } from "@core/components/Toast"
-import NextAuthProvider from "@core/providers/NextAuthProvider"
-import NextThemeProvider from "@core/providers/NextThemeProvider"
-import ReactAriaSSRProvider from "@core/providers/ReactAriaSSRProvider"
-import ReactQueryProvider from "@core/providers/ReactQueryProvider"
+
 import useTranslation from "next-translate/useTranslation"
 import NextTopLoader from "nextjs-toploader"
+
+import NextAuthProvider from "@core/providers/NextAuthProvider"
+import NextThemeProvider from "@core/providers/NextThemeProvider"
+import RadixDirectionProvider from "@core/providers/RadixDirectionProvider"
+import ReactQueryProvider from "@core/providers/ReactQueryProvider"
+import { Toaster } from "@core/providers/ToasterProvider"
 
 export default function RootLayout({
   children
@@ -15,7 +17,7 @@ export default function RootLayout({
   const { lang } = useTranslation()
 
   return (
-    <ReactAriaSSRProvider>
+    <RadixDirectionProvider>
       <html lang={lang} suppressHydrationWarning>
         <body>
           <NextTopLoader
@@ -27,12 +29,12 @@ export default function RootLayout({
             <ReactQueryProvider>
               <NextThemeProvider>
                 {children}
-                <GlobalToastRegion />
+                <Toaster />
               </NextThemeProvider>
             </ReactQueryProvider>
           </NextAuthProvider>
         </body>
       </html>
-    </ReactAriaSSRProvider>
+    </RadixDirectionProvider>
   )
 }

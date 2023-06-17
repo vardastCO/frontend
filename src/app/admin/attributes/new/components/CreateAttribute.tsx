@@ -3,24 +3,35 @@
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 import { AttributeTypesEnum, useCreateAttributeMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { enumToKeyValueObject } from "@core/utils/enumToKeyValueObject"
 import { slugInputSchema } from "@core/utils/zodValidationSchemas"
-import { Button } from "@core/components/Button"
-import { Item } from "@core/components/Collection"
-import { Input } from "@core/components/Input"
-import { ListBox } from "@core/components/ListBox"
-import { Popover } from "@core/components/Popover"
-import { Select } from "@core/components/Select"
-import { TextField } from "@core/components/TextField"
-import { toastQueue } from "@core/components/Toast"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@core/components/react-hook-form/form"
+import { Button } from "@core/components/ui/button"
+import { Input } from "@core/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@core/components/ui/select"
+import { useToast } from "@core/hooks/use-toast"
 
 const CreateAttribute = () => {
   const { t } = useTranslation()
+  const { toast } = useToast()
   const router = useRouter()
   const attributeTypes = enumToKeyValueObject(AttributeTypesEnum)
 
@@ -28,15 +39,13 @@ const CreateAttribute = () => {
     graphqlRequestClient,
     {
       onSuccess: () => {
-        toastQueue.add(
-          t("common:entity_added_successfully", {
+        toast({
+          description: t("common:entity_added_successfully", {
             entity: t("common:attribute")
           }),
-          {
-            timeout: 2000,
-            intent: "success"
-          }
-        )
+          duration: 2000,
+          variant: "success"
+        })
         router.push("/admin/attributes")
       }
     }
@@ -49,21 +58,12 @@ const CreateAttribute = () => {
   })
   type CreateAttributeType = TypeOf<typeof CreateAttributeSchema>
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    getValues,
-    reset,
-    formState: { errors, isSubmitting }
-  } = useForm<CreateAttributeType>({
+  const form = useForm<CreateAttributeType>({
     resolver: zodResolver(CreateAttributeSchema),
     defaultValues: {}
   })
 
-  const name = watch("name")
+  const name = form.watch("name")
 
   function onSubmit(data: CreateAttributeType) {
     const { name, slug, type } = data
@@ -78,8 +78,8 @@ const CreateAttribute = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
           <h1 className="text-3xl font-black text-gray-800">
             {name
@@ -89,37 +89,77 @@ const CreateAttribute = () => {
           <Button
             className="sticky top-0"
             type="submit"
-            loading={isSubmitting}
-            isDisabled={isSubmitting}
+            loading={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting}
           >
             {t("common:save_entity", { entity: t("common:attribute") })}
           </Button>
         </div>
         <div className="flex flex-col gap-6">
-          <TextField
-            label={t("common:name")}
-            isDisabled={isSubmitting}
-            errorMessage={errors.name && errors.name.message}
-          >
-            <Input {...register("name")} />
-          </TextField>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:name")}</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <TextField
-            label={t("common:slug")}
-            isDisabled={isSubmitting}
-            errorMessage={errors.slug && errors.slug.message}
-          >
-            <Input {...register("slug")} />
-          </TextField>
+          <FormField
+            control={form.control}
+            name="slug"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:slug")}</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <Controller
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:type")}</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a verified email to display" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {Object.keys(attributeTypes).map((type) => (
+                      <SelectItem value={attributeTypes[type]} key={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* <Controller
             name="type"
             control={control}
             render={({ field, fieldState: { error } }) => (
               <Select
                 label={t("common:type")}
                 onBlur={field.onBlur}
-                isDisabled={isSubmitting}
+                disabled={isSubmitting}
                 errorMessage={error && error.message}
                 onSelectionChange={field.onChange}
                 placeholder={t("common:select_placeholder")}
@@ -135,10 +175,10 @@ const CreateAttribute = () => {
                 </Popover>
               </Select>
             )}
-          />
+          /> */}
         </div>
       </form>
-    </div>
+    </Form>
   )
 }
 
