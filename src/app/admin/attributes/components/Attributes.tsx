@@ -1,11 +1,23 @@
 "use client"
 
+import { useGetAllAttributesQuery } from "@/generated"
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import Loading from "@core/components/shared/Loading"
+import LoadingFailed from "@core/components/shared/LoadingFailed"
+import NoResult from "@core/components/shared/NoResult"
 import useTranslation from "next-translate/useTranslation"
-import { useRouter } from "next/navigation"
+import { notFound, useRouter } from "next/navigation"
 
 const Attributes = () => {
   const { t } = useTranslation()
   const router = useRouter()
+  const { isLoading, error, data } =
+    useGetAllAttributesQuery(graphqlRequestClient)
+
+  if (isLoading) return <Loading />
+  if (error) return <LoadingFailed />
+  if (!data) notFound()
+  if (!data.attributes.length) return <NoResult entity="attribute" />
 
   return (
     <div className="card table-responsive rounded">
@@ -15,52 +27,27 @@ const Attributes = () => {
             <th>{t("common:attribute")}</th>
             <th>{t("common:id")}</th>
             <th>{t("common:type")}</th>
-            <th>{t("common:visibility")}</th>
-            <th>{t("common:filtering")}</th>
-            <th>{t("common:required")}</th>
           </tr>
         </thead>
         <tbody>
-          <tr onClick={() => router.push("/admin/attributes/123")}>
-            <td>
-              <span className="font-medium text-gray-800">رنگ</span>
-            </td>
-            <td>
-              <span className="font-mono">color</span>
-            </td>
-            <td>
-              <span>انتخابی</span>
-            </td>
-            <td>
-              <span className="tag tag-dot tag-success tag-sm">
-                {t("common:visible")}
-              </span>
-            </td>
-            <td>
-              <span className="tag tag-dot tag-success tag-sm">
-                {t("common:filterable")}
-              </span>
-            </td>
-            <td>--</td>
-          </tr>
-          <tr>
-            <td>
-              <span className="font-medium text-gray-800">اندازه</span>
-            </td>
-            <td>
-              <span className="font-mono">size</span>
-            </td>
-            <td>
-              <span>انتخابی</span>
-            </td>
-            <td>
-              <span className="tag tag-dot tag-gray tag-sm">
-                {t("common:hidden")}
-              </span>
-            </td>
-            <td>--</td>
-            <td>--</td>
-          </tr>
+          {data?.attributes.map((attribute) => (
+            <tr
+              key={attribute.id}
+              onClick={() => router.push(`/admin/attributes/${attribute.id}`)}
+            >
+              <td>
+                <span className="font-medium text-gray-800">
+                  {attribute.name}
+                </span>
+              </td>
+              <td>
+                <span className="font-mono">{attribute.slug}</span>
+              </td>
+              <td>
+                <span>{attribute.type}</span>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

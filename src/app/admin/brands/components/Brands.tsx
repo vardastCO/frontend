@@ -7,7 +7,7 @@ import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
 import useTranslation from "next-translate/useTranslation"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+import { notFound, useRouter } from "next/navigation"
 
 const Brands = () => {
   const { t } = useTranslation()
@@ -16,7 +16,8 @@ const Brands = () => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.brands) return <NoResult entity="brand" />
+  if (!data) notFound()
+  if (!data.brands.length) return <NoResult entity="brand" />
 
   return (
     <div className="card table-responsive rounded">
