@@ -80,6 +80,7 @@
         "@graphql-codegen/typescript": "^4.0.0",
         "@graphql-codegen/typescript-operations": "^4.0.0",
         "@graphql-codegen/typescript-react-query": "^4.1.0",
+        "@ianvs/prettier-plugin-sort-imports": "^4.0.2",
         "@next/bundle-analyzer": "^13.4.6",
         "@react-types/combobox": "^3.6.2",
         "@react-types/shared": "^3.18.1",

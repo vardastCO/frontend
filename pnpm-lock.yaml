@@ -166,6 +166,9 @@ devDependencies:
   '@graphql-codegen/typescript-react-query':
     specifier: ^4.1.0
     version: 4.1.0(graphql@16.6.0)
+  '@ianvs/prettier-plugin-sort-imports':
+    specifier: ^4.0.2
+    version: 4.0.2(prettier@2.8.8)
   '@next/bundle-analyzer':
     specifier: ^13.4.6
     version: 13.4.6
@@ -228,7 +231,7 @@ devDependencies:
     version: 15.1.0(postcss@8.4.24)
   prettier-plugin-tailwindcss:
     specifier: ^0.3.0
-    version: 0.3.0(prettier@2.8.8)
+    version: 0.3.0(@ianvs/prettier-plugin-sort-imports@4.0.2)(prettier@2.8.8)
   storybook:
     specifier: ^7.0.21
     version: 7.0.21
@@ -321,7 +324,7 @@ packages:
       '@babel/parser': 7.22.5
       '@babel/template': 7.22.5
       '@babel/traverse': 7.22.5(supports-color@5.5.0)
-      '@babel/types': 7.21.5
+      '@babel/types': 7.22.5
       convert-source-map: 1.9.0
       debug: 4.3.4(supports-color@5.5.0)
       gensync: 1.0.0-beta.2
@@ -357,7 +360,7 @@ packages:
     resolution: {integrity: sha512-F3fZga2uv09wFdEjEQIJxXALXfz0+JaOb7SabvVMmjHxeVTuGW8wgE8Vp1Hd7O+zMTYtcfEISGRzPkeiaPPsvg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.21.5
+      '@babel/types': 7.22.5
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.18
       jsesc: 2.5.2
@@ -676,7 +679,7 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      '@babel/types': 7.21.5
+      '@babel/types': 7.22.5
     dev: true
 
   /@babel/parser@7.22.5:
@@ -2456,7 +2459,7 @@ packages:
       '@babel/plugin-transform-unicode-escapes': 7.22.5(@babel/core@7.21.8)
       '@babel/plugin-transform-unicode-regex': 7.22.5(@babel/core@7.21.8)
       '@babel/preset-modules': 0.1.5(@babel/core@7.21.8)
-      '@babel/types': 7.21.5
+      '@babel/types': 7.22.5
       babel-plugin-polyfill-corejs2: 0.3.3(@babel/core@7.21.8)
       babel-plugin-polyfill-corejs3: 0.6.0(@babel/core@7.21.8)
       babel-plugin-polyfill-regenerator: 0.4.1(@babel/core@7.21.8)
@@ -2663,13 +2666,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.22.5
-      '@babel/generator': 7.21.9
+      '@babel/generator': 7.22.5
       '@babel/helper-environment-visitor': 7.22.5
       '@babel/helper-function-name': 7.22.5
       '@babel/helper-hoist-variables': 7.22.5
       '@babel/helper-split-export-declaration': 7.22.5
-      '@babel/parser': 7.21.9
-      '@babel/types': 7.21.5
+      '@babel/parser': 7.22.5
+      '@babel/types': 7.22.5
       debug: 4.3.4(supports-color@5.5.0)
       globals: 11.12.0
     transitivePeerDependencies:
@@ -3797,6 +3800,26 @@ packages:
 
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+
+  /@ianvs/prettier-plugin-sort-imports@4.0.2(prettier@2.8.8):
+    resolution: {integrity: sha512-VnsTzyb9aSWpc3v6HvZKD6eolZRvofIYjhda+6IbW1GYwr2byWqK0KhLPbYNkit9MAgShad5bhZ1hgBn867A1A==}
+    peerDependencies:
+      '@vue/compiler-sfc': '>=3.0.0'
+      prettier: 2.x
+    peerDependenciesMeta:
+      '@vue/compiler-sfc':
+        optional: true
+    dependencies:
+      '@babel/core': 7.22.5
+      '@babel/generator': 7.22.5
+      '@babel/parser': 7.22.5
+      '@babel/traverse': 7.22.5(supports-color@5.5.0)
+      '@babel/types': 7.22.5
+      prettier: 2.8.8
+      semver: 7.5.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
 
   /@internationalized/date@3.2.0:
     resolution: {integrity: sha512-VDMHN1m33L4eqPs5BaihzgQJXyaORbMoHOtrapFxx179J8ucY5CRIHYsq5RRLKPHZWgjNfa5v6amWWDkkMFywA==}
@@ -12500,7 +12523,7 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
-  /prettier-plugin-tailwindcss@0.3.0(prettier@2.8.8):
+  /prettier-plugin-tailwindcss@0.3.0(@ianvs/prettier-plugin-sort-imports@4.0.2)(prettier@2.8.8):
     resolution: {integrity: sha512-009/Xqdy7UmkcTBpwlq7jsViDqXAYSOMLDrHAdTMlVZOrKfM2o9Ci7EMWTMZ7SkKBFTG04UM9F9iM2+4i6boDA==}
     engines: {node: '>=12.17.0'}
     peerDependencies:
@@ -12552,6 +12575,7 @@ packages:
       prettier-plugin-twig-melody:
         optional: true
     dependencies:
+      '@ianvs/prettier-plugin-sort-imports': 4.0.2(prettier@2.8.8)
       prettier: 2.8.8
     dev: true
 
