@@ -1,6 +1,6 @@
 "use client"
 
-import { Key, useContext, useState } from "react"
+import { useContext, useState } from "react"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import {
   IconDots,
@@ -11,14 +11,18 @@ import {
   IconTrash
 } from "@tabler/icons-react"
 import { useSetAtom } from "jotai"
+import useTranslation from "next-translate/useTranslation"
 import { Category, useGetCategoryQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Item } from "@core/components/Collection"
-import { Menu, MenuTrigger } from "@core/components/Menu"
-import { Popover } from "@core/components/Popover"
-import { Separator } from "@core/components/Separator"
 import { Button } from "@core/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@core/components/ui/dropdown-menu"
 
 import { VocabulariesContext } from "./VocabulariesProvider"
 
@@ -28,6 +32,7 @@ interface CategoryCardProps {
 }
 
 const CategoryCard = ({ category, vocabularySlug }: CategoryCardProps) => {
+  const { t } = useTranslation()
   const { removeStateAtom, entityToRemoveAtom } =
     useContext(VocabulariesContext)
   const setEntityToRemove = useSetAtom(entityToRemoveAtom)
@@ -52,16 +57,12 @@ const CategoryCard = ({ category, vocabularySlug }: CategoryCardProps) => {
     setOpen(newOpen)
   }
 
-  const onAction = (key: Key) => {
-    switch (key) {
-      case "remove":
-        setEntityToRemove({
-          type: "category",
-          entity: category
-        })
-        setRemoveState(true)
-        break
-    }
+  const toggleRemoveItem = () => {
+    setEntityToRemove({
+      type: "category",
+      entity: category
+    })
+    setRemoveState(true)
   }
 
   return (
@@ -94,24 +95,24 @@ const CategoryCard = ({ category, vocabularySlug }: CategoryCardProps) => {
           )}
         </div>
         <div className="mr-auto flex items-center gap-2">
-          <MenuTrigger>
-            <Button variant="ghost" iconOnly>
-              <IconDots className="icon" />
-            </Button>
-            <Popover>
-              <Menu onAction={onAction}>
-                <Item id="edit">
-                  <IconEdit className="dropdown-menu-item-icon" />
-                  ویرایش
-                </Item>
-                <Separator />
-                <Item id="remove" className="danger">
-                  <IconTrash className="dropdown-menu-item-icon" />
-                  حذف
-                </Item>
-              </Menu>
-            </Popover>
-          </MenuTrigger>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Button variant="ghost" iconOnly>
+                <IconDots className="icon" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>
+                <IconEdit className="dropdown-menu-item-icon" />
+                <span>{t("common:edit")}</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onSelect={toggleRemoveItem}>
+                <IconTrash className="dropdown-menu-item-icon" />
+                <span>{t("common:delete")}</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       {open && (

@@ -1,14 +1,16 @@
 import { useContext } from "react"
+import { IconFilter } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 
+import { Button } from "@core/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@core/components/ui/dropdown-menu"
+import { Label } from "@core/components/ui/label"
+import { Switch } from "@core/components/ui/switch"
 
 import { LocationsContext } from "./LocationsProvider"
 
@@ -22,14 +24,30 @@ const FiltersBar = (props: Props) => {
     <div className="mb-6 flex items-center">
       <div className="mr-auto">
         <DropdownMenu>
-          <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+          <DropdownMenuTrigger>
+            <Button variant="secondary">
+              <IconFilter className="icon" />
+              <span>{t("common:filters")}</span>
+            </Button>
+          </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuItem>Subscription</DropdownMenuItem>
+            <DropdownMenuItem
+              onSelect={(event) => {
+                event.preventDefault
+              }}
+              asChild
+            >
+              <Label noStyle className="flex items-center">
+                <>
+                  <Switch
+                    onCheckedChange={toggleActivesOnly}
+                    checked={activesOnly}
+                    size="small"
+                  />
+                  <span>{t("common:is_active")}</span>
+                </>
+              </Label>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         {/* <MenuTrigger>

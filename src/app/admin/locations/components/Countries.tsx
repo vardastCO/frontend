@@ -11,6 +11,7 @@ import NoResult from "@core/components/shared/NoResult"
 import PageHeader from "@core/components/shared/PageHeader"
 
 import CountryCard from "./CountryCard"
+import CreateCountry from "./CreateCountry"
 import FiltersBar from "./FiltersBar"
 import { LocationsContext } from "./LocationsProvider"
 
@@ -27,7 +28,7 @@ const Countries = () => {
   return (
     <>
       <PageHeader title={t("common:locations_index_title")}>
-        {/* <CreateCountry /> */}
+        <CreateCountry />
       </PageHeader>
       <FiltersBar />
       <div>

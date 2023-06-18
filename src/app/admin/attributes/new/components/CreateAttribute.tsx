@@ -151,31 +151,6 @@ const CreateAttribute = () => {
               </FormItem>
             )}
           />
-
-          {/* <Controller
-            name="type"
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <Select
-                label={t("common:type")}
-                onBlur={field.onBlur}
-                disabled={isSubmitting}
-                errorMessage={error && error.message}
-                onSelectionChange={field.onChange}
-                placeholder={t("common:select_placeholder")}
-              >
-                <Popover>
-                  <ListBox>
-                    {Object.keys(attributeTypes).map((type) => (
-                      <Item id={attributeTypes[type]} key={type}>
-                        {type}
-                      </Item>
-                    ))}
-                  </ListBox>
-                </Popover>
-              </Select>
-            )}
-          /> */}
         </div>
       </form>
     </Form>

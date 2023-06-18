@@ -1,16 +1,13 @@
 "use client"
 
 import { useContext, useState } from "react"
-import Link from "next/link"
-import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
 import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
-import { Country, useUpdateCountryMutation } from "@/generated"
+import { Area, useUpdateAreaMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { getFlagEmoji } from "@core/utils/getFlagEmoji"
 import { Button } from "@core/components/ui/button"
 import {
   DropdownMenu,
@@ -19,44 +16,48 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@core/components/ui/dropdown-menu"
+import { Label } from "@core/components/ui/label"
 import { Switch } from "@core/components/ui/switch"
+import { useToast } from "@core/hooks/use-toast"
 
 import { LocationsContext } from "./LocationsProvider"
 
-type CountryCardProps = {
+interface AreaCardProps {
   show: boolean
-  country: Country
+  countrySlug?: string
+  provinceSlug?: string
+  citySlug?: string
+  area: Area
 }
 
-const CountryCard = ({ show, country }: CountryCardProps) => {
+const AreaCard = ({ show, area }: AreaCardProps) => {
   const { removeStateAtom, entityToRemoveAtom } = useContext(LocationsContext)
   const setEntityToRemove = useSetAtom(entityToRemoveAtom)
   const setRemoveState = useSetAtom(removeStateAtom)
   const { t } = useTranslation()
   const { toast } = useToast()
-  const { name, slug, alphaTwo, isActive, provincesCount } = country
+  const { name, slug, isActive } = area
+
   const [active, setActive] = useState(isActive)
 
-  const updateCountryMutation = useUpdateCountryMutation(graphqlRequestClient, {
+  const updateAreaMutation = useUpdateAreaMutation(graphqlRequestClient, {
     onSuccess: () => {
-      toast(
-        t("common:entity_updated_successfully", {
-          entity: t("common:country")
+      toast({
+        description: t("common:entity_updated_successfully", {
+          entity: t("common:area")
         }),
-        {
-          duration: 2000,
-          variant: "success"
-        }
-      )
+        duration: 2000,
+        variant: "success"
+      })
       setActive((value) => !value)
     }
   })
 
   const toggleActive = () => {
     const oldActiveMode = active
-    updateCountryMutation.mutate({
-      updateCountryInput: {
-        id: country.id,
+    updateAreaMutation.mutate({
+      updateAreaInput: {
+        id: area.id,
         isActive: !oldActiveMode
       }
     })
@@ -64,8 +65,8 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
 
   const toggleRemoveItem = () => {
     setEntityToRemove({
-      type: "country",
-      entity: country
+      type: "area",
+      entity: area
     })
     setRemoveState(true)
   }
@@ -77,31 +78,19 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
         !show && "hidden"
       ])}
     >
-      <div className="flex items-center gap-2">
-        <span className="align-baseline text-2xl leading-none">
-          {getFlagEmoji(alphaTwo)}
-        </span>
-        <Link
-          href={`/admin/locations/country/${slug}`}
-          className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline"
-        >
-          {name}
-        </Link>
-        {provincesCount !== 0 && (
-          <span className="text-sm text-gray-500">
-            {digitsEnToFa(provincesCount)} استان
-          </span>
-        )}
-      </div>
+      <span>{name}</span>
       <div className="mr-auto flex items-center gap-2">
-        <Switch
-          onCheckedChange={toggleActive}
-          checked={active}
-          size="small"
-          disabled={updateCountryMutation.isLoading}
-        >
-          {t("common:is_active")}
-        </Switch>
+        <Label noStyle className="flex items-center">
+          <>
+            <Switch
+              onCheckedChange={toggleActive}
+              checked={active}
+              size="small"
+              disabled={updateAreaMutation.isLoading}
+            />
+            <span>{t("common:is_active")}</span>
+          </>
+        </Label>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Button variant="ghost" iconOnly>
@@ -120,27 +109,9 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        {/* <MenuTrigger>
-          <Button variant="ghost" iconOnly>
-            <IconDots className="icon" />
-          </Button>
-          <Popover>
-            <Menu onAction={onAction}>
-              <Item id="edit">
-                <IconEdit className="dropdown-menu-item-icon" />
-                ویرایش
-              </Item>
-              <Separator />
-              <Item id="remove" className="danger">
-                <IconTrash className="dropdown-menu-item-icon" />
-                حذف
-              </Item>
-            </Menu>
-          </Popover>
-        </MenuTrigger> */}
       </div>
     </div>
   )
 }
 
-export default CountryCard
+export default AreaCard

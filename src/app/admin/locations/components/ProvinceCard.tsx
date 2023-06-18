@@ -1,6 +1,6 @@
 "use client"
 
-import { Key, useContext, useState } from "react"
+import { useContext, useState } from "react"
 import Link from "next/link"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
@@ -10,12 +10,16 @@ import useTranslation from "next-translate/useTranslation"
 import { Province, useUpdateProvinceMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Item } from "@core/components/Collection"
-import { Menu, MenuTrigger } from "@core/components/Menu"
-import { Popover } from "@core/components/Popover"
-import { Separator } from "@core/components/Separator"
-import { Switch } from "@core/components/Switch"
 import { Button } from "@core/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@core/components/ui/dropdown-menu"
+import { Label } from "@core/components/ui/label"
+import { Switch } from "@core/components/ui/switch"
 import { useToast } from "@core/hooks/use-toast"
 
 import { LocationsContext } from "./LocationsProvider"
@@ -61,16 +65,12 @@ const ProvinceCard = ({ show, countrySlug, province }: ProvinceCardProps) => {
     })
   }
 
-  const onAction = (key: Key) => {
-    switch (key) {
-      case "remove":
-        setEntityToRemove({
-          type: "province",
-          entity: province
-        })
-        setRemoveState(true)
-        break
-    }
+  const toggleRemoveItem = () => {
+    setEntityToRemove({
+      type: "province",
+      entity: province
+    })
+    setRemoveState(true)
   }
 
   return (
@@ -92,32 +92,35 @@ const ProvinceCard = ({ show, countrySlug, province }: ProvinceCardProps) => {
         </span>
       )}
       <div className="mr-auto flex items-center gap-2">
-        <Switch
-          onChange={toggleActive}
-          isSelected={active}
-          size="small"
-          isDisabled={updateProvinceMutation.isLoading}
-        >
-          {t("common:is_active")}
-        </Switch>
-        <MenuTrigger>
-          <Button variant="ghost" iconOnly>
-            <IconDots className="icon" />
-          </Button>
-          <Popover>
-            <Menu onAction={onAction}>
-              <Item id="edit">
-                <IconEdit className="dropdown-menu-item-icon" />
-                ویرایش
-              </Item>
-              <Separator />
-              <Item id="remove" className="danger">
-                <IconTrash className="dropdown-menu-item-icon" />
-                حذف
-              </Item>
-            </Menu>
-          </Popover>
-        </MenuTrigger>
+        <Label noStyle className="flex items-center">
+          <>
+            <Switch
+              onCheckedChange={toggleActive}
+              checked={active}
+              size="small"
+              disabled={updateProvinceMutation.isLoading}
+            />
+            <span>{t("common:is_active")}</span>
+          </>
+        </Label>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button variant="ghost" iconOnly>
+              <IconDots className="icon" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>
+              <IconEdit className="dropdown-menu-item-icon" />
+              <span>{t("common:edit")}</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onSelect={toggleRemoveItem}>
+              <IconTrash className="dropdown-menu-item-icon" />
+              <span>{t("common:delete")}</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   )

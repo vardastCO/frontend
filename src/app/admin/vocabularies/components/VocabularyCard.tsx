@@ -1,16 +1,20 @@
 "use client"
 
-import { Key, useContext } from "react"
+import { useContext } from "react"
 import Link from "next/link"
 import { IconDots, IconEdit, IconFolder, IconTrash } from "@tabler/icons-react"
 import { useSetAtom } from "jotai"
+import useTranslation from "next-translate/useTranslation"
 import { Vocabulary } from "@/generated"
 
-import { Item } from "@core/components/Collection"
-import { Menu, MenuTrigger } from "@core/components/Menu"
-import { Popover } from "@core/components/Popover"
-import { Separator } from "@core/components/Separator"
 import { Button } from "@core/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@core/components/ui/dropdown-menu"
 
 import { VocabulariesContext } from "./VocabulariesProvider"
 
@@ -19,22 +23,19 @@ type VocabularyCardProps = {
 }
 
 const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
+  const { t } = useTranslation()
   const { removeStateAtom, entityToRemoveAtom } =
     useContext(VocabulariesContext)
   const setEntityToRemove = useSetAtom(entityToRemoveAtom)
   const setRemoveState = useSetAtom(removeStateAtom)
   const { slug, title } = vocabulary
 
-  const onAction = (key: Key) => {
-    switch (key) {
-      case "remove":
-        setEntityToRemove({
-          type: "vocabulary",
-          entity: vocabulary
-        })
-        setRemoveState(true)
-        break
-    }
+  const toggleRemoveItem = () => {
+    setEntityToRemove({
+      type: "vocabulary",
+      entity: vocabulary
+    })
+    setRemoveState(true)
   }
 
   return (
@@ -49,24 +50,24 @@ const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
         </Link>
       </div>
       <div className="mr-auto flex items-center gap-2">
-        <MenuTrigger>
-          <Button variant="ghost" iconOnly>
-            <IconDots className="icon" />
-          </Button>
-          <Popover>
-            <Menu onAction={onAction}>
-              <Item id="edit">
-                <IconEdit className="dropdown-menu-item-icon" />
-                ویرایش
-              </Item>
-              <Separator />
-              <Item id="remove" className="danger">
-                <IconTrash className="dropdown-menu-item-icon" />
-                حذف
-              </Item>
-            </Menu>
-          </Popover>
-        </MenuTrigger>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button variant="ghost" iconOnly>
+              <IconDots className="icon" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>
+              <IconEdit className="dropdown-menu-item-icon" />
+              <span>{t("common:edit")}</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onSelect={toggleRemoveItem}>
+              <IconTrash className="dropdown-menu-item-icon" />
+              <span>{t("common:delete")}</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   )
