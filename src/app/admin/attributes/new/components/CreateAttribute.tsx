@@ -10,6 +10,7 @@ import { AttributeTypesEnum, useCreateAttributeMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { enumToKeyValueObject } from "@core/utils/enumToKeyValueObject"
+import zodI18nMap from "@core/utils/zodErrorMap"
 import { slugInputSchema } from "@core/utils/zodValidationSchemas"
 import {
   Form,
@@ -54,22 +55,46 @@ const CreateAttribute = () => {
     }
   )
 
-  const CreateAttributeSchema = z.object({
-    name: z.string(),
-    slug: slugInputSchema,
-    type: z.nativeEnum(AttributeTypesEnum),
-    textDefaultValue: z.string(),
-    textareaDefaultValue: z.string(),
-    checkboxOptions: z.string(),
-    checkboxCheckedOptions: z.string(),
-    radioOptions: z.string(),
-    radioDefaultOption: z.string(),
-    selectOptions: z.string(),
-    selectDefaultOption: z.string(),
-    visible: z.boolean().optional(),
-    filterable: z.boolean().optional(),
-    required: z.boolean().optional()
-  })
+  z.setErrorMap(zodI18nMap)
+  const CreateAttributeSchema = z
+    .object({
+      name: z.string().min(1),
+      slug: slugInputSchema,
+      type: z.nativeEnum(AttributeTypesEnum),
+      textDefaultValue: z.string().optional(),
+      textareaDefaultValue: z.string().optional(),
+      checkboxOptions: z.string().optional(),
+      checkboxCheckedOptions: z.string().optional(),
+      radioOptions: z.string().optional(),
+      radioDefaultOption: z.string().optional(),
+      selectOptions: z.string().optional(),
+      selectDefaultOption: z.string().optional(),
+      visible: z.boolean().optional(),
+      filterable: z.boolean().optional(),
+      required: z.boolean().optional()
+    })
+    .refine(
+      (schema) =>
+        schema.type === "CHECKBOX" ? !!schema.checkboxOptions : true,
+      {
+        path: ["checkboxOptions"],
+        message: t("zod:errors.invalid_type_received_undefined")
+      }
+    )
+    .refine(
+      (schema) => (schema.type === "RADIO" ? !!schema.radioOptions : true),
+      {
+        path: ["radioOptions"],
+        message: t("zod:errors.invalid_type_received_undefined")
+      }
+    )
+    .refine(
+      (schema) => (schema.type === "SELECT" ? !!schema.selectOptions : true),
+      {
+        path: ["selectOptions"],
+        message: t("zod:errors.invalid_type_received_undefined")
+      }
+    )
   type CreateAttributeType = TypeOf<typeof CreateAttributeSchema>
 
   const form = useForm<CreateAttributeType>({
