@@ -1,29 +1,39 @@
 "use client"
 
-import { useCreateCityMutation } from "@/generated"
+import { useEffect, useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useQueryClient } from "@tanstack/react-query"
+import useTranslation from "next-translate/useTranslation"
+import { useForm } from "react-hook-form"
+import { TypeOf, z } from "zod"
+import { CityTypesEnum, useCreateCityMutation } from "@/generated"
+
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { slugify } from "@core/utils/slugify"
 import {
   englishInputSchema,
   persianInputSchema,
   slugInputSchema
 } from "@core/utils/zodValidationSchemas"
-import { useQueryClient } from "@tanstack/react-query"
-
-import { useEffect, useState } from "react"
-import { TypeOf, z } from "zod"
-
-import { CityTypesEnum } from "@/generated"
-import { Button } from "@core/components/Button"
-import { Checkbox } from "@core/components/Checkbox"
-import { Dialog } from "@core/components/Dialog"
-import { Input } from "@core/components/Input"
-import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
-import { TextField } from "@core/components/TextField"
-import { toastQueue } from "@core/components/Toast"
-import { slugify } from "@core/utils/slugify"
-import { zodResolver } from "@hookform/resolvers/zod"
-import useTranslation from "next-translate/useTranslation"
-import { Controller, useForm } from "react-hook-form"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@core/components/react-hook-form/form"
+import { Button } from "@core/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from "@core/components/ui/dialog"
+import { Input } from "@core/components/ui/input"
+import { Switch } from "@core/components/ui/switch"
+import { useToast } from "@core/hooks/use-toast"
 
 type Props = {
   provinceId: number
@@ -31,6 +41,7 @@ type Props = {
 
 const CreateCity = ({ provinceId }: Props) => {
   const { t } = useTranslation()
+  const { toast } = useToast()
   const [open, setOpen] = useState(false)
 
   const queryClient = useQueryClient()
@@ -39,15 +50,13 @@ const CreateCity = ({ provinceId }: Props) => {
       reset()
       queryClient.invalidateQueries({ queryKey: ["GetProvince"] })
       setOpen(false)
-      toastQueue.add(
-        t("common:entity_added_successfully", {
+      toast({
+        description: t("common:entity_added_successfully", {
           entity: t("common:city")
         }),
-        {
-          timeout: 2000,
-          intent: "success"
-        }
-      )
+        duration: 2000,
+        variant: "success"
+      })
     }
   })
 
@@ -60,15 +69,7 @@ const CreateCity = ({ provinceId }: Props) => {
   })
   type CreateCity = TypeOf<typeof CreateCitySchema>
 
-  const {
-    reset,
-    register,
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors, isSubmitting }
-  } = useForm<CreateCity>({
+  const form = useForm<CreateCity>({
     resolver: zodResolver(CreateCitySchema),
     defaultValues: {
       sort: 0,
@@ -76,15 +77,15 @@ const CreateCity = ({ provinceId }: Props) => {
     }
   })
 
-  const nameEn = watch("nameEn")
+  const nameEn = form.watch("nameEn")
 
   useEffect(() => {
     if (nameEn) {
-      setValue("slug", slugify(nameEn))
+      form.setValue("slug", slugify(nameEn))
     } else {
-      setValue("slug", "")
+      form.setValue("slug", "")
     }
-  }, [nameEn, setValue])
+  }, [nameEn, form])
 
   function onSubmit(data: CreateCity) {
     const { name, nameEn, slug, sort, isActive } = data
@@ -103,101 +104,123 @@ const CreateCity = ({ provinceId }: Props) => {
 
   return (
     <>
-      <Button size="medium" onPress={() => setOpen(true)}>
+      <Button size="medium" onClick={() => setOpen(true)}>
         {t("common:add_entity", { entity: t("common:city") })}
       </Button>
-      <Modal isDismissable isOpen={open} onOpenChange={setOpen}>
-        <Dialog>
-          <>
-            <ModalHeader
-              title={t("common:create_new_entity", {
-                entity: t("common:city")
-              })}
-            />
-            <ModalBody>
-              {createCityMutation.isError && <p>خطایی رخ داده</p>}
-              <form
-                className="flex flex-col gap-6"
-                onSubmit={handleSubmit(onSubmit)}
-                noValidate
-              >
-                <TextField
-                  isDisabled={isSubmitting}
-                  label={t("common:name")}
-                  errorMessage={errors.name && errors.name.message}
-                >
-                  <Input {...register("name")} />
-                </TextField>
-                <TextField
-                  isDisabled={isSubmitting}
-                  label={t("common:english_name")}
-                  errorMessage={errors.nameEn && errors.nameEn.message}
-                >
-                  <Input {...register("nameEn")} dir="ltr" direction="ltr" />
-                </TextField>
-                <TextField
-                  isDisabled={isSubmitting}
-                  label={t("common:slug")}
-                  errorMessage={errors.slug && errors.slug.message}
-                  isReadOnly
-                >
-                  <Input
-                    {...register("slug")}
-                    dir="ltr"
-                    direction="ltr"
-                    plaintext
+      <Dialog open={open} onOpenChange={setOpen}>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>
+                  {t("common:create_new_entity", {
+                    entity: t("common:city")
+                  })}
+                </DialogTitle>
+              </DialogHeader>
+              <>
+                {createCityMutation.isError && <p>خطایی رخ داده</p>}
+                <div className="flex flex-col gap-6">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("common:name")}</FormLabel>
+                        <FormControl>
+                          <Input type="text" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </TextField>
-                <TextField
-                  isDisabled={isSubmitting}
-                  label={t("common:display_sort")}
-                  type="number"
-                  errorMessage={errors.sort && errors.sort.message}
-                >
-                  <Input
-                    min={0}
-                    {...register("sort", {
-                      valueAsNumber: true,
-                      min: 0
-                    })}
+                  <FormField
+                    control={form.control}
+                    name="nameEn"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("common:english_name")}</FormLabel>
+                        <FormControl>
+                          <Input type="text" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </TextField>
-                <Controller
-                  name="isActive"
-                  control={control}
-                  render={({ field, fieldState: { error } }) => (
-                    <Checkbox
-                      label={t("common:is_active")}
-                      ref={field.ref}
-                      name={field.name}
-                      isSelected={field.value}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                      errorMessage={error && error.message}
-                    />
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="slug"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("common:slug")}</FormLabel>
+                        <FormControl>
+                          <Input type="text" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="sort"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("common:display_sort")}</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            {...field}
+                            onChange={(event) =>
+                              field.onChange(+event.target.value)
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="isActive"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="flex gap-1 items-center">
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <FormLabel>{t("common:is_active")}</FormLabel>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </>
+              <DialogFooter>
                 <div className="flex items-center justify-end gap-2">
                   <Button
-                    intent="ghost"
-                    onPress={() => setOpen(false)}
-                    isDisabled={isSubmitting}
+                    variant="ghost"
+                    onClick={() => setOpen(false)}
+                    disabled={form.formState.isSubmitting}
                   >
                     {t("common:cancel")}
                   </Button>
                   <Button
                     type="submit"
-                    isDisabled={isSubmitting}
-                    loading={isSubmitting}
+                    disabled={form.formState.isSubmitting}
+                    loading={form.formState.isSubmitting}
                   >
                     {t("common:submit")}
                   </Button>
                 </div>
-              </form>
-            </ModalBody>
-          </>
-        </Dialog>
-      </Modal>
+              </DialogFooter>
+            </DialogContent>
+          </form>
+        </Form>
+      </Dialog>
     </>
   )
 }

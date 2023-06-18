@@ -1,22 +1,28 @@
 "use client"
 
+import { useContext } from "react"
+import { useQueryClient } from "@tanstack/react-query"
+import { ClientError } from "graphql-request/build/esm/types"
+import { useAtom, useSetAtom } from "jotai"
+import useTranslation from "next-translate/useTranslation"
 import {
   useRemoveAreaMutation,
   useRemoveCityMutation,
   useRemoveCountryMutation,
   useRemoveProvinceMutation
 } from "@/generated"
+
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Button } from "@core/components/Button"
-import { Dialog } from "@core/components/Dialog"
-import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
-import { toastQueue } from "@core/components/Toast"
-import { IconAlertOctagon } from "@tabler/icons-react"
-import { useQueryClient } from "@tanstack/react-query"
-import { ClientError } from "graphql-request/build/esm/types"
-import { useAtom, useSetAtom } from "jotai"
-import useTranslation from "next-translate/useTranslation"
-import { useContext } from "react"
+import { Button } from "@core/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from "@core/components/ui/dialog"
+import { useToast } from "@core/hooks/use-toast"
+
 import { LocationsContext } from "./LocationsProvider"
 
 type Props = {
@@ -26,6 +32,7 @@ type Props = {
 
 const DeleteModal = ({ isOpen, onChange }: Props) => {
   const { t } = useTranslation()
+  const { toast } = useToast()
   const { removeStateAtom, entityToRemoveAtom } = useContext(LocationsContext)
   const setRemoveState = useSetAtom(removeStateAtom)
   const [entityToRemove, setEntityToRemove] = useAtom(entityToRemoveAtom)
@@ -40,15 +47,13 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
       type: "undefined",
       entity: undefined
     })
-    toastQueue.add(
-      t("common:entity_removed_successfully", {
+    toast({
+      description: t("common:entity_removed_successfully", {
         entity: `${t(`common:${entityType}`)}`
       }),
-      {
-        timeout: 2000,
-        intent: "success"
-      }
-    )
+      duration: 2000,
+      variant: "success"
+    })
   }
 
   const queryClient = useQueryClient()
@@ -65,8 +70,9 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
       })
       if (error.response && error.response.errors) {
         const { errors } = error.response
-        toastQueue.add(errors[0].extensions.displayMessage, {
-          timeout: 4000,
+        toast({
+          description: errors[0].extensions.displayMessage,
+          duration: 4000,
           intent: "danger"
         })
       }
@@ -118,53 +124,41 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
     removeAreaMutation.isLoading
 
   return (
-    <Modal
-      isDismissable={!isLoading}
-      size="large"
-      isOpen={isOpen}
-      onOpenChange={onChange}
-    >
-      <Dialog>
-        <div className="flex">
-          <div className="flex-1 pr-6 pt-6">
-            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600">
-              <IconAlertOctagon className="h-6 w-6" />
-            </span>
+    <Dialog open={isOpen} onOpenChange={onChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("common:warning")}</DialogTitle>
+        </DialogHeader>
+        <p className="leading-loose">
+          {t(
+            "common:are_you_sure_you_want_to_delete_x_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
+            {
+              entity: `${t(`common:${entityType}`)}`,
+              name: entityToRemove.entity?.name
+            }
+          )}
+        </p>
+        <DialogFooter>
+          <div className="mt-8 flex items-center justify-end gap-2">
+            <Button
+              variant="ghost"
+              onClick={() => setRemoveState(false)}
+              disabled={isLoading}
+            >
+              {t("common:cancel")}
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => removeLocation()}
+              disabled={isLoading}
+              loading={isLoading}
+            >
+              {t("common:delete")}
+            </Button>
           </div>
-          <div>
-            <ModalHeader title={t("common:warning")} />
-            <ModalBody>
-              <p className="leading-loose">
-                {t(
-                  "common:are_you_sure_you_want_to_delete_x_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
-                  {
-                    entity: `${t(`common:${entityType}`)}`,
-                    name: entityToRemove.entity?.name
-                  }
-                )}
-              </p>
-              <div className="mt-8 flex items-center justify-end gap-2">
-                <Button
-                  intent="ghost"
-                  onPress={() => setRemoveState(false)}
-                  isDisabled={isLoading}
-                >
-                  {t("common:cancel")}
-                </Button>
-                <Button
-                  intent="danger"
-                  onPress={() => removeLocation()}
-                  isDisabled={isLoading}
-                  loading={isLoading}
-                >
-                  {t("common:delete")}
-                </Button>
-              </div>
-            </ModalBody>
-          </div>
-        </div>
-      </Dialog>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 

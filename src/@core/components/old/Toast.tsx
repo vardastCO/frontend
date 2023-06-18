@@ -1,16 +1,14 @@
 "use client"
 
-import type { AriaToastProps } from "@react-aria/toast"
-import { useToast } from "@react-aria/toast"
-import { ToastQueue, ToastState, useToastQueue } from "@react-stately/toast"
 import { useRef } from "react"
-
-import type { AriaToastRegionProps } from "@react-aria/toast"
-import { useToastRegion } from "@react-aria/toast"
+import type { AriaToastProps, AriaToastRegionProps } from "@react-aria/toast"
+import { useToast, useToastRegion } from "@react-aria/toast"
+import { ToastQueue, ToastState, useToastQueue } from "@react-stately/toast"
 import { IconX } from "@tabler/icons-react"
 import { cva } from "class-variance-authority"
 import { createPortal } from "react-dom"
-import { Button } from "./Button"
+
+import { Button } from "@core/components/ui/button"
 
 const toastClasses = cva("toast", {
   variants: {
@@ -94,7 +92,7 @@ export function Toast<T>({ state, ...props }: ToastProps<T>) {
         {/* @ts-ignore */}
         {props.toast.content}
       </div>
-      <Button intent="ghost" className="close-button" {...closeButtonProps}>
+      <Button variant="ghost" className="close-button" {...closeButtonProps}>
         <IconX />
       </Button>
     </div>

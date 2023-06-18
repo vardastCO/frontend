@@ -1,11 +1,16 @@
-import { Button } from "@core/components/Button"
-import Breadcrumb from "@core/components/shared/Breadcrumb"
-import Sidebar from "@core/components/shared/Sidebar"
-import { NavigationType } from "@core/types/Navigation"
 import { IconLayoutSidebarRightCollapse, IconSearch } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+import Breadcrumb from "@core/components/shared/Breadcrumb"
+import Sidebar from "@core/components/shared/Sidebar"
+import { Button } from "@core/components/ui/button"
+import { NavigationType } from "@core/types/Navigation"
+
+export default function AdminLayout({
+  children
+}: {
+  children: React.ReactNode
+}) {
   const { t } = useTranslation("common")
   const menus: NavigationType[] = [
     {
@@ -83,7 +88,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="mx-auto flex w-full flex-col">
               <div className="mb-3 flex items-center">
                 <div className="flex items-center gap-2">
-                  <Button intent="ghost" iconOnly>
+                  <Button variant="ghost" iconOnly>
                     <IconLayoutSidebarRightCollapse className="icon" />
                   </Button>
                   <Breadcrumb />
@@ -103,7 +108,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                       role="presentation"
                     />
                     <div className="input-element" dir="ltr">
-                      <span className="font-sans text-sm text-gray-500">⌘K</span>
+                      <span className="font-sans text-sm text-gray-500">
+                        ⌘K
+                      </span>
                     </div>
                   </div>
                 </form>

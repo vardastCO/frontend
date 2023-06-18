@@ -1,14 +1,15 @@
 "use client"
 
+import useTranslation from "next-translate/useTranslation"
 import {
   Permission,
   Role,
   useGetAllPermissionsQuery,
   useGetAllRolesQuery
 } from "@/generated"
+
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Checkbox, CheckboxGroup } from "@core/components/Checkbox"
-import useTranslation from "next-translate/useTranslation"
+import { Checkbox, CheckboxGroup } from "@core/components/ui/Checkbox"
 
 interface UserPermissionsFormType {
   userRoles: Role[]

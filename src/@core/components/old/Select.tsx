@@ -1,34 +1,36 @@
 "use client"
 
-import {
-  ContextValue,
-  Provider,
-  RenderProps,
-  SlotProps,
-  forwardRefType,
-  slotCallbackSymbol,
-  useContextProps,
-  useRenderProps,
-  useSlot
-} from "@core/utils/react-aria-utils"
-import { filterDOMProps, useResizeObserver } from "@react-aria/utils"
-import { IconSelector } from "@tabler/icons-react"
-import { VariantProps, cva } from "class-variance-authority"
 import React, {
+  createContext,
   ForwardedRef,
+  forwardRef,
   HTMLAttributes,
   ReactNode,
-  createContext,
-  forwardRef,
   useCallback,
   useContext,
   useMemo,
   useRef,
   useState
 } from "react"
+import { filterDOMProps, useResizeObserver } from "@react-aria/utils"
+import { IconSelector } from "@tabler/icons-react"
+import { cva, VariantProps } from "class-variance-authority"
 import { AriaSelectProps, HiddenSelect, useSelect } from "react-aria"
 import { SelectState, useSelectState } from "react-stately"
-import { Button } from "./Button"
+
+import {
+  ContextValue,
+  forwardRefType,
+  Provider,
+  RenderProps,
+  slotCallbackSymbol,
+  SlotProps,
+  useContextProps,
+  useRenderProps,
+  useSlot
+} from "@core/utils/react-aria-utils"
+import { Button } from "@core/components/ui/button"
+
 import { ItemRenderProps, useCollection } from "./Collection"
 import { Label } from "./Label"
 import { ListBoxContext, ListBoxProps } from "./ListBox"
@@ -264,8 +266,7 @@ function Select<T extends object>(
  * A select displays a collapsible list of options and allows a user to select one of them.
  */
 const _Select = /*#__PURE__*/ (forwardRef as forwardRefType)(Select)
-export { _Select as Select }
-export { _SelectValue as SelectValue }
+export { _Select as Select, _SelectValue as SelectValue }
 
 export interface SelectValueRenderProps<T> {
   /**

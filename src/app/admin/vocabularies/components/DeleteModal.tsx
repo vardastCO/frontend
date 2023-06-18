@@ -1,17 +1,26 @@
 "use client"
 
-import { useRemoveCategoryMutation, useRemoveVocabularyMutation } from "@/generated"
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Button } from "@core/components/Button"
-import { Dialog } from "@core/components/Dialog"
-import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
-import { toastQueue } from "@core/components/Toast"
-import { IconAlertOctagon } from "@tabler/icons-react"
+import { useContext } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request"
 import { useAtom, useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
-import { useContext } from "react"
+import {
+  useRemoveCategoryMutation,
+  useRemoveVocabularyMutation
+} from "@/generated"
+
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { Button } from "@core/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from "@core/components/ui/dialog"
+import { useToast } from "@core/hooks/use-toast"
+
 import { VocabulariesContext } from "./VocabulariesProvider"
 
 type Props = {
@@ -21,7 +30,9 @@ type Props = {
 
 const DeleteModal = ({ isOpen, onChange }: Props) => {
   const { t } = useTranslation()
-  const { removeStateAtom, entityToRemoveAtom } = useContext(VocabulariesContext)
+  const { toast } = useToast()
+  const { removeStateAtom, entityToRemoveAtom } =
+    useContext(VocabulariesContext)
   const setRemoveState = useSetAtom(removeStateAtom)
   const [entityToRemove, setEntityToRemove] = useAtom(entityToRemoveAtom)
 
@@ -35,68 +46,74 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
       type: "undefined",
       entity: undefined
     })
-    toastQueue.add(
-      t("common:entity_removed_successfully", {
+    toast({
+      description: t("common:entity_removed_successfully", {
         entity: `${t(`common:${entityType}`)}`
       }),
-      {
-        timeout: 2000,
-        intent: "success"
-      }
-    )
+      duration: 2000,
+      variant: "success"
+    })
   }
 
   const queryClient = useQueryClient()
-  const removeVocabularyMutation = useRemoveVocabularyMutation(graphqlRequestClient, {
-    onSuccess: () => {
-      mutationSuccessCommon()
-      queryClient.invalidateQueries({ queryKey: ["GetAllVocabularies"] })
-    },
-    onError: (error: ClientError) => {
-      setRemoveState(false)
-      setEntityToRemove({
-        type: "undefined",
-        entity: undefined
-      })
-      if (error.response && error.response.errors) {
-        const { errors } = error.response
-        errors.forEach((err) => {
-          toastQueue.add(err.extensions.displayMessage, {
-            timeout: 4000,
-            intent: "danger"
-          })
+  const removeVocabularyMutation = useRemoveVocabularyMutation(
+    graphqlRequestClient,
+    {
+      onSuccess: () => {
+        mutationSuccessCommon()
+        queryClient.invalidateQueries({ queryKey: ["GetAllVocabularies"] })
+      },
+      onError: (error: ClientError) => {
+        setRemoveState(false)
+        setEntityToRemove({
+          type: "undefined",
+          entity: undefined
         })
-      }
-    }
-  })
-  const removeCategoryMutation = useRemoveCategoryMutation(graphqlRequestClient, {
-    onSuccess: () => {
-      mutationSuccessCommon()
-      queryClient.invalidateQueries([
-        "GetCategory",
-        {
-          refetchInactive: true
+        if (error.response && error.response.errors) {
+          const { errors } = error.response
+          errors.forEach((err) => {
+            toast({
+              description: err.extensions.displayMessage,
+              duration: 4000,
+              intent: "danger"
+            })
+          })
         }
-      ])
-      queryClient.invalidateQueries(["GetVocabulary"])
-    },
-    onError: (error: ClientError) => {
-      setRemoveState(false)
-      setEntityToRemove({
-        type: "undefined",
-        entity: undefined
-      })
-      if (error.response && error.response.errors) {
-        const { errors } = error.response
-        errors.forEach((err) => {
-          toastQueue.add(err.extensions.displayMessage, {
-            timeout: 4000,
-            intent: "danger"
-          })
-        })
       }
     }
-  })
+  )
+  const removeCategoryMutation = useRemoveCategoryMutation(
+    graphqlRequestClient,
+    {
+      onSuccess: () => {
+        mutationSuccessCommon()
+        queryClient.invalidateQueries([
+          "GetCategory",
+          {
+            refetchInactive: true
+          }
+        ])
+        queryClient.invalidateQueries(["GetVocabulary"])
+      },
+      onError: (error: ClientError) => {
+        setRemoveState(false)
+        setEntityToRemove({
+          type: "undefined",
+          entity: undefined
+        })
+        if (error.response && error.response.errors) {
+          const { errors } = error.response
+          errors.forEach((err) => {
+            toast({
+              description: err.extensions.displayMessage,
+              duration: 4000,
+              intent: "danger"
+            })
+          })
+        }
+      }
+    }
+  )
 
   const removeLocation = () => {
     switch (entityType) {
@@ -109,42 +126,52 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
     }
   }
 
-  let isLoading = removeVocabularyMutation.isLoading || removeCategoryMutation.isLoading
+  let isLoading =
+    removeVocabularyMutation.isLoading || removeCategoryMutation.isLoading
 
   return (
-    <Modal isDismissable={!isLoading} size="large" isOpen={isOpen} onOpenChange={onChange}>
-      <Dialog>
-        <div className="flex">
-          <div className="flex-1 pr-6 pt-6">
-            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600">
-              <IconAlertOctagon className="h-6 w-6" />
-            </span>
+    // <div className="flex">
+    // <div className="flex-1 pr-6 pt-6">
+    //   <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600">
+    //     <IconAlertOctagon className="h-6 w-6" />
+    //   </span>
+    // </div>
+    // <div>
+    <Dialog open={isOpen} onOpenChange={onChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("common:warning")}</DialogTitle>
+        </DialogHeader>
+        <p className="leading-loose">
+          {t(
+            "common:are_you_sure_you_want_to_delete_x_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
+            {
+              entity: `${t(`common:${entityType}`)}`,
+              name: entityToRemove.entity?.title
+            }
+          )}
+        </p>
+        <DialogFooter>
+          <div className="mt-8 flex items-center justify-end gap-2">
+            <Button
+              variant="ghost"
+              onClick={() => setRemoveState(false)}
+              disabled={isLoading}
+            >
+              {t("common:cancel")}
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => removeLocation()}
+              disabled={isLoading}
+              loading={isLoading}
+            >
+              {t("common:delete")}
+            </Button>
           </div>
-          <div>
-            <ModalHeader title={t("common:warning")} />
-            <ModalBody>
-              <p className="leading-loose">
-                {t(
-                  "common:are_you_sure_you_want_to_delete_x_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
-                  {
-                    entity: `${t(`common:${entityType}`)}`,
-                    name: entityToRemove.entity?.title
-                  }
-                )}
-              </p>
-              <div className="mt-8 flex items-center justify-end gap-2">
-                <Button intent="ghost" onPress={() => setRemoveState(false)} isDisabled={isLoading}>
-                  {t("common:cancel")}
-                </Button>
-                <Button intent="danger" onPress={() => removeLocation()} isDisabled={isLoading} loading={isLoading}>
-                  {t("common:delete")}
-                </Button>
-              </div>
-            </ModalBody>
-          </div>
-        </div>
-      </Dialog>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 
