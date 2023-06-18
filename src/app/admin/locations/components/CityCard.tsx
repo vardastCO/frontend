@@ -7,6 +7,7 @@ import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
 import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
+
 import { City, useUpdateCityMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
@@ -80,18 +81,18 @@ const CityCard = ({
   return (
     <div
       className={clsx([
-        "card flex items-center gap-3 rounded bg-white px-4 py-2 pe-2",
+        "card flex items-center gap-3 rounded px-4 py-2 pe-2",
         !show && "hidden"
       ])}
     >
       <Link
         href={`/admin/locations/country/${countrySlug}/province/${provinceSlug}/city/${slug}`}
-        className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline"
+        className="font-bold text-gray-800 dark:text-gray-400 dark:hover:text-gray-300 underline-offset-2 hover:text-gray-900 hover:underline"
       >
         {name}
       </Link>
       {areasCount !== 0 && (
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-gray-500 dark:text-gray-600">
           {digitsEnToFa(areasCount)} منطقه
         </span>
       )}

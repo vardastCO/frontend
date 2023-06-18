@@ -5,6 +5,7 @@ import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
 import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
+
 import { Area, useUpdateAreaMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
@@ -74,11 +75,11 @@ const AreaCard = ({ show, area }: AreaCardProps) => {
   return (
     <div
       className={clsx([
-        "card flex items-center gap-3 rounded bg-white px-4 py-2 pe-2",
+        "card flex items-center gap-3 rounded px-4 py-2 pe-2",
         !show && "hidden"
       ])}
     >
-      <span>{name}</span>
+      <span className="text-gray-800 dark:text-gray-400">{name}</span>
       <div className="mr-auto flex items-center gap-2">
         <Label noStyle className="flex items-center">
           <>

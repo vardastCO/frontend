@@ -74,7 +74,7 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
   return (
     <div
       className={clsx([
-        "card flex items-center gap-3 rounded bg-white px-4 py-2 pe-2",
+        "card flex items-center gap-3 rounded px-4 py-2 pe-2",
         !show && "hidden"
       ])}
     >
@@ -84,12 +84,12 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
         </span>
         <Link
           href={`/admin/locations/country/${slug}`}
-          className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline"
+          className="font-bold text-gray-800 dark:text-gray-400 underline-offset-2 hover:text-gray-900 dark:hover:text-gray-300 hover:underline"
         >
           {name}
         </Link>
         {provincesCount !== 0 && (
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-gray-500 dark:text-gray-600">
             {digitsEnToFa(provincesCount)} استان
           </span>
         )}

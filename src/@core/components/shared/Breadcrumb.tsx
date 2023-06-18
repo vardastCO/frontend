@@ -1,11 +1,10 @@
 "use client"
 
-import { IconSmartHome } from "@tabler/icons-react"
-import useTranslation from "next-translate/useTranslation"
-
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+import { IconSmartHome } from "@tabler/icons-react"
+import useTranslation from "next-translate/useTranslation"
 
 type Props = {}
 
@@ -42,7 +41,7 @@ const Breadcrumb = (props: Props) => {
   return (
     <div role="presentation">
       <ol
-        className="flex items-end align-middle text-sm leading-none"
+        className="flex items-end whitespace-nowrap align-middle text-sm leading-none"
         aria-label="breadcrumb"
       >
         <li className="flex items-end align-middle leading-none">

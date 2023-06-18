@@ -1,6 +1,6 @@
 input {
   &::placeholder {
-    @apply text-gray-400;
+    @apply text-gray-400 dark:text-gray-500;
   }
 }
 
@@ -32,7 +32,7 @@ input {
     focus-visible:outline-none
     focus-visible:ring-4
     disabled:cursor-not-allowed
-    disabled:bg-gray-50;
+    disabled:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:shadow-none;
 
   &:where(:focus, :focus-visible) {
     --border-opacity: 0.4;
@@ -185,8 +185,8 @@ input {
 
   &-plaintext {
     & .input-field {
-        padding-inline: 0;
-        @apply border-transparent
+      padding-inline: 0;
+      @apply border-transparent
             shadow-none
             ring-0
             focus:border-transparent
