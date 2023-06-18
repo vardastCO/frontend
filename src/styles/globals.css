@@ -21,4 +21,5 @@
 @import "core/toast.css";
 @import "core/combobox.css";
 @import "core/tabs.css";
+@import "core/select.css";
 @import "tailwindcss/utilities";

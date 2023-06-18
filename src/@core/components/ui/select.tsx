@@ -18,15 +18,12 @@ const SelectTrigger = forwardRef<
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
-    className={mergeClasses(
-      "input-field text-start flex items-center",
-      className
-    )}
+    className={mergeClasses("input-field select-field", className)}
     {...props}
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <IconSelector className="ms-auto shrink-0 w-4 h-4 text-gray-500" />
+      <IconSelector className="select-field-arrow" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ))
@@ -40,7 +37,7 @@ const SelectContent = forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={mergeClasses(
-        "combobox-list-container",
+        "select-list-container",
         position === "popper" && "translate-y-1",
         className
       )}
@@ -49,7 +46,7 @@ const SelectContent = forwardRef<
     >
       <SelectPrimitive.Viewport
         className={mergeClasses(
-          "p-1",
+          "select-list-inner",
           position === "popper" &&
             "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
         )}
@@ -82,15 +79,12 @@ const SelectItem = forwardRef<
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Item
     ref={ref}
-    className={mergeClasses(
-      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className
-    )}
+    className={mergeClasses("select-list-item", className)}
     {...props}
   >
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+    <span className="select-list-selected-item-indicator">
       <SelectPrimitive.ItemIndicator>
-        <IconCheck className="h-4 w-4" />
+        <IconCheck className="icon" />
       </SelectPrimitive.ItemIndicator>
     </span>
 

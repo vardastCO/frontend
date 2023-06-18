@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
+
 import { AttributeTypesEnum, useCreateAttributeMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
@@ -136,7 +137,9 @@ const CreateAttribute = () => {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a verified email to display" />
+                      <SelectValue
+                        placeholder={t("common:select_placeholder")}
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
