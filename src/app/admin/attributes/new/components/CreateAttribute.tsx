@@ -28,6 +28,8 @@ import {
   SelectTrigger,
   SelectValue
 } from "@core/components/ui/select"
+import { Switch } from "@core/components/ui/switch"
+import { Textarea } from "@core/components/ui/textarea"
 import { useToast } from "@core/hooks/use-toast"
 
 const CreateAttribute = () => {
@@ -55,7 +57,18 @@ const CreateAttribute = () => {
   const CreateAttributeSchema = z.object({
     name: z.string(),
     slug: slugInputSchema,
-    type: z.nativeEnum(AttributeTypesEnum)
+    type: z.nativeEnum(AttributeTypesEnum),
+    textDefaultValue: z.string(),
+    textareaDefaultValue: z.string(),
+    checkboxOptions: z.string(),
+    checkboxCheckedOptions: z.string(),
+    radioOptions: z.string(),
+    radioDefaultOption: z.string(),
+    selectOptions: z.string(),
+    selectDefaultOption: z.string(),
+    visible: z.boolean().optional(),
+    filterable: z.boolean().optional(),
+    required: z.boolean().optional()
   })
   type CreateAttributeType = TypeOf<typeof CreateAttributeSchema>
 
@@ -65,6 +78,7 @@ const CreateAttribute = () => {
   })
 
   const name = form.watch("name")
+  const type = form.watch("type")
 
   function onSubmit(data: CreateAttributeType) {
     const { name, slug, type } = data
@@ -96,7 +110,7 @@ const CreateAttribute = () => {
             {t("common:save_entity", { entity: t("common:attribute") })}
           </Button>
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="grid grid-cols-2 gap-6">
           <FormField
             control={form.control}
             name="name"
@@ -154,6 +168,286 @@ const CreateAttribute = () => {
               </FormItem>
             )}
           />
+          <div></div>
+          {type && (
+            <div className="col-span-full flex flex-col gap-6">
+              {type === "CHECKBOX" && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="checkboxOptions"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          {t("common:entity_options", {
+                            entity: t("common:checkbox")
+                          })}
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder={t(
+                              "common:entity_comma_separated_options_placeholder",
+                              {
+                                entity: t("common:checkbox")
+                              }
+                            )}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="checkboxCheckedOptions"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("common:default_checked")}</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder={`${t(
+                              "common:entity_comma_separated_default_checked_placeholder",
+                              {
+                                entity: t("common:checkbox")
+                              }
+                            )} (${t("common:optional")})`}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+              {type === "RADIO" && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="radioOptions"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          {t("common:entity_options", {
+                            entity: t("common:radio")
+                          })}
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder={t(
+                              "common:entity_comma_separated_options_placeholder",
+                              {
+                                entity: t("common:radio")
+                              }
+                            )}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="radioDefaultOption"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("common:default_value")}</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue
+                                  placeholder={`${t(
+                                    "common:select_default_entity_value_placeholder",
+                                    {
+                                      entity: t("common:radio")
+                                    }
+                                  )} (${t("common:optional")})`}
+                                />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {Object.keys(attributeTypes).map((type) => (
+                                <SelectItem
+                                  value={attributeTypes[type]}
+                                  key={type}
+                                >
+                                  {type}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+              {type === "SELECT" && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="selectOptions"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          {t("common:entity_options", {
+                            entity: t("common:select_box")
+                          })}
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder={t(
+                              "common:entity_comma_separated_options_placeholder",
+                              {
+                                entity: t("common:select_box")
+                              }
+                            )}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="selectDefaultOption"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("common:default_value")}</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue
+                                  placeholder={`${t(
+                                    "common:select_default_entity_value_placeholder",
+                                    {
+                                      entity: t("common:select_box")
+                                    }
+                                  )} (${t("common:optional")})`}
+                                />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {Object.keys(attributeTypes).map((type) => (
+                                <SelectItem
+                                  value={attributeTypes[type]}
+                                  key={type}
+                                >
+                                  {type}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+              {type === "TEXT" && (
+                <FormField
+                  control={form.control}
+                  name="textDefaultValue"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:default_text")}</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder={t("common:optional")} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+              {type === "TEXTAREA" && (
+                <FormField
+                  control={form.control}
+                  name="textareaDefaultValue"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:default_text")}</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder={t("common:optional")}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+            </div>
+          )}
+          <div className="flex flex-col gap-4">
+            <FormField
+              control={form.control}
+              name="visible"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex gap-1 items-center">
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel noStyle>{t("common:visibility")}</FormLabel>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="filterable"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex gap-1 items-center">
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel noStyle>{t("common:filterable")}</FormLabel>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="required"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex gap-1 items-center">
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel noStyle>{t("common:required")}</FormLabel>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
       </form>
     </Form>
