@@ -44,8 +44,8 @@
     py-2
     text-gray-700
     outline-none
-    hover:bg-blue-50/50
-    focus:bg-blue-50/50
+    hover:bg-gray-100
+    focus:bg-gray-100
     data-[state="checked"]:font-bold
     data-[state="checked"]:text-brand-600
     dark:text-gray-300

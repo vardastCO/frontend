@@ -5,9 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
+
 import { useCreateBrandMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import zodI18nMap from "@core/utils/zodErrorMap"
 import { slugInputSchema } from "@core/utils/zodValidationSchemas"
 import {
   Form,
@@ -38,6 +40,7 @@ const CreateBrand = () => {
     }
   })
 
+  z.setErrorMap(zodI18nMap)
   const CreateBrandSchema = z.object({
     name: z.string(),
     slug: slugInputSchema

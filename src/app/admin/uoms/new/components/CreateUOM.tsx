@@ -5,9 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
+
 import { useCreateUomMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import zodI18nMap from "@core/utils/zodErrorMap"
 import { slugInputSchema } from "@core/utils/zodValidationSchemas"
 import {
   Form,
@@ -39,6 +41,7 @@ const CreateUOM = () => {
     }
   })
 
+  z.setErrorMap(zodI18nMap)
   const CreateUOMSchema = z.object({
     name: z.string(),
     symbol: z.string(),
@@ -130,7 +133,7 @@ const CreateUOM = () => {
             name="isActive"
             render={({ field }) => (
               <FormItem>
-                <div className="flex gap-1 items-center">
+                <div className="flex items-center gap-1">
                   <FormControl>
                     <Switch
                       checked={field.value}

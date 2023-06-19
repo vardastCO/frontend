@@ -198,42 +198,6 @@ const CreateAttribute = () => {
           />
           <div></div>
 
-          <div className="col-span-full">
-            <FormField
-              control={form.control}
-              name="selectOptions"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    {t("common:entity_options", {
-                      entity: t("common:select_box")
-                    })}
-                  </FormLabel>
-                  <FormControl>
-                    <TagInput
-                      tags={checkboxValues}
-                      onAddition={(item) => {
-                        setCheckboxValues((prevValues) => [...prevValues, item])
-                      }}
-                      onDelete={(idx) => {
-                        setCheckboxValues((prevValues) =>
-                          prevValues.filter((item, index) => index !== idx)
-                        )
-                      }}
-                      placeholder={t(
-                        "common:entity_comma_separated_options_placeholder",
-                        {
-                          entity: t("common:checkbox")
-                        }
-                      )}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
           {type && (
             <div className="col-span-full flex flex-col gap-6">
               {type === "CHECKBOX" && (
@@ -249,8 +213,21 @@ const CreateAttribute = () => {
                           })}
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            {...field}
+                          <TagInput
+                            tags={checkboxValues}
+                            onAddition={(item) => {
+                              setCheckboxValues((prevValues) => [
+                                ...prevValues,
+                                item
+                              ])
+                            }}
+                            onDelete={(idx) => {
+                              setCheckboxValues((prevValues) =>
+                                prevValues.filter(
+                                  (item, index) => index !== idx
+                                )
+                              )
+                            }}
                             placeholder={t(
                               "common:entity_comma_separated_options_placeholder",
                               {
@@ -299,8 +276,21 @@ const CreateAttribute = () => {
                           })}
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            {...field}
+                          <TagInput
+                            tags={checkboxValues}
+                            onAddition={(item) => {
+                              setCheckboxValues((prevValues) => [
+                                ...prevValues,
+                                item
+                              ])
+                            }}
+                            onDelete={(idx) => {
+                              setCheckboxValues((prevValues) =>
+                                prevValues.filter(
+                                  (item, index) => index !== idx
+                                )
+                              )
+                            }}
                             placeholder={t(
                               "common:entity_comma_separated_options_placeholder",
                               {
@@ -367,8 +357,21 @@ const CreateAttribute = () => {
                           })}
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            {...field}
+                          <TagInput
+                            tags={checkboxValues}
+                            onAddition={(item) => {
+                              setCheckboxValues((prevValues) => [
+                                ...prevValues,
+                                item
+                              ])
+                            }}
+                            onDelete={(idx) => {
+                              setCheckboxValues((prevValues) =>
+                                prevValues.filter(
+                                  (item, index) => index !== idx
+                                )
+                              )
+                            }}
                             placeholder={t(
                               "common:entity_comma_separated_options_placeholder",
                               {
