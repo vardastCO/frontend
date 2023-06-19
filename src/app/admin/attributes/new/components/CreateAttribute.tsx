@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
@@ -30,6 +31,7 @@ import {
   SelectValue
 } from "@core/components/ui/select"
 import { Switch } from "@core/components/ui/switch"
+import { TagInput } from "@core/components/ui/tag-input"
 import { Textarea } from "@core/components/ui/textarea"
 import { useToast } from "@core/hooks/use-toast"
 
@@ -37,6 +39,7 @@ const CreateAttribute = () => {
   const { t } = useTranslation()
   const { toast } = useToast()
   const router = useRouter()
+  const [checkboxValues, setCheckboxValues] = useState<string[]>([])
   const attributeTypes = enumToKeyValueObject(AttributeTypesEnum)
 
   const createAttributeMutation = useCreateAttributeMutation(
@@ -194,6 +197,43 @@ const CreateAttribute = () => {
             )}
           />
           <div></div>
+
+          <div className="col-span-full">
+            <FormField
+              control={form.control}
+              name="selectOptions"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    {t("common:entity_options", {
+                      entity: t("common:select_box")
+                    })}
+                  </FormLabel>
+                  <FormControl>
+                    <TagInput
+                      tags={checkboxValues}
+                      onAddition={(item) => {
+                        setCheckboxValues((prevValues) => [...prevValues, item])
+                      }}
+                      onDelete={(idx) => {
+                        setCheckboxValues((prevValues) =>
+                          prevValues.filter((item, index) => index !== idx)
+                        )
+                      }}
+                      placeholder={t(
+                        "common:entity_comma_separated_options_placeholder",
+                        {
+                          entity: t("common:checkbox")
+                        }
+                      )}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           {type && (
             <div className="col-span-full flex flex-col gap-6">
               {type === "CHECKBOX" && (
@@ -423,7 +463,7 @@ const CreateAttribute = () => {
               name="visible"
               render={({ field }) => (
                 <FormItem>
-                  <div className="flex gap-1 items-center">
+                  <div className="flex items-center gap-1">
                     <FormControl>
                       <Switch
                         checked={field.value}
@@ -441,7 +481,7 @@ const CreateAttribute = () => {
               name="filterable"
               render={({ field }) => (
                 <FormItem>
-                  <div className="flex gap-1 items-center">
+                  <div className="flex items-center gap-1">
                     <FormControl>
                       <Switch
                         checked={field.value}
@@ -459,7 +499,7 @@ const CreateAttribute = () => {
               name="required"
               render={({ field }) => (
                 <FormItem>
-                  <div className="flex gap-1 items-center">
+                  <div className="flex items-center gap-1">
                     <FormControl>
                       <Switch
                         checked={field.value}
