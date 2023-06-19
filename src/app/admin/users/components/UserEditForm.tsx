@@ -4,6 +4,7 @@ import { IconCheck, IconSelector } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
+
 import { useGetAllCountriesQuery, User } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
@@ -50,8 +51,8 @@ const UserEditForm = ({ user }: Props) => {
   const UserEditFormSchema = z.object({
     firstName: z.string(),
     lastName: z.string(),
-    email: z.string().email().nullable(),
-    cellphone: z.string().nullable(),
+    email: z.string().email().optional(),
+    cellphone: z.string().optional(),
     country: z.string(),
     timezone: z.string(),
     newPassword: z.string(),
@@ -65,8 +66,8 @@ const UserEditForm = ({ user }: Props) => {
     defaultValues: {
       firstName: user.firstName,
       lastName: user.lastName,
-      email: user.email,
-      cellphone: user.cellphone,
+      email: user.email as string,
+      cellphone: user.cellphone as string,
       country: user.country.slug,
       timezone: user.timezone
     }
@@ -161,7 +162,7 @@ const UserEditForm = ({ user }: Props) => {
                             <Button
                               noStyle
                               role="combobox"
-                              className="input-field text-start flex items-center"
+                              className="input-field flex items-center text-start"
                             >
                               {field.value
                                 ? countries?.countries.find(
@@ -216,7 +217,7 @@ const UserEditForm = ({ user }: Props) => {
                             <Button
                               noStyle
                               role="combobox"
-                              className="input-field text-start flex items-center"
+                              className="input-field flex items-center text-start"
                             >
                               {field.value
                                 ? timezones.find(

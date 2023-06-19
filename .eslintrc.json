@@ -5,6 +5,7 @@
         "plugin:storybook/recommended"
     ],
     "ignorePatterns": [
-        "src/stories/*"
+        "src/stories/*",
+        "old-to-delete"
     ]
 }

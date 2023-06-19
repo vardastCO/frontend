@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
+
 import { useCreateAreaMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
@@ -47,18 +48,16 @@ const CreateArea = ({ cityId }: Props) => {
   const queryClient = useQueryClient()
   const createAreaMutation = useCreateAreaMutation(graphqlRequestClient, {
     onSuccess: () => {
-      reset()
+      form.reset()
       queryClient.invalidateQueries({ queryKey: ["GetCity"] })
       setOpen(false)
-      toast(
-        t("common:entity_added_successfully", {
+      toast({
+        description: t("common:entity_added_successfully", {
           entity: t("common:area")
         }),
-        {
-          duration: 2000,
-          variant: "success"
-        }
-      )
+        duration: 2000,
+        variant: "success"
+      })
     }
   })
 
@@ -185,7 +184,7 @@ const CreateArea = ({ cityId }: Props) => {
                     name="isActive"
                     render={({ field }) => (
                       <FormItem>
-                        <div className="flex gap-1 items-center">
+                        <div className="flex items-center gap-1">
                           <FormControl>
                             <Switch
                               checked={field.value}

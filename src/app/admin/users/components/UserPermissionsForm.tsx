@@ -1,6 +1,7 @@
 "use client"
 
 import useTranslation from "next-translate/useTranslation"
+
 import {
   Permission,
   Role,
@@ -9,7 +10,7 @@ import {
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Checkbox, CheckboxGroup } from "@core/components/ui/Checkbox"
+import { Checkbox } from "@core/components/ui/checkbox"
 
 interface UserPermissionsFormType {
   userRoles: Role[]
@@ -45,15 +46,13 @@ const UserPermissionsForm = ({
             <h2 className="font-medium text-gray-800">{t("common:roles")}</h2>
           </div>
           <div className="w-2/3">
-            <CheckboxGroup name="roles" defaultValue={currentUserRoles}>
-              {roles.roles.map((role, idx) => (
-                <Checkbox
-                  key={idx}
-                  value={role.name}
-                  label={role.displayName}
-                ></Checkbox>
-              ))}
-            </CheckboxGroup>
+            {/* <CheckboxGroup name="roles" defaultValue={currentUserRoles}> */}
+            {roles.roles.map((role, idx) => (
+              <Checkbox key={idx} value={role.name}>
+                {role.displayName}
+              </Checkbox>
+            ))}
+            {/* </CheckboxGroup> */}
           </div>
         </div>
       )}
@@ -66,18 +65,16 @@ const UserPermissionsForm = ({
             </h2>
           </div>
           <div className="w-2/3">
-            <CheckboxGroup
+            {/* <CheckboxGroup
               name="permissions"
               defaultValue={currentUserPermissions}
-            >
-              {permissions.permissions.map((permission, idx) => (
-                <Checkbox
-                  key={idx}
-                  value={permission.name}
-                  label={permission.displayName}
-                ></Checkbox>
-              ))}
-            </CheckboxGroup>
+            > */}
+            {permissions.permissions.map((permission, idx) => (
+              <Checkbox key={idx} value={permission.name}>
+                {permission.displayName}
+              </Checkbox>
+            ))}
+            {/* </CheckboxGroup> */}
           </div>
         </div>
       )}

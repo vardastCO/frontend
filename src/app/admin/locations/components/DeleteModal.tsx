@@ -5,6 +5,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request/build/esm/types"
 import { useAtom, useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
+
 import {
   useRemoveAreaMutation,
   useRemoveCityMutation,
@@ -71,9 +72,9 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
       if (error.response && error.response.errors) {
         const { errors } = error.response
         toast({
-          description: errors[0].extensions.displayMessage,
+          description: errors[0].extensions.displayMessage as string,
           duration: 4000,
-          intent: "danger"
+          variant: "danger"
         })
       }
     }

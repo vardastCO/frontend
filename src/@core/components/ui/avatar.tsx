@@ -36,7 +36,8 @@ export interface AvatarProps
 
 const Avatar = forwardRef<
   ElementRef<typeof AvatarPrimitive.Root>,
-  ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
+  ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> &
+    VariantProps<typeof avatarVariants>
 >(({ size, rounded, className, ...props }: AvatarProps, ref) => (
   <AvatarPrimitive.Root
     ref={ref}
@@ -71,7 +72,7 @@ const AvatarFallback = forwardRef<
   <AvatarPrimitive.Fallback
     ref={ref}
     className={mergeClasses(
-      "flex h-full w-full items-center justify-center rounded-full bg-muted",
+      "bg-muted flex h-full w-full items-center justify-center rounded-full",
       className
     )}
     {...props}

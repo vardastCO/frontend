@@ -5,6 +5,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request"
 import { useAtom, useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
+
 import {
   useRemoveCategoryMutation,
   useRemoveVocabularyMutation
@@ -73,9 +74,9 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
           const { errors } = error.response
           errors.forEach((err) => {
             toast({
-              description: err.extensions.displayMessage,
+              description: err.extensions.displayMessage as string,
               duration: 4000,
-              intent: "danger"
+              variant: "danger"
             })
           })
         }
@@ -105,9 +106,9 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
           const { errors } = error.response
           errors.forEach((err) => {
             toast({
-              description: err.extensions.displayMessage,
+              description: err.extensions.displayMessage as string,
               duration: 4000,
-              intent: "danger"
+              variant: "danger"
             })
           })
         }

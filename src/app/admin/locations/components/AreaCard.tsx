@@ -39,7 +39,7 @@ const AreaCard = ({ show, area }: AreaCardProps) => {
   const { toast } = useToast()
   const { name, slug, isActive } = area
 
-  const [active, setActive] = useState(isActive)
+  const [active, setActive] = useState<boolean>(isActive)
 
   const updateAreaMutation = useUpdateAreaMutation(graphqlRequestClient, {
     onSuccess: () => {

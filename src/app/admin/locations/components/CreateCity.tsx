@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
+
 import { CityTypesEnum, useCreateCityMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
@@ -47,7 +48,7 @@ const CreateCity = ({ provinceId }: Props) => {
   const queryClient = useQueryClient()
   const createCityMutation = useCreateCityMutation(graphqlRequestClient, {
     onSuccess: () => {
-      reset()
+      form.reset()
       queryClient.invalidateQueries({ queryKey: ["GetProvince"] })
       setOpen(false)
       toast({
@@ -184,7 +185,7 @@ const CreateCity = ({ provinceId }: Props) => {
                     name="isActive"
                     render={({ field }) => (
                       <FormItem>
-                        <div className="flex gap-1 items-center">
+                        <div className="flex items-center gap-1">
                           <FormControl>
                             <Switch
                               checked={field.value}
