@@ -10,6 +10,7 @@ const config: CodegenConfig = {
         "src/generated.ts": {
             plugins: ['typescript', 'typescript-operations', 'typescript-react-query'],
             config: {
+                onlyEnums: true,
                 documentMode: 'string',
                 dedupeOperationSuffix: true,
                 fetcher: 'graphql-request'

@@ -12,7 +12,7 @@ import { AttributeTypesEnum, useCreateAttributeMutation } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { enumToKeyValueObject } from "@core/utils/enumToKeyValueObject"
 import zodI18nMap from "@core/utils/zodErrorMap"
-import { slugInputSchema } from "@core/utils/zodValidationSchemas"
+import { jsonSchema, slugInputSchema } from "@core/utils/zodValidationSchemas"
 import {
   Form,
   FormControl,
@@ -39,7 +39,11 @@ const CreateAttribute = () => {
   const { t } = useTranslation()
   const { toast } = useToast()
   const router = useRouter()
+  const [radioValues, setRadioValues] = useState<string[]>([])
   const [checkboxValues, setCheckboxValues] = useState<string[]>([])
+  const [checkboxCheckedValues, setCheckboxCheckedValues] = useState<string[]>(
+    []
+  )
   const attributeTypes = enumToKeyValueObject(AttributeTypesEnum)
 
   const createAttributeMutation = useCreateAttributeMutation(
@@ -66,11 +70,11 @@ const CreateAttribute = () => {
       type: z.nativeEnum(AttributeTypesEnum),
       textDefaultValue: z.string().optional(),
       textareaDefaultValue: z.string().optional(),
-      checkboxOptions: z.string().optional(),
-      checkboxCheckedOptions: z.string().optional(),
-      radioOptions: z.string().optional(),
+      checkboxOptions: jsonSchema.optional(),
+      checkboxCheckedOptions: jsonSchema,
+      radioOptions: jsonSchema.optional(),
       radioDefaultOption: z.string().optional(),
-      selectOptions: z.string().optional(),
+      selectOptions: jsonSchema.optional(),
       selectDefaultOption: z.string().optional(),
       visible: z.boolean().optional(),
       filterable: z.boolean().optional(),
@@ -146,7 +150,7 @@ const CreateAttribute = () => {
               <FormItem>
                 <FormLabel>{t("common:name")}</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input type="text" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -160,7 +164,7 @@ const CreateAttribute = () => {
               <FormItem>
                 <FormLabel>{t("common:slug")}</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input type="text" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -174,7 +178,9 @@ const CreateAttribute = () => {
               <FormItem>
                 <FormLabel>{t("common:type")}</FormLabel>
                 <Select
-                  onValueChange={field.onChange}
+                  onValueChange={(value) => {
+                    form.setValue("type", value as AttributeTypesEnum)
+                  }}
                   defaultValue={field.value}
                 >
                   <FormControl>
@@ -220,6 +226,7 @@ const CreateAttribute = () => {
                                 ...prevValues,
                                 item
                               ])
+                              form.setValue("checkboxOptions", checkboxValues)
                             }}
                             onDelete={(idx) => {
                               setCheckboxValues((prevValues) =>
@@ -227,6 +234,7 @@ const CreateAttribute = () => {
                                   (item, index) => index !== idx
                                 )
                               )
+                              form.setValue("checkboxOptions", checkboxValues)
                             }}
                             placeholder={t(
                               "common:entity_comma_separated_options_placeholder",
@@ -247,8 +255,29 @@ const CreateAttribute = () => {
                       <FormItem>
                         <FormLabel>{t("common:default_checked")}</FormLabel>
                         <FormControl>
-                          <Input
-                            {...field}
+                          <TagInput
+                            tags={checkboxCheckedValues}
+                            onAddition={(item) => {
+                              setCheckboxCheckedValues((prevValues) => [
+                                ...prevValues,
+                                item
+                              ])
+                              form.setValue(
+                                "checkboxCheckedOptions",
+                                checkboxCheckedValues
+                              )
+                            }}
+                            onDelete={(idx) => {
+                              setCheckboxCheckedValues((prevValues) =>
+                                prevValues.filter(
+                                  (item, index) => index !== idx
+                                )
+                              )
+                              form.setValue(
+                                "checkboxCheckedOptions",
+                                checkboxCheckedValues
+                              )
+                            }}
                             placeholder={`${t(
                               "common:entity_comma_separated_default_checked_placeholder",
                               {
