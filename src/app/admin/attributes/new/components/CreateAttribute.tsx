@@ -71,7 +71,7 @@ const CreateAttribute = () => {
       textDefaultValue: z.string().optional(),
       textareaDefaultValue: z.string().optional(),
       checkboxOptions: jsonSchema.optional(),
-      checkboxCheckedOptions: jsonSchema,
+      checkboxCheckedOptions: jsonSchema.optional(),
       radioOptions: jsonSchema.optional(),
       radioDefaultOption: z.string().optional(),
       selectOptions: jsonSchema.optional(),
@@ -114,12 +114,30 @@ const CreateAttribute = () => {
 
   function onSubmit(data: CreateAttributeType) {
     const { name, slug, type } = data
-
+    let values
+    switch (type) {
+      case "CHECKBOX":
+        values = data.checkboxOptions
+        break
+      case "RADIO":
+        values = data.radioOptions
+        break
+      case "SELECT":
+        values = data.selectOptions
+        break
+      case "TEXT":
+        values = data.textDefaultValue
+        break
+      case "TEXTAREA":
+        values = data.textareaDefaultValue
+        break
+    }
     createAttributeMutation.mutate({
       createAttributeInput: {
         name,
         slug,
-        type
+        type,
+        values
       }
     })
   }
