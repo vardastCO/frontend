@@ -240,19 +240,20 @@ const CreateAttribute = () => {
                           <TagInput
                             tags={checkboxValues}
                             onAddition={(item) => {
-                              setCheckboxValues((prevValues) => [
-                                ...prevValues,
-                                item
-                              ])
-                              form.setValue("checkboxOptions", checkboxValues)
+                              setCheckboxValues((prevValues) => {
+                                const newValues = [...prevValues, item]
+                                form.setValue("checkboxOptions", newValues)
+                                return newValues
+                              })
                             }}
                             onDelete={(idx) => {
-                              setCheckboxValues((prevValues) =>
-                                prevValues.filter(
+                              setCheckboxValues((prevValues) => {
+                                const newValues = prevValues.filter(
                                   (item, index) => index !== idx
                                 )
-                              )
-                              form.setValue("checkboxOptions", checkboxValues)
+                                form.setValue("checkboxOptions", newValues)
+                                return newValues
+                              })
                             }}
                             placeholder={t(
                               "common:entity_comma_separated_options_placeholder",
@@ -276,25 +277,26 @@ const CreateAttribute = () => {
                           <TagInput
                             tags={checkboxCheckedValues}
                             onAddition={(item) => {
-                              setCheckboxCheckedValues((prevValues) => [
-                                ...prevValues,
-                                item
-                              ])
-                              form.setValue(
-                                "checkboxCheckedOptions",
-                                checkboxCheckedValues
-                              )
+                              setCheckboxCheckedValues((prevValues) => {
+                                const newValues = [...prevValues, item]
+                                form.setValue(
+                                  "checkboxCheckedOptions",
+                                  newValues
+                                )
+                                return newValues
+                              })
                             }}
                             onDelete={(idx) => {
-                              setCheckboxCheckedValues((prevValues) =>
-                                prevValues.filter(
+                              setCheckboxCheckedValues((prevValues) => {
+                                const newValues = prevValues.filter(
                                   (item, index) => index !== idx
                                 )
-                              )
-                              form.setValue(
-                                "checkboxCheckedOptions",
-                                checkboxCheckedValues
-                              )
+                                form.setValue(
+                                  "checkboxCheckedOptions",
+                                  newValues
+                                )
+                                return newValues
+                              })
                             }}
                             placeholder={`${t(
                               "common:entity_comma_separated_default_checked_placeholder",
@@ -324,19 +326,22 @@ const CreateAttribute = () => {
                         </FormLabel>
                         <FormControl>
                           <TagInput
-                            tags={checkboxValues}
+                            tags={radioValues}
                             onAddition={(item) => {
-                              setCheckboxValues((prevValues) => [
-                                ...prevValues,
-                                item
-                              ])
+                              setRadioValues((prevValues) => {
+                                const newValues = [...prevValues, item]
+                                form.setValue("radioOptions", newValues)
+                                return newValues
+                              })
                             }}
                             onDelete={(idx) => {
-                              setCheckboxValues((prevValues) =>
-                                prevValues.filter(
+                              setRadioValues((prevValues) => {
+                                const newValues = prevValues.filter(
                                   (item, index) => index !== idx
                                 )
-                              )
+                                form.setValue("radioOptions", newValues)
+                                return newValues
+                              })
                             }}
                             placeholder={t(
                               "common:entity_comma_separated_options_placeholder",
