@@ -10,34 +10,40 @@
   }
 
   .product-type-item {
-    @apply card
+    &:has([data-state="checked"]) {
+      .product-type-item-wrapper {
+        @apply border-brand-400
+        shadow-sm
+        shadow-brand-300/50;
+
+        .product-type-item-title {
+          @apply text-brand-800;
+        }
+        .product-type-item-icon {
+          @apply text-brand-400;
+        }
+      }
+    }
+
+    .product-type-item-wrapper {
+      @apply card
+        h-full
         rounded
         border
         border-transparent
-        p-4
-        data-[selected]:border-brand-400
-        data-[selected]:shadow-sm
-        data-[selected]:shadow-brand-300/50;
+        p-4;
 
-    &-label {
-      @apply mb-1.5 flex items-center gap-1;
-    }
-    &-icon {
-      @apply h-5 w-5 text-gray-400;
-    }
-    &-title {
-      @apply font-medium text-gray-800;
-    }
-    &-description {
-      @apply text-sm text-gray-600;
-    }
-
-    &[data-selected] {
-      & .product-type-item-title {
-        @apply text-brand-800;
+      .product-type-item-label {
+        @apply mb-1.5 flex items-center gap-1;
       }
-      & .product-type-item-icon {
-        @apply text-brand-400;
+      .product-type-item-icon {
+        @apply h-5 w-5 text-gray-400;
+      }
+      .product-type-item-title {
+        @apply font-medium text-gray-800;
+      }
+      .product-type-item-description {
+        @apply text-sm text-gray-600;
       }
     }
   }

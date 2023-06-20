@@ -85,11 +85,14 @@ const ProductForm = () => {
                     <FormLabel>{t("common:product_type")}</FormLabel>
                     <FormControl>
                       <RadioGroup className="grid grid-cols-4 gap-6">
-                        <FormItem className="relative product-type-item">
-                          <FormControl className="absolute invisible">
+                        <FormItem className="product-type-item relative">
+                          <FormControl className="invisible absolute inset-0 h-full w-full">
                             <RadioGroupItem value="physical" />
                           </FormControl>
-                          <FormLabel noStyle>
+                          <FormLabel
+                            noStyle
+                            className="product-type-item-wrapper"
+                          >
                             <div className="product-type-item-label">
                               <IconPackage
                                 className="product-type-item-icon"
@@ -104,11 +107,14 @@ const ProductForm = () => {
                             </span>
                           </FormLabel>
                         </FormItem>
-                        <FormItem className="relative product-type-item">
-                          <FormControl className="absolute invisible">
+                        <FormItem className="product-type-item relative">
+                          <FormControl className="invisible absolute inset-0 h-full w-full">
                             <RadioGroupItem value="digital" />
                           </FormControl>
-                          <FormLabel noStyle>
+                          <FormLabel
+                            noStyle
+                            className="product-type-item-wrapper"
+                          >
                             <div className="product-type-item-label">
                               <IconWorld
                                 className="product-type-item-icon"
@@ -123,11 +129,14 @@ const ProductForm = () => {
                             </span>
                           </FormLabel>
                         </FormItem>
-                        <FormItem className="relative product-type-item">
-                          <FormControl className="absolute invisible">
+                        <FormItem className="product-type-item relative">
+                          <FormControl className="invisible absolute inset-0 h-full w-full">
                             <RadioGroupItem value="bundle" />
                           </FormControl>
-                          <FormLabel noStyle>
+                          <FormLabel
+                            noStyle
+                            className="product-type-item-wrapper"
+                          >
                             <div className="product-type-item-label">
                               <IconPackages
                                 className="product-type-item-icon"
@@ -142,11 +151,14 @@ const ProductForm = () => {
                             </span>
                           </FormLabel>
                         </FormItem>
-                        <FormItem className="relative product-type-item">
-                          <FormControl className="absolute invisible">
+                        <FormItem className="product-type-item relative">
+                          <FormControl className="invisible absolute inset-0 h-full w-full">
                             <RadioGroupItem value="gift-card" />
                           </FormControl>
-                          <FormLabel noStyle>
+                          <FormLabel
+                            noStyle
+                            className="product-type-item-wrapper"
+                          >
                             <div className="product-type-item-label">
                               <IconGift
                                 className="product-type-item-icon"
@@ -172,7 +184,7 @@ const ProductForm = () => {
                 name="isActive"
                 render={({ field }) => (
                   <FormItem>
-                    <div className="flex gap-1 items-center">
+                    <div className="flex items-center gap-1">
                       <FormControl>
                         <Switch
                           checked={field.value}
