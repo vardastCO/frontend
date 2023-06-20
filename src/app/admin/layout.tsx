@@ -72,9 +72,21 @@ export default function AdminLayout({
     {
       items: [
         {
-          title: t("common:storybook"),
+          title: "storybook",
           path: "/admin/storybook",
-          icon: "IconPalette"
+          icon: "IconPalette",
+          items: [
+            {
+              title: "button",
+              path: "/admin/storybook/button",
+              icon: "IconUsers"
+            },
+            {
+              title: "form",
+              path: "/admin/storybook/form",
+              icon: "IconUsers"
+            }
+          ]
         }
       ]
     }

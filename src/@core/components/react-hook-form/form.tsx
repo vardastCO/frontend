@@ -4,6 +4,7 @@ import {
   ElementRef,
   forwardRef,
   HTMLAttributes,
+  ReactNode,
   useContext,
   useId
 } from "react"
@@ -144,34 +145,69 @@ const FormLabel = forwardRef<
 })
 FormLabel.displayName = "FormLabel"
 
+export interface FormControlProps
+  extends VariantProps<typeof formControlVariants> {
+  prefixAddon?: ReactNode
+  suffixAddon?: ReactNode
+  prefixElement?: ReactNode
+  suffixElement?: ReactNode
+}
+
 const FormControl = forwardRef<
   ElementRef<typeof Slot>,
-  ComponentPropsWithoutRef<typeof Slot> &
-    VariantProps<typeof formControlVariants>
->(({ size, rounded, plaintext, className, ...props }, ref) => {
-  const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
+  ComponentPropsWithoutRef<typeof Slot> & FormControlProps
+>(
+  (
+    {
+      prefixAddon,
+      prefixElement,
+      suffixElement,
+      suffixAddon,
+      size,
+      rounded,
+      plaintext,
+      className,
+      ...props
+    },
+    ref
+  ) => {
+    const { error, formItemId, formDescriptionId, formMessageId } =
+      useFormField()
 
-  return (
-    <div
-      className={mergeClasses(
-        formControlVariants({ size, rounded, plaintext }),
-        className
-      )}
-    >
-      <Slot
-        ref={ref}
-        id={formItemId}
-        aria-describedby={
-          !error
-            ? `${formDescriptionId}`
-            : `${formDescriptionId} ${formMessageId}`
-        }
-        aria-invalid={!!error}
-        {...props}
-      />
-    </div>
-  )
-})
+    return (
+      <div
+        className={mergeClasses(
+          formControlVariants({ size, rounded, plaintext }),
+          className
+        )}
+      >
+        <div className="input-group">
+          {prefixAddon && <div className="input-addon">{prefixAddon}</div>}
+          <div className="input-inset">
+            {prefixElement && (
+              <div className="input-element">{prefixElement}</div>
+            )}
+            <Slot
+              ref={ref}
+              id={formItemId}
+              aria-describedby={
+                !error
+                  ? `${formDescriptionId}`
+                  : `${formDescriptionId} ${formMessageId}`
+              }
+              aria-invalid={!!error}
+              {...props}
+            />
+            {suffixElement && (
+              <div className="input-element">{suffixElement}</div>
+            )}
+          </div>
+          {suffixAddon && <div className="input-addon">{suffixAddon}</div>}
+        </div>
+      </div>
+    )
+  }
+)
 FormControl.displayName = "FormControl"
 
 const FormDescription = forwardRef<

@@ -7,22 +7,20 @@ input {
 .input-field {
   --border-opacity: 0.1;
   --border-color: rgba(theme(colors.gray.700), var(--border-opacity));
-  --padding-inline: 1.5ch;
-  --padding-block: 1ch;
-  padding-inline: var(--padding-inline);
-  padding-block: var(--padding-block);
   @apply block
     w-full
     appearance-none
     rounded
     bg-white
     bg-clip-padding
+    px-3
+    py-3
     leading-normal
     text-gray-700
     shadow-[0_0_0_1px_var(--border-color),0_1px_0_0_rgba(0,0,0,0.08),0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)]
     outline-none
     ring-0
-    ring-blue-300/20
+    ring-brand-300/20
     transition-all
     duration-200
     ease-linear
@@ -32,15 +30,15 @@ input {
     focus-visible:outline-none
     focus-visible:ring-4
     disabled:cursor-not-allowed
-    disabled:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:shadow-none;
+    disabled:bg-gray-50
+    dark:bg-gray-800
+    dark:text-gray-300
+    dark:shadow-none
+    dark:ring-brand-600/20;
 
   &:where(:focus, :focus-visible) {
     --border-opacity: 0.4;
-    --border-color: rgba(theme(colors.blue.600), var(--border-opacity));
-  }
-
-  &::placeholder {
-    @apply text-gray-400;
+    --border-color: rgba(theme(colors.brand.600), var(--border-opacity));
   }
 
   &:where(select) {
@@ -56,41 +54,24 @@ input {
 .input-addon {
   --border-opacity: 0.1;
   --border-color: rgba(theme(colors.gray.700), var(--border-opacity));
-  --padding-inline: 1.5ch;
-  padding-inline: var(--padding-inline);
 
   @apply flex
     items-center
     whitespace-nowrap
     rounded
     bg-gray-50
+    p-3
     text-center
     leading-normal
     text-gray-700
-    shadow-[0_0_0_1px_var(--border-color),0_1px_0_0_rgba(0,0,0,0.08),0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)];
-}
+    shadow-[0_0_0_1px_var(--border-color),0_1px_0_0_rgba(0,0,0,0.08),0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)]
+    dark:bg-gray-800
+    dark:text-gray-400
+    dark:shadow-none;
 
-.input-element {
-  padding: 0.75ch;
-
-  @apply pointer-events-none
-    absolute
-    right-0
-    top-0
-    z-20
-    flex
-    aspect-square
-    h-full
-    items-center
-    justify-center
-    text-gray-400;
-
-  &:has(button, a) {
-    @apply pointer-events-auto;
-  }
-
-  & .icon {
-    @apply p-[0.15em];
+  svg,
+  .icon {
+    @apply flex h-[1em] w-[1em] shrink-0;
   }
 }
 
@@ -101,6 +82,32 @@ input {
     rounded
     bg-clip-padding;
 
+  .input-element {
+    @apply pointer-events-none
+        absolute
+        inset-y-0
+        right-0
+        z-20
+        flex
+        h-full
+        w-max
+        items-center
+        justify-center
+        whitespace-nowrap
+        p-2
+        text-gray-400
+        dark:text-gray-500;
+
+    &:has(button, a) {
+      @apply pointer-events-auto;
+    }
+
+    svg,
+    .icon {
+      @apply flex h-[1em] w-[1em] shrink-0;
+    }
+  }
+
   &:has(.input-element) {
     & .input-field {
       & + .input-element {
@@ -108,16 +115,36 @@ input {
       }
     }
   }
+
   &:has(.input-element ~ .input-field) {
     & .input-field {
-      padding-inline-start: 4ch;
+      @apply ps-12;
     }
   }
+
   &:has(.input-field + .input-element) {
     & .input-field {
-      padding-inline-end: 4ch;
+      @apply pe-12;
     }
   }
+}
+
+.input-inset {
+  @apply w-[1%]
+        min-w-0
+        flex-auto;
+
+  & .input-field {
+    @apply rounded-none;
+  }
+}
+
+.input-field {
+  @apply w-[1%]
+        min-w-0
+        flex-auto
+        focus:z-10
+        focus-visible:z-10;
 }
 
 .input-group {
@@ -143,24 +170,6 @@ input {
         @apply rounded-s;
       }
     }
-  }
-
-  & .input-inset {
-    @apply w-[1%]
-        min-w-0
-        flex-auto;
-
-    & .input-field {
-      @apply rounded-none;
-    }
-  }
-
-  & .input-field {
-    @apply w-[1%]
-        min-w-0
-        flex-auto
-        focus:z-10
-        focus-visible:z-10;
   }
 }
 
