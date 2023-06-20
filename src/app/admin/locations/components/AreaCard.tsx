@@ -104,7 +104,7 @@ const AreaCard = ({ show, area }: AreaCardProps) => {
               <span>{t("common:edit")}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={toggleRemoveItem}>
+            <DropdownMenuItem onSelect={toggleRemoveItem} className="danger">
               <IconTrash className="dropdown-menu-item-icon" />
               <span>{t("common:delete")}</span>
             </DropdownMenuItem>

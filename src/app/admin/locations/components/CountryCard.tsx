@@ -84,7 +84,7 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
         </span>
         <Link
           href={`/admin/locations/country/${slug}`}
-          className="font-bold text-gray-800 dark:text-gray-400 underline-offset-2 hover:text-gray-900 dark:hover:text-gray-300 hover:underline"
+          className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-gray-300"
         >
           {name}
         </Link>
@@ -118,7 +118,7 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
               <span>{t("common:edit")}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={toggleRemoveItem}>
+            <DropdownMenuItem onSelect={toggleRemoveItem} className="danger">
               <IconTrash className="dropdown-menu-item-icon" />
               <span>{t("common:delete")}</span>
             </DropdownMenuItem>

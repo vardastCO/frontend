@@ -5,6 +5,7 @@ import Link from "next/link"
 import { IconDots, IconEdit, IconFolder, IconTrash } from "@tabler/icons-react"
 import { useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
+
 import { Vocabulary } from "@/generated"
 
 import { Button } from "@core/components/ui/button"
@@ -39,13 +40,13 @@ const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
   }
 
   return (
-    <div className="card flex items-center gap-3 rounded bg-white px-4 py-2 pe-2">
+    <div className="card flex items-center gap-3 rounded px-4 py-2 pe-2">
       <div className="flex items-center gap-2">
         <Link
           href={`/admin/vocabularies/${slug}`}
-          className="flex items-center gap-1 font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline"
+          className="flex items-center gap-1 font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-gray-300"
         >
-          <IconFolder className="h-6 w-6 text-gray-500" />
+          <IconFolder className="h-6 w-6 text-gray-500 dark:text-gray-700" />
           {title}
         </Link>
       </div>
@@ -62,7 +63,7 @@ const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
               <span>{t("common:edit")}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={toggleRemoveItem}>
+            <DropdownMenuItem onSelect={toggleRemoveItem} className="danger">
               <IconTrash className="dropdown-menu-item-icon" />
               <span>{t("common:delete")}</span>
             </DropdownMenuItem>
