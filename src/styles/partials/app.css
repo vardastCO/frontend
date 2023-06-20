@@ -176,3 +176,8 @@
     }
   }
 }
+
+[data-radix-popper-content-wrapper] {
+  width: 100%;
+  max-width: var(--radix-popper-anchor-width);
+}

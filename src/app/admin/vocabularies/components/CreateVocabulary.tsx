@@ -1,33 +1,45 @@
 "use client"
 
+import { useEffect, useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useQueryClient } from "@tanstack/react-query"
+import useTranslation from "next-translate/useTranslation"
+import { useForm } from "react-hook-form"
+import { TypeOf, z } from "zod"
+import { useCreateVocabularyMutation } from "@/generated"
+
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { slugify } from "@core/utils/slugify"
+import zodI18nMap from "@core/utils/zodErrorMap"
 import {
   englishInputSchema,
   persianInputSchema,
   slugInputSchema
 } from "@core/utils/zodValidationSchemas"
-
-import { TypeOf, z } from "zod"
-
-import { useCreateVocabularyMutation } from "@/generated"
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Button } from "@core/components/Button"
-import { Dialog } from "@core/components/Dialog"
-import { Input } from "@core/components/Input"
-import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
-import { TextField } from "@core/components/TextField"
-import { toastQueue } from "@core/components/Toast"
-import { slugify } from "@core/utils/slugify"
-import zodI18nMap from "@core/utils/zodErrorMap"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useQueryClient } from "@tanstack/react-query"
-import useTranslation from "next-translate/useTranslation"
-import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@core/components/react-hook-form/form"
+import { Button } from "@core/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from "@core/components/ui/dialog"
+import { Input } from "@core/components/ui/input"
+import { useToast } from "@core/hooks/use-toast"
 
 type Props = {}
 
 const CreateVocavulary = (props: Props) => {
   const { t } = useTranslation()
+  const { toast } = useToast()
 
   const [open, setOpen] = useState(false)
 
@@ -36,18 +48,16 @@ const CreateVocavulary = (props: Props) => {
     graphqlRequestClient,
     {
       onSuccess: () => {
-        reset()
+        form.reset()
         queryClient.invalidateQueries({ queryKey: ["GetAllVocabularies"] })
         setOpen(false)
-        toastQueue.add(
-          t("common:entity_added_successfully", {
+        toast({
+          description: t("common:entity_added_successfully", {
             entity: t("common:vocabulary")
           }),
-          {
-            timeout: 2000,
-            intent: "success"
-          }
-        )
+          duration: 2000,
+          variant: "success"
+        })
       }
     }
   )
@@ -61,30 +71,22 @@ const CreateVocavulary = (props: Props) => {
   })
   type CreateVocavulary = TypeOf<typeof CreateVocabularySchema>
 
-  const {
-    reset,
-    register,
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors, isSubmitting }
-  } = useForm<CreateVocavulary>({
+  const form = useForm<CreateVocavulary>({
     resolver: zodResolver(CreateVocabularySchema),
     defaultValues: {
       sort: 0
     }
   })
 
-  const titleEn = watch("titleEn")
+  const titleEn = form.watch("titleEn")
 
   useEffect(() => {
     if (titleEn) {
-      setValue("slug", slugify(titleEn))
+      form.setValue("slug", slugify(titleEn))
     } else {
-      setValue("slug", "")
+      form.setValue("slug", "")
     }
-  }, [titleEn, setValue])
+  }, [titleEn, form])
 
   function onSubmit(data: CreateVocavulary) {
     const { title, titleEn, slug, sort } = data
@@ -101,85 +103,101 @@ const CreateVocavulary = (props: Props) => {
 
   return (
     <>
-      <Button size="medium" onPress={() => setOpen(true)}>
+      <Button size="medium" onClick={() => setOpen(true)}>
         {t("common:add_entity", { entity: t("common:vocabulary") })}
       </Button>
-      <Modal isDismissable isOpen={open} onOpenChange={setOpen}>
-        <Dialog>
-          <>
-            <ModalHeader
-              title={t("common:create_new_entity", {
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {t("common:create_new_entity", {
                 entity: t("common:vocabulary")
               })}
-            />
-            <ModalBody>
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col gap-6"
-                noValidate
+            </DialogTitle>
+          </DialogHeader>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex flex-col gap-6"
+              noValidate
+            >
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("common:title")}</FormLabel>
+                    <FormControl>
+                      <Input type="text" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="titleEn"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("common:english_title")}</FormLabel>
+                    <FormControl>
+                      <Input type="text" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="slug"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("common:slug")}</FormLabel>
+                    <FormControl>
+                      <Input type="text" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="sort"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("common:display_sort")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        {...field}
+                        onChange={(event) =>
+                          field.onChange(+event.target.value)
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
+          <DialogFooter>
+            <div className="flex items-center justify-end gap-2">
+              <Button
+                variant="ghost"
+                onClick={() => setOpen(false)}
+                loading={form.formState.isSubmitting}
+                disabled={form.formState.isSubmitting}
               >
-                <TextField
-                  label={t("common:title")}
-                  type="text"
-                  errorMessage={errors.title && errors.title.message}
-                  isDisabled={isSubmitting}
-                >
-                  <Input {...register("title")} />
-                </TextField>
-                <TextField
-                  label={t("common:english_title")}
-                  type="text"
-                  errorMessage={errors.titleEn && errors.titleEn.message}
-                  isDisabled={isSubmitting}
-                >
-                  <Input {...register("titleEn")} dir="ltr" direction="ltr" />
-                </TextField>
-                <TextField
-                  label={t("common:slug")}
-                  type="text"
-                  errorMessage={errors.slug && errors.slug.message}
-                  isDisabled={isSubmitting}
-                  isReadOnly
-                >
-                  <Input
-                    {...register("slug")}
-                    plaintext
-                    dir="ltr"
-                    direction="ltr"
-                  />
-                </TextField>
-                <TextField
-                  label={t("common:display_sort")}
-                  type="number"
-                  errorMessage={errors.sort && errors.sort.message}
-                  isDisabled={isSubmitting}
-                >
-                  <Input
-                    min={0}
-                    {...register("sort", {
-                      valueAsNumber: true,
-                      min: 0
-                    })}
-                  />
-                </TextField>
-                <div className="flex items-center justify-end gap-2">
-                  <Button
-                    intent="ghost"
-                    onPress={() => setOpen(false)}
-                    loading={isSubmitting}
-                    isDisabled={isSubmitting}
-                  >
-                    {t("common:cancel")}
-                  </Button>
-                  <Button type="submit" isDisabled={isSubmitting}>
-                    {t("common:submit")}
-                  </Button>
-                </div>
-              </form>
-            </ModalBody>
-          </>
-        </Dialog>
-      </Modal>
+                {t("common:cancel")}
+              </Button>
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                {t("common:submit")}
+              </Button>
+            </div>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

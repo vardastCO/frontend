@@ -1,23 +1,23 @@
 .switch {
-  @apply inline-flex touch-none items-center;
+  @apply me-1.5
+    inline-flex
+    h-6
+    w-10
+    cursor-pointer
+    touch-none
+    items-center
+    rounded-full
+    border-2
+    border-transparent
+    bg-gray-300
+    ring-offset-2
+    ring-offset-gray-700
+    transition
+    duration-200
+    data-[state="checked"]:bg-emerald-400
+    dark:bg-gray-600
+    dark:data-[state="checked"]:bg-brand-400;
   -webkit-tap-highlight-color: transparent;
-
-  &-body {
-    @apply me-1.5
-        h-6
-        w-9
-        cursor-pointer
-        rounded-full
-        border-2
-        border-transparent
-        bg-gray-500
-        ring-offset-2
-        ring-offset-gray-700
-        transition
-        duration-200
-        group-data-[selected]:bg-emerald-400
-        group-data-[focus-visible]:ring-2;
-  }
 
   &-thumb {
     @apply block
@@ -26,130 +26,62 @@
         origin-right
         rounded-full
         bg-white
-        shadow
+        shadow-md
         transition-all
-        duration-200;
+        duration-300;
   }
 
-  &:where([data-selected]):not([data-pressed]) {
+  &:where([data-state="checked"]) {
     & .switch-thumb {
-      @apply ms-3;
-    }
-  }
-
-  &:where([data-pressed]) {
-    & .switch-thumb {
-      @apply w-6;
-    }
-  }
-
-  &:where([data-pressed]):where([data-selected]) {
-    & .switch-thumb {
-      @apply ms-2;
+      @apply ms-4;
     }
   }
 
   &-xs {
-    & .switch-body {
-      @apply h-4
-          w-7;
-    }
+    @apply h-4 w-7;
     & .switch-thumb {
-      @apply h-3
-          w-3;
-    }
-
-    &:where([data-pressed]) {
-      & .switch-thumb {
-        @apply w-4;
-      }
+      @apply h-3 w-3;
     }
   }
   &-sm {
-    & .switch-body {
-      @apply h-5
-          w-8;
-    }
+    @apply h-5 w-8;
     & .switch-thumb {
-      @apply h-4
-          w-4;
+      @apply h-4 w-4;
     }
 
-    &:where([data-pressed]) {
-      & .switch-thumb {
-        @apply w-5;
-      }
-    }
-  }
-  &-md {
-    & .switch-body {
-      @apply h-7
-          w-10;
-    }
-    & .switch-thumb {
-      @apply h-6
-          w-6;
-    }
-
-    &:where([data-pressed]) {
-      & .switch-thumb {
-        @apply w-7;
-      }
-    }
-  }
-  &-lg {
-    & .switch-body {
-      @apply h-8
-          w-12;
-    }
-    & .switch-thumb {
-      @apply h-7
-          w-7;
-    }
-
-    &:where([data-selected]):not([data-pressed]) {
-      & .switch-thumb {
-        @apply ms-4;
-      }
-    }
-
-    &:where([data-pressed]) {
-      & .switch-thumb {
-        @apply w-8;
-      }
-    }
-
-    &:where([data-pressed]):where([data-selected]) {
+    &:where([data-state="checked"]) {
       & .switch-thumb {
         @apply ms-3;
       }
     }
   }
-  &-xl {
-    & .switch-body {
-      @apply h-9
-          w-14;
-    }
+  &-md {
+    @apply h-7 w-10;
     & .switch-thumb {
-      @apply h-8
-          w-8;
+      @apply h-6 w-6;
+    }
+  }
+  &-lg {
+    @apply h-8 w-12;
+    & .switch-thumb {
+      @apply h-7 w-7;
     }
 
-    &:where([data-selected]):not([data-pressed]) {
-      & .switch-thumb {
-        @apply ms-5;
-      }
-    }
-
-    &:where([data-pressed]) {
-      & .switch-thumb {
-        @apply w-9;
-      }
-    }
-
-    &:where([data-pressed]):where([data-selected]) {
+    &:where([data-state="checked"]) {
       & .switch-thumb {
         @apply ms-4;
+      }
+    }
+  }
+  &-xl {
+    @apply h-9 w-14;
+    & .switch-thumb {
+      @apply h-8 w-8;
+    }
+
+    &:where([data-state="checked"]) {
+      & .switch-thumb {
+        @apply ms-5;
       }
     }
   }

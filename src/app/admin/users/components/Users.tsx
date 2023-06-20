@@ -1,15 +1,16 @@
 "use client"
 
-import { useGetAllUsersQuery } from "@/generated"
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Avatar } from "@core/components/Avatar"
-import Loading from "@core/components/shared/Loading"
-import LoadingFailed from "@core/components/shared/LoadingFailed"
-import NoResult from "@core/components/shared/NoResult"
+import { useRouter } from "next/navigation"
 import clsx from "clsx"
 import parsePhoneNumber from "libphonenumber-js"
 import useTranslation from "next-translate/useTranslation"
-import { useRouter } from "next/navigation"
+import { useGetAllUsersQuery } from "@/generated"
+
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import Loading from "@core/components/shared/Loading"
+import LoadingFailed from "@core/components/shared/LoadingFailed"
+import NoResult from "@core/components/shared/NoResult"
+import { Avatar, AvatarFallback, AvatarImage } from "@core/components/ui/avatar"
 
 type Props = {}
 
@@ -39,11 +40,13 @@ const Users = (props: Props) => {
               onClick={() => router.push(`/admin/users/${user.uuid}`)}
             >
               <td>
-                <Avatar
-                  size="small"
-                  src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=${user.fullName}`}
-                  alt={user.fullName}
-                />
+                <Avatar size="small">
+                  <AvatarImage
+                    src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=${user.fullName}`}
+                    alt={user.fullName}
+                  />
+                  <AvatarFallback>{user.fullName}</AvatarFallback>
+                </Avatar>
                 <span className="ms-2 font-medium text-gray-800">
                   {user.fullName}
                 </span>

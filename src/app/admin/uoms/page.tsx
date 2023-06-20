@@ -1,7 +1,9 @@
-import { Button } from "@core/components/Button"
-import PageHeader from "@core/components/shared/PageHeader"
-import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
+import useTranslation from "next-translate/useTranslation"
+
+import PageHeader from "@core/components/shared/PageHeader"
+import { Button } from "@core/components/ui/button"
+
 import UOMs from "./components/UOMs"
 
 const UOMsIndex = () => {
@@ -11,7 +13,9 @@ const UOMsIndex = () => {
     <>
       <PageHeader title={t("common:uoms_index_title")}>
         <Link href="/admin/uoms/new">
-          <Button size="medium">{t("common:add_entity", { entity: t("common:uom") })}</Button>
+          <Button size="medium">
+            {t("common:add_entity", { entity: t("common:uom") })}
+          </Button>
         </Link>
       </PageHeader>
       <UOMs />

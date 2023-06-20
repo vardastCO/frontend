@@ -1,20 +1,26 @@
 "use client"
 
-import { Area, useUpdateAreaMutation } from "@/generated"
-
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Button } from "@core/components/Button"
-import { Item } from "@core/components/Collection"
-import { Menu, MenuTrigger } from "@core/components/Menu"
-import { Popover } from "@core/components/Popover"
-import { Separator } from "@core/components/Separator"
-import { Switch } from "@core/components/Switch"
-import { toastQueue } from "@core/components/Toast"
+import { useContext, useState } from "react"
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
 import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import useTranslation from "next-translate/useTranslation"
-import { Key, useContext, useState } from "react"
+
+import { Area, useUpdateAreaMutation } from "@/generated"
+
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { Button } from "@core/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@core/components/ui/dropdown-menu"
+import { Label } from "@core/components/ui/label"
+import { Switch } from "@core/components/ui/switch"
+import { useToast } from "@core/hooks/use-toast"
+
 import { LocationsContext } from "./LocationsProvider"
 
 interface AreaCardProps {
@@ -30,21 +36,20 @@ const AreaCard = ({ show, area }: AreaCardProps) => {
   const setEntityToRemove = useSetAtom(entityToRemoveAtom)
   const setRemoveState = useSetAtom(removeStateAtom)
   const { t } = useTranslation()
+  const { toast } = useToast()
   const { name, slug, isActive } = area
 
-  const [active, setActive] = useState(isActive)
+  const [active, setActive] = useState<boolean>(isActive)
 
   const updateAreaMutation = useUpdateAreaMutation(graphqlRequestClient, {
     onSuccess: () => {
-      toastQueue.add(
-        t("common:entity_updated_successfully", {
+      toast({
+        description: t("common:entity_updated_successfully", {
           entity: t("common:area")
         }),
-        {
-          timeout: 2000,
-          intent: "success"
-        }
-      )
+        duration: 2000,
+        variant: "success"
+      })
       setActive((value) => !value)
     }
   })
@@ -59,53 +64,52 @@ const AreaCard = ({ show, area }: AreaCardProps) => {
     })
   }
 
-  const onAction = (key: Key) => {
-    switch (key) {
-      case "remove":
-        setEntityToRemove({
-          type: "area",
-          entity: area
-        })
-        setRemoveState(true)
-        break
-    }
+  const toggleRemoveItem = () => {
+    setEntityToRemove({
+      type: "area",
+      entity: area
+    })
+    setRemoveState(true)
   }
 
   return (
     <div
       className={clsx([
-        "card flex items-center gap-3 rounded bg-white px-4 py-2 pe-2",
+        "card flex items-center gap-3 rounded px-4 py-2 pe-2",
         !show && "hidden"
       ])}
     >
-      <span>{name}</span>
+      <span className="text-gray-800 dark:text-gray-400">{name}</span>
       <div className="mr-auto flex items-center gap-2">
-        <Switch
-          onChange={toggleActive}
-          isSelected={active}
-          size="small"
-          isDisabled={updateAreaMutation.isLoading}
-        >
-          {t("common:is_active")}
-        </Switch>
-        <MenuTrigger>
-          <Button intent="ghost" iconOnly>
-            <IconDots className="icon" />
-          </Button>
-          <Popover>
-            <Menu onAction={onAction}>
-              <Item id="edit">
-                <IconEdit className="dropdown-menu-item-icon" />
-                ویرایش
-              </Item>
-              <Separator />
-              <Item id="remove" className="danger">
-                <IconTrash className="dropdown-menu-item-icon" />
-                حذف
-              </Item>
-            </Menu>
-          </Popover>
-        </MenuTrigger>
+        <Label noStyle className="flex items-center">
+          <>
+            <Switch
+              onCheckedChange={toggleActive}
+              checked={active}
+              size="small"
+              disabled={updateAreaMutation.isLoading}
+            />
+            <span>{t("common:is_active")}</span>
+          </>
+        </Label>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button variant="ghost" iconOnly>
+              <IconDots className="icon" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>
+              <IconEdit className="dropdown-menu-item-icon" />
+              <span>{t("common:edit")}</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onSelect={toggleRemoveItem} className="danger">
+              <IconTrash className="dropdown-menu-item-icon" />
+              <span>{t("common:delete")}</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   )

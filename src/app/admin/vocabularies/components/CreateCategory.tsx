@@ -1,28 +1,54 @@
 "use client"
 
-import { TypeOf, z } from "zod"
-
-import { Category, useCreateCategoryMutation, useGetVocabularyQuery } from "@/generated"
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Button } from "@core/components/Button"
-import { Item } from "@core/components/Collection"
-import { ComboBox } from "@core/components/ComboBox"
-import { Dialog } from "@core/components/Dialog"
-import { Input } from "@core/components/Input"
-import { ListBox } from "@core/components/ListBox"
-import { Modal, ModalBody, ModalHeader } from "@core/components/Modal"
-import { Popover } from "@core/components/Popover"
-import { TextField } from "@core/components/TextField"
-import { toastQueue } from "@core/components/Toast"
-import { slugify } from "@core/utils/slugify"
-import zodI18nMap from "@core/utils/zodErrorMap"
-import { englishInputSchema, persianInputSchema, slugInputSchema } from "@core/utils/zodValidationSchemas"
+import { Key, useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { IconCheck, IconSelector } from "@tabler/icons-react"
 import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request"
 import useTranslation from "next-translate/useTranslation"
-import { Key, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
+import { TypeOf, z } from "zod"
+import { useCreateCategoryMutation, useGetVocabularyQuery } from "@/generated"
+
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { mergeClasses } from "@core/utils/mergeClasses"
+import { slugify } from "@core/utils/slugify"
+import zodI18nMap from "@core/utils/zodErrorMap"
+import {
+  englishInputSchema,
+  persianInputSchema,
+  slugInputSchema
+} from "@core/utils/zodValidationSchemas"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@core/components/react-hook-form/form"
+import { Button } from "@core/components/ui/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem
+} from "@core/components/ui/command"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from "@core/components/ui/dialog"
+import { Input } from "@core/components/ui/input"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@core/components/ui/popover"
+import { useToast } from "@core/hooks/use-toast"
 
 type Props = {
   vocabularyId: number
@@ -30,6 +56,7 @@ type Props = {
 
 const CreateCategory = ({ vocabularyId }: Props) => {
   const { t } = useTranslation()
+  const { toast } = useToast()
 
   const [displayErrors, setDisplayErrors] = useState<string[] | null>(null)
   const [open, setOpen] = useState<boolean>(false)
@@ -38,39 +65,44 @@ const CreateCategory = ({ vocabularyId }: Props) => {
   const queryClient = useQueryClient()
 
   //   TODO: handle loading and error states
-  const { error, data, isLoading } = useGetVocabularyQuery(graphqlRequestClient, {
-    id: vocabularyId
-  })
+  const { error, data, isLoading } = useGetVocabularyQuery(
+    graphqlRequestClient,
+    {
+      id: vocabularyId
+    }
+  )
 
-  const createCategoryMutation = useCreateCategoryMutation(graphqlRequestClient, {
-    onSuccess: () => {
-      reset()
-      queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
-      setOpen(false)
-      toastQueue.add(
-        t("common:entity_added_successfully", {
-          entity: t("common:category")
-        }),
-        {
-          timeout: 2000,
-          intent: "success"
-        }
-      )
-    },
-    onError: (error: ClientError) => {
-      if (error.response) {
-        const tempErrors: string[] = []
-        const { errors } = error.response
-        errors?.forEach((err) => {
-          tempErrors.push(err.extensions.displayMessage as string)
+  const createCategoryMutation = useCreateCategoryMutation(
+    graphqlRequestClient,
+    {
+      onSuccess: () => {
+        form.reset()
+        queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
+        setOpen(false)
+        toast({
+          description: t("common:entity_added_successfully", {
+            entity: t("common:category")
+          }),
+          duration: 2000,
+          variant: "success"
         })
-        setDisplayErrors(tempErrors)
+      },
+      onError: (error: ClientError) => {
+        if (error.response) {
+          const tempErrors: string[] = []
+          const { errors } = error.response
+          errors?.forEach((err) => {
+            tempErrors.push(err.extensions.displayMessage as string)
+          })
+          setDisplayErrors(tempErrors)
+        }
       }
     }
-  })
+  )
 
   z.setErrorMap(zodI18nMap)
   const CreateCategorySchema = z.object({
+    parentCategoryId: z.number().int(),
     title: persianInputSchema,
     titleEn: englishInputSchema,
     slug: slugInputSchema,
@@ -79,14 +111,7 @@ const CreateCategory = ({ vocabularyId }: Props) => {
   })
   type CreateCategory = TypeOf<typeof CreateCategorySchema>
 
-  const {
-    reset,
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors, isSubmitting }
-  } = useForm<CreateCategory>({
+  const form = useForm<CreateCategory>({
     resolver: zodResolver(CreateCategorySchema),
     defaultValues: {
       sort: 0,
@@ -94,15 +119,15 @@ const CreateCategory = ({ vocabularyId }: Props) => {
     }
   })
 
-  const titleEn = watch("titleEn")
+  const titleEn = form.watch("titleEn")
 
   useEffect(() => {
     if (titleEn) {
-      setValue("slug", slugify(titleEn))
+      form.setValue("slug", slugify(titleEn))
     } else {
-      setValue("slug", "")
+      form.setValue("slug", "")
     }
-  }, [titleEn, setValue])
+  }, [titleEn, form])
 
   function onSubmit(data: CreateCategory) {
     const { title, titleEn, slug, sort } = data
@@ -121,91 +146,167 @@ const CreateCategory = ({ vocabularyId }: Props) => {
 
   return (
     <>
-      <Button size="medium" onPress={() => setOpen(true)}>
+      <Button size="medium" onClick={() => setOpen(true)}>
         {t("common:add_entity", { entity: t("common:category") })}
       </Button>
-      <Modal isDismissable isOpen={open} onOpenChange={setOpen}>
-        <Dialog>
-          <>
-            <ModalHeader
-              title={t("common:create_new_entity", {
-                entity: t("common:category")
-              })}
-            />
-            <ModalBody>
-              <>
-                {createCategoryMutation.isError && displayErrors?.map((err, idx) => <p key={idx}>{err}</p>)}
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6" noValidate>
-                  <ComboBox
-                    label={t("common:parent")}
-                    onSelectionChange={setParentCategoryId}
-                    isDisabled={isSubmitting}
-                  >
-                    <Popover>
-                      <ListBox items={data?.vocabulary.categories as Category[]}>
-                        {(item) => (
-                          <Item id={item.id} textValue={item.title}>
-                            {item.title}
-                          </Item>
-                        )}
-                      </ListBox>
-                    </Popover>
-                  </ComboBox>
-                  <TextField
-                    label={t("common:title")}
-                    errorMessage={errors.title && errors.title.message}
-                    isDisabled={isSubmitting}
-                  >
-                    <Input {...register("title")} />
-                  </TextField>
-                  <TextField
-                    label={t("common:english_title")}
-                    errorMessage={errors.titleEn && errors.titleEn.message}
-                    isDisabled={isSubmitting}
-                  >
-                    <Input {...register("titleEn")} dir="ltr" direction="ltr" />
-                  </TextField>
-                  <TextField
-                    label={t("common:slug")}
-                    errorMessage={errors.slug && errors.slug.message}
-                    isDisabled={isSubmitting}
-                    isReadOnly
-                  >
-                    <Input {...register("slug")} plaintext dir="ltr" direction="ltr" />
-                  </TextField>
-                  <TextField
-                    label={t("common:display_sort")}
-                    type="number"
-                    errorMessage={errors.sort && errors.sort.message}
-                    isDisabled={isSubmitting}
-                  >
-                    <Input
-                      min={0}
-                      {...register("sort", {
-                        valueAsNumber: true,
-                        min: 0
-                      })}
-                    />
-                  </TextField>
-                  <div className="flex items-center justify-end gap-2">
-                    <Button
-                      intent="ghost"
-                      onPress={() => setOpen(false)}
-                      loading={isSubmitting}
-                      isDisabled={isSubmitting}
-                    >
-                      {t("common:cancel")}
-                    </Button>
-                    <Button type="submit" isDisabled={isSubmitting}>
-                      {t("common:submit")}
-                    </Button>
-                  </div>
-                </form>
-              </>
-            </ModalBody>
-          </>
-        </Dialog>
-      </Modal>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <Form {...form}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                {t("common:create_new_entity", {
+                  entity: t("common:category")
+                })}
+              </DialogTitle>
+            </DialogHeader>
+            <>
+              {createCategoryMutation.isError &&
+                displayErrors?.map((err, idx) => <p key={idx}>{err}</p>)}
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex flex-col gap-6"
+                noValidate
+              >
+                <FormField
+                  control={form.control}
+                  name="parentCategoryId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:country")}</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              noStyle
+                              role="combobox"
+                              className="input-field text-start flex items-center"
+                            >
+                              {field.value
+                                ? data?.vocabulary.categories.find(
+                                    (category) =>
+                                      category && category.id === field.value
+                                  )?.title
+                                : "Select language"}
+                              <IconSelector className="ms-auto h-4 w-4 shrink-0" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="p-0">
+                          <Command>
+                            <CommandInput placeholder="Search framework..." />
+                            <CommandEmpty>No framework found.</CommandEmpty>
+                            <CommandGroup className="max-h-[100px] overflow-auto">
+                              {data?.vocabulary.categories.map(
+                                (category) =>
+                                  category && (
+                                    <CommandItem
+                                      value={`${category.id}`}
+                                      key={category.id}
+                                      onSelect={(value) => {
+                                        form.setValue(
+                                          "parentCategoryId",
+                                          +value
+                                        )
+                                      }}
+                                    >
+                                      <IconCheck
+                                        className={mergeClasses(
+                                          "mr-2 h-4 w-4",
+                                          category.id === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        )}
+                                      />
+                                      {category.title}
+                                    </CommandItem>
+                                  )
+                              )}
+                            </CommandGroup>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:title")}</FormLabel>
+                      <FormControl>
+                        <Input type="text" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="titleEn"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:english_title")}</FormLabel>
+                      <FormControl>
+                        <Input type="text" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="slug"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:slug")}</FormLabel>
+                      <FormControl>
+                        <Input type="text" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="sort"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:display_sort")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          {...field}
+                          onChange={(event) =>
+                            field.onChange(+event.target.value)
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </form>
+            </>
+            <DialogFooter>
+              <div className="flex items-center justify-end gap-2">
+                <Button
+                  variant="ghost"
+                  onClick={() => setOpen(false)}
+                  loading={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting}
+                >
+                  {t("common:cancel")}
+                </Button>
+                <Button type="submit" disabled={form.formState.isSubmitting}>
+                  {t("common:submit")}
+                </Button>
+              </div>
+            </DialogFooter>
+          </DialogContent>
+        </Form>
+      </Dialog>
     </>
   )
 }

@@ -1,37 +1,47 @@
 "use client"
 
-import { useCreateUomMutation } from "@/generated"
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Button } from "@core/components/Button"
-import { Input } from "@core/components/Input"
-import { Switch } from "@core/components/Switch"
-import { TextField } from "@core/components/TextField"
-import { toastQueue } from "@core/components/Toast"
-import { slugInputSchema } from "@core/utils/zodValidationSchemas"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
-import { useRouter } from "next/navigation"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
+
+import { useCreateUomMutation } from "@/generated"
+
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import zodI18nMap from "@core/utils/zodErrorMap"
+import { slugInputSchema } from "@core/utils/zodValidationSchemas"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@core/components/react-hook-form/form"
+import { Button } from "@core/components/ui/button"
+import { Input } from "@core/components/ui/input"
+import { Switch } from "@core/components/ui/switch"
+import { useToast } from "@core/hooks/use-toast"
 
 const CreateUOM = () => {
   const { t } = useTranslation()
+  const { toast } = useToast()
   const router = useRouter()
   const createUOMMutation = useCreateUomMutation(graphqlRequestClient, {
     onSuccess: () => {
-      toastQueue.add(
-        t("common:entity_added_successfully", {
+      toast({
+        description: t("common:entity_added_successfully", {
           entity: t("common:brand")
         }),
-        {
-          timeout: 2000,
-          intent: "success"
-        }
-      )
+        duration: 2000,
+        variant: "success"
+      })
       router.push("/admin/uoms")
     }
   })
 
+  z.setErrorMap(zodI18nMap)
   const CreateUOMSchema = z.object({
     name: z.string(),
     symbol: z.string(),
@@ -40,23 +50,14 @@ const CreateUOM = () => {
   })
   type CreateUOMType = TypeOf<typeof CreateUOMSchema>
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    getValues,
-    reset,
-    formState: { errors, isSubmitting }
-  } = useForm<CreateUOMType>({
+  const form = useForm<CreateUOMType>({
     resolver: zodResolver(CreateUOMSchema),
     defaultValues: {
       isActive: true
     }
   })
 
-  const name = watch("name")
+  const name = form.watch("name")
 
   function onSubmit(data: CreateUOMType) {
     const { name, slug, isActive, symbol } = data
@@ -72,8 +73,8 @@ const CreateUOM = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
           <h1 className="text-3xl font-black text-gray-800">
             {name ? name : t("common:new_entity", { entity: t("common:uom") })}
@@ -81,52 +82,73 @@ const CreateUOM = () => {
           <Button
             className="sticky top-0"
             type="submit"
-            loading={isSubmitting}
-            isDisabled={isSubmitting}
+            loading={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting}
           >
             {t("common:save_entity", { entity: t("common:uom") })}
           </Button>
         </div>
         <div className="flex flex-col gap-6">
-          <TextField
-            label={t("common:name")}
-            isDisabled={isSubmitting}
-            errorMessage={errors.name && errors.name.message}
-          >
-            <Input {...register("name")} />
-          </TextField>
-          <TextField
-            label={t("common:symbol")}
-            isDisabled={isSubmitting}
-            errorMessage={errors.symbol && errors.symbol.message}
-          >
-            <Input {...register("symbol")} />
-          </TextField>
-          <TextField
-            label={t("common:slug")}
-            isDisabled={isSubmitting}
-            errorMessage={errors.slug && errors.slug.message}
-          >
-            <Input {...register("slug")} />
-          </TextField>
-          <Controller
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:name")}</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="symbol"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:symbol")}</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="slug"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:slug")}</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="isActive"
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <Switch
-                ref={field.ref}
-                name={field.name}
-                isSelected={field.value}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-              >
-                {t("common:is_active")}
-              </Switch>
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex items-center gap-1">
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel>{t("common:is_active")}</FormLabel>
+                </div>
+                <FormMessage />
+              </FormItem>
             )}
           />
         </div>
       </form>
-    </div>
+    </Form>
   )
 }
 

@@ -1,5 +1,6 @@
 "use client"
 
+import { useRef, useState } from "react"
 import {
   IconLogout,
   IconMoon,
@@ -10,10 +11,11 @@ import clsx from "clsx"
 import { signOut, useSession } from "next-auth/react"
 import { useTheme } from "next-themes"
 import useTranslation from "next-translate/useTranslation"
-import { useRef, useState } from "react"
 import { useOnClickOutside } from "usehooks-ts"
-import { Avatar } from "../Avatar"
-import { Button } from "../Button"
+
+import { Button } from "@core/components/ui/button"
+
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 const UserMenu = () => {
   const { t } = useTranslation()
@@ -46,8 +48,8 @@ const UserMenu = () => {
           {open && (
             <div className="flex flex-col gap-1">
               <Button
-                onPress={() => toggleTeheme()}
-                intent="ghost"
+                onClick={() => toggleTeheme()}
+                variant="ghost"
                 className="justify-start text-start"
               >
                 <>
@@ -62,8 +64,8 @@ const UserMenu = () => {
                 </>
               </Button>
               <Button
-                onPress={() => signOut()}
-                intent="ghost"
+                onClick={() => signOut()}
+                variant="ghost"
                 className="justify-start text-start"
               >
                 <>
@@ -74,15 +76,18 @@ const UserMenu = () => {
             </div>
           )}
           <Button
-            onPress={() => toggle()}
+            onClick={() => toggle()}
             noStyle
             className="flex w-full items-center gap-2 text-start outline-none focus-visible:outline-none"
           >
-            <Avatar
-              src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=
+            <Avatar>
+              <AvatarImage
+                src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=
             ${session?.user?.profile.fullName}`}
-              alt={session?.user?.profile.fullName || ""}
-            />
+                alt={session?.user?.profile.fullName || ""}
+              />
+              <AvatarFallback>{session?.user?.profile.fullName}</AvatarFallback>
+            </Avatar>
             <div className="flex flex-1 flex-col truncate">
               <span className="truncate font-medium text-gray-800">
                 {session?.user?.profile.fullName}

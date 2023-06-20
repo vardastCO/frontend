@@ -1,6 +1,13 @@
-import { z } from "zod"
-import { persianCharactersValidator } from "./persianCharactersValidator"
-import { slugValidator } from "./slugValidator"
+import { z } from "zod";
+import { persianCharactersValidator } from "./persianCharactersValidator";
+import { slugValidator } from "./slugValidator";
+
+const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()]);
+type Literal = z.infer<typeof literalSchema>;
+type Json = Literal | { [key: string]: Json } | Json[];
+export const jsonSchema: z.ZodType<Json> = z.lazy(() =>
+    z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
+);
 
 export const slugInputSchema =
     z.string().refine((data) => slugValidator(data), {

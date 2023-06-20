@@ -1,53 +1,58 @@
 "use client"
 
-import { useCreateBrandMutation } from "@/generated"
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Button } from "@core/components/Button"
-import { Input } from "@core/components/Input"
-import { TextField } from "@core/components/TextField"
-import { toastQueue } from "@core/components/Toast"
-import { slugInputSchema } from "@core/utils/zodValidationSchemas"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
-import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
+import { useCreateBrandMutation } from "@/generated"
+
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import zodI18nMap from "@core/utils/zodErrorMap"
+import { slugInputSchema } from "@core/utils/zodValidationSchemas"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@core/components/react-hook-form/form"
+import { Button } from "@core/components/ui/button"
+import { Input } from "@core/components/ui/input"
+import { useToast } from "@core/hooks/use-toast"
+
 const CreateBrand = () => {
   const { t } = useTranslation()
+  const { toast } = useToast()
   const router = useRouter()
   const createBrandMutation = useCreateBrandMutation(graphqlRequestClient, {
     onSuccess: () => {
-      toastQueue.add(
-        t("common:entity_added_successfully", {
+      toast({
+        description: t("common:entity_added_successfully", {
           entity: t("common:brand")
         }),
-        {
-          timeout: 2000,
-          intent: "success"
-        }
-      )
+        duration: 2000,
+        variant: "success"
+      })
       router.push("/admin/brands")
     }
   })
 
+  z.setErrorMap(zodI18nMap)
   const CreateBrandSchema = z.object({
     name: z.string(),
     slug: slugInputSchema
   })
   type CreateBrandType = TypeOf<typeof CreateBrandSchema>
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors, isSubmitting }
-  } = useForm<CreateBrandType>({
+  const form = useForm<CreateBrandType>({
     resolver: zodResolver(CreateBrandSchema),
     defaultValues: {}
   })
 
-  const name = watch("name")
+  const name = form.watch("name")
 
   function onSubmit(data: CreateBrandType) {
     const { name, slug } = data
@@ -61,8 +66,8 @@ const CreateBrand = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
           <h1 className="text-3xl font-black text-gray-800">
             {name
@@ -72,31 +77,42 @@ const CreateBrand = () => {
           <Button
             className="sticky top-0"
             type="submit"
-            loading={isSubmitting}
-            isDisabled={isSubmitting}
+            loading={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting}
           >
             {t("common:save_entity", { entity: t("common:brand") })}
           </Button>
         </div>
         <div className="flex flex-col gap-6">
-          <TextField
-            label={t("common:name")}
-            isDisabled={isSubmitting}
-            errorMessage={errors.name && errors.name.message}
-          >
-            <Input {...register("name")} />
-          </TextField>
-
-          <TextField
-            label={t("common:slug")}
-            isDisabled={isSubmitting}
-            errorMessage={errors.slug && errors.slug.message}
-          >
-            <Input {...register("slug")} />
-          </TextField>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:name")}</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="slug"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:slug")}</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
       </form>
-    </div>
+    </Form>
   )
 }
 

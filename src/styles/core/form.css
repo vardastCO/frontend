@@ -2,7 +2,11 @@
   @apply relative flex flex-col gap-1.5;
 }
 .form-label {
-  @apply inline-block text-sm font-medium text-gray-600;
+  @apply inline-block
+    text-sm
+    font-medium
+    text-gray-600
+    dark:text-gray-400;
 }
 .form-control {
 }

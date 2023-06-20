@@ -1,30 +1,32 @@
 "use client"
 
-import {
-  ContextValue,
-  Provider,
-  RenderProps,
-  SlotProps,
-  forwardRefType,
-  slotCallbackSymbol,
-  useContextProps,
-  useRenderProps,
-  useSlot
-} from "@core/utils/react-aria-utils"
-import { filterDOMProps, useResizeObserver } from "@react-aria/utils"
-import { IconSelector } from "@tabler/icons-react"
 import React, {
-  ForwardedRef,
   createContext,
+  ForwardedRef,
   forwardRef,
   useCallback,
   useMemo,
   useRef,
   useState
 } from "react"
+import { filterDOMProps, useResizeObserver } from "@react-aria/utils"
+import { IconSelector } from "@tabler/icons-react"
 import { AriaComboBoxProps, useComboBox, useFilter } from "react-aria"
 import { useComboBoxState } from "react-stately"
-import { Button } from "./Button"
+
+import {
+  ContextValue,
+  forwardRefType,
+  Provider,
+  RenderProps,
+  slotCallbackSymbol,
+  SlotProps,
+  useContextProps,
+  useRenderProps,
+  useSlot
+} from "@core/utils/react-aria-utils"
+import { Button } from "@core/components/ui/button"
+
 import { useCollection } from "./Collection"
 import { Input } from "./Input"
 import { Label } from "./Label"
@@ -147,7 +149,7 @@ function ComboBox<T extends object>(
         ref={inputRef}
         suffixElement={
           <Button
-            intent="ghost"
+            variant="ghost"
             size="large"
             className="p-0"
             {...buttonProps}
