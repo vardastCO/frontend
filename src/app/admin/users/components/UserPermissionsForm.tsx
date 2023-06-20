@@ -1,6 +1,9 @@
 "use client"
 
+import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
+import { useForm } from "react-hook-form"
+import { TypeOf, z } from "zod"
 
 import {
   Permission,
@@ -10,6 +13,15 @@ import {
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import zodI18nMap from "@core/utils/zodErrorMap"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@core/components/react-hook-form/form"
 import { Checkbox } from "@core/components/ui/checkbox"
 
 interface UserPermissionsFormType {
@@ -37,48 +49,137 @@ const UserPermissionsForm = ({
     },
     []
   )
+  z.setErrorMap(zodI18nMap)
+  const UserPermissionsSchema = z.object({
+    roles: z.array(z.string()),
+    permissions: z.array(z.string())
+  })
+  type UserPermissionsType = TypeOf<typeof UserPermissionsSchema>
+  const form = useForm<UserPermissionsType>({
+    resolver: zodResolver(UserPermissionsSchema),
+    defaultValues: {
+      roles: currentUserRoles,
+      permissions: currentUserPermissions
+    }
+  })
+  const onSubmit = () => {}
 
   return (
-    <div className="flex flex-col gap-8">
-      {roles && (
-        <div className="card flex items-start rounded p-4">
-          <div className="w-1/3">
-            <h2 className="font-medium text-gray-800">{t("common:roles")}</h2>
-          </div>
-          <div className="w-2/3">
-            {/* <CheckboxGroup name="roles" defaultValue={currentUserRoles}> */}
-            {roles.roles.map((role, idx) => (
-              <Checkbox key={idx} value={role.name}>
-                {role.displayName}
-              </Checkbox>
-            ))}
-            {/* </CheckboxGroup> */}
-          </div>
-        </div>
-      )}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+        <div className="flex flex-col gap-8">
+          {roles && (
+            <div className="card flex items-start rounded p-4">
+              <div className="w-1/3">
+                <h2 className="font-medium text-gray-800">
+                  {t("common:roles")}
+                </h2>
+              </div>
+              <div className="w-2/3">
+                <FormField
+                  control={form.control}
+                  name="roles"
+                  render={() => (
+                    <FormItem>
+                      {roles.roles.map((item) => (
+                        <FormField
+                          key={item.id}
+                          control={form.control}
+                          name="roles"
+                          render={({ field }) => {
+                            return (
+                              <FormItem
+                                key={item.id}
+                                className="checkbox-field"
+                              >
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.name)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([
+                                            ...field.value,
+                                            item.name
+                                          ])
+                                        : field.onChange(
+                                            field.value?.filter(
+                                              (value) => value !== item.name
+                                            )
+                                          )
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel>{item.displayName}</FormLabel>
+                              </FormItem>
+                            )
+                          }}
+                        />
+                      ))}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+          )}
 
-      {permissions && (
-        <div className="card flex items-start rounded p-4">
-          <div className="w-1/3">
-            <h2 className="font-medium text-gray-800">
-              {t("common:permissions")}
-            </h2>
-          </div>
-          <div className="w-2/3">
-            {/* <CheckboxGroup
-              name="permissions"
-              defaultValue={currentUserPermissions}
-            > */}
-            {permissions.permissions.map((permission, idx) => (
-              <Checkbox key={idx} value={permission.name}>
-                {permission.displayName}
-              </Checkbox>
-            ))}
-            {/* </CheckboxGroup> */}
-          </div>
+          {permissions && (
+            <div className="card flex items-start rounded p-4">
+              <div className="w-1/3">
+                <h2 className="font-medium text-gray-800">
+                  {t("common:permissions")}
+                </h2>
+              </div>
+              <div className="w-2/3">
+                <FormField
+                  control={form.control}
+                  name="permissions"
+                  render={() => (
+                    <FormItem>
+                      {permissions.permissions.map((item) => (
+                        <FormField
+                          key={item.id}
+                          control={form.control}
+                          name="permissions"
+                          render={({ field }) => {
+                            return (
+                              <FormItem
+                                key={item.id}
+                                className="checkbox-field"
+                              >
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.name)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([
+                                            ...field.value,
+                                            item.name
+                                          ])
+                                        : field.onChange(
+                                            field.value?.filter(
+                                              (value) => value !== item.name
+                                            )
+                                          )
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel>{item.displayName}</FormLabel>
+                              </FormItem>
+                            )
+                          }}
+                        />
+                      ))}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </form>
+    </Form>
   )
 }
 

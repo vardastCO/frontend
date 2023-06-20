@@ -1,15 +1,20 @@
 "use client"
 
 import { notFound } from "next/navigation"
-import { TabsTrigger } from "@radix-ui/react-tabs"
 import useTranslation from "next-translate/useTranslation"
+
 import { Permission, Role, useGetUserQuery, User } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import PageHeader from "@core/components/shared/PageHeader"
-import { Tabs, TabsContent, TabsList } from "@core/components/ui/tabs"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger
+} from "@core/components/ui/tabs"
 
 import UserEditForm from "./UserEditForm"
 import UserPermissionsForm from "./UserPermissionsForm"

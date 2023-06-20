@@ -2,7 +2,6 @@
 
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
-import { IconCheck } from "@tabler/icons-react"
 
 import { mergeClasses } from "@core/utils/mergeClasses"
 
@@ -12,16 +11,15 @@ const Checkbox = forwardRef<
 >(({ className, ...props }, ref) => (
   <CheckboxPrimitive.Root
     ref={ref}
-    className={mergeClasses(
-      "peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground",
-      className
-    )}
+    className={mergeClasses("checkbox-indicator", className)}
     {...props}
   >
     <CheckboxPrimitive.Indicator
-      className={mergeClasses("flex items-center justify-center text-current")}
+      className={mergeClasses("checkbox-indicator-inner")}
     >
-      <IconCheck className="h-4 w-4" />
+      <svg viewBox="0 0 18 18">
+        <polyline points="1 9 7 14 15 4" />
+      </svg>
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
 ))

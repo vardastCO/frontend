@@ -30,7 +30,12 @@
 }
 
 .tab {
-  @apply relative cursor-default p-3 text-gray-700 outline-none transition;
+  @apply relative
+    cursor-default
+    p-3
+    text-gray-700
+    outline-none
+    transition;
 
   &[data-hovered],
   &:focus {
