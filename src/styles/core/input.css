@@ -94,7 +94,7 @@ input {
         items-center
         justify-center
         whitespace-nowrap
-        p-2
+        p-3
         text-gray-400
         dark:text-gray-500;
 
@@ -118,13 +118,13 @@ input {
 
   &:has(.input-element ~ .input-field) {
     & .input-field {
-      @apply ps-12;
+      @apply ps-[2.25em];
     }
   }
 
   &:has(.input-field + .input-element) {
     & .input-field {
-      @apply pe-12;
+      @apply pe-[2.25em];
     }
   }
 }

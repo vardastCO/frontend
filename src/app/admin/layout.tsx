@@ -106,23 +106,27 @@ export default function AdminLayout({
                   <Breadcrumb />
                 </div>
                 <form autoComplete="off" action="" className="mr-auto">
-                  <div className="input-inset">
-                    <div className="input-element">
-                      <IconSearch className="h-4 w-4 text-gray-400" />
-                    </div>
-                    <input
-                      type="text"
-                      className="input-field"
-                      placeholder="جستجو..."
-                      autoComplete="off"
-                      name="search"
-                      tabIndex={-1}
-                      role="presentation"
-                    />
-                    <div className="input-element" dir="ltr">
-                      <span className="font-sans text-sm text-gray-500">
-                        ⌘K
-                      </span>
+                  <div className="form-control form-control-sm">
+                    <div className="input-group">
+                      <div className="input-inset">
+                        <div className="input-element">
+                          <IconSearch />
+                        </div>
+                        <input
+                          type="text"
+                          className="input-field"
+                          placeholder="جستجو..."
+                          autoComplete="off"
+                          name="search"
+                          tabIndex={-1}
+                          role="presentation"
+                        />
+                        <div className="input-element" dir="ltr">
+                          <span className="font-sans text-sm text-gray-400">
+                            ⌘K
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </form>
