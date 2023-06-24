@@ -1,9 +1,13 @@
 query GetAttribute($id: Int!, $slug: String) {
-  attribute(id: $id, slug: $slug) {
+  attribute(id: 1, slug: null) {
     id
     name
     slug
-    values
+    values {
+      options
+      defaults
+      default
+    }
     type
     createdAt
     updatedAt

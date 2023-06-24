@@ -3,7 +3,11 @@ mutation RemoveAttributeMutation($id: Int!) {
     id
     name
     slug
-    values
+    values {
+      options
+      defaults
+      default
+    }
     type
     createdAt
     updatedAt
