@@ -3,7 +3,11 @@ mutation UpdateAttributeMutation($updateAttributeInput: UpdateAttributeInput!) {
     id
     name
     slug
-    values
+    values {
+      default
+      defaults
+      options
+    }
     type
     createdAt
     updatedAt
