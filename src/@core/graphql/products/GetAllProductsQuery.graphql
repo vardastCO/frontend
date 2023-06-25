@@ -1,0 +1,46 @@
+query GetAllProducts {
+  products {
+    id
+    slug
+    name
+    sku
+    isActive
+    createdAt
+    updatedAt
+    category {
+      id
+      title
+      titleEn
+      slug
+    }
+    createdBy {
+      id
+      uuid
+      fullName
+    }
+    images {
+      id
+      sort
+      isPublic
+      file {
+        id
+        uuid
+        modelType
+        modelId
+        name
+        originalName
+        size
+        mimeType
+        disk
+        bucketName
+        orderColumn
+        createdAt
+        updatedAt
+        presignedUrl {
+          url
+          expiresAt
+        }
+      }
+    }
+  }
+}

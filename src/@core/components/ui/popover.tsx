@@ -18,7 +18,7 @@ const PopoverContent = forwardRef<
       ref={ref}
       align={align}
       sideOffset={sideOffset}
-      className={mergeClasses("combobox-list-container", className)}
+      className={mergeClasses("", className)}
       {...props}
     />
   </PopoverPrimitive.Portal>

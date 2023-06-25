@@ -8,6 +8,7 @@ import { ClientError } from "graphql-request"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
+
 import { useCreateCategoryMutation, useGetVocabularyQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
@@ -179,7 +180,7 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                             <Button
                               noStyle
                               role="combobox"
-                              className="input-field text-start flex items-center"
+                              className="input-field flex items-center text-start"
                             >
                               {field.value
                                 ? data?.vocabulary.categories.find(
@@ -191,7 +192,7 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent className="p-0">
+                        <PopoverContent>
                           <Command>
                             <CommandInput placeholder="Search framework..." />
                             <CommandEmpty>No framework found.</CommandEmpty>

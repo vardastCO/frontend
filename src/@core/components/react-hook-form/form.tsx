@@ -167,6 +167,7 @@ const FormControl = forwardRef<
       rounded,
       plaintext,
       className,
+      dir,
       ...props
     },
     ref
@@ -180,6 +181,7 @@ const FormControl = forwardRef<
           formControlVariants({ size, rounded, plaintext }),
           className
         )}
+        dir={dir}
       >
         <div className="input-group">
           {prefixAddon && <div className="input-addon">{prefixAddon}</div>}
