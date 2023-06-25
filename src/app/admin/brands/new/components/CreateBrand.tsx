@@ -9,7 +9,6 @@ import { TypeOf, z } from "zod"
 import { useCreateBrandMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { socialNetworks } from "@core/utils/socialNetworks"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import { slugInputSchema } from "@core/utils/zodValidationSchemas"
 import {
@@ -32,6 +31,7 @@ import {
 } from "@core/components/ui/select"
 import { Textarea } from "@core/components/ui/textarea"
 import { useToast } from "@core/hooks/use-toast"
+import { socialNetworks } from "@core/lib/socialNetworks"
 
 const CreateBrand = () => {
   const { t } = useTranslation()

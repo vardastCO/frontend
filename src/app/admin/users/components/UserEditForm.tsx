@@ -161,7 +161,7 @@ const UserEditForm = ({ user }: Props) => {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="p-0">
+                      <PopoverContent>
                         <Command>
                           <CommandInput placeholder="Search framework..." />
                           <CommandEmpty>No framework found.</CommandEmpty>
@@ -216,7 +216,7 @@ const UserEditForm = ({ user }: Props) => {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="p-0">
+                      <PopoverContent>
                         <Command>
                           <CommandInput placeholder="Search framework..." />
                           <CommandEmpty>No framework found.</CommandEmpty>

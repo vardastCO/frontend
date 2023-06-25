@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   IconCheck,
@@ -13,12 +14,13 @@ import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
-import { useGetVocabularyQuery } from "@/generated"
+import { useCreateProductMutation, useGetVocabularyQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { mergeClasses } from "@core/utils/mergeClasses"
+import zodI18nMap from "@core/utils/zodErrorMap"
 import { slugInputSchema } from "@core/utils/zodValidationSchemas"
-import Dropzone from "@core/components/Dropzone"
+import Dropzone, { FilesWithPreview } from "@core/components/Dropzone"
 import {
   Form,
   FormControl,
@@ -43,17 +45,27 @@ import {
 } from "@core/components/ui/popover"
 import { RadioGroup, RadioGroupItem } from "@core/components/ui/radio-group"
 import { Switch } from "@core/components/ui/switch"
+import { uploadPaths } from "@core/lib/uploadPaths"
 
 const ProductForm = () => {
   const { t } = useTranslation()
+  const [images, setImages] = useState<FilesWithPreview[]>([])
+
+  const createProductMutation = useCreateProductMutation(graphqlRequestClient)
+
+  z.setErrorMap(zodI18nMap)
   const CreateProductSchema = z.object({
-    productName: z.string(),
-    productType: z.string(),
+    name: z.string(),
+    slug: slugInputSchema,
+    sku: z.string(),
+    type: z.string(),
     isActive: z.boolean(),
+    category: z.string(),
     categoryId: z.number(),
+    brandId: z.number(),
+    uomId: z.number(),
     pageTitle: z.string(),
-    metaDescription: z.string(),
-    slug: slugInputSchema
+    metaDescription: z.string()
   })
   type CreateProductType = TypeOf<typeof CreateProductSchema>
   const { data } = useGetVocabularyQuery(graphqlRequestClient, {
@@ -63,14 +75,27 @@ const ProductForm = () => {
   const form = useForm<CreateProductType>({
     resolver: zodResolver(CreateProductSchema),
     defaultValues: {
-      productType: "physical",
+      type: "physical",
       isActive: true
     }
   })
 
-  const productName = form.watch("productName")
+  const name = form.watch("name")
 
-  const onSubmit = () => {}
+  const onSubmit = (data: CreateProductType) => {
+    const { name, slug, sku, type, categoryId, brandId, uomId, isActive } = data
+
+    createProductMutation.mutate({
+      createProductInput: {
+        name,
+        slug,
+        sku,
+        categoryId,
+        brandId,
+        uomId
+      }
+    })
+  }
 
   return (
     <Form {...form}>
@@ -78,7 +103,7 @@ const ProductForm = () => {
         <div className="create-product">
           <div className="mb-6 mt-8 flex items-end justify-between">
             <h1 className="text-3xl font-black text-gray-800">
-              {productName ? productName : t("common:new_product")}
+              {name ? name : t("common:new_product")}
             </h1>
             <Button type="submit" className="sticky top-0">
               {t("common:save_entity", { entity: t("common:product") })}
@@ -88,7 +113,7 @@ const ProductForm = () => {
             <div className="flex flex-col gap-6">
               <FormField
                 control={form.control}
-                name="productName"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("common:product_name")}</FormLabel>
@@ -102,9 +127,27 @@ const ProductForm = () => {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
-                name="productType"
+                name="sku"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("common:product_sku")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder={t("common:enter_product_sku")}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="type"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("common:product_type")}</FormLabel>
@@ -204,6 +247,7 @@ const ProductForm = () => {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="isActive"
@@ -222,10 +266,10 @@ const ProductForm = () => {
                   </FormItem>
                 )}
               />
-              {/* TODO: Categories */}
+
               <FormField
                 control={form.control}
-                name="categoryId"
+                name="category"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("common:category")}</FormLabel>
@@ -240,7 +284,8 @@ const ProductForm = () => {
                             {field.value
                               ? data?.vocabulary.categories.find(
                                   (category) =>
-                                    category && category.id === field.value
+                                    category &&
+                                    category.title.toLowerCase() === field.value
                                 )?.title
                               : t("common:choose_entity", {
                                   entity: t("common:category")
@@ -249,7 +294,7 @@ const ProductForm = () => {
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="p-0">
+                      <PopoverContent>
                         <Command>
                           <CommandInput
                             placeholder={t("common:search_entity", {
@@ -261,7 +306,7 @@ const ProductForm = () => {
                               entity: t("common:category")
                             })}
                           </CommandEmpty>
-                          <CommandGroup className="max-h-[150px] overflow-auto">
+                          <CommandGroup>
                             {data?.vocabulary.categories.map(
                               (category) =>
                                 category && (
@@ -269,13 +314,22 @@ const ProductForm = () => {
                                     value={category.title}
                                     key={category.id}
                                     onSelect={(value) => {
-                                      form.setValue("categoryId", +value)
+                                      form.setValue("category", value)
+                                      form.setValue(
+                                        "categoryId",
+                                        data?.vocabulary.categories.find(
+                                          (item) =>
+                                            item &&
+                                            item.title.toLowerCase() === value
+                                        )?.id || 0
+                                      )
                                     }}
                                   >
                                     <IconCheck
                                       className={mergeClasses(
                                         "mr-2 h-4 w-4",
-                                        category.id === field.value
+                                        category.title.toLowerCase() ===
+                                          field.value
                                           ? "opacity-100"
                                           : "opacity-0"
                                       )}
@@ -292,8 +346,18 @@ const ProductForm = () => {
                   </FormItem>
                 )}
               />
-              {/* TODO: images */}
-              <Dropzone />
+
+              <Dropzone
+                uploadPath={uploadPaths.productImages}
+                onAddition={(file) => {
+                  setImages((prevImages) => [...prevImages, file])
+                }}
+                onDelete={(file) => {
+                  setImages((images) =>
+                    images.filter((image) => image.name !== file.name)
+                  )
+                }}
+              />
             </div>
             <div>
               <h2 className="section-title">

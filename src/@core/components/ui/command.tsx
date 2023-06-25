@@ -17,14 +17,13 @@ const Command = forwardRef<
   ElementRef<typeof CommandPrimitive>,
   ComponentPropsWithoutRef<typeof CommandPrimitive>
 >(({ className, ...props }, ref) => (
-  <CommandPrimitive
-    ref={ref}
-    className={mergeClasses(
-      "flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground",
-      className
-    )}
-    {...props}
-  />
+  <div className="combobox-list-container">
+    <CommandPrimitive
+      ref={ref}
+      className={mergeClasses("combobox-popover", className)}
+      {...props}
+    />
+  </div>
 ))
 Command.displayName = CommandPrimitive.displayName
 
@@ -33,10 +32,8 @@ interface CommandDialogProps extends DialogProps {}
 const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   return (
     <Dialog {...props}>
-      <DialogContent className="overflow-hidden p-0 shadow-2xl">
-        <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
-          {children}
-        </Command>
+      <DialogContent className="combobox-dialog">
+        <Command className="combobox-command">{children}</Command>
       </DialogContent>
     </Dialog>
   )
@@ -46,14 +43,11 @@ const CommandInput = forwardRef<
   ElementRef<typeof CommandPrimitive.Input>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
-  <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
-    <IconSearch className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+  <div className="combobox-search" cmdk-input-wrapper="">
+    <IconSearch className="combobox-search-icon" />
     <CommandPrimitive.Input
       ref={ref}
-      className={mergeClasses(
-        "flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
-        className
-      )}
+      className={mergeClasses("combobox-search-input", className)}
       {...props}
     />
   </div>
@@ -67,10 +61,7 @@ const CommandList = forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.List
     ref={ref}
-    className={mergeClasses(
-      "max-h-[300px] overflow-y-auto overflow-x-hidden",
-      className
-    )}
+    className={mergeClasses("combobox-list", className)}
     {...props}
   />
 ))
@@ -81,11 +72,7 @@ const CommandEmpty = forwardRef<
   ElementRef<typeof CommandPrimitive.Empty>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
 >((props, ref) => (
-  <CommandPrimitive.Empty
-    ref={ref}
-    className="py-6 text-center text-sm"
-    {...props}
-  />
+  <CommandPrimitive.Empty ref={ref} className="combobox-empty" {...props} />
 ))
 
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName
@@ -96,10 +83,7 @@ const CommandGroup = forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.Group
     ref={ref}
-    className={mergeClasses(
-      "overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground",
-      className
-    )}
+    className={mergeClasses("combobox-group", className)}
     {...props}
   />
 ))
@@ -112,7 +96,7 @@ const CommandSeparator = forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.Separator
     ref={ref}
-    className={mergeClasses("-mx-1 h-px bg-border", className)}
+    className={mergeClasses("combobox-separator", className)}
     {...props}
   />
 ))
@@ -124,10 +108,7 @@ const CommandItem = forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.Item
     ref={ref}
-    className={mergeClasses(
-      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className
-    )}
+    className={mergeClasses("combobox-list-item", className)}
     {...props}
   />
 ))
@@ -139,13 +120,7 @@ const CommandShortcut = ({
   ...props
 }: HTMLAttributes<HTMLSpanElement>) => {
   return (
-    <span
-      className={mergeClasses(
-        "ml-auto text-xs tracking-widest text-muted-foreground",
-        className
-      )}
-      {...props}
-    />
+    <span className={mergeClasses("combobox-shortcut", className)} {...props} />
   )
 }
 CommandShortcut.displayName = "CommandShortcut"
