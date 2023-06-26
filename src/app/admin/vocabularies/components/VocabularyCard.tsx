@@ -52,7 +52,7 @@ const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
       </div>
       <div className="mr-auto flex items-center gap-2">
         <DropdownMenu>
-          <DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild>
             <Button variant="ghost" iconOnly>
               <IconDots className="icon" />
             </Button>

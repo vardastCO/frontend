@@ -105,7 +105,7 @@ const ProvinceCard = ({ show, countrySlug, province }: ProvinceCardProps) => {
           </>
         </Label>
         <DropdownMenu>
-          <DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild>
             <Button variant="ghost" iconOnly>
               <IconDots className="icon" />
             </Button>

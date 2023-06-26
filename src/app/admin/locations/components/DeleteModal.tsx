@@ -1,6 +1,7 @@
 "use client"
 
 import { useContext } from "react"
+import { IconAlertOctagon } from "@tabler/icons-react"
 import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request/build/esm/types"
 import { useAtom, useSetAtom } from "jotai"
@@ -14,14 +15,14 @@ import {
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Button } from "@core/components/ui/button"
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle
-} from "@core/components/ui/dialog"
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
+} from "@core/components/ui/alert-dialog"
+import { Button } from "@core/components/ui/button"
 import { useToast } from "@core/hooks/use-toast"
 
 import { LocationsContext } from "./LocationsProvider"
@@ -125,41 +126,50 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
     removeAreaMutation.isLoading
 
   return (
-    <Dialog open={isOpen} onOpenChange={onChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t("common:warning")}</DialogTitle>
-        </DialogHeader>
-        <p className="leading-loose">
-          {t(
-            "common:are_you_sure_you_want_to_delete_x_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
-            {
-              entity: `${t(`common:${entityType}`)}`,
-              name: entityToRemove.entity?.name
-            }
-          )}
-        </p>
-        <DialogFooter>
-          <div className="mt-8 flex items-center justify-end gap-2">
-            <Button
-              variant="ghost"
-              onClick={() => setRemoveState(false)}
-              disabled={isLoading}
-            >
-              {t("common:cancel")}
-            </Button>
-            <Button
-              variant="danger"
-              onClick={() => removeLocation()}
-              disabled={isLoading}
-              loading={isLoading}
-            >
-              {t("common:delete")}
-            </Button>
+    <AlertDialog open={isOpen} onOpenChange={onChange}>
+      <AlertDialogContent>
+        <div className="flex">
+          <div className="me-6 flex-1 shrink-0">
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600 dark:bg-red-800/20">
+              <IconAlertOctagon className="h-6 w-6" />
+            </span>
           </div>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          <div>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{t("common:warning")}</AlertDialogTitle>
+            </AlertDialogHeader>
+            <p className="py-4 leading-loose">
+              {t(
+                "common:are_you_sure_you_want_to_delete_x_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
+                {
+                  entity: `${t(`common:${entityType}`)}`,
+                  name: entityToRemove.entity?.name
+                }
+              )}
+            </p>
+            <AlertDialogFooter>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  onClick={() => setRemoveState(false)}
+                  disabled={isLoading}
+                >
+                  {t("common:cancel")}
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => removeLocation()}
+                  disabled={isLoading}
+                  loading={isLoading}
+                >
+                  {t("common:delete")}
+                </Button>
+              </div>
+            </AlertDialogFooter>
+          </div>
+        </div>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }
 

@@ -109,7 +109,7 @@ const CityCard = ({
           </>
         </Label>
         <DropdownMenu>
-          <DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild>
             <Button variant="ghost" iconOnly>
               <IconDots className="icon" />
             </Button>

@@ -24,7 +24,7 @@ const FiltersBar = (props: Props) => {
     <div className="mb-6 flex items-center">
       <div className="mr-auto">
         <DropdownMenu>
-          <DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild>
             <Button variant="secondary">
               <IconFilter className="icon" />
               <span>{t("common:filters")}</span>
