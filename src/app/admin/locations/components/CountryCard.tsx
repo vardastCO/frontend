@@ -107,7 +107,7 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
           </>
         </Label>
         <DropdownMenu>
-          <DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild>
             <Button variant="ghost" iconOnly>
               <IconDots className="icon" />
             </Button>
