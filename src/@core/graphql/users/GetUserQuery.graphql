@@ -32,6 +32,7 @@ query GetUser($id: Int, $uuid: String) {
       id
       name
       nameEn
+      slug
     }
     roles {
       id

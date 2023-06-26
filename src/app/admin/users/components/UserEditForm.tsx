@@ -10,6 +10,7 @@ import { useGetAllCountriesQuery, User } from "@/generated"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { mergeClasses } from "@core/utils/mergeClasses"
 import { timezones } from "@core/utils/timezones"
+import zodI18nMap from "@core/utils/zodErrorMap"
 import {
   Form,
   FormControl,
@@ -49,17 +50,34 @@ const UserEditForm = ({ user }: Props) => {
     data: countries
   } = useGetAllCountriesQuery(graphqlRequestClient)
 
-  const UserEditFormSchema = z.object({
-    firstName: z.string(),
-    lastName: z.string(),
-    email: z.string().email().optional(),
-    cellphone: z.string().optional(),
-    country: z.string(),
-    timezone: z.string(),
-    newPassword: z.string(),
-    repeatPassword: z.string(),
-    currentPassword: z.string()
-  })
+  z.setErrorMap(zodI18nMap)
+  const UserEditFormSchema = z
+    .object({
+      firstName: z.string(),
+      lastName: z.string(),
+      email: z.string().email().optional().or(z.literal("")),
+      cellphone: z.string().optional(),
+      country: z.string(),
+      timezone: z.string(),
+      newPassword: z.string().optional(),
+      repeatPassword: z.string().optional(),
+      currentPassword: z.string().optional()
+    })
+    .refine((schema) => (schema.newPassword ? !!schema.repeatPassword : true), {
+      path: ["repeatPassword"],
+      message: t("zod:errors.invalid_type_received_undefined")
+    })
+    .refine(
+      (schema) => (schema.newPassword ? !!schema.currentPassword : true),
+      {
+        path: ["currentPassword"],
+        message: t("zod:errors.invalid_type_received_undefined")
+      }
+    )
+    .refine((schema) => schema.newPassword === schema.repeatPassword, {
+      path: ["repeatPassword"],
+      message: t("zod:errors.invalid_type_received_undefined")
+    })
   type UserEditForm = TypeOf<typeof UserEditFormSchema>
 
   const form = useForm<UserEditForm>({
@@ -67,10 +85,10 @@ const UserEditForm = ({ user }: Props) => {
     defaultValues: {
       firstName: user.firstName,
       lastName: user.lastName,
-      email: user.email as string,
+      email: user.email || "",
       cellphone: user.cellphone as string,
       country: user.country.slug,
-      timezone: user.timezone
+      timezone: user.timezone.toLowerCase()
     }
   })
 
@@ -156,16 +174,26 @@ const UserEditForm = ({ user }: Props) => {
                               ? countries?.countries.find(
                                   (country) => country.slug === field.value
                                 )?.name
-                              : "Select language"}
+                              : t("common:choose_entity", {
+                                  entity: t("common:country")
+                                })}
                             <IconSelector className="ms-auto h-4 w-4 shrink-0" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
                       <PopoverContent>
                         <Command>
-                          <CommandInput placeholder="Search framework..." />
-                          <CommandEmpty>No framework found.</CommandEmpty>
-                          <CommandGroup className="max-h-[100px] overflow-auto">
+                          <CommandInput
+                            placeholder={t("common:search_entity", {
+                              entity: t("common:country")
+                            })}
+                          />
+                          <CommandEmpty>
+                            {t("common:no_entity_found", {
+                              entity: t("common:country")
+                            })}
+                          </CommandEmpty>
+                          <CommandGroup>
                             {countries?.countries.map((country) => (
                               <CommandItem
                                 value={country.slug}
@@ -209,17 +237,28 @@ const UserEditForm = ({ user }: Props) => {
                           >
                             {field.value
                               ? timezones.find(
-                                  (timezon) => timezon.title === field.value
+                                  (timezon) =>
+                                    timezon.title.toLowerCase() === field.value
                                 )?.title
-                              : "Select language"}
+                              : t("common:choose_entity", {
+                                  entity: t("common:timezone")
+                                })}
                             <IconSelector className="ms-auto h-4 w-4 shrink-0" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
                       <PopoverContent>
                         <Command>
-                          <CommandInput placeholder="Search framework..." />
-                          <CommandEmpty>No framework found.</CommandEmpty>
+                          <CommandInput
+                            placeholder={t("common:search_entity", {
+                              entity: t("common:timezone")
+                            })}
+                          />
+                          <CommandEmpty>
+                            {t("common:no_entity_found", {
+                              entity: t("common:timezone")
+                            })}
+                          </CommandEmpty>
                           <CommandGroup>
                             {timezones.map((timezone) => (
                               <CommandItem
@@ -232,7 +271,7 @@ const UserEditForm = ({ user }: Props) => {
                                 <IconCheck
                                   className={mergeClasses(
                                     "mr-2 h-4 w-4",
-                                    timezone.title === field.value
+                                    timezone.title.toLowerCase() === field.value
                                       ? "opacity-100"
                                       : "opacity-0"
                                   )}

@@ -2,6 +2,11 @@ import { z } from "zod";
 import { persianCharactersValidator } from "./persianCharactersValidator";
 import { slugValidator } from "./slugValidator";
 
+export const optionalTextInputSchema = (schema: z.ZodString) =>
+    z
+        .union([z.string(), z.undefined()])
+        .refine((val) => !val || schema.safeParse(val).success);
+
 const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()]);
 type Literal = z.infer<typeof literalSchema>;
 type Json = Literal | { [key: string]: Json } | Json[];

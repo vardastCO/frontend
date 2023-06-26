@@ -16,7 +16,7 @@
         "not_finite": "Number must be finite",
         "invalid_chars_just_persian_allowed": "مقدار فیلد باید فارسی باشد",
         "invalid_string": {
-            "email": "Invalid {{validation}}",
+            "email": "آدرس ایمیل معتبر نیست",
             "url": "Invalid {{validation}}",
             "uuid": "Invalid {{validation}}",
             "cuid": "Invalid {{validation}}",
