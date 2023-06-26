@@ -32,6 +32,7 @@ module.exports = {
       addBase({
         html: { fontSize: "14px" }
       })
-    })
+    }),
+    require("tailwindcss-animate")
   ]
 }
