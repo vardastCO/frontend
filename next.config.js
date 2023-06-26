@@ -9,15 +9,6 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const nextConfig = {
   experimental: { appDir: true },
   reactStrictMode: true,
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/admin",
-        permanent: true
-      }
-    ]
-  },
   images: {
     dangerouslyAllowSVG: true,
     domains: ["api.dicebear.com"]

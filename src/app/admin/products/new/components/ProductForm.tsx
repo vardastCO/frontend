@@ -14,7 +14,11 @@ import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
-import { useCreateProductMutation, useGetVocabularyQuery } from "@/generated"
+import {
+  ProductTypesEnum,
+  useCreateProductMutation,
+  useGetVocabularyQuery
+} from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { mergeClasses } from "@core/utils/mergeClasses"
@@ -88,6 +92,7 @@ const ProductForm = () => {
     createProductMutation.mutate({
       createProductInput: {
         name,
+        type: ProductTypesEnum.Physical,
         slug,
         sku,
         categoryId,
