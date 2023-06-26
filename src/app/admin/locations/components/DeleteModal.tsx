@@ -134,38 +134,39 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
               <IconAlertOctagon className="h-6 w-6" />
             </span>
           </div>
-          <div></div>
-          <AlertDialogHeader>
-            <AlertDialogTitle>{t("common:warning")}</AlertDialogTitle>
-          </AlertDialogHeader>
-          <p className="leading-loose">
-            {t(
-              "common:are_you_sure_you_want_to_delete_x_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
-              {
-                entity: `${t(`common:${entityType}`)}`,
-                name: entityToRemove.entity?.name
-              }
-            )}
-          </p>
-          <AlertDialogFooter>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                onClick={() => setRemoveState(false)}
-                disabled={isLoading}
-              >
-                {t("common:cancel")}
-              </Button>
-              <Button
-                variant="danger"
-                onClick={() => removeLocation()}
-                disabled={isLoading}
-                loading={isLoading}
-              >
-                {t("common:delete")}
-              </Button>
-            </div>
-          </AlertDialogFooter>
+          <div>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{t("common:warning")}</AlertDialogTitle>
+            </AlertDialogHeader>
+            <p className="py-4 leading-loose">
+              {t(
+                "common:are_you_sure_you_want_to_delete_x_entity_this_action_cannot_be_undone_and_all_associated_data_will_be_permanently_removed",
+                {
+                  entity: `${t(`common:${entityType}`)}`,
+                  name: entityToRemove.entity?.name
+                }
+              )}
+            </p>
+            <AlertDialogFooter>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  onClick={() => setRemoveState(false)}
+                  disabled={isLoading}
+                >
+                  {t("common:cancel")}
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => removeLocation()}
+                  disabled={isLoading}
+                  loading={isLoading}
+                >
+                  {t("common:delete")}
+                </Button>
+              </div>
+            </AlertDialogFooter>
+          </div>
         </div>
       </AlertDialogContent>
     </AlertDialog>
