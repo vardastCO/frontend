@@ -1,30 +1,24 @@
-import { Metadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
 
 import getQueryClient from "@core/clients/getQueryClient"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
-import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
+import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
 
-import CategoryFilter from "./components/category-filter"
-import ProductCount from "./components/product-count"
-import ProductList from "./components/product-list"
-import ProductSort from "./components/product-sort"
+import CategoryFilter from "../../components/category-filter"
+import ProductCount from "../../components/product-count"
+import ProductList from "../../components/product-list"
+import ProductSort from "../../components/product-sort"
 
-export const metadata: Metadata = {
-  title: "وردست - بازار آنلاین مصالح ساختمای",
-  description: "وردست - بازار آنلاین مصالح ساختمانی"
-}
-
-const Index = async () => {
+const Search = async ({ params: { slug } }: { params: { slug: string } }) => {
   const queryClient = getQueryClient()
-  await queryClient.prefetchQuery(["vocabulary"], getVocabularyQueryFn)
+  await queryClient.prefetchQuery(["category"], () => getCategoryQueryFn(slug))
   const dehydratedState = dehydrate(queryClient)
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
       <div className="grid grid-cols-[3fr_9fr] gap-5">
         <div>
-          <CategoryFilter />
+          <CategoryFilter selectedCategory="slug" />
         </div>
         <div>
           <div className="flex items-center border-b border-gray-200 py-3">
@@ -40,4 +34,4 @@ const Index = async () => {
   )
 }
 
-export default Index
+export default Search
