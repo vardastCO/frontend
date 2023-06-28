@@ -25,7 +25,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         xl:[&:nth-of-type(3n)]:border-l
         xl:[&:nth-of-type(4n)]:border-l-0"
     >
-      <Link href="#" className="flex h-full w-full py-2 lg:px-4">
+      <Link href="/p/123" className="flex h-full w-full py-2 lg:px-4">
         <div className="flex flex-1 flex-row lg:flex-col">
           <div className="relative w-32 flex-shrink-0 align-middle lg:h-48 lg:w-full">
             <Image
