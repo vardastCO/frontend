@@ -1,14 +1,4 @@
 import { Metadata } from "next"
-import { dehydrate } from "@tanstack/react-query"
-
-import getQueryClient from "@core/clients/getQueryClient"
-import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
-import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
-
-import CategoryFilter from "./components/category-filter"
-import ProductCount from "./components/product-count"
-import ProductList from "./components/product-list"
-import ProductSort from "./components/product-sort"
 
 export const metadata: Metadata = {
   title: "وردست - بازار آنلاین مصالح ساختمای",
@@ -16,28 +6,7 @@ export const metadata: Metadata = {
 }
 
 const Index = async () => {
-  const queryClient = getQueryClient()
-  await queryClient.prefetchQuery(["vocabulary"], getVocabularyQueryFn)
-  const dehydratedState = dehydrate(queryClient)
-
-  return (
-    <ReactQueryHydrate state={dehydratedState}>
-      <div className="grid grid-cols-[3fr_9fr] gap-5">
-        <div>
-          <CategoryFilter />
-        </div>
-        <div>
-          <div className="flex items-center border-b border-gray-200 py-3">
-            <ProductSort />
-            <ProductCount />
-          </div>
-          <div>
-            <ProductList />
-          </div>
-        </div>
-      </div>
-    </ReactQueryHydrate>
-  )
+  return <div>home</div>
 }
 
 export default Index

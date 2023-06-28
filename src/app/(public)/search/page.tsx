@@ -16,8 +16,8 @@ const Search = async () => {
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <div className="grid grid-cols-[3fr_9fr] gap-5">
-        <div>
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]">
+        <div className="hidden md:block">
           <VocabularyFilter />
         </div>
         <div>

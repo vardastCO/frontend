@@ -8,7 +8,7 @@ const Search = (props: Props) => {
       <IconSearch className="h-6 w-6 text-gray-300" />
       <input
         type="text"
-        className="flex-1 border-none bg-transparent text-lg focus:outline-none focus-visible:outline-none"
+        className="w-full flex-1 border-none bg-transparent focus:outline-none focus-visible:outline-none lg:text-lg"
         placeholder="جستجو در وردست..."
       />
     </div>
