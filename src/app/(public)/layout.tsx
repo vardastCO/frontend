@@ -1,8 +1,6 @@
-import "@/styles/globals.css"
-
 import Header from "./components/header"
 
-export default function RootLayout({
+export default function PublicLayout({
   children
 }: {
   children: React.ReactNode

@@ -22,5 +22,17 @@ query GetCategory($id: Int, $slug: String) {
       updatedAt
       childrenCount
     }
+    parentCategory {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
+    }
   }
 }

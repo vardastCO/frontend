@@ -9,7 +9,7 @@ import RadixDirectionProvider from "@core/providers/RadixDirectionProvider"
 import ReactQueryProvider from "@core/providers/ReactQueryProvider"
 import { Toaster } from "@core/providers/ToasterProvider"
 
-export default function RootLayout({
+export default function AdminLayout({
   children
 }: {
   children: React.ReactNode

@@ -25,24 +25,25 @@ const ProductCard = ({ product }: ProductCardProps) => {
         xl:[&:nth-of-type(3n)]:border-l
         xl:[&:nth-of-type(4n)]:border-l-0"
     >
-      <Link href="#" className="flex h-full w-full px-4 py-2">
-        <div className="flex flex-1 sm:flex-row lg:flex-col">
-          <div className="relative align-middle sm:w-32 lg:h-48 lg:w-full">
+      <Link href="#" className="flex h-full w-full py-2 lg:px-4">
+        <div className="flex flex-1 flex-row lg:flex-col">
+          <div className="relative w-32 flex-shrink-0 align-middle lg:h-48 lg:w-full">
             <Image
               src={`/images/products/${product.image}`}
               alt={product.title}
               fill
+              sizes="(max-width: 640px) 33vw, 10vw"
               className="object-contain"
               loading="lazy"
             />
           </div>
           <div className="flex flex-1 flex-col">
-            <div
+            <h2
               title={product.title}
               className="mb-6 mt-4 line-clamp-2 h-12 text-gray-800"
             >
               {product.title}
-            </div>
+            </h2>
             <div className="flex flex-col items-stretch justify-between text-gray-800">
               <div className="flex items-start gap-2">
                 {hasDiscount && (
