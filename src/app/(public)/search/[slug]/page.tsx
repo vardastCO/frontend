@@ -18,7 +18,7 @@ const Search = async ({ params: { slug } }: { params: { slug: string } }) => {
     <ReactQueryHydrate state={dehydratedState}>
       <div className="grid grid-cols-[3fr_9fr] gap-5">
         <div>
-          <CategoryFilter selectedCategory="slug" />
+          <CategoryFilter selectedCategory={slug} />
         </div>
         <div>
           <div className="flex items-center border-b border-gray-200 py-3">

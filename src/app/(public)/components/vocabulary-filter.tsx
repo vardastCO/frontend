@@ -16,15 +16,14 @@ const VocabularyFilter = () => {
 
   return (
     <div>
-      <div className="font-bold text-gray-800">دسته‌بندی</div>
+      <div className="mb-4 font-bold text-gray-800">دسته‌بندی</div>
       {data && (
         <div className="max-h-[400px] overflow-y-auto">
           <ol className="flex flex-col gap-2">
             {data.vocabulary.categories.map((category) => (
-              <CategoryFilterItem
-                category={category as Category}
-                key={category?.id}
-              />
+              <li key={category?.id}>
+                <CategoryFilterItem category={category as Category} />
+              </li>
             ))}
           </ol>
         </div>
