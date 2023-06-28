@@ -1,24 +1,36 @@
+import { dehydrate } from "@tanstack/react-query"
+
+import getQueryClient from "@core/clients/getQueryClient"
+import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
+import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
+
 import ProductCount from "../components/product-count"
 import ProductList from "../components/product-list"
 import ProductSort from "../components/product-sort"
 import VocabularyFilter from "../components/vocabulary-filter"
 
-const Search = () => {
+const Search = async () => {
+  const queryClient = getQueryClient()
+  await queryClient.prefetchQuery(["vocabulary"], getVocabularyQueryFn)
+  const dehydratedState = dehydrate(queryClient)
+
   return (
-    <div className="grid grid-cols-[3fr_9fr] gap-5">
-      <div>
-        <VocabularyFilter />
-      </div>
-      <div>
-        <div className="flex items-center border-b border-gray-200 py-3">
-          <ProductSort />
-          <ProductCount />
+    <ReactQueryHydrate state={dehydratedState}>
+      <div className="grid grid-cols-[3fr_9fr] gap-5">
+        <div>
+          <VocabularyFilter />
         </div>
         <div>
-          <ProductList />
+          <div className="flex items-center border-b border-gray-200 py-3">
+            <ProductSort />
+            <ProductCount />
+          </div>
+          <div>
+            <ProductList />
+          </div>
         </div>
       </div>
-    </div>
+    </ReactQueryHydrate>
   )
 }
 
