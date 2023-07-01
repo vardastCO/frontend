@@ -6,35 +6,46 @@ import { usePathname } from "next/navigation"
 import { IconSmartHome } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 
-const Breadcrumb = () => {
+interface CrumbItemProps {
+  label: string
+  path: string
+  isCurrent: boolean
+}
+
+interface BreadcrumbProps {
+  dynamic?: boolean
+  items?: CrumbItemProps[]
+}
+
+const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
   const { t } = useTranslation()
   const pathname = usePathname()
-  const [breadcrumbs, setBreadcrumbs] = useState<
-    {
-      href: string
-      label: string
-      isCurrent: boolean
-    }[]
-  >()
+  const [breadcrumbs, setBreadcrumbs] = useState<CrumbItemProps[]>()
 
   useEffect(() => {
-    const pathWithoutQuery = pathname.split("?")[0]
-    let pathArray = pathWithoutQuery.split("/")
-    pathArray.shift()
+    let breadcrumbs
 
-    pathArray = pathArray.filter((path) => path !== "")
+    if (dynamic) {
+      const pathWithoutQuery = pathname.split("?")[0]
+      let pathArray = pathWithoutQuery.split("/")
+      pathArray.shift()
 
-    const breadcrumbs = pathArray.map((path, index) => {
-      const href = "/" + pathArray.slice(0, index + 1).join("/")
-      return {
-        href,
-        label: path,
-        isCurrent: index === pathArray.length - 1
-      }
-    })
+      pathArray = pathArray.filter((path) => path !== "")
+
+      breadcrumbs = pathArray.map((path, index) => {
+        const href = "/" + pathArray.slice(0, index + 1).join("/")
+        return {
+          path: href,
+          label: path,
+          isCurrent: index === pathArray.length - 1
+        }
+      })
+    } else {
+      breadcrumbs = items
+    }
 
     setBreadcrumbs(breadcrumbs)
-  }, [pathname])
+  }, [pathname, dynamic, breadcrumbs, items])
 
   return (
     <div role="presentation">
@@ -48,7 +59,7 @@ const Breadcrumb = () => {
             aria-current={pathname === "/" ? "page" : "false"}
             legacyBehavior
           >
-            <a title={t("common:home").toString()}>
+            <a title={process.env.NEXT_PUBLIC_TITLE}>
               <IconSmartHome className="h-4 w-4 text-gray-400" />
             </a>
           </Link>
@@ -59,13 +70,13 @@ const Breadcrumb = () => {
               {idx !== breadcrumbs.length && (
                 <span className="mx-1 text-gray-400">/</span>
               )}
-              <Link href={crumb.href} passHref legacyBehavior>
+              <Link href={crumb.path} passHref legacyBehavior>
                 <a
-                  title={t(`common:${crumb.label}`).toString()}
+                  title={crumb.label}
                   aria-current={crumb.isCurrent ? "page" : "false"}
                   className="text-gray-600"
                 >
-                  {t(`common:${crumb.label}`)}
+                  {crumb.label}
                 </a>
               </Link>
             </li>

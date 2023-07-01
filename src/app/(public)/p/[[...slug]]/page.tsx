@@ -3,6 +3,7 @@ import Link from "next/link"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
 
+import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { Button } from "@core/components/ui/button"
 
 import ProductAttributes from "../components/product-attributes"
@@ -34,24 +35,8 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
   const price = 48899300
   return (
     <div className="container mx-auto px-4 py-4 lg:py-8">
-      <div className="mb-3 lg:mb-8">
-        <ol className="flex items-center gap-2 overflow-auto whitespace-nowrap text-sm text-gray-500">
-          <li>
-            <a href="">وردست</a>
-          </li>
-          <li>
-            <a href="">ابزار آلات و تجهیزات</a>
-          </li>
-          <li>
-            <a href="">یراق آلات، لوازم و مصالح ساختمانی</a>
-          </li>
-          <li>
-            <a href="">تجهیزات ساختمانی</a>
-          </li>
-          <li>
-            <a href="">شیرآلات</a>
-          </li>
-        </ol>
+      <div className="mb-4">
+        <Breadcrumb dynamic={false} />
       </div>
 
       <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr]">
