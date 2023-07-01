@@ -5,10 +5,10 @@ const ProductAttributes = (props: Props) => {
     <div
       className="divide-y
         divide-gray-200
-        [&_div]:grid
-        [&_div]:grid-cols-[3fr_9fr]
-        [&_div]:gap-4
-        [&_div]:py-3"
+        [&>div]:grid
+        [&>div]:grid-cols-[3fr_9fr]
+        [&>div]:gap-4
+        [&>div]:py-3"
     >
       <div>
         <span className="inline-block text-left font-medium text-gray-400">
