@@ -24,6 +24,8 @@ module.exports = {
     "^@/styles/(.*)$",
     "^@/app/(.*)$",
     "",
+    "^@/assets/(.*)$",
+    "",
     "^[./]"
   ],
   pluginSearchDirs: ["."],

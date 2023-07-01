@@ -1,5 +1,8 @@
 import Image from "next/image"
 
+import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
+import logoSign from "@/assets/sign.svg"
+
 import LocationSelector from "./location-selector"
 import Navigation from "./navigation"
 import Search from "./search"
@@ -10,19 +13,15 @@ const Header = () => {
       <div className="flex items-center gap-4 lg:gap-8">
         <div className="relative h-8 lg:h-12">
           <Image
-            src="/images/logo-type.png"
-            alt="..."
+            src={logoHorizontal}
+            alt={`${process.env.NEXT_PUBLIC_TITLE} - ${process.env.NEXT_PUBLIC_SLOGAN}`}
             loading="lazy"
-            width={1315}
-            height={186}
             className="hidden h-12 w-auto object-contain lg:block"
           />
           <Image
-            src="/images/logo.png"
-            alt="..."
+            src={logoSign}
+            alt={`${process.env.NEXT_PUBLIC_TITLE} - ${process.env.NEXT_PUBLIC_SLOGAN}`}
             loading="lazy"
-            width={853}
-            height={652}
             className="h-8 w-auto object-contain lg:hidden"
           />
         </div>
