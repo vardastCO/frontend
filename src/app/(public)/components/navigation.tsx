@@ -10,7 +10,7 @@ const Navigation = () => {
     <ol className="flex items-center gap-1">
       {nav.map((item, idx) => (
         <li key={idx}>
-          <a href="" className="inline-flex px-3 py-2">
+          <a href="/search" className="inline-flex px-3 py-2">
             {item.title}
           </a>
         </li>
