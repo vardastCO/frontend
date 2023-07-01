@@ -6,9 +6,7 @@ import { usePathname } from "next/navigation"
 import { IconSmartHome } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 
-type Props = {}
-
-const Breadcrumb = (props: Props) => {
+const Breadcrumb = () => {
   const { t } = useTranslation()
   const pathname = usePathname()
   const [breadcrumbs, setBreadcrumbs] = useState<
