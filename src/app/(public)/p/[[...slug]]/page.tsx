@@ -1,5 +1,7 @@
 import { Metadata, ResolvingMetadata } from "next"
-import Image from "next/image"
+
+import ProductAttributes from "../components/product-attributes"
+import ProductImages from "../components/product-images"
 
 interface ProductIndexProps {
   params: {
@@ -24,24 +26,17 @@ export async function generateMetadata(
 const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
   return (
     <div className="container mx-auto px-4 py-8">
-      {typeof slug[1]}
-      <div className="grid grid-cols-[3fr_6fr_3fr]">
-        <div className="relative h-96">
-          <Image
-            src="/images/products/1651394793392_431233.png"
-            alt="..."
-            fill
-            className="object-contain"
-          />
-        </div>
+      <div className="mb-12 grid grid-cols-[5fr_7fr] gap-6">
+        <ProductImages />
         <div>
           <h1 className="text-xl font-extrabold text-gray-800">
             آزمایشگاه تکنولوژی بتن آزمایش تعیین غلظت خمیر نرمال سیمان هیدرولیکی
             در قالب فایل word در 12 صفحه
           </h1>
         </div>
-        <div></div>
       </div>
+
+      <ProductAttributes />
     </div>
   )
 }
