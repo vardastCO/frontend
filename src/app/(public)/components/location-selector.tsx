@@ -1,34 +1,34 @@
 "use client"
 
-import { IconChevronLeft, IconLoader2, IconMapPin } from "@tabler/icons-react"
+import { useState } from "react"
+import {
+  IconArrowRight,
+  IconChevronLeft,
+  IconLoader2,
+  IconMapPin,
+  IconSearch,
+  IconX
+} from "@tabler/icons-react"
 
-import { useGetCountryQuery } from "@/generated"
+import { City, Province, useGetCountryWithCitiesQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
+import { Checkbox } from "@core/components/ui/checkbox"
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger
 } from "@core/components/ui/dialog"
-
-interface ProvinceItemProps {
-  title: string
-}
-
-const ProvinceItem = ({ title }: ProvinceItemProps) => {
-  return (
-    <button className="flex items-center justify-between border-b border-gray-200 py-2 last:border-b-0">
-      <span>{title}</span>
-      <IconChevronLeft className="h-4 w-4 text-gray-500" />
-    </button>
-  )
-}
+import { Input } from "@core/components/ui/input"
+import { Label } from "@core/components/ui/label"
 
 const LocationSelector = () => {
-  const countryQuery = useGetCountryQuery(
+  const [selectedProvince, setSelectedProvince] = useState<Province | null>(
+    null
+  )
+  const [selectedCities, setSelectedCities] = useState<City[] | []>([])
+  const countryQuery = useGetCountryWithCitiesQuery(
     graphqlRequestClient,
     {
       slug: "iran-islamic-republic-of"
@@ -42,6 +42,79 @@ const LocationSelector = () => {
     countryQuery.refetch()
   }
 
+  interface ProvinceListProps {
+    provinces: Province[]
+  }
+
+  const ProvinceList = ({ provinces }: ProvinceListProps) => {
+    return (
+      <div className="flex w-full flex-col divide-y divide-gray-200">
+        {provinces.map(
+          (province) =>
+            province && (
+              <>
+                <Button
+                  noStyle
+                  onClick={() => setSelectedProvince(province)}
+                  key={province.id}
+                  className="flex items-center justify-between py-3"
+                >
+                  <span>{province.name}</span>
+                  <IconChevronLeft className="h-4 w-4 text-gray-500" />
+                </Button>
+              </>
+            )
+        )}
+      </div>
+    )
+  }
+
+  interface CitiesListProps {
+    province: Province
+  }
+
+  const CitiesList = ({ province }: CitiesListProps) => {
+    return (
+      <div className="flex flex-col items-start">
+        <Button variant="ghost" onClick={() => setSelectedProvince(null)}>
+          <IconArrowRight className="icon" />
+          <span>همه شهرها</span>
+        </Button>
+        <div className="flex w-full flex-col space-y-3 divide-y divide-gray-200">
+          <Label className="flex w-full items-center gap-1.5 pt-3">
+            <Checkbox />
+            همه شهرهای {province.name}
+          </Label>
+          {province.cities.map(
+            (city) =>
+              city && (
+                <Label
+                  key={city?.id}
+                  className="flex w-full items-center gap-1.5 pt-3"
+                >
+                  <Checkbox
+                    checked={
+                      selectedCities.find((item) => item.id === city.id)
+                        ? true
+                        : false
+                    }
+                    onCheckedChange={(checked) => {
+                      checked
+                        ? setSelectedCities([...selectedCities, city])
+                        : setSelectedCities((values) => {
+                            return values.filter((item) => item.id !== city.id)
+                          })
+                    }}
+                  />
+                  {city?.name}
+                </Label>
+              )
+          )}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <Dialog onOpenChange={() => loadCountry()}>
       <DialogTrigger asChild>
@@ -51,21 +124,59 @@ const LocationSelector = () => {
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>انتخاب شهر</DialogTitle>
-          {countryQuery.isLoading && (
-            <div className="flex items-center justify-center p-12">
-              <IconLoader2 className="animate-spin text-gray-400" />
+        <div className="sticky -top-6 -mx-6 -mt-6 border-b border-gray-200 bg-white p-6">
+          <h1 className="dialog-title">انتخاب شهر</h1>
+          <div className="mt-6 flex flex-col gap-4">
+            <div className="flex flex-wrap gap-2">
+              {selectedCities &&
+                selectedCities.map((city) => (
+                  <div
+                    key={city.id}
+                    className="flex items-center gap-1 rounded border border-gray-200 px-2 py-1 pl-1 text-sm"
+                  >
+                    {city.name}
+                    <Button
+                      variant="ghost"
+                      size="xsmall"
+                      iconOnly
+                      onClick={() => {
+                        setSelectedCities((values) => {
+                          return values.filter((item) => item.id !== city.id)
+                        })
+                      }}
+                    >
+                      <IconX className="icon" />
+                    </Button>
+                  </div>
+                ))}
             </div>
-          )}
-          {countryQuery.data &&
-            countryQuery.data.country.provinces.map(
-              (province) =>
-                province && (
-                  <ProvinceItem title={province.name} key={province.id} />
-                )
-            )}
-        </DialogHeader>
+            <div className="form-control form-control-sm">
+              <div className="input-group">
+                <div className="input-inset">
+                  <div className="input-element">
+                    <IconSearch />
+                  </div>
+                  <Input placeholder="جستجو در شهرها..." />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {countryQuery.isLoading && (
+          <div className="flex items-center justify-center p-12">
+            <IconLoader2 className="animate-spin text-gray-400" />
+          </div>
+        )}
+        {countryQuery.data &&
+          countryQuery.data.country &&
+          countryQuery.data.country.provinces &&
+          (selectedProvince ? (
+            <CitiesList province={selectedProvince} />
+          ) : (
+            <ProvinceList
+              provinces={countryQuery.data.country.provinces as Province[]}
+            />
+          ))}
       </DialogContent>
     </Dialog>
   )
