@@ -9,7 +9,7 @@ const ProductSellerItem = (props: Props) => {
   const hasDiscount = true
   const price = 29183479812
   return (
-    <div className="flex items-center rounded-md p-4">
+    <div className="flex flex-col flex-wrap items-start gap-3 rounded-md p-4 md:flex-row lg:items-center">
       <div className="flex items-center gap-2.5 py-3">
         <IconBuildingWarehouse className="h-8 w-8 text-gray-400" stroke={1.5} />
         <div className="flex flex-col items-start gap-1.5">
@@ -26,11 +26,11 @@ const ProductSellerItem = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="mr-auto flex items-center gap-5">
+      <div className="mr-auto flex flex-wrap items-center gap-3 md:gap-5">
         <div className="flex flex-col items-stretch justify-between text-gray-800">
-          <div className="flex items-start gap-2">
+          <div className="flex flex-col items-start gap-1 md:flex-row md:gap-2">
             {hasDiscount && (
-              <div className="mt-2 rounded bg-red-500 px-2 py-1.5 text-center text-sm font-semibold leading-none text-white">
+              <div className="rounded bg-red-500 px-2 py-1.5 text-center text-sm font-semibold leading-none text-white md:mt-2">
                 {digitsEnToFa(15)}%
               </div>
             )}
@@ -44,13 +44,13 @@ const ProductSellerItem = (props: Props) => {
                 </span>
                 <span className="text-sm leading-none">تومان</span>
               </div>
-              <div className="mt-2 flex-1">
-                {hasDiscount && (
+              {hasDiscount && (
+                <div className="mt-2 flex-1">
                   <span className="text-sm text-gray-500 line-through">
                     {digitsEnToFa(addCommas(price))}
                   </span>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

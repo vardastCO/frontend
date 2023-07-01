@@ -1,4 +1,5 @@
 import { Metadata, ResolvingMetadata } from "next"
+import Link from "next/link"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
 
@@ -32,9 +33,9 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
   const hasDiscount = true
   const price = 48899300
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <ol className="flex items-center gap-2 text-sm text-gray-500">
+    <div className="container mx-auto px-4 py-4 lg:py-8">
+      <div className="mb-3 lg:mb-8">
+        <ol className="flex items-center gap-2 overflow-auto whitespace-nowrap text-sm text-gray-500">
           <li>
             <a href="">وردست</a>
           </li>
@@ -52,20 +53,25 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
           </li>
         </ol>
       </div>
-      <div className="mb-12 grid grid-cols-[5fr_7fr] gap-6">
+
+      <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr]">
         <ProductImages />
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-4">
           <h1 className="text-xl font-extrabold text-gray-800">
             آزمایشگاه تکنولوژی بتن آزمایش تعیین غلظت خمیر نرمال سیمان هیدرولیکی
             در قالب فایل word در 12 صفحه
           </h1>
 
-          <div className="mt-auto rounded-md border border-gray-200 p-4">
+          <div className="rounded-md border border-gray-200 p-4 lg:mt-auto">
             <div className="mb-4 flex items-center gap-2">
               <span className="tag tag-warning tag-light">بهترین قیمت</span>
-              <a href="#" className="text-sm font-semibold text-brand-600">
+              <Link
+                href="#sellers"
+                scroll={false}
+                className="mr-auto text-sm font-semibold text-brand-600"
+              >
                 +۲ فروشنده دیگر
-              </a>
+              </Link>
             </div>
             <div className="divide-y divide-gray-200">
               <div className="flex items-start gap-2.5 py-3">
@@ -92,7 +98,7 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
               </div>
 
               <div className="flex flex-col gap-4 pt-3">
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-col items-start justify-between gap-2 md:flex-row lg:items-center">
                   <span className="font-semibold text-gray-600">
                     قیمت فروشنده
                   </span>
