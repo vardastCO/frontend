@@ -13,15 +13,16 @@
 //   };
 // };
 
-import i18n from "i18n"
 import { NextMiddleware, NextRequest, NextResponse } from "next/server"
+import i18n from "i18n"
+
 import { MiddlewareFactory } from "./types"
 
 export const withTranslation: MiddlewareFactory = (next: NextMiddleware) => {
-    return async (request: NextRequest) => {
-        const locale = request.nextUrl.locale || i18n.defaultLocale
-        request.nextUrl.searchParams.set('lang', locale)
-        request.nextUrl.href = request.nextUrl.href.replace(`/${locale}`, '')
-        return NextResponse.rewrite(request.nextUrl)
-    }
+  return async (request: NextRequest) => {
+    const locale = request.nextUrl.locale || i18n.defaultLocale
+    request.nextUrl.searchParams.set("lang", locale)
+    request.nextUrl.href = request.nextUrl.href.replace(`/${locale}`, "")
+    return NextResponse.rewrite(request.nextUrl)
+  }
 }

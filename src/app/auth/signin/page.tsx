@@ -1,6 +1,8 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
-import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
+
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+
 import SigninForm from "./components/SigninForm"
 
 const SigninPage = async () => {

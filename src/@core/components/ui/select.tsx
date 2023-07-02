@@ -99,7 +99,7 @@ const SelectSeparator = forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator
     ref={ref}
-    className={mergeClasses("-mx-1 my-1 h-px bg-muted", className)}
+    className={mergeClasses("bg-muted -mx-1 my-1 h-px", className)}
     {...props}
   />
 ))

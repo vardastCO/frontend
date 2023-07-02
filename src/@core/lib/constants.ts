@@ -1,7 +1,7 @@
 export const queryClientOptions = {
-    defaultOptions: {
-        queries: {
-            refetchOnWindowFocus: false,
-        },
-    },
-};
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false
+    }
+  }
+}

@@ -1,5 +1,4 @@
 import { IconDatabaseSearch } from "@tabler/icons-react"
-
 import useTranslation from "next-translate/useTranslation"
 
 interface Props {

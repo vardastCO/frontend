@@ -1,8 +1,8 @@
 "use client"
 
-import useTranslation from "next-translate/useTranslation"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import useTranslation from "next-translate/useTranslation"
 
 const Products = () => {
   const { t } = useTranslation()

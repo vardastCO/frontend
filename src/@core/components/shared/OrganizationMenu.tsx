@@ -1,6 +1,7 @@
-import ndpLogo from "@/assets/ndp-logo.svg"
-import { IconSelector } from "@tabler/icons-react"
 import Image from "next/image"
+import { IconSelector } from "@tabler/icons-react"
+
+import ndpLogo from "@/assets/ndp-logo.svg"
 
 type Props = {}
 

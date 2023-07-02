@@ -1,6 +1,7 @@
 "use client"
 
 import { NavigationType } from "@core/types/Navigation"
+
 import NavigationItem from "./NavigationItem"
 
 type Props = {

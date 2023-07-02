@@ -1,5 +1,7 @@
-import PageHeader from "@core/components/shared/PageHeader"
 import useTranslation from "next-translate/useTranslation"
+
+import PageHeader from "@core/components/shared/PageHeader"
+
 import Users from "./components/Users"
 
 const UsersIndex = () => {

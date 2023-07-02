@@ -1,12 +1,15 @@
 "use client"
 
+import { notFound } from "next/navigation"
+
 import { Category, useGetVocabularyQuery } from "@/generated"
+
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
 import PageHeader from "@core/components/shared/PageHeader"
-import { notFound } from "next/navigation"
+
 import CategoryCard from "./CategoryCard"
 import CreateCategory from "./CreateCategory"
 
