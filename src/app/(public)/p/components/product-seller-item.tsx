@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
 
@@ -13,7 +14,9 @@ const ProductSellerItem = (props: Props) => {
       <div className="flex items-center gap-2.5 py-3">
         <IconBuildingWarehouse className="h-8 w-8 text-gray-400" stroke={1.5} />
         <div className="flex flex-col items-start gap-1.5">
-          <div className="font-bold text-gray-700">فروشگاه عرفان</div>
+          <Link href="/seller/123" prefetch={false}>
+            <div className="font-bold text-gray-700">فروشگاه عرفان</div>
+          </Link>
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-1 text-gray-500">
               <IconMapPin className="h-4 w-4 text-gray-400" stroke={1.5} />

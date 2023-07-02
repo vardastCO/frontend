@@ -36,16 +36,55 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
   return (
     <div className="container mx-auto px-4 py-4 lg:py-8">
       <div className="mb-4">
-        <Breadcrumb dynamic={false} />
+        <Breadcrumb
+          dynamic={false}
+          items={[
+            { label: "شیرآلات و لوازم بهداشتی", path: "/", isCurrent: false },
+            { label: "شیرآلات بهداشتی", path: "/", isCurrent: false }
+          ]}
+        />
       </div>
 
       <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr]">
         <ProductImages />
         <div className="flex flex-col gap-4">
-          <h1 className="text-xl font-extrabold text-gray-800">
+          <h1 className="text-xl font-extrabold leading-relaxed text-gray-800">
             آزمایشگاه تکنولوژی بتن آزمایش تعیین غلظت خمیر نرمال سیمان هیدرولیکی
             در قالب فایل word در 12 صفحه
           </h1>
+
+          <div className="flex items-center gap-1.5">
+            <span className="font-semibold text-gray-500">برند:</span>
+            <Link className="font-bold text-brand-500" href="/brand/123/asd">
+              شیرآلات کسری
+            </Link>
+          </div>
+
+          <div className="mt-8">
+            <div className="mb-4 font-bold text-gray-800">ویژگی‌ها</div>
+            <ul className="ms-6 list-outside list-disc space-y-2">
+              <li>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-semibold text-gray-500">ابعاد</span>
+                  <span className="font-bold text-gray-700">10×20×40</span>
+                </div>
+              </li>
+              <li>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-semibold text-gray-500">جنس</span>
+                  <span className="font-bold text-gray-700">
+                    سبک معدنی دیواری
+                  </span>
+                </div>
+              </li>
+              <li>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-semibold text-gray-500">وزن</span>
+                  <span className="font-bold text-gray-700">۴ کیلوگرم</span>
+                </div>
+              </li>
+            </ul>
+          </div>
 
           <div className="rounded-md border border-gray-200 p-4 lg:mt-auto">
             <div className="mb-4 flex items-center gap-2">
