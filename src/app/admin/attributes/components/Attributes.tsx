@@ -1,12 +1,14 @@
 "use client"
 
+import { notFound, useRouter } from "next/navigation"
+import useTranslation from "next-translate/useTranslation"
+
 import { useGetAllAttributesQuery } from "@/generated"
+
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
-import useTranslation from "next-translate/useTranslation"
-import { notFound, useRouter } from "next/navigation"
 
 const Attributes = () => {
   const { t } = useTranslation()

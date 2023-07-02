@@ -1,4 +1,5 @@
 import { NavigationType } from "@core/types/Navigation"
+
 import Navigation from "./Navigation"
 import OrganizationMenu from "./OrganizationMenu"
 import UserMenu from "./UserMenu"

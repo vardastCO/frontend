@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
+
 import { useCreateProvinceMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
@@ -186,7 +187,7 @@ const CreateProvince = ({ countryId }: Props) => {
                     name="isActive"
                     render={({ field }) => (
                       <FormItem>
-                        <div className="flex gap-1 items-center">
+                        <div className="flex items-center gap-1">
                           <FormControl>
                             <Switch
                               checked={field.value}

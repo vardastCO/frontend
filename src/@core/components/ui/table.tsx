@@ -51,7 +51,7 @@ const TableFooter = forwardRef<
   <tfoot
     ref={ref}
     className={mergeClasses(
-      "bg-primary font-medium text-primary-foreground",
+      "bg-primary text-primary-foreground font-medium",
       className
     )}
     {...props}
@@ -66,7 +66,7 @@ const TableRow = forwardRef<
   <tr
     ref={ref}
     className={mergeClasses(
-      "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+      "hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
       className
     )}
     {...props}
@@ -81,7 +81,7 @@ const TableHead = forwardRef<
   <th
     ref={ref}
     className={mergeClasses(
-      "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
+      "text-muted-foreground h-12 px-4 text-left align-middle font-medium [&:has([role=checkbox])]:pr-0",
       className
     )}
     {...props}
@@ -110,7 +110,7 @@ const TableCaption = forwardRef<
 >(({ className, ...props }, ref) => (
   <caption
     ref={ref}
-    className={mergeClasses("mt-4 text-sm text-muted-foreground", className)}
+    className={mergeClasses("text-muted-foreground mt-4 text-sm", className)}
     {...props}
   />
 ))

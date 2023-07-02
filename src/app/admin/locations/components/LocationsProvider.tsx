@@ -1,8 +1,10 @@
 "use client"
 
-import { Area, City, Country, Province } from "@/generated"
-import { PrimitiveAtom, atom, useAtom } from "jotai"
 import { createContext, useState } from "react"
+import { atom, PrimitiveAtom, useAtom } from "jotai"
+
+import { Area, City, Country, Province } from "@/generated"
+
 import DeleteModal from "./DeleteModal"
 
 interface entityToRemoveAtomType {

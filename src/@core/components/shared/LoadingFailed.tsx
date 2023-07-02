@@ -1,7 +1,6 @@
+import { useRouter } from "next/navigation"
 import { IconRefresh } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
-
-import { useRouter } from "next/navigation"
 
 type Props = {}
 

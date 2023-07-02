@@ -1,8 +1,10 @@
 "use client"
 
-import { Category, Vocabulary } from "@/generated"
-import { PrimitiveAtom, atom, useAtom } from "jotai"
 import { createContext } from "react"
+import { atom, PrimitiveAtom, useAtom } from "jotai"
+
+import { Category, Vocabulary } from "@/generated"
+
 import DeleteModal from "./DeleteModal"
 
 interface entityToRemoveAtomType {

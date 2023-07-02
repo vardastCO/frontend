@@ -13,15 +13,16 @@
 //   };
 // };
 
-import { NextFetchEvent, NextMiddleware, NextRequest } from "next/server";
-import { MiddlewareFactory } from "./types";
+import { NextFetchEvent, NextMiddleware, NextRequest } from "next/server"
+
+import { MiddlewareFactory } from "./types"
 
 export const withProductRewrite: MiddlewareFactory = (next: NextMiddleware) => {
-    return async (request: NextRequest, _next: NextFetchEvent) => {
-        const res = await next(request, _next);
-        console.log(request)
-        if (request.nextUrl.pathname.startsWith('/p')) {
-            console.log('asdf')
-        }
+  return async (request: NextRequest, _next: NextFetchEvent) => {
+    const res = await next(request, _next)
+    console.log(request)
+    if (request.nextUrl.pathname.startsWith("/p")) {
+      console.log("asdf")
     }
+  }
 }

@@ -43,14 +43,14 @@ const ComboBox = ({
           <Button
             noStyle
             role="combobox"
-            className="input-field text-start flex items-center"
+            className="input-field flex items-center text-start"
           >
             {props.value
               ? items.find((item) => item[filterKey] === props.value)?.[
                   labelKey
                 ]
               : triggerPlaceholder ?? t("common:select_placeholder")}
-            <IconSelector className="ms-auto shrink-0 w-4 h-4 text-gray-500" />
+            <IconSelector className="ms-auto h-4 w-4 shrink-0 text-gray-500" />
           </Button>
         </FormControl>
       </PopoverTrigger>

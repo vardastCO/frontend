@@ -1,13 +1,16 @@
 "use client"
 
+import { useContext } from "react"
+import { notFound } from "next/navigation"
+
 import { City, useGetProvinceQuery } from "@/generated"
+
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
 import PageHeader from "@core/components/shared/PageHeader"
-import { notFound } from "next/navigation"
-import { useContext } from "react"
+
 import CityCard from "./CityCard"
 import CreateCity from "./CreateCity"
 import FiltersBar from "./FiltersBar"

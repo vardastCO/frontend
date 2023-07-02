@@ -1,4 +1,4 @@
 export const uploadPaths = {
-    productImages: 'product/image/files',
-    userAvatar: 'user/user/avatars'
+  productImages: "product/image/files",
+  userAvatar: "user/user/avatars"
 }

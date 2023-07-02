@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+
 import ProductForm from "./components/ProductForm"
 
 export const metadata: Metadata = {

@@ -1,13 +1,15 @@
 "use client"
 
+import Image from "next/image"
+import { notFound, useRouter } from "next/navigation"
+import useTranslation from "next-translate/useTranslation"
+
 import { useGetAllBrandsQuery } from "@/generated"
+
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
-import useTranslation from "next-translate/useTranslation"
-import Image from "next/image"
-import { notFound, useRouter } from "next/navigation"
 
 const Brands = () => {
   const { t } = useTranslation()

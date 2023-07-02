@@ -108,6 +108,8 @@
         "@types/use-sync-external-store": "^0.0.3",
         "autoprefixer": "^10.4.14",
         "cross-env": "^7.0.3",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-storybook": "^0.6.12",
         "next-translate-plugin": "2.4.4",
         "postcss": "^8.4.24",
