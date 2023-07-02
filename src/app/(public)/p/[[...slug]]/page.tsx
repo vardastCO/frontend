@@ -36,7 +36,13 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
   return (
     <div className="container mx-auto px-4 py-4 lg:py-8">
       <div className="mb-4">
-        <Breadcrumb dynamic={false} />
+        <Breadcrumb
+          dynamic={false}
+          items={[
+            { label: "شیرآلات و لوازم بهداشتی", path: "/", isCurrent: false },
+            { label: "شیرآلات بهداشتی", path: "/", isCurrent: false }
+          ]}
+        />
       </div>
 
       <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr]">

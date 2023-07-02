@@ -1,7 +1,11 @@
 import { Metadata, ResolvingMetadata } from "next"
-import Image from "next/image"
-import { IconInfoSquareRounded, IconMapPin } from "@tabler/icons-react"
+import {
+  IconBuildingWarehouse,
+  IconInfoSquareRounded,
+  IconMapPin
+} from "@tabler/icons-react"
 
+import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { Button } from "@core/components/ui/button"
 import {
   Dialog,
@@ -37,14 +41,27 @@ export async function generateMetadata(
 const SellerIndex = async ({ params: { slug } }: SellerIndexProps) => {
   return (
     <div className="container mx-auto px-4 py-4 lg:py-8">
+      <div className="mb-4">
+        <Breadcrumb
+          dynamic={false}
+          items={[
+            { label: "فروشندگان وردست", path: "/sellers", isCurrent: false },
+            { label: "فروشگاه عرفان", path: "/", isCurrent: true }
+          ]}
+        />
+      </div>
       <div className="mb-12 flex items-end gap-6">
-        <div className="relative h-28 w-28 rounded-md border border-gray-200">
-          <Image
+        <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-gray-200 bg-gray-50">
+          <IconBuildingWarehouse
+            className="h-10 w-10 text-gray-400"
+            stroke={1.5}
+          />
+          {/* <Image
             src="/images/sellers/kasrataps.png"
             fill
             alt="..."
             className="object-contain p-3"
-          />
+          /> */}
         </div>
         <div className="flex flex-col items-start gap-4">
           <h1 className="text-xl font-bold text-gray-800">فروشگاه عرفان</h1>
