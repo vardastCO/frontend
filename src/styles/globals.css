@@ -25,6 +25,13 @@
 @import "core/tag-input.css";
 @import "tailwindcss/utilities";
 
+@layer base {
+  ul,
+  ol {
+    list-style: revert;
+  }
+}
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
