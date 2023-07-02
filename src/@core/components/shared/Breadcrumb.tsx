@@ -23,7 +23,7 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
   const [breadcrumbs, setBreadcrumbs] = useState<CrumbItemProps[]>()
 
   useEffect(() => {
-    let breadcrumbs
+    let tempBreadcrumbs
 
     if (dynamic) {
       const pathWithoutQuery = pathname.split("?")[0]
@@ -32,7 +32,7 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
 
       pathArray = pathArray.filter((path) => path !== "")
 
-      breadcrumbs = pathArray.map((path, index) => {
+      tempBreadcrumbs = pathArray.map((path, index) => {
         const href = "/" + pathArray.slice(0, index + 1).join("/")
         return {
           path: href,
@@ -41,11 +41,11 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
         }
       })
     } else {
-      breadcrumbs = items
+      tempBreadcrumbs = items
     }
 
-    setBreadcrumbs(breadcrumbs)
-  }, [pathname, dynamic, breadcrumbs, items])
+    setBreadcrumbs(tempBreadcrumbs)
+  }, [pathname, dynamic, items])
 
   return (
     <div role="presentation">
