@@ -3,13 +3,15 @@ query GetAttribute($id: Int!, $slug: String) {
     id
     name
     slug
-    values {
-      options
-      defaults
-      default
-    }
     type
     createdAt
     updatedAt
+    values {
+      options
+      defaults
+    }
+    isPublic
+    isRequired
+    isFilterable
   }
 }

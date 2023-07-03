@@ -3,13 +3,15 @@ mutation CreateAttributeMutation($createAttributeInput: CreateAttributeInput!) {
     id
     name
     slug
-    values {
-      options
-      defaults
-      default
-    }
     type
     createdAt
     updatedAt
+    isPublic
+    isRequired
+    isFilterable
+    values {
+      options
+      defaults
+    }
   }
 }
