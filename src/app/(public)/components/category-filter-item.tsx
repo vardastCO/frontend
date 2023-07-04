@@ -10,7 +10,7 @@ const CategoryFilterItem = ({ category }: CategoryFilterItemProps) => {
   return (
     <div className="flex items-center gap-1.5">
       <Link
-        href={`/search/${category.slug}`}
+        href={encodeURI(`/search/${category.id}/${category.title}`)}
         className="py-2 text-gray-700 hover:text-brand-500"
       >
         {category.title}

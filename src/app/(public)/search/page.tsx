@@ -12,7 +12,10 @@ import VocabularyFilter from "../components/vocabulary-filter"
 
 const Search = async () => {
   const queryClient = getQueryClient()
-  await queryClient.prefetchQuery(["vocabulary"], getVocabularyQueryFn)
+  await queryClient.prefetchQuery(
+    ["vocabulary", { slug: "product_categories" }],
+    () => getVocabularyQueryFn("product_categories")
+  )
   await queryClient.prefetchQuery(["products"], getAllProductsQueryFn)
   const dehydratedState = dehydrate(queryClient)
 

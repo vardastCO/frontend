@@ -13,7 +13,7 @@ import ProductSort from "../../components/product-sort"
 import SearchHeader from "../../components/search-header"
 
 type SearchSlugProps = {
-  params: { slug: string }
+  params: { slug: Array<string | number> }
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
@@ -21,8 +21,9 @@ export async function generateMetadata(
   { params, searchParams }: SearchSlugProps,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const slug = params.slug
-  const category = await getCategoryQueryFn(slug)
+  const id = params.slug[0] as number
+  const slug = params.slug[1] as string
+  const category = await getCategoryQueryFn(id)
 
   return {
     title: category.category.title
@@ -30,8 +31,13 @@ export async function generateMetadata(
 }
 
 const SearchSlug = async ({ params: { slug } }: SearchSlugProps) => {
+  const id = slug[0] as number
+  const cSlug = slug[1] as string
+
   const queryClient = getQueryClient()
-  await queryClient.prefetchQuery(["category"], () => getCategoryQueryFn(slug))
+  await queryClient.prefetchQuery(["category", { id: +id }], () =>
+    getCategoryQueryFn(id)
+  )
   const dehydratedState = dehydrate(queryClient)
 
   const productsJsonLd: WithContext<Product>[] = [
@@ -69,11 +75,11 @@ const SearchSlug = async ({ params: { slug } }: SearchSlugProps) => {
   return (
     <ReactQueryHydrate state={dehydratedState}>
       <div>
-        <SearchHeader selectedCategory={slug} />
+        <SearchHeader selectedCategoryId={id} />
       </div>
       <div className="grid grid-cols-[3fr_9fr] gap-5">
         <div>
-          <CategoryFilter selectedCategory={slug} />
+          <CategoryFilter selectedCategoryId={id} />
         </div>
         <div>
           <div className="flex items-center border-b border-gray-200 py-3">

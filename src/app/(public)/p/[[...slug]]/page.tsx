@@ -1,14 +1,10 @@
 import { Metadata, ResolvingMetadata } from "next"
-import Link from "next/link"
-import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
-import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
+import { dehydrate } from "@tanstack/react-query"
 
-import Breadcrumb from "@core/components/shared/Breadcrumb"
-import { Button } from "@core/components/ui/button"
-
-import ProductAttributes from "../components/product-attributes"
-import ProductImages from "../components/product-images"
-import ProductSellers from "../components/product-sellers"
+import getQueryClient from "@core/clients/getQueryClient"
+import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
+import { getProductQueryFn } from "@core/queryFns/productQueryFns"
+import ProductPage from "@/app/(public)/p/components/product-page"
 
 interface ProductIndexProps {
   params: {
@@ -20,154 +16,35 @@ export async function generateMetadata(
   { params }: ProductIndexProps,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const slug = params.slug
+  const id = params.slug[0] as number
+  const slug = params.slug[1] as string
+  const data = await getProductQueryFn(id)
 
   return {
-    title: slug[1] as string,
+    title: data.product.title || data.product.name,
+    description: data.product.metaDescription,
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_URL}/p/123/asdf`
+      canonical: `${process.env.NEXT_PUBLIC_URL}/p/${id}/${slug}`
     }
   }
 }
 
 const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
-  const hasDiscount = true
-  const price = 48899300
+  const id = slug[0] as number
+  const pSlug = slug[1] as string
+
+  const queryClient = getQueryClient()
+  await queryClient.prefetchQuery(["product", { id: +id }], () =>
+    getProductQueryFn(id)
+  )
+  const dehydratedState = dehydrate(queryClient)
+
   return (
-    <div className="container mx-auto px-4 py-4 lg:py-8">
-      <div className="mb-4">
-        <Breadcrumb
-          dynamic={false}
-          items={[
-            { label: "شیرآلات و لوازم بهداشتی", path: "/", isCurrent: false },
-            { label: "شیرآلات بهداشتی", path: "/", isCurrent: false }
-          ]}
-        />
+    <ReactQueryHydrate state={dehydratedState}>
+      <div className="container mx-auto px-4 py-4 lg:py-8">
+        <ProductPage id={id} />
       </div>
-
-      <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr]">
-        <ProductImages />
-        <div className="flex flex-col gap-4">
-          <h1 className="text-xl font-extrabold leading-relaxed text-gray-800">
-            آزمایشگاه تکنولوژی بتن آزمایش تعیین غلظت خمیر نرمال سیمان هیدرولیکی
-            در قالب فایل word در 12 صفحه
-          </h1>
-
-          <div className="flex items-center gap-1.5">
-            <span className="font-semibold text-gray-500">برند:</span>
-            <Link className="font-bold text-brand-500" href="/brand/123/asd">
-              شیرآلات کسری
-            </Link>
-          </div>
-
-          <div className="mt-8">
-            <div className="mb-4 font-bold text-gray-800">ویژگی‌ها</div>
-            <ul className="ms-6 list-outside list-disc space-y-2">
-              <li>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-semibold text-gray-500">ابعاد</span>
-                  <span className="font-bold text-gray-700">10×20×40</span>
-                </div>
-              </li>
-              <li>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-semibold text-gray-500">جنس</span>
-                  <span className="font-bold text-gray-700">
-                    سبک معدنی دیواری
-                  </span>
-                </div>
-              </li>
-              <li>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-semibold text-gray-500">وزن</span>
-                  <span className="font-bold text-gray-700">۴ کیلوگرم</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <div className="rounded-md border border-gray-200 p-4 lg:mt-auto">
-            <div className="mb-4 flex items-center gap-2">
-              <span className="tag tag-warning tag-light">بهترین قیمت</span>
-              <Link
-                href="#sellers"
-                scroll={false}
-                className="mr-auto text-sm font-semibold text-brand-600"
-              >
-                +۲ فروشنده دیگر
-              </Link>
-            </div>
-            <div className="divide-y divide-gray-200">
-              <div className="flex items-start gap-2.5 py-3">
-                <IconBuildingWarehouse
-                  className="h-8 w-8 text-gray-400"
-                  stroke={1.5}
-                />
-                <div className="flex flex-col items-start gap-1.5">
-                  <div className="font-bold text-gray-700">فروشگاه عرفان</div>
-                  <div className="flex items-center gap-6 text-sm">
-                    <div className="flex items-center gap-1 text-gray-500">
-                      <IconMapPin
-                        className="h-4 w-4 text-gray-400"
-                        stroke={1.5}
-                      />
-                      تهران
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className="text-gray-500">عملکرد</span>
-                      <span className="font-bold text-emerald-500">عالی</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4 pt-3">
-                <div className="flex flex-col items-start justify-between gap-2 md:flex-row lg:items-center">
-                  <span className="font-semibold text-gray-600">
-                    قیمت فروشنده
-                  </span>
-                  <div className="flex flex-col items-stretch justify-between text-gray-800">
-                    <div className="flex items-start gap-2">
-                      {hasDiscount && (
-                        <div className="mt-2 rounded bg-red-500 px-2 py-1.5 text-center text-sm font-semibold leading-none text-white">
-                          {digitsEnToFa(15)}%
-                        </div>
-                      )}
-                      <div>
-                        <span className="text-xs leading-none text-gray-600">
-                          قیمت هر تن
-                        </span>
-                        <div className="flex items-center gap-1 leading-none">
-                          <span className="text-lg font-semibold leading-none">
-                            {digitsEnToFa(addCommas(price))}
-                          </span>
-                          <span className="text-sm leading-none">تومان</span>
-                        </div>
-                        <div className="mt-2 flex-1">
-                          {hasDiscount && (
-                            <span className="text-sm text-gray-500 line-through">
-                              {digitsEnToFa(addCommas(price))}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mr-auto">
-                  <Button size="medium">خرید از فروشگاه عرفان</Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <ProductSellers />
-
-      <ProductAttributes />
-    </div>
+    </ReactQueryHydrate>
   )
 }
 

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { IconSmartHome } from "@tabler/icons-react"
 import useTranslation from "next-translate/useTranslation"
 
-interface CrumbItemProps {
+export interface CrumbItemProps {
   label: string
   path: string
   isCurrent: boolean

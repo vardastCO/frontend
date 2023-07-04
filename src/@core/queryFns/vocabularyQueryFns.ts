@@ -6,7 +6,9 @@ import { GetVocabularyDocument, Vocabulary } from "@/generated"
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
-export const getVocabularyQueryFn = async (): Promise<{
+export const getVocabularyQueryFn = async (
+  slug: string
+): Promise<{
   vocabulary: Vocabulary
 }> => {
   const session =
@@ -18,7 +20,7 @@ export const getVocabularyQueryFn = async (): Promise<{
     process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT as string,
     GetVocabularyDocument,
     {
-      slug: "product_categories"
+      slug
     },
     {
       authorization: `Bearer ${session?.user?.token}`

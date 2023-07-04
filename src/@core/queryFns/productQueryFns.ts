@@ -2,13 +2,15 @@ import request from "graphql-request"
 import { getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
 
-import { Category, GetCategoryDocument } from "@/generated"
+import { GetProductDocument, Product } from "@/generated"
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
-export const getCategoryQueryFn = async (
+export const getProductQueryFn = async (
   id: number
-): Promise<{ category: Category }> => {
+): Promise<{
+  product: Product
+}> => {
   const session =
     typeof window === "undefined"
       ? await getServerSession(authOptions)
@@ -16,7 +18,7 @@ export const getCategoryQueryFn = async (
 
   return await request(
     process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT as string,
-    GetCategoryDocument,
+    GetProductDocument,
     {
       id: +id
     },

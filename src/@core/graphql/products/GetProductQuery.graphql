@@ -1,0 +1,96 @@
+query GetProduct($id: Int!) {
+  product(id: $id) {
+    id
+    slug
+    type
+    name
+    sku
+    isActive
+    description
+    title
+    metaDescription
+    createdAt
+    updatedAt
+    images {
+      id
+      sort
+      isPublic
+      file {
+        id
+        uuid
+        modelType
+        modelId
+        name
+        originalName
+        size
+        mimeType
+        disk
+        bucketName
+        orderColumn
+        createdAt
+        updatedAt
+        presignedUrl {
+          url
+          expiresAt
+        }
+      }
+    }
+    attributeValues {
+      id
+      value
+      isVariant
+      sku
+      attribute {
+        id
+        name
+        slug
+        type
+        isPublic
+        isRequired
+        isFilterable
+        createdAt
+        updatedAt
+        uom {
+          id
+          name
+          slug
+          symbol
+          isActive
+        }
+      }
+    }
+    category {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
+    }
+    brand {
+      id
+      name
+      slug
+      createdAt
+      updatedAt
+    }
+    uom {
+      id
+      name
+      slug
+      symbol
+      isActive
+    }
+    prices {
+      id
+      type
+      amount
+      isPublic
+      createdAt
+    }
+  }
+}
