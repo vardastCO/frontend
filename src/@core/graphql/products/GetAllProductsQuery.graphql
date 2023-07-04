@@ -1,5 +1,5 @@
-query GetAllProducts {
-  products {
+query GetAllProducts($indexProductInput: IndexProductInput) {
+  products(indexProductInput: $indexProductInput) {
     id
     slug
     name

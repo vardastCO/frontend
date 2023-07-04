@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
 import { useQuery } from "@tanstack/react-query"
+import { BreadcrumbList, WithContext } from "schema-dts"
 
 import { AttributeValue, Product, Image as ProductImage } from "@/generated"
 
@@ -31,6 +32,40 @@ const ProductPage = ({ id }: ProductPageProps) => {
   if (!data) notFound()
 
   const product = data.product
+  const breadcrumbJsonLd: WithContext<BreadcrumbList> = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        item: {
+          "@id": process.env.NEXT_PUBLIC_URL as string,
+          name: process.env.NEXT_PUBLIC_TITLE as string
+        }
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        item: {
+          "@id": encodeURI(
+            `${process.env.NEXT_PUBLIC_URL}/search/${product.category.id}/${product.category.title}`
+          ),
+          name: product.category.title
+        }
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        item: {
+          "@id": encodeURI(
+            `${process.env.NEXT_PUBLIC_URL}/p/${product.id}/${product.name}`
+          ),
+          name: product.name
+        }
+      }
+    ]
+  }
   const breadcrumb: CrumbItemProps[] = [
     {
       label: product.category.title,
@@ -162,6 +197,10 @@ const ProductPage = ({ id }: ProductPageProps) => {
           attributes={product.attributeValues as AttributeValue[]}
         />
       </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
     </>
   )
 }

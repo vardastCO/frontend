@@ -26,7 +26,9 @@ const SearchPage = ({ slug }: SearchPageProps) => {
           )}
         </div>
         <div>
-          <ProductList />
+          <ProductList
+            selectedCategoryId={slug && slug.length ? +slug[0] : undefined}
+          />
         </div>
       </div>
     </>

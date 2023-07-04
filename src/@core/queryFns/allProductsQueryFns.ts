@@ -6,7 +6,15 @@ import { GetAllProductsDocument, Product } from "@/generated"
 
 import { authOptions } from "@core/lib/authOptions"
 
-export const getAllProductsQueryFn = async (): Promise<{
+type getAllProductsQueryFnArgs = {
+  take?: number
+  categoryId?: number
+}
+
+export const getAllProductsQueryFn = async ({
+  take = 20,
+  categoryId
+}: getAllProductsQueryFnArgs = {}): Promise<{
   products: Product[]
 }> => {
   const session =
@@ -17,7 +25,12 @@ export const getAllProductsQueryFn = async (): Promise<{
   return await request(
     process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT as string,
     GetAllProductsDocument,
-    {},
+    {
+      indexProductInput: {
+        take,
+        categoryId: categoryId || null
+      }
+    },
     {
       authorization: `Bearer ${session?.user?.token}`
     }

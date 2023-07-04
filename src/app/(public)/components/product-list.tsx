@@ -1,5 +1,6 @@
 "use client"
 
+import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { Product as ProductSchema, WithContext } from "schema-dts"
 
@@ -11,11 +12,19 @@ import ProductSort from "@/app/(public)/components/product-sort"
 
 import ProductCard from "./product-card"
 
-const ProductList = () => {
-  const { data } = useQuery<{ products: Product[] }>({
-    queryKey: ["products"],
-    queryFn: getAllProductsQueryFn
+interface ProductListProps {
+  selectedCategoryId?: number
+}
+
+const ProductList = ({ selectedCategoryId }: ProductListProps) => {
+  const args = selectedCategoryId ? { categoryId: selectedCategoryId } : {}
+  const { data, error } = useQuery<{ products: Product[] }>({
+    queryKey: ["products", args],
+    queryFn: () => getAllProductsQueryFn(args)
   })
+
+  if (!data) notFound()
+  if (!data.products.length) return <>کالایی ثبت نشده</>
 
   const productsJsonLd: WithContext<ProductSchema>[] = [
     {
