@@ -24,7 +24,9 @@ export async function generateMetadata(
     title: data.product.title || data.product.name,
     description: data.product.metaDescription,
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_URL}/p/${id}/${slug}`
+      canonical: encodeURI(
+        `${process.env.NEXT_PUBLIC_URL}/p/${data.product.id}/${data.product.name}`
+      )
     }
   }
 }
