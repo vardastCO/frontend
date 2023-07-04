@@ -4,9 +4,7 @@ import { BreadcrumbList, Product, WithContext } from "schema-dts"
 
 import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import CategoryFilter from "@/app/(public)/components/category-filter"
-import ProductCount from "@/app/(public)/components/product-count"
 import ProductList from "@/app/(public)/components/product-list"
-import ProductSort from "@/app/(public)/components/product-sort"
 import SearchHeader from "@/app/(public)/components/search-header"
 import VocabularyFilter from "@/app/(public)/components/vocabulary-filter"
 
@@ -68,13 +66,7 @@ const SearchPage = ({ slug }: SearchPageProps) => {
           )}
         </div>
         <div>
-          <div className="flex items-center border-b border-gray-200 py-3">
-            <ProductSort />
-            <ProductCount />
-          </div>
-          <div>
-            <ProductList />
-          </div>
+          <ProductList />
         </div>
       </div>
       <script
