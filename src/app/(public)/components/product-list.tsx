@@ -1,6 +1,7 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
+import { Product as ProductSchema, WithContext } from "schema-dts"
 
 import { Product } from "@/generated"
 
@@ -15,6 +16,24 @@ const ProductList = () => {
     queryKey: ["products"],
     queryFn: getAllProductsQueryFn
   })
+
+  const productsJsonLd: WithContext<ProductSchema>[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      category: "",
+      image: "",
+      url: "",
+      name: "",
+      description: "",
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "IRR",
+        price: ""
+      }
+    }
+  ]
+
   return (
     <>
       <div className="flex items-center border-b border-gray-200 py-3">
@@ -28,6 +47,10 @@ const ProductList = () => {
           ))}
         </div>
       </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productsJsonLd) }}
+      />
     </>
   )
 }

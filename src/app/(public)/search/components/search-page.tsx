@@ -1,8 +1,5 @@
 "use client"
 
-import { BreadcrumbList, Product, WithContext } from "schema-dts"
-
-import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import CategoryFilter from "@/app/(public)/components/category-filter"
 import ProductList from "@/app/(public)/components/product-list"
 import SearchHeader from "@/app/(public)/components/search-header"
@@ -13,45 +10,8 @@ interface SearchPageProps {
 }
 
 const SearchPage = ({ slug }: SearchPageProps) => {
-  const productsJsonLd: WithContext<Product>[] = [
-    {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      category: "",
-      image: "",
-      url: "",
-      name: "",
-      description: "",
-      offers: {
-        "@type": "Offer",
-        priceCurrency: "IRR",
-        price: ""
-      }
-    }
-  ]
-
-  const breadcrumbJsonLd: WithContext<BreadcrumbList> = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        item: {
-          "@id": "https://vardast.com",
-          name: "وردست"
-        }
-      }
-    ]
-  }
-
-  const breadcrumb: CrumbItemProps[] = []
-
   return (
     <>
-      <div className="mb-4">
-        <Breadcrumb dynamic={false} items={breadcrumb} />
-      </div>
       {slug && slug.length > 0 && (
         <div>
           <SearchHeader selectedCategoryId={+slug[0]} />
@@ -69,14 +29,6 @@ const SearchPage = ({ slug }: SearchPageProps) => {
           <ProductList />
         </div>
       </div>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productsJsonLd) }}
-      />
     </>
   )
 }
