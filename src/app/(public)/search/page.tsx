@@ -2,6 +2,7 @@ import { dehydrate } from "@tanstack/react-query"
 
 import getQueryClient from "@core/clients/getQueryClient"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
+import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 
 import ProductCount from "../components/product-count"
@@ -12,6 +13,7 @@ import VocabularyFilter from "../components/vocabulary-filter"
 const Search = async () => {
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery(["vocabulary"], getVocabularyQueryFn)
+  await queryClient.prefetchQuery(["products"], getAllProductsQueryFn)
   const dehydratedState = dehydrate(queryClient)
 
   return (
