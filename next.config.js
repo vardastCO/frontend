@@ -11,7 +11,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     dangerouslyAllowSVG: true,
-    domains: ["api.dicebear.com"]
+    domains: ["api.dicebear.com", "localhost", "static.vardast.com"]
   }
 }
 

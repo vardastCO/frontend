@@ -9,13 +9,13 @@ import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
 import CategoryFilterItem from "./category-filter-item"
 
 interface CategoryFilterProps {
-  selectedCategory: string
+  selectedCategoryId: number
 }
 
-const CategoryFilter = ({ selectedCategory }: CategoryFilterProps) => {
+const CategoryFilter = ({ selectedCategoryId }: CategoryFilterProps) => {
   const { data } = useQuery<{ category: Category }>({
-    queryKey: ["category"],
-    queryFn: () => getCategoryQueryFn(selectedCategory)
+    queryKey: ["category", { id: selectedCategoryId }],
+    queryFn: () => getCategoryQueryFn(selectedCategoryId)
   })
 
   return (

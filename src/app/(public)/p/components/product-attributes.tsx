@@ -1,6 +1,10 @@
-type Props = {}
+import { AttributeValue } from "@/generated"
 
-const ProductAttributes = (props: Props) => {
+type ProductAttributesProps = {
+  attributes: AttributeValue[]
+}
+
+const ProductAttributes = ({ attributes }: ProductAttributesProps) => {
   return (
     <div
       className="divide-y
@@ -12,54 +16,17 @@ const ProductAttributes = (props: Props) => {
         md:[&>div]:grid-cols-[3fr_9fr]
         md:[&>div]:gap-4"
     >
-      <div>
-        <span className="inline-block text-sm font-medium text-gray-400 md:text-left md:text-base">
-          ابعاد
-        </span>
-        <span className="inline-block">10×20×40</span>
-      </div>
-      <div>
-        <span className="inline-block text-sm font-medium text-gray-400 md:text-left md:text-base">
-          جنس
-        </span>
-        <span className="inline-block">سبک معدنی دیواری</span>
-      </div>
-      <div>
-        <span className="inline-block text-sm font-medium text-gray-400 md:text-left md:text-base">
-          وزن
-        </span>
-        <span className="inline-block">۴ کیلوگرم</span>
-      </div>
-      <div>
-        <span className="inline-block text-sm font-medium text-gray-400 md:text-left md:text-base">
-          جذب آب (%)
-        </span>
-        <span className="inline-block"></span>
-      </div>
-      <div>
-        <span className="inline-block text-sm font-medium text-gray-400 md:text-left md:text-base">
-          مقاومت فشاری (N/mm^2)
-        </span>
-        <span className="inline-block"></span>
-      </div>
-      <div>
-        <span className="inline-block text-sm font-medium text-gray-400 md:text-left md:text-base">
-          مقاومت خمشی
-        </span>
-        <span className="inline-block"></span>
-      </div>
-      <div>
-        <span className="inline-block text-sm font-medium text-gray-400 md:text-left md:text-base">
-          زمان گیرایش اولیه
-        </span>
-        <span className="inline-block"></span>
-      </div>
-      <div>
-        <span className="inline-block text-sm font-medium text-gray-400 md:text-left md:text-base">
-          زمان گیرایی ثانویه
-        </span>
-        <span className="inline-block"></span>
-      </div>
+      {attributes.map((attribute) => (
+        <div key={attribute.id}>
+          <span className="inline-block text-sm font-medium text-gray-400 md:text-left md:text-base">
+            {attribute.attribute.name}
+          </span>
+          <span className="inline-block">
+            {attribute.value}{" "}
+            {attribute.attribute.uom && attribute.attribute.uom?.name}
+          </span>
+        </div>
+      ))}
     </div>
   )
 }

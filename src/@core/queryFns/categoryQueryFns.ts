@@ -4,10 +4,10 @@ import { getSession } from "next-auth/react"
 
 import { Category, GetCategoryDocument } from "@/generated"
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@core/lib/authOptions"
 
 export const getCategoryQueryFn = async (
-  slug: string
+  id: number
 ): Promise<{ category: Category }> => {
   const session =
     typeof window === "undefined"
@@ -18,7 +18,7 @@ export const getCategoryQueryFn = async (
     process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT as string,
     GetCategoryDocument,
     {
-      slug
+      id: +id
     },
     {
       authorization: `Bearer ${session?.user?.token}`

@@ -2,14 +2,14 @@ import request from "graphql-request"
 import { getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
 
-import { GetVocabularyDocument, Vocabulary } from "@/generated"
+import { GetProductDocument, Product } from "@/generated"
 
 import { authOptions } from "@core/lib/authOptions"
 
-export const getVocabularyQueryFn = async (
-  slug: string
+export const getProductQueryFn = async (
+  id: number
 ): Promise<{
-  vocabulary: Vocabulary
+  product: Product
 }> => {
   const session =
     typeof window === "undefined"
@@ -18,9 +18,9 @@ export const getVocabularyQueryFn = async (
 
   return await request(
     process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT as string,
-    GetVocabularyDocument,
+    GetProductDocument,
     {
-      slug
+      id: +id
     },
     {
       authorization: `Bearer ${session?.user?.token}`

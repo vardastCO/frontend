@@ -10,8 +10,8 @@ import CategoryFilterItem from "./category-filter-item"
 
 const VocabularyFilter = () => {
   const { data } = useQuery<{ vocabulary: Vocabulary }>({
-    queryKey: ["vocabulary"],
-    queryFn: getVocabularyQueryFn
+    queryKey: ["vocabulary", { slug: "product_categories" }],
+    queryFn: () => getVocabularyQueryFn("product_categories")
   })
 
   return (
