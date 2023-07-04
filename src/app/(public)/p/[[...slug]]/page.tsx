@@ -41,9 +41,7 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <div className="container mx-auto px-4 py-4 lg:py-8">
-        <ProductPage id={id} />
-      </div>
+      <ProductPage id={id} />
     </ReactQueryHydrate>
   )
 }
