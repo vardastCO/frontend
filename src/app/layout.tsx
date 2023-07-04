@@ -1,5 +1,7 @@
 import "@/styles/globals.css"
 
+import { setDefaultOptions } from "date-fns"
+import { faIR } from "date-fns/locale"
 import useTranslation from "next-translate/useTranslation"
 import NextTopLoader from "nextjs-toploader"
 
@@ -15,6 +17,11 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   const { lang } = useTranslation()
+
+  setDefaultOptions({
+    locale: faIR,
+    weekStartsOn: 6
+  })
 
   return (
     <RadixDirectionProvider>
