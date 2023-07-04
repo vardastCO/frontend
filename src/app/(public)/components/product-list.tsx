@@ -19,7 +19,7 @@ const ProductList = () => {
     <>
       <div className="flex items-center border-b border-gray-200 py-3">
         <ProductSort />
-        <ProductCount />
+        <ProductCount count={data?.products.length || 0} />
       </div>
       <div>
         <div className="grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
