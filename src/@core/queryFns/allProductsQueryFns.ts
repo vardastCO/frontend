@@ -4,7 +4,7 @@ import { getSession } from "next-auth/react"
 
 import { GetAllProductsDocument, Product } from "@/generated"
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@core/lib/authOptions"
 
 export const getAllProductsQueryFn = async (): Promise<{
   products: Product[]
