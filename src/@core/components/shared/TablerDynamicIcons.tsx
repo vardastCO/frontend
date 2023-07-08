@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import dynamic from "next/dynamic"
 import { IconLoader2, TablerIconsProps } from "@tabler/icons-react"
 
 interface TablerDynamicIconsProps extends TablerIconsProps {
@@ -19,7 +18,7 @@ export const TablerDynamicIcons = ({
   useEffect(() => {
     const importIcon = async () => {
       // @ts-ignore
-      const { [iconName]: Icon } = dynamic(() => import("@tabler/icons-react"))
+      const { [iconName]: Icon } = await import("@tabler/icons-react")
       setIconComponent(() => Icon)
     }
 
