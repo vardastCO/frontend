@@ -12,9 +12,9 @@ import { AttributeValue, Product, Image as ProductImage } from "@/generated"
 import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import { Button } from "@core/components/ui/button"
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
-import ProductAttributes from "@/app/(public)/p/components/product-attributes"
-import ProductImages from "@/app/(public)/p/components/product-images"
-import ProductSellers from "@/app/(public)/p/components/product-sellers"
+import ProductAttributes from "@/app/(public)/(pages)/p/components/product-attributes"
+import ProductImages from "@/app/(public)/(pages)/p/components/product-images"
+import ProductSellers from "@/app/(public)/(pages)/p/components/product-sellers"
 
 type ProductPageProps = {
   id: number

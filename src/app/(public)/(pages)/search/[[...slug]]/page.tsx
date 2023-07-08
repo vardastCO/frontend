@@ -6,7 +6,7 @@ import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
-import SearchPage from "@/app/(public)/search/components/search-page"
+import SearchPage from "@/app/(public)/(pages)/search/components/search-page"
 
 type SearchIndexProps = {
   params: { slug: Array<string | number> }

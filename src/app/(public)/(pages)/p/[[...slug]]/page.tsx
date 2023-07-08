@@ -4,7 +4,7 @@ import { dehydrate } from "@tanstack/react-query"
 import getQueryClient from "@core/clients/getQueryClient"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
-import ProductPage from "@/app/(public)/p/components/product-page"
+import ProductPage from "@/app/(public)/(pages)/p/components/product-page"
 
 interface ProductIndexProps {
   params: {
