@@ -9,7 +9,7 @@ import clsx from "clsx"
 import { Button } from "@core/components/ui/button"
 import { NavigationItemType } from "@core/types/Navigation"
 
-import { TablerIcons } from "./TablerIcon"
+import { TablerDynamicIcons } from "./TablerDynamicIcons"
 
 type Props = {
   menu: NavigationItemType
@@ -46,7 +46,11 @@ const NavigationItem = (props: Props) => {
       >
         <span>
           <Link href={menu.path} className="app-navigation-item-link">
-            <TablerIcons icon={menu.icon} className="icon" stroke={1.5} />
+            <TablerDynamicIcons
+              iconName={menu.icon}
+              className="icon"
+              stroke={1.5}
+            />
             <span className="flex-1">{menu.title}</span>
           </Link>
           {menu.items && (

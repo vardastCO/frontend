@@ -14,9 +14,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@core/components/ui/dialog"
-import ProductCount from "@/app/(public)/components/product-count"
 import ProductList from "@/app/(public)/components/product-list"
-import ProductSort from "@/app/(public)/components/product-sort"
 
 interface SellerIndexProps {
   params: {
@@ -136,13 +134,9 @@ const SellerIndex = async ({ params: { slug } }: SellerIndexProps) => {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]">
         <div className="hidden md:block"></div>
         <div>
-          <div className="flex items-center border-b border-gray-200 py-3">
-            <ProductSort />
-            <ProductCount />
-          </div>
-          <div>
-            <ProductList />
-          </div>
+          <ProductList
+            selectedCategoryId={slug && slug.length ? +slug[0] : undefined}
+          />
         </div>
       </div>
     </div>

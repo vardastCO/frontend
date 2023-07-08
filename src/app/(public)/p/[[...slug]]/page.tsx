@@ -1,5 +1,4 @@
 import { Metadata, ResolvingMetadata } from "next"
-import { redirect } from "next/navigation"
 import { dehydrate } from "@tanstack/react-query"
 
 import getQueryClient from "@core/clients/getQueryClient"
@@ -41,11 +40,6 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
     getProductQueryFn(id)
   )
   const dehydratedState = dehydrate(queryClient)
-
-  //   TODO
-  if (!pSlug) {
-    redirect(`/p/${id}/${"klkj"}`)
-  }
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
