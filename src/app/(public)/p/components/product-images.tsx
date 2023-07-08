@@ -11,14 +11,15 @@ interface ProductImagesProps {
 
 const ProductImages = ({ images }: ProductImagesProps) => {
   return (
-    <Tabs.Root orientation="vertical" defaultValue={`${images.at(1)?.id}`}>
-      {images.map((image) => (
+    <Tabs.Root orientation="vertical" defaultValue={`${images.at(0)?.id}`}>
+      {images.map((image, idx) => (
         <Tabs.Content key={image.id} value={`${image.id}`}>
           <div className="relative h-96">
             <Image
               src={image.file.presignedUrl.url}
               alt={image.file.name}
               fill
+              priority={idx === 0}
               sizes="(max-width: 640px) 100vw, 33vw"
               className="object-contain"
             />
@@ -30,7 +31,7 @@ const ProductImages = ({ images }: ProductImagesProps) => {
         aria-label="tabs example"
         className="flex items-center justify-center gap-2"
       >
-        {images.map((image) => (
+        {images.map((image, idx) => (
           <Tabs.Trigger
             key={image.id}
             value={`${image.id}`}

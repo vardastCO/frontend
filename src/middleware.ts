@@ -33,7 +33,7 @@ export default withAuth(
 )
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/:path*", "/p/:path*"]
+  matcher: ["/admin/:path*"]
 }
 // export const config = {
 //   matcher: ["/((?!favicon.ico).*)"]

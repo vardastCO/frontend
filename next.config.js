@@ -5,6 +5,11 @@ const nextTranslate = require("next-translate-plugin")
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true"
 })
+const withPWA = require("next-pwa")({
+  dest: "public",
+  // Solution: https://github.com/shadowwalker/next-pwa/issues/424#issuecomment-1399683017
+  buildExcludes: ["app-build-manifest.json"]
+})
 
 const nextConfig = {
   reactStrictMode: true,
@@ -14,4 +19,7 @@ const nextConfig = {
   }
 }
 
-module.exports = withPlugins([nextTranslate, withBundleAnalyzer], nextConfig)
+module.exports = withPlugins(
+  [withPWA, nextTranslate, withBundleAnalyzer],
+  nextConfig
+)

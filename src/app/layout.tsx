@@ -1,5 +1,6 @@
 import "@/styles/globals.css"
 
+import { Metadata } from "next"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 import useTranslation from "next-translate/useTranslation"
@@ -10,6 +11,11 @@ import NextThemeProvider from "@core/providers/NextThemeProvider"
 import RadixDirectionProvider from "@core/providers/RadixDirectionProvider"
 import ReactQueryProvider from "@core/providers/ReactQueryProvider"
 import { Toaster } from "@core/providers/ToasterProvider"
+
+export const metadata: Metadata = {
+  manifest: "/manifest.json",
+  themeColor: "#ffffff"
+}
 
 export default function AdminLayout({
   children
