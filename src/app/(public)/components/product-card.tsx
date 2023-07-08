@@ -25,12 +25,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <Link
         href={`/p/${product.id}`}
         className="flex h-full w-full py-2 lg:px-4"
+        prefetch={false}
       >
         <div className="flex flex-1 flex-row lg:flex-col">
           <div className="relative w-32 flex-shrink-0 bg-[url('/images/blank.png')] bg-[length:2em] bg-center bg-no-repeat align-middle lg:h-48 lg:w-full">
-            {product.images.at(1)?.file.presignedUrl.url && (
+            {product.images.at(0)?.file.presignedUrl.url && (
               <Image
-                src={product.images.at(1)?.file.presignedUrl.url as string}
+                src={product.images.at(0)?.file.presignedUrl.url as string}
                 alt={product.name}
                 fill
                 sizes="(max-width: 640px) 33vw, 10vw"
@@ -61,7 +62,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     <span className="text-lg font-semibold leading-none">
                       {digitsEnToFa(
                         addCommas(
-                          product.prices.at(1)?.amount.toString(10) as string
+                          product.prices.at(0)?.amount.toString(10) as string
                         )
                       )}
                     </span>
@@ -73,7 +74,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                       <span className="text-sm text-gray-500 line-through">
                         {digitsEnToFa(
                           addCommas(
-                            product.prices.at(1)?.amount.toString(10) as string
+                            product.prices.at(0)?.amount.toString(10) as string
                           )
                         )}
                       </span>

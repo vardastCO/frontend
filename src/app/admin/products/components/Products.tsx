@@ -53,7 +53,7 @@ const Products = () => {
               <td>
                 <div className="relative aspect-square h-12 w-12 overflow-hidden rounded">
                   <Image
-                    src={product.images.at(1)?.file.presignedUrl.url as string}
+                    src={product.images.at(0)?.file.presignedUrl.url as string}
                     alt={product.name}
                     sizes="5vw"
                     fill

@@ -1,4 +1,4 @@
-import Header from "./components/header"
+import MobileNavigation from "@/app/(public)/components/mobile-nav"
 
 export default function PublicLayout({
   children
@@ -7,8 +7,8 @@ export default function PublicLayout({
 }) {
   return (
     <>
-      <Header />
       {children}
+      <MobileNavigation />
     </>
   )
 }

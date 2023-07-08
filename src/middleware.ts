@@ -17,10 +17,9 @@ export default withAuth(
       const id = productPathRegexpText[1]
       const name = productPathRegexpText[2]
       if (!name) {
-        return NextResponse.redirect(
-          new URL(`/p/${id}/${"hello"}`, request.url),
-          301
-        )
+        // TODO
+        // const data = await fetch(`${request.nextUrl.origin}/p/api`)
+        // console.log(data.json())
       }
     }
 
