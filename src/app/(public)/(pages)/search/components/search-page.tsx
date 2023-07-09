@@ -1,5 +1,7 @@
 "use client"
 
+import { useMediaQuery } from "@mantine/hooks"
+
 import CategoryFilter from "@/app/(public)/components/category-filter"
 import ProductList from "@/app/(public)/components/product-list"
 import SearchHeader from "@/app/(public)/components/search-header"
@@ -10,6 +12,9 @@ interface SearchPageProps {
 }
 
 const SearchPage = ({ slug }: SearchPageProps) => {
+  const isTabletOrMobile = useMediaQuery("(max-width: 640px)", true, {
+    getInitialValueInEffect: false
+  })
   return (
     <>
       {slug && slug.length > 0 && (
@@ -18,13 +23,16 @@ const SearchPage = ({ slug }: SearchPageProps) => {
         </div>
       )}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]">
-        <div className="hidden md:block">
-          {slug && slug.length > 0 ? (
-            <CategoryFilter selectedCategoryId={+slug[0]} />
-          ) : (
-            <VocabularyFilter />
-          )}
-        </div>
+        {!isTabletOrMobile && (
+          <div>
+            {slug && slug.length > 0 ? (
+              <CategoryFilter selectedCategoryId={+slug[0]} />
+            ) : (
+              <VocabularyFilter />
+            )}
+          </div>
+        )}
+
         <div>
           <ProductList
             selectedCategoryId={slug && slug.length ? +slug[0] : undefined}

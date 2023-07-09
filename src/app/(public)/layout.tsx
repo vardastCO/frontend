@@ -1,4 +1,5 @@
-import MobileNavigation from "@/app/(public)/components/mobile-nav"
+import MobileNavigation from "@/app/(public)/components/mobile-navigation"
+import PublicProvider from "@/app/(public)/components/public-provider"
 
 export default function PublicLayout({
   children
@@ -6,9 +7,9 @@ export default function PublicLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
+    <PublicProvider>
       {children}
       <MobileNavigation />
-    </>
+    </PublicProvider>
   )
 }
