@@ -25,6 +25,10 @@
 @import "core/tag-input.css";
 @import "tailwindcss/utilities";
 
+:root {
+  --safe-aera-inset-bottom: env(safe-area-inset-bottom);
+}
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }

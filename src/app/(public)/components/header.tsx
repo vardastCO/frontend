@@ -22,9 +22,9 @@ import Navigation from "./navigation"
 import Search from "./search"
 
 const Header = () => {
-  const { categoriesFilterStateAtom } = useContext(PublicContext)
-  const [categoriesFilterState, setCategoriesFilterState] = useAtom(
-    categoriesFilterStateAtom
+  const { categoriesFilterVisibilityAtom } = useContext(PublicContext)
+  const [categoriesFilterVisibility, setCategoriesFilterVisibility] = useAtom(
+    categoriesFilterVisibilityAtom
   )
   const isTabletOrMobile = useMediaQuery("(max-width: 640px)", true, {
     getInitialValueInEffect: false
@@ -63,7 +63,7 @@ const Header = () => {
             فیلترها
           </Button>
           <Button
-            onClick={() => setCategoriesFilterState(true)}
+            onClick={() => setCategoriesFilterVisibility(true)}
             size="small"
             variant="ghost"
             className="border border-gray-200"
