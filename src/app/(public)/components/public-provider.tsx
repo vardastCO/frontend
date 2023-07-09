@@ -3,16 +3,16 @@
 import { createContext } from "react"
 import { atom, PrimitiveAtom, useAtom } from "jotai"
 
-import MobileCategories from "@/app/(public)/components/mobile-categories"
+import MobileCategoriesFilter from "@/app/(public)/components/mobile-categories-filter"
 
 interface PublicContextType {
-  categoriesFilterStateAtom: PrimitiveAtom<boolean>
+  categoriesFilterVisibilityAtom: PrimitiveAtom<boolean>
 }
 
-const categoriesFilterStateAtom = atom<boolean>(false)
+const categoriesFilterVisibilityAtom = atom<boolean>(false)
 
 export const PublicContext = createContext<PublicContextType>({
-  categoriesFilterStateAtom
+  categoriesFilterVisibilityAtom
 })
 
 type Props = {
@@ -21,15 +21,15 @@ type Props = {
 
 export default function PublicProvider({ children }: Props) {
   const [categoriesFilterState, setCategoriesFilterState] = useAtom(
-    categoriesFilterStateAtom
+    categoriesFilterVisibilityAtom
   )
   return (
     <PublicContext.Provider
       value={{
-        categoriesFilterStateAtom
+        categoriesFilterVisibilityAtom
       }}
     >
-      <MobileCategories />
+      <MobileCategoriesFilter />
       {children}
     </PublicContext.Provider>
   )

@@ -23,6 +23,12 @@ export const metadata: Metadata = {
     email: false,
     address: false,
     telephone: false
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    viewportFit: "cover"
   }
 }
 
