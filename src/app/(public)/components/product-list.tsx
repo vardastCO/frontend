@@ -45,7 +45,7 @@ const ProductList = ({ selectedCategoryId }: ProductListProps) => {
 
   return (
     <>
-      <div className="flex items-center border-b border-gray-200 py-3">
+      <div className="flex items-center border-b border-gray-200 py-1 md:py-3">
         <ProductSort />
         <ProductCount count={data?.products.length || 0} />
       </div>

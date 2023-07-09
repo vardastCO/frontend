@@ -13,8 +13,17 @@ import ReactQueryProvider from "@core/providers/ReactQueryProvider"
 import { Toaster } from "@core/providers/ToasterProvider"
 
 export const metadata: Metadata = {
+  title: {
+    template: `${process.env.NEXT_PUBLIC_TITLE} | %s`,
+    default: process.env.NEXT_PUBLIC_TITLE as string
+  },
   manifest: "/manifest.json",
-  themeColor: "#ffffff"
+  themeColor: "#ffffff",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false
+  }
 }
 
 export default function AdminLayout({

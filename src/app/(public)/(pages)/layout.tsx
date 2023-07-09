@@ -1,4 +1,4 @@
-import MobileNavigation from "@/app/(public)/components/mobile-nav"
+import MobileNavigation from "@/app/(public)/components/mobile-navigation"
 
 import Header from "../components/header"
 
