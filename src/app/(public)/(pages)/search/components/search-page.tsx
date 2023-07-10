@@ -1,20 +1,16 @@
 "use client"
 
-import { useMediaQuery } from "@mantine/hooks"
-
 import CategoryFilter from "@/app/(public)/components/category-filter"
 import ProductList from "@/app/(public)/components/product-list"
 import SearchHeader from "@/app/(public)/components/search-header"
 import VocabularyFilter from "@/app/(public)/components/vocabulary-filter"
 
 interface SearchPageProps {
+  isMobileView: RegExpMatchArray | null
   slug: Array<string | number>
 }
 
-const SearchPage = ({ slug }: SearchPageProps) => {
-  const isTabletOrMobile = useMediaQuery("(max-width: 640px)", true, {
-    getInitialValueInEffect: false
-  })
+const SearchPage = ({ isMobileView, slug }: SearchPageProps) => {
   return (
     <>
       {slug && slug.length > 0 && (
@@ -23,7 +19,7 @@ const SearchPage = ({ slug }: SearchPageProps) => {
         </div>
       )}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]">
-        {!isTabletOrMobile && (
+        {!isMobileView && (
           <div>
             {slug && slug.length > 0 ? (
               <CategoryFilter selectedCategoryId={+slug[0]} />

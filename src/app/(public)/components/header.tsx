@@ -3,7 +3,6 @@
 import { useContext } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useMediaQuery } from "@mantine/hooks"
 import {
   IconAdjustmentsHorizontal,
   IconCategory,
@@ -25,16 +24,15 @@ const Header = () => {
   const {
     categoriesFilterVisibilityAtom,
     sortFilterVisibilityAtom,
-    filtersVisibilityAtom
+    filtersVisibilityAtom,
+    isMobileView
   } = useContext(PublicContext)
   const setCategoriesFilterVisibility = useSetAtom(
     categoriesFilterVisibilityAtom
   )
   const setSortFilterVisibility = useSetAtom(sortFilterVisibilityAtom)
   const setFiltersVisibility = useSetAtom(filtersVisibilityAtom)
-  const isTabletOrMobile = useMediaQuery("(max-width: 640px)", true, {
-    getInitialValueInEffect: false
-  })
+
   return (
     <div className="flex flex-col gap-4 border-gray-200 bg-white p-4 pb-0 lg:border-b">
       <div className="flex items-center gap-4 lg:gap-8">
@@ -58,7 +56,12 @@ const Header = () => {
           <Search />
         </div>
       </div>
-      {isTabletOrMobile ? (
+      {!isMobileView ? (
+        <div className="flex items-start justify-between">
+          <Navigation />
+          <LocationSelector />
+        </div>
+      ) : (
         <div className="flex items-start gap-2">
           <Button
             onClick={() => setFiltersVisibility(true)}
@@ -87,11 +90,6 @@ const Header = () => {
             <IconSortDescending2 className="icon text-gray-400" />
             مرتب‌سازی
           </Button>
-        </div>
-      ) : (
-        <div className="flex items-start justify-between">
-          <Navigation />
-          <LocationSelector />
         </div>
       )}
     </div>
