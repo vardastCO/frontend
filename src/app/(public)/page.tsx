@@ -12,16 +12,18 @@ export const metadata: Metadata = {
 
 const Index = async () => {
   return (
-    <div className="flex h-screen flex-col items-center justify-center">
-      <div className="relative mb-8 h-20">
-        <Image
-          src={logoHorizontal}
-          alt={`${process.env.NEXT_PUBLIC_TITLE} - ${process.env.NEXT_PUBLIC_SLOGAN}`}
-          loading="lazy"
-          className="h-20 w-auto object-contain"
-        />
+    <div className="flex h-screen w-full items-center justify-center">
+      <div className="flex w-full translate-y-[calc(-1*env(safe-area-inset-bottom))] flex-col items-center justify-center">
+        <div className="relative mb-8 h-20">
+          <Image
+            src={logoHorizontal}
+            alt={`${process.env.NEXT_PUBLIC_TITLE} - ${process.env.NEXT_PUBLIC_SLOGAN}`}
+            className="h-20 w-auto object-contain"
+            priority
+          />
+        </div>
+        <Search />
       </div>
-      <Search />
     </div>
   )
 }

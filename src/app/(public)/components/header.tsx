@@ -9,7 +9,7 @@ import {
   IconCategory,
   IconSortDescending2
 } from "@tabler/icons-react"
-import { useAtom } from "jotai"
+import { useSetAtom } from "jotai"
 
 import { Button } from "@core/components/ui/button"
 import { PublicContext } from "@/app/(public)/components/public-provider"
@@ -22,10 +22,16 @@ import Navigation from "./navigation"
 import Search from "./search"
 
 const Header = () => {
-  const { categoriesFilterVisibilityAtom } = useContext(PublicContext)
-  const [categoriesFilterVisibility, setCategoriesFilterVisibility] = useAtom(
+  const {
+    categoriesFilterVisibilityAtom,
+    sortFilterVisibilityAtom,
+    filtersVisibilityAtom
+  } = useContext(PublicContext)
+  const setCategoriesFilterVisibility = useSetAtom(
     categoriesFilterVisibilityAtom
   )
+  const setSortFilterVisibility = useSetAtom(sortFilterVisibilityAtom)
+  const setFiltersVisibility = useSetAtom(filtersVisibilityAtom)
   const isTabletOrMobile = useMediaQuery("(max-width: 640px)", true, {
     getInitialValueInEffect: false
   })
@@ -55,6 +61,7 @@ const Header = () => {
       {isTabletOrMobile ? (
         <div className="flex items-start gap-2">
           <Button
+            onClick={() => setFiltersVisibility(true)}
             size="small"
             variant="ghost"
             className="border border-gray-200"
@@ -72,6 +79,7 @@ const Header = () => {
             دسته‌بندی‌ها
           </Button>
           <Button
+            onClick={() => setSortFilterVisibility(true)}
             size="small"
             variant="ghost"
             className="border border-gray-200"
