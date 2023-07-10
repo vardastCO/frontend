@@ -1,6 +1,7 @@
 "use client"
 
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { useMediaQuery } from "@mantine/hooks"
 import * as Dialog from "@radix-ui/react-dialog"
 import { IconArrowRight, IconChevronLeft } from "@tabler/icons-react"
@@ -14,28 +15,127 @@ import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
-type Props = {}
+interface VocabulariesListProps {
+  onCategoryChanged: (category: Category) => void
+}
 
-const MobileCategoriesFilter = (props: Props) => {
+const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
+  const vocabularies = useQuery<{ vocabulary: Vocabulary }>({
+    queryKey: ["vocabulary", { slug: "product_categories" }],
+    queryFn: () => getVocabularyQueryFn("product_categories")
+  })
+
+  if (vocabularies.isLoading)
+    return (
+      <div className="flex animate-pulse flex-col gap-3">
+        <div className="h-8 w-[80%] rounded-md bg-gray-200"></div>
+        <div className="h-8 w-full rounded-md bg-gray-200"></div>
+        <div className="h-8 w-[90%] rounded-md bg-gray-200"></div>
+      </div>
+    )
+  if (!vocabularies.data) return <></>
+
+  return (
+    <ul className="flex flex-col divide-y divide-gray-200">
+      {vocabularies.data.vocabulary.categories.map(
+        (category) =>
+          category && (
+            <li
+              key={category.id}
+              className="flex items-center justify-between py-3"
+              onClick={() => onCategoryChanged(category)}
+            >
+              {category.title}
+              {category.childrenCount > 0 && (
+                <IconChevronLeft className="h-4 w-4 text-gray-400" />
+              )}
+            </li>
+          )
+      )}
+    </ul>
+  )
+}
+
+interface CategoriesListProps {
+  categoryId: number
+  onCategoryChanged: (category: Category) => void
+}
+
+const CategoriesList = ({
+  onCategoryChanged,
+  categoryId
+}: CategoriesListProps) => {
+  const { push } = useRouter()
+  const categories = useQuery<{ category: Category }>({
+    queryKey: ["category", { id: categoryId }],
+    queryFn: () => getCategoryQueryFn(categoryId)
+  })
+  if (categories.isLoading)
+    return (
+      <div className="flex animate-pulse flex-col gap-3">
+        <div className="h-8 w-[80%] rounded-md bg-gray-200"></div>
+        <div className="h-8 w-full rounded-md bg-gray-200"></div>
+        <div className="h-8 w-[90%] rounded-md bg-gray-200"></div>
+      </div>
+    )
+  if (!categories.data) return <></>
+
+  return (
+    <ul className="flex flex-col divide-y divide-gray-200">
+      <li
+        className="flex items-center justify-between py-3 font-medium"
+        onClick={() =>
+          push(
+            `/search/${categories.data.category.id}/${categories.data.category.title}`
+          )
+        }
+      >
+        {`نمایش تمام کالاهای ${categories.data.category.title}`}
+      </li>
+      {categories.data.category.children.map(
+        (category) =>
+          category && (
+            <li
+              key={category.id}
+              className="flex items-center justify-between py-3"
+              onClick={() => onCategoryChanged(category)}
+            >
+              {category.title}
+              {category.childrenCount > 0 && (
+                <IconChevronLeft className="h-4 w-4 text-gray-400" />
+              )}
+            </li>
+          )
+      )}
+    </ul>
+  )
+}
+
+type MobileCategoriesFilterProps = {}
+
+const MobileCategoriesFilter = (props: MobileCategoriesFilterProps) => {
+  const { push } = useRouter()
   const { categoriesFilterVisibilityAtom } = useContext(PublicContext)
   const [categoriesFilterVisibility, setCategoriesFilterVisibility] = useAtom(
     categoriesFilterVisibilityAtom
+  )
+  const [previousCategory, setPreviousCategory] = useState<Category | null>(
+    null
+  )
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    null
   )
 
   const isTabletOrMobile = useMediaQuery("(max-width: 640px)", true, {
     getInitialValueInEffect: false
   })
 
-  const vocabularies = useQuery<{ vocabulary: Vocabulary }>({
-    queryKey: ["vocabulary", { slug: "product_categories" }],
-    queryFn: () => getVocabularyQueryFn("product_categories")
-  })
-
-  const categories = useQuery<{ category: Category }>({
-    queryKey: ["category", { id: 104 }],
-    queryFn: () => getCategoryQueryFn(104),
-    enabled: false
-  })
+  useEffect(() => {
+    if (!categoriesFilterVisibility) {
+      setSelectedCategory(null)
+      setPreviousCategory(null)
+    }
+  }, [categoriesFilterVisibility])
 
   return (
     isTabletOrMobile && (
@@ -48,28 +148,52 @@ const MobileCategoriesFilter = (props: Props) => {
             <div className="sticky top-0 border-b border-gray-200 bg-white p-4">
               <div className="flex items-center gap-2">
                 <Button
-                  onClick={() => setCategoriesFilterVisibility(false)}
+                  onClick={() => {
+                    if (!selectedCategory) setCategoriesFilterVisibility(false)
+                    if (selectedCategory && !previousCategory)
+                      setSelectedCategory(null)
+                    if (selectedCategory && previousCategory) {
+                      setSelectedCategory(previousCategory)
+                      setPreviousCategory(
+                        selectedCategory.parentCategory || null
+                      )
+                    }
+                  }}
                   variant="ghost"
                   size="small"
                   iconOnly
                 >
                   <IconArrowRight className="h-5 w-5" />
                 </Button>
-                <div className="font-bold text-gray-800">همه دسته‌بندی‌ها</div>
+                <div className="font-bold text-gray-800">
+                  {selectedCategory
+                    ? selectedCategory.title
+                    : "همه دسته‌بندی‌ها"}
+                </div>
               </div>
             </div>
             <div className="p-4">
-              <ul className="flex flex-col divide-y divide-gray-200">
-                {vocabularies?.data?.vocabulary.categories.map((category) => (
-                  <li
-                    key={category?.id}
-                    className="flex items-center justify-between py-3"
-                  >
-                    {category?.title}
-                    <IconChevronLeft className="h-4 w-4 text-gray-400" />
-                  </li>
-                ))}
-              </ul>
+              {selectedCategory ? (
+                <CategoriesList
+                  onCategoryChanged={(category) => {
+                    category.childrenCount > 0
+                      ? (setPreviousCategory(selectedCategory),
+                        setSelectedCategory(category))
+                      : (setCategoriesFilterVisibility(false),
+                        push(`/search/${category.id}/${category.title}`))
+                  }}
+                  categoryId={selectedCategory.id}
+                />
+              ) : (
+                <VocabulariesList
+                  onCategoryChanged={(category) => {
+                    category.childrenCount > 0
+                      ? setSelectedCategory(category)
+                      : (setCategoriesFilterVisibility(false),
+                        push(`/search/${category.id}/${category.title}`))
+                  }}
+                />
+              )}
             </div>
           </div>
         </Dialog.Content>
