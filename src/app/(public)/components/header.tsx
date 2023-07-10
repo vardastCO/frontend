@@ -22,12 +22,16 @@ import Navigation from "./navigation"
 import Search from "./search"
 
 const Header = () => {
-  const { categoriesFilterVisibilityAtom, sortFilterVisibilityAtom } =
-    useContext(PublicContext)
+  const {
+    categoriesFilterVisibilityAtom,
+    sortFilterVisibilityAtom,
+    filtersVisibilityAtom
+  } = useContext(PublicContext)
   const setCategoriesFilterVisibility = useSetAtom(
     categoriesFilterVisibilityAtom
   )
   const setSortFilterVisibility = useSetAtom(sortFilterVisibilityAtom)
+  const setFiltersVisibility = useSetAtom(filtersVisibilityAtom)
   const isTabletOrMobile = useMediaQuery("(max-width: 640px)", true, {
     getInitialValueInEffect: false
   })
@@ -57,6 +61,7 @@ const Header = () => {
       {isTabletOrMobile ? (
         <div className="flex items-start gap-2">
           <Button
+            onClick={() => setFiltersVisibility(true)}
             size="small"
             variant="ghost"
             className="border border-gray-200"

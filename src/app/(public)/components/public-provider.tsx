@@ -4,19 +4,23 @@ import { createContext } from "react"
 import { atom, PrimitiveAtom } from "jotai"
 
 import MobileCategoriesFilter from "@/app/(public)/components/mobile-categories-filter"
+import MobileFilters from "@/app/(public)/components/mobile-filters"
 import MobileSortFilter from "@/app/(public)/components/mobile-sort-filter"
 
 interface PublicContextType {
   categoriesFilterVisibilityAtom: PrimitiveAtom<boolean>
   sortFilterVisibilityAtom: PrimitiveAtom<boolean>
+  filtersVisibilityAtom: PrimitiveAtom<boolean>
 }
 
 const categoriesFilterVisibilityAtom = atom<boolean>(false)
 const sortFilterVisibilityAtom = atom<boolean>(false)
+const filtersVisibilityAtom = atom<boolean>(false)
 
 export const PublicContext = createContext<PublicContextType>({
   categoriesFilterVisibilityAtom,
-  sortFilterVisibilityAtom
+  sortFilterVisibilityAtom,
+  filtersVisibilityAtom
 })
 
 type Props = {
@@ -28,11 +32,13 @@ export default function PublicProvider({ children }: Props) {
     <PublicContext.Provider
       value={{
         categoriesFilterVisibilityAtom,
-        sortFilterVisibilityAtom
+        sortFilterVisibilityAtom,
+        filtersVisibilityAtom
       }}
     >
       <MobileCategoriesFilter />
       <MobileSortFilter />
+      <MobileFilters />
       {children}
     </PublicContext.Provider>
   )
