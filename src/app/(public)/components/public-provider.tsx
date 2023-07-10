@@ -1,18 +1,22 @@
 "use client"
 
 import { createContext } from "react"
-import { atom, PrimitiveAtom, useAtom } from "jotai"
+import { atom, PrimitiveAtom } from "jotai"
 
 import MobileCategoriesFilter from "@/app/(public)/components/mobile-categories-filter"
+import MobileSortFilter from "@/app/(public)/components/mobile-sort-filter"
 
 interface PublicContextType {
   categoriesFilterVisibilityAtom: PrimitiveAtom<boolean>
+  sortFilterVisibilityAtom: PrimitiveAtom<boolean>
 }
 
 const categoriesFilterVisibilityAtom = atom<boolean>(false)
+const sortFilterVisibilityAtom = atom<boolean>(false)
 
 export const PublicContext = createContext<PublicContextType>({
-  categoriesFilterVisibilityAtom
+  categoriesFilterVisibilityAtom,
+  sortFilterVisibilityAtom
 })
 
 type Props = {
@@ -20,16 +24,15 @@ type Props = {
 }
 
 export default function PublicProvider({ children }: Props) {
-  const [categoriesFilterState, setCategoriesFilterState] = useAtom(
-    categoriesFilterVisibilityAtom
-  )
   return (
     <PublicContext.Provider
       value={{
-        categoriesFilterVisibilityAtom
+        categoriesFilterVisibilityAtom,
+        sortFilterVisibilityAtom
       }}
     >
       <MobileCategoriesFilter />
+      <MobileSortFilter />
       {children}
     </PublicContext.Provider>
   )
