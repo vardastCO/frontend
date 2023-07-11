@@ -70,6 +70,30 @@ query GetProduct($id: Int!) {
       createdAt
       updatedAt
       childrenCount
+      parentCategory {
+        id
+        title
+        titleEn
+        slug
+        icon
+        sort
+        isActive
+        createdAt
+        updatedAt
+        childrenCount
+      }
+      parentsChain {
+        id
+        title
+        titleEn
+        slug
+        icon
+        sort
+        isActive
+        createdAt
+        updatedAt
+        childrenCount
+      }
     }
     brand {
       id

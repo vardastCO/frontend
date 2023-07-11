@@ -20,11 +20,14 @@ const VocabularyFilter = () => {
       {data && (
         <div className="max-h-[400px] overflow-y-auto">
           <ol className="flex flex-col gap-2">
-            {data.vocabulary.categories.map((category) => (
-              <li key={category?.id}>
-                <CategoryFilterItem category={category as Category} />
-              </li>
-            ))}
+            {data.vocabulary.categories.map(
+              (category) =>
+                category && (
+                  <li key={category.id}>
+                    <CategoryFilterItem category={category as Category} />
+                  </li>
+                )
+            )}
           </ol>
         </div>
       )}

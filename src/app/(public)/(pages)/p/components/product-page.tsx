@@ -5,7 +5,7 @@ import { notFound } from "next/navigation"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
 import { useQuery } from "@tanstack/react-query"
-import { BreadcrumbList, WithContext } from "schema-dts"
+import { BreadcrumbList, ItemList, WithContext } from "schema-dts"
 
 import { AttributeValue, Product, Image as ProductImage } from "@/generated"
 
@@ -32,6 +32,32 @@ const ProductPage = ({ id }: ProductPageProps) => {
   if (!data) notFound()
 
   const product = data.product
+
+  const breadcrumbJsonLdArray = []
+  product.category.parentsChain.forEach((parent, idx) => {
+    breadcrumbJsonLdArray.push({
+      "@type": "ListItem",
+      position: idx + 2,
+      item: {
+        "@id": encodeURI(
+          `${process.env.NEXT_PUBLIC_URL}/search/${parent.id}/${parent.title}`
+        ),
+        name: parent.title
+      }
+    })
+  })
+
+  breadcrumbJsonLdArray.push({
+    "@type": "ListItem",
+    position: product.category.parentsChain.length + 2,
+    item: {
+      "@id": encodeURI(
+        `${process.env.NEXT_PUBLIC_URL}/search/${product.category.id}/${product.category.title}`
+      ),
+      name: product.category.title
+    }
+  })
+
   const breadcrumbJsonLd: WithContext<BreadcrumbList> = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -44,19 +70,10 @@ const ProductPage = ({ id }: ProductPageProps) => {
           name: process.env.NEXT_PUBLIC_TITLE as string
         }
       },
+      ...(breadcrumbJsonLdArray as ItemList[]),
       {
         "@type": "ListItem",
-        position: 2,
-        item: {
-          "@id": encodeURI(
-            `${process.env.NEXT_PUBLIC_URL}/search/${product.category.id}/${product.category.title}`
-          ),
-          name: product.category.title
-        }
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
+        position: breadcrumbJsonLdArray.length + 2,
         item: {
           "@id": encodeURI(
             `${process.env.NEXT_PUBLIC_URL}/p/${product.id}/${product.name}`
@@ -66,13 +83,20 @@ const ProductPage = ({ id }: ProductPageProps) => {
       }
     ]
   }
-  const breadcrumb: CrumbItemProps[] = [
-    {
-      label: product.category.title,
-      path: `/search/${product.category.id}/${product.category.title}`,
+
+  const breadcrumb: CrumbItemProps[] = []
+  product.category.parentsChain.forEach((parent) => {
+    breadcrumb.push({
+      label: parent.title,
+      path: `/search/${parent.id}/${parent.title}`,
       isCurrent: false
-    }
-  ]
+    })
+  })
+  breadcrumb.push({
+    label: product.category.title,
+    path: `/search/${product.category.id}/${product.category.title}`,
+    isCurrent: false
+  })
 
   return (
     <>

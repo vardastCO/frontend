@@ -3,10 +3,6 @@
 import { createContext } from "react"
 import { atom, PrimitiveAtom } from "jotai"
 
-import MobileCategoriesFilter from "@/app/(public)/components/mobile-categories-filter"
-import MobileFilters from "@/app/(public)/components/mobile-filters"
-import MobileSortFilter from "@/app/(public)/components/mobile-sort-filter"
-
 interface PublicContextType {
   categoriesFilterVisibilityAtom: PrimitiveAtom<boolean>
   sortFilterVisibilityAtom: PrimitiveAtom<boolean>
@@ -23,11 +19,11 @@ export const PublicContext = createContext<PublicContextType>({
   filtersVisibilityAtom
 })
 
-type Props = {
+type PublicProviderProps = {
   children: React.ReactNode
 }
 
-export default function PublicProvider({ children }: Props) {
+const PublicProvider = ({ children }: PublicProviderProps) => {
   return (
     <PublicContext.Provider
       value={{
@@ -36,10 +32,9 @@ export default function PublicProvider({ children }: Props) {
         filtersVisibilityAtom
       }}
     >
-      <MobileCategoriesFilter />
-      <MobileSortFilter />
-      <MobileFilters />
       {children}
     </PublicContext.Provider>
   )
 }
+
+export default PublicProvider

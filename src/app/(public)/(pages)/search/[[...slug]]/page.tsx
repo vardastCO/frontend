@@ -2,6 +2,7 @@ import { Metadata, ResolvingMetadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
 
 import getQueryClient from "@core/clients/getQueryClient"
+import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
@@ -31,6 +32,8 @@ export async function generateMetadata(
 }
 
 const SearchIndex = async ({ params: { slug } }: SearchIndexProps) => {
+  const isMobileView = CheckIsMobileView()
+
   const queryClient = getQueryClient()
   if (slug && slug.length) {
     await queryClient.prefetchQuery(
@@ -53,7 +56,7 @@ const SearchIndex = async ({ params: { slug } }: SearchIndexProps) => {
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <SearchPage slug={slug} />
+      <SearchPage slug={slug} isMobileView={isMobileView} />
     </ReactQueryHydrate>
   )
 }

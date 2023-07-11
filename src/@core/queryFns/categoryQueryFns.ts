@@ -2,13 +2,13 @@ import request from "graphql-request"
 import { getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
 
-import { Category, GetCategoryDocument } from "@/generated"
+import { GetCategoryDocument, GetCategoryQuery } from "@/generated"
 
 import { authOptions } from "@core/lib/authOptions"
 
 export const getCategoryQueryFn = async (
   id: number
-): Promise<{ category: Category }> => {
+): Promise<GetCategoryQuery> => {
   const session =
     typeof window === "undefined"
       ? await getServerSession(authOptions)

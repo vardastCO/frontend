@@ -2,21 +2,19 @@ import request from "graphql-request"
 import { getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
 
-import { GetAllProductsDocument, Product } from "@/generated"
+import { GetAllProductsDocument, GetAllProductsQuery } from "@/generated"
 
 import { authOptions } from "@core/lib/authOptions"
 
 type getAllProductsQueryFnArgs = {
-  take?: number
+  page?: number
   categoryId?: number
 }
 
 export const getAllProductsQueryFn = async ({
-  take = 20,
+  page,
   categoryId
-}: getAllProductsQueryFnArgs = {}): Promise<{
-  products: Product[]
-}> => {
+}: getAllProductsQueryFnArgs = {}): Promise<GetAllProductsQuery> => {
   const session =
     typeof window === "undefined"
       ? await getServerSession(authOptions)
@@ -27,7 +25,7 @@ export const getAllProductsQueryFn = async ({
     GetAllProductsDocument,
     {
       indexProductInput: {
-        take,
+        page,
         categoryId: categoryId || null
       }
     },
