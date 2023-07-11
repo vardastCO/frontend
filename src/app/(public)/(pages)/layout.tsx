@@ -1,3 +1,5 @@
+import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+
 import Header from "../components/header"
 
 export default function PublicLayout({
@@ -5,9 +7,10 @@ export default function PublicLayout({
 }: {
   children: React.ReactNode
 }) {
+  const isMobileView = CheckIsMobileView()
   return (
     <>
-      <Header />
+      <Header isMobileView={isMobileView} />
       {children}
     </>
   )
