@@ -1,8 +1,8 @@
-import { ReactNode } from "react"
+import { ReactElement } from "react"
 import { headers } from "next/headers"
 
 type Props = {
-  children: ReactNode
+  children(object: any): ReactElement
 }
 
 const MobileViewWrapper = ({ children }: Props) => {
@@ -15,7 +15,7 @@ const MobileViewWrapper = ({ children }: Props) => {
     /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
   )
 
-  return <>{children}</>
+  return <>{children({ data: isMobileView })}</>
 }
 
 export default MobileViewWrapper

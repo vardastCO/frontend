@@ -2,9 +2,9 @@
 
 import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import { BreadcrumbList, WithContext } from "schema-dts"
+import { BreadcrumbList, ItemList, WithContext } from "schema-dts"
 
-import { Category } from "@/generated"
+import { GetCategoryQuery } from "@/generated"
 
 import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
@@ -14,12 +14,37 @@ interface SearchHeaderProps {
 }
 
 const SearchHeader = ({ selectedCategoryId }: SearchHeaderProps) => {
-  const { data } = useQuery<{ category: Category }>({
+  const { data } = useQuery<GetCategoryQuery>({
     queryKey: ["category", { id: selectedCategoryId }],
     queryFn: () => getCategoryQueryFn(selectedCategoryId)
   })
 
   if (!data) notFound()
+
+  const breadcrumbJsonLdArray = []
+  data.category.parentsChain.forEach((parent, idx) => {
+    breadcrumbJsonLdArray.push({
+      "@type": "ListItem",
+      position: idx + 2,
+      item: {
+        "@id": encodeURI(
+          `${process.env.NEXT_PUBLIC_URL}/search/${parent.id}/${parent.title}`
+        ),
+        name: parent.title
+      }
+    })
+  })
+
+  breadcrumbJsonLdArray.push({
+    "@type": "ListItem",
+    position: data.category.parentsChain.length + 2,
+    item: {
+      "@id": encodeURI(
+        `${process.env.NEXT_PUBLIC_URL}/search/${data.category.id}/${data.category.title}`
+      ),
+      name: data.category.title
+    }
+  })
 
   const breadcrumbJsonLd: WithContext<BreadcrumbList> = {
     "@context": "https://schema.org",
@@ -33,26 +58,25 @@ const SearchHeader = ({ selectedCategoryId }: SearchHeaderProps) => {
           name: process.env.NEXT_PUBLIC_TITLE as string
         }
       },
-      {
-        "@type": "ListItem",
-        position: 2,
-        item: {
-          "@id": encodeURI(
-            `${process.env.NEXT_PUBLIC_URL}/search/${data.category.id}/${data.category.title}`
-          ),
-          name: data.category.title
-        }
-      }
+      ...(breadcrumbJsonLdArray as ItemList[])
     ]
   }
 
-  const breadcrumb: CrumbItemProps[] = [
-    {
-      path: encodeURI(`/search/${data.category.id}/${data.category.title}`),
-      label: data.category.title,
-      isCurrent: true
-    }
-  ]
+  const breadcrumb: CrumbItemProps[] = []
+
+  data.category.parentsChain.forEach((parent) => {
+    breadcrumb.push({
+      label: parent.title,
+      path: `/search/${parent.id}/${parent.title}`,
+      isCurrent: false
+    })
+  })
+
+  breadcrumb.push({
+    path: encodeURI(`/search/${data.category.id}/${data.category.title}`),
+    label: data.category.title,
+    isCurrent: true
+  })
 
   return (
     <>

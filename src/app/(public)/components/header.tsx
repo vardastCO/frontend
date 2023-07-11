@@ -11,6 +11,7 @@ import {
 import { useSetAtom } from "jotai"
 
 import { Button } from "@core/components/ui/button"
+import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
@@ -24,14 +25,14 @@ const Header = () => {
   const {
     categoriesFilterVisibilityAtom,
     sortFilterVisibilityAtom,
-    filtersVisibilityAtom,
-    isMobileView
+    filtersVisibilityAtom
   } = useContext(PublicContext)
   const setCategoriesFilterVisibility = useSetAtom(
     categoriesFilterVisibilityAtom
   )
   const setSortFilterVisibility = useSetAtom(sortFilterVisibilityAtom)
   const setFiltersVisibility = useSetAtom(filtersVisibilityAtom)
+  const isMobileView = CheckIsMobileView()
 
   return (
     <div className="flex flex-col gap-4 border-gray-200 bg-white p-4 pb-0 lg:border-b">

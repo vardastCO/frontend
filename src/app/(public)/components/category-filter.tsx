@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 
-import { Category } from "@/generated"
+import { Category, GetCategoryQuery } from "@/generated"
 
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
 
@@ -13,7 +13,7 @@ interface CategoryFilterProps {
 }
 
 const CategoryFilter = ({ selectedCategoryId }: CategoryFilterProps) => {
-  const { data } = useQuery<{ category: Category }>({
+  const { data } = useQuery<GetCategoryQuery>({
     queryKey: ["category", { id: selectedCategoryId }],
     queryFn: () => getCategoryQueryFn(selectedCategoryId)
   })
@@ -25,12 +25,12 @@ const CategoryFilter = ({ selectedCategoryId }: CategoryFilterProps) => {
         <div className="max-h-[400px] overflow-y-auto">
           <ol className="flex flex-col gap-2 [&_ol]:ms-6">
             {data.category.parentCategory ? (
-              <li className="">
+              <li className="flex flex-col gap-2">
                 <CategoryFilterItem
                   category={data.category.parentCategory as Category}
                 />
                 <ol className="flex flex-col gap-2">
-                  <li>
+                  <li className="flex flex-col gap-2">
                     <CategoryFilterItem category={data.category as Category} />
                     <ol className="flex flex-col gap-2">
                       {data.category.children.map((category) => (
