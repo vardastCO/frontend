@@ -24,7 +24,7 @@ const Products = () => {
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
   if (!data) notFound()
-  if (!data.products.length) return <NoResult entity="product" />
+  if (!data.products.data.length) return <NoResult entity="product" />
 
   setDefaultOptions({
     locale: faIR,
@@ -45,54 +45,62 @@ const Products = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.products.map((product) => (
-            <tr
-              key={product.id}
-              onClick={() => router.push(`/admin/products/${product.id}`)}
-            >
-              <td>
-                <div className="relative aspect-square h-12 w-12 overflow-hidden rounded">
-                  <Image
-                    src={product.images.at(0)?.file.presignedUrl.url as string}
-                    alt={product.name}
-                    sizes="5vw"
-                    fill
-                  />
-                </div>
-              </td>
-              <td>
-                <span className="font-medium text-gray-800">
-                  {product.name}
-                </span>
-              </td>
-              <td>
-                {product.isActive ? (
-                  <span className="tag tag-dot tag-success">
-                    {t("common:active")}
-                  </span>
-                ) : (
-                  <span className="tag tag-dot tag-gray">
-                    {t("common:inactive")}
-                  </span>
-                )}
-              </td>
-              <td>
-                <span>
-                  {digitsEnToFa(
-                    formatDistanceToNow(new Date(product.updatedAt).getTime(), {
-                      addSuffix: true
-                    })
-                  )}
-                </span>
-              </td>
-              <td>
-                <span>--</span>
-              </td>
-              <td>
-                <span>--</span>
-              </td>
-            </tr>
-          ))}
+          {data?.products.data.map(
+            (product) =>
+              product && (
+                <tr
+                  key={product.id}
+                  onClick={() => router.push(`/admin/products/${product.id}`)}
+                >
+                  <td>
+                    <div className="relative aspect-square h-12 w-12 overflow-hidden rounded">
+                      <Image
+                        src={
+                          product.images.at(0)?.file.presignedUrl.url as string
+                        }
+                        alt={product.name}
+                        sizes="5vw"
+                        fill
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    <span className="font-medium text-gray-800">
+                      {product.name}
+                    </span>
+                  </td>
+                  <td>
+                    {product.isActive ? (
+                      <span className="tag tag-dot tag-success">
+                        {t("common:active")}
+                      </span>
+                    ) : (
+                      <span className="tag tag-dot tag-gray">
+                        {t("common:inactive")}
+                      </span>
+                    )}
+                  </td>
+                  <td>
+                    <span>
+                      {digitsEnToFa(
+                        formatDistanceToNow(
+                          new Date(product.updatedAt).getTime(),
+                          {
+                            addSuffix: true
+                          }
+                        )
+                      )}
+                    </span>
+                  </td>
+                  <td>
+                    <span>--</span>
+                  </td>
+                  <td>
+                    <span>--</span>
+                  </td>
+                </tr>
+              )
+          )}
         </tbody>
       </table>
     </div>
