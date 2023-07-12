@@ -18,7 +18,7 @@ const UOMs = () => {
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
   if (!data) notFound()
-  if (!data.uoms.length) return <NoResult entity="uom" />
+  if (!data.uoms.data.length) return <NoResult entity="uom" />
 
   return (
     <div className="card table-responsive rounded">
@@ -31,30 +31,37 @@ const UOMs = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.uoms.map((uom) => (
-            <tr
-              key={uom.id}
-              onClick={() => router.push(`/admin/uoms/${uom.id}`)}
-            >
-              <td>
-                <span className="font-medium text-gray-800">{uom.name}</span>
-              </td>
-              <td>
-                <span className="font-medium text-gray-800">{uom.symbol}</span>
-              </td>
-              <td>
-                {uom.isActive ? (
-                  <span className="tag tag-dot tag-success tag-sm">
-                    {t("common:active")}
-                  </span>
-                ) : (
-                  <span className="tag tag-dot tag-gray tag-sm">
-                    {t("common:inactive")}
-                  </span>
-                )}
-              </td>
-            </tr>
-          ))}
+          {data.uoms.data.map(
+            (uom) =>
+              uom && (
+                <tr
+                  key={uom.id}
+                  onClick={() => router.push(`/admin/uoms/${uom.id}`)}
+                >
+                  <td>
+                    <span className="font-medium text-gray-800">
+                      {uom.name}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="font-medium text-gray-800">
+                      {uom.symbol}
+                    </span>
+                  </td>
+                  <td>
+                    {uom.isActive ? (
+                      <span className="tag tag-dot tag-success tag-sm">
+                        {t("common:active")}
+                      </span>
+                    ) : (
+                      <span className="tag tag-dot tag-gray tag-sm">
+                        {t("common:inactive")}
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              )
+          )}
         </tbody>
       </table>
     </div>

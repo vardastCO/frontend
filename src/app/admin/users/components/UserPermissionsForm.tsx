@@ -81,40 +81,45 @@ const UserPermissionsForm = ({
                   name="roles"
                   render={() => (
                     <FormItem>
-                      {roles.roles.map((item) => (
-                        <FormField
-                          key={item.id}
-                          control={form.control}
-                          name="roles"
-                          render={({ field }) => {
-                            return (
-                              <FormItem
-                                key={item.id}
-                                className="checkbox-field"
-                              >
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value?.includes(item.name)}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([
-                                            ...field.value,
-                                            item.name
-                                          ])
-                                        : field.onChange(
-                                            field.value?.filter(
-                                              (value) => value !== item.name
-                                            )
-                                          )
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormLabel>{item.displayName}</FormLabel>
-                              </FormItem>
-                            )
-                          }}
-                        />
-                      ))}
+                      {roles.roles.data.map(
+                        (item) =>
+                          item && (
+                            <FormField
+                              key={item.id}
+                              control={form.control}
+                              name="roles"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem
+                                    key={item.id}
+                                    className="checkbox-field"
+                                  >
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(
+                                          item.name
+                                        )}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([
+                                                ...field.value,
+                                                item.name
+                                              ])
+                                            : field.onChange(
+                                                field.value?.filter(
+                                                  (value) => value !== item.name
+                                                )
+                                              )
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel>{item.displayName}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          )
+                      )}
                       <FormMessage />
                     </FormItem>
                   )}
@@ -136,40 +141,45 @@ const UserPermissionsForm = ({
                   name="permissions"
                   render={() => (
                     <FormItem>
-                      {permissions.permissions.map((item) => (
-                        <FormField
-                          key={item.id}
-                          control={form.control}
-                          name="permissions"
-                          render={({ field }) => {
-                            return (
-                              <FormItem
-                                key={item.id}
-                                className="checkbox-field"
-                              >
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value?.includes(item.name)}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([
-                                            ...field.value,
-                                            item.name
-                                          ])
-                                        : field.onChange(
-                                            field.value?.filter(
-                                              (value) => value !== item.name
-                                            )
-                                          )
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormLabel>{item.displayName}</FormLabel>
-                              </FormItem>
-                            )
-                          }}
-                        />
-                      ))}
+                      {permissions.permissions.data.map(
+                        (item) =>
+                          item && (
+                            <FormField
+                              key={item.id}
+                              control={form.control}
+                              name="permissions"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem
+                                    key={item.id}
+                                    className="checkbox-field"
+                                  >
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(
+                                          item.name
+                                        )}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([
+                                                ...field.value,
+                                                item.name
+                                              ])
+                                            : field.onChange(
+                                                field.value?.filter(
+                                                  (value) => value !== item.name
+                                                )
+                                              )
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel>{item.displayName}</FormLabel>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          )
+                      )}
                       <FormMessage />
                     </FormItem>
                   )}

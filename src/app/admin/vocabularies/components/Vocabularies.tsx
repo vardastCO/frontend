@@ -15,16 +15,19 @@ const Vocabularies = () => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.vocabularies) return <NoResult entity="vocabulary" />
+  if (!data?.vocabularies.data) return <NoResult entity="vocabulary" />
 
   return (
     <div className="flex flex-col gap-2">
-      {data?.vocabularies.map((vocabulary) => (
-        <VocabularyCard
-          vocabulary={vocabulary as Vocabulary}
-          key={vocabulary.id}
-        />
-      ))}
+      {data?.vocabularies.data.map(
+        (vocabulary) =>
+          vocabulary && (
+            <VocabularyCard
+              vocabulary={vocabulary as Vocabulary}
+              key={vocabulary.id}
+            />
+          )
+      )}
     </div>
   )
 }

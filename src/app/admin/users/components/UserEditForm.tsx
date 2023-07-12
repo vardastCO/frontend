@@ -171,8 +171,9 @@ const UserEditForm = ({ user }: Props) => {
                             className="input-field flex items-center text-start"
                           >
                             {field.value
-                              ? countries?.countries.find(
-                                  (country) => country.slug === field.value
+                              ? countries?.countries.data.find(
+                                  (country) =>
+                                    country && country.slug === field.value
                                 )?.name
                               : t("common:choose_entity", {
                                   entity: t("common:country")
@@ -194,25 +195,28 @@ const UserEditForm = ({ user }: Props) => {
                             })}
                           </CommandEmpty>
                           <CommandGroup>
-                            {countries?.countries.map((country) => (
-                              <CommandItem
-                                value={country.slug}
-                                key={country.id}
-                                onSelect={(value) => {
-                                  form.setValue("country", value)
-                                }}
-                              >
-                                <IconCheck
-                                  className={mergeClasses(
-                                    "mr-2 h-4 w-4",
-                                    country.slug === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                                {country.name}
-                              </CommandItem>
-                            ))}
+                            {countries?.countries.data.map(
+                              (country) =>
+                                country && (
+                                  <CommandItem
+                                    value={country.slug}
+                                    key={country.id}
+                                    onSelect={(value) => {
+                                      form.setValue("country", value)
+                                    }}
+                                  >
+                                    <IconCheck
+                                      className={mergeClasses(
+                                        "mr-2 h-4 w-4",
+                                        country.slug === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {country.name}
+                                  </CommandItem>
+                                )
+                            )}
                           </CommandGroup>
                         </Command>
                       </PopoverContent>
