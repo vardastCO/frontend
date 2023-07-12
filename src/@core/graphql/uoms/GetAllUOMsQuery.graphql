@@ -1,9 +1,17 @@
 query GetAllUOMs {
   uoms {
-    id
-    name
-    slug
-    symbol
-    isActive
+    total
+    perPage
+    currentPage
+    lastPage
+    to
+    from
+    data {
+      id
+      name
+      slug
+      symbol
+      isActive
+    }
   }
 }

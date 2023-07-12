@@ -24,7 +24,7 @@ const Countries = () => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.countries) return <NoResult entity="country" />
+  if (!data?.countries.data) return <NoResult entity="country" />
 
   return (
     <>
@@ -34,13 +34,16 @@ const Countries = () => {
       <FiltersBar />
       <div>
         <div className="flex flex-col gap-2">
-          {data?.countries?.map((country) => (
-            <CountryCard
-              show={activesOnly ? country.isActive : true}
-              key={country.id}
-              country={country as Country}
-            />
-          ))}
+          {data.countries.data.map(
+            (country) =>
+              country && (
+                <CountryCard
+                  show={activesOnly ? country.isActive : true}
+                  key={country.id}
+                  country={country as Country}
+                />
+              )
+          )}
         </div>
       </div>
     </>

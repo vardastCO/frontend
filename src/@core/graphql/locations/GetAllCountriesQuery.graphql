@@ -1,14 +1,22 @@
 query GetAllCountries($args: IndexCountryInput) {
   countries(indexCountryInput: $args) {
-    id
-    name
-    nameEn
-    slug
-    alphaTwo
-    iso
-    isActive
-    sort
-    phonePrefix
-    provincesCount
+    total
+    perPage
+    currentPage
+    lastPage
+    to
+    from
+    data {
+      id
+      name
+      nameEn
+      slug
+      alphaTwo
+      iso
+      isActive
+      sort
+      phonePrefix
+      provincesCount
+    }
   }
 }

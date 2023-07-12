@@ -19,7 +19,7 @@ const Attributes = () => {
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
   if (!data) notFound()
-  if (!data.attributes.length) return <NoResult entity="attribute" />
+  if (!data.attributes.data.length) return <NoResult entity="attribute" />
 
   return (
     <div className="card table-responsive rounded">
@@ -32,24 +32,29 @@ const Attributes = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.attributes.map((attribute) => (
-            <tr
-              key={attribute.id}
-              onClick={() => router.push(`/admin/attributes/${attribute.id}`)}
-            >
-              <td>
-                <span className="font-medium text-gray-800">
-                  {attribute.name}
-                </span>
-              </td>
-              <td>
-                <span className="font-mono">{attribute.slug}</span>
-              </td>
-              <td>
-                <span>{attribute.type}</span>
-              </td>
-            </tr>
-          ))}
+          {data?.attributes.data.map(
+            (attribute) =>
+              attribute && (
+                <tr
+                  key={attribute.id}
+                  onClick={() =>
+                    router.push(`/admin/attributes/${attribute.id}`)
+                  }
+                >
+                  <td>
+                    <span className="font-medium text-gray-800">
+                      {attribute.name}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="font-mono">{attribute.slug}</span>
+                  </td>
+                  <td>
+                    <span>{attribute.type}</span>
+                  </td>
+                </tr>
+              )
+          )}
         </tbody>
       </table>
     </div>

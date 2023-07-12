@@ -22,7 +22,7 @@ const Users = (props: Props) => {
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
-  if (!data?.users) return <NoResult entity="user" />
+  if (!data?.users.data) return <NoResult entity="user" />
 
   return (
     <div className="card table-responsive rounded">
@@ -35,65 +35,68 @@ const Users = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-          {data?.users.map((user) => (
-            <tr
-              key={user.uuid}
-              onClick={() => router.push(`/admin/users/${user.uuid}`)}
-            >
-              <td>
-                <Avatar size="small">
-                  <AvatarImage
-                    src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=${user.fullName}`}
-                    alt={user.fullName}
-                  />
-                  <AvatarFallback>{user.fullName}</AvatarFallback>
-                </Avatar>
-                <span className="ms-2 font-medium text-gray-800">
-                  {user.fullName}
-                </span>
-              </td>
-              <td>
-                <div className="flex items-center gap-2">
-                  {user.email && (
-                    <>
-                      <span
-                        className={clsx(
-                          "block h-2 w-2 rounded-full ring-2",
-                          user.isEmailVerified
-                            ? "bg-emerald-400 ring-emerald-50"
-                            : "bg-red-400 ring-red-50"
-                        )}
-                      ></span>
-                      <span className="font-mono" dir="ltr">
-                        {user.email}
-                      </span>
-                    </>
-                  )}
-                </div>
-              </td>
-              <td>
-                <div className="flex items-center gap-2">
-                  {user.cellphone && (
-                    <>
-                      <span
-                        className={clsx(
-                          "block h-2 w-2 rounded-full ring-2",
-                          user.isCellphoneVerified
-                            ? "bg-emerald-400 ring-emerald-50"
-                            : "bg-red-400 ring-red-50"
-                        )}
-                      ></span>
-                      <span className="font-mono" dir="ltr">
-                        {parsePhoneNumber(
-                          `+${user.country.phonePrefix}${user.cellphone}`
-                        )?.formatInternational()}
-                      </span>
-                    </>
-                  )}
-                </div>
-              </td>
-            </tr>
-          ))}
+          {data?.users.data.map(
+            (user) =>
+              user && (
+                <tr
+                  key={user.uuid}
+                  onClick={() => router.push(`/admin/users/${user.uuid}`)}
+                >
+                  <td>
+                    <Avatar size="small">
+                      <AvatarImage
+                        src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=${user.fullName}`}
+                        alt={user.fullName}
+                      />
+                      <AvatarFallback>{user.fullName}</AvatarFallback>
+                    </Avatar>
+                    <span className="ms-2 font-medium text-gray-800">
+                      {user.fullName}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      {user.email && (
+                        <>
+                          <span
+                            className={clsx(
+                              "block h-2 w-2 rounded-full ring-2",
+                              user.isEmailVerified
+                                ? "bg-emerald-400 ring-emerald-50"
+                                : "bg-red-400 ring-red-50"
+                            )}
+                          ></span>
+                          <span className="font-mono" dir="ltr">
+                            {user.email}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      {user.cellphone && (
+                        <>
+                          <span
+                            className={clsx(
+                              "block h-2 w-2 rounded-full ring-2",
+                              user.isCellphoneVerified
+                                ? "bg-emerald-400 ring-emerald-50"
+                                : "bg-red-400 ring-red-50"
+                            )}
+                          ></span>
+                          <span className="font-mono" dir="ltr">
+                            {parsePhoneNumber(
+                              `+${user.country.phonePrefix}${user.cellphone}`
+                            )?.formatInternational()}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              )
+          )}
         </tbody>
       </table>
     </div>

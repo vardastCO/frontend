@@ -1,17 +1,25 @@
 query GetAllAttributes {
   attributes {
-    id
-    name
-    slug
-    type
-    createdAt
-    updatedAt
-    values {
-      options
-      defaults
+    total
+    perPage
+    currentPage
+    lastPage
+    to
+    from
+    data {
+      id
+      name
+      slug
+      type
+      createdAt
+      updatedAt
+      values {
+        options
+        defaults
+      }
+      isPublic
+      isRequired
+      isFilterable
     }
-    isPublic
-    isRequired
-    isFilterable
   }
 }
