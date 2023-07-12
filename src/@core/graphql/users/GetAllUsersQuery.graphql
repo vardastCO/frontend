@@ -1,37 +1,45 @@
 query GetAllUsers {
   users {
-    id
-    uuid
-    firstName
-    lastName
-    email
-    cellphone
-    telegramChatId
-    isCellphoneVerified
-    isEmailVerified
-    isTelegramVerified
-    username
-    mustChangePassword
-    lastPasswordChangeAt
-    language
-    timezone
-    country {
+    total
+    perPage
+    currentPage
+    lastPage
+    to
+    from
+    data {
       id
-      name
-      phonePrefix
+      uuid
+      firstName
+      lastName
+      email
+      cellphone
+      telegramChatId
+      isCellphoneVerified
+      isEmailVerified
+      isTelegramVerified
+      username
+      mustChangePassword
+      lastPasswordChangeAt
+      language
+      timezone
+      country {
+        id
+        name
+        phonePrefix
+      }
+      status
+      suspensionReason
+      customDisplayRole
+      adminComments
+      lastLoginAt
+      lastLoginIP
+      lastFailedLoginAt
+      failedLoginAttempts
+      isLockedOut
+      lockedOutAt
+      createdAt
+      updatedAt
+      fullName
     }
-    status
-    suspensionReason
-    customDisplayRole
-    adminComments
-    lastLoginAt
-    lastLoginIP
-    lastFailedLoginAt
-    failedLoginAttempts
-    isLockedOut
-    lockedOutAt
-    createdAt
-    updatedAt
-    fullName
   }
 }

@@ -1,9 +1,17 @@
 query GetAllBrands {
   brands {
-    id
-    name
-    slug
-    createdAt
-    updatedAt
+    total
+    perPage
+    currentPage
+    lastPage
+    to
+    from
+    data {
+      id
+      name
+      slug
+      createdAt
+      updatedAt
+    }
   }
 }
