@@ -6,6 +6,7 @@
     ],
     "ignorePatterns": [
         "src/stories/*",
+        "src/generated.ts",
         "old-to-delete"
     ]
 }
