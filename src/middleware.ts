@@ -24,11 +24,31 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
+  const searchPathRegexp = pathToRegexp("/search/:slug1/:slug2?")
+  const searchPathRegexpText = searchPathRegexp.exec(request.nextUrl.pathname)
+  if (searchPathRegexpText) {
+    const id = searchPathRegexpText[1]
+    const title = searchPathRegexpText[2]
+    const data = await fetch(`${request.nextUrl.origin}/api/categories/${id}`)
+    if (data && data.status === 200) {
+      const res = await data.json()
+      if (!title || title !== encodeURI(res.category.title)) {
+        return NextResponse.redirect(
+          new URL(
+            `/search/${res.category.id}/${res.category.title}`,
+            request.url
+          ),
+          301
+        )
+      }
+    }
+  }
+
   return NextResponse.rewrite(request.nextUrl.href)
 }
 
 export const config = {
-  matcher: ["/p/:path*"]
+  matcher: ["/p/:path*", "/search/:path*"]
 }
 // export const config = {
 //   matcher: ["/((?!favicon.ico).*)"]
