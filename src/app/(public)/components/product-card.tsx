@@ -23,7 +23,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         xl:[&:nth-of-type(4n)]:border-l-0"
     >
       <Link
-        href={`/p/${product.id}`}
+        href={`/p/${product.id}/${product.name}`}
         className="flex h-full w-full py-2 lg:px-4"
         prefetch={false}
       >
