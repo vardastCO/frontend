@@ -52,6 +52,7 @@ const ProductImages = ({ images, isMobileView }: ProductImagesProps) => {
       {!isMobileView && (
         <div className="overflow-hidden">
           <Swiper
+            //   @ts-ignore
             onSwiper={setThumbsSwiper}
             loop={true}
             spaceBetween={10}
