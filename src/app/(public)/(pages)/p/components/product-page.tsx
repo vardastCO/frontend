@@ -17,10 +17,11 @@ import ProductImages from "@/app/(public)/(pages)/p/components/product-images"
 import ProductSellers from "@/app/(public)/(pages)/p/components/product-sellers"
 
 type ProductPageProps = {
+  isMobileView: RegExpMatchArray | null
   id: number
 }
 
-const ProductPage = ({ id }: ProductPageProps) => {
+const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
   const { data } = useQuery<{ product: Product }>({
     queryKey: ["product", { id: +id }],
     queryFn: () => getProductQueryFn(id)
@@ -105,7 +106,10 @@ const ProductPage = ({ id }: ProductPageProps) => {
           <Breadcrumb dynamic={false} items={breadcrumb} />
         </div>
         <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr]">
-          <ProductImages images={product.images as ProductImage[]} />
+          <ProductImages
+            isMobileView={isMobileView}
+            images={product.images as ProductImage[]}
+          />
           <div className="flex flex-col gap-4">
             <h1 className="text-xl font-extrabold leading-relaxed text-gray-800">
               {product.name}

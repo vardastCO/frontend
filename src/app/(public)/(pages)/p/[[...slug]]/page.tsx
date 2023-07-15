@@ -2,6 +2,7 @@ import { Metadata, ResolvingMetadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
 
 import getQueryClient from "@core/clients/getQueryClient"
+import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
 import ProductPage from "@/app/(public)/(pages)/p/components/product-page"
@@ -32,6 +33,7 @@ export async function generateMetadata(
 }
 
 const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
+  const isMobileView = CheckIsMobileView()
   const id = slug[0] as number
   const pSlug = slug[1] as string
 
@@ -43,7 +45,7 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <ProductPage id={id} />
+      <ProductPage id={id} isMobileView={isMobileView} />
     </ReactQueryHydrate>
   )
 }
