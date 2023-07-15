@@ -81,6 +81,7 @@
         "react-dropzone": "^14.2.3",
         "react-hook-form": "7.45.1",
         "schema-dts": "^1.1.2",
+        "swiper": "^10.0.4",
         "swr": "^2.2.0",
         "tailwind-merge": "^1.13.2",
         "typescript": "5.1.6",
