@@ -1,4 +1,4 @@
-query GetSuggest($suggestInput: SuggestInput!) {
+query GetSuggestQuery($suggestInput: SuggestInput!) {
   suggest(suggestInput: $suggestInput) {
     products {
       id

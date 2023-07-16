@@ -7,7 +7,11 @@ import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
 import { useQuery } from "@tanstack/react-query"
 import { BreadcrumbList, ItemList, WithContext } from "schema-dts"
 
-import { AttributeValue, Product, Image as ProductImage } from "@/generated"
+import {
+  AttributeValue,
+  GetProductQuery,
+  Image as ProductImage
+} from "@/generated"
 
 import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import { Button } from "@core/components/ui/button"
@@ -22,7 +26,7 @@ type ProductPageProps = {
 }
 
 const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
-  const { data } = useQuery<{ product: Product }>({
+  const { data } = useQuery<GetProductQuery>({
     queryKey: ["product", { id: +id }],
     queryFn: () => getProductQueryFn(id)
   })

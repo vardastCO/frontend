@@ -2,15 +2,13 @@ import request from "graphql-request"
 import { getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
 
-import { GetVocabularyDocument, Vocabulary } from "@/generated"
+import { GetVocabularyDocument, GetVocabularyQuery } from "@/generated"
 
 import { authOptions } from "@core/lib/authOptions"
 
 export const getVocabularyQueryFn = async (
   slug: string
-): Promise<{
-  vocabulary: Vocabulary
-}> => {
+): Promise<GetVocabularyQuery> => {
   const session =
     typeof window === "undefined"
       ? await getServerSession(authOptions)

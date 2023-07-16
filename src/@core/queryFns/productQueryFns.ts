@@ -2,15 +2,13 @@ import request from "graphql-request"
 import { getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
 
-import { GetProductDocument, Product } from "@/generated"
+import { GetProductDocument, GetProductQuery } from "@/generated"
 
 import { authOptions } from "@core/lib/authOptions"
 
 export const getProductQueryFn = async (
   id: number
-): Promise<{
-  product: Product
-}> => {
+): Promise<GetProductQuery> => {
   const session =
     typeof window === "undefined"
       ? await getServerSession(authOptions)

@@ -31,27 +31,30 @@ export async function generateMetadata(
   }
 }
 
-const SearchIndex = async ({ params: { slug } }: SearchIndexProps) => {
+const SearchIndex = async ({
+  params: { slug },
+  searchParams: { query }
+}: SearchIndexProps) => {
   const isMobileView = CheckIsMobileView()
-
   const queryClient = getQueryClient()
+
+  const args = slug && slug.length ? { categoryId: +slug[0] } : {}
+
+  await queryClient.prefetchQuery(["products", args], () =>
+    getAllProductsQueryFn(args)
+  )
+
   if (slug && slug.length) {
-    await queryClient.prefetchQuery(
-      ["products", { categoryId: +slug[0] }],
-      () => getAllProductsQueryFn({ categoryId: +slug[0] })
-    )
     await queryClient.prefetchQuery(["category", { id: +slug[0] }], () =>
       getCategoryQueryFn(+slug[0])
     )
   } else {
-    await queryClient.prefetchQuery(["products", {}], () =>
-      getAllProductsQueryFn()
-    )
     await queryClient.prefetchQuery(
       ["vocabulary", { slug: "product_categories" }],
       () => getVocabularyQueryFn("product_categories")
     )
   }
+
   const dehydratedState = dehydrate(queryClient)
 
   return (
