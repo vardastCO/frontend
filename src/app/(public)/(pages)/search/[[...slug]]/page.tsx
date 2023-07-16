@@ -1,6 +1,8 @@
 import { Metadata, ResolvingMetadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
 
+import { IndexProductInput } from "@/generated"
+
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
@@ -38,10 +40,12 @@ const SearchIndex = async ({
   const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
 
-  const args = slug && slug.length ? { categoryId: +slug[0] } : {}
+  const args: IndexProductInput = { page: 1 }
+  if (slug && slug.length) args["categoryId"] = +slug[0]
 
-  await queryClient.prefetchQuery(["products", args], () =>
-    getAllProductsQueryFn(args)
+  await queryClient.prefetchInfiniteQuery(
+    ["products", args],
+    ({ pageParam = 1 }) => getAllProductsQueryFn({ ...args, page: pageParam })
   )
 
   if (slug && slug.length) {
