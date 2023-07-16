@@ -166,7 +166,7 @@ const Search = () => {
                 <div className="flex flex-col gap-6 divide-y divide-gray-200 [&>div:nth-child(n+2)]:pt-4">
                   {searchQuery.data.suggest.products.length > 0 && (
                     <div className="hide-scrollbar flex items-center gap-3 overflow-x-auto overflow-y-hidden whitespace-nowrap">
-                      {searchQuery.data.suggest.products.slice(0, 5).map(
+                      {searchQuery.data.suggest.products.slice(0, 10).map(
                         (suggestedProduct) =>
                           suggestedProduct && (
                             <Button
