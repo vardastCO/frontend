@@ -156,11 +156,12 @@ const Search = () => {
                 </div>
               )}
 
-              {searchQuery.isLoading && !searchQuery.isStale && (
-                <div className="flex items-center justify-center">
-                  <IconLoader2 className="h-5 w-5 animate-spin text-gray-400" />
-                </div>
-              )}
+              {searchQuery.fetchStatus === "fetching" &&
+                searchQuery.status === "loading" && (
+                  <div className="flex items-center justify-center">
+                    <IconLoader2 className="h-5 w-5 animate-spin text-gray-400" />
+                  </div>
+                )}
 
               {searchQuery.data && (
                 <div className="flex flex-col gap-6 divide-y divide-gray-200 [&>div:nth-child(n+2)]:pt-4">
