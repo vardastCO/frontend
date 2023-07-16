@@ -16,7 +16,6 @@ import { PublicContext } from "@/app/(public)/components/public-provider"
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
 import logoSign from "@/assets/sign.svg"
 
-import LocationSelector from "./location-selector"
 import Navigation from "./navigation"
 import Search from "./search"
 
@@ -62,7 +61,7 @@ const Header = ({ isMobileView }: HeaderProps) => {
       {!isMobileView ? (
         <div className="flex items-start justify-between">
           <Navigation />
-          <LocationSelector />
+          {/* <LocationSelector /> */}
         </div>
       ) : (
         <div className="flex items-start gap-2">

@@ -5,7 +5,12 @@ import { notFound } from "next/navigation"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
 import { useQuery } from "@tanstack/react-query"
-import { BreadcrumbList, ItemList, WithContext } from "schema-dts"
+import {
+  BreadcrumbList,
+  ItemList,
+  Product as ProductSchema,
+  WithContext
+} from "schema-dts"
 
 import {
   AttributeValue,
@@ -97,11 +102,39 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
       isCurrent: false
     })
   })
+
   breadcrumb.push({
     label: product.category.title,
     path: `/search/${product.category.id}/${product.category.title}`,
     isCurrent: false
   })
+
+  const productJsonLd: WithContext<ProductSchema> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    image: product.images.at(0)?.file.presignedUrl.url,
+    sku: product.sku,
+    url: `${process.env.NEXT_PUBLIC_URL}/p/${product.id}/${product.name}`,
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: "IRR",
+      lowPrice: "3890000",
+      highPrice: "3890000",
+      offerCount: "4",
+      offers: [
+        {
+          "@type": "Offer",
+          price: "3890000",
+          priceCurrency: "IRR",
+          name: "شیر آلات تیرداد",
+          priceValidUntil: "2023-7-17",
+          itemCondition: "NewCondition",
+          availability: "InStock"
+        }
+      ]
+    }
+  }
 
   return (
     <>
@@ -232,6 +265,10 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
     </>
   )
