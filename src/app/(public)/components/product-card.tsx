@@ -15,8 +15,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
         border-b
         transition
         hover:z-10
-        hover:shadow-lg
         sm:border-l-0
+        md:hover:shadow-lg
         lg:border-l
         lg:[&:nth-of-type(3n)]:border-l-0
         xl:[&:nth-of-type(3n)]:border-l
