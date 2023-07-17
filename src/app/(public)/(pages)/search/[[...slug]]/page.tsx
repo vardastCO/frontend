@@ -40,8 +40,10 @@ const SearchIndex = async ({
   const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
 
-  const args: IndexProductInput = { page: page ? +page : 1 }
+  const args: IndexProductInput = {}
+  args["page"] = page && +page[0] > 0 ? +page[0] : 1
   if (slug && slug.length) args["categoryId"] = +slug[0]
+  if (query && query.length) args["query"] = query as string
 
   await queryClient.prefetchQuery(["products", args], () =>
     getAllProductsQueryFn(args)
@@ -62,7 +64,7 @@ const SearchIndex = async ({
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <SearchPage slug={slug} isMobileView={isMobileView} />
+      <SearchPage slug={slug} args={args} isMobileView={isMobileView} />
     </ReactQueryHydrate>
   )
 }

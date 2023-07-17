@@ -7,16 +7,19 @@ interface PublicContextType {
   categoriesFilterVisibilityAtom: PrimitiveAtom<boolean>
   sortFilterVisibilityAtom: PrimitiveAtom<boolean>
   filtersVisibilityAtom: PrimitiveAtom<boolean>
+  currentPageAtom: PrimitiveAtom<number>
 }
 
 const categoriesFilterVisibilityAtom = atom<boolean>(false)
 const sortFilterVisibilityAtom = atom<boolean>(false)
 const filtersVisibilityAtom = atom<boolean>(false)
+const currentPageAtom = atom<number>(1)
 
 export const PublicContext = createContext<PublicContextType>({
   categoriesFilterVisibilityAtom,
   sortFilterVisibilityAtom,
-  filtersVisibilityAtom
+  filtersVisibilityAtom,
+  currentPageAtom
 })
 
 type PublicProviderProps = {
@@ -29,7 +32,8 @@ const PublicProvider = ({ children }: PublicProviderProps) => {
       value={{
         categoriesFilterVisibilityAtom,
         sortFilterVisibilityAtom,
-        filtersVisibilityAtom
+        filtersVisibilityAtom,
+        currentPageAtom
       }}
     >
       {children}

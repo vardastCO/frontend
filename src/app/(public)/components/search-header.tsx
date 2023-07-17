@@ -80,7 +80,7 @@ const SearchHeader = ({ selectedCategoryId }: SearchHeaderProps) => {
 
   return (
     <>
-      <div className="mb-4">
+      <div>
         <Breadcrumb dynamic={false} items={breadcrumb} />
       </div>
       <div className="mb-8">

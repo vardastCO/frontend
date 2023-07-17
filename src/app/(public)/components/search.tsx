@@ -211,7 +211,7 @@ const Search = () => {
                               onClick={() =>
                                 navigateToSearch(
                                   query,
-                                  `/search/${suggestedCategory.id}/${suggestedCategory.title}?q=${query}`
+                                  `/search/${suggestedCategory.id}/${suggestedCategory.title}?query=${query}`
                                 )
                               }
                               key={suggestedCategory.id}
@@ -230,7 +230,7 @@ const Search = () => {
                       noStyle
                       className="flex w-full items-center gap-2 rounded px-3 py-2 text-start text-gray-700 hover:bg-gray-50"
                       onClick={() =>
-                        navigateToSearch(query, `/search?q=${query}`)
+                        navigateToSearch(query, `/search?query=${query}`)
                       }
                     >
                       <IconSearch className="h-5 w-5" />

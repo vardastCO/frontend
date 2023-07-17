@@ -1,48 +1,44 @@
 "use client"
 
-import { notFound } from "next/navigation"
+import { useState } from "react"
+import {
+  notFound,
+  usePathname,
+  useRouter,
+  useSearchParams
+} from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import { Product as ProductSchema, WithContext } from "schema-dts"
 
 import { GetAllProductsQuery, IndexProductInput, Product } from "@/generated"
 
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
+import NoProductFound from "@/app/(public)/components/no-product-found"
 import ProductCount from "@/app/(public)/components/product-count"
+import ProductPagination from "@/app/(public)/components/product-pagination"
 import ProductSort from "@/app/(public)/components/product-sort"
 
 import ProductCard from "./product-card"
 
 interface ProductListProps {
-  selectedCategoryId?: number
+  args: IndexProductInput
 }
 
-const ProductList = ({ selectedCategoryId }: ProductListProps) => {
-  const args: IndexProductInput = { page: 1 }
-  if (selectedCategoryId) args["categoryId"] = selectedCategoryId
+const ProductList = ({ args }: ProductListProps) => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()!
+  const { push } = useRouter()
+  const [currentPage, setCurrentPage] = useState<number>(args.page || 1)
+
   const { data, error } = useQuery<GetAllProductsQuery>(
-    ["products", args],
-    () => getAllProductsQueryFn(args)
+    ["products", { ...args, page: currentPage }],
+    () => getAllProductsQueryFn({ ...args, page: currentPage }),
+    {
+      keepPreviousData: true
+    }
   )
 
   if (!data) notFound()
-  if (!data.products.data.length) return <>کالایی ثبت نشده</>
-
-  const productsJsonLd: WithContext<ProductSchema>[] = [
-    {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      category: "",
-      image: "",
-      url: "",
-      name: "",
-      description: "",
-      offers: {
-        "@type": "Offer",
-        priceCurrency: "IRR",
-        price: ""
-      }
-    }
-  ]
+  if (!data.products.data.length) return <NoProductFound />
 
   return (
     <>
@@ -56,11 +52,19 @@ const ProductList = ({ selectedCategoryId }: ProductListProps) => {
             <ProductCard key={idx} product={product as Product} />
           ))}
         </div>
+        {data.products.lastPage && data.products.lastPage > 1 && (
+          <ProductPagination
+            total={data.products.lastPage}
+            currentPage={currentPage}
+            onChange={(page) => {
+              setCurrentPage(page)
+              const params = new URLSearchParams(searchParams as any)
+              params.set("page", `${page}`)
+              push(pathname + "?" + params.toString(), {})
+            }}
+          />
+        )}
       </div>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productsJsonLd) }}
-      />
     </>
   )
 }
