@@ -25,14 +25,16 @@ const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]">
         {!isMobileView && (
           <div>
-            {slug && slug.length > 0 ? (
-              <>
-                <CategoryFilter selectedCategoryId={+slug[0]} />
-                <FiltersContainer selectedCategoryId={+slug[0]} />
-              </>
-            ) : (
-              <VocabularyFilter />
-            )}
+            <div className="rounded-md border border-gray-300 px-4">
+              {slug && slug.length > 0 ? (
+                <>
+                  <CategoryFilter selectedCategoryId={+slug[0]} />
+                  <FiltersContainer selectedCategoryId={+slug[0]} />
+                </>
+              ) : (
+                <VocabularyFilter />
+              )}
+            </div>
           </div>
         )}
 
