@@ -11,7 +11,7 @@ import {
 } from "@tabler/icons-react"
 import { useSetAtom } from "jotai"
 
-import { useGetFilterableAttributesQuery } from "@/generated"
+import { useGetAllFilterableAttributesBasicsQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
@@ -42,7 +42,7 @@ const Header = ({ isMobileView }: HeaderProps) => {
   const setFiltersVisibility = useSetAtom(filtersVisibilityAtom)
 
   const selectedCategory = slug && slug[0] ? +slug[0] : 0
-  const getFilterableAttributesQuery = useGetFilterableAttributesQuery(
+  const getFilterableAttributesQuery = useGetAllFilterableAttributesBasicsQuery(
     graphqlRequestClient,
     {
       filterableAttributesInput: {

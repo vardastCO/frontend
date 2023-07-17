@@ -6,13 +6,11 @@ import * as Dialog from "@radix-ui/react-dialog"
 import { IconArrowRight } from "@tabler/icons-react"
 import { useAtom } from "jotai"
 
-import { useGetFilterableAttributesQuery } from "@/generated"
+import { useGetAllFilterableAttributesQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
-import { Checkbox } from "@core/components/ui/checkbox"
-import { Label } from "@core/components/ui/label"
-import FilterBlock from "@/app/(public)/components/filter-block"
+import MobileFilterItem from "@/app/(public)/components/mobile-filter-item"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
 type MobileFiltersProps = {}
@@ -26,7 +24,7 @@ const MobileFilters = (props: MobileFiltersProps) => {
 
   const selectedCategory = slug && slug[0] ? +slug[0] : 0
 
-  const { data, isLoading, error } = useGetFilterableAttributesQuery(
+  const { data, isLoading, error } = useGetAllFilterableAttributesQuery(
     graphqlRequestClient,
     {
       filterableAttributesInput: {
@@ -56,20 +54,7 @@ const MobileFilters = (props: MobileFiltersProps) => {
             {data?.filterableAttributes.filters.map(
               (filter) =>
                 filter && (
-                  <FilterBlock key={filter.id} title={filter.name}>
-                    {filter.values?.options.map(
-                      (value: string, idx: number) =>
-                        value && (
-                          <Label
-                            key={idx}
-                            className="flex w-full items-center gap-1.5 pt-3"
-                          >
-                            <Checkbox />
-                            {value}
-                          </Label>
-                        )
-                    )}
-                  </FilterBlock>
+                  <MobileFilterItem key={filter.id} title={filter.name} />
                 )
             )}
           </div>
