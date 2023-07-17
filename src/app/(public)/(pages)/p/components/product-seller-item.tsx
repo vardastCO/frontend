@@ -12,7 +12,10 @@ const ProductSellerItem = (props: Props) => {
   return (
     <div className="flex flex-col flex-wrap items-start gap-3 rounded-md p-4 md:flex-row lg:items-center">
       <div className="flex items-center gap-2.5 py-3">
-        <IconBuildingWarehouse className="h-8 w-8 text-gray-400" stroke={1.5} />
+        <IconBuildingWarehouse
+          className="hidden h-8 w-8 text-gray-400 md:block"
+          stroke={1.5}
+        />
         <div className="flex flex-col items-start gap-1.5">
           <Link href="/seller/123" prefetch={false}>
             <div className="font-bold text-gray-700">فروشگاه عرفان</div>
@@ -29,7 +32,7 @@ const ProductSellerItem = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="mr-auto flex flex-wrap items-center gap-3 md:gap-5">
+      <div className="flex w-full flex-wrap items-center gap-3 md:mr-auto md:gap-5 lg:w-auto">
         <div className="flex flex-col items-stretch justify-between text-gray-800">
           <div className="flex flex-col items-start gap-1 md:flex-row md:gap-2">
             {hasDiscount && (
