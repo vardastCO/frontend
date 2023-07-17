@@ -1,12 +1,15 @@
 import { Metadata, ResolvingMetadata } from "next"
 import Image from "next/image"
 
+import { IndexProductInput } from "@/generated"
+
 import ProductList from "@/app/(public)/components/product-list"
 
 interface BrandIndexProps {
   params: {
     slug: Array<string | number>
   }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateMetadata(
@@ -23,7 +26,15 @@ export async function generateMetadata(
   }
 }
 
-const BrandIndex = async ({ params: { slug } }: BrandIndexProps) => {
+const BrandIndex = async ({
+  params: { slug },
+  searchParams: { page, query }
+}: BrandIndexProps) => {
+  const args: IndexProductInput = {}
+  args["page"] = page && +page[0] > 0 ? +page[0] : 1
+  if (slug && slug.length) args["categoryId"] = +slug[0]
+  if (query && query.length) args["query"] = query as string
+
   return (
     <div className="container mx-auto px-4 py-4 lg:py-8">
       <div className="mb-12 flex items-end gap-6">
@@ -46,9 +57,7 @@ const BrandIndex = async ({ params: { slug } }: BrandIndexProps) => {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]">
         <div className="hidden md:block"></div>
         <div>
-          <ProductList
-            selectedCategoryId={slug && slug.length ? +slug[0] : undefined}
-          />
+          <ProductList args={args} />
         </div>
       </div>
     </div>

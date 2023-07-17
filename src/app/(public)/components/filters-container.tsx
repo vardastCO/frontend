@@ -13,7 +13,7 @@ const FiltersContainer = ({ selectedCategoryId }: FiltersContainerProps) => {
   const { data, isLoading, error } = useGetFilterableAttributesQuery(
     graphqlRequestClient,
     {
-      filterInput: {
+      filterableAttributesInput: {
         categoryId: selectedCategoryId
       }
     }
@@ -36,7 +36,7 @@ const FiltersContainer = ({ selectedCategoryId }: FiltersContainerProps) => {
           filter && (
             <FilterBlock key={filter.id} title={filter.name}>
               {filter.values?.options.map(
-                (value, idx) =>
+                (value: string, idx: number) =>
                   value && (
                     <Label
                       key={idx}

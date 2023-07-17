@@ -5,6 +5,8 @@ import {
   IconMapPin
 } from "@tabler/icons-react"
 
+import { IndexProductInput } from "@/generated"
+
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { Button } from "@core/components/ui/button"
 import {
@@ -20,6 +22,7 @@ interface SellerIndexProps {
   params: {
     slug: Array<string | number>
   }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateMetadata(
@@ -36,7 +39,15 @@ export async function generateMetadata(
   }
 }
 
-const SellerIndex = async ({ params: { slug } }: SellerIndexProps) => {
+const SellerIndex = async ({
+  params: { slug },
+  searchParams: { query, page }
+}: SellerIndexProps) => {
+  const args: IndexProductInput = {}
+  args["page"] = page && +page[0] > 0 ? +page[0] : 1
+  if (slug && slug.length) args["categoryId"] = +slug[0]
+  if (query && query.length) args["query"] = query as string
+
   return (
     <div className="container mx-auto px-4 py-4 lg:py-8">
       <div>
@@ -134,9 +145,7 @@ const SellerIndex = async ({ params: { slug } }: SellerIndexProps) => {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]">
         <div className="hidden md:block"></div>
         <div>
-          <ProductList
-            selectedCategoryId={slug && slug.length ? +slug[0] : undefined}
-          />
+          <ProductList args={args} />
         </div>
       </div>
     </div>

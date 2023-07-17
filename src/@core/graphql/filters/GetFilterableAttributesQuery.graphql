@@ -1,5 +1,7 @@
-query GetFilterableAttributes($filterInput: FilterInput!) {
-  filterableAttributes(filterInput: $filterInput) {
+query GetFilterableAttributes(
+  $filterableAttributesInput: FilterableAttributesInput!
+) {
+  filterableAttributes(filterableAttributesInput: $filterableAttributesInput) {
     filters {
       id
       name
