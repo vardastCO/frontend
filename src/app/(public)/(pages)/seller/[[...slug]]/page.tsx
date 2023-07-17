@@ -39,7 +39,7 @@ export async function generateMetadata(
 const SellerIndex = async ({ params: { slug } }: SellerIndexProps) => {
   return (
     <div className="container mx-auto px-4 py-4 lg:py-8">
-      <div className="mb-4">
+      <div>
         <Breadcrumb
           dynamic={false}
           items={[

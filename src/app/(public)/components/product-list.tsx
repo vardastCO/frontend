@@ -1,6 +1,12 @@
 "use client"
 
-import { notFound } from "next/navigation"
+import { useState } from "react"
+import {
+  notFound,
+  usePathname,
+  useRouter,
+  useSearchParams
+} from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 
 import { GetAllProductsQuery, IndexProductInput, Product } from "@/generated"
@@ -14,13 +20,18 @@ import ProductSort from "@/app/(public)/components/product-sort"
 import ProductCard from "./product-card"
 
 interface ProductListProps {
-  args?: IndexProductInput
+  args: IndexProductInput
 }
 
 const ProductList = ({ args }: ProductListProps) => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()!
+  const { push } = useRouter()
+  const [currentPage, setCurrentPage] = useState<number>(args.page || 1)
+
   const { data, error } = useQuery<GetAllProductsQuery>(
-    ["products", args],
-    () => getAllProductsQueryFn(args),
+    ["products", { ...args, page: currentPage }],
+    () => getAllProductsQueryFn({ ...args, page: currentPage }),
     {
       keepPreviousData: true
     }
@@ -42,7 +53,16 @@ const ProductList = ({ args }: ProductListProps) => {
           ))}
         </div>
         {data.products.lastPage && data.products.lastPage > 1 && (
-          <ProductPagination total={data.products.lastPage} />
+          <ProductPagination
+            total={data.products.lastPage}
+            currentPage={currentPage}
+            onChange={(page) => {
+              setCurrentPage(page)
+              const params = new URLSearchParams(searchParams as any)
+              params.set("page", `${page}`)
+              push(pathname + "?" + params.toString(), {})
+            }}
+          />
         )}
       </div>
     </>

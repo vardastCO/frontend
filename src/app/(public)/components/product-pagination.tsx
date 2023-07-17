@@ -1,4 +1,6 @@
-import { useState } from "react"
+"use client"
+
+import { Fragment } from "react"
 import { usePagination } from "@mantine/hooks"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
@@ -7,11 +9,21 @@ import { Button } from "@core/components/ui/button"
 
 type ProductPaginationProps = {
   total: number
+  currentPage: number
+  onChange: (page: number) => void
 }
 
-const ProductPagination = ({ total }: ProductPaginationProps) => {
-  const [page, onChange] = useState(1)
-  const pagination = usePagination({ total, page, onChange })
+const ProductPagination = ({
+  total,
+  currentPage,
+  onChange
+}: ProductPaginationProps) => {
+  const pagination = usePagination({
+    total,
+    page: currentPage,
+    onChange
+  })
+
   return (
     <div className="mt-8 text-center">
       <div
@@ -35,7 +47,7 @@ const ProductPagination = ({ total }: ProductPaginationProps) => {
           قبلی
         </Button>
         {pagination.range.map((page, idx) => (
-          <>
+          <Fragment key={idx}>
             {typeof page === "number" ? (
               <Button
                 noStyle
@@ -54,7 +66,7 @@ const ProductPagination = ({ total }: ProductPaginationProps) => {
                 ...
               </span>
             )}
-          </>
+          </Fragment>
         ))}
         <Button
           noStyle

@@ -50,7 +50,7 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
   return (
     <div role="presentation">
       <ol
-        className="flex items-end whitespace-nowrap align-middle text-sm leading-none"
+        className="hide-scrollbar flex items-end overflow-y-auto whitespace-nowrap py-4 align-middle text-sm leading-none"
         aria-label="breadcrumb"
       >
         <li className="flex items-end align-middle leading-none">

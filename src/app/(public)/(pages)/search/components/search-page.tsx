@@ -10,7 +10,7 @@ import VocabularyFilter from "@/app/(public)/components/vocabulary-filter"
 interface SearchPageProps {
   isMobileView: RegExpMatchArray | null
   slug: Array<string | number>
-  args?: IndexProductInput
+  args: IndexProductInput
 }
 
 const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {

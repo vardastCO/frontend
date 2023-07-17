@@ -139,7 +139,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
   return (
     <>
       <div className="container mx-auto px-4 py-4 lg:py-8">
-        <div className="mb-4">
+        <div>
           <Breadcrumb dynamic={false} items={breadcrumb} />
         </div>
         <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr]">
