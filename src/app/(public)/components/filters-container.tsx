@@ -22,7 +22,7 @@ const FiltersContainer = ({ selectedCategoryId }: FiltersContainerProps) => {
   if (!data) return <></>
 
   return (
-    <div>
+    <>
       {data.filterableAttributes.filters.map(
         (filter) =>
           filter && (
@@ -42,7 +42,7 @@ const FiltersContainer = ({ selectedCategoryId }: FiltersContainerProps) => {
             </FilterBlock>
           )
       )}
-    </div>
+    </>
   )
 }
 

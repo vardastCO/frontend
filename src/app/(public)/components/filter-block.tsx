@@ -26,9 +26,7 @@ const FilterBlock = ({ title, children }: FilterBlockProps) => {
         </Collapsible.Trigger>
       </div>
       <Collapsible.Content>
-        <div className="max-h-[400px] overflow-y-auto border-t border-gray-200">
-          {children}
-        </div>
+        <div className="max-h-[400px] overflow-y-auto pb-3">{children}</div>
       </Collapsible.Content>
     </Collapsible.Root>
   )
