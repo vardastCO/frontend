@@ -15,7 +15,7 @@ import { useGetAllFilterableAttributesBasicsQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
-import MobileFilters from "@/app/(public)/components/mobile-filters"
+import MobileFilterableAttributes from "@/app/(public)/components/mobile-filters"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
@@ -95,7 +95,7 @@ const Header = ({ isMobileView }: HeaderProps) => {
                   <IconAdjustmentsHorizontal className="icon text-gray-400" />
                   فیلترها
                 </Button>
-                <MobileFilters />
+                <MobileFilterableAttributes />
               </>
             )}
           <Button
