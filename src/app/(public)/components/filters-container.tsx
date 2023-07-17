@@ -19,6 +19,14 @@ const FiltersContainer = ({ selectedCategoryId }: FiltersContainerProps) => {
     }
   )
 
+  if (isLoading)
+    return (
+      <div className="flex animate-pulse flex-col gap-3 py-6">
+        <div className="h-5 w-[80%] rounded-md bg-gray-200"></div>
+        <div className="h-5 w-full rounded-md bg-gray-200"></div>
+        <div className="h-5 w-[90%] rounded-md bg-gray-200"></div>
+      </div>
+    )
   if (!data) return <></>
 
   return (
