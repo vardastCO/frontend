@@ -43,7 +43,7 @@ const SearchIndex = async ({
   const args: IndexProductInput = { page: page ? +page : 1 }
   if (slug && slug.length) args["categoryId"] = +slug[0]
 
-  await queryClient.prefetchInfiniteQuery(["products", args], () =>
+  await queryClient.prefetchQuery(["products", args], () =>
     getAllProductsQueryFn(args)
   )
 
