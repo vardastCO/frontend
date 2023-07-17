@@ -1,5 +1,7 @@
 "use client"
 
+import { IndexProductInput } from "@/generated"
+
 import CategoryFilter from "@/app/(public)/components/category-filter"
 import ProductList from "@/app/(public)/components/product-list"
 import SearchHeader from "@/app/(public)/components/search-header"
@@ -8,9 +10,10 @@ import VocabularyFilter from "@/app/(public)/components/vocabulary-filter"
 interface SearchPageProps {
   isMobileView: RegExpMatchArray | null
   slug: Array<string | number>
+  args?: IndexProductInput
 }
 
-const SearchPage = ({ isMobileView, slug }: SearchPageProps) => {
+const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
   return (
     <>
       {slug && slug.length > 0 && (
@@ -30,9 +33,7 @@ const SearchPage = ({ isMobileView, slug }: SearchPageProps) => {
         )}
 
         <div>
-          <ProductList
-            selectedCategoryId={slug && slug.length ? +slug[0] : undefined}
-          />
+          <ProductList args={args} />
         </div>
       </div>
     </>

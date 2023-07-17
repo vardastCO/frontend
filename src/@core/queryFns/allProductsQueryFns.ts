@@ -13,6 +13,7 @@ import { authOptions } from "@core/lib/authOptions"
 interface getAllProductsQueryFnArgs extends IndexProductInput {}
 
 export const getAllProductsQueryFn = async ({
+  query,
   page,
   categoryId
 }: getAllProductsQueryFnArgs = {}): Promise<GetAllProductsQuery> => {
@@ -25,10 +26,7 @@ export const getAllProductsQueryFn = async ({
     process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT as string,
     GetAllProductsDocument,
     {
-      indexProductInput: {
-        page,
-        categoryId: categoryId || null
-      }
+      indexProductInput: { query, page, categoryId: categoryId || null }
     },
     {
       authorization: `Bearer ${session?.user?.token}`
