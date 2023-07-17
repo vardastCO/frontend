@@ -2,14 +2,15 @@ import request from "graphql-request"
 import { getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
 
-import { GetAllProductsDocument, GetAllProductsQuery } from "@/generated"
+import {
+  GetAllProductsDocument,
+  GetAllProductsQuery,
+  IndexProductInput
+} from "@/generated"
 
 import { authOptions } from "@core/lib/authOptions"
 
-type getAllProductsQueryFnArgs = {
-  page?: number
-  categoryId?: number
-}
+interface getAllProductsQueryFnArgs extends IndexProductInput {}
 
 export const getAllProductsQueryFn = async ({
   page,

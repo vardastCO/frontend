@@ -1,6 +1,8 @@
 import { Metadata, ResolvingMetadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
 
+import { IndexProductInput } from "@/generated"
+
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
@@ -31,27 +33,31 @@ export async function generateMetadata(
   }
 }
 
-const SearchIndex = async ({ params: { slug } }: SearchIndexProps) => {
+const SearchIndex = async ({
+  params: { slug },
+  searchParams: { query, page }
+}: SearchIndexProps) => {
   const isMobileView = CheckIsMobileView()
-
   const queryClient = getQueryClient()
+
+  const args: IndexProductInput = { page: page ? +page : 1 }
+  if (slug && slug.length) args["categoryId"] = +slug[0]
+
+  await queryClient.prefetchQuery(["products", args], () =>
+    getAllProductsQueryFn(args)
+  )
+
   if (slug && slug.length) {
-    await queryClient.prefetchQuery(
-      ["products", { categoryId: +slug[0] }],
-      () => getAllProductsQueryFn({ categoryId: +slug[0] })
-    )
     await queryClient.prefetchQuery(["category", { id: +slug[0] }], () =>
       getCategoryQueryFn(+slug[0])
     )
   } else {
-    await queryClient.prefetchQuery(["products", {}], () =>
-      getAllProductsQueryFn()
-    )
     await queryClient.prefetchQuery(
       ["vocabulary", { slug: "product_categories" }],
       () => getVocabularyQueryFn("product_categories")
     )
   }
+
   const dehydratedState = dehydrate(queryClient)
 
   return (

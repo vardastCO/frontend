@@ -7,7 +7,7 @@ import { IconArrowRight, IconChevronLeft } from "@tabler/icons-react"
 import { useQuery } from "@tanstack/react-query"
 import { useAtom } from "jotai"
 
-import { Category, GetCategoryQuery, Vocabulary } from "@/generated"
+import { Category, GetCategoryQuery, GetVocabularyQuery } from "@/generated"
 
 import { Button } from "@core/components/ui/button"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
@@ -19,7 +19,7 @@ interface VocabulariesListProps {
 }
 
 const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
-  const vocabularies = useQuery<{ vocabulary: Vocabulary }>({
+  const vocabularies = useQuery<GetVocabularyQuery>({
     queryKey: ["vocabulary", { slug: "product_categories" }],
     queryFn: () => getVocabularyQueryFn("product_categories")
   })
@@ -42,7 +42,7 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
             <li
               key={category.id}
               className="flex items-center justify-between py-3"
-              onClick={() => onCategoryChanged(category)}
+              onClick={() => onCategoryChanged(category as Category)}
             >
               {category.title}
               {category.childrenCount > 0 && (

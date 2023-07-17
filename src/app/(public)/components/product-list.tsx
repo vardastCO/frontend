@@ -4,7 +4,7 @@ import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { Product as ProductSchema, WithContext } from "schema-dts"
 
-import { GetAllProductsQuery, Product } from "@/generated"
+import { GetAllProductsQuery, IndexProductInput, Product } from "@/generated"
 
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import ProductCount from "@/app/(public)/components/product-count"
@@ -17,11 +17,12 @@ interface ProductListProps {
 }
 
 const ProductList = ({ selectedCategoryId }: ProductListProps) => {
-  const args = selectedCategoryId ? { categoryId: selectedCategoryId } : {}
-  const { data, error } = useQuery<GetAllProductsQuery>({
-    queryKey: ["products", args],
-    queryFn: () => getAllProductsQueryFn(args)
-  })
+  const args: IndexProductInput = { page: 1 }
+  if (selectedCategoryId) args["categoryId"] = selectedCategoryId
+  const { data, error } = useQuery<GetAllProductsQuery>(
+    ["products", args],
+    () => getAllProductsQueryFn(args)
+  )
 
   if (!data) notFound()
   if (!data.products.data.length) return <>کالایی ثبت نشده</>

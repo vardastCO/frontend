@@ -2,14 +2,14 @@
 
 import { useQuery } from "@tanstack/react-query"
 
-import { Category, Vocabulary } from "@/generated"
+import { Category, GetVocabularyQuery } from "@/generated"
 
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 
 import CategoryFilterItem from "./category-filter-item"
 
 const VocabularyFilter = () => {
-  const { data } = useQuery<{ vocabulary: Vocabulary }>({
+  const { data } = useQuery<GetVocabularyQuery>({
     queryKey: ["vocabulary", { slug: "product_categories" }],
     queryFn: () => getVocabularyQueryFn("product_categories")
   })
