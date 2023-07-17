@@ -3,6 +3,7 @@
 import { IndexProductInput } from "@/generated"
 
 import CategoryFilter from "@/app/(public)/components/category-filter"
+import FiltersContainer from "@/app/(public)/components/filters-container"
 import ProductList from "@/app/(public)/components/product-list"
 import SearchHeader from "@/app/(public)/components/search-header"
 import VocabularyFilter from "@/app/(public)/components/vocabulary-filter"
@@ -25,7 +26,10 @@ const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
         {!isMobileView && (
           <div>
             {slug && slug.length > 0 ? (
-              <CategoryFilter selectedCategoryId={+slug[0]} />
+              <>
+                <CategoryFilter selectedCategoryId={+slug[0]} />
+                <FiltersContainer selectedCategoryId={+slug[0]} />
+              </>
             ) : (
               <VocabularyFilter />
             )}

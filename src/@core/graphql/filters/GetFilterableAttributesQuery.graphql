@@ -1,0 +1,19 @@
+query GetFilterableAttributes($filterInput: FilterInput!) {
+  filterableAttributes(filterInput: $filterInput) {
+    filters {
+      id
+      name
+      slug
+      type
+      isPublic
+      isRequired
+      isFilterable
+      createdAt
+      updatedAt
+      values {
+        options
+        defaults
+      }
+    }
+  }
+}
