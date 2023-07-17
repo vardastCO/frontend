@@ -35,17 +35,16 @@ export async function generateMetadata(
 
 const SearchIndex = async ({
   params: { slug },
-  searchParams: { query }
+  searchParams: { query, page }
 }: SearchIndexProps) => {
   const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
 
-  const args: IndexProductInput = { page: 1 }
+  const args: IndexProductInput = { page: page ? +page : 1 }
   if (slug && slug.length) args["categoryId"] = +slug[0]
 
-  await queryClient.prefetchInfiniteQuery(
-    ["products", args],
-    ({ pageParam = 1 }) => getAllProductsQueryFn({ ...args, page: pageParam })
+  await queryClient.prefetchInfiniteQuery(["products", args], () =>
+    getAllProductsQueryFn(args)
   )
 
   if (slug && slug.length) {
