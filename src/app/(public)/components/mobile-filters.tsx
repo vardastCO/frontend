@@ -45,7 +45,7 @@ const MobileFilterableAttributePage = ({
   return (
     <>
       {attribute.values?.options.map(
-        (value, idx) =>
+        (value: string, idx: number) =>
           value && (
             <Label key={idx} className="flex w-full items-center gap-1.5 pt-3">
               <Checkbox />
