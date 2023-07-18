@@ -19,7 +19,7 @@ const VocabularyFilter = () => {
   })
 
   return (
-    <FilterBlock title="دسته‌بندی">
+    <FilterBlock title="دسته‌بندی" openDefault={true}>
       {data && (
         <ol className="flex flex-col gap-2">
           {data.vocabulary.categories.map(

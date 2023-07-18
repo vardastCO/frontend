@@ -1,4 +1,4 @@
-import { useGetFilterableAttributesQuery } from "@/generated"
+import { useGetAllFilterableAttributesQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Checkbox } from "@core/components/ui/checkbox"
@@ -10,7 +10,7 @@ interface FiltersContainerProps {
 }
 
 const FiltersContainer = ({ selectedCategoryId }: FiltersContainerProps) => {
-  const { data, isLoading, error } = useGetFilterableAttributesQuery(
+  const { data, isLoading, error } = useGetAllFilterableAttributesQuery(
     graphqlRequestClient,
     {
       filterableAttributesInput: {

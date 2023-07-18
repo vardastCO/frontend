@@ -1,4 +1,4 @@
-query GetFilterableAttributes(
+query GetAllFilterableAttributes(
   $filterableAttributesInput: FilterableAttributesInput!
 ) {
   filterableAttributes(filterableAttributesInput: $filterableAttributesInput) {

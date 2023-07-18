@@ -25,7 +25,7 @@ const ProductPagination = ({
   })
 
   return (
-    <div className="mt-8 text-center">
+    <div className="mb-10 mt-8 text-center lg:mb-0">
       <div
         className="card
         mx-auto
@@ -35,14 +35,15 @@ const ProductPagination = ({
         divide-x-reverse
         divide-gray-200
         rounded-md
-        text-sm
+        text-xs
+        md:text-sm
         [&>button:first-child]:rounded-r-md
         [&>button:last-child]:rounded-l-md"
       >
         <Button
           noStyle
           onClick={() => pagination.previous()}
-          className="inline-flex cursor-pointer items-center justify-center bg-white px-3 text-gray-700 hover:bg-gray-50"
+          className="inline-flex cursor-pointer items-center justify-center bg-white px-2 text-gray-700 hover:bg-gray-50 md:px-3"
         >
           قبلی
         </Button>
@@ -53,7 +54,7 @@ const ProductPagination = ({
                 noStyle
                 onClick={() => pagination.setPage(page)}
                 className={clsx([
-                  "inline-flex h-12 w-12 cursor-pointer items-center justify-center hover:bg-gray-50",
+                  "inline-flex h-8 w-8 cursor-pointer items-center justify-center hover:bg-gray-50 md:h-12 md:w-12",
                   page === pagination.active
                     ? "bg-gray-50 font-bold text-gray-800"
                     : "bg-white"
@@ -62,7 +63,7 @@ const ProductPagination = ({
                 {digitsEnToFa(page)}
               </Button>
             ) : (
-              <span className="inline-flex h-12 w-12 items-center justify-center bg-white">
+              <span className="inline-flex h-8 w-8 items-center justify-center bg-white md:h-12 md:w-12">
                 ...
               </span>
             )}
@@ -71,7 +72,7 @@ const ProductPagination = ({
         <Button
           noStyle
           onClick={() => pagination.next()}
-          className="inline-flex cursor-pointer items-center justify-center bg-white px-3 hover:bg-gray-50"
+          className="inline-flex cursor-pointer items-center justify-center bg-white px-2 hover:bg-gray-50 md:px-3"
         >
           بعدی
         </Button>

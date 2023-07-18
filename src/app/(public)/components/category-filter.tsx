@@ -20,7 +20,7 @@ const CategoryFilter = ({ selectedCategoryId }: CategoryFilterProps) => {
   })
 
   return (
-    <FilterBlock title="دسته‌بندی">
+    <FilterBlock title="دسته‌بندی" openDefault={true}>
       {data && (
         <ol className="flex flex-col gap-2 [&_ol]:ms-6">
           {data.category.parentCategory ? (

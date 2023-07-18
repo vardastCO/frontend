@@ -3,6 +3,7 @@
 import { useContext } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useParams } from "next/navigation"
 import {
   IconAdjustmentsHorizontal,
   IconCategory,
@@ -10,7 +11,11 @@ import {
 } from "@tabler/icons-react"
 import { useSetAtom } from "jotai"
 
+import { useGetAllFilterableAttributesBasicsQuery } from "@/generated"
+
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
+import MobileFilterableAttributes from "@/app/(public)/components/mobile-filters"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
@@ -24,6 +29,7 @@ interface HeaderProps {
 }
 
 const Header = ({ isMobileView }: HeaderProps) => {
+  const { slug } = useParams()
   const {
     categoriesFilterVisibilityAtom,
     sortFilterVisibilityAtom,
@@ -34,6 +40,16 @@ const Header = ({ isMobileView }: HeaderProps) => {
   )
   const setSortFilterVisibility = useSetAtom(sortFilterVisibilityAtom)
   const setFiltersVisibility = useSetAtom(filtersVisibilityAtom)
+
+  const selectedCategory = slug && slug[0] ? +slug[0] : 0
+  const getFilterableAttributesQuery = useGetAllFilterableAttributesBasicsQuery(
+    graphqlRequestClient,
+    {
+      filterableAttributesInput: {
+        categoryId: selectedCategory
+      }
+    }
+  )
 
   return (
     <div className="flex flex-col gap-4 border-gray-200 bg-white p-4 pb-0 lg:border-b">
@@ -65,15 +81,23 @@ const Header = ({ isMobileView }: HeaderProps) => {
         </div>
       ) : (
         <div className="flex items-start gap-2">
-          <Button
-            onClick={() => setFiltersVisibility(true)}
-            size="small"
-            variant="ghost"
-            className="border border-gray-200"
-          >
-            <IconAdjustmentsHorizontal className="icon text-gray-400" />
-            فیلترها
-          </Button>
+          {selectedCategory !== 0 &&
+            getFilterableAttributesQuery.data &&
+            getFilterableAttributesQuery.data.filterableAttributes.filters
+              .length > 0 && (
+              <>
+                <Button
+                  onClick={() => setFiltersVisibility(true)}
+                  size="small"
+                  variant="ghost"
+                  className="border border-gray-200"
+                >
+                  <IconAdjustmentsHorizontal className="icon text-gray-400" />
+                  فیلترها
+                </Button>
+                <MobileFilterableAttributes />
+              </>
+            )}
           <Button
             onClick={() => setCategoriesFilterVisibility(true)}
             size="small"
