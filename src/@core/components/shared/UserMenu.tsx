@@ -36,7 +36,7 @@ const UserMenu = () => {
     setTheme(newTheme)
   }
 
-  return session ? (
+  return (
     <div ref={ref} className={clsx(["w-full", open && "-mb-2"])}>
       <div
         className={clsx([
@@ -81,7 +81,7 @@ const UserMenu = () => {
           <Avatar>
             <AvatarImage
               src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=
-            ${session?.user?.profile.fullName}`}
+        ${session?.user?.profile.fullName}`}
               alt={session?.user?.profile.fullName || ""}
             />
             <AvatarFallback>{session?.user?.profile.fullName}</AvatarFallback>
@@ -98,8 +98,6 @@ const UserMenu = () => {
         </Button>
       </div>
     </div>
-  ) : (
-    <></>
   )
 }
 

@@ -4,6 +4,8 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@core/lib/authOptions"
 import AdminLayoutComponent from "@/app/admin/components/admin-layout"
 
+export const dynamic = "force-dynamic"
+
 export default async function AdminLayout({
   children
 }: {
@@ -11,9 +13,7 @@ export default async function AdminLayout({
 }) {
   const session = await getServerSession(authOptions)
 
-  if (!session) {
-    redirect("/auth/signin")
-  }
+  if (!session) redirect("/auth/signin")
 
   return <AdminLayoutComponent>{children}</AdminLayoutComponent>
 }
