@@ -44,12 +44,26 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
+  const brandPathRegexp = pathToRegexp("/brand/:slug1/:slug2?")
+  const brandPathRegexpText = brandPathRegexp.exec(request.nextUrl.pathname)
+  if (brandPathRegexpText) {
+    const id = brandPathRegexpText[1]
+    const title = brandPathRegexpText[2]
+    const data = await fetch(`${request.nextUrl.origin}/api/brands/${id}`)
+    if (data && data.status === 200) {
+      const res = await data.json()
+      if (!title || title !== encodeURI(res.brand.name)) {
+        return NextResponse.redirect(
+          new URL(`/brand/${res.brand.id}/${res.brand.name}`, request.url),
+          301
+        )
+      }
+    }
+  }
+
   return NextResponse.rewrite(request.nextUrl.href)
 }
 
 export const config = {
-  matcher: ["/p/:path*", "/search/:path*"]
+  matcher: ["/p/:path*", "/search/:path*", "/brand/:path*"]
 }
-// export const config = {
-//   matcher: ["/((?!favicon.ico).*)"]
-// }

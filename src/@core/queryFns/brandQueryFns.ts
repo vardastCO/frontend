@@ -2,22 +2,11 @@ import request from "graphql-request"
 import { getServerSession } from "next-auth"
 import { getSession } from "next-auth/react"
 
-import {
-  GetAllProductsDocument,
-  GetAllProductsQuery,
-  IndexProductInput
-} from "@/generated"
+import { GetBrandDocument, GetBrandQuery } from "@/generated"
 
 import { authOptions } from "@core/lib/authOptions"
 
-interface getAllProductsQueryFnArgs extends IndexProductInput {}
-
-export const getAllProductsQueryFn = async ({
-  query,
-  page,
-  brandId,
-  categoryId
-}: getAllProductsQueryFnArgs = {}): Promise<GetAllProductsQuery> => {
+export const getBrandQueryFn = async (id: number): Promise<GetBrandQuery> => {
   const session =
     typeof window === "undefined"
       ? await getServerSession(authOptions)
@@ -25,14 +14,9 @@ export const getAllProductsQueryFn = async ({
 
   return await request(
     process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT as string,
-    GetAllProductsDocument,
+    GetBrandDocument,
     {
-      indexProductInput: {
-        query,
-        page,
-        brandId,
-        categoryId
-      }
+      id: +id
     },
     {
       authorization: `Bearer ${session?.user?.token}`

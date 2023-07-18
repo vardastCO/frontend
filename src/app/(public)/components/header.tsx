@@ -3,7 +3,7 @@
 import { useContext } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useParams } from "next/navigation"
+import { useParams, usePathname } from "next/navigation"
 import {
   IconAdjustmentsHorizontal,
   IconCategory,
@@ -29,6 +29,7 @@ interface HeaderProps {
 }
 
 const Header = ({ isMobileView }: HeaderProps) => {
+  const pathname = usePathname()
   const { slug } = useParams()
   const {
     categoriesFilterVisibilityAtom,
@@ -41,13 +42,17 @@ const Header = ({ isMobileView }: HeaderProps) => {
   const setSortFilterVisibility = useSetAtom(sortFilterVisibilityAtom)
   const setFiltersVisibility = useSetAtom(filtersVisibilityAtom)
 
-  const selectedCategory = slug && slug[0] ? +slug[0] : 0
+  const isCategoryPage = pathname.startsWith("/search")
+  const selectedCategory = isCategoryPage && slug && slug[0] ? +slug[0] : 0
   const getFilterableAttributesQuery = useGetAllFilterableAttributesBasicsQuery(
     graphqlRequestClient,
     {
       filterableAttributesInput: {
         categoryId: selectedCategory
       }
+    },
+    {
+      enabled: !!selectedCategory
     }
   )
 
