@@ -8,10 +8,15 @@ import { Button } from "@core/components/ui/button"
 type FilterBlockProps = {
   title: string
   children: ReactNode
+  openDefault?: boolean
 }
 
-const FilterBlock = ({ title, children }: FilterBlockProps) => {
-  const [open, setOpen] = useState(false)
+const FilterBlock = ({
+  title,
+  children,
+  openDefault = false
+}: FilterBlockProps) => {
+  const [open, setOpen] = useState(openDefault)
 
   return (
     <Collapsible.Root open={open} onOpenChange={setOpen}>
