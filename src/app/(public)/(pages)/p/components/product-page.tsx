@@ -5,10 +5,12 @@ import { notFound } from "next/navigation"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
 import { useQuery } from "@tanstack/react-query"
-import { formatDistanceToNow } from "date-fns"
+import { addDays, format, formatDistanceToNow } from "date-fns"
 import {
+  AggregateOffer,
   BreadcrumbList,
   ItemList,
+  Offer as OfferSchema,
   Product as ProductSchema,
   WithContext
 } from "schema-dts"
@@ -111,6 +113,29 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
     isCurrent: false
   })
 
+  let offersJsonLd = {}
+  if (product.offers && product.offers.length > 0) {
+    const offersTemp: OfferSchema[] = []
+    product.offers.forEach((offer) => {
+      offersTemp.push({
+        "@type": "Offer",
+        price: (offer?.lastPublicConsumerPrice?.amount || 0) * 10,
+        priceCurrency: "IRR",
+        name: offer?.seller.name,
+        priceValidUntil: format(addDays(new Date(), 1), "yyyy-MM-dd"),
+        itemCondition: "NewCondition",
+        availability: "InStock"
+      })
+    })
+    offersJsonLd = {
+      "@type": "AggregateOffer",
+      priceCurrency: "IRR",
+      lowPrice: "3890000",
+      highPrice: "3890000",
+      offerCount: product.offers.length,
+      offers: offersTemp
+    }
+  }
   const productJsonLd: WithContext<ProductSchema> = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -118,24 +143,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
     image: product.images.at(0)?.file.presignedUrl.url,
     sku: product.sku,
     url: `${process.env.NEXT_PUBLIC_URL}/p/${product.id}/${product.name}`,
-    offers: {
-      "@type": "AggregateOffer",
-      priceCurrency: "IRR",
-      lowPrice: "3890000",
-      highPrice: "3890000",
-      offerCount: "4",
-      offers: [
-        {
-          "@type": "Offer",
-          price: "3890000",
-          priceCurrency: "IRR",
-          name: "شیر آلات تیرداد",
-          priceValidUntil: "2023-7-17",
-          itemCondition: "NewCondition",
-          availability: "InStock"
-        }
-      ]
-    }
+    offers: offersJsonLd as AggregateOffer
   }
 
   return (
@@ -145,10 +153,13 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           <Breadcrumb dynamic={false} items={breadcrumb} />
         </div>
         <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr]">
-          <ProductImages
-            isMobileView={isMobileView}
-            images={product.images as ProductImage[]}
-          />
+          {product.images.length > 0 && (
+            <ProductImages
+              isMobileView={isMobileView}
+              images={product.images as ProductImage[]}
+            />
+          )}
+
           <div className="flex flex-col gap-4">
             <h1 className="text-xl font-extrabold leading-relaxed text-gray-800">
               {product.name}
@@ -164,25 +175,27 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
               </Link>
             </div>
 
-            <div className="mt-8">
-              <div className="mb-4 font-bold text-gray-800">ویژگی‌ها</div>
-              <ul className="ms-6 list-outside list-disc space-y-2">
-                {product.attributeValues.slice(4).map((attribute) => (
-                  <li key={attribute?.id}>
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-semibold text-gray-500">
-                        {attribute?.attribute.name}
-                      </span>
-                      <span className="font-bold text-gray-700">
-                        {attribute?.value}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {product.attributeValues.length > 0 && (
+              <div className="mt-8">
+                <div className="mb-4 font-bold text-gray-800">ویژگی‌ها</div>
+                <ul className="ms-6 list-outside list-disc space-y-2">
+                  {product.attributeValues.slice(0, 4).map((attribute) => (
+                    <li key={attribute?.id}>
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-semibold text-gray-500">
+                          {attribute?.attribute.name}
+                        </span>
+                        <span className="font-bold text-gray-700">
+                          {attribute?.value}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-            {product.offers &&
+            {product.offers.length > 0 &&
               product.offers.at(0) &&
               product.offers.at(0)?.lastPublicConsumerPrice && (
                 <div className="rounded-md border border-gray-200 p-4 lg:mt-auto">
@@ -305,13 +318,13 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
               )}
           </div>
         </div>
-        {product.offers && (
+        {product.offers.length > 0 && (
           <ProductOffers
             uom={product.uom as Uom}
             offers={product.offers as Offer[]}
           />
         )}
-        {product.attributeValues && (
+        {product.attributeValues.length > 0 && (
           <ProductAttributes
             attributes={product.attributeValues as AttributeValue[]}
           />

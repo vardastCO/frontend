@@ -49,7 +49,7 @@ const ProductImages = ({ images, isMobileView }: ProductImagesProps) => {
         </Swiper>
       </div>
 
-      {!isMobileView && (
+      {!isMobileView && images.length > 1 && (
         <div className="overflow-hidden">
           <Swiper
             //   @ts-ignore

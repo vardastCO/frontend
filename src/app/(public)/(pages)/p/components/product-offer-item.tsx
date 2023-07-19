@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
