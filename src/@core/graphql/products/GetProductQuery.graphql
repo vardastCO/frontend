@@ -116,5 +116,27 @@ query GetProduct($id: Int!) {
       isPublic
       createdAt
     }
+    offers {
+      id
+      status
+      isPublic
+      isAvailable
+      createdAt
+      updatedAt
+      seller {
+        id
+        name
+        slug
+        createdAt
+        updatedAt
+      }
+      lastPublicConsumerPrice {
+        id
+        type
+        amount
+        isPublic
+        createdAt
+      }
+    }
   }
 }
