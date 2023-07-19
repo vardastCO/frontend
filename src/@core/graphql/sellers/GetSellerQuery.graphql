@@ -1,0 +1,28 @@
+query GetSeller($id: Int!) {
+  seller(id: $id) {
+    id
+    name
+    slug
+    createdAt
+    updatedAt
+    logoFile {
+      id
+      uuid
+      modelType
+      modelId
+      name
+      originalName
+      size
+      mimeType
+      disk
+      bucketName
+      orderColumn
+      createdAt
+      updatedAt
+      presignedUrl {
+        url
+        expiresAt
+      }
+    }
+  }
+}
