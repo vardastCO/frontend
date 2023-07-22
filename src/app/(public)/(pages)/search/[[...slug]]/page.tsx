@@ -42,6 +42,7 @@ const SearchIndex = async ({
 
   const args: IndexProductInput = {}
   args["page"] = page && +page[0] > 0 ? +page[0] : 1
+  args["attributes"] = []
   if (slug && slug.length) args["categoryId"] = +slug[0]
   if (query && query.length) args["query"] = query as string
 

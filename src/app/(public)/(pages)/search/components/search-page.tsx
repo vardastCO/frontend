@@ -1,6 +1,9 @@
 "use client"
 
-import { IndexProductInput } from "@/generated"
+import { useEffect, useState } from "react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+
+import { FilterAttribute, IndexProductInput } from "@/generated"
 
 import CategoryFilter from "@/app/(public)/components/category-filter"
 import FiltersContainer from "@/app/(public)/components/filters-container"
@@ -15,6 +18,21 @@ interface SearchPageProps {
 }
 
 const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const { push, replace } = useRouter()
+  const [filterAttributes, setFilterAtrributes] = useState<FilterAttribute[]>(
+    []
+  )
+
+  useEffect(() => {
+    const params = new URLSearchParams()
+    filterAttributes.forEach((attribute) => {
+      params.set(`attribute[${attribute.id}]`, attribute.value)
+    })
+    push(pathname + "?" + params.toString())
+  }, [filterAttributes, pathname, push, searchParams])
+
   return (
     <>
       {slug && slug.length > 0 && (
@@ -29,7 +47,28 @@ const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
               {slug && slug.length > 0 ? (
                 <>
                   <CategoryFilter selectedCategoryId={+slug[0]} />
-                  <FiltersContainer selectedCategoryId={+slug[0]} />
+                  <FiltersContainer
+                    selectedCategoryId={+slug[0]}
+                    onFilterAttributesChanged={({ status, id, value }) => {
+                      setFilterAtrributes((values) => {
+                        let tmp = values
+                        if (status === true) {
+                          tmp = [
+                            ...tmp,
+                            {
+                              id,
+                              value
+                            }
+                          ]
+                        } else if (status === false) {
+                          tmp = tmp.filter(
+                            (item) => item.id !== id && item.value !== value
+                          )
+                        }
+                        return tmp
+                      })
+                    }}
+                  />
                 </>
               ) : (
                 <VocabularyFilter />
@@ -39,7 +78,7 @@ const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
         )}
 
         <div>
-          <ProductList args={args} />
+          <ProductList args={args} filterAttributes={filterAttributes} />
         </div>
       </div>
     </>
