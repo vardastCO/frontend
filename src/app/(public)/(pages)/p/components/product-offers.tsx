@@ -1,3 +1,5 @@
+"use client"
+
 import { Offer, Uom } from "@/generated"
 
 import ProductOfferItem from "./product-offer-item"
