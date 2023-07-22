@@ -170,14 +170,16 @@ const MobileFilterableAttributes = ({
                   ? selectedFilterAttribute.name
                   : "فیلترها"}
               </div>
-              <Button
-                size="small"
-                noStyle
-                className="ms-auto text-sm text-red-500"
-                onClick={() => onRemoveAllFilters()}
-              >
-                حذف همه فیلترها
-              </Button>
+              {filterAttributes.length > 0 && (
+                <Button
+                  size="small"
+                  noStyle
+                  className="ms-auto text-sm text-red-500"
+                  onClick={() => onRemoveAllFilters()}
+                >
+                  حذف همه فیلترها
+                </Button>
+              )}
             </div>
           </div>
           <div className="p-4">

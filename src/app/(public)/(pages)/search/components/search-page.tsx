@@ -159,6 +159,19 @@ const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
             <div className="divide-y divide-gray-200 rounded-md border border-gray-300 px-4">
               {slug && slug.length > 0 ? (
                 <>
+                  <div className="-mx-4 flex items-center p-4">
+                    <strong>فیلترها</strong>
+                    {filterAttributes.length > 0 && (
+                      <Button
+                        size="small"
+                        noStyle
+                        className="ms-auto text-sm text-red-500"
+                        onClick={() => setFilterAtrributes([])}
+                      >
+                        حذف همه فیلترها
+                      </Button>
+                    )}
+                  </div>
                   <CategoryFilter selectedCategoryId={+slug[0]} />
                   <FiltersContainer
                     selectedCategoryId={+slug[0]}
