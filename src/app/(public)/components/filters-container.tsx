@@ -12,6 +12,7 @@ import FilterBlock from "@/app/(public)/components/filter-block"
 
 interface FiltersContainerProps {
   selectedCategoryId: number
+  filterAttributes: FilterAttribute[]
   onFilterAttributesChanged: ({
     status,
     id,
@@ -21,7 +22,8 @@ interface FiltersContainerProps {
 
 const FiltersContainer = ({
   selectedCategoryId,
-  onFilterAttributesChanged
+  onFilterAttributesChanged,
+  filterAttributes
 }: FiltersContainerProps) => {
   const { data, isLoading, error } = useGetAllFilterableAttributesQuery(
     graphqlRequestClient,
@@ -47,13 +49,20 @@ const FiltersContainer = ({
       {data.filterableAttributes.filters.map(
         (filter) =>
           filter && (
-            <FilterBlock key={filter.id} title={filter.name}>
-              {filter.values?.options.map(
-                (value: string, idx: number) =>
-                  value && (
-                    <Label.Root key={idx} className="flex items-center gap-2">
-                      <Checkbox.Root
-                        className="flex
+            <FilterBlock
+              key={filter.id}
+              title={filter.name}
+              openDefault={filterAttributes.some(
+                (item) => item.id === filter.id
+              )}
+            >
+              <div className="flex flex-col gap-3">
+                {filter.values?.options.map(
+                  (value: string, idx: number) =>
+                    value && (
+                      <Label.Root key={idx} className="flex items-center gap-2">
+                        <Checkbox.Root
+                          className="flex
                         h-5
                         w-5
                         appearance-none
@@ -66,29 +75,36 @@ const FiltersContainer = ({
                         outline-none
                         data-[state='checked']:border-brand-500
                         data-[state='checked']:bg-brand-500"
-                        onCheckedChange={(checked) =>
-                          onFilterAttributesChanged({
-                            status: checked,
-                            id: filter.id,
-                            value: value
-                          })
-                        }
-                      >
-                        <Checkbox.Indicator className="text-white">
-                          <IconCheck className="h-3 w-3" stroke={3} />
-                        </Checkbox.Indicator>
-                      </Checkbox.Root>
-                      <span className="inline-block leading-none">{value}</span>
-                    </Label.Root>
-                    // <Label
-                    //   key={idx}
-                    //   className="flex w-full items-center gap-1.5 pt-3"
-                    // >
-                    //   <Checkbox />
-                    //   {value}
-                    // </Label>
-                  )
-              )}
+                          checked={filterAttributes.some(
+                            (item) =>
+                              item.id === filter.id && item.value === value
+                          )}
+                          onCheckedChange={(checked) =>
+                            onFilterAttributesChanged({
+                              status: checked,
+                              id: filter.id,
+                              value: value
+                            })
+                          }
+                        >
+                          <Checkbox.Indicator className="text-white">
+                            <IconCheck className="h-3 w-3" stroke={3} />
+                          </Checkbox.Indicator>
+                        </Checkbox.Root>
+                        <span className="inline-block leading-none">
+                          {value}
+                        </span>
+                      </Label.Root>
+                      // <Label
+                      //   key={idx}
+                      //   className="flex w-full items-center gap-1.5 pt-3"
+                      // >
+                      //   <Checkbox />
+                      //   {value}
+                      // </Label>
+                    )
+                )}
+              </div>
             </FilterBlock>
           )
       )}

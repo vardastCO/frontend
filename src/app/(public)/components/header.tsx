@@ -1,22 +1,7 @@
 "use client"
 
-import { useContext } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useParams, usePathname } from "next/navigation"
-import {
-  IconAdjustmentsHorizontal,
-  IconCategory,
-  IconSortDescending2
-} from "@tabler/icons-react"
-import { useSetAtom } from "jotai"
-
-import { useGetAllFilterableAttributesBasicsQuery } from "@/generated"
-
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { Button } from "@core/components/ui/button"
-import MobileFilterableAttributes from "@/app/(public)/components/mobile-filters"
-import { PublicContext } from "@/app/(public)/components/public-provider"
 
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
 import logoSign from "@/assets/sign.svg"
@@ -29,33 +14,6 @@ interface HeaderProps {
 }
 
 const Header = ({ isMobileView }: HeaderProps) => {
-  const pathname = usePathname()
-  const { slug } = useParams()
-  const {
-    categoriesFilterVisibilityAtom,
-    sortFilterVisibilityAtom,
-    filtersVisibilityAtom
-  } = useContext(PublicContext)
-  const setCategoriesFilterVisibility = useSetAtom(
-    categoriesFilterVisibilityAtom
-  )
-  const setSortFilterVisibility = useSetAtom(sortFilterVisibilityAtom)
-  const setFiltersVisibility = useSetAtom(filtersVisibilityAtom)
-
-  const isCategoryPage = pathname.startsWith("/search")
-  const selectedCategory = isCategoryPage && slug && slug[0] ? +slug[0] : 0
-  const getFilterableAttributesQuery = useGetAllFilterableAttributesBasicsQuery(
-    graphqlRequestClient,
-    {
-      filterableAttributesInput: {
-        categoryId: selectedCategory
-      }
-    },
-    {
-      enabled: !!selectedCategory
-    }
-  )
-
   return (
     <div className="flex flex-col gap-4 border-gray-200 bg-white p-4 pb-0 lg:border-b">
       <div className="flex items-center gap-4 lg:gap-8">
@@ -79,48 +37,10 @@ const Header = ({ isMobileView }: HeaderProps) => {
           <Search />
         </div>
       </div>
-      {!isMobileView ? (
+      {!isMobileView && (
         <div className="flex items-start justify-between">
           <Navigation />
           {/* <LocationSelector /> */}
-        </div>
-      ) : (
-        <div className="flex items-start gap-2">
-          {selectedCategory !== 0 &&
-            getFilterableAttributesQuery.data &&
-            getFilterableAttributesQuery.data.filterableAttributes.filters
-              .length > 0 && (
-              <>
-                <Button
-                  onClick={() => setFiltersVisibility(true)}
-                  size="small"
-                  variant="ghost"
-                  className="border border-gray-200"
-                >
-                  <IconAdjustmentsHorizontal className="icon text-gray-400" />
-                  فیلترها
-                </Button>
-                <MobileFilterableAttributes />
-              </>
-            )}
-          <Button
-            onClick={() => setCategoriesFilterVisibility(true)}
-            size="small"
-            variant="ghost"
-            className="border border-gray-200"
-          >
-            <IconCategory className="icon text-gray-400" />
-            دسته‌بندی‌ها
-          </Button>
-          <Button
-            onClick={() => setSortFilterVisibility(true)}
-            size="small"
-            variant="ghost"
-            className="border border-gray-200"
-          >
-            <IconSortDescending2 className="icon text-gray-400" />
-            مرتب‌سازی
-          </Button>
         </div>
       )}
     </div>

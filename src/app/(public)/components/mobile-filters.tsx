@@ -2,16 +2,20 @@
 
 import { useContext, useState } from "react"
 import { useParams } from "next/navigation"
+import * as Checkbox from "@radix-ui/react-checkbox"
 import * as Dialog from "@radix-ui/react-dialog"
-import { IconArrowRight, IconChevronLeft } from "@tabler/icons-react"
+import * as Label from "@radix-ui/react-label"
+import { IconArrowRight, IconCheck, IconChevronLeft } from "@tabler/icons-react"
 import { useAtom } from "jotai"
 
-import { Attribute, useGetAllFilterableAttributesQuery } from "@/generated"
+import {
+  Attribute,
+  FilterAttribute,
+  useGetAllFilterableAttributesQuery
+} from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
-import { Checkbox } from "@core/components/ui/checkbox"
-import { Label } from "@core/components/ui/label"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
 type MobileFilterableAttributeItemProps = {
@@ -37,29 +41,68 @@ const MobileFilterableAttributeItem = ({
 
 type MobileFilterableAttributePageProps = {
   attribute: Attribute
+  onFilterAttributesChanged: ({
+    status,
+    id,
+    value
+  }: FilterAttribute & { status: Checkbox.CheckedState }) => void
 }
 
 const MobileFilterableAttributePage = ({
-  attribute
+  attribute,
+  onFilterAttributesChanged
 }: MobileFilterableAttributePageProps) => {
   return (
-    <>
+    <div className="flex flex-col gap-3">
       {attribute.values?.options.map(
         (value: string, idx: number) =>
           value && (
-            <Label key={idx} className="flex w-full items-center gap-1.5 pt-3">
-              <Checkbox />
-              {value}
-            </Label>
+            <Label.Root key={idx} className="flex items-center gap-2">
+              <Checkbox.Root
+                className="flex
+                    h-5
+                    w-5
+                    appearance-none
+                    items-center
+                    justify-center
+                    rounded-md
+                    border-2
+                    border-gray-600
+                    bg-white
+                    outline-none
+                    data-[state='checked']:border-brand-500
+                    data-[state='checked']:bg-brand-500"
+                onCheckedChange={(checked) =>
+                  onFilterAttributesChanged({
+                    status: checked,
+                    id: attribute.id,
+                    value: value
+                  })
+                }
+              >
+                <Checkbox.Indicator className="text-white">
+                  <IconCheck className="h-3 w-3" stroke={3} />
+                </Checkbox.Indicator>
+              </Checkbox.Root>
+              <span className="inline-block leading-none">{value}</span>
+            </Label.Root>
           )
       )}
-    </>
+    </div>
   )
 }
 
-type MobileFilterableAttributesProps = {}
+type MobileFilterableAttributesProps = {
+  onFilterAttributesChanged: ({
+    status,
+    id,
+    value
+  }: FilterAttribute & { status: Checkbox.CheckedState }) => void
+}
 
-const MobileFilterableAttributes = (props: MobileFilterableAttributesProps) => {
+const MobileFilterableAttributes = ({
+  onFilterAttributesChanged
+}: MobileFilterableAttributesProps) => {
   const { slug } = useParams()
   const [selectedFilterAttribute, setSelectedFilterAttribute] =
     useState<Attribute | null>(null)
@@ -107,6 +150,7 @@ const MobileFilterableAttributes = (props: MobileFilterableAttributesProps) => {
             {selectedFilterAttribute ? (
               <MobileFilterableAttributePage
                 attribute={selectedFilterAttribute}
+                onFilterAttributesChanged={onFilterAttributesChanged}
               />
             ) : (
               <>

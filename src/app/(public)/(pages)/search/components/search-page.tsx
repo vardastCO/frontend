@@ -1,13 +1,28 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { CheckedState } from "@radix-ui/react-checkbox"
+import {
+  IconAdjustmentsHorizontal,
+  IconCategory,
+  IconSortDescending2
+} from "@tabler/icons-react"
+import { useSetAtom } from "jotai"
 
-import { FilterAttribute, IndexProductInput } from "@/generated"
+import {
+  FilterAttribute,
+  IndexProductInput,
+  useGetAllFilterableAttributesBasicsQuery
+} from "@/generated"
 
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { Button } from "@core/components/ui/button"
 import CategoryFilter from "@/app/(public)/components/category-filter"
 import FiltersContainer from "@/app/(public)/components/filters-container"
+import MobileFilterableAttributes from "@/app/(public)/components/mobile-filters"
 import ProductList from "@/app/(public)/components/product-list"
+import { PublicContext } from "@/app/(public)/components/public-provider"
 import SearchHeader from "@/app/(public)/components/search-header"
 import VocabularyFilter from "@/app/(public)/components/vocabulary-filter"
 
@@ -20,21 +35,114 @@ interface SearchPageProps {
 const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const { push, replace } = useRouter()
+  const { push } = useRouter()
   const [filterAttributes, setFilterAtrributes] = useState<FilterAttribute[]>(
-    []
+    args["attributes"] || []
   )
+  const {
+    categoriesFilterVisibilityAtom,
+    sortFilterVisibilityAtom,
+    filtersVisibilityAtom
+  } = useContext(PublicContext)
+  const setCategoriesFilterVisibility = useSetAtom(
+    categoriesFilterVisibilityAtom
+  )
+  const setSortFilterVisibility = useSetAtom(sortFilterVisibilityAtom)
+  const setFiltersVisibility = useSetAtom(filtersVisibilityAtom)
+
+  const selectedCategory = slug && slug.length > 0 ? +slug[0] : 0
+  const getFilterableAttributesQuery = useGetAllFilterableAttributesBasicsQuery(
+    graphqlRequestClient,
+    {
+      filterableAttributesInput: {
+        categoryId: selectedCategory
+      }
+    },
+    {
+      enabled: !!selectedCategory
+    }
+  )
+
+  const onFilterAttributesChanged = ({
+    status,
+    id,
+    value
+  }: FilterAttribute & { status: CheckedState }) => {
+    setFilterAtrributes((values) => {
+      let tmp = values
+      if (status === true) {
+        tmp = [
+          ...tmp,
+          {
+            id,
+            value
+          }
+        ]
+      } else if (status === false) {
+        tmp = tmp.filter(
+          (item) => `${item.id}+${item.value}` !== `${id}+${value}`
+        )
+      }
+
+      return tmp
+    })
+  }
 
   useEffect(() => {
     const params = new URLSearchParams()
     filterAttributes.forEach((attribute) => {
-      params.set(`attribute[${attribute.id}]`, attribute.value)
+      params.append(`attribute[${attribute.id}]`, attribute.value)
     })
     push(pathname + "?" + params.toString())
   }, [filterAttributes, pathname, push, searchParams])
 
   return (
     <>
+      {isMobileView && (
+        <div className="mt-2 flex items-start gap-2">
+          {selectedCategory !== 0 &&
+            getFilterableAttributesQuery.data &&
+            getFilterableAttributesQuery.data.filterableAttributes.filters
+              .length > 0 && (
+              <>
+                <Button
+                  onClick={() => setFiltersVisibility(true)}
+                  size="small"
+                  variant="ghost"
+                  className="border border-gray-200"
+                >
+                  <IconAdjustmentsHorizontal className="icon text-gray-400" />
+                  فیلترها
+                </Button>
+                <MobileFilterableAttributes
+                  onFilterAttributesChanged={({ status, id, value }) => {
+                    onFilterAttributesChanged({ status, id, value })
+                    setFiltersVisibility(false)
+                  }}
+                />
+              </>
+            )}
+          <Button
+            onClick={() => setCategoriesFilterVisibility(true)}
+            size="small"
+            variant="ghost"
+            className="border border-gray-200"
+          >
+            <IconCategory className="icon text-gray-400" />
+            دسته‌بندی‌ها
+          </Button>
+          <Button
+            onClick={() => setSortFilterVisibility(true)}
+            size="small"
+            variant="ghost"
+            className="border border-gray-200"
+          >
+            <IconSortDescending2 className="icon text-gray-400" />
+            مرتب‌سازی
+          </Button>
+        </div>
+      )}
+
       {slug && slug.length > 0 && (
         <div>
           <SearchHeader selectedCategoryId={+slug[0]} />
@@ -49,25 +157,8 @@ const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
                   <CategoryFilter selectedCategoryId={+slug[0]} />
                   <FiltersContainer
                     selectedCategoryId={+slug[0]}
-                    onFilterAttributesChanged={({ status, id, value }) => {
-                      setFilterAtrributes((values) => {
-                        let tmp = values
-                        if (status === true) {
-                          tmp = [
-                            ...tmp,
-                            {
-                              id,
-                              value
-                            }
-                          ]
-                        } else if (status === false) {
-                          tmp = tmp.filter(
-                            (item) => item.id !== id && item.value !== value
-                          )
-                        }
-                        return tmp
-                      })
-                    }}
+                    filterAttributes={filterAttributes}
+                    onFilterAttributesChanged={onFilterAttributesChanged}
                   />
                 </>
               ) : (
