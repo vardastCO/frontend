@@ -114,9 +114,9 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
   })
 
   let offersJsonLd = {}
-  if (product.offers && product.offers.length > 0) {
+  if (product.publicOffers && product.publicOffers.length > 0) {
     const offersTemp: OfferSchema[] = []
-    product.offers.forEach((offer) => {
+    product.publicOffers.forEach((offer) => {
       offersTemp.push({
         "@type": "Offer",
         price: (offer?.lastPublicConsumerPrice?.amount || 0) * 10,
@@ -130,9 +130,9 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
     offersJsonLd = {
       "@type": "AggregateOffer",
       priceCurrency: "IRR",
-      lowPrice: "3890000",
-      highPrice: "3890000",
-      offerCount: product.offers.length,
+      lowPrice: (product.lowestPrice?.amount || 0) * 10,
+      highPrice: (product.highestPrice?.amount || 0) * 10,
+      offerCount: product.publicOffers.length,
       offers: offersTemp
     }
   }
@@ -195,133 +195,125 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
               </div>
             )}
 
-            {product.offers.length > 0 &&
-              product.offers.at(0) &&
-              product.offers.at(0)?.lastPublicConsumerPrice && (
-                <div className="rounded-md border border-gray-200 p-4 lg:mt-auto">
-                  <div className="mb-2 flex items-center gap-2 md:mb-4">
-                    <span className="tag tag-warning tag-light text-sm md:text-base">
-                      بهترین قیمت
-                    </span>
-                    {product.offers.length > 1 && (
-                      <Link
-                        href="#sellers"
-                        scroll={false}
-                        className="mr-auto text-sm font-semibold text-brand-600"
-                      >
-                        +{digitsEnToFa(product.offers.length - 1)} فروشنده دیگر
-                      </Link>
-                    )}
-                  </div>
-                  <div className="divide-y divide-gray-200">
-                    <div className="flex items-start gap-2.5 py-3">
-                      <IconBuildingWarehouse
-                        className="h-8 w-8 text-gray-400"
-                        stroke={1.5}
-                      />
-                      <div className="flex flex-col items-start gap-1.5">
-                        <div className="font-bold text-gray-700">
-                          {product.offers.at(0)?.seller.name}
+            {product.lowestPrice && (
+              <div className="rounded-md border border-gray-200 p-4 lg:mt-auto">
+                <div className="mb-2 flex items-center gap-2 md:mb-4">
+                  <span className="tag tag-warning tag-light text-sm md:text-base">
+                    بهترین قیمت
+                  </span>
+                  {product.publicOffers.length > 1 && (
+                    <Link
+                      href="#sellers"
+                      scroll={false}
+                      className="mr-auto text-sm font-semibold text-brand-600"
+                    >
+                      +{digitsEnToFa(product.publicOffers.length - 1)} فروشنده
+                      دیگر
+                    </Link>
+                  )}
+                </div>
+                <div className="divide-y divide-gray-200">
+                  <div className="flex items-start gap-2.5 py-3">
+                    <IconBuildingWarehouse
+                      className="h-8 w-8 text-gray-400"
+                      stroke={1.5}
+                    />
+                    <div className="flex flex-col items-start gap-1.5">
+                      <div className="font-bold text-gray-700">
+                        {product.lowestPrice.seller.name}
+                      </div>
+                      <div className="flex items-center gap-6 text-sm">
+                        {/* TODO */}
+                        <div className="flex items-center gap-1 text-gray-500">
+                          <IconMapPin
+                            className="h-4 w-4 text-gray-400"
+                            stroke={1.5}
+                          />
+                          تهران
                         </div>
-                        <div className="flex items-center gap-6 text-sm">
-                          {/* TODO */}
-                          <div className="flex items-center gap-1 text-gray-500">
-                            <IconMapPin
-                              className="h-4 w-4 text-gray-400"
-                              stroke={1.5}
-                            />
-                            تهران
-                          </div>
-                          {/* TODO */}
-                          {/* <div className="flex items-center gap-1">
+                        {/* TODO */}
+                        {/* <div className="flex items-center gap-1">
                           <span className="text-gray-500">عملکرد</span>
                           <span className="font-bold text-emerald-500">
                             عالی
                           </span>
                         </div> */}
-                        </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="flex flex-col gap-4 pt-3">
-                      <div className="flex flex-col items-start justify-between gap-2 md:flex-row lg:items-center">
-                        <div>
-                          <span className="mt-2 inline-block font-semibold text-gray-600">
-                            قیمت فروشنده
-                          </span>
-                          <div className="mt-1 text-xs text-gray-600 md:mt-2 lg:text-left">
-                            <span>آخرین به‌روز رسانی قیمت:</span>{" "}
-                            <span>
-                              {digitsEnToFa(
-                                formatDistanceToNow(
-                                  new Date(
-                                    product.offers.at(0)
-                                      ?.lastPublicConsumerPrice?.createdAt
-                                  ).getTime(),
-                                  {
-                                    addSuffix: true
-                                  }
-                                )
-                              )}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-col items-stretch justify-between text-gray-800">
-                          <div className="flex items-start gap-2">
-                            {hasDiscount && (
-                              <div className="mt-2 rounded bg-red-500 px-2 py-1.5 text-center text-sm font-semibold leading-none text-white">
-                                {digitsEnToFa(15)}%
-                              </div>
+                  <div className="flex flex-col gap-4 pt-3">
+                    <div className="flex flex-col items-start justify-between gap-2 md:flex-row lg:items-center">
+                      <div>
+                        <span className="mt-2 inline-block font-semibold text-gray-600">
+                          قیمت فروشنده
+                        </span>
+                        <div className="mt-1 text-xs text-gray-600 md:mt-2 lg:text-left">
+                          <span>آخرین به‌روز رسانی قیمت:</span>{" "}
+                          <span>
+                            {digitsEnToFa(
+                              formatDistanceToNow(
+                                new Date(
+                                  product.lowestPrice.createdAt
+                                ).getTime(),
+                                {
+                                  addSuffix: true
+                                }
+                              )
                             )}
-                            <div>
-                              <span className="text-xs leading-none text-gray-600">
-                                قیمت هر {product.uom.name}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-stretch justify-between text-gray-800">
+                        <div className="flex items-start gap-2">
+                          {hasDiscount && (
+                            <div className="mt-2 rounded bg-red-500 px-2 py-1.5 text-center text-sm font-semibold leading-none text-white">
+                              {digitsEnToFa(15)}%
+                            </div>
+                          )}
+                          <div>
+                            <span className="text-xs leading-none text-gray-600">
+                              قیمت هر {product.uom.name}
+                            </span>
+                            <div className="flex items-center gap-1 leading-none">
+                              <span className="text-lg font-semibold leading-none">
+                                {digitsEnToFa(
+                                  addCommas(product.lowestPrice.amount || 0)
+                                )}
                               </span>
-                              <div className="flex items-center gap-1 leading-none">
-                                <span className="text-lg font-semibold leading-none">
+                              <span className="text-sm leading-none">
+                                تومان
+                              </span>
+                            </div>
+                            <div className="mt-2 flex-1">
+                              {hasDiscount && (
+                                <span className="text-sm text-gray-500 line-through">
                                   {digitsEnToFa(
-                                    addCommas(
-                                      product.offers.at(0)
-                                        ?.lastPublicConsumerPrice?.amount || 0
-                                    )
+                                    addCommas(product.lowestPrice.amount || 0)
                                   )}
                                 </span>
-                                <span className="text-sm leading-none">
-                                  تومان
-                                </span>
-                              </div>
-                              <div className="mt-2 flex-1">
-                                {hasDiscount && (
-                                  <span className="text-sm text-gray-500 line-through">
-                                    {digitsEnToFa(
-                                      addCommas(
-                                        product.offers.at(0)
-                                          ?.lastPublicConsumerPrice?.amount || 0
-                                      )
-                                    )}
-                                  </span>
-                                )}
-                              </div>
+                              )}
                             </div>
                           </div>
                         </div>
                       </div>
+                    </div>
 
-                      <div className="md:mr-auto">
-                        <Button size="medium" fullWidth>
-                          خرید از {product.offers.at(0)?.seller.name}
-                        </Button>
-                      </div>
+                    <div className="md:mr-auto">
+                      <Button size="medium" fullWidth>
+                        خرید از {product.lowestPrice.seller.name}
+                      </Button>
                     </div>
                   </div>
                 </div>
-              )}
+              </div>
+            )}
           </div>
         </div>
-        {product.offers.length > 0 && (
+        {product.publicOffers.length > 0 && (
           <ProductOffers
             uom={product.uom as Uom}
-            offers={product.offers as Offer[]}
+            offers={product.publicOffers as Offer[]}
           />
         )}
         {product.attributeValues.length > 0 && (
