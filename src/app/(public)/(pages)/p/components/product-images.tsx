@@ -41,7 +41,6 @@ const ProductImages = ({ images, isMobileView }: ProductImagesProps) => {
                   priority={idx === 0}
                   sizes="(max-width: 640px) 100vw, 33vw"
                   className="object-contain"
-                  onClick={() => setLightboxOpen(true)}
                 />
               </div>
             </SwiperSlide>
