@@ -30,6 +30,7 @@
   --safe-aera-inset-right: env(safe-area-inset-right);
   --safe-aera-inset-bottom: env(safe-area-inset-bottom);
   --safe-aera-inset-left: env(safe-area-inset-left);
+  --swiper-theme-color: theme(colors.brand.500);
 }
 
 .hide-scrollbar::-webkit-scrollbar {
