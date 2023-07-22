@@ -115,8 +115,13 @@ const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
                   فیلترها
                 </Button>
                 <MobileFilterableAttributes
+                  filterAttributes={filterAttributes}
                   onFilterAttributesChanged={({ status, id, value }) => {
                     onFilterAttributesChanged({ status, id, value })
+                    setFiltersVisibility(false)
+                  }}
+                  onRemoveAllFilters={() => {
+                    setFilterAtrributes([])
                     setFiltersVisibility(false)
                   }}
                 />

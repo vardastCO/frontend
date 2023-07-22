@@ -19,28 +19,46 @@ import { Button } from "@core/components/ui/button"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
 type MobileFilterableAttributeItemProps = {
-  title: string
+  attribute: Attribute
+  filterAttributes: FilterAttribute[]
   onFilterableAttributeChanged: () => void
 }
 
 const MobileFilterableAttributeItem = ({
-  title,
-  onFilterableAttributeChanged
+  attribute,
+  onFilterableAttributeChanged,
+  filterAttributes
 }: MobileFilterableAttributeItemProps) => {
   return (
     <Button
       noStyle
-      className="flex w-full items-center justify-between py-3"
       onClick={() => onFilterableAttributeChanged()}
+      className="py-3"
     >
-      <span className="font-bold text-gray-800">{title}</span>
-      <IconChevronLeft className="h-4 w-4 text-gray-400" />
+      <div className="flex w-full items-center gap-2">
+        {filterAttributes.some((item) => item.id === attribute.id) && (
+          <span className="block h-2 w-2 rounded-full bg-brand-500"></span>
+        )}
+        <span className="font-bold text-gray-800">{attribute.name}</span>
+        <IconChevronLeft className="ms-auto h-4 w-4 text-gray-400" />
+      </div>
+      {filterAttributes.some((item) => item.id === attribute.id) && (
+        <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-gray-600">
+          {filterAttributes.map(
+            (item) =>
+              item.id === attribute.id && (
+                <div key={item.value}>{item.value}</div>
+              )
+          )}
+        </div>
+      )}
     </Button>
   )
 }
 
 type MobileFilterableAttributePageProps = {
   attribute: Attribute
+  filterAttributes: FilterAttribute[]
   onFilterAttributesChanged: ({
     status,
     id,
@@ -50,7 +68,8 @@ type MobileFilterableAttributePageProps = {
 
 const MobileFilterableAttributePage = ({
   attribute,
-  onFilterAttributesChanged
+  onFilterAttributesChanged,
+  filterAttributes
 }: MobileFilterableAttributePageProps) => {
   return (
     <div className="flex flex-col gap-3">
@@ -72,6 +91,9 @@ const MobileFilterableAttributePage = ({
                     outline-none
                     data-[state='checked']:border-brand-500
                     data-[state='checked']:bg-brand-500"
+                checked={filterAttributes.some(
+                  (item) => item.id === attribute.id && item.value === value
+                )}
                 onCheckedChange={(checked) =>
                   onFilterAttributesChanged({
                     status: checked,
@@ -93,15 +115,19 @@ const MobileFilterableAttributePage = ({
 }
 
 type MobileFilterableAttributesProps = {
+  filterAttributes: FilterAttribute[]
   onFilterAttributesChanged: ({
     status,
     id,
     value
   }: FilterAttribute & { status: Checkbox.CheckedState }) => void
+  onRemoveAllFilters: () => void
 }
 
 const MobileFilterableAttributes = ({
-  onFilterAttributesChanged
+  onFilterAttributesChanged,
+  filterAttributes,
+  onRemoveAllFilters
 }: MobileFilterableAttributesProps) => {
   const { slug } = useParams()
   const [selectedFilterAttribute, setSelectedFilterAttribute] =
@@ -144,13 +170,25 @@ const MobileFilterableAttributes = ({
                   ? selectedFilterAttribute.name
                   : "فیلترها"}
               </div>
+              <Button
+                size="small"
+                noStyle
+                className="ms-auto text-sm text-red-500"
+                onClick={() => onRemoveAllFilters()}
+              >
+                حذف همه فیلترها
+              </Button>
             </div>
           </div>
           <div className="p-4">
             {selectedFilterAttribute ? (
               <MobileFilterableAttributePage
+                filterAttributes={filterAttributes}
                 attribute={selectedFilterAttribute}
-                onFilterAttributesChanged={onFilterAttributesChanged}
+                onFilterAttributesChanged={({ status, id, value }) => {
+                  setSelectedFilterAttribute(null)
+                  onFilterAttributesChanged({ status, id, value })
+                }}
               />
             ) : (
               <>
@@ -160,7 +198,8 @@ const MobileFilterableAttributes = ({
                       filter && (
                         <MobileFilterableAttributeItem
                           key={filter.id}
-                          title={filter.name}
+                          attribute={filter as Attribute}
+                          filterAttributes={filterAttributes}
                           onFilterableAttributeChanged={() =>
                             setSelectedFilterAttribute(filter as Attribute)
                           }
