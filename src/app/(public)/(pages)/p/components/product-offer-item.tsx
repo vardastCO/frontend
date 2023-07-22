@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
@@ -9,6 +10,7 @@ import { faIR } from "date-fns/locale"
 import { Offer, Uom } from "@/generated"
 
 import { Button } from "@core/components/ui/button"
+import SellerContactModal from "@/app/(public)/(pages)/p/components/seller-contact-modal"
 
 type Props = {
   offer: Offer
@@ -16,6 +18,7 @@ type Props = {
 }
 
 const ProductOfferItem = ({ offer, uom }: Props) => {
+  const [contactModalOpen, setContactModalOpen] = useState<boolean>(false)
   setDefaultOptions({
     locale: faIR,
     weekStartsOn: 6
@@ -24,6 +27,11 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
 
   return (
     <div className="flex flex-col flex-wrap items-start gap-3 rounded-md p-4 md:flex-row lg:items-center">
+      <SellerContactModal
+        seller={offer.seller}
+        open={contactModalOpen}
+        onOpenChange={setContactModalOpen}
+      />
       <div className="flex items-center gap-2.5 py-3">
         <IconBuildingWarehouse
           className="hidden h-8 w-8 text-gray-400 md:block"
@@ -84,7 +92,12 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
                 </div>
               </div>
             </div>
-            <Button className="mr-auto md:mr-0">خرید از این فروشنده</Button>
+            <Button
+              onClick={() => setContactModalOpen(true)}
+              className="mr-auto md:mr-0"
+            >
+              خرید از این فروشنده
+            </Button>
           </div>
           <div className="mt-2 text-xs text-gray-600 lg:text-left">
             <span>آخرین به‌روز رسانی قیمت:</span>{" "}
