@@ -26,7 +26,7 @@ const Index = async () => {
               priority
             />
           </div>
-          <Search />
+          <Search isMobileView={isMobileView} />
         </div>
 
         {!isMobileView && (

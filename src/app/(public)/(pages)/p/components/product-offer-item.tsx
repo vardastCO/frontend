@@ -45,11 +45,13 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
             <div className="font-bold text-gray-700">{offer.seller.name}</div>
           </Link>
           <div className="flex items-center gap-6 text-sm">
-            {/* TODO */}
-            <div className="flex items-center gap-1 text-gray-500">
-              <IconMapPin className="h-4 w-4 text-gray-400" stroke={1.5} />
-              تهران
-            </div>
+            {offer.seller.addresses && offer.seller.addresses.length > 0 && (
+              <div className="flex items-center gap-1 text-gray-500">
+                <IconMapPin className="h-4 w-4 text-gray-400" stroke={1.5} />
+                {offer.seller.addresses.at(0)?.city.name}
+              </div>
+            )}
+
             {/* TODO */}
             {/* <div className="flex items-center gap-1">
               <span className="text-gray-500">عملکرد</span>

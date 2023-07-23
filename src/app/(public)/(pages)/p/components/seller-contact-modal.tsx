@@ -59,38 +59,46 @@ const SellerContactModal = ({
           </div>
         </div>
         <div className="flex flex-col divide-y divide-gray-200">
-          <div className="flex items-stretch gap-2 py-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-md bg-green-500 text-white">
-              <IconPhone className="h-6 w-6" stroke={1.5} />
+          {seller.contacts && seller.contacts.length > 0 && (
+            <div className="flex items-stretch gap-2 py-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-md bg-green-500 text-white">
+                <IconPhone className="h-6 w-6" stroke={1.5} />
+              </div>
+              <div className="flex flex-col gap-4">
+                <span className="text-sm font-medium leading-none text-gray-500">
+                  تلفن تماس
+                </span>
+                <Link
+                  href="tel:+989124204964"
+                  dir="ltr"
+                  className="text-right text-xl font-bold leading-none text-blue-500"
+                >
+                  {digitsEnToFa(
+                    parsePhoneNumber(
+                      `${seller.contacts.at(0)?.code}${seller.contacts.at(0)
+                        ?.number}`
+                    )?.formatNational()
+                  )}
+                </Link>
+              </div>
             </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-sm font-medium leading-none text-gray-500">
-                تلفن تماس
-              </span>
-              <Link
-                href="tel:+989124204964"
-                dir="ltr"
-                className="text-right text-xl font-bold leading-none text-blue-500"
-              >
-                {digitsEnToFa(
-                  parsePhoneNumber(`+989124204964`)?.formatNational()
-                )}
-              </Link>
+          )}
+
+          {seller.addresses && seller.addresses.length > 0 && (
+            <div className="flex items-stretch gap-2 py-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-md bg-cyan-500 text-white">
+                <IconMapPin className="h-6 w-6" stroke={1.5} />
+              </div>
+              <div className="flex flex-col gap-4">
+                <span className="text-sm font-medium leading-none text-gray-500">
+                  موقعیت مکانی
+                </span>
+                <Link href="#" className="font-bold leading-none text-blue-500">
+                  موقعیت مکانی روی نقشه گوگل
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="flex items-stretch gap-2 py-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-md bg-cyan-500 text-white">
-              <IconMapPin className="h-6 w-6" stroke={1.5} />
-            </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-sm font-medium leading-none text-gray-500">
-                موقعیت مکانی
-              </span>
-              <Link href="#" className="font-bold leading-none text-blue-500">
-                موقعیت مکانی روی نقشه گوگل
-              </Link>
-            </div>
-          </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>
