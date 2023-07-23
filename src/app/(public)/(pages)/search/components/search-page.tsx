@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { CheckedState } from "@radix-ui/react-checkbox"
 import {
@@ -84,17 +84,25 @@ const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
         )
       }
 
+      const params = new URLSearchParams(searchParams as any)
+      const paramsKeys = params.keys()
+      for (const key of paramsKeys) {
+        if (key.includes("attribute")) {
+          params.delete(key)
+        }
+      }
+      tmp.forEach((attribute) => {
+        params.append(`attribute[${attribute.id}]`, attribute.value)
+      })
+      push(pathname + "?" + params.toString())
+
       return tmp
     })
   }
 
-  useEffect(() => {
-    const params = new URLSearchParams()
-    filterAttributes.forEach((attribute) => {
-      params.append(`attribute[${attribute.id}]`, attribute.value)
-    })
-    push(pathname + "?" + params.toString())
-  }, [filterAttributes, pathname, push, searchParams])
+  //   useEffect(() => {
+
+  //   }, [filterAttributes, pathname, push, searchParams])
 
   return (
     <>
