@@ -18,7 +18,6 @@ import {
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
-import CategoryFilter from "@/app/(public)/components/category-filter"
 import FiltersContainer from "@/app/(public)/components/filters-container"
 import MobileFilterableAttributes from "@/app/(public)/components/mobile-filters"
 import ProductList from "@/app/(public)/components/product-list"
@@ -100,10 +99,6 @@ const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
     })
   }
 
-  //   useEffect(() => {
-
-  //   }, [filterAttributes, pathname, push, searchParams])
-
   return (
     <>
       {isMobileView && (
@@ -180,7 +175,6 @@ const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
                       </Button>
                     )}
                   </div>
-                  <CategoryFilter selectedCategoryId={+slug[0]} />
                   <FiltersContainer
                     selectedCategoryId={+slug[0]}
                     filterAttributes={filterAttributes}

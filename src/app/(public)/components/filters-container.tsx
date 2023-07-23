@@ -1,3 +1,5 @@
+"use client"
+
 import * as Checkbox from "@radix-ui/react-checkbox"
 import * as Label from "@radix-ui/react-label"
 import { IconCheck } from "@tabler/icons-react"
@@ -8,6 +10,7 @@ import {
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import CategoryFilter from "@/app/(public)/components/category-filter"
 import FilterBlock from "@/app/(public)/components/filter-block"
 
 interface FiltersContainerProps {
@@ -46,6 +49,7 @@ const FiltersContainer = ({
 
   return (
     <>
+      <CategoryFilter selectedCategoryId={selectedCategoryId} />
       {data.filterableAttributes.filters.map(
         (filter) =>
           filter && (
@@ -95,13 +99,6 @@ const FiltersContainer = ({
                           {value}
                         </span>
                       </Label.Root>
-                      // <Label
-                      //   key={idx}
-                      //   className="flex w-full items-center gap-1.5 pt-3"
-                      // >
-                      //   <Checkbox />
-                      //   {value}
-                      // </Label>
                     )
                 )}
               </div>

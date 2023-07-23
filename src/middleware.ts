@@ -33,9 +33,10 @@ export default async function middleware(request: NextRequest) {
     if (data && data.status === 200) {
       const res = await data.json()
       if (!title || title !== encodeURI(res.category.title)) {
+        request.nextUrl.searchParams.delete("lang")
         return NextResponse.redirect(
           new URL(
-            `/search/${res.category.id}/${res.category.title}`,
+            `/search/${res.category.id}/${res.category.title}?${request.nextUrl.searchParams}`,
             request.url
           ),
           301
@@ -53,8 +54,34 @@ export default async function middleware(request: NextRequest) {
     if (data && data.status === 200) {
       const res = await data.json()
       if (!title || title !== encodeURI(res.brand.name)) {
+        request.nextUrl.searchParams.delete("lang")
         return NextResponse.redirect(
-          new URL(`/brand/${res.brand.id}/${res.brand.name}`, request.url),
+          new URL(
+            `/brand/${res.brand.id}/${res.brand.name}?${request.nextUrl.searchParams}`,
+            request.url
+          ),
+          301
+        )
+      }
+    }
+  }
+
+  const sellerPathRegexp = pathToRegexp("/seller/:slug1/:slug2?")
+  const sellerPathRegexpText = sellerPathRegexp.exec(request.nextUrl.pathname)
+  if (sellerPathRegexpText) {
+    const id = sellerPathRegexpText[1]
+    const title = sellerPathRegexpText[2]
+    const data = await fetch(`${request.nextUrl.origin}/api/sellers/${id}`)
+    if (data && data.status === 200) {
+      const res = await data.json()
+      console.log(request.url)
+      if (!title || title !== encodeURI(res.seller.name)) {
+        request.nextUrl.searchParams.delete("lang")
+        return NextResponse.redirect(
+          new URL(
+            `/seller/${res.seller.id}/${res.seller.name}?${request.nextUrl.searchParams}`,
+            request.url
+          ),
           301
         )
       }
@@ -65,5 +92,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/p/:path*", "/search/:path*", "/brand/:path*"]
+  matcher: ["/p/:path*", "/search/:path*", "/brand/:path*", "/seller/:path*"]
 }

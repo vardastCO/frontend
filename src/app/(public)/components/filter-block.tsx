@@ -1,3 +1,5 @@
+"use client"
+
 import { ReactNode, useState } from "react"
 import * as Collapsible from "@radix-ui/react-collapsible"
 import { IconChevronDown } from "@tabler/icons-react"
