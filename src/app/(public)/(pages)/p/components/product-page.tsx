@@ -49,7 +49,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
 
   const product = data.product
 
-  const groupedAttributes: GroupedAttributes[] = []
+  let groupedAttributes: GroupedAttributes[] = []
   product.attributeValues.forEach((attributeValue) => {
     if (!attributeValue) return
     const attributeId = attributeValue.attribute.id
@@ -66,6 +66,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
       }
     }
   })
+  groupedAttributes = groupedAttributes.filter((n) => n)
 
   const breadcrumbJsonLdArray = []
   product.category.parentsChain.forEach((parent, idx) => {
@@ -199,7 +200,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
               <div className="mt-8">
                 <div className="mb-4 font-bold text-gray-800">ویژگی‌ها</div>
                 <ul className="ms-6 list-outside list-disc space-y-2">
-                  {groupedAttributes.slice(0, 4).map((attribute, idx) => (
+                  {groupedAttributes.slice(0, 3).map((attribute, idx) => (
                     <li key={idx}>
                       <div className="flex items-center gap-1.5">
                         <span className="font-semibold text-gray-500">
