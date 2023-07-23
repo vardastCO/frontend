@@ -29,6 +29,7 @@ import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
 import { getBrandQueryFn } from "@core/queryFns/brandQueryFns"
 import BrandHeader from "@/app/(public)/(pages)/brand/components/brand-header"
+import FiltersContainer from "@/app/(public)/components/filters-container"
 import MobileFilterableAttributes from "@/app/(public)/components/mobile-filters"
 import ProductList from "@/app/(public)/components/product-list"
 import { PublicContext } from "@/app/(public)/components/public-provider"
@@ -176,7 +177,30 @@ const BrandPage = ({ isMobileView, args, slug }: BrandPageProps) => {
       <BrandHeader brand={data.brand as Brand} />
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]">
-        <div className="hidden md:block"></div>
+        {!isMobileView && (
+          <div>
+            <div className="divide-y divide-gray-200 rounded-md border border-gray-300 px-4">
+              <div className="-mx-4 flex items-center p-4">
+                <strong>فیلترها</strong>
+                {filterAttributes.length > 0 && (
+                  <Button
+                    size="small"
+                    noStyle
+                    className="ms-auto text-sm text-red-500"
+                    onClick={() => setFilterAtrributes([])}
+                  >
+                    حذف همه فیلترها
+                  </Button>
+                )}
+              </div>
+              <FiltersContainer
+                brandId={+slug[0]}
+                filterAttributes={filterAttributes}
+                onFilterAttributesChanged={onFilterAttributesChanged}
+              />
+            </div>
+          </div>
+        )}
         <div>
           <ProductList args={args} filterAttributes={filterAttributes} />
         </div>

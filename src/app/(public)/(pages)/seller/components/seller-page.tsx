@@ -39,6 +39,7 @@ import {
   DialogTrigger
 } from "@core/components/ui/dialog"
 import { getSellerQueryFn } from "@core/queryFns/sellerQueryFns"
+import FiltersContainer from "@/app/(public)/components/filters-container"
 import MobileFilterableAttributes from "@/app/(public)/components/mobile-filters"
 import ProductList from "@/app/(public)/components/product-list"
 import { PublicContext } from "@/app/(public)/components/public-provider"
@@ -207,7 +208,7 @@ const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
             />
           ) : (
             <IconBuildingWarehouse
-              className="h-10 w-10 text-gray-400"
+              className="h-8 w-8 text-gray-400 md:h-10 md:w-10"
               stroke={1.5}
             />
           )}
@@ -216,7 +217,7 @@ const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
           <h1 className="text-base font-bold text-gray-800 md:text-xl">
             {data.seller.name}
           </h1>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 md:gap-6">
             {data.seller.addresses && data.seller.addresses.length > 0 && (
               <div className="flex items-center gap-1 text-gray-500">
                 <IconMapPin className="h-4 w-4 text-gray-400" stroke={1.5} />
@@ -231,64 +232,57 @@ const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
             </div> */}
           </div>
         </div>
-        <div className="mr-auto">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="secondary" size="small">
-                <IconInfoSquareRounded className="icon" />
-                جزئیات
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>اطلاعات تکمیلی فروشنده</DialogTitle>
-              </DialogHeader>
-              <div>
-                <h3 className="mb-2 font-bold text-gray-800">معرفی فروشنده</h3>
-                <div className="leading-relaxed text-gray-700">
-                  گروه کسری از سال ۱۳۶۷ فعالیت خود را در زمینه واردات تجهیزات
-                  بهداشتی ساختمان آغاز کرد و پس از سالها تلاش و کسب تجربه
-                  ارزشمند در این صنعت، اقدام به تاسیس کارخانه شیرآلات بهداشتی
-                  کسری در سال ۱۳۸۱ نمود. از همان ابتدای راه، نگرش مشتری‌مداری
-                  حاکم بر فعالیتهای گروه، موجب شده تا جلب رضایت مشتریان، بهبود
-                  کیفیت محصولات، نوآوری مستمر و خدمات پس از فروش گسترده، جزو
-                  مهمترین اصول و ارزش‌های گروه شیرآلات کسری باشد. استانداردهای
-                  تولید و کنترل کیفیت گروه کسری، در بالاترین حد ممکن تعیین شده
-                  است و کلیه محصولات قبل از خروج از خط تولید، تحت سخت‌ترین
-                  آزمایشات قرار می‌گیرند. اخذ گواهینامه ایزو ۹۰۰۱، کسب گواهینامه
-                  ملی استاندارد ایران، اخذ استاندارد CE اروپا و حضور قدرتمند در
-                  بازارهای داخلی و خارجی، شاهدی بر این مدعی است. گروه کسری از
-                  سال ۱۳۶۷ فعالیت خود را در زمینه واردات تجهیزات بهداشتی ساختمان
-                  آغاز کرد و پس از سالها تلاش و کسب تجربه ارزشمند در این صنعت،
-                  اقدام به تاسیس کارخانه شیرآلات بهداشتی کسری در سال ۱۳۸۱ نمود.
-                  از همان ابتدای راه، نگرش مشتری‌مداری حاکم بر فعالیتهای گروه،
-                  موجب شده تا جلب رضایت مشتریان، بهبود کیفیت محصولات، نوآوری
-                  مستمر و خدمات پس از فروش گسترده، جزو مهمترین اصول و ارزش‌های
-                  گروه شیرآلات کسری باشد. استانداردهای تولید و کنترل کیفیت گروه
-                  کسری، در بالاترین حد ممکن تعیین شده است و کلیه محصولات قبل از
-                  خروج از خط تولید، تحت سخت‌ترین آزمایشات قرار می‌گیرند. اخذ
-                  گواهینامه ایزو ۹۰۰۱، کسب گواهینامه ملی استاندارد ایران، اخذ
-                  استاندارد CE اروپا و حضور قدرتمند در بازارهای داخلی و خارجی،
-                  شاهدی بر این مدعی است. هم اکنون گروه کسری با تولید انواع
-                  شیرآلات بهداشتی در بیش از ۱۵۰ طرح، رنگ و مدل مختلف یکی از
-                  مطرح‌ترین و خوشنام‌ترین تولیدکنندگان شیرآلات بهداشتی در ایران
-                  و خاورمیانه می‌باشد. محصولات تولیدی این شرکت به صورت گسترده در
-                  کشورهای عراق، افغانستان، ترکمنستان، سوریه، روسیه و شمال آفریقا
-                  عرضه می‌شود. مدیران مجموعه در تلاشند تا این حضور در بازارهای
-                  جهانی، روز به روز گسترده‌تر و پایدارتر گردد. واردات انواع
-                  ملزومات بهداشتی ساختمان از کشورهای اروپایی نظیر جمهوری چک با
-                  برند ALCA و کشورهای آسیایی به ویژه کشور چین، تحت برند MELODY
-                  از دیگر فعالیت‌های گروه کسری می‌باشد. لازم به ذکر است گروه
-                  کسری از ابتدای سال ۲۰۱۷ اقدام به اخذ نمایندگی انحصاری شرکت
-                  معظم شیرآلات (هوآیی) نموده است.
+        {data.seller.bio && (
+          <div className="mr-auto">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="secondary" size="small">
+                  <IconInfoSquareRounded className="icon" />
+                  جزئیات
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>اطلاعات تکمیلی فروشنده</DialogTitle>
+                </DialogHeader>
+                <div>
+                  <h3 className="mb-2 font-bold text-gray-800">
+                    معرفی فروشنده
+                  </h3>
+                  <div className="leading-relaxed text-gray-700">
+                    {data.seller.bio}
+                  </div>
                 </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+        )}
       </div>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]">
-        <div className="hidden md:block"></div>
+        {!isMobileView && (
+          <div>
+            <div className="divide-y divide-gray-200 rounded-md border border-gray-300 px-4">
+              <div className="-mx-4 flex items-center p-4">
+                <strong>فیلترها</strong>
+                {filterAttributes.length > 0 && (
+                  <Button
+                    size="small"
+                    noStyle
+                    className="ms-auto text-sm text-red-500"
+                    onClick={() => setFilterAtrributes([])}
+                  >
+                    حذف همه فیلترها
+                  </Button>
+                )}
+              </div>
+              <FiltersContainer
+                sellerId={+slug[0]}
+                filterAttributes={filterAttributes}
+                onFilterAttributesChanged={onFilterAttributesChanged}
+              />
+            </div>
+          </div>
+        )}
         <div>
           <ProductList args={args} filterAttributes={filterAttributes} />
         </div>

@@ -6,6 +6,7 @@ import { IndexProductInput, ProductSortablesEnum } from "@/generated"
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
+import { getAllCategoriesQueryFn } from "@core/queryFns/allCategoriesQueryFns"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getBrandQueryFn } from "@core/queryFns/brandQueryFns"
 import BrandPage from "@/app/(public)/(pages)/brand/components/brand-page"
@@ -74,6 +75,10 @@ const BrandIndex = async ({
       }
     }
   }
+
+  await queryClient.prefetchQuery(["categories", { brandId: +slug[0] }], () =>
+    getAllCategoriesQueryFn({ brandId: +slug[0] })
+  )
 
   await queryClient.prefetchQuery(["brand", { id: +slug[0] }], () =>
     getBrandQueryFn(+slug[0])

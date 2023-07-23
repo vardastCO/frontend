@@ -5,6 +5,7 @@ query GetSeller($id: Int!) {
     slug
     createdAt
     updatedAt
+    bio
     logoFile {
       id
       uuid

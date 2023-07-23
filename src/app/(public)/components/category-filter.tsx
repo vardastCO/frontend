@@ -2,7 +2,11 @@
 
 import { useQuery } from "@tanstack/react-query"
 
-import { Category, GetCategoryQuery } from "@/generated"
+import {
+  Category,
+  GetCategoryQuery,
+  GetCategoryQueryVariables
+} from "@/generated"
 
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
 import FilterBlock from "@/app/(public)/components/filter-block"
@@ -14,8 +18,10 @@ interface CategoryFilterProps {
 }
 
 const CategoryFilter = ({ selectedCategoryId }: CategoryFilterProps) => {
+  const args: GetCategoryQueryVariables = {}
+  args["id"] = selectedCategoryId
   const { data } = useQuery<GetCategoryQuery>({
-    queryKey: ["category", { id: selectedCategoryId }],
+    queryKey: ["category", args],
     queryFn: () => getCategoryQueryFn(selectedCategoryId)
   })
 
