@@ -13,7 +13,8 @@ import {
   FilterAttribute,
   GetAllProductsQuery,
   IndexProductInput,
-  Product
+  Product,
+  ProductSortablesEnum
 } from "@/generated"
 
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
@@ -34,14 +35,26 @@ const ProductList = ({ args, filterAttributes }: ProductListProps) => {
   const searchParams = useSearchParams()!
   const { push } = useRouter()
   const [currentPage, setCurrentPage] = useState<number>(args.page || 1)
+  const [sort, setSort] = useState<ProductSortablesEnum>(
+    args.orderBy || ProductSortablesEnum.Newest
+  )
 
   const { data, error } = useQuery<GetAllProductsQuery>(
-    ["products", { ...args, page: currentPage, attributes: filterAttributes }],
+    [
+      "products",
+      {
+        ...args,
+        page: currentPage,
+        attributes: filterAttributes,
+        orderBy: sort
+      }
+    ],
     () =>
       getAllProductsQueryFn({
         ...args,
         page: currentPage,
-        attributes: filterAttributes
+        attributes: filterAttributes,
+        orderBy: sort
       }),
     {
       keepPreviousData: true
@@ -54,7 +67,15 @@ const ProductList = ({ args, filterAttributes }: ProductListProps) => {
   return (
     <>
       <div className="flex items-center border-b border-gray-200 py-1 md:py-3">
-        <ProductSort />
+        <ProductSort
+          sort={sort}
+          onSortChanged={(sort) => {
+            setSort(sort)
+            const params = new URLSearchParams(searchParams as any)
+            params.set("orderBy", `${sort}`)
+            push(pathname + "?" + params.toString())
+          }}
+        />
         <ProductCount count={data.products.total || 0} />
       </div>
       <div>

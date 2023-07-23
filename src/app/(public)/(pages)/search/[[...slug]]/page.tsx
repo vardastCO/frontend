@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
 
-import { IndexProductInput } from "@/generated"
+import { IndexProductInput, ProductSortablesEnum } from "@/generated"
 
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
@@ -47,6 +47,11 @@ const SearchIndex = async ({
   if (searchParams.query && searchParams.query.length)
     args["query"] = searchParams.query as string
 
+  if (searchParams.orderBy) {
+    args["orderBy"] = searchParams.orderBy as ProductSortablesEnum
+  } else {
+    args["orderBy"] = ProductSortablesEnum.Newest
+  }
   args["attributes"] = []
 
   if (searchParams) {
