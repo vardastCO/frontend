@@ -30,7 +30,7 @@ import ProductCard from "./product-card"
 
 interface ProductListProps {
   args: IndexProductInput
-  filterAttributes?: FilterAttribute[]
+  filterAttributes: FilterAttribute[]
 }
 
 const ProductList = ({ args, filterAttributes }: ProductListProps) => {
