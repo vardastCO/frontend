@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import clsx from "clsx"
 
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
 import logoSign from "@/assets/sign.svg"
@@ -15,7 +16,12 @@ interface HeaderProps {
 
 const Header = ({ isMobileView }: HeaderProps) => {
   return (
-    <div className="flex flex-col gap-4 border-gray-200 bg-white p-4 pb-0 lg:border-b">
+    <div
+      className={clsx([
+        "flex flex-col gap-4 border-gray-200 bg-white p-4 lg:border-b",
+        isMobileView ? "md:pb-4" : "pb-0"
+      ])}
+    >
       <div className="flex items-center gap-4 lg:gap-8">
         <Link href="/">
           <div className="relative h-8 lg:h-12">
