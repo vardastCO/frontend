@@ -7,8 +7,15 @@ import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
 import { formatDistanceToNow, setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 
-import { Price, Uom } from "@/generated"
+import {
+  EventTrackerSubjectTypes,
+  EventTrackerTypes,
+  Price,
+  Uom,
+  useCreateEventTrackerMutation
+} from "@/generated"
 
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
 import SellerContactModal from "@/app/(public)/(pages)/p/components/seller-contact-modal"
 
@@ -20,11 +27,30 @@ type SuggestedOfferProps = {
 
 const SuggestedOffer = ({ offersCount, offer, uom }: SuggestedOfferProps) => {
   const [contactModalOpen, setContactModalOpen] = useState<boolean>(false)
+  const createEventTrackerMutation = useCreateEventTrackerMutation(
+    graphqlRequestClient,
+    {
+      onSuccess: () => {
+        setContactModalOpen(true)
+      }
+    }
+  )
   const hasDiscount = false
   setDefaultOptions({
     locale: faIR,
     weekStartsOn: 6
   })
+
+  const showSellerContact = () => {
+    createEventTrackerMutation.mutate({
+      createEventTrackerInput: {
+        type: EventTrackerTypes.ViewBuyBox,
+        subjectType: EventTrackerSubjectTypes.ContactInfo,
+        subjectId: offer.seller.contacts?.at(0)?.id || 0,
+        url: window.location.href
+      }
+    })
+  }
 
   return (
     <>
@@ -128,7 +154,9 @@ const SuggestedOffer = ({ offersCount, offer, uom }: SuggestedOfferProps) => {
               <Button
                 size="medium"
                 fullWidth
-                onClick={() => setContactModalOpen(true)}
+                onClick={() => showSellerContact()}
+                disabled={createEventTrackerMutation.isLoading}
+                loading={createEventTrackerMutation.isLoading}
               >
                 خرید از {offer.seller.name}
               </Button>

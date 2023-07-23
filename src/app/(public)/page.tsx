@@ -30,62 +30,64 @@ const Index = async () => {
         </div>
 
         {!isMobileView && (
-          <div className="mt-24 grid grid-cols-4 gap-6">
-            <div className="card rounded-md p-3">
-              <Link href="/search">
-                <h2 className="text-sm font-semibold text-gray-800">
-                  ماشین آلات و تجهیزات کارگاهی
-                </h2>
-              </Link>
-            </div>
-            <div className="card rounded-md p-3">
-              <Link href="/search">
-                <h2 className="text-sm font-semibold text-gray-800">
-                  مصالح ساختمانی
-                </h2>
-              </Link>
-            </div>
-            <div className="card rounded-md p-3">
-              <Link href="/search">
-                <h2 className="text-sm font-semibold text-gray-800">
-                  آهن آلات، سایر فلزات و سازه
-                </h2>
-              </Link>
-            </div>
-            <div className="card rounded-md p-3">
-              <Link href="/search">
-                <h2 className="text-sm font-semibold text-gray-800">
-                  تاسیسات و لوازم بهداشتی
-                </h2>
-              </Link>
-            </div>
-            <div className="card rounded-md p-3">
-              <Link href="/search">
-                <h2 className="text-sm font-semibold text-gray-800">
-                  گرمایش، سرمایش و تهویه مطبوع
-                </h2>
-              </Link>
-            </div>
-            <div className="card rounded-md p-3">
-              <Link href="/search">
-                <h2 className="text-sm font-semibold text-gray-800">
-                  برق، الکترونیک و دیجیتال
-                </h2>
-              </Link>
-            </div>
-            <div className="card rounded-md p-3">
-              <Link href="/search">
-                <h2 className="text-sm font-semibold text-gray-800">
-                  آسانسور و پله برقی
-                </h2>
-              </Link>
-            </div>
-            <div className="card rounded-md p-3">
-              <Link href="/search">
-                <h2 className="text-sm font-semibold text-gray-800">
-                  درب و پنجره، پله، نرده و یراق
-                </h2>
-              </Link>
+          <div className="mx-auto max-w-5xl">
+            <div className="mt-24 grid grid-cols-4 gap-6">
+              <div className="card rounded-md p-3">
+                <Link href="/search">
+                  <h2 className="text-sm font-semibold text-gray-800">
+                    ماشین آلات و تجهیزات کارگاهی
+                  </h2>
+                </Link>
+              </div>
+              <div className="card rounded-md p-3">
+                <Link href="/search">
+                  <h2 className="text-sm font-semibold text-gray-800">
+                    مصالح ساختمانی
+                  </h2>
+                </Link>
+              </div>
+              <div className="card rounded-md p-3">
+                <Link href="/search">
+                  <h2 className="text-sm font-semibold text-gray-800">
+                    آهن آلات، سایر فلزات و سازه
+                  </h2>
+                </Link>
+              </div>
+              <div className="card rounded-md p-3">
+                <Link href="/search">
+                  <h2 className="text-sm font-semibold text-gray-800">
+                    تاسیسات و لوازم بهداشتی
+                  </h2>
+                </Link>
+              </div>
+              <div className="card rounded-md p-3">
+                <Link href="/search">
+                  <h2 className="text-sm font-semibold text-gray-800">
+                    گرمایش، سرمایش و تهویه مطبوع
+                  </h2>
+                </Link>
+              </div>
+              <div className="card rounded-md p-3">
+                <Link href="/search">
+                  <h2 className="text-sm font-semibold text-gray-800">
+                    برق، الکترونیک و دیجیتال
+                  </h2>
+                </Link>
+              </div>
+              <div className="card rounded-md p-3">
+                <Link href="/search">
+                  <h2 className="text-sm font-semibold text-gray-800">
+                    آسانسور و پله برقی
+                  </h2>
+                </Link>
+              </div>
+              <div className="card rounded-md p-3">
+                <Link href="/search">
+                  <h2 className="text-sm font-semibold text-gray-800">
+                    درب و پنجره، پله، نرده و یراق
+                  </h2>
+                </Link>
+              </div>
             </div>
           </div>
         )}
