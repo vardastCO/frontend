@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useContext, useState } from "react"
 import {
   notFound,
   usePathname,
@@ -8,6 +8,7 @@ import {
   useSearchParams
 } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
+import { useSetAtom } from "jotai"
 
 import {
   FilterAttribute,
@@ -18,10 +19,12 @@ import {
 } from "@/generated"
 
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
+import MobileSortFilter from "@/app/(public)/components/mobile-sort-filter"
 import NoProductFound from "@/app/(public)/components/no-product-found"
 import ProductCount from "@/app/(public)/components/product-count"
 import ProductPagination from "@/app/(public)/components/product-pagination"
 import ProductSort from "@/app/(public)/components/product-sort"
+import { PublicContext } from "@/app/(public)/components/public-provider"
 
 import ProductCard from "./product-card"
 
@@ -38,6 +41,8 @@ const ProductList = ({ args, filterAttributes }: ProductListProps) => {
   const [sort, setSort] = useState<ProductSortablesEnum>(
     args.orderBy || ProductSortablesEnum.Newest
   )
+  const { sortFilterVisibilityAtom } = useContext(PublicContext)
+  const setSortFilterVisibility = useSetAtom(sortFilterVisibilityAtom)
 
   const { data, error } = useQuery<GetAllProductsQuery>(
     [
@@ -66,6 +71,16 @@ const ProductList = ({ args, filterAttributes }: ProductListProps) => {
 
   return (
     <>
+      <MobileSortFilter
+        sort={sort}
+        onSortChanged={(sort) => {
+          setSortFilterVisibility(false)
+          setSort(sort)
+          const params = new URLSearchParams(searchParams as any)
+          params.set("orderBy", `${sort}`)
+          push(pathname + "?" + params.toString())
+        }}
+      />
       <div className="flex items-center border-b border-gray-200 py-1 md:py-3">
         <ProductSort
           sort={sort}

@@ -14,7 +14,6 @@ import {
 } from "schema-dts"
 
 import {
-  AttributeValue,
   GetProductQuery,
   Offer,
   Price,
@@ -28,6 +27,12 @@ import ProductAttributes from "@/app/(public)/(pages)/p/components/product-attri
 import ProductImages from "@/app/(public)/(pages)/p/components/product-images"
 import ProductOffers from "@/app/(public)/(pages)/p/components/product-offers"
 import SuggestedOffer from "@/app/(public)/(pages)/p/components/suggested-offer"
+
+export type GroupedAttributes = {
+  name: string
+  values: string[]
+  uom: Uom
+}
 
 type ProductPageProps = {
   isMobileView: RegExpMatchArray | null
@@ -43,6 +48,24 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
   if (!data) notFound()
 
   const product = data.product
+
+  const groupedAttributes: GroupedAttributes[] = []
+  product.attributeValues.forEach((attributeValue) => {
+    if (!attributeValue) return
+    const attributeId = attributeValue.attribute.id
+    const attributeName = attributeValue.attribute.name
+    const attributeValueValue = attributeValue.value
+
+    if (groupedAttributes[attributeId]) {
+      groupedAttributes[attributeId].values.push(attributeValueValue)
+    } else {
+      groupedAttributes[attributeId] = {
+        name: attributeName,
+        values: [attributeValueValue],
+        uom: attributeValue.attribute.uom as Uom
+      }
+    }
+  })
 
   const breadcrumbJsonLdArray = []
   product.category.parentsChain.forEach((parent, idx) => {
@@ -172,23 +195,31 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
               </Link>
             </div>
 
-            {product.attributeValues.length > 0 && (
+            {groupedAttributes.length > 0 && (
               <div className="mt-8">
                 <div className="mb-4 font-bold text-gray-800">ویژگی‌ها</div>
                 <ul className="ms-6 list-outside list-disc space-y-2">
-                  {product.attributeValues.slice(0, 4).map((attribute) => (
-                    <li key={attribute?.id}>
+                  {groupedAttributes.slice(0, 4).map((attribute, idx) => (
+                    <li key={idx}>
                       <div className="flex items-center gap-1.5">
                         <span className="font-semibold text-gray-500">
-                          {attribute?.attribute.name}
+                          {attribute.name}
                         </span>
                         <span className="font-bold text-gray-700">
-                          {attribute?.value}
+                          {attribute.values.join(", ")}
                         </span>
                       </div>
                     </li>
                   ))}
                 </ul>
+                {groupedAttributes.length > 3 && (
+                  <Link
+                    className="mt-2 inline-block text-brand-500"
+                    href="#attributes"
+                  >
+                    + دیگر ویژگی‌ها
+                  </Link>
+                )}
               </div>
             )}
 
@@ -209,7 +240,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
         )}
         {product.attributeValues.length > 0 && (
           <ProductAttributes
-            attributes={product.attributeValues as AttributeValue[]}
+            attributes={groupedAttributes as GroupedAttributes[]}
           />
         )}
       </div>

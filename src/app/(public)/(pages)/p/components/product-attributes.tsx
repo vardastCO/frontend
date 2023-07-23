@@ -1,12 +1,13 @@
-import { AttributeValue } from "@/generated"
+import { GroupedAttributes } from "@/app/(public)/(pages)/p/components/product-page"
 
 type ProductAttributesProps = {
-  attributes: AttributeValue[]
+  attributes: GroupedAttributes[]
 }
 
 const ProductAttributes = ({ attributes }: ProductAttributesProps) => {
   return (
     <div
+      id="attributes"
       className="divide-y
         divide-gray-200
         [&>div]:grid
@@ -16,14 +17,13 @@ const ProductAttributes = ({ attributes }: ProductAttributesProps) => {
         md:[&>div]:grid-cols-[3fr_9fr]
         md:[&>div]:gap-4"
     >
-      {attributes.map((attribute) => (
-        <div key={attribute.id}>
+      {attributes.map((attribute, idx) => (
+        <div key={idx}>
           <span className="inline-block text-sm font-medium text-gray-400 md:text-left md:text-base">
-            {attribute.attribute.name}
+            {attribute.name}
           </span>
           <span className="inline-block">
-            {attribute.value}{" "}
-            {attribute.attribute.uom && attribute.attribute.uom?.name}
+            {attribute.values.join(", ")} {attribute.uom && attribute.uom.name}
           </span>
         </div>
       ))}
