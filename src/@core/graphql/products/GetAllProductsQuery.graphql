@@ -49,12 +49,19 @@ query GetAllProducts($indexProductInput: IndexProductInput) {
           }
         }
       }
-      prices {
+      lowestPrice {
         id
         type
         amount
         isPublic
         createdAt
+      }
+      uom {
+        id
+        name
+        slug
+        symbol
+        isActive
       }
     }
   }

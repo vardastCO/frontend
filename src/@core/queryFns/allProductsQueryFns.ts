@@ -17,7 +17,8 @@ export const getAllProductsQueryFn = async ({
   page,
   brandId,
   attributes,
-  categoryId
+  categoryId,
+  orderBy
 }: getAllProductsQueryFnArgs = {}): Promise<GetAllProductsQuery> => {
   const session =
     typeof window === "undefined"
@@ -33,7 +34,8 @@ export const getAllProductsQueryFn = async ({
         page,
         brandId,
         attributes,
-        categoryId
+        categoryId,
+        orderBy
       }
     },
     {

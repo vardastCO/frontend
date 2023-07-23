@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { Product } from "@/generated"
 
@@ -8,7 +9,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const hasDiscount = Math.random() > 0.7 ? true : false
+  const hasDiscount = false
   return (
     <div
       className="relative
@@ -47,42 +48,41 @@ const ProductCard = ({ product }: ProductCardProps) => {
             >
               {product.name}
             </h2>
-            {/* <div className="flex flex-col items-stretch justify-between text-gray-800">
-              <div className="flex items-start gap-2">
-                {hasDiscount && (
-                  <div className="mt-2 rounded bg-red-500 px-2 py-1.5 text-center text-sm font-semibold leading-none text-white">
-                    {digitsEnToFa(15)}%
-                  </div>
-                )}
-                <div>
-                  <span className="text-xs leading-none text-gray-600">
-                    قیمت هر تن
-                  </span>
-                  <div className="flex items-center gap-1 leading-none">
-                    <span className="text-lg font-semibold leading-none">
-                      {digitsEnToFa(
-                        addCommas(
-                          product.prices.at(0)?.amount.toString(10) as string
-                        )
-                      )}
+            {product.lowestPrice && (
+              <div className="flex flex-col items-stretch justify-between text-gray-800">
+                <div className="flex items-start gap-2">
+                  {hasDiscount && (
+                    <div className="mt-2 rounded bg-red-500 px-2 py-1.5 text-center text-sm font-semibold leading-none text-white">
+                      {digitsEnToFa(15)}%
+                    </div>
+                  )}
+                  <div>
+                    <span className="text-xs leading-none text-gray-600">
+                      قیمت
+                      {product.uom && ` هر ${product.uom.name}`}
                     </span>
-                    <span className="text-sm leading-none">تومان</span>
-                  </div>
-
-                  <div className="mt-2 flex-1">
-                    {hasDiscount && (
-                      <span className="text-sm text-gray-500 line-through">
+                    <div className="flex items-center gap-1 leading-none">
+                      <span className="text-lg font-semibold leading-none">
                         {digitsEnToFa(
-                          addCommas(
-                            product.prices.at(0)?.amount.toString(10) as string
-                          )
+                          addCommas(`${product.lowestPrice.amount}`)
                         )}
                       </span>
-                    )}
+                      <span className="text-sm leading-none">تومان</span>
+                    </div>
+
+                    <div className="mt-2 flex-1">
+                      {hasDiscount && (
+                        <span className="text-sm text-gray-500 line-through">
+                          {digitsEnToFa(
+                            addCommas(`${product.lowestPrice.amount}`)
+                          )}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div> */}
+            )}
           </div>
         </div>
       </Link>
