@@ -4,14 +4,20 @@ import { useContext } from "react"
 import { useMediaQuery } from "@mantine/hooks"
 import * as Dialog from "@radix-ui/react-dialog"
 import { IconArrowRight } from "@tabler/icons-react"
+import clsx from "clsx"
 import { useAtom } from "jotai"
+
+import { ProductSortablesEnum } from "@/generated"
 
 import { Button } from "@core/components/ui/button"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
-type MobileSortFilterProps = {}
+type MobileSortFilterProps = {
+  sort: ProductSortablesEnum
+  onSortChanged: (sort: ProductSortablesEnum) => void
+}
 
-const MobileSortFilter = (props: MobileSortFilterProps) => {
+const MobileSortFilter = ({ sort, onSortChanged }: MobileSortFilterProps) => {
   const { sortFilterVisibilityAtom } = useContext(PublicContext)
   const [sortFilterVisibility, setSortFilterVisibility] = useAtom(
     sortFilterVisibilityAtom
@@ -42,7 +48,50 @@ const MobileSortFilter = (props: MobileSortFilterProps) => {
                 <div className="font-bold text-gray-800">مرتب‌سازی</div>
               </div>
             </div>
-            <div className="p-4"></div>
+            <div className="p-4">
+              <div className="flex flex-col divide-y divide-gray-200">
+                <Button
+                  noStyle
+                  className={clsx([
+                    "py-3 text-start",
+                    sort === ProductSortablesEnum.Newest
+                      ? "font-bold text-brand-500"
+                      : "text-gray-700"
+                  ])}
+                  onClick={() => onSortChanged(ProductSortablesEnum.Newest)}
+                >
+                  جدیدترین
+                </Button>
+                <Button
+                  noStyle
+                  className={clsx([
+                    "py-3 text-start",
+                    sort === ProductSortablesEnum.MostAffordable
+                      ? "font-bold text-brand-500"
+                      : "text-gray-700"
+                  ])}
+                  onClick={() =>
+                    onSortChanged(ProductSortablesEnum.MostAffordable)
+                  }
+                >
+                  ارزان‌ترین
+                </Button>
+                <Button
+                  noStyle
+                  className={clsx([
+                    "py-3 text-start",
+                    sort === ProductSortablesEnum.MostExpensive
+                      ? "font-bold text-brand-500"
+                      : "text-gray-700"
+                  ])}
+                  onClick={() =>
+                    onSortChanged(ProductSortablesEnum.MostExpensive)
+                  }
+                >
+                  گران‌ترین
+                </Button>
+              </div>
+            </div>
           </div>
         </Dialog.Content>
       </Dialog.Root>
