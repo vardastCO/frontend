@@ -34,7 +34,7 @@ const Header = ({ isMobileView }: HeaderProps) => {
           </div>
         </Link>
         <div className="flex-1">
-          <Search />
+          <Search isMobileView={isMobileView} />
         </div>
       </div>
       {!isMobileView && (

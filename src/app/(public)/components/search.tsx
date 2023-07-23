@@ -8,7 +8,7 @@ import {
   useDebouncedState,
   useLocalStorage
 } from "@mantine/hooks"
-import { IconLoader2, IconSearch, IconTrash } from "@tabler/icons-react"
+import { IconLoader2, IconSearch, IconTrash, IconX } from "@tabler/icons-react"
 import clsx from "clsx"
 
 import { useGetSuggestQuery } from "@/generated"
@@ -21,7 +21,11 @@ interface lateatSearchType {
   uri: string
 }
 
-const Search = () => {
+interface SearchProps {
+  isMobileView: RegExpMatchArray | null
+}
+
+const Search = ({ isMobileView }: SearchProps) => {
   const { push } = useRouter()
   const [latestSearch, SetLatestSearch] = useLocalStorage<lateatSearchType[]>({
     key: "latest-search",
@@ -78,25 +82,35 @@ const Search = () => {
 
   return (
     <>
+      {!isMobileView && (
+        <div
+          className={clsx([
+            "fixed inset-0 z-20 h-full w-full bg-gray-800 transition duration-200",
+            open ? "visible opacity-50" : "invisible opacity-0"
+          ])}
+        ></div>
+      )}
+
       <div
         className={clsx([
-          "fixed inset-0 z-20 h-full w-full bg-gray-800 transition duration-200",
-          open ? "visible opacity-50" : "invisible opacity-0"
+          "z-30 w-full",
+          isMobileView && open
+            ? "fixed inset-0 mx-auto h-[calc(100%-calc(64px+var(--safe-aera-inset-bottom)))] w-full overflow-y-auto"
+            : "relative max-w-sm md:max-w-md lg:max-w-lg"
         ])}
-      ></div>
-      <div className="relative z-30 max-w-sm">
+      >
         <div>
           <Button
             onClick={() => setOpen(true)}
             noStyle
             className="flex
-            w-full
-            items-center
-            gap-2
-            rounded-md
-            bg-gray-100
-            px-4
-            py-3"
+                w-full
+                items-center
+                gap-2
+                rounded-md
+                bg-gray-100
+                px-4
+                py-3"
           >
             <IconSearch className="h-6 w-6 text-gray-400" />
             <span className="text-gray-500">جستجو در وردست...</span>
@@ -106,13 +120,10 @@ const Search = () => {
         {open && (
           <div
             ref={ref}
-            className="card
-            absolute
-            top-0
-            w-full
-            rounded-md
-            px-4
-            pt-3"
+            className={clsx([
+              "card absolute top-0 w-full overscroll-contain px-4 pt-3",
+              isMobileView ? "h-full" : "rounded-md"
+            ])}
           >
             <div className="flex items-center gap-2 border-b border-gray-200 pb-3">
               <IconSearch className="h-6 w-6 text-gray-400" />
@@ -124,6 +135,15 @@ const Search = () => {
                 placeholder="جستجو در وردست..."
                 className="w-full border-0 bg-transparent focus:outline-none focus-visible:outline-none"
               />
+              <Button
+                variant="ghost"
+                size="small"
+                iconOnly
+                className="rounded-full"
+                onClick={() => setOpen(false)}
+              >
+                <IconX className="icon" />
+              </Button>
             </div>
             <div className="py-6">
               {!query && latestSearch.length > 0 && (
