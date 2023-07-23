@@ -7,7 +7,6 @@ import clsx from "clsx"
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
 import logoSign from "@/assets/sign.svg"
 
-import Navigation from "./navigation"
 import Search from "./search"
 
 interface HeaderProps {
@@ -45,7 +44,7 @@ const Header = ({ isMobileView }: HeaderProps) => {
       </div>
       {!isMobileView && (
         <div className="flex items-start justify-between">
-          <Navigation />
+          {/* <Navigation /> */}
           {/* <LocationSelector /> */}
         </div>
       )}
