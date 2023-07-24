@@ -107,13 +107,22 @@ const CategoriesList = ({
   )
 }
 
-const MobileGlobalCategoriesFilter = () => {
+type MobileCategoriesFilterProps = {
+  categoryId?: number
+  brandId?: number
+  sellerId?: number
+}
+
+const MobileCategoriesFilter = ({
+  categoryId,
+  brandId,
+  sellerId
+}: MobileCategoriesFilterProps) => {
   const { push } = useRouter()
-  const { globalCategoriesFilterVisibilityAtom } = useContext(PublicContext)
-  const [
-    globalCategoriesFilterVisibility,
-    setGlobalCategoriesFilterVisibility
-  ] = useAtom(globalCategoriesFilterVisibilityAtom)
+  const { categoriesFilterVisibilityAtom } = useContext(PublicContext)
+  const [CategoriesFilterVisibility, setCategoriesFilterVisibility] = useAtom(
+    categoriesFilterVisibilityAtom
+  )
   const [previousCategory, setPreviousCategory] = useState<Category | null>(
     null
   )
@@ -122,16 +131,16 @@ const MobileGlobalCategoriesFilter = () => {
   )
 
   useEffect(() => {
-    if (!globalCategoriesFilterVisibility) {
+    if (!CategoriesFilterVisibility) {
       setSelectedCategory(null)
       setPreviousCategory(null)
     }
-  }, [globalCategoriesFilterVisibility])
+  }, [CategoriesFilterVisibility])
 
   return (
     <Dialog.Root
-      open={globalCategoriesFilterVisibility}
-      onOpenChange={setGlobalCategoriesFilterVisibility}
+      open={CategoriesFilterVisibility}
+      onOpenChange={setCategoriesFilterVisibility}
     >
       <Dialog.Content className="fixed inset-0 z-40 h-[calc(100%-calc(64px+var(--safe-aera-inset-bottom)))] overflow-y-auto overscroll-contain bg-white">
         <div>
@@ -139,8 +148,7 @@ const MobileGlobalCategoriesFilter = () => {
             <div className="flex items-center gap-2">
               <Button
                 onClick={() => {
-                  if (!selectedCategory)
-                    setGlobalCategoriesFilterVisibility(false)
+                  if (!selectedCategory) setCategoriesFilterVisibility(false)
                   if (selectedCategory && !previousCategory)
                     setSelectedCategory(null)
                   if (selectedCategory && previousCategory) {
@@ -166,7 +174,7 @@ const MobileGlobalCategoriesFilter = () => {
                   category.childrenCount > 0 && !force
                     ? (setPreviousCategory(selectedCategory),
                       setSelectedCategory(category))
-                    : (setGlobalCategoriesFilterVisibility(false),
+                    : (setCategoriesFilterVisibility(false),
                       push(`/search/${category.id}/${category.title}`))
                 }}
                 categoryId={selectedCategory.id}
@@ -176,7 +184,7 @@ const MobileGlobalCategoriesFilter = () => {
                 onCategoryChanged={(category) => {
                   category.childrenCount > 0
                     ? setSelectedCategory(category)
-                    : (setGlobalCategoriesFilterVisibility(false),
+                    : (setCategoriesFilterVisibility(false),
                       push(`/search/${category.id}/${category.title}`))
                 }}
               />
@@ -188,4 +196,4 @@ const MobileGlobalCategoriesFilter = () => {
   )
 }
 
-export default MobileGlobalCategoriesFilter
+export default MobileCategoriesFilter

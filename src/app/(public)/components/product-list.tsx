@@ -33,6 +33,7 @@ import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import BrandOrSellerCategoryFilter from "@/app/(public)/components/brand-category-filter"
 import CategoryFilter from "@/app/(public)/components/category-filter"
 import FiltersContainer from "@/app/(public)/components/filters-container"
+import MobileCategoriesFilter from "@/app/(public)/components/mobile-categories-filter"
 import MobileFilterableAttributes from "@/app/(public)/components/mobile-filterable-attributes"
 import MobileSortFilter from "@/app/(public)/components/mobile-sort-filter"
 import NoProductFound from "@/app/(public)/components/no-product-found"
@@ -73,12 +74,12 @@ const ProductList = ({
     (typeof args)["categoryId"][]
   >([args["categoryId"]] || [])
   const {
-    globalCategoriesFilterVisibilityAtom,
+    categoriesFilterVisibilityAtom,
     sortFilterVisibilityAtom,
     filtersVisibilityAtom
   } = useContext(PublicContext)
-  const setGlobalCategoriesFilterVisibility = useSetAtom(
-    globalCategoriesFilterVisibilityAtom
+  const setCategoriesFilterVisibility = useSetAtom(
+    categoriesFilterVisibilityAtom
   )
   const setSortFilterVisibility = useSetAtom(sortFilterVisibilityAtom)
   const setFiltersVisibility = useSetAtom(filtersVisibilityAtom)
@@ -188,6 +189,11 @@ const ProductList = ({
     <>
       {isMobileView && (
         <>
+          <MobileCategoriesFilter
+            categoryId={selectedCategoryId}
+            brandId={brandId}
+            sellerId={sellerId}
+          />
           <MobileSortFilter
             sort={sort}
             onSortChanged={(sort) => {
@@ -230,7 +236,7 @@ const ProductList = ({
                 </>
               )}
             <Button
-              onClick={() => setGlobalCategoriesFilterVisibility(true)}
+              onClick={() => setCategoriesFilterVisibility(true)}
               size="small"
               variant="ghost"
               className="border border-gray-200"
