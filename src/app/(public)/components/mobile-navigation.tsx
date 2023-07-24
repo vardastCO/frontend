@@ -2,8 +2,8 @@
 
 import { useContext } from "react"
 import Link from "next/link"
-import { IconCategory, IconSearch, IconUserCircle } from "@tabler/icons-react"
 import { useAtom } from "jotai"
+import { LucideLayoutGrid, LucideSearch, LucideUserCircle } from "lucide-react"
 
 import { Button } from "@core/components/ui/button"
 import { PublicContext } from "@/app/(public)/components/public-provider"
@@ -27,7 +27,7 @@ const MobileNavigation = (props: Props) => {
             href="/search"
             className="group inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800"
           >
-            <IconSearch className="mb-2 h-5 w-5 text-gray-500 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-500" />
+            <LucideSearch className="mb-2 h-5 w-5 text-gray-500 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-500" />
             <span className="text-sm text-gray-500 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-500">
               جستجو
             </span>
@@ -40,7 +40,7 @@ const MobileNavigation = (props: Props) => {
             type="button"
             className="group inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800"
           >
-            <IconCategory className="mb-2 h-5 w-5 text-gray-500 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-500" />
+            <LucideLayoutGrid className="mb-2 h-5 w-5 text-gray-500 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-500" />
             <span className="text-sm text-gray-500 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-500">
               دسته‌بندی‌ها
             </span>
@@ -49,7 +49,7 @@ const MobileNavigation = (props: Props) => {
             href="/admin"
             className="group inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800"
           >
-            <IconUserCircle className="mb-2 h-5 w-5 text-gray-500 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-500" />
+            <LucideUserCircle className="mb-2 h-5 w-5 text-gray-500 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-500" />
             <span className="text-sm text-gray-500 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-500">
               وردست من
             </span>

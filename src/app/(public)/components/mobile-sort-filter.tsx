@@ -3,9 +3,9 @@
 import { useContext } from "react"
 import { useMediaQuery } from "@mantine/hooks"
 import * as Dialog from "@radix-ui/react-dialog"
-import { IconArrowRight } from "@tabler/icons-react"
 import clsx from "clsx"
 import { useAtom } from "jotai"
+import { LucideArrowRight } from "lucide-react"
 
 import { ProductSortablesEnum } from "@/generated"
 
@@ -43,7 +43,7 @@ const MobileSortFilter = ({ sort, onSortChanged }: MobileSortFilterProps) => {
                   size="small"
                   iconOnly
                 >
-                  <IconArrowRight className="h-5 w-5" />
+                  <LucideArrowRight className="h-5 w-5" />
                 </Button>
                 <div className="font-bold text-gray-800">مرتب‌سازی</div>
               </div>

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { IconCheck, IconSelector } from "@tabler/icons-react"
+import { LucideCheck, LucideChevronsUpDown } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
@@ -178,7 +178,7 @@ const UserEditForm = ({ user }: Props) => {
                               : t("common:choose_entity", {
                                   entity: t("common:country")
                                 })}
-                            <IconSelector className="ms-auto h-4 w-4 shrink-0" />
+                            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
@@ -205,7 +205,7 @@ const UserEditForm = ({ user }: Props) => {
                                       form.setValue("country", value)
                                     }}
                                   >
-                                    <IconCheck
+                                    <LucideCheck
                                       className={mergeClasses(
                                         "mr-2 h-4 w-4",
                                         country.slug === field.value
@@ -247,7 +247,7 @@ const UserEditForm = ({ user }: Props) => {
                               : t("common:choose_entity", {
                                   entity: t("common:timezone")
                                 })}
-                            <IconSelector className="ms-auto h-4 w-4 shrink-0" />
+                            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
@@ -272,7 +272,7 @@ const UserEditForm = ({ user }: Props) => {
                                   form.setValue("timezone", value)
                                 }}
                               >
-                                <IconCheck
+                                <LucideCheck
                                   className={mergeClasses(
                                     "mr-2 h-4 w-4",
                                     timezone.title.toLowerCase() === field.value

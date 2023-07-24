@@ -3,13 +3,13 @@
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
-  IconCheck,
-  IconGift,
-  IconPackage,
-  IconPackages,
-  IconSelector,
-  IconWorld
-} from "@tabler/icons-react"
+  LucideBoxes,
+  LucideCheck,
+  LucideChevronsUpDown,
+  LucideGift,
+  LucideGlobe,
+  LucidePackage
+} from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
@@ -167,9 +167,9 @@ const ProductForm = () => {
                             className="product-type-item-wrapper"
                           >
                             <div className="product-type-item-label">
-                              <IconPackage
+                              <LucidePackage
                                 className="product-type-item-icon"
-                                stroke={1.5}
+                                strokeWidth={1.5}
                               />
                               <span className="product-type-item-title">
                                 {t("common:physical")}
@@ -189,9 +189,9 @@ const ProductForm = () => {
                             className="product-type-item-wrapper"
                           >
                             <div className="product-type-item-label">
-                              <IconWorld
+                              <LucideGlobe
                                 className="product-type-item-icon"
-                                stroke={1.5}
+                                strokeWidth={1.5}
                               />
                               <span className="product-type-item-title">
                                 {t("common:digital")}
@@ -211,9 +211,9 @@ const ProductForm = () => {
                             className="product-type-item-wrapper"
                           >
                             <div className="product-type-item-label">
-                              <IconPackages
+                              <LucideBoxes
                                 className="product-type-item-icon"
-                                stroke={1.5}
+                                strokeWidth={1.5}
                               />
                               <span className="product-type-item-title">
                                 {t("common:bundle")}
@@ -233,9 +233,9 @@ const ProductForm = () => {
                             className="product-type-item-wrapper"
                           >
                             <div className="product-type-item-label">
-                              <IconGift
+                              <LucideGift
                                 className="product-type-item-icon"
-                                stroke={1.5}
+                                strokeWidth={1.5}
                               />
                               <span className="product-type-item-title">
                                 {t("common:gift_card")}
@@ -295,7 +295,7 @@ const ProductForm = () => {
                               : t("common:choose_entity", {
                                   entity: t("common:category")
                                 })}
-                            <IconSelector className="ms-auto h-4 w-4 shrink-0" />
+                            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
@@ -330,7 +330,7 @@ const ProductForm = () => {
                                       )
                                     }}
                                   >
-                                    <IconCheck
+                                    <LucideCheck
                                       className={mergeClasses(
                                         "mr-2 h-4 w-4",
                                         category.title.toLowerCase() ===

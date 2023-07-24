@@ -9,17 +9,17 @@ import {
   useSearchParams
 } from "next/navigation"
 import { CheckedState } from "@radix-ui/react-checkbox"
-import {
-  IconAdjustmentsHorizontal,
-  IconBuildingWarehouse,
-  IconCategory,
-  IconInfoSquareRounded,
-  IconMapPin,
-  IconSortDescending2
-} from "@tabler/icons-react"
 import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
 import { useSetAtom } from "jotai"
+import {
+  LucideInfo,
+  LucideLayoutGrid,
+  LucideMapPin,
+  LucideSlidersHorizontal,
+  LucideSortDesc,
+  LucideWarehouse
+} from "lucide-react"
 
 import {
   FilterAttribute,
@@ -148,7 +148,7 @@ const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
                   variant="ghost"
                   className="border border-gray-200"
                 >
-                  <IconAdjustmentsHorizontal className="icon text-gray-400" />
+                  <LucideSlidersHorizontal className="icon text-gray-400" />
                   فیلترها
                 </Button>
                 <MobileFilterableAttributes
@@ -170,7 +170,7 @@ const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
             variant="ghost"
             className="border border-gray-200"
           >
-            <IconCategory className="icon text-gray-400" />
+            <LucideLayoutGrid className="icon text-gray-400" />
             دسته‌بندی‌ها
           </Button>
           <Button
@@ -179,7 +179,7 @@ const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
             variant="ghost"
             className="border border-gray-200"
           >
-            <IconSortDescending2 className="icon text-gray-400" />
+            <LucideSortDesc className="icon text-gray-400" />
             مرتب‌سازی
           </Button>
         </div>
@@ -207,9 +207,9 @@ const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
               className="object-contain p-3"
             />
           ) : (
-            <IconBuildingWarehouse
+            <LucideWarehouse
               className="h-8 w-8 text-gray-400 md:h-10 md:w-10"
-              stroke={1.5}
+              strokeWidth={1.5}
             />
           )}
         </div>
@@ -220,7 +220,10 @@ const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
           <div className="flex items-center gap-2 md:gap-6">
             {data.seller.addresses && data.seller.addresses.length > 0 && (
               <div className="flex items-center gap-1 text-gray-500">
-                <IconMapPin className="h-4 w-4 text-gray-400" stroke={1.5} />
+                <LucideMapPin
+                  className="h-4 w-4 text-gray-400"
+                  strokeWidth={1.5}
+                />
                 {data.seller.addresses.at(0)?.city.name}
               </div>
             )}
@@ -237,7 +240,7 @@ const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="secondary" size="small">
-                  <IconInfoSquareRounded className="icon" />
+                  <LucideInfo className="icon" />
                   جزئیات
                 </Button>
               </DialogTrigger>

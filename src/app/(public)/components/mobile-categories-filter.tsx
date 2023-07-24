@@ -3,9 +3,9 @@
 import { useContext, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import * as Dialog from "@radix-ui/react-dialog"
-import { IconArrowRight, IconChevronLeft } from "@tabler/icons-react"
 import { useQuery } from "@tanstack/react-query"
 import { useAtom } from "jotai"
+import { LucideArrowRight, LucideChevronLeft } from "lucide-react"
 
 import { Category, GetCategoryQuery, GetVocabularyQuery } from "@/generated"
 
@@ -46,7 +46,7 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
             >
               {category.title}
               {category.childrenCount > 0 && (
-                <IconChevronLeft className="h-4 w-4 text-gray-400" />
+                <LucideChevronLeft className="h-4 w-4 text-gray-400" />
               )}
             </li>
           )
@@ -99,7 +99,7 @@ const CategoriesList = ({
             >
               {category.title}
               {category.childrenCount > 0 && (
-                <IconChevronLeft className="h-4 w-4 text-gray-400" />
+                <LucideChevronLeft className="h-4 w-4 text-gray-400" />
               )}
             </li>
           )
@@ -153,7 +153,7 @@ const MobileCategoriesFilter = (props: MobileCategoriesFilterProps) => {
                 size="small"
                 iconOnly
               >
-                <IconArrowRight className="h-5 w-5" />
+                <LucideArrowRight className="h-5 w-5" />
               </Button>
               <div className="font-bold text-gray-800">
                 {selectedCategory ? selectedCategory.title : "همه دسته‌بندی‌ها"}

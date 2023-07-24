@@ -5,7 +5,7 @@ import {
   KeyboardEvent,
   useState
 } from "react"
-import { IconX } from "@tabler/icons-react"
+import { LucideX } from "lucide-react"
 import uniq from "ramda/src/uniq"
 
 import { mergeClasses } from "@core/utils/mergeClasses"
@@ -32,7 +32,7 @@ const TagItem = ({ title }: TagItemProps) => {
     <div className="tag-item">
       <span className="tag-item-title">{title}</span>
       <button type="button" className="tag-item-delete-button">
-        <IconX className="icon" />
+        <LucideX className="icon" />
       </button>
     </div>
   )

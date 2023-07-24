@@ -2,7 +2,7 @@
 
 import * as Checkbox from "@radix-ui/react-checkbox"
 import * as Label from "@radix-ui/react-label"
-import { IconCheck } from "@tabler/icons-react"
+import { LucideCheck } from "lucide-react"
 
 import {
   FilterAttribute,
@@ -127,7 +127,10 @@ const FiltersContainer = ({
                             }
                           >
                             <Checkbox.Indicator className="text-white">
-                              <IconCheck className="h-3 w-3" stroke={3} />
+                              <LucideCheck
+                                className="h-3 w-3"
+                                strokeWidth={3}
+                              />
                             </Checkbox.Indicator>
                           </Checkbox.Root>
                           <span className="inline-block leading-none">

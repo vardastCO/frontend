@@ -2,8 +2,13 @@
 
 import { useContext } from "react"
 import Link from "next/link"
-import { IconDots, IconEdit, IconFolder, IconTrash } from "@tabler/icons-react"
 import { useSetAtom } from "jotai"
+import {
+  LucideEdit,
+  LucideFolderClosed,
+  LucideMoreVertical,
+  LucideTrash
+} from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 import { Vocabulary } from "@/generated"
@@ -46,7 +51,7 @@ const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
           href={`/admin/vocabularies/${slug}`}
           className="flex items-center gap-1 font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-gray-300"
         >
-          <IconFolder className="h-6 w-6 text-gray-500 dark:text-gray-700" />
+          <LucideFolderClosed className="h-6 w-6 text-gray-500 dark:text-gray-700" />
           {title}
         </Link>
       </div>
@@ -54,17 +59,17 @@ const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" iconOnly>
-              <IconDots className="icon" />
+              <LucideMoreVertical className="icon" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>
-              <IconEdit className="dropdown-menu-item-icon" />
+              <LucideEdit className="dropdown-menu-item-icon" />
               <span>{t("common:edit")}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onSelect={toggleRemoveItem} className="danger">
-              <IconTrash className="dropdown-menu-item-icon" />
+              <LucideTrash className="dropdown-menu-item-icon" />
               <span>{t("common:delete")}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>

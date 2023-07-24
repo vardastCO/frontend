@@ -2,7 +2,7 @@
 
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react"
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
-import { IconCircle } from "@tabler/icons-react"
+import { LucideCircle } from "lucide-react"
 
 import { mergeClasses } from "@core/utils/mergeClasses"
 
@@ -31,7 +31,7 @@ const RadioGroupItem = forwardRef<
       {...props}
     >
       <RadioGroupPrimitive.Indicator className="radio-indicator">
-        <IconCircle />
+        <LucideCircle />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   )

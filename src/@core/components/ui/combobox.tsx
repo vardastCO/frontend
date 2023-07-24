@@ -1,4 +1,4 @@
-import { IconCheck, IconSelector } from "@tabler/icons-react"
+import { LucideCheck, LucideChevronsUpDown } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 import { ControllerRenderProps } from "react-hook-form"
 
@@ -50,7 +50,7 @@ const ComboBox = ({
                   labelKey
                 ]
               : triggerPlaceholder ?? t("common:select_placeholder")}
-            <IconSelector className="ms-auto h-4 w-4 shrink-0 text-gray-500" />
+            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0 text-gray-500" />
           </Button>
         </FormControl>
       </PopoverTrigger>
@@ -65,7 +65,7 @@ const ComboBox = ({
                 key={item[filterKey]}
                 onSelect={onChange}
               >
-                <IconCheck
+                <LucideCheck
                   className={mergeClasses(
                     "mr-2 h-4 w-4",
                     item[filterKey] === props.value

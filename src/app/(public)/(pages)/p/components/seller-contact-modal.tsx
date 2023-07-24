@@ -3,13 +3,9 @@
 import { Dispatch } from "react"
 import Link from "next/link"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
-import {
-  IconBuildingWarehouse,
-  IconMapPin,
-  IconPhone
-} from "@tabler/icons-react"
 import { SetStateAction } from "jotai"
 import { parsePhoneNumber } from "libphonenumber-js"
+import { LucideMapPin, LucidePhone, LucideWarehouse } from "lucide-react"
 
 import { Seller } from "@/generated"
 
@@ -38,16 +34,19 @@ const SellerContactModal = ({
           <DialogTitle>اطلاعات تماس {seller.name}</DialogTitle>
         </DialogHeader>
         <div className="flex items-center gap-2.5 rounded-md bg-gray-50 p-4">
-          <IconBuildingWarehouse
+          <LucideWarehouse
             className="hidden h-8 w-8 text-gray-400 md:block"
-            stroke={1.5}
+            strokeWidth={1.5}
           />
           <div className="flex flex-col items-start gap-1.5">
             <div className="font-bold text-gray-700">{seller.name}</div>
             <div className="flex items-center gap-6 text-sm">
               {/* TODO */}
               <div className="flex items-center gap-1 text-gray-500">
-                <IconMapPin className="h-4 w-4 text-gray-400" stroke={1.5} />
+                <LucideMapPin
+                  className="h-4 w-4 text-gray-400"
+                  strokeWidth={1.5}
+                />
                 تهران
               </div>
               {/* TODO */}
@@ -62,7 +61,7 @@ const SellerContactModal = ({
           {seller.contacts && seller.contacts.length > 0 && (
             <div className="flex items-stretch gap-2 py-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-md bg-green-500 text-white">
-                <IconPhone className="h-6 w-6" stroke={1.5} />
+                <LucidePhone className="h-6 w-6" strokeWidth={1.5} />
               </div>
               <div className="flex flex-col gap-4">
                 <span className="text-sm font-medium leading-none text-gray-500">
@@ -87,7 +86,7 @@ const SellerContactModal = ({
           {seller.addresses && seller.addresses.length > 0 && (
             <div className="flex items-stretch gap-2 py-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-md bg-cyan-500 text-white">
-                <IconMapPin className="h-6 w-6" stroke={1.5} />
+                <LucideMapPin className="h-6 w-6" strokeWidth={1.5} />
               </div>
               <div className="flex flex-col gap-4">
                 <span className="text-sm font-medium leading-none text-gray-500">

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { IconSmartHome } from "@tabler/icons-react"
+import { Home } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 export interface CrumbItemProps {
@@ -60,7 +60,7 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
             legacyBehavior
           >
             <a title={process.env.NEXT_PUBLIC_TITLE}>
-              <IconSmartHome className="h-4 w-4 text-gray-400" />
+              <Home className="h-4 w-4 text-gray-400" />
             </a>
           </Link>
         </li>

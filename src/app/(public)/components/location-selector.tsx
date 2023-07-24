@@ -2,13 +2,13 @@
 
 import { useState } from "react"
 import {
-  IconArrowRight,
-  IconChevronLeft,
-  IconLoader2,
-  IconMapPin,
-  IconSearch,
-  IconX
-} from "@tabler/icons-react"
+  LucideArrowRight,
+  LucideChevronLeft,
+  LucideLoader2,
+  LucideMapPin,
+  LucideX,
+  Search
+} from "lucide-react"
 
 import { City, Province, useGetCountryWithCitiesQuery } from "@/generated"
 
@@ -60,7 +60,7 @@ const LocationSelector = () => {
                   className="flex items-center justify-between py-3"
                 >
                   <span>{province.name}</span>
-                  <IconChevronLeft className="h-4 w-4 text-gray-500" />
+                  <LucideChevronLeft className="h-4 w-4 text-gray-500" />
                 </Button>
               </>
             )
@@ -77,7 +77,7 @@ const LocationSelector = () => {
     return (
       <div className="flex flex-col items-start">
         <Button variant="ghost" onClick={() => setSelectedProvince(null)}>
-          <IconArrowRight className="icon" />
+          <LucideArrowRight className="icon" />
           <span>همه شهرها</span>
         </Button>
         <div className="flex w-full flex-col space-y-3 divide-y divide-gray-200">
@@ -119,7 +119,7 @@ const LocationSelector = () => {
     <Dialog onOpenChange={() => loadCountry()}>
       <DialogTrigger asChild>
         <Button variant="secondary" size="small">
-          <IconMapPin className="icon" />
+          <LucideMapPin className="icon" />
           <span>انتخاب شهر</span>
         </Button>
       </DialogTrigger>
@@ -145,7 +145,7 @@ const LocationSelector = () => {
                         })
                       }}
                     >
-                      <IconX className="icon" />
+                      <LucideX className="icon" />
                     </Button>
                   </div>
                 ))}
@@ -154,7 +154,7 @@ const LocationSelector = () => {
               <div className="input-group">
                 <div className="input-inset">
                   <div className="input-element">
-                    <IconSearch />
+                    <Search />
                   </div>
                   <Input placeholder="جستجو در شهرها..." />
                 </div>
@@ -164,7 +164,7 @@ const LocationSelector = () => {
         </div>
         {countryQuery.isLoading && (
           <div className="flex items-center justify-center p-12">
-            <IconLoader2 className="animate-spin text-gray-400" />
+            <LucideLoader2 className="animate-spin text-gray-400" />
           </div>
         )}
         {countryQuery.data &&

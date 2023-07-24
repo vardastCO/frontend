@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
-import { IconLoader2, IconPhotoPlus, IconTrash } from "@tabler/icons-react"
 import clsx from "clsx"
+import { ImagePlus, LucideLoader2, Trash } from "lucide-react"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { FileWithPath, useDropzone } from "react-dropzone"
@@ -169,7 +169,7 @@ const Dropzone = ({ uploadPath, onAddition, onDelete }: DropzoneProps) => {
                     {file.status === "uploading" && (
                       <div className="absolute inset-0 z-10 flex h-full w-full items-center justify-center bg-gray-800 bg-opacity-10 text-brand-600 backdrop-blur-sm">
                         <span className="animate-spin">
-                          <IconLoader2 className="h-5 w-5" />
+                          <LucideLoader2 className="h-5 w-5" />
                         </span>
                       </div>
                     )}
@@ -190,7 +190,7 @@ const Dropzone = ({ uploadPath, onAddition, onDelete }: DropzoneProps) => {
                         className="absolute bottom-0 left-0 z-10 m-2 flex h-6 w-6 items-center justify-center rounded bg-red-500 text-white ring-2 ring-transparent transition hover:bg-red-600 hover:ring-red-500/50"
                         onClick={() => removeFile(file.name)}
                       >
-                        <IconTrash className="h-4 w-4" stroke={1.5} />
+                        <Trash className="h-4 w-4" strokeWidth={1.5} />
                       </button>
                     )}
                   </li>
@@ -199,7 +199,7 @@ const Dropzone = ({ uploadPath, onAddition, onDelete }: DropzoneProps) => {
             </>
           ) : (
             <div className="flex h-60 w-full flex-col items-center justify-center gap-1">
-              <IconPhotoPlus className="h-12 w-12 text-gray-400" />
+              <ImagePlus className="h-12 w-12 text-gray-400" />
               <span className="font-medium text-gray-800">
                 {t("common:add_images_dropzone_title")}
               </span>

@@ -7,8 +7,8 @@ import {
   HTMLAttributes
 } from "react"
 import { DialogProps } from "@radix-ui/react-dialog"
-import { IconSearch } from "@tabler/icons-react"
 import { Command as CommandPrimitive } from "cmdk"
+import { LucideSearch } from "lucide-react"
 
 import { mergeClasses } from "@core/utils/mergeClasses"
 import { Dialog, DialogContent } from "@core/components/ui/dialog"
@@ -44,7 +44,7 @@ const CommandInput = forwardRef<
   ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
   <div className="combobox-search" cmdk-input-wrapper="">
-    <IconSearch className="combobox-search-icon" />
+    <LucideSearch className="combobox-search-icon" />
     <CommandPrimitive.Input
       ref={ref}
       className={mergeClasses("combobox-search-input", className)}
