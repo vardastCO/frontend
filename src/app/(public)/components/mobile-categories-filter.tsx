@@ -64,7 +64,6 @@ const CategoriesList = ({
   onCategoryChanged,
   categoryId
 }: CategoriesListProps) => {
-  const { push } = useRouter()
   const categoriesQuery = useQuery<GetCategoryQuery>({
     queryKey: ["category", { id: categoryId }],
     queryFn: () => getCategoryQueryFn(categoryId)
@@ -108,9 +107,17 @@ const CategoriesList = ({
   )
 }
 
-type MobileCategoriesFilterProps = {}
+type MobileCategoriesFilterProps = {
+  categoryId?: number
+  brandId?: number
+  sellerId?: number
+}
 
-const MobileCategoriesFilter = (props: MobileCategoriesFilterProps) => {
+const MobileCategoriesFilter = ({
+  categoryId,
+  brandId,
+  sellerId
+}: MobileCategoriesFilterProps) => {
   const { push } = useRouter()
   const { categoriesFilterVisibilityAtom } = useContext(PublicContext)
   const [categoriesFilterVisibility, setCategoriesFilterVisibility] = useAtom(
