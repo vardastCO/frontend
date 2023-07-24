@@ -73,12 +73,12 @@ const ProductList = ({
     (typeof args)["categoryId"][]
   >([args["categoryId"]] || [])
   const {
-    categoriesFilterVisibilityAtom,
+    globalCategoriesFilterVisibilityAtom,
     sortFilterVisibilityAtom,
     filtersVisibilityAtom
   } = useContext(PublicContext)
-  const setCategoriesFilterVisibility = useSetAtom(
-    categoriesFilterVisibilityAtom
+  const setGlobalCategoriesFilterVisibility = useSetAtom(
+    globalCategoriesFilterVisibilityAtom
   )
   const setSortFilterVisibility = useSetAtom(sortFilterVisibilityAtom)
   const setFiltersVisibility = useSetAtom(filtersVisibilityAtom)
@@ -230,7 +230,7 @@ const ProductList = ({
                 </>
               )}
             <Button
-              onClick={() => setCategoriesFilterVisibility(true)}
+              onClick={() => setGlobalCategoriesFilterVisibility(true)}
               size="small"
               variant="ghost"
               className="border border-gray-200"
