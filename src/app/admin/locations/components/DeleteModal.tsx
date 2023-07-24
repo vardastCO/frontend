@@ -1,10 +1,10 @@
 "use client"
 
 import { useContext } from "react"
-import { IconAlertOctagon } from "@tabler/icons-react"
 import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request/build/esm/types"
 import { useAtom, useSetAtom } from "jotai"
+import { LucideAlertOctagon } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 import {
@@ -131,7 +131,7 @@ const DeleteModal = ({ isOpen, onChange }: Props) => {
         <div className="flex">
           <div className="me-6 flex-1 shrink-0">
             <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600 dark:bg-red-800/20">
-              <IconAlertOctagon className="h-6 w-6" />
+              <LucideAlertOctagon className="h-6 w-6" />
             </span>
           </div>
           <div>

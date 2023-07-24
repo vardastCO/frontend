@@ -7,7 +7,7 @@ import {
   HTMLAttributes
 } from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
-import { IconCheck, IconChevronDown, IconCircle } from "@tabler/icons-react"
+import { LucideCheck, LucideChevronDown, LucideCircle } from "lucide-react"
 
 import { mergeClasses } from "@core/utils/mergeClasses"
 
@@ -39,7 +39,7 @@ const DropdownMenuSubTrigger = forwardRef<
     {...props}
   >
     {children}
-    <IconChevronDown className="ml-auto h-4 w-4" />
+    <LucideChevronDown className="ml-auto h-4 w-4" />
   </DropdownMenuPrimitive.SubTrigger>
 ))
 DropdownMenuSubTrigger.displayName =
@@ -105,7 +105,7 @@ const DropdownMenuCheckboxItem = forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <IconCheck className="h-4 w-4" />
+        <LucideCheck className="h-4 w-4" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}
@@ -128,7 +128,7 @@ const DropdownMenuRadioItem = forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <IconCircle className="h-2 w-2 fill-current" />
+        <LucideCircle className="h-2 w-2 fill-current" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}

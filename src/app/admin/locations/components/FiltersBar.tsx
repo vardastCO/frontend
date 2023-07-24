@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { IconFilter } from "@tabler/icons-react"
+import { LucideFilter } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 import { Button } from "@core/components/ui/button"
@@ -26,7 +26,7 @@ const FiltersBar = (props: Props) => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary">
-              <IconFilter className="icon" />
+              <LucideFilter className="icon" />
               <span>{t("common:filters")}</span>
             </Button>
           </DropdownMenuTrigger>
@@ -53,7 +53,7 @@ const FiltersBar = (props: Props) => {
         {/* <MenuTrigger>
           <Button variant="secondary">
             <>
-              <IconFilter stroke={1.5} className="icon" />
+              <IconFilter strokeWidth ={1.5} className="icon" />
               {t("common:filters")}
             </>
           </Button>

@@ -1,6 +1,6 @@
 import * as NavigationMenu from "@radix-ui/react-navigation-menu"
-import { IconChevronDown } from "@tabler/icons-react"
 import { useQuery } from "@tanstack/react-query"
+import { LucideChevronDown } from "lucide-react"
 
 import { GetVocabularyQuery } from "@/generated"
 
@@ -27,7 +27,7 @@ const Navigation = () => {
         <NavigationMenu.Item>
           <NavigationMenu.Trigger className="text-violet11 hover:bg-violet3 focus:shadow-violet7 group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
             Learn{" "}
-            <IconChevronDown
+            <LucideChevronDown
               className="text-violet10 duration-[250] relative top-[1px] transition-transform ease-in group-data-[state=open]:-rotate-180"
               aria-hidden
             />
@@ -68,7 +68,7 @@ const Navigation = () => {
         <NavigationMenu.Item>
           <NavigationMenu.Trigger className="text-violet11 hover:bg-violet3 focus:shadow-violet7 group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
             Overview{" "}
-            <IconChevronDown
+            <LucideChevronDown
               className="text-violet10 duration-[250] relative top-[1px] transition-transform ease-in group-data-[state=open]:-rotate-180"
               aria-hidden
             />

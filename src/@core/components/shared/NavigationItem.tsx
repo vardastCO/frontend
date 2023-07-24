@@ -3,13 +3,13 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { IconChevronDown } from "@tabler/icons-react"
 import clsx from "clsx"
+import { LucideChevronDown } from "lucide-react"
 
 import { Button } from "@core/components/ui/button"
 import { NavigationItemType } from "@core/types/Navigation"
 
-import { TablerDynamicIcons } from "./TablerDynamicIcons"
+import DynamicIcon from "./DynamicIcon"
 
 type Props = {
   menu: NavigationItemType
@@ -46,11 +46,7 @@ const NavigationItem = (props: Props) => {
       >
         <span>
           <Link href={menu.path} className="app-navigation-item-link">
-            <TablerDynamicIcons
-              iconName={menu.icon}
-              className="icon"
-              stroke={1.5}
-            />
+            <DynamicIcon name={menu.icon} className="icon" strokeWidth={1.5} />
             <span className="flex-1">{menu.title}</span>
           </Link>
           {menu.items && (
@@ -59,7 +55,7 @@ const NavigationItem = (props: Props) => {
               noStyle
               onClick={() => !isActive(menu.path) && toggleOpen()}
             >
-              <IconChevronDown className="h-4 w-4" />
+              <LucideChevronDown className="h-4 w-4" />
             </Button>
           )}
         </span>

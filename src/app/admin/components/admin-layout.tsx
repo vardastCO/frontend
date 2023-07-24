@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { IconLayoutSidebarRightCollapse, IconSearch } from "@tabler/icons-react"
+import { LucidePanelRightClose, LucideSearch } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
@@ -19,32 +19,32 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
         {
           title: t("common:home"),
           path: "/admin",
-          icon: "IconSmartHome"
+          icon: "home"
         },
         {
           title: t("common:products"),
           path: "/admin/products",
-          icon: "IconPackage",
+          icon: "package",
           items: [
             {
               title: t("common:all_entities", { entity: t("common:products") }),
               path: "/admin/products",
-              icon: "IconPackage"
+              icon: "package"
             },
             {
               title: t("common:attributes"),
               path: "/admin/attributes",
-              icon: "IconStack2"
+              icon: "layers"
             },
             {
               title: t("common:brands"),
               path: "/admin/brands",
-              icon: "IconTrademark"
+              icon: "fingerprint"
             },
             {
               title: t("common:uoms"),
               path: "/admin/uoms",
-              icon: "IconRuler"
+              icon: "ruler"
             }
           ]
         }
@@ -56,17 +56,17 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
         {
           title: t("common:vocabularies_menu_title"),
           path: "/admin/vocabularies",
-          icon: "IconCategory"
+          icon: "layout-grid"
         },
         {
           title: t("common:locations_menu_title"),
           path: "/admin/locations",
-          icon: "IconMap2"
+          icon: "map"
         },
         {
           title: t("common:users_menu_title"),
           path: "/admin/users",
-          icon: "IconUsers"
+          icon: "users"
         }
       ]
     },
@@ -75,17 +75,17 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
         {
           title: "storybook",
           path: "/admin/storybook",
-          icon: "IconPalette",
+          icon: "paintbrush-2",
           items: [
             {
               title: "button",
               path: "/admin/storybook/button",
-              icon: "IconUsers"
+              icon: "users"
             },
             {
               title: "form",
               path: "/admin/storybook/form",
-              icon: "IconUsers"
+              icon: "users"
             }
           ]
         }
@@ -102,7 +102,7 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
             <div className="mb-3 flex items-center">
               <div className="flex items-center gap-2">
                 <Button variant="ghost" iconOnly>
-                  <IconLayoutSidebarRightCollapse className="icon" />
+                  <LucidePanelRightClose className="icon" />
                 </Button>
                 <Breadcrumb />
               </div>
@@ -111,7 +111,7 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
                   <div className="input-group">
                     <div className="input-inset">
                       <div className="input-element">
-                        <IconSearch />
+                        <LucideSearch />
                       </div>
                       <input
                         type="text"

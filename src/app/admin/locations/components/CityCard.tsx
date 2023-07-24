@@ -3,9 +3,9 @@
 import { useContext, useState } from "react"
 import Link from "next/link"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
-import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react"
 import clsx from "clsx"
 import { useSetAtom } from "jotai"
+import { LucideEdit, LucideMoreVertical, LucideTrash } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 import { City, useUpdateCityMutation } from "@/generated"
@@ -111,17 +111,17 @@ const CityCard = ({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" iconOnly>
-              <IconDots className="icon" />
+              <LucideMoreVertical className="icon" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>
-              <IconEdit className="dropdown-menu-item-icon" />
+              <LucideEdit className="dropdown-menu-item-icon" />
               <span>{t("common:edit")}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onSelect={toggleRemoveItem} className="danger">
-              <IconTrash className="dropdown-menu-item-icon" />
+              <LucideTrash className="dropdown-menu-item-icon" />
               <span>{t("common:delete")}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>

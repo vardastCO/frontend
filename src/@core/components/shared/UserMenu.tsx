@@ -2,13 +2,13 @@
 
 import { useState } from "react"
 import { useClickOutside } from "@mantine/hooks"
-import {
-  IconLogout,
-  IconMoon,
-  IconSelector,
-  IconSun
-} from "@tabler/icons-react"
 import clsx from "clsx"
+import {
+  LucideChevronsUpDown,
+  LucideLogOut,
+  LucideMoon,
+  LucideSun
+} from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
 import { useTheme } from "next-themes"
 import useTranslation from "next-translate/useTranslation"
@@ -52,9 +52,9 @@ const UserMenu = () => {
             >
               <>
                 {theme === "dark" ? (
-                  <IconSun className="icon" />
+                  <LucideSun className="icon" />
                 ) : (
-                  <IconMoon className="icon" />
+                  <LucideMoon className="icon" />
                 )}
                 {theme === "dark"
                   ? t("common:switch_dark_mode_off")
@@ -67,7 +67,7 @@ const UserMenu = () => {
               className="justify-start text-start"
             >
               <>
-                <IconLogout className="icon" />
+                <LucideLogOut className="icon" />
                 {t("common:logout")}
               </>
             </Button>
@@ -94,7 +94,7 @@ const UserMenu = () => {
               {session?.user?.profile.email}
             </span>
           </div>
-          <IconSelector className="h-3 w-3 text-gray-600" />
+          <LucideChevronsUpDown className="h-3 w-3 text-gray-600" />
         </Button>
       </div>
     </div>

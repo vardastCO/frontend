@@ -5,8 +5,8 @@ import { useParams } from "next/navigation"
 import * as Checkbox from "@radix-ui/react-checkbox"
 import * as Dialog from "@radix-ui/react-dialog"
 import * as Label from "@radix-ui/react-label"
-import { IconArrowRight, IconCheck, IconChevronLeft } from "@tabler/icons-react"
 import { useAtom } from "jotai"
+import { LucideArrowRight, LucideCheck, LucideChevronLeft } from "lucide-react"
 
 import {
   Attribute,
@@ -40,7 +40,7 @@ const MobileFilterableAttributeItem = ({
           <span className="block h-2 w-2 rounded-full bg-brand-500"></span>
         )}
         <span className="font-bold text-gray-800">{attribute.name}</span>
-        <IconChevronLeft className="ms-auto h-4 w-4 text-gray-400" />
+        <LucideChevronLeft className="ms-auto h-4 w-4 text-gray-400" />
       </div>
       {filterAttributes.some((item) => item.id === attribute.id) && (
         <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-gray-600">
@@ -103,7 +103,7 @@ const MobileFilterableAttributePage = ({
                 }
               >
                 <Checkbox.Indicator className="text-white">
-                  <IconCheck className="h-3 w-3" stroke={3} />
+                  <LucideCheck className="h-3 w-3" strokeWidth={3} />
                 </Checkbox.Indicator>
               </Checkbox.Root>
               <span className="inline-block leading-none">{value}</span>
@@ -163,7 +163,7 @@ const MobileFilterableAttributes = ({
                 size="small"
                 iconOnly
               >
-                <IconArrowRight className="h-5 w-5" />
+                <LucideArrowRight className="h-5 w-5" />
               </Button>
               <div className="font-bold text-gray-800">
                 {selectedFilterAttribute

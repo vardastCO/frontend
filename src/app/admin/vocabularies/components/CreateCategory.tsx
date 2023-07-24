@@ -2,9 +2,9 @@
 
 import { Key, useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { IconCheck, IconSelector } from "@tabler/icons-react"
 import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request"
+import { LucideCheck, LucideChevronsUpDown } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
@@ -188,7 +188,7 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                                       category && category.id === field.value
                                   )?.title
                                 : "Select language"}
-                              <IconSelector className="ms-auto h-4 w-4 shrink-0" />
+                              <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
@@ -210,7 +210,7 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                                         )
                                       }}
                                     >
-                                      <IconCheck
+                                      <LucideCheck
                                         className={mergeClasses(
                                           "mr-2 h-4 w-4",
                                           category.id === field.value

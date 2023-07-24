@@ -1,4 +1,4 @@
-import { IconHelp, IconPlus } from "@tabler/icons-react"
+import { LucideHelpCircle, LucidePlus } from "lucide-react"
 
 type Props = {}
 
@@ -31,13 +31,13 @@ const Sidebar = (props: Props) => {
             className="cursor-pointer"
           >
             <button className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-dashed border-gray-400 text-gray-500">
-              <IconPlus className="h-4 w-4" />
+              <LucidePlus className="h-4 w-4" />
             </button>
           </span>
         </div>
         <div className="mt-auto flex flex-col space-y-3">
           <button className="flex h-8 w-8 items-center justify-center rounded-md text-gray-600 hover:bg-gray-200">
-            <IconHelp className="h-5 w-5" />
+            <LucideHelpCircle className="h-5 w-5" />
           </button>
           <button className="avatar avatar-sm bg-amber-400 text-white">
             ع

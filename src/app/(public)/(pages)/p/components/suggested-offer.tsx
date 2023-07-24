@@ -3,9 +3,9 @@
 import { useState } from "react"
 import Link from "next/link"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
-import { IconBuildingWarehouse, IconMapPin } from "@tabler/icons-react"
 import { formatDistanceToNow, setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
+import { LucideMapPin, LucideWarehouse } from "lucide-react"
 
 import {
   EventTrackerSubjectTypes,
@@ -76,9 +76,9 @@ const SuggestedOffer = ({ offersCount, offer, uom }: SuggestedOfferProps) => {
         </div>
         <div className="divide-y divide-gray-200">
           <div className="flex items-start gap-2.5 py-3">
-            <IconBuildingWarehouse
+            <LucideWarehouse
               className="h-8 w-8 text-gray-400"
-              stroke={1.5}
+              strokeWidth={1.5}
             />
             <div className="flex flex-col items-start gap-1.5">
               <div className="font-bold text-gray-700">{offer.seller.name}</div>
@@ -86,9 +86,9 @@ const SuggestedOffer = ({ offersCount, offer, uom }: SuggestedOfferProps) => {
                 {offer.seller.addresses &&
                   offer.seller.addresses.length > 0 && (
                     <div className="flex items-center gap-1 text-gray-500">
-                      <IconMapPin
+                      <LucideMapPin
                         className="h-4 w-4 text-gray-400"
-                        stroke={1.5}
+                        strokeWidth={1.5}
                       />
                       {offer.seller.addresses.at(0)?.city.name}
                     </div>

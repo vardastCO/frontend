@@ -8,14 +8,14 @@ import {
   useSearchParams
 } from "next/navigation"
 import { CheckedState } from "@radix-ui/react-checkbox"
-import {
-  IconAdjustmentsHorizontal,
-  IconCategory,
-  IconSortDescending2
-} from "@tabler/icons-react"
 import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
 import { useSetAtom } from "jotai"
+import {
+  LucideLayoutGrid,
+  LucideSlidersHorizontal,
+  LucideSortDesc
+} from "lucide-react"
 
 import {
   Brand,
@@ -138,7 +138,7 @@ const BrandPage = ({ isMobileView, args, slug }: BrandPageProps) => {
                   variant="ghost"
                   className="border border-gray-200"
                 >
-                  <IconAdjustmentsHorizontal className="icon text-gray-400" />
+                  <LucideSlidersHorizontal className="icon text-gray-400" />
                   فیلترها
                 </Button>
                 <MobileFilterableAttributes
@@ -160,7 +160,7 @@ const BrandPage = ({ isMobileView, args, slug }: BrandPageProps) => {
             variant="ghost"
             className="border border-gray-200"
           >
-            <IconCategory className="icon text-gray-400" />
+            <LucideLayoutGrid className="icon text-gray-400" />
             دسته‌بندی‌ها
           </Button>
           <Button
@@ -169,7 +169,7 @@ const BrandPage = ({ isMobileView, args, slug }: BrandPageProps) => {
             variant="ghost"
             className="border border-gray-200"
           >
-            <IconSortDescending2 className="icon text-gray-400" />
+            <LucideSortDesc className="icon text-gray-400" />
             مرتب‌سازی
           </Button>
         </div>

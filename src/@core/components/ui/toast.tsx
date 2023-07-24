@@ -5,8 +5,8 @@ import {
   ReactElement
 } from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
-import { IconX } from "@tabler/icons-react"
 import { cva, type VariantProps } from "class-variance-authority"
+import { LucideX } from "lucide-react"
 
 import { mergeClasses } from "@core/utils/mergeClasses"
 
@@ -88,7 +88,7 @@ const ToastClose = forwardRef<
     toast-close=""
     {...props}
   >
-    <IconX className="h-4 w-4" />
+    <LucideX className="h-4 w-4" />
   </ToastPrimitives.Close>
 ))
 ToastClose.displayName = ToastPrimitives.Close.displayName

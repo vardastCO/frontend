@@ -8,8 +8,8 @@ import {
   useDebouncedState,
   useLocalStorage
 } from "@mantine/hooks"
-import { IconLoader2, IconSearch, IconTrash, IconX } from "@tabler/icons-react"
 import clsx from "clsx"
+import { LucideLoader2, LucideSearch, LucideTrash, LucideX } from "lucide-react"
 
 import { useGetSuggestQuery } from "@/generated"
 
@@ -112,7 +112,7 @@ const Search = ({ isMobileView }: SearchProps) => {
                 px-4
                 py-3"
           >
-            <IconSearch className="h-6 w-6 text-gray-400" />
+            <LucideSearch className="h-6 w-6 text-gray-400" />
             <span className="text-gray-500">جستجو در وردست...</span>
           </Button>
         </div>
@@ -126,7 +126,7 @@ const Search = ({ isMobileView }: SearchProps) => {
             ])}
           >
             <div className="flex items-center gap-2 border-b border-gray-200 pb-3">
-              <IconSearch className="h-6 w-6 text-gray-400" />
+              <LucideSearch className="h-6 w-6 text-gray-400" />
               <input
                 autoFocus
                 defaultValue={query}
@@ -142,7 +142,7 @@ const Search = ({ isMobileView }: SearchProps) => {
                 className="rounded-full"
                 onClick={() => setOpen(false)}
               >
-                <IconX className="icon" />
+                <LucideX className="icon" />
               </Button>
             </div>
             <div className="py-6">
@@ -158,7 +158,7 @@ const Search = ({ isMobileView }: SearchProps) => {
                       size="small"
                       onClick={() => SetLatestSearch([])}
                     >
-                      <IconTrash className="icon text-gray-400" />
+                      <LucideTrash className="icon text-gray-400" />
                     </Button>
                   </div>
                   <ul className="hide-scrollbar flex items-center gap-3 overflow-x-auto overflow-y-hidden whitespace-nowrap py-4">
@@ -179,7 +179,7 @@ const Search = ({ isMobileView }: SearchProps) => {
               {searchQuery.fetchStatus === "fetching" &&
                 searchQuery.status === "loading" && (
                   <div className="flex items-center justify-center">
-                    <IconLoader2 className="h-5 w-5 animate-spin text-gray-400" />
+                    <LucideLoader2 className="h-5 w-5 animate-spin text-gray-400" />
                   </div>
                 )}
 
@@ -253,7 +253,7 @@ const Search = ({ isMobileView }: SearchProps) => {
                         navigateToSearch(query, `/search?query=${query}`)
                       }
                     >
-                      <IconSearch className="h-5 w-5" />
+                      <LucideSearch className="h-5 w-5" />
                       <span>{query}</span>
                     </Button>
                   </div>

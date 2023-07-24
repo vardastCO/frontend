@@ -2,8 +2,8 @@
 
 import { ReactNode, useState } from "react"
 import * as Collapsible from "@radix-ui/react-collapsible"
-import { IconChevronDown } from "@tabler/icons-react"
 import clsx from "clsx"
+import { LucideChevronDown } from "lucide-react"
 
 import { Button } from "@core/components/ui/button"
 
@@ -26,7 +26,7 @@ const FilterBlock = ({
         <span className="font-bold text-gray-800">{title}</span>
         <Collapsible.Trigger asChild>
           <Button variant="ghost" size="small" className="mr-auto" iconOnly>
-            <IconChevronDown
+            <LucideChevronDown
               className={clsx(["icon", open ? "rotate-180" : ""])}
             />
           </Button>

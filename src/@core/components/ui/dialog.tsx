@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
-import { IconX } from "@tabler/icons-react"
+import { LucideX } from "lucide-react"
 
 import { mergeClasses } from "@core/utils/mergeClasses"
 
@@ -43,7 +43,7 @@ const DialogContent = React.forwardRef<
     >
       {children}
       <DialogPrimitive.Close className="dialog-close">
-        <IconX className="h-4 w-4" />
+        <LucideX className="h-4 w-4" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>

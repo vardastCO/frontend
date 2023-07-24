@@ -2,7 +2,7 @@
 
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
-import { IconCheck, IconSelector } from "@tabler/icons-react"
+import { LucideCheck, LucideChevronsUpDown } from "lucide-react"
 
 import { mergeClasses } from "@core/utils/mergeClasses"
 
@@ -23,7 +23,7 @@ const SelectTrigger = forwardRef<
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <IconSelector className="select-field-arrow" />
+      <LucideChevronsUpDown className="select-field-arrow" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ))
@@ -84,7 +84,7 @@ const SelectItem = forwardRef<
   >
     <span className="select-list-selected-item-indicator">
       <SelectPrimitive.ItemIndicator>
-        <IconCheck className="icon" />
+        <LucideCheck className="icon" />
       </SelectPrimitive.ItemIndicator>
     </span>
 

@@ -1,7 +1,9 @@
+import dynamicIconImports from "lucide-react/dynamicIconImports"
+
 export interface NavigationItemType {
   title: string
   path: string
-  icon: string
+  icon: keyof typeof dynamicIconImports
   items?: NavigationItemType[]
 }
 

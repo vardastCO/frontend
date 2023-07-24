@@ -1,5 +1,6 @@
 // @ts-nocheck
-import { IconSend } from "@tabler/icons-react"
+
+import { LucideSend } from "lucide-react"
 
 import { Button } from "@core/components/ui/button"
 
@@ -50,7 +51,7 @@ const StorybookButtonPage = () => {
                 {Object.keys(buttonVariants.size).map((size, idx) => {
                   return (
                     <Button key={idx} size={size} variant={variant}>
-                      <IconSend className="icon" />
+                      <LucideSend className="icon" />
                       کلیک کن!
                     </Button>
                   )
@@ -61,7 +62,7 @@ const StorybookButtonPage = () => {
                   return (
                     <Button key={idx} size={size} variant={variant}>
                       کلیک کن!
-                      <IconSend className="icon" />
+                      <LucideSend className="icon" />
                     </Button>
                   )
                 })}
@@ -79,7 +80,7 @@ const StorybookButtonPage = () => {
                 {Object.keys(buttonVariants.size).map((size, idx) => {
                   return (
                     <Button key={idx} size={size} variant={variant} disabled>
-                      <IconSend className="icon" />
+                      <LucideSend className="icon" />
                       کلیک کن!
                     </Button>
                   )
@@ -89,7 +90,7 @@ const StorybookButtonPage = () => {
                 {Object.keys(buttonVariants.size).map((size, idx) => {
                   return (
                     <Button key={idx} size={size} variant={variant} iconOnly>
-                      <IconSend className="icon" />
+                      <LucideSend className="icon" />
                     </Button>
                   )
                 })}

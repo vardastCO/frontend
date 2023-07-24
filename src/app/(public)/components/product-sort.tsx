@@ -1,5 +1,5 @@
-import { IconSortDescending2 } from "@tabler/icons-react"
 import clsx from "clsx"
+import { LucideSortDesc } from "lucide-react"
 
 import { ProductSortablesEnum } from "@/generated"
 
@@ -14,7 +14,7 @@ const ProductSort = ({ sort, onSortChanged }: ProductSortProps) => {
   return (
     <div className="hidden items-center gap-2 md:flex">
       <div className="flex items-center">
-        <IconSortDescending2 className="h-5 w-5 text-gray-400" />
+        <LucideSortDesc className="h-5 w-5 text-gray-400" />
         <span className="font-semibold text-gray-700">مرتب سازی:</span>
       </div>
       <ol className="flex items-center gap-2">
