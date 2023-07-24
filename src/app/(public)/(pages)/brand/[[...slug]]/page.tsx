@@ -49,6 +49,9 @@ const BrandIndex = async ({
   if (searchParams.query && searchParams.query.length)
     args["query"] = searchParams.query as string
 
+  if (searchParams.categoryId && searchParams.categoryId.length)
+    args["categoryId"] = +searchParams.categoryId
+
   if (searchParams.orderBy) {
     args["orderBy"] = searchParams.orderBy as ProductSortablesEnum
   } else {

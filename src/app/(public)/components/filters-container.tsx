@@ -6,14 +6,11 @@ import { LucideCheck } from "lucide-react"
 
 import {
   FilterAttribute,
-  useGetAllCategoriesQuery,
   useGetAllFilterableAttributesQuery
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { RequireAtLeastOne } from "@core/types/RequireAtLeastOne"
-import BrandCategoryFilter from "@/app/(public)/components/brand-category-filter"
-import CategoryFilter from "@/app/(public)/components/category-filter"
 import FilterBlock from "@/app/(public)/components/filter-block"
 
 interface FiltersContainerInterface {
@@ -35,8 +32,6 @@ type FiltersContainerProps = RequireAtLeastOne<
 
 const FiltersContainer = ({
   selectedCategoryId,
-  brandId,
-  sellerId,
   onFilterAttributesChanged,
   filterAttributes
 }: FiltersContainerProps) => {
@@ -48,31 +43,12 @@ const FiltersContainer = ({
       }
     },
     {
-      enabled: false
+      enabled: !!selectedCategoryId
     }
   )
-  const getAllCategoriesQuery = useGetAllCategoriesQuery(
-    graphqlRequestClient,
-    {
-      indexCategoryInput: {
-        brandId: brandId || 0
-      }
-    },
-    {
-      enabled: false
-    }
-  )
-
-  if (selectedCategoryId) {
-    getAllFilterableAttributesQuery.refetch()
-  }
 
   return (
     <>
-      {selectedCategoryId && (
-        <CategoryFilter selectedCategoryId={selectedCategoryId} />
-      )}
-      {brandId && <BrandCategoryFilter brandId={brandId} />}
       {getAllFilterableAttributesQuery.fetchStatus === "fetching" &&
         getAllFilterableAttributesQuery.status === "loading" && (
           <div className="flex animate-pulse flex-col gap-3 py-6">
