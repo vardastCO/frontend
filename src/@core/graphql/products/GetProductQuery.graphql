@@ -121,6 +121,77 @@ query GetProduct($id: Int!) {
         slug
         createdAt
         updatedAt
+        contacts {
+          id
+          relatedType
+          relatedId
+          title
+          code
+          number
+          ext
+          type
+          sort
+          isPublic
+          status
+          rejectionReason
+          createdAt
+          updatedAt
+          country {
+            id
+            name
+            nameEn
+            slug
+            alphaTwo
+            iso
+            phonePrefix
+            sort
+            isActive
+            latitude
+            longitude
+            flagEmoji
+            provincesCount
+          }
+        }
+        addresses {
+          id
+          relatedType
+          relatedId
+          title
+          address
+          postalCode
+          latitude
+          longitude
+          sort
+          isPublic
+          status
+          rejectionReason
+          createdAt
+          updatedAt
+          city {
+            id
+            name
+            nameEn
+            slug
+            type
+            sort
+            isActive
+            latitude
+            longitude
+            areasCount
+          }
+          province {
+            id
+            name
+            nameEn
+            slug
+            path
+            sort
+            isActive
+            latitude
+            longitude
+            citiesCount
+          }
+        }
       }
     }
     highestPrice {
@@ -158,6 +229,21 @@ query GetProduct($id: Int!) {
           rejectionReason
           createdAt
           updatedAt
+          country {
+            id
+            name
+            nameEn
+            slug
+            alphaTwo
+            iso
+            phonePrefix
+            sort
+            isActive
+            latitude
+            longitude
+            flagEmoji
+            provincesCount
+          }
         }
         addresses {
           id
