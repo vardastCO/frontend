@@ -48,6 +48,11 @@ const SellerIndex = async ({
   if (searchParams.query && searchParams.query.length)
     args["query"] = searchParams.query as string
 
+  if (searchParams.categoryId && searchParams.categoryId.length)
+    args["categoryIds"] = Array.isArray(searchParams.categoryId)
+      ? searchParams.categoryId.map((item) => +item)
+      : [+searchParams.categoryId]
+
   if (searchParams.orderBy) {
     args["orderBy"] = searchParams.orderBy as ProductSortablesEnum
   } else {
