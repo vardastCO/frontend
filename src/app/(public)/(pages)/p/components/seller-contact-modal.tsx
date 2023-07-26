@@ -41,14 +41,15 @@ const SellerContactModal = ({
           <div className="flex flex-col items-start gap-1.5">
             <div className="font-bold text-gray-700">{seller.name}</div>
             <div className="flex items-center gap-6 text-sm">
-              {/* TODO */}
-              <div className="flex items-center gap-1 text-gray-500">
-                <LucideMapPin
-                  className="h-4 w-4 text-gray-400"
-                  strokeWidth={1.5}
-                />
-                تهران
-              </div>
+              {seller.addresses && seller.addresses.length > 0 && (
+                <div className="flex items-center gap-1 text-gray-500">
+                  <LucideMapPin
+                    className="h-4 w-4 text-gray-400"
+                    strokeWidth={1.5}
+                  />
+                  {seller.addresses.at(0)?.city.name}
+                </div>
+              )}
               {/* TODO */}
               {/* <div className="flex items-center gap-1">
               <span className="text-gray-500">عملکرد</span>
@@ -74,8 +75,8 @@ const SellerContactModal = ({
                 >
                   {digitsEnToFa(
                     parsePhoneNumber(
-                      `${seller.contacts.at(0)?.code}${seller.contacts.at(0)
-                        ?.number}`
+                      `+${seller.contacts.at(0)?.country
+                        .phonePrefix}${seller.contacts.at(0)?.number}`
                     )?.formatNational()
                   )}
                 </Link>
@@ -83,21 +84,30 @@ const SellerContactModal = ({
             </div>
           )}
 
-          {seller.addresses && seller.addresses.length > 0 && (
-            <div className="flex items-stretch gap-2 py-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-md bg-cyan-500 text-white">
-                <LucideMapPin className="h-6 w-6" strokeWidth={1.5} />
+          {seller.addresses &&
+            seller.addresses.length > 0 &&
+            seller.addresses.at(0)?.latitude &&
+            seller.addresses.at(0)?.longitude && (
+              <div className="flex items-stretch gap-2 py-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-md bg-cyan-500 text-white">
+                  <LucideMapPin className="h-6 w-6" strokeWidth={1.5} />
+                </div>
+                <div className="flex flex-col gap-4">
+                  <span className="text-sm font-medium leading-none text-gray-500">
+                    موقعیت مکانی
+                  </span>
+                  <Link
+                    href={`https://www.google.com/maps/search/?api=1&query=${seller.addresses.at(
+                      0
+                    )?.latitude},${seller.addresses.at(0)?.longitude}`}
+                    target="_blank"
+                    className="font-bold leading-none text-blue-500"
+                  >
+                    موقعیت مکانی روی نقشه گوگل
+                  </Link>
+                </div>
               </div>
-              <div className="flex flex-col gap-4">
-                <span className="text-sm font-medium leading-none text-gray-500">
-                  موقعیت مکانی
-                </span>
-                <Link href="#" className="font-bold leading-none text-blue-500">
-                  موقعیت مکانی روی نقشه گوگل
-                </Link>
-              </div>
-            </div>
-          )}
+            )}
         </div>
       </DialogContent>
     </Dialog>
