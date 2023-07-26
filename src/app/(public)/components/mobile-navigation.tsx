@@ -11,10 +11,11 @@ import { PublicContext } from "@/app/(public)/components/public-provider"
 type Props = {}
 
 const MobileNavigation = (props: Props) => {
-  const { categoriesFilterVisibilityAtom } = useContext(PublicContext)
-  const [categoriesFilterVisibility, setCategoriesFilterVisibility] = useAtom(
-    categoriesFilterVisibilityAtom
-  )
+  const { globalCategoriesFilterVisibilityAtom } = useContext(PublicContext)
+  const [
+    globalCategoriesFilterVisibility,
+    setGlobalCategoriesFilterVisibility
+  ] = useAtom(globalCategoriesFilterVisibilityAtom)
   return (
     <div>
       <div
@@ -35,7 +36,9 @@ const MobileNavigation = (props: Props) => {
           <Button
             noStyle
             onClick={() =>
-              setCategoriesFilterVisibility(!categoriesFilterVisibility)
+              setGlobalCategoriesFilterVisibility(
+                !globalCategoriesFilterVisibility
+              )
             }
             type="button"
             className="group inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800"

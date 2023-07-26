@@ -1,12 +1,17 @@
 query GetAllCategories($indexCategoryInput: IndexCategoryInput!) {
   categories(indexCategoryInput: $indexCategoryInput) {
-    total
-    perPage
-    currentPage
-    lastPage
-    from
-    to
-    data {
+    title
+    titleEn
+    slug
+    icon
+    sort
+    isActive
+    createdAt
+    updatedAt
+    childrenCount
+    id
+    children {
+      id
       title
       titleEn
       slug
@@ -16,43 +21,30 @@ query GetAllCategories($indexCategoryInput: IndexCategoryInput!) {
       createdAt
       updatedAt
       childrenCount
+    }
+    parentCategory {
       id
-      children {
-        id
-        title
-        titleEn
-        slug
-        icon
-        sort
-        isActive
-        createdAt
-        updatedAt
-        childrenCount
-      }
-      parentCategory {
-        id
-        title
-        titleEn
-        slug
-        icon
-        sort
-        isActive
-        createdAt
-        updatedAt
-        childrenCount
-      }
-      parentsChain {
-        id
-        title
-        titleEn
-        slug
-        icon
-        sort
-        isActive
-        createdAt
-        updatedAt
-        childrenCount
-      }
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
+    }
+    parentsChain {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
     }
   }
 }

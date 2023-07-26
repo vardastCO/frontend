@@ -2,16 +2,27 @@
 
 import { useContext, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import * as Checkbox from "@radix-ui/react-checkbox"
 import * as Dialog from "@radix-ui/react-dialog"
+import * as Label from "@radix-ui/react-label"
 import { useQuery } from "@tanstack/react-query"
 import { useAtom } from "jotai"
-import { LucideArrowRight, LucideChevronLeft } from "lucide-react"
+import { LucideArrowRight, LucideCheck, LucideChevronLeft } from "lucide-react"
 
-import { Category, GetCategoryQuery, GetVocabularyQuery } from "@/generated"
+import {
+  Category,
+  GetAllCategoriesQuery,
+  GetCategoryQuery,
+  GetVocabularyQuery,
+  IndexCategoryInput,
+  InputMaybe
+} from "@/generated"
 
 import { Button } from "@core/components/ui/button"
+import { getAllCategoriesQueryFn } from "@core/queryFns/allCategoriesQueryFns"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
+import { RequireAtLeastOne } from "@core/types/RequireAtLeastOne"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
 interface VocabulariesListProps {
@@ -58,16 +69,25 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
 interface CategoriesListProps {
   categoryId: number
   onCategoryChanged: (category: Category, force: boolean) => void
+  onMounted: (category: Category) => void
 }
 
 const CategoriesList = ({
   onCategoryChanged,
+  onMounted,
   categoryId
 }: CategoriesListProps) => {
   const categoriesQuery = useQuery<GetCategoryQuery>({
     queryKey: ["category", { id: categoryId }],
     queryFn: () => getCategoryQueryFn(categoryId)
   })
+
+  useEffect(() => {
+    if (categoriesQuery.data) {
+      onMounted(categoriesQuery.data.category as Category)
+    }
+  }, [categoriesQuery, onMounted])
+
   if (categoriesQuery.isLoading)
     return (
       <div className="flex animate-pulse flex-col gap-3">
@@ -107,20 +127,105 @@ const CategoriesList = ({
   )
 }
 
-type MobileCategoriesFilterProps = {
-  categoryId?: number
+interface BrandOrSellerCategoriesInterface {
   brandId?: number
   sellerId?: number
+  onCategoryFilterChanged: ({
+    status,
+    value
+  }: { value: InputMaybe<number> } & {
+    status: Checkbox.CheckedState
+  }) => void
+  categoryIdsFilter: InputMaybe<number[]> | undefined
+}
+type BrandOrSellerCategoriesProps = RequireAtLeastOne<
+  BrandOrSellerCategoriesInterface,
+  "brandId" | "sellerId"
+>
+
+const BrandOrSellerCategories = ({
+  brandId,
+  sellerId,
+  onCategoryFilterChanged,
+  categoryIdsFilter
+}: BrandOrSellerCategoriesProps) => {
+  const args: IndexCategoryInput = {}
+  if (brandId) args["brandId"] = brandId
+  if (sellerId) args["sellerId"] = sellerId
+  const { data } = useQuery<GetAllCategoriesQuery>({
+    queryKey: ["categories", args],
+    queryFn: () => getAllCategoriesQueryFn(args)
+  })
+
+  const categories = data ? data.categories : undefined
+
+  return (
+    <div className="flex flex-col gap-3">
+      {categories &&
+        categories.map(
+          (category) =>
+            category && (
+              <Label.Root key={category.id} className="flex items-center gap-2">
+                <Checkbox.Root
+                  className="flex
+                    h-5
+                    w-5
+                    appearance-none
+                    items-center
+                    justify-center
+                    rounded-md
+                    border-2
+                    border-gray-600
+                    bg-white
+                    outline-none
+                    data-[state='checked']:border-brand-500
+                    data-[state='checked']:bg-brand-500"
+                  checked={
+                    !!categoryIdsFilter &&
+                    categoryIdsFilter.some((item) => item === category.id)
+                  }
+                  onCheckedChange={(checked) =>
+                    onCategoryFilterChanged({
+                      status: checked,
+                      value: category.id
+                    })
+                  }
+                >
+                  <Checkbox.Indicator className="text-white">
+                    <LucideCheck className="h-3 w-3" strokeWidth={3} />
+                  </Checkbox.Indicator>
+                </Checkbox.Root>
+                <span className="inline-block leading-none">
+                  {category.title}
+                </span>
+              </Label.Root>
+            )
+        )}
+    </div>
+  )
+}
+
+type MobileCategoriesFilterProps = {
+  categoryId?: InputMaybe<number[]> | undefined
+  brandId?: number
+  sellerId?: number
+  categoryIdsFilter: InputMaybe<number[]> | undefined
+  onCategoryFilterChanged: ({
+    status,
+    value
+  }: { value: InputMaybe<number> } & { status: Checkbox.CheckedState }) => void
 }
 
 const MobileCategoriesFilter = ({
   categoryId,
   brandId,
-  sellerId
+  sellerId,
+  onCategoryFilterChanged,
+  categoryIdsFilter
 }: MobileCategoriesFilterProps) => {
   const { push } = useRouter()
   const { categoriesFilterVisibilityAtom } = useContext(PublicContext)
-  const [categoriesFilterVisibility, setCategoriesFilterVisibility] = useAtom(
+  const [CategoriesFilterVisibility, setCategoriesFilterVisibility] = useAtom(
     categoriesFilterVisibilityAtom
   )
   const [previousCategory, setPreviousCategory] = useState<Category | null>(
@@ -129,17 +234,22 @@ const MobileCategoriesFilter = ({
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   )
+  const [selectedCategoriesFilter, setSelectedCategoriesFilter] =
+    useState<Category | null>(null)
 
   useEffect(() => {
-    if (!categoriesFilterVisibility) {
-      setSelectedCategory(null)
+    if (!CategoriesFilterVisibility) {
+      if (categoryId && categoryId.length === 1 && categoryId[0] !== 0)
+        setSelectedCategory({
+          id: categoryId[0]
+        } as Category)
       setPreviousCategory(null)
     }
-  }, [categoriesFilterVisibility])
+  }, [CategoriesFilterVisibility, categoryId])
 
   return (
     <Dialog.Root
-      open={categoriesFilterVisibility}
+      open={CategoriesFilterVisibility}
       onOpenChange={setCategoriesFilterVisibility}
     >
       <Dialog.Content className="fixed inset-0 z-40 h-[calc(100%-calc(64px+var(--safe-aera-inset-bottom)))] overflow-y-auto overscroll-contain bg-white">
@@ -148,12 +258,19 @@ const MobileCategoriesFilter = ({
             <div className="flex items-center gap-2">
               <Button
                 onClick={() => {
-                  if (!selectedCategory) setCategoriesFilterVisibility(false)
-                  if (selectedCategory && !previousCategory)
-                    setSelectedCategory(null)
-                  if (selectedCategory && previousCategory) {
-                    setSelectedCategory(previousCategory)
-                    setPreviousCategory(selectedCategory.parentCategory || null)
+                  if (!brandId && !sellerId) {
+                    if (!selectedCategory) setCategoriesFilterVisibility(false)
+                    if (selectedCategory && !previousCategory) {
+                      setSelectedCategory(null)
+                    }
+                    if (selectedCategory && previousCategory) {
+                      setSelectedCategory(previousCategory)
+                      setPreviousCategory(
+                        selectedCategory.parentCategory || null
+                      )
+                    }
+                  } else {
+                    setCategoriesFilterVisibility(false)
                   }
                 }}
                 variant="ghost"
@@ -163,32 +280,60 @@ const MobileCategoriesFilter = ({
                 <LucideArrowRight className="h-5 w-5" />
               </Button>
               <div className="font-bold text-gray-800">
-                {selectedCategory ? selectedCategory.title : "همه دسته‌بندی‌ها"}
+                {selectedCategory && !brandId && !sellerId
+                  ? selectedCategory.title
+                  : "همه دسته‌بندی‌ها"}
               </div>
             </div>
           </div>
           <div className="p-4">
-            {selectedCategory ? (
-              <CategoriesList
-                onCategoryChanged={(category, force) => {
-                  category.childrenCount > 0 && !force
-                    ? (setPreviousCategory(selectedCategory),
-                      setSelectedCategory(category))
-                    : (setCategoriesFilterVisibility(false),
-                      push(`/search/${category.id}/${category.title}`))
-                }}
-                categoryId={selectedCategory.id}
-              />
-            ) : (
-              <VocabulariesList
-                onCategoryChanged={(category) => {
-                  category.childrenCount > 0
-                    ? setSelectedCategory(category)
-                    : (setCategoriesFilterVisibility(false),
-                      push(`/search/${category.id}/${category.title}`))
-                }}
+            {brandId && (
+              <BrandOrSellerCategories
+                brandId={brandId}
+                categoryIdsFilter={categoryIdsFilter}
+                onCategoryFilterChanged={onCategoryFilterChanged}
               />
             )}
+            {sellerId && (
+              <BrandOrSellerCategories
+                sellerId={sellerId}
+                categoryIdsFilter={categoryIdsFilter}
+                onCategoryFilterChanged={onCategoryFilterChanged}
+              />
+            )}
+            {!brandId &&
+              !sellerId &&
+              selectedCategory &&
+              selectedCategory.id !== 0 && (
+                <CategoriesList
+                  onMounted={(category) => {
+                    setSelectedCategory(category)
+                    setPreviousCategory(category.parentCategory || null)
+                  }}
+                  onCategoryChanged={(category, force) => {
+                    category.childrenCount > 0 && !force
+                      ? (setPreviousCategory(selectedCategory),
+                        setSelectedCategory(category))
+                      : (setCategoriesFilterVisibility(false),
+                        push(`/search/${category.id}/${category.title}`))
+                  }}
+                  categoryId={selectedCategory.id}
+                />
+              )}
+            {!brandId &&
+              !sellerId &&
+              !selectedCategory &&
+              !sellerId &&
+              !brandId && (
+                <VocabulariesList
+                  onCategoryChanged={(category) => {
+                    category.childrenCount > 0
+                      ? setSelectedCategory(category)
+                      : (setCategoriesFilterVisibility(false),
+                        push(`/search/${category.id}/${category.title}`))
+                  }}
+                />
+              )}
           </div>
         </div>
       </Dialog.Content>

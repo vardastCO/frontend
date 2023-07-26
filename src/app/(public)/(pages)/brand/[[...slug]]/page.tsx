@@ -50,7 +50,9 @@ const BrandIndex = async ({
     args["query"] = searchParams.query as string
 
   if (searchParams.categoryId && searchParams.categoryId.length)
-    args["categoryId"] = +searchParams.categoryId
+    args["categoryIds"] = Array.isArray(searchParams.categoryId)
+      ? searchParams.categoryId.map((item) => +item)
+      : [+searchParams.categoryId]
 
   if (searchParams.orderBy) {
     args["orderBy"] = searchParams.orderBy as ProductSortablesEnum
@@ -61,8 +63,8 @@ const BrandIndex = async ({
 
   if (searchParams) {
     for (const key in searchParams) {
-      if (key.includes("attribute[")) {
-        const regex = /attribute\[(\d+)\]/
+      if (key.includes("attributes[")) {
+        const regex = /attributes\[(\d+)\]/
         const match = key.match(regex)
 
         if (match && match.length === 2) {

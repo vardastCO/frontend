@@ -25,7 +25,7 @@ const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
       <ProductList
         isMobileView={isMobileView}
         args={args}
-        selectedCategoryId={selectedCategoryId}
+        selectedCategoryIds={selectedCategoryId ? [selectedCategoryId] : null}
       />
     </>
   )

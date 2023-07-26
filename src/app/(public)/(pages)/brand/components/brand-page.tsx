@@ -54,7 +54,7 @@ const BrandPage = ({ isMobileView, args, slug }: BrandPageProps) => {
       <ProductList
         args={args}
         isMobileView={isMobileView}
-        selectedCategoryId={args["categoryId"] || 0}
+        selectedCategoryIds={args["categoryIds"] || undefined}
         brandId={+slug[0]}
       />
     </div>

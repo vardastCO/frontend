@@ -11,6 +11,7 @@ import { LucideArrowRight, LucideCheck, LucideChevronLeft } from "lucide-react"
 import {
   Attribute,
   FilterAttribute,
+  InputMaybe,
   useGetAllFilterableAttributesQuery
 } from "@/generated"
 
@@ -115,6 +116,7 @@ const MobileFilterableAttributePage = ({
 }
 
 type MobileFilterableAttributesProps = {
+  selectedCategoryId: InputMaybe<number[]> | undefined
   filterAttributes: FilterAttribute[]
   onFilterAttributesChanged: ({
     status,
@@ -127,7 +129,8 @@ type MobileFilterableAttributesProps = {
 const MobileFilterableAttributes = ({
   onFilterAttributesChanged,
   filterAttributes,
-  onRemoveAllFilters
+  onRemoveAllFilters,
+  selectedCategoryId
 }: MobileFilterableAttributesProps) => {
   const { slug } = useParams()
   const [selectedFilterAttribute, setSelectedFilterAttribute] =
@@ -137,14 +140,18 @@ const MobileFilterableAttributes = ({
     filtersVisibilityAtom
   )
 
-  const selectedCategory = slug && slug[0] ? +slug[0] : 0
-
   const { data, isLoading, error } = useGetAllFilterableAttributesQuery(
     graphqlRequestClient,
     {
       filterableAttributesInput: {
-        categoryId: selectedCategory
+        categoryId:
+          !!selectedCategoryId && selectedCategoryId.length === 1
+            ? selectedCategoryId[0]
+            : 0
       }
+    },
+    {
+      enabled: !!selectedCategoryId && selectedCategoryId.length === 1
     }
   )
 

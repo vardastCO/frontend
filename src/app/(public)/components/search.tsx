@@ -9,7 +9,7 @@ import {
   useLocalStorage
 } from "@mantine/hooks"
 import clsx from "clsx"
-import { LucideLoader2, LucideSearch, LucideTrash, LucideX } from "lucide-react"
+import { LucideSearch, LucideTrash, LucideX } from "lucide-react"
 
 import { useGetSuggestQuery } from "@/generated"
 
@@ -178,8 +178,12 @@ const Search = ({ isMobileView }: SearchProps) => {
 
               {searchQuery.fetchStatus === "fetching" &&
                 searchQuery.status === "loading" && (
-                  <div className="flex items-center justify-center">
-                    <LucideLoader2 className="h-5 w-5 animate-spin text-gray-400" />
+                  <div className="flex animate-pulse flex-col gap-3">
+                    <div className="h-12 w-[30%] rounded-md bg-gray-200"></div>
+                    <div className="h-5 w-[80%] rounded-md bg-gray-200"></div>
+                    <div className="h-5 w-full rounded-md bg-gray-200"></div>
+                    <div className="h-5 w-[90%] rounded-md bg-gray-200"></div>
+                    <div className="h-5 w-[70%] rounded-md bg-gray-200"></div>
                   </div>
                 )}
 
