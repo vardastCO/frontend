@@ -30,7 +30,7 @@ import {
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
-import BrandOrSellerCategoryFilter from "@/app/(public)/components/brand-category-filter"
+import BrandOrSellerCategoryFilter from "@/app/(public)/components/brand-or-seller-category-filter"
 import CategoryFilter from "@/app/(public)/components/category-filter"
 import FiltersContainer from "@/app/(public)/components/filters-container"
 import MobileCategoriesFilter from "@/app/(public)/components/mobile-categories-filter"
@@ -48,7 +48,7 @@ import ProductCard from "./product-card"
 interface ProductListProps {
   isMobileView: RegExpMatchArray | null
   args: IndexProductInput
-  selectedCategoryId: number
+  selectedCategoryIds: InputMaybe<number[]> | undefined
   brandId?: number
   sellerId?: number
 }
@@ -56,7 +56,7 @@ interface ProductListProps {
 const ProductList = ({
   isMobileView,
   args,
-  selectedCategoryId,
+  selectedCategoryIds,
   brandId,
   sellerId
 }: ProductListProps) => {
@@ -70,9 +70,9 @@ const ProductList = ({
   const [filterAttributes, setFilterAtrributes] = useState<FilterAttribute[]>(
     args["attributes"] || []
   )
-  const [categoriesIdFilter, setCategoriesIdFilter] = useState<
-    (typeof args)["categoryId"][]
-  >([args["categoryId"]] || [])
+  const [categoryIdsFilter, setCategoryIdsFilter] = useState<
+    (typeof args)["categoryIds"]
+  >(args["categoryIds"] || [])
   const {
     categoriesFilterVisibilityAtom,
     sortFilterVisibilityAtom,
@@ -88,11 +88,11 @@ const ProductList = ({
     graphqlRequestClient,
     {
       filterableAttributesInput: {
-        categoryId: selectedCategoryId
+        categoryId: selectedCategoryIds ? selectedCategoryIds[0] : 0
       }
     },
     {
-      enabled: !!selectedCategoryId
+      enabled: !!selectedCategoryIds
     }
   )
 
@@ -155,14 +155,16 @@ const ProductList = ({
     })
   }
 
-  const onCategoryIdFilterChanged = ({
+  const onCategoryIdsFilterChanged = ({
     status,
     value
   }: { value: InputMaybe<number> } & { status: CheckedState }) => {
-    setCategoriesIdFilter((values) => {
-      let tmp = values
+    setCategoryIdsFilter((values) => {
+      let tmp: InputMaybe<number[]> = values || []
       if (status === true) {
-        tmp = [...tmp, value]
+        tmp = Array.isArray(tmp)
+          ? ([...tmp, value] as InputMaybe<number[]>)
+          : ([value] as InputMaybe<number[]>)
       } else if (status === false) {
         tmp = tmp.filter((item) => item !== value)
       }
@@ -174,9 +176,11 @@ const ProductList = ({
           params.delete(key)
         }
       }
-      tmp.forEach((item) => {
-        item && params.append(`categoryId`, `${item}`)
-      })
+
+      tmp &&
+        tmp.forEach((item) => {
+          item && params.append(`categoryId`, `${item}`)
+        })
       push(pathname + "?" + params.toString())
 
       return tmp
@@ -190,7 +194,7 @@ const ProductList = ({
       {isMobileView && (
         <>
           <MobileCategoriesFilter
-            categoryId={selectedCategoryId}
+            categoryId={selectedCategoryIds}
             brandId={brandId}
             sellerId={sellerId}
           />
@@ -205,7 +209,8 @@ const ProductList = ({
             }}
           />
           <div className="mt-2 flex items-start gap-2">
-            {selectedCategoryId !== 0 &&
+            {selectedCategoryIds &&
+              selectedCategoryIds.length > 0 &&
               getFilterableAttributesQuery.data &&
               getFilterableAttributesQuery.data.filterableAttributes.filters
                 .length > 0 && (
@@ -282,35 +287,40 @@ const ProductList = ({
                 )}
               </div>
 
-              {selectedCategoryId !== 0 && !brandId && !sellerId && (
-                <CategoryFilter selectedCategoryId={selectedCategoryId} />
-              )}
+              {selectedCategoryIds &&
+                selectedCategoryIds.length === 1 &&
+                !brandId &&
+                !sellerId && (
+                  <CategoryFilter selectedCategoryId={selectedCategoryIds[0]} />
+                )}
 
               {brandId && (
                 <BrandOrSellerCategoryFilter
-                  categoriesIdFilter={categoriesIdFilter}
-                  onCategoryIdFilterChanged={onCategoryIdFilterChanged}
+                  categoryIdsFilter={categoryIdsFilter}
+                  onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
                   brandId={brandId}
                 />
               )}
 
               {sellerId && (
                 <BrandOrSellerCategoryFilter
-                  categoriesIdFilter={categoriesIdFilter}
-                  onCategoryIdFilterChanged={onCategoryIdFilterChanged}
+                  categoryIdsFilter={categoryIdsFilter}
+                  onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
                   sellerId={sellerId}
                 />
               )}
 
-              {selectedCategoryId !== 0 && (
-                <FiltersContainer
-                  selectedCategoryId={selectedCategoryId}
-                  filterAttributes={filterAttributes}
-                  onFilterAttributesChanged={onFilterAttributesChanged}
-                />
-              )}
+              {selectedCategoryIds &&
+                selectedCategoryIds.length === 1 &&
+                selectedCategoryIds[0] !== 0 && (
+                  <FiltersContainer
+                    selectedCategoryId={selectedCategoryIds[0]}
+                    filterAttributes={filterAttributes}
+                    onFilterAttributesChanged={onFilterAttributesChanged}
+                  />
+                )}
 
-              {selectedCategoryId === 0 && !brandId && !sellerId && (
+              {!selectedCategoryIds && !brandId && !sellerId && (
                 <VocabularyFilter />
               )}
             </div>

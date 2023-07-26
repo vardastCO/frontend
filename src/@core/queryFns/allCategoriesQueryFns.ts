@@ -11,7 +11,8 @@ import {
 import { authOptions } from "@core/lib/authOptions"
 
 export const getAllCategoriesQueryFn = async ({
-  brandId
+  brandId,
+  sellerId
 }: IndexCategoryInput = {}): Promise<GetAllCategoriesQuery> => {
   const session =
     typeof window === "undefined"
@@ -23,7 +24,8 @@ export const getAllCategoriesQueryFn = async ({
     GetAllCategoriesDocument,
     {
       indexCategoryInput: {
-        brandId
+        brandId,
+        sellerId
       }
     },
     {

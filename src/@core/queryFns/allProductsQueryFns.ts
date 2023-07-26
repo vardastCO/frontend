@@ -17,7 +17,7 @@ export const getAllProductsQueryFn = async ({
   page,
   brandId,
   attributes,
-  categoryId,
+  categoryIds,
   orderBy
 }: getAllProductsQueryFnArgs = {}): Promise<GetAllProductsQuery> => {
   const session =
@@ -34,7 +34,7 @@ export const getAllProductsQueryFn = async ({
         page,
         brandId,
         attributes,
-        categoryId,
+        categoryIds,
         orderBy
       }
     },

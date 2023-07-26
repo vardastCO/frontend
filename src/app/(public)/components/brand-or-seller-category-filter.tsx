@@ -18,11 +18,13 @@ import FilterBlock from "@/app/(public)/components/filter-block"
 interface BrandCategoryFilterInterface {
   brandId?: number
   sellerId?: number
-  categoriesIdFilter: (InputMaybe<number> | undefined)[]
-  onCategoryIdFilterChanged: ({
+  categoryIdsFilter: InputMaybe<number[]> | undefined
+  onCategoryIdsFilterChanged: ({
     status,
     value
-  }: { value: InputMaybe<number> } & { status: Checkbox.CheckedState }) => void
+  }: { value: InputMaybe<number> } & {
+    status: Checkbox.CheckedState
+  }) => void
 }
 
 type BrandCategoryFilterProps = RequireAtLeastOne<
@@ -33,19 +35,18 @@ type BrandCategoryFilterProps = RequireAtLeastOne<
 const BrandOrSellerCategoryFilter = ({
   brandId,
   sellerId,
-  categoriesIdFilter,
-  onCategoryIdFilterChanged
+  categoryIdsFilter,
+  onCategoryIdsFilterChanged
 }: BrandCategoryFilterProps) => {
   const args: IndexCategoryInput = {}
   if (brandId) args["brandId"] = brandId
-  //   TODO
-  //   if (sellerId) args["sellerId"] = sellerId
+  if (sellerId) args["sellerId"] = sellerId
   const { data } = useQuery<GetAllCategoriesQuery>({
     queryKey: ["categories", args],
     queryFn: () => getAllCategoriesQueryFn(args)
   })
 
-  const categories = data && data.categories ? data.categories.data : undefined
+  const categories = data ? data.categories : undefined
 
   return (
     <FilterBlock title="دسته‌بندی" openDefault={true}>
@@ -73,11 +74,11 @@ const BrandOrSellerCategoryFilter = ({
                     data-[state='checked']:border-brand-500
                     data-[state='checked']:bg-brand-500"
                     checked={
-                      categoriesIdFilter &&
-                      categoriesIdFilter.some((item) => item === category.id)
+                      !!categoryIdsFilter &&
+                      categoryIdsFilter.some((item) => item === category.id)
                     }
                     onCheckedChange={(checked) =>
-                      onCategoryIdFilterChanged({
+                      onCategoryIdsFilterChanged({
                         status: checked,
                         value: category.id
                       })
