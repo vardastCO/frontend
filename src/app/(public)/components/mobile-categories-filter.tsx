@@ -58,16 +58,25 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
 interface CategoriesListProps {
   categoryId: number
   onCategoryChanged: (category: Category, force: boolean) => void
+  onMounted: (category: Category) => void
 }
 
 const CategoriesList = ({
   onCategoryChanged,
+  onMounted,
   categoryId
 }: CategoriesListProps) => {
   const categoriesQuery = useQuery<GetCategoryQuery>({
     queryKey: ["category", { id: categoryId }],
     queryFn: () => getCategoryQueryFn(categoryId)
   })
+
+  useEffect(() => {
+    if (categoriesQuery.data) {
+      onMounted(categoriesQuery.data.category as Category)
+    }
+  }, [categoriesQuery, onMounted])
+
   if (categoriesQuery.isLoading)
     return (
       <div className="flex animate-pulse flex-col gap-3">
@@ -129,13 +138,18 @@ const MobileCategoriesFilter = ({
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   )
+  const [selectedCategoryId, setSelectedCategoryId] = useState<
+    number | undefined
+  >(categoryId)
 
   useEffect(() => {
     if (!CategoriesFilterVisibility) {
       setSelectedCategory(null)
       setPreviousCategory(null)
+    } else {
+      setSelectedCategoryId(categoryId)
     }
-  }, [CategoriesFilterVisibility])
+  }, [CategoriesFilterVisibility, categoryId])
 
   return (
     <Dialog.Root
@@ -149,8 +163,10 @@ const MobileCategoriesFilter = ({
               <Button
                 onClick={() => {
                   if (!selectedCategory) setCategoriesFilterVisibility(false)
-                  if (selectedCategory && !previousCategory)
+                  if (selectedCategory && !previousCategory) {
                     setSelectedCategory(null)
+                    setSelectedCategoryId(undefined)
+                  }
                   if (selectedCategory && previousCategory) {
                     setSelectedCategory(previousCategory)
                     setPreviousCategory(selectedCategory.parentCategory || null)
@@ -168,8 +184,13 @@ const MobileCategoriesFilter = ({
             </div>
           </div>
           <div className="p-4">
-            {selectedCategory ? (
+            {selectedCategory ||
+            (selectedCategoryId && selectedCategoryId !== 0) ? (
               <CategoriesList
+                onMounted={(category) => {
+                  setPreviousCategory(category.parentCategory || null)
+                  setSelectedCategory(category)
+                }}
                 onCategoryChanged={(category, force) => {
                   category.childrenCount > 0 && !force
                     ? (setPreviousCategory(selectedCategory),
@@ -177,7 +198,11 @@ const MobileCategoriesFilter = ({
                     : (setCategoriesFilterVisibility(false),
                       push(`/search/${category.id}/${category.title}`))
                 }}
-                categoryId={selectedCategory.id}
+                categoryId={
+                  selectedCategory
+                    ? selectedCategory.id
+                    : (categoryId as number)
+                }
               />
             ) : (
               <VocabulariesList
