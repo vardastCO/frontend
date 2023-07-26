@@ -63,8 +63,8 @@ const BrandIndex = async ({
 
   if (searchParams) {
     for (const key in searchParams) {
-      if (key.includes("attribute[")) {
-        const regex = /attribute\[(\d+)\]/
+      if (key.includes("attributes[")) {
+        const regex = /attributes\[(\d+)\]/
         const match = key.match(regex)
 
         if (match && match.length === 2) {

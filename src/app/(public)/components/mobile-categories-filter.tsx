@@ -130,6 +130,13 @@ const CategoriesList = ({
 interface BrandOrSellerCategoriesInterface {
   brandId?: number
   sellerId?: number
+  onCategoryFilterChanged: ({
+    status,
+    value
+  }: { value: InputMaybe<number> } & {
+    status: Checkbox.CheckedState
+  }) => void
+  categoryIdsFilter: InputMaybe<number[]> | undefined
 }
 type BrandOrSellerCategoriesProps = RequireAtLeastOne<
   BrandOrSellerCategoriesInterface,
@@ -138,7 +145,9 @@ type BrandOrSellerCategoriesProps = RequireAtLeastOne<
 
 const BrandOrSellerCategories = ({
   brandId,
-  sellerId
+  sellerId,
+  onCategoryFilterChanged,
+  categoryIdsFilter
 }: BrandOrSellerCategoriesProps) => {
   const args: IndexCategoryInput = {}
   if (brandId) args["brandId"] = brandId
@@ -171,16 +180,16 @@ const BrandOrSellerCategories = ({
                     outline-none
                     data-[state='checked']:border-brand-500
                     data-[state='checked']:bg-brand-500"
-                  //   checked={
-                  //     categoriesIdFilter &&
-                  //     categoriesIdFilter.some((item) => item === category.id)
-                  //   }
-                  //   onCheckedChange={(checked) =>
-                  //     onCategoryIdFilterChanged({
-                  //       status: checked,
-                  //       value: category.id
-                  //     })
-                  //   }
+                  checked={
+                    !!categoryIdsFilter &&
+                    categoryIdsFilter.some((item) => item === category.id)
+                  }
+                  onCheckedChange={(checked) =>
+                    onCategoryFilterChanged({
+                      status: checked,
+                      value: category.id
+                    })
+                  }
                 >
                   <Checkbox.Indicator className="text-white">
                     <LucideCheck className="h-3 w-3" strokeWidth={3} />
@@ -200,12 +209,19 @@ type MobileCategoriesFilterProps = {
   categoryId?: InputMaybe<number[]> | undefined
   brandId?: number
   sellerId?: number
+  categoryIdsFilter: InputMaybe<number[]> | undefined
+  onCategoryFilterChanged: ({
+    status,
+    value
+  }: { value: InputMaybe<number> } & { status: Checkbox.CheckedState }) => void
 }
 
 const MobileCategoriesFilter = ({
   categoryId,
   brandId,
-  sellerId
+  sellerId,
+  onCategoryFilterChanged,
+  categoryIdsFilter
 }: MobileCategoriesFilterProps) => {
   const { push } = useRouter()
   const { categoriesFilterVisibilityAtom } = useContext(PublicContext)
@@ -218,6 +234,8 @@ const MobileCategoriesFilter = ({
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   )
+  const [selectedCategoriesFilter, setSelectedCategoriesFilter] =
+    useState<Category | null>(null)
 
   useEffect(() => {
     if (!CategoriesFilterVisibility) {
@@ -240,13 +258,19 @@ const MobileCategoriesFilter = ({
             <div className="flex items-center gap-2">
               <Button
                 onClick={() => {
-                  if (!selectedCategory) setCategoriesFilterVisibility(false)
-                  if (selectedCategory && !previousCategory) {
-                    setSelectedCategory(null)
-                  }
-                  if (selectedCategory && previousCategory) {
-                    setSelectedCategory(previousCategory)
-                    setPreviousCategory(selectedCategory.parentCategory || null)
+                  if (!brandId && !sellerId) {
+                    if (!selectedCategory) setCategoriesFilterVisibility(false)
+                    if (selectedCategory && !previousCategory) {
+                      setSelectedCategory(null)
+                    }
+                    if (selectedCategory && previousCategory) {
+                      setSelectedCategory(previousCategory)
+                      setPreviousCategory(
+                        selectedCategory.parentCategory || null
+                      )
+                    }
+                  } else {
+                    setCategoriesFilterVisibility(false)
                   }
                 }}
                 variant="ghost"
@@ -256,39 +280,60 @@ const MobileCategoriesFilter = ({
                 <LucideArrowRight className="h-5 w-5" />
               </Button>
               <div className="font-bold text-gray-800">
-                {selectedCategory ? selectedCategory.title : "همه دسته‌بندی‌ها"}
+                {selectedCategory && !brandId && !sellerId
+                  ? selectedCategory.title
+                  : "همه دسته‌بندی‌ها"}
               </div>
             </div>
           </div>
           <div className="p-4">
-            {brandId && <BrandOrSellerCategories brandId={brandId} />}
-            {sellerId && <BrandOrSellerCategories sellerId={sellerId} />}
-            {selectedCategory && selectedCategory.id !== 0 && (
-              <CategoriesList
-                onMounted={(category) => {
-                  setSelectedCategory(category)
-                  setPreviousCategory(category.parentCategory || null)
-                }}
-                onCategoryChanged={(category, force) => {
-                  category.childrenCount > 0 && !force
-                    ? (setPreviousCategory(selectedCategory),
-                      setSelectedCategory(category))
-                    : (setCategoriesFilterVisibility(false),
-                      push(`/search/${category.id}/${category.title}`))
-                }}
-                categoryId={selectedCategory.id}
+            {brandId && (
+              <BrandOrSellerCategories
+                brandId={brandId}
+                categoryIdsFilter={categoryIdsFilter}
+                onCategoryFilterChanged={onCategoryFilterChanged}
               />
             )}
-            {!selectedCategory && !sellerId && !brandId && (
-              <VocabulariesList
-                onCategoryChanged={(category) => {
-                  category.childrenCount > 0
-                    ? setSelectedCategory(category)
-                    : (setCategoriesFilterVisibility(false),
-                      push(`/search/${category.id}/${category.title}`))
-                }}
+            {sellerId && (
+              <BrandOrSellerCategories
+                sellerId={sellerId}
+                categoryIdsFilter={categoryIdsFilter}
+                onCategoryFilterChanged={onCategoryFilterChanged}
               />
             )}
+            {!brandId &&
+              !sellerId &&
+              selectedCategory &&
+              selectedCategory.id !== 0 && (
+                <CategoriesList
+                  onMounted={(category) => {
+                    setSelectedCategory(category)
+                    setPreviousCategory(category.parentCategory || null)
+                  }}
+                  onCategoryChanged={(category, force) => {
+                    category.childrenCount > 0 && !force
+                      ? (setPreviousCategory(selectedCategory),
+                        setSelectedCategory(category))
+                      : (setCategoriesFilterVisibility(false),
+                        push(`/search/${category.id}/${category.title}`))
+                  }}
+                  categoryId={selectedCategory.id}
+                />
+              )}
+            {!brandId &&
+              !sellerId &&
+              !selectedCategory &&
+              !sellerId &&
+              !brandId && (
+                <VocabulariesList
+                  onCategoryChanged={(category) => {
+                    category.childrenCount > 0
+                      ? setSelectedCategory(category)
+                      : (setCategoriesFilterVisibility(false),
+                        push(`/search/${category.id}/${category.title}`))
+                  }}
+                />
+              )}
           </div>
         </div>
       </Dialog.Content>

@@ -2,7 +2,7 @@ import { LucidePackageX } from "lucide-react"
 
 const NoProductFound = () => {
   return (
-    <div className="mx-auto flex max-w-xs flex-col">
+    <div className="mx-auto flex max-w-xs flex-col py-8">
       <LucidePackageX className="mb-4 h-10 w-10 text-gray-400" />
       <p className="mb-2 text-lg font-bold text-gray-800">
         کالایی با این مشخصات پیدا نشد

@@ -61,7 +61,7 @@ const ProductList = ({
   sellerId
 }: ProductListProps) => {
   const pathname = usePathname()
-  const searchParams = useSearchParams()!
+  const searchParams = useSearchParams()
   const { push } = useRouter()
   const [currentPage, setCurrentPage] = useState<number>(args.page || 1)
   const [sort, setSort] = useState<ProductSortablesEnum>(
@@ -88,11 +88,14 @@ const ProductList = ({
     graphqlRequestClient,
     {
       filterableAttributesInput: {
-        categoryId: selectedCategoryIds ? selectedCategoryIds[0] : 0
+        categoryId:
+          !!selectedCategoryIds && selectedCategoryIds.length === 1
+            ? selectedCategoryIds[0]
+            : 0
       }
     },
     {
-      enabled: !!selectedCategoryIds
+      enabled: !!selectedCategoryIds && selectedCategoryIds.length === 1
     }
   )
 
@@ -124,6 +127,7 @@ const ProductList = ({
     value
   }: FilterAttribute & { status: CheckedState }) => {
     setFilterAtrributes((values) => {
+      console.log(searchParams)
       let tmp = values
       if (status === true) {
         tmp = [
@@ -142,12 +146,12 @@ const ProductList = ({
       const params = new URLSearchParams(searchParams as any)
       const paramsKeys = params.keys()
       for (const key of paramsKeys) {
-        if (key.includes("attribute")) {
+        if (key.includes("attributes[")) {
           params.delete(key)
         }
       }
       tmp.forEach((attribute) => {
-        params.append(`attribute[${attribute.id}]`, attribute.value)
+        params.append(`attributes[${attribute.id}]`, attribute.value)
       })
       push(pathname + "?" + params.toString())
 
@@ -160,6 +164,7 @@ const ProductList = ({
     value
   }: { value: InputMaybe<number> } & { status: CheckedState }) => {
     setCategoryIdsFilter((values) => {
+      console.log(new URLSearchParams(searchParams as any))
       let tmp: InputMaybe<number[]> = values || []
       if (status === true) {
         tmp = Array.isArray(tmp)
@@ -172,19 +177,40 @@ const ProductList = ({
       const params = new URLSearchParams(searchParams as any)
       const paramsKeys = params.keys()
       for (const key of paramsKeys) {
-        if (key.includes("categoryId")) {
+        if (key.includes("categoryId") || key.includes("attributes[")) {
           params.delete(key)
         }
       }
 
+      setFilterAtrributes([])
+
       tmp &&
-        tmp.forEach((item) => {
-          item && params.append(`categoryId`, `${item}`)
-        })
+        tmp
+          .filter((item, pos) => {
+            return tmp && tmp.indexOf(item) == pos
+          })
+          .forEach((item) => {
+            item && params.append(`categoryId`, `${item}`)
+          })
       push(pathname + "?" + params.toString())
 
       return tmp
     })
+  }
+
+  const removeAllFilters = () => {
+    const params = new URLSearchParams(searchParams as any)
+    const paramsKeys = params.keys()
+    for (const key of paramsKeys) {
+      if (key.includes("categoryId") || key.includes("attributes[")) {
+        params.delete(key)
+      }
+    }
+
+    setFilterAtrributes([])
+    setCategoryIdsFilter(null)
+
+    push(pathname + "?" + params.toString())
   }
 
   if (!data) notFound()
@@ -197,6 +223,11 @@ const ProductList = ({
             categoryId={selectedCategoryIds}
             brandId={brandId}
             sellerId={sellerId}
+            categoryIdsFilter={categoryIdsFilter}
+            onCategoryFilterChanged={({ status, value }) => {
+              onCategoryIdsFilterChanged({ status, value })
+              setCategoriesFilterVisibility(false)
+            }}
           />
           <MobileSortFilter
             sort={sort}
@@ -229,12 +260,13 @@ const ProductList = ({
                   </Button>
                   <MobileFilterableAttributes
                     filterAttributes={filterAttributes}
+                    selectedCategoryId={selectedCategoryIds}
                     onFilterAttributesChanged={({ status, id, value }) => {
                       onFilterAttributesChanged({ status, id, value })
                       setFiltersVisibility(false)
                     }}
                     onRemoveAllFilters={() => {
-                      setFilterAtrributes([])
+                      removeAllFilters()
                       setFiltersVisibility(false)
                     }}
                   />
@@ -280,7 +312,7 @@ const ProductList = ({
                     size="small"
                     noStyle
                     className="ms-auto text-sm text-red-500"
-                    onClick={() => setFilterAtrributes([])}
+                    onClick={() => removeAllFilters()}
                   >
                     حذف همه فیلترها
                   </Button>
