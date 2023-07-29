@@ -1,0 +1,28 @@
+import { dehydrate } from "@tanstack/react-query"
+
+import getQueryClient from "@core/clients/getQueryClient"
+import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
+import { getAllSellersQueryFn } from "@core/queryFns/allSellersQueryFns"
+import SellersPage from "@/app/(public)/(pages)/sellers/components/sellers-page"
+
+interface SellersIndexProps {
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+const SellersIndex = async ({ searchParams }: SellersIndexProps) => {
+  const isMobileView = CheckIsMobileView()
+  const queryClient = getQueryClient()
+
+  await queryClient.prefetchQuery(["sellers"], () => getAllSellersQueryFn())
+
+  const dehydratedState = dehydrate(queryClient)
+
+  return (
+    <ReactQueryHydrate state={dehydratedState}>
+      <SellersPage isMobileView={isMobileView} />
+    </ReactQueryHydrate>
+  )
+}
+
+export default SellersIndex
