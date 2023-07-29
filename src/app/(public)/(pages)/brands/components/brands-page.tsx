@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
@@ -40,12 +41,12 @@ const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
         />
       </div>
 
-      <div>
+      <div className="grid grid-cols-6 gap-6">
         {data.brands.data.map(
           (brand) =>
             brand && (
-              <div key={brand.id}>
-                <div className="relative flex h-16 w-16 items-center justify-center rounded-md border border-gray-200 bg-gray-50 md:h-28 md:w-28">
+              <Link href={`/brand/${brand.id}`} key={brand.id}>
+                <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-gray-200 bg-gray-50">
                   {brand.logoFile ? (
                     <Image
                       src={brand.logoFile.presignedUrl.url as string}
@@ -60,8 +61,10 @@ const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
                     />
                   )}
                 </div>
-                <h2>{brand.name}</h2>
-              </div>
+                <div className="mt-2">
+                  <h2>{brand.name}</h2>
+                </div>
+              </Link>
             )
         )}
       </div>

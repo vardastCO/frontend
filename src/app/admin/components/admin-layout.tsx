@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { ReactNode, Suspense } from "react"
 import { LucidePanelRightClose, LucideSearch } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
@@ -47,6 +47,11 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
               icon: "ruler"
             }
           ]
+        },
+        {
+          title: t("common:sellers"),
+          path: "/admin/sellers",
+          icon: "store"
         }
       ]
     },
@@ -96,7 +101,9 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
   return (
     <div className="app">
       <div className="app-inner">
-        <Sidebar menus={menus} />
+        <Suspense>
+          <Sidebar menus={menus} />
+        </Suspense>
         <div className="app-content">
           <div className="mx-auto flex w-full flex-col">
             <div className="mb-3 flex items-center">
@@ -104,7 +111,9 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
                 <Button variant="ghost" iconOnly>
                   <LucidePanelRightClose className="icon" />
                 </Button>
-                <Breadcrumb />
+                <Suspense>
+                  <Breadcrumb />
+                </Suspense>
               </div>
               <form autoComplete="off" action="" className="mr-auto">
                 <div className="form-control form-control-sm">
