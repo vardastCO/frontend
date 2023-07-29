@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation"
 
-import { Seller } from "@/generated"
+import { Seller, useGetSellerQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
