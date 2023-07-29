@@ -1,10 +1,8 @@
 import { ReactNode, Suspense } from "react"
-import { LucidePanelRightClose, LucideSearch } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import Sidebar from "@core/components/shared/Sidebar"
-import { Button } from "@core/components/ui/button"
 import { NavigationType } from "@core/types/Navigation"
 
 type AdminLayoutComponentProps = {
@@ -108,14 +106,11 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
           <div className="mx-auto flex w-full flex-col">
             <div className="mb-3 flex items-center">
               <div className="flex items-center gap-2">
-                <Button variant="ghost" iconOnly>
-                  <LucidePanelRightClose className="icon" />
-                </Button>
                 <Suspense>
                   <Breadcrumb />
                 </Suspense>
               </div>
-              <form autoComplete="off" action="" className="mr-auto">
+              {/* <form autoComplete="off" action="" className="mr-auto">
                 <div className="form-control form-control-sm">
                   <div className="input-group">
                     <div className="input-inset">
@@ -139,7 +134,7 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
                     </div>
                   </div>
                 </div>
-              </form>
+              </form> */}
             </div>
             <div className="mx-auto w-full max-w-5xl">{children}</div>
           </div>
