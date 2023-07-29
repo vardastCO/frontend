@@ -153,8 +153,8 @@ dependencies:
     specifier: ^0.2.1
     version: 0.2.1(next@13.4.12)(react-dom@18.2.0)(react@18.2.0)
   next-translate:
-    specifier: 2.4.4
-    version: 2.4.4(next@13.4.12)(react@18.2.0)
+    specifier: 2.5.2
+    version: 2.5.2(next@13.4.12)(react@18.2.0)
   nextjs-toploader:
     specifier: ^1.4.2
     version: 1.4.2(next@13.4.12)(react-dom@18.2.0)(react@18.2.0)
@@ -245,8 +245,8 @@ devDependencies:
     specifier: ^5.0.0
     version: 5.0.0(eslint-config-prettier@8.9.0)(eslint@8.46.0)(prettier@3.0.0)
   next-translate-plugin:
-    specifier: 2.4.4
-    version: 2.4.4(next-translate@2.4.4)
+    specifier: 2.5.2
+    version: 2.5.2(next-translate@2.5.2)
   postcss:
     specifier: ^8.4.27
     version: 8.4.27
@@ -7465,19 +7465,19 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /next-translate-plugin@2.4.4(next-translate@2.4.4):
-    resolution: {integrity: sha512-8olUhdy52IPwLlogrs0KP/FijMZ0Ijf+mWLZtOaFJ7vhCWLSKAE0eb9vYBI+N3T3jjyedC+ufo6g/d4Y5e1HBg==}
+  /next-translate-plugin@2.5.2(next-translate@2.5.2):
+    resolution: {integrity: sha512-I2PDkbUM91CrOYNPVxhWxfQituSN62Y6f5EQfrZwtJToWc5HqnKs9dFjyQ+VGY3EXx6rPYgK03MVNtI+pc1HBA==}
     engines: {node: '>=14.15.0'}
     requiresBuild: true
     peerDependencies:
       next-translate: '>= 2.4.1'
     dependencies:
-      next-translate: 2.4.4(next@13.4.12)(react@18.2.0)
+      next-translate: 2.5.2(next@13.4.12)(react@18.2.0)
       typescript: 4.5.2
     dev: true
 
-  /next-translate@2.4.4(next@13.4.12)(react@18.2.0):
-    resolution: {integrity: sha512-WuHT8gSgkIDMyxuvIjRFZMfXjbGz8xjpuEBerChVy+ORkfo9xoUagS2FXyrXORyQmE5ifsWmKVUgiyy9NN5Ygg==}
+  /next-translate@2.5.2(next@13.4.12)(react@18.2.0):
+    resolution: {integrity: sha512-5FusT+XlQGA1BAJaYu3jP8nPs3BDe/8f1u+MVM5CmIqmwOS62jUG5svq7HB4ORC6N6mvsPd7xGi3qxWyAYtwBQ==}
     engines: {node: '>=16.10.0'}
     peerDependencies:
       next: '>= 13.2.5'
