@@ -1,3 +1,4 @@
+import { Metadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
 
 import getQueryClient from "@core/clients/getQueryClient"
@@ -8,6 +9,12 @@ import BrandsPage from "@/app/(public)/(pages)/brands/components/brands-page"
 
 interface BrandsIndexProps {
   searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "برندها"
+  }
 }
 
 const BrandsIndex = async ({ searchParams }: BrandsIndexProps) => {
