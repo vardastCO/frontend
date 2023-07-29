@@ -1,17 +1,36 @@
-query GetAllBrands {
-  brands {
+query GetAllBrands($indexBrandInput: IndexBrandInput) {
+  brands(indexBrandInput: $indexBrandInput) {
     total
     perPage
     currentPage
     lastPage
-    to
     from
+    to
     data {
       id
       name
       slug
       createdAt
       updatedAt
+      logoFile {
+        id
+        uuid
+        modelType
+        modelId
+        name
+        originalName
+        size
+        mimeType
+        disk
+        bucketName
+        orderColumn
+        createdAt
+        updatedAt
+        presignedUrl {
+          url
+          expiresAt
+        }
+      }
     }
   }
 }

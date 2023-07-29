@@ -1,7 +1,7 @@
-import CreateBrand from "./components/CreateBrand"
+import BrandForm from "../components/BrandForm"
 
 const CreateBrandPage = () => {
-  return <CreateBrand />
+  return <BrandForm />
 }
 
 export default CreateBrandPage

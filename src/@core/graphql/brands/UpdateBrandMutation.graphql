@@ -5,5 +5,24 @@ mutation UpdateBrandMutation($updateBrandInput: UpdateBrandInput!) {
     slug
     createdAt
     updatedAt
+    logoFile {
+      id
+      uuid
+      modelType
+      modelId
+      name
+      originalName
+      size
+      mimeType
+      disk
+      bucketName
+      orderColumn
+      createdAt
+      updatedAt
+      presignedUrl {
+        url
+        expiresAt
+      }
+    }
   }
 }

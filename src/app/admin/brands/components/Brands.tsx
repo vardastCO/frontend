@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { notFound, useRouter } from "next/navigation"
+import { LucideWarehouse } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 import { useGetAllBrandsQuery } from "@/generated"
@@ -36,15 +37,23 @@ const Brands = () => {
               brand && (
                 <tr
                   key={brand.id}
-                  onClick={() => router.push(`/admin/users/${brand.id}`)}
+                  onClick={() => router.push(`/admin/brands/${brand.id}`)}
                 >
-                  <td>
-                    <div className="relative aspect-square h-12 w-12 overflow-hidden rounded">
-                      <Image
-                        src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=${brand.name}`}
-                        alt="..."
-                        fill
-                      />
+                  <td className="w-12">
+                    <div className="relative flex aspect-square h-12 w-12 items-center justify-center overflow-hidden rounded bg-gray-50">
+                      {brand.logoFile ? (
+                        <Image
+                          src={brand.logoFile.presignedUrl.url}
+                          alt={brand.name}
+                          fill
+                          className="object-contain"
+                        />
+                      ) : (
+                        <LucideWarehouse
+                          className="h-5 w-5 text-gray-400"
+                          strokeWidth={1.5}
+                        />
+                      )}
                     </div>
                   </td>
                   <td>
