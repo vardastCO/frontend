@@ -1,5 +1,5 @@
-query GetAllCountries($args: IndexCountryInput) {
-  countries(indexCountryInput: $args) {
+query GetAllCountries($indexCountryInput: IndexCountryInput) {
+  countries(indexCountryInput: $indexCountryInput) {
     total
     perPage
     currentPage

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import i18n from "i18n"
 import { pathToRegexp } from "path-to-regexp"
 
+import slugify from "@core/utils/persian-slugify"
+
 export default async function middleware(request: NextRequest) {
   const locale = request.nextUrl.locale || i18n.defaultLocale
   request.nextUrl.searchParams.set("lang", locale)
@@ -15,9 +17,12 @@ export default async function middleware(request: NextRequest) {
     const data = await fetch(`${request.nextUrl.origin}/api/products/${id}`)
     if (data && data.status === 200) {
       const res = await data.json()
-      if (!name || name !== encodeURI(res.product.name)) {
+      if (!name || name !== encodeURI(slugify(res.product.name))) {
         return NextResponse.redirect(
-          new URL(`/p/${res.product?.id}/${res.product?.name}`, request.url),
+          new URL(
+            `/p/${res.product.id}/${slugify(res.product.name)}`,
+            request.url
+          ),
           301
         )
       }
@@ -32,11 +37,13 @@ export default async function middleware(request: NextRequest) {
     const data = await fetch(`${request.nextUrl.origin}/api/categories/${id}`)
     if (data && data.status === 200) {
       const res = await data.json()
-      if (!title || title !== encodeURI(res.category.title)) {
+      if (!title || title !== encodeURI(slugify(res.category.title))) {
         request.nextUrl.searchParams.delete("lang")
         return NextResponse.redirect(
           new URL(
-            `/search/${res.category.id}/${res.category.title}?${request.nextUrl.searchParams}`,
+            `/search/${res.category.id}/${slugify(res.category.title)}?${
+              request.nextUrl.searchParams
+            }`,
             request.url
           ),
           301
@@ -53,11 +60,13 @@ export default async function middleware(request: NextRequest) {
     const data = await fetch(`${request.nextUrl.origin}/api/brands/${id}`)
     if (data && data.status === 200) {
       const res = await data.json()
-      if (!title || title !== encodeURI(res.brand.name)) {
+      if (!title || title !== encodeURI(slugify(res.brand.name))) {
         request.nextUrl.searchParams.delete("lang")
         return NextResponse.redirect(
           new URL(
-            `/brand/${res.brand.id}/${res.brand.name}?${request.nextUrl.searchParams}`,
+            `/brand/${res.brand.id}/${slugify(res.brand.name)}?${
+              request.nextUrl.searchParams
+            }`,
             request.url
           ),
           301
@@ -75,11 +84,13 @@ export default async function middleware(request: NextRequest) {
     if (data && data.status === 200) {
       const res = await data.json()
       console.log(request.url)
-      if (!title || title !== encodeURI(res.seller.name)) {
+      if (!title || title !== encodeURI(slugify(res.seller.name))) {
         request.nextUrl.searchParams.delete("lang")
         return NextResponse.redirect(
           new URL(
-            `/seller/${res.seller.id}/${res.seller.name}?${request.nextUrl.searchParams}`,
+            `/seller/${res.seller.id}/${slugify(res.seller.name)}?${
+              request.nextUrl.searchParams
+            }`,
             request.url
           ),
           301

@@ -24,5 +24,76 @@ query GetBrand($id: Int!) {
         expiresAt
       }
     }
+    contacts {
+      id
+      relatedType
+      relatedId
+      title
+      code
+      number
+      ext
+      type
+      sort
+      isPublic
+      status
+      rejectionReason
+      createdAt
+      updatedAt
+      country {
+        id
+        name
+        nameEn
+        slug
+        alphaTwo
+        iso
+        phonePrefix
+        sort
+        isActive
+        latitude
+        longitude
+        flagEmoji
+        provincesCount
+      }
+    }
+    addresses {
+      id
+      relatedType
+      relatedId
+      title
+      address
+      postalCode
+      latitude
+      longitude
+      sort
+      isPublic
+      status
+      rejectionReason
+      createdAt
+      updatedAt
+      province {
+        id
+        name
+        nameEn
+        slug
+        path
+        sort
+        isActive
+        latitude
+        longitude
+        citiesCount
+      }
+      city {
+        id
+        name
+        nameEn
+        slug
+        type
+        sort
+        isActive
+        latitude
+        longitude
+        areasCount
+      }
+    }
   }
 }

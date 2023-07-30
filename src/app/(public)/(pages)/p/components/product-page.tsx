@@ -207,7 +207,8 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
                           {attribute.name}
                         </span>
                         <span className="font-bold text-gray-700">
-                          {attribute.values.join(", ")}
+                          {attribute.values.join(", ")}{" "}
+                          {attribute.uom && attribute.uom.name}
                         </span>
                       </div>
                     </li>
