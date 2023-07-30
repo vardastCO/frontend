@@ -3,11 +3,12 @@
 import { notFound } from "next/navigation"
 import useTranslation from "next-translate/useTranslation"
 
-import { Brand, useGetBrandQuery } from "@/generated"
+import { Address, Brand, useGetBrandQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
+import PageHeader from "@core/components/shared/PageHeader"
 import {
   Tabs,
   TabsContent,
@@ -15,6 +16,8 @@ import {
   TabsTrigger
 } from "@core/components/ui/tabs"
 import BrandForm from "@/app/admin/brands/components/BrandForm"
+import AddressesTab from "@/app/admin/components/AddressesTab"
+import ContactInfosTab from "@/app/admin/components/ContactInfosTab"
 
 type Props = {
   uuid: string
@@ -31,19 +34,34 @@ const BrandEdit = ({ uuid }: Props) => {
   if (!data) notFound()
 
   return (
-    <Tabs defaultValue="information">
-      <TabsList>
-        <TabsTrigger value="information">{t("common:information")}</TabsTrigger>
-        <TabsTrigger value="permissions">{t("common:addresses")}</TabsTrigger>
-        <TabsTrigger value="permissions">
-          {t("common:contactInfos")}
-        </TabsTrigger>
-      </TabsList>
+    <>
+      <PageHeader title={data.brand.name}></PageHeader>
+      <Tabs defaultValue="information">
+        <TabsList>
+          <TabsTrigger value="information">
+            {t("common:information")}
+          </TabsTrigger>
+          <TabsTrigger value="addresses">{t("common:addresses")}</TabsTrigger>
+          <TabsTrigger value="contactInfos">
+            {t("common:contactInfos")}
+          </TabsTrigger>
+        </TabsList>
 
-      <TabsContent value="information">
-        <BrandForm brand={data.brand as Brand} />
-      </TabsContent>
-    </Tabs>
+        <TabsContent value="information">
+          <BrandForm brand={data.brand as Brand} />
+        </TabsContent>
+        <TabsContent value="addresses">
+          <AddressesTab
+            relatedType="Brand"
+            relatedId={data.brand.id}
+            addresses={data.brand.addresses as Address[]}
+          />
+        </TabsContent>
+        <TabsContent value="contactInfos">
+          <ContactInfosTab />
+        </TabsContent>
+      </Tabs>
+    </>
   )
 }
 

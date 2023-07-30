@@ -16,7 +16,7 @@ import {
   TabsTrigger
 } from "@core/components/ui/tabs"
 
-import UserEditForm from "./UserEditForm"
+import UserForm from "./UserForm"
 import UserPermissionsForm from "./UserPermissionsForm"
 
 type Props = {
@@ -46,7 +46,7 @@ const UserEdit = ({ uuid }: Props) => {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="information">
-          <UserEditForm user={data.user as User} />
+          <UserForm user={data.user as User} />
         </TabsContent>
         <TabsContent value="permissions">
           <UserPermissionsForm

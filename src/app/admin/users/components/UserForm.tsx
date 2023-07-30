@@ -39,7 +39,7 @@ type Props = {
   user: User
 }
 
-const UserEditForm = ({ user }: Props) => {
+const UserForm = ({ user }: Props) => {
   const { t } = useTranslation()
   const [countryId, setCountryId] = useState<string | null>(null)
   const [timezone, setTimezone] = useState<string | null>(null)
@@ -348,4 +348,4 @@ const UserEditForm = ({ user }: Props) => {
   )
 }
 
-export default UserEditForm
+export default UserForm
