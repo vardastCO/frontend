@@ -48,7 +48,7 @@ const SellerEdit = ({ uuid }: Props) => {
         </TabsList>
         <TabsContent value="information">
           <SellerForm seller={data.seller as Seller} />
-        </TabsContent>{" "}
+        </TabsContent>
         <TabsContent value="addresses">
           <AddressesTab
             relatedType="Seller"

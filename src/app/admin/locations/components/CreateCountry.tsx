@@ -138,7 +138,7 @@ const CreateCountry = (props: Props) => {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />{" "}
+                  />
                   <FormField
                     control={form.control}
                     name="nameEn"
@@ -203,7 +203,7 @@ const CreateCountry = (props: Props) => {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />{" "}
+                  />
                   <FormField
                     control={form.control}
                     name="sort"
@@ -222,7 +222,7 @@ const CreateCountry = (props: Props) => {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />{" "}
+                  />
                   <FormField
                     control={form.control}
                     name="isActive"

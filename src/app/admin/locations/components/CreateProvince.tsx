@@ -203,7 +203,6 @@ const CreateProvince = ({ countryId }: Props) => {
                 </div>
               </>
               <DialogFooter>
-                {" "}
                 <div className="flex items-center justify-end gap-2">
                   <Button
                     variant="ghost"
