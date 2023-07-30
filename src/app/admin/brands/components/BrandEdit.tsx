@@ -3,7 +3,7 @@
 import { notFound } from "next/navigation"
 import useTranslation from "next-translate/useTranslation"
 
-import { Address, Brand, useGetBrandQuery } from "@/generated"
+import { Address, Brand, ContactInfo, useGetBrandQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
@@ -58,7 +58,11 @@ const BrandEdit = ({ uuid }: Props) => {
           />
         </TabsContent>
         <TabsContent value="contactInfos">
-          <ContactInfosTab />
+          <ContactInfosTab
+            relatedType="Brand"
+            relatedId={data.brand.id}
+            contactInfos={data.brand.contacts as ContactInfo[]}
+          />
         </TabsContent>
       </Tabs>
     </>

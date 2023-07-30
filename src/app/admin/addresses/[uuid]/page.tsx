@@ -9,7 +9,11 @@ const AddressEditPage = ({
   params: { uuid },
   searchParams
 }: AddressEditPageProps) => {
-  return uuid && <AddressEdit uuid={uuid} fallback={searchParams.fallback} />
+  return (
+    uuid && (
+      <AddressEdit uuid={uuid} fallback={searchParams.fallback as string} />
+    )
+  )
 }
 
 export default AddressEditPage
