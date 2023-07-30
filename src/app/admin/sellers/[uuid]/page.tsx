@@ -1,7 +1,7 @@
-import BrandEdit from "@/app/admin/brands/components/BrandEdit"
+import SellerEdit from "@/app/admin/sellers/components/SellerEdit"
 
 const BrandEditPage = ({ params: { uuid } }: { params: { uuid: string } }) => {
-  return uuid && <BrandEdit uuid={uuid} />
+  return uuid && <SellerEdit uuid={uuid} />
 }
 
 export default BrandEditPage
