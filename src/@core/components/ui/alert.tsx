@@ -4,13 +4,18 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { mergeClasses } from "@core/utils/mergeClasses"
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  "relative w-full rounded-md border p-4 [&>svg~*]:pr-9 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:right-4 [&>svg]:top-4 [&>svg]:text-gray-400",
   {
     variants: {
       variant: {
-        default: "bg-background text-foreground",
-        destructive:
-          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive"
+        default: "bg-white text-gray-700",
+        danger:
+          "bg-red-500/5 border-red-500/20 text-red-600 [&>svg]:text-red-500",
+        warning:
+          "bg-amber-500/5 border-amber-500/20 text-amber-700 [&>svg]:text-amber-500",
+        info: "bg-blue-500/5 border-blue-500/20 text-blue-600 [&>svg]:text-blue-500",
+        success:
+          "bg-emerald-500/5 border-emerald-500/20 text-emerald-700 [&>svg]:text-emerald-500"
       }
     },
     defaultVariants: {

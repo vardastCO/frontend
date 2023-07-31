@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
+  LucideAlertOctagon,
   LucideCheck,
   LucideChevronsUpDown,
   LucideTrash,
@@ -38,6 +39,7 @@ import {
   FormMessage
 } from "@core/components/react-hook-form/form"
 import Card from "@core/components/shared/Card"
+import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Button } from "@core/components/ui/button"
 import { Checkbox } from "@core/components/ui/checkbox"
 import {
@@ -256,7 +258,13 @@ const UserForm = ({ user }: Props) => {
 
   return (
     <Form {...form}>
-      {createUserMutation.isError && <p>خطایی رخ داده!</p>}
+      {createUserMutation.isError && (
+        <Alert variant="danger">
+          <LucideAlertOctagon />
+          <AlertTitle>خطا</AlertTitle>
+          <AlertDescription>خطا رخ داده...</AlertDescription>
+        </Alert>
+      )}
       {updateUserMutation.isError && <p>خطایی رخ داده!</p>}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
