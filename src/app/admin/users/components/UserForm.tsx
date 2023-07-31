@@ -1,13 +1,31 @@
-import { useState } from "react"
+"use client"
+
+import { ChangeEvent, useRef, useState } from "react"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { LucideCheck, LucideChevronsUpDown } from "lucide-react"
+import {
+  LucideCheck,
+  LucideChevronsUpDown,
+  LucideTrash,
+  LucideUser
+} from "lucide-react"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
-import { useGetAllCountriesQuery, User } from "@/generated"
+import {
+  useCreateUserMutation,
+  useGetAllCountriesQuery,
+  User,
+  UserLanguagesEnum,
+  UserStatusesEnum,
+  useUpdateUserMutation
+} from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { enumToKeyValueObject } from "@core/utils/enumToKeyValueObject"
 import { mergeClasses } from "@core/utils/mergeClasses"
 import { timezones } from "@core/utils/timezones"
 import zodI18nMap from "@core/utils/zodErrorMap"
@@ -21,6 +39,7 @@ import {
 } from "@core/components/react-hook-form/form"
 import Card from "@core/components/shared/Card"
 import { Button } from "@core/components/ui/button"
+import { Checkbox } from "@core/components/ui/checkbox"
 import {
   Command,
   CommandEmpty,
@@ -34,21 +53,59 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@core/components/ui/popover"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@core/components/ui/select"
+import { toast } from "@core/hooks/use-toast"
+import { uploadPaths } from "@core/lib/uploadPaths"
 
 type Props = {
-  user: User
+  user?: User
 }
 
 const UserForm = ({ user }: Props) => {
   const { t } = useTranslation()
+  const { data: session } = useSession()
+  const router = useRouter()
   const [countryId, setCountryId] = useState<string | null>(null)
   const [timezone, setTimezone] = useState<string | null>(null)
+  const avatarFileFieldRef = useRef<HTMLInputElement>(null)
+  const [avatarFile, setAvatarFile] = useState<File | null>(null)
+  const [logoAvatar, setAvatarPreview] = useState<string>("")
 
-  const {
-    isLoading,
-    error,
-    data: countries
-  } = useGetAllCountriesQuery(graphqlRequestClient)
+  const token = session?.user?.token || null
+
+  const createUserMutation = useCreateUserMutation(graphqlRequestClient, {
+    onSuccess: () => {
+      toast({
+        description: t("common:entity_added_successfully", {
+          entity: t("common:user")
+        }),
+        duration: 2000,
+        variant: "success"
+      })
+      router.push("/admin/users")
+    }
+  })
+  const updateUserMutation = useUpdateUserMutation(graphqlRequestClient, {
+    onSuccess: () => {
+      toast({
+        description: t("common:entity_added_successfully", {
+          entity: t("common:user")
+        }),
+        duration: 2000,
+        variant: "success"
+      })
+      router.push("/admin/users")
+    }
+  })
+
+  const statuses = enumToKeyValueObject(UserStatusesEnum)
+  const languages = enumToKeyValueObject(UserLanguagesEnum)
 
   z.setErrorMap(zodI18nMap)
   const UserEditFormSchema = z
@@ -56,19 +113,41 @@ const UserForm = ({ user }: Props) => {
       firstName: z.string(),
       lastName: z.string(),
       email: z.string().email().optional().or(z.literal("")),
-      cellphone: z.string().optional(),
-      country: z.string(),
+      cellphone: z.string(),
+      countryId: z.number(),
       timezone: z.string(),
+      mustChangePassword: z.boolean().optional().default(false),
       newPassword: z.string().optional(),
+      password: z.string().optional(),
       repeatPassword: z.string().optional(),
-      currentPassword: z.string().optional()
+      currentPassword: z.string().optional(),
+      status: z.nativeEnum(UserStatusesEnum),
+      language: z.nativeEnum(UserLanguagesEnum),
+      avatarUuid: z.string().optional(),
+      displayRoleId: z.number().default(1)
     })
-    .refine((schema) => (schema.newPassword ? !!schema.repeatPassword : true), {
-      path: ["repeatPassword"],
+    .refine((schema) => (!user ? !!schema.password : true), {
+      path: ["password"],
       message: t("zod:errors.invalid_type_received_undefined")
     })
     .refine(
-      (schema) => (schema.newPassword ? !!schema.currentPassword : true),
+      (schema) =>
+        user && schema.mustChangePassword ? !!schema.newPassword : true,
+      {
+        path: ["newPassword"],
+        message: t("zod:errors.invalid_type_received_undefined")
+      }
+    )
+    .refine(
+      (schema) => (user && schema.newPassword ? !!schema.repeatPassword : true),
+      {
+        path: ["repeatPassword"],
+        message: t("zod:errors.invalid_type_received_undefined")
+      }
+    )
+    .refine(
+      (schema) =>
+        user && schema.newPassword ? !!schema.currentPassword : true,
       {
         path: ["currentPassword"],
         message: t("zod:errors.invalid_type_received_undefined")
@@ -83,20 +162,118 @@ const UserForm = ({ user }: Props) => {
   const form = useForm<UserEditForm>({
     resolver: zodResolver(UserEditFormSchema),
     defaultValues: {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email || "",
-      cellphone: user.cellphone as string,
-      country: user.country.slug,
-      timezone: user.timezone.toLowerCase()
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      email: user?.email || "",
+      cellphone: user?.cellphone || "",
+      countryId: user?.country.id,
+      timezone: user?.timezone.toLowerCase() || "asia/tehran",
+      language: user?.language || UserLanguagesEnum.Farsi,
+      mustChangePassword: user?.mustChangePassword,
+      displayRoleId: user?.displayRole.id,
+      status: user?.status || UserStatusesEnum.Active
     }
   })
 
-  function onSubmit(data: UserEditForm) {}
+  const onAvatarFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const fileToUpload = event.target.files[0]
+      const formData = new FormData()
+      formData.append("directoryPath", uploadPaths.userAvatar)
+      formData.append("file", fileToUpload)
+      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/base/storage/file`, {
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${token}`
+        },
+        body: formData
+      }).then(async (response) => {
+        if (!response.ok) {
+        }
+
+        const uploadResult = await response.json()
+        form.setValue("avatarUuid", uploadResult.uuid)
+
+        setAvatarFile(fileToUpload)
+        setAvatarPreview(URL.createObjectURL(fileToUpload))
+      })
+    }
+  }
+
+  function onSubmit(data: UserEditForm) {
+    const {
+      firstName,
+      lastName,
+      email,
+      cellphone,
+      countryId,
+      timezone,
+      status,
+      language,
+      newPassword,
+      mustChangePassword,
+      displayRoleId,
+      password
+    } = data
+    if (user) {
+      updateUserMutation.mutate({
+        updateUserInput: {
+          id: user.id,
+          firstName,
+          lastName,
+          email,
+          cellphone,
+          countryId,
+          timezone,
+          status,
+          language
+        }
+      })
+    } else {
+      createUserMutation.mutate({
+        createUserInput: {
+          firstName,
+          lastName,
+          email,
+          cellphone,
+          countryId,
+          timezone,
+          status,
+          language,
+          password: password as string,
+          mustChangePassword,
+          displayRoleId: 1
+        }
+      })
+    }
+  }
+
+  const countries = useGetAllCountriesQuery(graphqlRequestClient, {
+    indexCountryInput: {
+      isActive: true
+    }
+  })
 
   return (
     <Form {...form}>
+      {createUserMutation.isError && <p>خطایی رخ داده!</p>}
+      {updateUserMutation.isError && <p>خطایی رخ داده!</p>}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+        <div className="mb-6 mt-8 flex items-end justify-between">
+          <h1 className="text-3xl font-black text-gray-800">
+            {user
+              ? t("common:edit_entity", { entity: t("common:user") })
+              : t("common:new_entity", { entity: t("common:user") })}
+          </h1>
+          <Button
+            className="sticky top-0"
+            type="submit"
+            loading={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting}
+          >
+            {t("common:save_entity", { entity: t("common:user") })}
+          </Button>
+        </div>
         <div className="flex flex-col gap-8">
           <Card template="1/2" title={t("common:personal_information")}>
             <div className="grid grid-cols-2 gap-6">
@@ -154,11 +331,67 @@ const UserForm = ({ user }: Props) => {
               />
             </div>
           </Card>
+
+          <Card template="1/2" title={t("common:avatar")}>
+            <div className="flex items-end gap-6">
+              <Input
+                type="file"
+                onChange={(e) => onAvatarFileChange(e)}
+                className="hidden"
+                accept="image/*"
+                ref={avatarFileFieldRef}
+              />
+              <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-gray-200">
+                {logoAvatar ? (
+                  <Image
+                    src={logoAvatar}
+                    fill
+                    alt="..."
+                    className="object-contain p-3"
+                  />
+                ) : (
+                  <LucideUser
+                    className="h-8 w-8 text-gray-400"
+                    strokeWidth={1.5}
+                  />
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="secondary"
+                  type="button"
+                  onClick={() => {
+                    avatarFileFieldRef.current?.click()
+                  }}
+                >
+                  {avatarFile
+                    ? avatarFile.name
+                    : t("common:choose_entity_file", {
+                        entity: t("common:avatar")
+                      })}
+                </Button>
+                {logoAvatar && (
+                  <Button
+                    variant="danger"
+                    iconOnly
+                    onClick={() => {
+                      form.setValue("avatarUuid", "")
+                      setAvatarFile(null)
+                      setAvatarPreview("")
+                    }}
+                  >
+                    <LucideTrash className="icon" />
+                  </Button>
+                )}
+              </div>
+            </div>
+          </Card>
+
           <Card template="1/2" title={t("common:settings")}>
             <div className="grid grid-cols-2 gap-6">
               <FormField
                 control={form.control}
-                name="country"
+                name="countryId"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("common:country")}</FormLabel>
@@ -166,14 +399,15 @@ const UserForm = ({ user }: Props) => {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
+                            disabled={countries.isLoading || countries.isError}
                             noStyle
                             role="combobox"
                             className="input-field flex items-center text-start"
                           >
                             {field.value
-                              ? countries?.countries.data.find(
+                              ? countries.data?.countries.data.find(
                                   (country) =>
-                                    country && country.slug === field.value
+                                    country && country.id === field.value
                                 )?.name
                               : t("common:choose_entity", {
                                   entity: t("common:country")
@@ -195,20 +429,27 @@ const UserForm = ({ user }: Props) => {
                             })}
                           </CommandEmpty>
                           <CommandGroup>
-                            {countries?.countries.data.map(
+                            {countries.data?.countries.data.map(
                               (country) =>
                                 country && (
                                   <CommandItem
-                                    value={country.slug}
+                                    value={country.name}
                                     key={country.id}
                                     onSelect={(value) => {
-                                      form.setValue("country", value)
+                                      const selected =
+                                        countries.data?.countries.data.find(
+                                          (item) => item?.name === value
+                                        )
+                                      form.setValue(
+                                        "countryId",
+                                        selected?.id || 0
+                                      )
                                     }}
                                   >
                                     <LucideCheck
                                       className={mergeClasses(
                                         "mr-2 h-4 w-4",
-                                        country.slug === field.value
+                                        country.id === field.value
                                           ? "opacity-100"
                                           : "opacity-0"
                                       )}
@@ -291,45 +532,64 @@ const UserForm = ({ user }: Props) => {
                   </FormItem>
                 )}
               />
-            </div>
-          </Card>
-          <Card template="1/2" title={t("common:password")}>
-            <div className="grid grid-cols-2 gap-6">
               <FormField
                 control={form.control}
-                name="newPassword"
+                name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("common:new_password")}</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="password" />
-                    </FormControl>
+                    <FormLabel>{t("common:status")}</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        form.setValue("status", value as UserStatusesEnum)
+                      }}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={t("common:select_placeholder")}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.keys(statuses).map((type) => (
+                          <SelectItem value={statuses[type]} key={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name="repeatPassword"
+                name="language"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("common:repeat_password")}</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="password" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="currentPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:current_password")}</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="password" />
-                    </FormControl>
+                    <FormLabel>{t("common:language")}</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        form.setValue("language", value as UserLanguagesEnum)
+                      }}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={t("common:select_placeholder")}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.keys(languages).map((type) => (
+                          <SelectItem value={languages[type]} key={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -337,11 +597,87 @@ const UserForm = ({ user }: Props) => {
             </div>
           </Card>
 
-          <div className="flex items-center justify-end gap-2">
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              {t("common:submit")}
-            </Button>
-          </div>
+          <Card template="1/2" title={t("common:password")}>
+            {user ? (
+              <>
+                <FormField
+                  control={form.control}
+                  name="mustChangePassword"
+                  render={({ field }) => (
+                    <FormItem className="checkbox-field">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel>{t("common:change_password")}</FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {form.watch("mustChangePassword") === true && (
+                  <div className="mt-6 grid grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="newPassword"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t("common:new_password")}</FormLabel>
+                          <FormControl>
+                            <Input {...field} type="password" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="repeatPassword"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t("common:repeat_password")}</FormLabel>
+                          <FormControl>
+                            <Input {...field} type="password" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="currentPassword"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t("common:current_password")}</FormLabel>
+                          <FormControl>
+                            <Input {...field} type="password" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:password")}</FormLabel>
+                      <FormControl>
+                        <Input {...field} type="password" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
+          </Card>
         </div>
       </form>
     </Form>

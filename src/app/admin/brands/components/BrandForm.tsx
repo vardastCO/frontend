@@ -229,7 +229,11 @@ const BrandForm = ({ brand }: BrandFormProps) => {
                     logoFileFieldRef.current?.click()
                   }}
                 >
-                  {logoFile ? logoFile.name : "انتخاب فایل لوگو"}
+                  {logoFile
+                    ? logoFile.name
+                    : t("common:choose_entity_file", {
+                        entity: t("common:logo")
+                      })}
                 </Button>
                 {logoPreview && (
                   <Button

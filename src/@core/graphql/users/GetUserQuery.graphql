@@ -52,5 +52,14 @@ query GetUser($id: Int, $uuid: String) {
       field
       conditions
     }
+    displayRole {
+      id
+      name
+      displayName
+      description
+      isActive
+      createdAt
+      updatedAt
+    }
   }
 }

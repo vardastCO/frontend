@@ -5,7 +5,7 @@ import clsx from "clsx"
 import parsePhoneNumber from "libphonenumber-js"
 import useTranslation from "next-translate/useTranslation"
 
-import { useGetAllUsersQuery } from "@/generated"
+import { useGetAllUsersQuery, UserStatusesEnum } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
@@ -32,6 +32,7 @@ const Users = (props: Props) => {
             <th></th>
             <th>{t("common:email")}</th>
             <th>{t("common:cellphone")}</th>
+            <th>{t("common:status")}</th>
           </tr>
         </thead>
         <tbody>
@@ -100,6 +101,23 @@ const Users = (props: Props) => {
                         "--"
                       )}
                     </div>
+                  </td>
+                  <td>
+                    {user.status === UserStatusesEnum.Active && (
+                      <span className="tag tag-light tag-sm tag-success">
+                        {t("common:active")}
+                      </span>
+                    )}
+                    {user.status === UserStatusesEnum.Banned && (
+                      <span className="tag tag-light tag-sm tag-danger">
+                        {t("common:banned")}
+                      </span>
+                    )}
+                    {user.status === UserStatusesEnum.NotActivated && (
+                      <span className="tag tag-light tag-sm tag-gray">
+                        {t("common:not_active")}
+                      </span>
+                    )}
                   </td>
                 </tr>
               )
