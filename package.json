@@ -65,7 +65,7 @@
         "eslint-config-next": "13.4.12",
         "graphql": "^16.7.1",
         "graphql-request": "^6.1.0",
-        "jotai": "^2.2.2",
+        "jotai": "^2.2.3",
         "libphonenumber-js": "^1.10.38",
         "lucide-react": "^0.263.1",
         "next": "13.4.12",
