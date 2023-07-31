@@ -45,7 +45,7 @@ const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
         {data.brands.data.map(
           (brand) =>
             brand && (
-              <Link href={`/brand/${brand.id}`} key={brand.id}>
+              <Link href={`/brand/${brand.id}`} key={brand.id} prefetch={false}>
                 <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-gray-200 bg-gray-50">
                   {brand.logoFile ? (
                     <Image

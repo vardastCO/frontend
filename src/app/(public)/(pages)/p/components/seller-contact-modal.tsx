@@ -102,6 +102,7 @@ const SellerContactModal = ({
                     )?.latitude},${seller.addresses.at(0)?.longitude}`}
                     target="_blank"
                     className="font-bold leading-none text-blue-500"
+                    prefetch={false}
                   >
                     موقعیت مکانی روی نقشه گوگل
                   </Link>
