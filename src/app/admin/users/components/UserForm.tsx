@@ -4,6 +4,7 @@ import { ChangeEvent, useRef, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ClientError } from "graphql-request"
 import {
   LucideAlertOctagon,
   LucideCheck,
@@ -73,6 +74,7 @@ const UserForm = ({ user }: Props) => {
   const { t } = useTranslation()
   const { data: session } = useSession()
   const router = useRouter()
+  const [errors, setErrors] = useState<ClientError>()
   const [countryId, setCountryId] = useState<string | null>(null)
   const [timezone, setTimezone] = useState<string | null>(null)
   const avatarFileFieldRef = useRef<HTMLInputElement>(null)
@@ -82,6 +84,9 @@ const UserForm = ({ user }: Props) => {
   const token = session?.user?.token || null
 
   const createUserMutation = useCreateUserMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
     onSuccess: () => {
       toast({
         description: t("common:entity_added_successfully", {
@@ -94,6 +99,9 @@ const UserForm = ({ user }: Props) => {
     }
   })
   const updateUserMutation = useUpdateUserMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
     onSuccess: () => {
       toast({
         description: t("common:entity_added_successfully", {
@@ -258,14 +266,20 @@ const UserForm = ({ user }: Props) => {
 
   return (
     <Form {...form}>
-      {createUserMutation.isError && (
+      {errors && (
         <Alert variant="danger">
           <LucideAlertOctagon />
           <AlertTitle>خطا</AlertTitle>
-          <AlertDescription>خطا رخ داده...</AlertDescription>
+          <AlertDescription>
+            {(
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => (
+              <p key={error}>{error}</p>
+            ))}
+          </AlertDescription>
         </Alert>
       )}
-      {updateUserMutation.isError && <p>خطایی رخ داده!</p>}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
           <h1 className="text-3xl font-black text-gray-800">
