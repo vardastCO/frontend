@@ -14,6 +14,7 @@ const CategoryFilterItem = ({ category }: CategoryFilterItemProps) => {
       <Link
         href={encodeURI(`/search/${category.id}/${category.title}`)}
         className="py-2 text-gray-700 hover:text-brand-500"
+        prefetch={false}
       >
         {category.title}
       </Link>
