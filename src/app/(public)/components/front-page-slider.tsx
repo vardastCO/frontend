@@ -1,0 +1,59 @@
+"use client"
+
+import can from "@/assets/images/banners/can.jpg"
+import kasra from "@/assets/images/banners/kasra.jpg"
+import lg from "@/assets/images/banners/lg.jpg"
+import shoder from "@/assets/images/banners/shoder.jpg"
+import stealalborz from "@/assets/images/banners/stealalborz.jpg"
+
+import "swiper/css"
+import "swiper/css/pagination"
+
+import { CSSProperties } from "react"
+import Image from "next/image"
+import { Pagination } from "swiper/modules"
+import { Swiper, SwiperSlide } from "swiper/react"
+
+type Props = {}
+
+const FrontPageSlider = (props: Props) => {
+  return (
+    <div className="mx-auto mt-12 max-w-[768px] overflow-hidden rounded-md">
+      <Swiper
+        style={
+          {
+            "--swiper-pagination-color": "#fff",
+            "--swiper-pagination-bullet-inactive-color": "rgba(0,0,0,.3)",
+            "--swiper-pagination-bullet-inactive-opacity": "1",
+            "--swiper-pagination-bullet-size": "8px",
+            "--swiper-pagination-bullet-horizontal-gap": "6px"
+          } as CSSProperties
+        }
+        dir="rtl"
+        spaceBetween={50}
+        slidesPerView={1}
+        loop={true}
+        pagination={true}
+        modules={[Pagination]}
+      >
+        <SwiperSlide>
+          <Image src={can} alt="هود کن" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <Image src={kasra} alt="شیرآلات کسری" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <Image src={lg} alt="ال جی" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <Image src={shoder} alt="شودر" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <Image src={stealalborz} alt="استیل البرز" />
+        </SwiperSlide>
+      </Swiper>
+    </div>
+  )
+}
+
+export default FrontPageSlider
