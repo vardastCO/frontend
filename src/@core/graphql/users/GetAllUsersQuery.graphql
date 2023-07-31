@@ -1,5 +1,5 @@
-query GetAllUsers {
-  users {
+query GetAllUsers($indexUserInput: IndexUserInput) {
+  users(indexUserInput: $indexUserInput) {
     total
     perPage
     currentPage

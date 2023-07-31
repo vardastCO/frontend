@@ -1,14 +1,24 @@
-import { User } from "@/generated"
+import { User as BaseUser } from "@/generated"
 
 import "next-auth"
 
 declare module "next-auth" {
-  // interface User extends LoginUserMutation { }
   interface Session {
-    user?: {
-      token?: string
-      expires?: number
-      profile: User
-    }
+    accessToken?: string
+    refreshToken?: string
+    accessTokenTtl?: number
+    refreshTokenTtl?: number
+    error?: string
+    profile: BaseUser
+  }
+}
+
+declare module "next-auth" {
+  interface User {
+    accessToken?: string
+    refreshToken?: string
+    accessTokenTtl?: number
+    refreshTokenTtl?: number
+    profile: BaseUser
   }
 }

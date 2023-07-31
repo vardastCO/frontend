@@ -25,7 +25,7 @@ const Dropzone = ({ uploadPath, onAddition, onDelete }: DropzoneProps) => {
   const { t } = useTranslation()
   const [files, setFiles] = useState<FilesWithPreview[]>([])
 
-  const token = session?.user?.token || null
+  const token = session?.accessToken || null
 
   const uploadFile = useCallback(
     (fileToUpload: FilesWithPreview) => {

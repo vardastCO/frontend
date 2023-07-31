@@ -81,22 +81,20 @@ const UserMenu = () => {
               className="flex w-full items-center gap-2 text-start outline-none focus-visible:outline-none"
             >
               <Avatar>
-                {session.user.profile.avatarFile && (
+                {session.profile.avatarFile && (
                   <AvatarImage
-                    src={session.user.profile.avatarFile.presignedUrl.url}
-                    alt={session.user.profile.fullName || ""}
+                    src={session.profile.avatarFile.presignedUrl.url}
+                    alt={session.profile.fullName || ""}
                   />
                 )}
-                <AvatarFallback>
-                  {session.user.profile.firstName[0]}
-                </AvatarFallback>
+                <AvatarFallback>{session.profile.firstName[0]}</AvatarFallback>
               </Avatar>
               <div className="flex flex-1 flex-col truncate">
                 <span className="truncate font-medium text-gray-800">
-                  {session.user.profile.fullName}
+                  {session.profile.fullName}
                 </span>
                 <span className="truncate text-sm text-gray-500">
-                  {session.user.profile.email}
+                  {session.profile.email}
                 </span>
               </div>
               <LucideChevronsUpDown className="h-3 w-3 text-gray-600" />

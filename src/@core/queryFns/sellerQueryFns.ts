@@ -19,7 +19,7 @@ export const getSellerQueryFn = async (id: number): Promise<GetSellerQuery> => {
       id: +id
     },
     {
-      authorization: `Bearer ${session?.user?.token}`
+      authorization: `Bearer ${session?.accessToken}`
     }
   )
 }

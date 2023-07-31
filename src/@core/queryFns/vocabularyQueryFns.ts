@@ -21,7 +21,7 @@ export const getVocabularyQueryFn = async (
       slug
     },
     {
-      authorization: `Bearer ${session?.user?.token}`
+      authorization: `Bearer ${session?.accessToken}`
     }
   )
 }

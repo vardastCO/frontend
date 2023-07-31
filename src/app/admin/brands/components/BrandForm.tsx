@@ -49,7 +49,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [logoPreview, setLogoPreview] = useState<string>("")
 
-  const token = session?.user?.token || null
+  const token = session?.accessToken || null
 
   const createBrandMutation = useCreateBrandMutation(graphqlRequestClient, {
     onError: (errors: ClientError) => {

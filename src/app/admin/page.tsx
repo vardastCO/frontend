@@ -7,7 +7,6 @@ export const metadata: Metadata = {
 
 const AdminIndex = () => {
   //   const { data: session } = useSession()
-  //   console.log(session)
 
   return <>admin</>
 }

@@ -83,7 +83,6 @@ export default async function middleware(request: NextRequest) {
     const data = await fetch(`${request.nextUrl.origin}/api/sellers/${id}`)
     if (data && data.status === 200) {
       const res = await data.json()
-      console.log(request.url)
       if (!title || title !== encodeURI(slugify(res.seller.name))) {
         request.nextUrl.searchParams.delete("lang")
         return NextResponse.redirect(

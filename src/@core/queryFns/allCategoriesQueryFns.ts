@@ -29,7 +29,7 @@ export const getAllCategoriesQueryFn = async ({
       }
     },
     {
-      authorization: `Bearer ${session?.user?.token}`
+      authorization: `Bearer ${session?.accessToken}`
     }
   )
 }

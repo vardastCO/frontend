@@ -81,7 +81,7 @@ const UserForm = ({ user }: Props) => {
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [logoAvatar, setAvatarPreview] = useState<string>("")
 
-  const token = session?.user?.token || null
+  const token = session?.accessToken || null
 
   const createUserMutation = useCreateUserMutation(graphqlRequestClient, {
     onError: (errors: ClientError) => {
@@ -223,7 +223,8 @@ const UserForm = ({ user }: Props) => {
       newPassword,
       mustChangePassword,
       displayRoleId,
-      password
+      password,
+      avatarUuid
     } = data
     if (user) {
       updateUserMutation.mutate({
@@ -236,7 +237,8 @@ const UserForm = ({ user }: Props) => {
           countryId,
           timezone,
           status,
-          language
+          language,
+          avatarUuid
         }
       })
     } else {
@@ -252,7 +254,8 @@ const UserForm = ({ user }: Props) => {
           language,
           password: password as string,
           mustChangePassword,
-          displayRoleId: 1
+          displayRoleId: 1,
+          avatarUuid
         }
       })
     }

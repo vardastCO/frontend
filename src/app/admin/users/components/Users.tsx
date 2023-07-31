@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation"
 import clsx from "clsx"
 import parsePhoneNumber from "libphonenumber-js"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import { useGetAllUsersQuery, UserStatusesEnum } from "@/generated"
@@ -18,6 +19,7 @@ type Props = {}
 const Users = (props: Props) => {
   const { t } = useTranslation()
   const router = useRouter()
+  const { data: session } = useSession()
   const { isLoading, error, data } = useGetAllUsersQuery(graphqlRequestClient)
 
   if (isLoading) return <Loading />

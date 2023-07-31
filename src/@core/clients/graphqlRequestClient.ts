@@ -4,7 +4,7 @@ import { getSession } from "next-auth/react"
 
 const requestMiddleware: RequestMiddleware = async (request) => {
   const session = await getSession()
-  const token = session?.user?.token || null
+  const token = session?.accessToken || null
 
   return {
     ...request,
