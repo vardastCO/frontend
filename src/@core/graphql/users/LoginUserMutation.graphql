@@ -18,12 +18,6 @@ mutation LoginUser($loginInput: LoginInput!) {
       lastPasswordChangeAt
       language
       timezone
-      country {
-        id
-        name
-        nameEn
-        slug
-      }
       status
       suspensionReason
       customDisplayRole
@@ -37,6 +31,78 @@ mutation LoginUser($loginInput: LoginInput!) {
       createdAt
       updatedAt
       fullName
+      avatarFile {
+        id
+        uuid
+        modelType
+        modelId
+        name
+        originalName
+        size
+        mimeType
+        disk
+        bucketName
+        orderColumn
+        createdAt
+        updatedAt
+        presignedUrl {
+          url
+          expiresAt
+        }
+      }
+      permissions {
+        id
+        name
+        displayName
+        action
+        subject
+        field
+        conditions
+      }
+      roles {
+        id
+        name
+        displayName
+        description
+        isActive
+        createdAt
+        updatedAt
+      }
+      displayRole {
+        id
+        name
+        displayName
+        description
+        isActive
+        createdAt
+        updatedAt
+      }
+      sessions {
+        id
+        agent
+        loginIp
+        lastActiveIp
+        lastActivityAt
+        deletionReason
+        createdAt
+        deletedAt
+      }
+      country {
+        id
+        name
+        nameEn
+        slug
+        alphaTwo
+        iso
+        phonePrefix
+        sort
+        isActive
+        latitude
+        longitude
+        flagEmoji
+        provincesCount
+      }
     }
+    abilities
   }
 }

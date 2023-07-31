@@ -40,6 +40,25 @@ query GetAllUsers {
       createdAt
       updatedAt
       fullName
+      avatarFile {
+        id
+        uuid
+        modelType
+        modelId
+        name
+        originalName
+        size
+        mimeType
+        disk
+        bucketName
+        orderColumn
+        createdAt
+        updatedAt
+        presignedUrl {
+          url
+          expiresAt
+        }
+      }
     }
   }
 }

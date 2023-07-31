@@ -44,11 +44,14 @@ const Users = (props: Props) => {
                 >
                   <td>
                     <Avatar size="small">
-                      <AvatarImage
-                        src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=${user.fullName}`}
-                        alt={user.fullName}
-                      />
-                      <AvatarFallback>{user.fullName}</AvatarFallback>
+                      {user.avatarFile && (
+                        <AvatarImage
+                          src={user.avatarFile.presignedUrl.url}
+                          alt={user.fullName}
+                        />
+                      )}
+
+                      <AvatarFallback>{user.firstName[0]}</AvatarFallback>
                     </Avatar>
                     <span className="ms-2 font-medium text-gray-800">
                       {user.fullName}
@@ -56,7 +59,7 @@ const Users = (props: Props) => {
                   </td>
                   <td>
                     <div className="flex items-center gap-2">
-                      {user.email && (
+                      {user.email ? (
                         <>
                           <span
                             className={clsx(
@@ -70,12 +73,14 @@ const Users = (props: Props) => {
                             {user.email}
                           </span>
                         </>
+                      ) : (
+                        "--"
                       )}
                     </div>
                   </td>
                   <td>
                     <div className="flex items-center gap-2">
-                      {user.cellphone && (
+                      {user.cellphone ? (
                         <>
                           <span
                             className={clsx(
@@ -91,6 +96,8 @@ const Users = (props: Props) => {
                             )?.formatInternational()}
                           </span>
                         </>
+                      ) : (
+                        "--"
                       )}
                     </div>
                   </td>
