@@ -72,7 +72,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
     },
     onSuccess: () => {
       toast({
-        description: t("common:entity_added_successfully", {
+        description: t("common:entity_updated_successfully", {
           entity: t("common:brand")
         }),
         duration: 2000,
@@ -230,9 +230,12 @@ const BrandForm = ({ brand }: BrandFormProps) => {
                 ref={logoFileFieldRef}
               />
               <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-gray-200">
-                {logoPreview ? (
+                {logoPreview || brand?.logoFile ? (
                   <Image
-                    src={logoPreview}
+                    src={
+                      logoPreview ||
+                      (brand?.logoFile?.presignedUrl.url as string)
+                    }
                     fill
                     alt="..."
                     className="object-contain p-3"
