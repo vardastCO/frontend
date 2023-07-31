@@ -2,7 +2,44 @@ import { GraphQLClient } from "graphql-request"
 import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
-import { LoginUserDocument, LoginUserMutation } from "@/generated"
+import {
+  LoginUserDocument,
+  LoginUserMutation,
+  RefreshUserMutation,
+  RefreshUserMutationDocument
+} from "@/generated"
+
+async function refreshAccessToken(tokenObject: any) {
+  try {
+    // Get a new set of tokens with a refreshToken
+    const client = new GraphQLClient(
+      process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || ""
+    )
+    const data: RefreshUserMutation = await client.request(
+      RefreshUserMutationDocument,
+      {
+        refreshInput: {
+          accessToken: tokenObject.accessToken,
+          refreshToken: tokenObject.refreshToken
+        }
+      }
+    )
+
+    return {
+      ...tokenObject,
+      profile: data.refresh.user,
+      accessToken: data.refresh.accessToken,
+      accessTokenTtl: data.refresh.accessTokenTtl + Date.now(),
+      refreshToken: data.refresh.refreshToken,
+      refreshTokenTtl: data.refresh.refreshTokenTtl + Date.now()
+    }
+  } catch (error) {
+    return {
+      ...tokenObject,
+      error: "RefreshAccessTokenError"
+    }
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -45,8 +82,10 @@ export const authOptions: NextAuthOptions = {
           }
 
           return {
-            token: data.login.accessToken,
-            expires: Date.now() + data.login.accessTokenTtl,
+            accessToken: data.login.accessToken,
+            accessTokenTtl: data.login.accessTokenTtl + Date.now(),
+            refreshToken: data.login.refreshToken,
+            refreshTokenTtl: data.login.refreshTokenTtl + Date.now(),
             profile: data.login.user
           }
         } catch (error) {
@@ -59,13 +98,32 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        token.user = user
+        token.profile = user.profile
+        token.accessToken = user.accessToken
+        token.accessTokenTtl = user.accessTokenTtl
+        token.refreshToken = user.refreshToken
+        token.refreshTokenTtl = user.refreshTokenTtl
       }
-      return token
+
+      const shouldRefreshTime = Math.round(
+        (token.accessTokenTtl as number) - Date.now()
+      )
+
+      if (shouldRefreshTime > 0) {
+        return Promise.resolve(token)
+      }
+
+      token = await refreshAccessToken(token)
+      return Promise.resolve(token)
     },
     session: async ({ session, token }) => {
       if (token) {
-        session.user = token.user as any
+        session.accessToken = token.accessToken as string
+        session.accessTokenTtl = token.accessTokenTtl as number
+        session.refreshToken = token.refreshToken as string
+        session.refreshTokenTtl = token.refreshTokenTtl as number
+        session.profile = token.profile as any
+        session.error = token.error as string
       }
       return session
     }

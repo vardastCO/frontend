@@ -19,7 +19,7 @@ export const getBrandQueryFn = async (id: number): Promise<GetBrandQuery> => {
       id: +id
     },
     {
-      authorization: `Bearer ${session?.user?.token}`
+      authorization: `Bearer ${session?.accessToken}`
     }
   )
 }

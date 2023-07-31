@@ -127,7 +127,6 @@ const ProductList = ({
     value
   }: FilterAttribute & { status: CheckedState }) => {
     setFilterAtrributes((values) => {
-      console.log(searchParams)
       let tmp = values
       if (status === true) {
         tmp = [
@@ -164,7 +163,6 @@ const ProductList = ({
     value
   }: { value: InputMaybe<number> } & { status: CheckedState }) => {
     setCategoryIdsFilter((values) => {
-      console.log(new URLSearchParams(searchParams as any))
       let tmp: InputMaybe<number[]> = values || []
       if (status === true) {
         tmp = Array.isArray(tmp)

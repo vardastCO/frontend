@@ -1,5 +1,5 @@
-query GetAllVocabularies {
-  vocabularies {
+query GetAllVocabularies($indexVocabularyInput: IndexVocabularyInput) {
+  vocabularies(indexCategoryInput: $indexVocabularyInput) {
     total
     perPage
     currentPage

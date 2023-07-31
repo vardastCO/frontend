@@ -46,7 +46,7 @@ const SellerForm = ({ seller }: SellerFormProps) => {
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [logoPreview, setLogoPreview] = useState<string>("")
 
-  const token = session?.user?.token || null
+  const token = session?.accessToken || null
 
   const createSellerMutation = useCreateSellerMutation(graphqlRequestClient, {
     onSuccess: () => {

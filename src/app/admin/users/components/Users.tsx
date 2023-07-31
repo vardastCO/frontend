@@ -3,9 +3,10 @@
 import { useRouter } from "next/navigation"
 import clsx from "clsx"
 import parsePhoneNumber from "libphonenumber-js"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
-import { useGetAllUsersQuery } from "@/generated"
+import { useGetAllUsersQuery, UserStatusesEnum } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
@@ -18,6 +19,7 @@ type Props = {}
 const Users = (props: Props) => {
   const { t } = useTranslation()
   const router = useRouter()
+  const { data: session } = useSession()
   const { isLoading, error, data } = useGetAllUsersQuery(graphqlRequestClient)
 
   if (isLoading) return <Loading />
@@ -32,6 +34,7 @@ const Users = (props: Props) => {
             <th></th>
             <th>{t("common:email")}</th>
             <th>{t("common:cellphone")}</th>
+            <th>{t("common:status")}</th>
           </tr>
         </thead>
         <tbody>
@@ -44,11 +47,14 @@ const Users = (props: Props) => {
                 >
                   <td>
                     <Avatar size="small">
-                      <AvatarImage
-                        src={`https://api.dicebear.com/5.x/big-ears-neutral/svg?seed=${user.fullName}`}
-                        alt={user.fullName}
-                      />
-                      <AvatarFallback>{user.fullName}</AvatarFallback>
+                      {user.avatarFile && (
+                        <AvatarImage
+                          src={user.avatarFile.presignedUrl.url}
+                          alt={user.fullName}
+                        />
+                      )}
+
+                      <AvatarFallback>{user.firstName[0]}</AvatarFallback>
                     </Avatar>
                     <span className="ms-2 font-medium text-gray-800">
                       {user.fullName}
@@ -56,7 +62,7 @@ const Users = (props: Props) => {
                   </td>
                   <td>
                     <div className="flex items-center gap-2">
-                      {user.email && (
+                      {user.email ? (
                         <>
                           <span
                             className={clsx(
@@ -70,12 +76,14 @@ const Users = (props: Props) => {
                             {user.email}
                           </span>
                         </>
+                      ) : (
+                        "--"
                       )}
                     </div>
                   </td>
                   <td>
                     <div className="flex items-center gap-2">
-                      {user.cellphone && (
+                      {user.cellphone ? (
                         <>
                           <span
                             className={clsx(
@@ -91,8 +99,27 @@ const Users = (props: Props) => {
                             )?.formatInternational()}
                           </span>
                         </>
+                      ) : (
+                        "--"
                       )}
                     </div>
+                  </td>
+                  <td>
+                    {user.status === UserStatusesEnum.Active && (
+                      <span className="tag tag-light tag-sm tag-success">
+                        {t("common:active")}
+                      </span>
+                    )}
+                    {user.status === UserStatusesEnum.Banned && (
+                      <span className="tag tag-light tag-sm tag-danger">
+                        {t("common:banned")}
+                      </span>
+                    )}
+                    {user.status === UserStatusesEnum.NotActivated && (
+                      <span className="tag tag-light tag-sm tag-gray">
+                        {t("common:not_active")}
+                      </span>
+                    )}
                   </td>
                 </tr>
               )

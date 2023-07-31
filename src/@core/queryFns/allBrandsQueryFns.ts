@@ -17,7 +17,7 @@ export const getAllBrandsQueryFn = async (): Promise<GetAllBrandsQuery> => {
     GetAllBrandsDocument,
     {},
     {
-      authorization: `Bearer ${session?.user?.token}`
+      authorization: `Bearer ${session?.accessToken}`
     }
   )
 }

@@ -1,8 +1,14 @@
 "use client"
 
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { LucideCheck, LucideChevronsUpDown } from "lucide-react"
+import { ClientError } from "graphql-request"
+import {
+  LucideAlertOctagon,
+  LucideCheck,
+  LucideChevronsUpDown
+} from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
@@ -31,6 +37,7 @@ import {
   FormMessage
 } from "@core/components/react-hook-form/form"
 import Card from "@core/components/shared/Card"
+import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Button } from "@core/components/ui/button"
 import {
   Command,
@@ -71,8 +78,12 @@ const AddressForm = ({
   const { t } = useTranslation()
   const { toast } = useToast()
   const router = useRouter()
+  const [errors, setErrors] = useState<ClientError>()
 
   const createAddressMutation = useCreateAddressMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
     onSuccess: () => {
       toast({
         description: t("common:entity_added_successfully", {
@@ -86,6 +97,9 @@ const AddressForm = ({
   })
 
   const updateAddressMutation = useUpdateAddressMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
     onSuccess: () => {
       toast({
         description: t("common:entity_updated_successfully", {
@@ -214,6 +228,20 @@ const AddressForm = ({
 
   return (
     <Form {...form}>
+      {errors && (
+        <Alert variant="danger">
+          <LucideAlertOctagon />
+          <AlertTitle>خطا</AlertTitle>
+          <AlertDescription>
+            {(
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => (
+              <p key={error}>{error}</p>
+            ))}
+          </AlertDescription>
+        </Alert>
+      )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
           <h1 className="text-3xl font-black text-gray-800">

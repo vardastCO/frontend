@@ -190,7 +190,8 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
               <span className="font-semibold text-gray-500">برند:</span>
               <Link
                 className="font-bold text-brand-500"
-                href={`/brand/${product.brand.id}/${product.brand.slug}`}
+                href={`/brand/${product.brand.id}/${product.brand.name}`}
+                prefetch={false}
               >
                 {product.brand.name}
               </Link>

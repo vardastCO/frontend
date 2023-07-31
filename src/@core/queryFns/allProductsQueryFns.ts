@@ -39,7 +39,7 @@ export const getAllProductsQueryFn = async ({
       }
     },
     {
-      authorization: `Bearer ${session?.user?.token}`
+      authorization: `Bearer ${session?.accessToken}`
     }
   )
 }

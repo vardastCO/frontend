@@ -37,7 +37,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 fill
                 sizes="(max-width: 640px) 33vw, 10vw"
                 className="object-contain"
-                loading="lazy"
+                loading="eager"
               />
             )}
           </div>

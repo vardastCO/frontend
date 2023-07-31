@@ -70,7 +70,7 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
               {idx !== breadcrumbs.length && (
                 <span className="mx-1 text-gray-400">/</span>
               )}
-              <Link href={crumb.path} passHref legacyBehavior>
+              <Link href={crumb.path} passHref legacyBehavior prefetch={false}>
                 <a
                   title={crumb.label}
                   aria-current={crumb.isCurrent ? "page" : "false"}

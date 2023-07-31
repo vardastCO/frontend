@@ -4,7 +4,8 @@ import { ChangeEvent, useRef, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { LucideTrash, LucideWarehouse } from "lucide-react"
+import { ClientError } from "graphql-request"
+import { LucideAlertOctagon, LucideTrash, LucideWarehouse } from "lucide-react"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
@@ -27,6 +28,7 @@ import {
   FormMessage
 } from "@core/components/react-hook-form/form"
 import Card from "@core/components/shared/Card"
+import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Button } from "@core/components/ui/button"
 import { Input } from "@core/components/ui/input"
 import { Textarea } from "@core/components/ui/textarea"
@@ -42,13 +44,17 @@ const BrandForm = ({ brand }: BrandFormProps) => {
   const { t } = useTranslation()
   const { toast } = useToast()
   const router = useRouter()
+  const [errors, setErrors] = useState<ClientError>()
   const logoFileFieldRef = useRef<HTMLInputElement>(null)
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [logoPreview, setLogoPreview] = useState<string>("")
 
-  const token = session?.user?.token || null
+  const token = session?.accessToken || null
 
   const createBrandMutation = useCreateBrandMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
     onSuccess: () => {
       toast({
         description: t("common:entity_added_successfully", {
@@ -61,6 +67,9 @@ const BrandForm = ({ brand }: BrandFormProps) => {
     }
   })
   const updateBrandMutation = useUpdateBrandMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
     onSuccess: () => {
       toast({
         description: t("common:entity_added_successfully", {
@@ -149,6 +158,20 @@ const BrandForm = ({ brand }: BrandFormProps) => {
 
   return (
     <Form {...form}>
+      {errors && (
+        <Alert variant="danger">
+          <LucideAlertOctagon />
+          <AlertTitle>خطا</AlertTitle>
+          <AlertDescription>
+            {(
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => (
+              <p key={error}>{error}</p>
+            ))}
+          </AlertDescription>
+        </Alert>
+      )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
           <h1 className="text-3xl font-black text-gray-800">
@@ -229,7 +252,11 @@ const BrandForm = ({ brand }: BrandFormProps) => {
                     logoFileFieldRef.current?.click()
                   }}
                 >
-                  {logoFile ? logoFile.name : "انتخاب فایل لوگو"}
+                  {logoFile
+                    ? logoFile.name
+                    : t("common:choose_entity_file", {
+                        entity: t("common:logo")
+                      })}
                 </Button>
                 {logoPreview && (
                   <Button
