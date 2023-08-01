@@ -79,7 +79,7 @@ const UserForm = ({ user }: Props) => {
   const [timezone, setTimezone] = useState<string | null>(null)
   const avatarFileFieldRef = useRef<HTMLInputElement>(null)
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
-  const [logoAvatar, setAvatarPreview] = useState<string>("")
+  const [avatarPreview, setAvatarPreview] = useState<string>("")
 
   const token = session?.accessToken || null
 
@@ -104,7 +104,7 @@ const UserForm = ({ user }: Props) => {
     },
     onSuccess: () => {
       toast({
-        description: t("common:entity_added_successfully", {
+        description: t("common:entity_updated_successfully", {
           entity: t("common:user")
         }),
         duration: 2000,
@@ -181,7 +181,8 @@ const UserForm = ({ user }: Props) => {
       language: user?.language || UserLanguagesEnum.Farsi,
       mustChangePassword: user?.mustChangePassword,
       displayRoleId: user?.displayRole.id,
-      status: user?.status || UserStatusesEnum.Active
+      status: user?.status || UserStatusesEnum.Active,
+      avatarUuid: user?.avatarFile?.uuid
     }
   })
 
@@ -367,9 +368,12 @@ const UserForm = ({ user }: Props) => {
                 ref={avatarFileFieldRef}
               />
               <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-gray-200">
-                {logoAvatar ? (
+                {avatarPreview || user?.avatarFile ? (
                   <Image
-                    src={logoAvatar}
+                    src={
+                      avatarPreview ||
+                      (user?.avatarFile?.presignedUrl.url as string)
+                    }
                     fill
                     alt="..."
                     className="object-contain p-3"
@@ -395,7 +399,7 @@ const UserForm = ({ user }: Props) => {
                         entity: t("common:avatar")
                       })}
                 </Button>
-                {logoAvatar && (
+                {avatarPreview && (
                   <Button
                     variant="danger"
                     iconOnly

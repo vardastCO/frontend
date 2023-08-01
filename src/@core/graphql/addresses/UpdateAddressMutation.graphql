@@ -14,6 +14,21 @@ mutation UpdateAddressMutation($updateAddressInput: UpdateAddressInput!) {
     rejectionReason
     createdAt
     updatedAt
+    country {
+      id
+      name
+      nameEn
+      slug
+      alphaTwo
+      iso
+      phonePrefix
+      sort
+      isActive
+      latitude
+      longitude
+      flagEmoji
+      provincesCount
+    }
     city {
       id
       name

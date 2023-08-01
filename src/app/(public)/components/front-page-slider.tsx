@@ -11,7 +11,7 @@ import "swiper/css/pagination"
 
 import { CSSProperties } from "react"
 import Image from "next/image"
-import { Pagination } from "swiper/modules"
+import { Autoplay, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
 type Props = {}
@@ -32,9 +32,13 @@ const FrontPageSlider = (props: Props) => {
         dir="rtl"
         spaceBetween={50}
         slidesPerView={1}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false
+        }}
         loop={true}
         pagination={true}
-        modules={[Pagination]}
+        modules={[Pagination, Autoplay]}
       >
         <SwiperSlide>
           <Image src={can} alt="هود کن" />

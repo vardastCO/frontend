@@ -1,5 +1,5 @@
-query GetAllAttributes {
-  attributes {
+query GetAllAttributes($indexAttributeInput: IndexAttributeInput) {
+  attributes(indexAttributeInput: $indexAttributeInput) {
     total
     perPage
     currentPage

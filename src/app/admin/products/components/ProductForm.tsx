@@ -1,7 +1,9 @@
 "use client"
 
 import { useState } from "react"
+import router from "next/router"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ClientError } from "graphql-request"
 import {
   LucideBoxes,
   LucideCheck,
@@ -15,12 +17,18 @@ import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
 import {
+  Product,
   ProductTypesEnum,
   useCreateProductMutation,
-  useGetVocabularyQuery
+  useGetAllBrandsQuery,
+  useGetAllCategoriesQuery,
+  useGetAllUoMsQuery,
+  useGetVocabularyQuery,
+  useUpdateProductMutation
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { enumToKeyValueObject } from "@core/utils/enumToKeyValueObject"
 import { mergeClasses } from "@core/utils/mergeClasses"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import { slugInputSchema } from "@core/utils/zodValidationSchemas"
@@ -49,57 +57,126 @@ import {
 } from "@core/components/ui/popover"
 import { RadioGroup, RadioGroupItem } from "@core/components/ui/radio-group"
 import { Switch } from "@core/components/ui/switch"
+import { Textarea } from "@core/components/ui/textarea"
+import { toast } from "@core/hooks/use-toast"
 import { uploadPaths } from "@core/lib/uploadPaths"
 
-const ProductForm = () => {
+type ProductFormProps = {
+  product?: Product
+}
+
+const ProductForm = ({ product }: ProductFormProps) => {
   const { t } = useTranslation()
   const [images, setImages] = useState<FilesWithPreview[]>([])
+  const [errors, setErrors] = useState<ClientError>()
 
-  const createProductMutation = useCreateProductMutation(graphqlRequestClient)
+  const createProductMutation = useCreateProductMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
+    onSuccess: () => {
+      toast({
+        description: t("common:entity_added_successfully", {
+          entity: t("common:product")
+        }),
+        duration: 2000,
+        variant: "success"
+      })
+      router.push("/admin/products")
+    }
+  })
+  const updateProductMutation = useUpdateProductMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
+    onSuccess: () => {
+      toast({
+        description: t("common:entity_updated_successfully", {
+          entity: t("common:product")
+        }),
+        duration: 2000,
+        variant: "success"
+      })
+      router.push("/admin/products")
+    }
+  })
+
+  const types = enumToKeyValueObject(ProductTypesEnum)
 
   z.setErrorMap(zodI18nMap)
   const CreateProductSchema = z.object({
     name: z.string(),
     slug: slugInputSchema,
     sku: z.string(),
-    type: z.string(),
+    type: z.nativeEnum(ProductTypesEnum),
     isActive: z.boolean(),
-    category: z.string(),
     categoryId: z.number(),
     brandId: z.number(),
     uomId: z.number(),
-    pageTitle: z.string(),
-    metaDescription: z.string()
+    title: z.string().optional(),
+    description: z.string().optional(),
+    metaDescription: z.string().optional()
   })
   type CreateProductType = TypeOf<typeof CreateProductSchema>
-  const { data } = useGetVocabularyQuery(graphqlRequestClient, {
-    slug: "product_categories"
-  })
 
   const form = useForm<CreateProductType>({
     resolver: zodResolver(CreateProductSchema),
     defaultValues: {
-      type: "physical",
-      isActive: true
+      name: product?.name,
+      sku: product?.sku,
+      type: product?.type,
+      title: product?.title || "",
+      description: product?.description || "",
+      metaDescription: product?.metaDescription || "",
+      categoryId: product?.category.id,
+      brandId: product?.brand.id,
+      uomId: product?.uom.id,
+      isActive: product?.isActive
     }
   })
 
   const name = form.watch("name")
 
+  const productsVocabulary = useGetVocabularyQuery(graphqlRequestClient, {
+    slug: "product_categories"
+  })
+  const categories = useGetAllCategoriesQuery(graphqlRequestClient, {
+    indexCategoryInput: {
+      vocabularyId: productsVocabulary.data?.vocabulary.id
+    }
+  })
+  const brands = useGetAllBrandsQuery(graphqlRequestClient)
+  const uoms = useGetAllUoMsQuery(graphqlRequestClient)
+
   const onSubmit = (data: CreateProductType) => {
     const { name, slug, sku, type, categoryId, brandId, uomId, isActive } = data
 
-    createProductMutation.mutate({
-      createProductInput: {
-        name,
-        type: ProductTypesEnum.Physical,
-        slug,
-        sku,
-        categoryId,
-        brandId,
-        uomId
-      }
-    })
+    if (product) {
+      updateProductMutation.mutate({
+        updateProductInput: {
+          id: product.id,
+          name,
+          type,
+          slug,
+          sku,
+          categoryId,
+          brandId,
+          uomId
+        }
+      })
+    } else {
+      createProductMutation.mutate({
+        createProductInput: {
+          name,
+          type,
+          slug,
+          sku,
+          categoryId,
+          brandId,
+          uomId
+        }
+      })
+    }
   }
 
   return (
@@ -152,15 +229,95 @@ const ProductForm = () => {
 
               <FormField
                 control={form.control}
+                name="uomId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("common:uom")}</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            disabled={uoms.isLoading || uoms.isError}
+                            noStyle
+                            role="combobox"
+                            className="input-field flex items-center text-start"
+                          >
+                            {field.value
+                              ? uoms.data?.uoms.data.find(
+                                  (uom) => uom && uom.id === field.value
+                                )?.name
+                              : t("common:choose_entity", {
+                                  entity: t("common:uom")
+                                })}
+                            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <Command>
+                          <CommandInput
+                            placeholder={t("common:search_entity", {
+                              entity: t("common:uom")
+                            })}
+                          />
+                          <CommandEmpty>
+                            {t("common:no_entity_found", {
+                              entity: t("common:uom")
+                            })}
+                          </CommandEmpty>
+                          <CommandGroup>
+                            {uoms.data?.uoms.data.map(
+                              (uom) =>
+                                uom && (
+                                  <CommandItem
+                                    value={uom.name}
+                                    key={uom.id}
+                                    onSelect={(value) => {
+                                      form.setValue(
+                                        "uomId",
+                                        uoms.data?.uoms.data.find(
+                                          (item) =>
+                                            item &&
+                                            item.name.toLowerCase() === value
+                                        )?.id || 0
+                                      )
+                                    }}
+                                  >
+                                    <LucideCheck
+                                      className={mergeClasses(
+                                        "mr-2 h-4 w-4",
+                                        uom.id === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {uom.name}
+                                  </CommandItem>
+                                )
+                            )}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
                 name="type"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("common:product_type")}</FormLabel>
                     <FormControl>
-                      <RadioGroup className="grid grid-cols-4 gap-6">
+                      <RadioGroup
+                        defaultValue={field.value}
+                        className="grid grid-cols-4 gap-6"
+                      >
                         <FormItem className="product-type-item relative">
                           <FormControl className="invisible absolute inset-0 h-full w-full">
-                            <RadioGroupItem value="physical" />
+                            <RadioGroupItem value={ProductTypesEnum.Physical} />
                           </FormControl>
                           <FormLabel
                             noStyle
@@ -182,7 +339,7 @@ const ProductForm = () => {
                         </FormItem>
                         <FormItem className="product-type-item relative">
                           <FormControl className="invisible absolute inset-0 h-full w-full">
-                            <RadioGroupItem value="digital" />
+                            <RadioGroupItem value={ProductTypesEnum.Digital} />
                           </FormControl>
                           <FormLabel
                             noStyle
@@ -204,7 +361,7 @@ const ProductForm = () => {
                         </FormItem>
                         <FormItem className="product-type-item relative">
                           <FormControl className="invisible absolute inset-0 h-full w-full">
-                            <RadioGroupItem value="bundle" />
+                            <RadioGroupItem value={ProductTypesEnum.Bundle} />
                           </FormControl>
                           <FormLabel
                             noStyle
@@ -226,7 +383,7 @@ const ProductForm = () => {
                         </FormItem>
                         <FormItem className="product-type-item relative">
                           <FormControl className="invisible absolute inset-0 h-full w-full">
-                            <RadioGroupItem value="gift-card" />
+                            <RadioGroupItem value={ProductTypesEnum.Gift} />
                           </FormControl>
                           <FormLabel
                             noStyle
@@ -274,7 +431,7 @@ const ProductForm = () => {
 
               <FormField
                 control={form.control}
-                name="category"
+                name="categoryId"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("common:category")}</FormLabel>
@@ -282,15 +439,17 @@ const ProductForm = () => {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
+                            disabled={
+                              categories.isLoading || categories.isError
+                            }
                             noStyle
                             role="combobox"
                             className="input-field flex items-center text-start"
                           >
                             {field.value
-                              ? data?.vocabulary.categories.find(
+                              ? categories.data?.categories.find(
                                   (category) =>
-                                    category &&
-                                    category.title.toLowerCase() === field.value
+                                    category && category.id === field.value
                                 )?.title
                               : t("common:choose_entity", {
                                   entity: t("common:category")
@@ -312,17 +471,16 @@ const ProductForm = () => {
                             })}
                           </CommandEmpty>
                           <CommandGroup>
-                            {data?.vocabulary.categories.map(
+                            {categories.data?.categories.map(
                               (category) =>
                                 category && (
                                   <CommandItem
                                     value={category.title}
                                     key={category.id}
                                     onSelect={(value) => {
-                                      form.setValue("category", value)
                                       form.setValue(
                                         "categoryId",
-                                        data?.vocabulary.categories.find(
+                                        categories.data?.categories.find(
                                           (item) =>
                                             item &&
                                             item.title.toLowerCase() === value
@@ -333,13 +491,89 @@ const ProductForm = () => {
                                     <LucideCheck
                                       className={mergeClasses(
                                         "mr-2 h-4 w-4",
-                                        category.title.toLowerCase() ===
-                                          field.value
+                                        category.id === field.value
                                           ? "opacity-100"
                                           : "opacity-0"
                                       )}
                                     />
                                     {category.title}
+                                  </CommandItem>
+                                )
+                            )}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="brandId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("common:brand")}</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            disabled={brands.isLoading || brands.isError}
+                            noStyle
+                            role="combobox"
+                            className="input-field flex items-center text-start"
+                          >
+                            {field.value
+                              ? brands.data?.brands.data.find(
+                                  (brand) => brand && brand.id === field.value
+                                )?.name
+                              : t("common:choose_entity", {
+                                  entity: t("common:brand")
+                                })}
+                            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <Command>
+                          <CommandInput
+                            placeholder={t("common:search_entity", {
+                              entity: t("common:brand")
+                            })}
+                          />
+                          <CommandEmpty>
+                            {t("common:no_entity_found", {
+                              entity: t("common:brand")
+                            })}
+                          </CommandEmpty>
+                          <CommandGroup>
+                            {brands.data?.brands.data.map(
+                              (brand) =>
+                                brand && (
+                                  <CommandItem
+                                    value={brand.name}
+                                    key={brand.id}
+                                    onSelect={(value) => {
+                                      form.setValue(
+                                        "brandId",
+                                        brands.data?.brands.data.find(
+                                          (item) =>
+                                            item &&
+                                            item.name.toLowerCase() === value
+                                        )?.id || 0
+                                      )
+                                    }}
+                                  >
+                                    <LucideCheck
+                                      className={mergeClasses(
+                                        "mr-2 h-4 w-4",
+                                        brand.id === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {brand.name}
                                   </CommandItem>
                                 )
                             )}
@@ -364,6 +598,7 @@ const ProductForm = () => {
                 }}
               />
             </div>
+
             <div>
               <h2 className="section-title">
                 {t("common:create_product_pricing_section_title")}
@@ -372,6 +607,7 @@ const ProductForm = () => {
                 {t("common:create_product_pricing_section_description")}
               </p>
             </div>
+
             <div>
               <h2 className="section-title">
                 {t("common:create_product_content_section_title")}
@@ -383,12 +619,25 @@ const ProductForm = () => {
                 <div className="flex flex-col gap-6">
                   <FormField
                     control={form.control}
-                    name="pageTitle"
+                    name="title"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>{t("common:page_title")}</FormLabel>
                         <FormControl>
                           <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("common:description")}</FormLabel>
+                        <FormControl>
+                          <Textarea {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

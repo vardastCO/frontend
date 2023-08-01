@@ -63,7 +63,7 @@ const SellerForm = ({ seller }: SellerFormProps) => {
   const updateSellerMutation = useUpdateSellerMutation(graphqlRequestClient, {
     onSuccess: () => {
       toast({
-        description: t("common:entity_added_successfully", {
+        description: t("common:entity_updated_successfully", {
           entity: t("common:seller")
         }),
         duration: 2000,
@@ -207,9 +207,12 @@ const SellerForm = ({ seller }: SellerFormProps) => {
                 ref={logoFileFieldRef}
               />
               <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-gray-200">
-                {logoPreview ? (
+                {logoPreview || seller?.logoFile ? (
                   <Image
-                    src={logoPreview}
+                    src={
+                      logoPreview ||
+                      (seller?.logoFile?.presignedUrl.url as string)
+                    }
                     fill
                     alt="..."
                     className="object-contain p-3"
