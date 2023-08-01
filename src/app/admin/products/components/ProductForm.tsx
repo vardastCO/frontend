@@ -81,6 +81,18 @@ const ProductForm = ({ product }: ProductFormProps) => {
       setErrors(errors)
     },
     onSuccess: async (data) => {
+      Promise.all(
+        images.map(async (image, idx) => {
+          await createImageMutation.mutateAsync({
+            createImageInput: {
+              productId: data.createProduct.id,
+              fileUuid: image.uuid,
+              sort: idx,
+              isPublic: true
+            }
+          })
+        })
+      )
       toast({
         description: t("common:entity_added_successfully", {
           entity: t("common:product")
