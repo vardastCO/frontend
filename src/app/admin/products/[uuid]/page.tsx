@@ -1,9 +1,11 @@
+import ProductEdit from "@/app/admin/products/components/ProductEdit"
+
 const ProductEditPage = ({
   params: { uuid }
 }: {
-  params: { uuid: string }
+  params: { uuid: number }
 }) => {
-  return <></>
+  return uuid && <ProductEdit id={uuid} />
 }
 
 export default ProductEditPage

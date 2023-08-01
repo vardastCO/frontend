@@ -76,9 +76,16 @@ const Products = () => {
                       </div>
                     </td>
                     <td>
-                      <span className="font-medium text-gray-800">
-                        {product.name}
-                      </span>
+                      <div className="flex flex-col gap-1.5">
+                        <span className="font-medium text-gray-800">
+                          {product.name}
+                        </span>
+                        {product.sku && (
+                          <span className="text-xs text-gray-600">
+                            کد کالا: {product.sku}
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td>
                       {product.isActive ? (
