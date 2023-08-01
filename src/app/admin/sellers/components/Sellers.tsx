@@ -22,7 +22,7 @@ const Sellers = () => {
   const { isLoading, error, data } = useGetAllSellersQuery(
     graphqlRequestClient,
     {
-      indexProductInput: {
+      indexSellerInput: {
         page: currentPage
       }
     }
