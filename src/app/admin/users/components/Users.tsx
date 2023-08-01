@@ -26,8 +26,6 @@ const Users = (props: Props) => {
 
   const { isLoading, error, data } = useGetAllUsersQuery(graphqlRequestClient, {
     indexUserInput: {
-      // TODO: remove
-      status: 1,
       page: currentPage
     }
   })

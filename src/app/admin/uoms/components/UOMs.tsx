@@ -19,8 +19,6 @@ const UOMs = () => {
 
   const { isLoading, error, data } = useGetAllUoMsQuery(graphqlRequestClient, {
     indexUomInput: {
-      // TODO: remove
-      isActive: true,
       page: currentPage
     }
   })

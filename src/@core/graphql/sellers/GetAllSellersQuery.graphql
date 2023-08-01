@@ -1,5 +1,5 @@
-query GetAllSellers($indexProductInput: IndexSellerInput) {
-  sellers(indexProductInput: $indexProductInput) {
+query GetAllSellers($indexSellerInput: IndexSellerInput) {
+  sellers(indexSellerInput: $indexSellerInput) {
     total
     perPage
     currentPage

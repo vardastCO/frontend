@@ -1,7 +1,9 @@
 "use client"
 
 import { useState } from "react"
+import router from "next/router"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ClientError } from "graphql-request"
 import {
   LucideBoxes,
   LucideCheck,
@@ -20,7 +22,9 @@ import {
   useCreateProductMutation,
   useGetAllBrandsQuery,
   useGetAllCategoriesQuery,
-  useGetAllUoMsQuery
+  useGetAllUoMsQuery,
+  useGetVocabularyQuery,
+  useUpdateProductMutation
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
@@ -54,6 +58,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@core/components/ui/radio-group"
 import { Switch } from "@core/components/ui/switch"
 import { Textarea } from "@core/components/ui/textarea"
+import { toast } from "@core/hooks/use-toast"
 import { uploadPaths } from "@core/lib/uploadPaths"
 
 type ProductFormProps = {
@@ -63,8 +68,38 @@ type ProductFormProps = {
 const ProductForm = ({ product }: ProductFormProps) => {
   const { t } = useTranslation()
   const [images, setImages] = useState<FilesWithPreview[]>([])
+  const [errors, setErrors] = useState<ClientError>()
 
-  const createProductMutation = useCreateProductMutation(graphqlRequestClient)
+  const createProductMutation = useCreateProductMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
+    onSuccess: () => {
+      toast({
+        description: t("common:entity_added_successfully", {
+          entity: t("common:product")
+        }),
+        duration: 2000,
+        variant: "success"
+      })
+      router.push("/admin/products")
+    }
+  })
+  const updateProductMutation = useUpdateProductMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
+    onSuccess: () => {
+      toast({
+        description: t("common:entity_updated_successfully", {
+          entity: t("common:product")
+        }),
+        duration: 2000,
+        variant: "success"
+      })
+      router.push("/admin/products")
+    }
+  })
 
   const types = enumToKeyValueObject(ProductTypesEnum)
 
@@ -102,9 +137,12 @@ const ProductForm = ({ product }: ProductFormProps) => {
 
   const name = form.watch("name")
 
+  const productsVocabulary = useGetVocabularyQuery(graphqlRequestClient, {
+    slug: "product_categories"
+  })
   const categories = useGetAllCategoriesQuery(graphqlRequestClient, {
     indexCategoryInput: {
-      vocabularyId: 1
+      vocabularyId: productsVocabulary.data?.vocabulary.id
     }
   })
   const brands = useGetAllBrandsQuery(graphqlRequestClient)
@@ -113,17 +151,32 @@ const ProductForm = ({ product }: ProductFormProps) => {
   const onSubmit = (data: CreateProductType) => {
     const { name, slug, sku, type, categoryId, brandId, uomId, isActive } = data
 
-    createProductMutation.mutate({
-      createProductInput: {
-        name,
-        type,
-        slug,
-        sku,
-        categoryId,
-        brandId,
-        uomId
-      }
-    })
+    if (product) {
+      updateProductMutation.mutate({
+        updateProductInput: {
+          id: product.id,
+          name,
+          type,
+          slug,
+          sku,
+          categoryId,
+          brandId,
+          uomId
+        }
+      })
+    } else {
+      createProductMutation.mutate({
+        createProductInput: {
+          name,
+          type,
+          slug,
+          sku,
+          categoryId,
+          brandId,
+          uomId
+        }
+      })
+    }
   }
 
   return (
@@ -545,6 +598,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                 }}
               />
             </div>
+
             <div>
               <h2 className="section-title">
                 {t("common:create_product_pricing_section_title")}
@@ -553,6 +607,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                 {t("common:create_product_pricing_section_description")}
               </p>
             </div>
+
             <div>
               <h2 className="section-title">
                 {t("common:create_product_content_section_title")}
