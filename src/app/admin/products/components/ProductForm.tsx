@@ -17,8 +17,10 @@ import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
 import {
+  Image,
   Product,
   ProductTypesEnum,
+  useCreateImageMutation,
   useCreateProductMutation,
   useGetAllBrandsWithoutPaginationQuery,
   useGetAllCategoriesQuery,
@@ -32,7 +34,7 @@ import { enumToKeyValueObject } from "@core/utils/enumToKeyValueObject"
 import { mergeClasses } from "@core/utils/mergeClasses"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import { slugInputSchema } from "@core/utils/zodValidationSchemas"
-import Dropzone, { FilesWithPreview } from "@core/components/Dropzone"
+import Dropzone from "@core/components/Dropzone"
 import {
   Form,
   FormControl,
@@ -67,9 +69,12 @@ type ProductFormProps = {
 
 const ProductForm = ({ product }: ProductFormProps) => {
   const { t } = useTranslation()
-  const [images, setImages] = useState<FilesWithPreview[]>([])
+  const [images, setImages] = useState<
+    { uuid: string; expiresAt: string; image?: Image }[]
+  >([])
   const [errors, setErrors] = useState<ClientError>()
 
+  const createImageMutation = useCreateImageMutation(graphqlRequestClient)
   const createProductMutation = useCreateProductMutation(graphqlRequestClient, {
     onError: (errors: ClientError) => {
       setErrors(errors)
@@ -147,6 +152,20 @@ const ProductForm = ({ product }: ProductFormProps) => {
   })
   const brands = useGetAllBrandsWithoutPaginationQuery(graphqlRequestClient)
   const uoms = useGetAllUomsWithoutPaginationQuery(graphqlRequestClient)
+
+  //   if (product && product.images) {
+  //     product.images.map((image) => {
+  //       image &&
+  //         setImages((prevImages) => [
+  //           ...prevImages,
+  //           {
+  //             uuid: image.file.uuid as string,
+  //             expiresAt: image.file.presignedUrl.expiresAt as string,
+  //             image: image as Image
+  //           }
+  //         ])
+  //     })
+  //   }
 
   const onSubmit = (data: CreateProductType) => {
     const { name, slug, sku, type, categoryId, brandId, uomId, isActive } = data
@@ -587,13 +606,20 @@ const ProductForm = ({ product }: ProductFormProps) => {
               />
 
               <Dropzone
+                existingImages={product && product.images}
                 uploadPath={uploadPaths.productImages}
                 onAddition={(file) => {
-                  setImages((prevImages) => [...prevImages, file])
+                  setImages((prevImages) => [
+                    ...prevImages,
+                    {
+                      uuid: file.uuid as string,
+                      expiresAt: file.expiresAt as string
+                    }
+                  ])
                 }}
                 onDelete={(file) => {
                   setImages((images) =>
-                    images.filter((image) => image.name !== file.name)
+                    images.filter((image) => image.uuid !== file.uuid)
                   )
                 }}
               />
