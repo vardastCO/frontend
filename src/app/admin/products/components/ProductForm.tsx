@@ -20,9 +20,9 @@ import {
   Product,
   ProductTypesEnum,
   useCreateProductMutation,
-  useGetAllBrandsQuery,
+  useGetAllBrandsWithoutPaginationQuery,
   useGetAllCategoriesQuery,
-  useGetAllUoMsQuery,
+  useGetAllUomsWithoutPaginationQuery,
   useGetVocabularyQuery,
   useUpdateProductMutation
 } from "@/generated"
@@ -145,8 +145,8 @@ const ProductForm = ({ product }: ProductFormProps) => {
       vocabularyId: productsVocabulary.data?.vocabulary.id
     }
   })
-  const brands = useGetAllBrandsQuery(graphqlRequestClient)
-  const uoms = useGetAllUoMsQuery(graphqlRequestClient)
+  const brands = useGetAllBrandsWithoutPaginationQuery(graphqlRequestClient)
+  const uoms = useGetAllUomsWithoutPaginationQuery(graphqlRequestClient)
 
   const onSubmit = (data: CreateProductType) => {
     const { name, slug, sku, type, categoryId, brandId, uomId, isActive } = data
@@ -243,7 +243,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             className="input-field flex items-center text-start"
                           >
                             {field.value
-                              ? uoms.data?.uoms.data.find(
+                              ? uoms.data?.uomsWithoutPagination.find(
                                   (uom) => uom && uom.id === field.value
                                 )?.name
                               : t("common:choose_entity", {
@@ -266,7 +266,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             })}
                           </CommandEmpty>
                           <CommandGroup>
-                            {uoms.data?.uoms.data.map(
+                            {uoms.data?.uomsWithoutPagination.map(
                               (uom) =>
                                 uom && (
                                   <CommandItem
@@ -275,7 +275,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                                     onSelect={(value) => {
                                       form.setValue(
                                         "uomId",
-                                        uoms.data?.uoms.data.find(
+                                        uoms.data?.uomsWithoutPagination.find(
                                           (item) =>
                                             item &&
                                             item.name.toLowerCase() === value
@@ -525,7 +525,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             className="input-field flex items-center text-start"
                           >
                             {field.value
-                              ? brands.data?.brands.data.find(
+                              ? brands.data?.brandsWithoutPagination.find(
                                   (brand) => brand && brand.id === field.value
                                 )?.name
                               : t("common:choose_entity", {
@@ -548,7 +548,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             })}
                           </CommandEmpty>
                           <CommandGroup>
-                            {brands.data?.brands.data.map(
+                            {brands.data?.brandsWithoutPagination.map(
                               (brand) =>
                                 brand && (
                                   <CommandItem
@@ -557,7 +557,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                                     onSelect={(value) => {
                                       form.setValue(
                                         "brandId",
-                                        brands.data?.brands.data.find(
+                                        brands.data?.brandsWithoutPagination.find(
                                           (item) =>
                                             item &&
                                             item.name.toLowerCase() === value
