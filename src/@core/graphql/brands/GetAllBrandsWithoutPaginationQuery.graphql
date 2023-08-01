@@ -1,0 +1,9 @@
+query GetAllBrandsWithoutPagination {
+  brandsWithoutPagination {
+    id
+    name
+    slug
+    createdAt
+    updatedAt
+  }
+}

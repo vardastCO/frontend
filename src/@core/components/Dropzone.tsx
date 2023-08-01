@@ -1,3 +1,5 @@
+"use client"
+
 import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 import clsx from "clsx"
@@ -6,21 +8,29 @@ import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { FileWithPath, useDropzone } from "react-dropzone"
 
+import { Image as ImageType, Maybe } from "@/generated"
+
 import { Button } from "@core/components/ui/button"
 
 interface DropzoneProps {
+  existingImages: Maybe<ImageType>[] | undefined
   uploadPath: string
   onAddition: (file: FilesWithPreview) => void
   onDelete: (file: FilesWithPreview) => void
 }
 export interface FilesWithPreview extends FileWithPath {
   preview: string
-  status: "uploading" | "uploaded" | "failed"
+  status: "uploading" | "uploaded" | "failed" | "existed"
   uuid?: string
   expiresAt?: string
 }
 
-const Dropzone = ({ uploadPath, onAddition, onDelete }: DropzoneProps) => {
+const Dropzone = ({
+  existingImages,
+  uploadPath,
+  onAddition,
+  onDelete
+}: DropzoneProps) => {
   const { data: session, status } = useSession()
   const { t } = useTranslation()
   const [files, setFiles] = useState<FilesWithPreview[]>([])
@@ -151,7 +161,7 @@ const Dropzone = ({ uploadPath, onAddition, onDelete }: DropzoneProps) => {
             isDragActive && "bg-gray-50"
           ])}
         >
-          {files.length ? (
+          {files.length || existingImages ? (
             <>
               <Button
                 onClick={open}
@@ -161,6 +171,24 @@ const Dropzone = ({ uploadPath, onAddition, onDelete }: DropzoneProps) => {
                 {t("common:add_entity", { entity: t("common:image") })}
               </Button>
               <ul className="relative z-0 flex flex-wrap gap-8">
+                {existingImages &&
+                  existingImages.map(
+                    (image) =>
+                      image && (
+                        <li
+                          key={image?.file.uuid}
+                          className="relative h-32 overflow-hidden rounded border border-gray-200"
+                        >
+                          <Image
+                            src={image.file.presignedUrl.url}
+                            alt={image.file.uuid}
+                            width={100}
+                            height={100}
+                            className="relative z-0 h-full w-full object-contain"
+                          />
+                        </li>
+                      )
+                  )}
                 {files.map((file) => (
                   <li
                     key={file.name}

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import router from "next/router"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ClientError } from "graphql-request"
 import {
@@ -17,12 +17,14 @@ import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
 import {
+  Image,
   Product,
   ProductTypesEnum,
+  useCreateImageMutation,
   useCreateProductMutation,
-  useGetAllBrandsQuery,
+  useGetAllBrandsWithoutPaginationQuery,
   useGetAllCategoriesQuery,
-  useGetAllUoMsQuery,
+  useGetAllUomsWithoutPaginationQuery,
   useGetVocabularyQuery,
   useUpdateProductMutation
 } from "@/generated"
@@ -32,7 +34,7 @@ import { enumToKeyValueObject } from "@core/utils/enumToKeyValueObject"
 import { mergeClasses } from "@core/utils/mergeClasses"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import { slugInputSchema } from "@core/utils/zodValidationSchemas"
-import Dropzone, { FilesWithPreview } from "@core/components/Dropzone"
+import Dropzone from "@core/components/Dropzone"
 import {
   Form,
   FormControl,
@@ -67,14 +69,30 @@ type ProductFormProps = {
 
 const ProductForm = ({ product }: ProductFormProps) => {
   const { t } = useTranslation()
-  const [images, setImages] = useState<FilesWithPreview[]>([])
+  const router = useRouter()
+  const [images, setImages] = useState<
+    { uuid: string; expiresAt: string; image?: Image }[]
+  >([])
   const [errors, setErrors] = useState<ClientError>()
 
+  const createImageMutation = useCreateImageMutation(graphqlRequestClient)
   const createProductMutation = useCreateProductMutation(graphqlRequestClient, {
     onError: (errors: ClientError) => {
       setErrors(errors)
     },
-    onSuccess: () => {
+    onSuccess: async (data) => {
+      Promise.all(
+        images.map(async (image, idx) => {
+          await createImageMutation.mutateAsync({
+            createImageInput: {
+              productId: data.createProduct.id,
+              fileUuid: image.uuid,
+              sort: idx,
+              isPublic: true
+            }
+          })
+        })
+      )
       toast({
         description: t("common:entity_added_successfully", {
           entity: t("common:product")
@@ -89,7 +107,19 @@ const ProductForm = ({ product }: ProductFormProps) => {
     onError: (errors: ClientError) => {
       setErrors(errors)
     },
-    onSuccess: () => {
+    onSuccess: async (data) => {
+      Promise.all(
+        images.map(async (image, idx) => {
+          await createImageMutation.mutateAsync({
+            createImageInput: {
+              productId: data.updateProduct.id,
+              fileUuid: image.uuid,
+              sort: idx,
+              isPublic: true
+            }
+          })
+        })
+      )
       toast({
         description: t("common:entity_updated_successfully", {
           entity: t("common:product")
@@ -125,6 +155,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
       name: product?.name,
       sku: product?.sku,
       type: product?.type,
+      slug: product?.slug,
       title: product?.title || "",
       description: product?.description || "",
       metaDescription: product?.metaDescription || "",
@@ -145,8 +176,8 @@ const ProductForm = ({ product }: ProductFormProps) => {
       vocabularyId: productsVocabulary.data?.vocabulary.id
     }
   })
-  const brands = useGetAllBrandsQuery(graphqlRequestClient)
-  const uoms = useGetAllUoMsQuery(graphqlRequestClient)
+  const brands = useGetAllBrandsWithoutPaginationQuery(graphqlRequestClient)
+  const uoms = useGetAllUomsWithoutPaginationQuery(graphqlRequestClient)
 
   const onSubmit = (data: CreateProductType) => {
     const { name, slug, sku, type, categoryId, brandId, uomId, isActive } = data
@@ -243,7 +274,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             className="input-field flex items-center text-start"
                           >
                             {field.value
-                              ? uoms.data?.uoms.data.find(
+                              ? uoms.data?.uomsWithoutPagination.find(
                                   (uom) => uom && uom.id === field.value
                                 )?.name
                               : t("common:choose_entity", {
@@ -266,7 +297,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             })}
                           </CommandEmpty>
                           <CommandGroup>
-                            {uoms.data?.uoms.data.map(
+                            {uoms.data?.uomsWithoutPagination.map(
                               (uom) =>
                                 uom && (
                                   <CommandItem
@@ -275,7 +306,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                                     onSelect={(value) => {
                                       form.setValue(
                                         "uomId",
-                                        uoms.data?.uoms.data.find(
+                                        uoms.data?.uomsWithoutPagination.find(
                                           (item) =>
                                             item &&
                                             item.name.toLowerCase() === value
@@ -525,7 +556,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             className="input-field flex items-center text-start"
                           >
                             {field.value
-                              ? brands.data?.brands.data.find(
+                              ? brands.data?.brandsWithoutPagination.find(
                                   (brand) => brand && brand.id === field.value
                                 )?.name
                               : t("common:choose_entity", {
@@ -548,7 +579,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                             })}
                           </CommandEmpty>
                           <CommandGroup>
-                            {brands.data?.brands.data.map(
+                            {brands.data?.brandsWithoutPagination.map(
                               (brand) =>
                                 brand && (
                                   <CommandItem
@@ -557,7 +588,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                                     onSelect={(value) => {
                                       form.setValue(
                                         "brandId",
-                                        brands.data?.brands.data.find(
+                                        brands.data?.brandsWithoutPagination.find(
                                           (item) =>
                                             item &&
                                             item.name.toLowerCase() === value
@@ -587,13 +618,20 @@ const ProductForm = ({ product }: ProductFormProps) => {
               />
 
               <Dropzone
+                existingImages={product && product.images}
                 uploadPath={uploadPaths.productImages}
                 onAddition={(file) => {
-                  setImages((prevImages) => [...prevImages, file])
+                  setImages((prevImages) => [
+                    ...prevImages,
+                    {
+                      uuid: file.uuid as string,
+                      expiresAt: file.expiresAt as string
+                    }
+                  ])
                 }}
                 onDelete={(file) => {
                   setImages((images) =>
-                    images.filter((image) => image.name !== file.name)
+                    images.filter((image) => image.uuid !== file.uuid)
                   )
                 }}
               />
