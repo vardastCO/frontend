@@ -1,5 +1,5 @@
-query GetAllUOMs {
-  uoms {
+query GetAllUOMs($indexUomInput: IndexUomInput) {
+  uoms(indexUomInput: $indexUomInput) {
     total
     perPage
     currentPage
