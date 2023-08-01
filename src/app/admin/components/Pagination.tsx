@@ -34,13 +34,16 @@ const Pagination = ({ total, page, onChange }: Props) => {
     [&>button:first-child]:rounded-r-md
     [&>button:last-child]:rounded-l-md"
       >
-        <Button
-          noStyle
-          onClick={() => pagination.previous()}
-          className="inline-flex cursor-pointer items-center justify-center bg-white px-2 text-gray-700 hover:bg-gray-50 md:px-3"
-        >
-          قبلی
-        </Button>
+        {pagination.active !== 1 && (
+          <Button
+            noStyle
+            onClick={() => pagination.previous()}
+            className="inline-flex cursor-pointer items-center justify-center bg-white px-2 text-gray-700 hover:bg-gray-50 md:px-3"
+          >
+            قبلی
+          </Button>
+        )}
+
         {pagination.range.map((page, idx) => (
           <Fragment key={idx}>
             {typeof page === "number" ? (
@@ -63,13 +66,15 @@ const Pagination = ({ total, page, onChange }: Props) => {
             )}
           </Fragment>
         ))}
-        <Button
-          noStyle
-          onClick={() => pagination.next()}
-          className="inline-flex cursor-pointer items-center justify-center bg-white px-2 hover:bg-gray-50 md:px-3"
-        >
-          بعدی
-        </Button>
+        {pagination.active !== total && (
+          <Button
+            noStyle
+            onClick={() => pagination.next()}
+            className="inline-flex cursor-pointer items-center justify-center bg-white px-2 hover:bg-gray-50 md:px-3"
+          >
+            بعدی
+          </Button>
+        )}
       </div>
     </div>
   )
