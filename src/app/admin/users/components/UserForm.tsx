@@ -181,7 +181,8 @@ const UserForm = ({ user }: Props) => {
       language: user?.language || UserLanguagesEnum.Farsi,
       mustChangePassword: user?.mustChangePassword,
       displayRoleId: user?.displayRole.id,
-      status: user?.status || UserStatusesEnum.Active
+      status: user?.status || UserStatusesEnum.Active,
+      avatarUuid: user?.avatarFile?.uuid
     }
   })
 
