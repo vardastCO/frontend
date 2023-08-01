@@ -50,6 +50,7 @@ const UserEdit = ({ uuid }: Props) => {
         </TabsContent>
         <TabsContent value="permissions">
           <UserPermissionsForm
+            userId={data.user.id}
             userRoles={data.user.roles as Role[]}
             userPermissions={data.user.permissions as Permission[]}
           />

@@ -33,11 +33,13 @@ import { Checkbox } from "@core/components/ui/checkbox"
 import { toast } from "@core/hooks/use-toast"
 
 interface UserPermissionsFormType {
+  userId: number
   userRoles: Role[]
   userPermissions: Permission[]
 }
 
 const UserPermissionsForm = ({
+  userId,
   userRoles,
   userPermissions
 }: UserPermissionsFormType) => {
@@ -94,7 +96,7 @@ const UserPermissionsForm = ({
     const { roles, permissions } = data
     updateUserMutation.mutate({
       updateUserInput: {
-        id: 1,
+        id: userId,
         roleIds: roles,
         permissionIds: permissions
       }
