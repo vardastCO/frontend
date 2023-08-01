@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import router from "next/router"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ClientError } from "graphql-request"
 import {
@@ -69,6 +69,7 @@ type ProductFormProps = {
 
 const ProductForm = ({ product }: ProductFormProps) => {
   const { t } = useTranslation()
+  const router = useRouter()
   const [images, setImages] = useState<
     { uuid: string; expiresAt: string; image?: Image }[]
   >([])
@@ -79,7 +80,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
     onError: (errors: ClientError) => {
       setErrors(errors)
     },
-    onSuccess: () => {
+    onSuccess: async (data) => {
       toast({
         description: t("common:entity_added_successfully", {
           entity: t("common:product")
@@ -94,7 +95,19 @@ const ProductForm = ({ product }: ProductFormProps) => {
     onError: (errors: ClientError) => {
       setErrors(errors)
     },
-    onSuccess: () => {
+    onSuccess: async (data) => {
+      Promise.all(
+        images.map(async (image, idx) => {
+          await createImageMutation.mutateAsync({
+            createImageInput: {
+              productId: data.updateProduct.id,
+              fileUuid: image.uuid,
+              sort: idx,
+              isPublic: true
+            }
+          })
+        })
+      )
       toast({
         description: t("common:entity_updated_successfully", {
           entity: t("common:product")
@@ -130,6 +143,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
       name: product?.name,
       sku: product?.sku,
       type: product?.type,
+      slug: product?.slug,
       title: product?.title || "",
       description: product?.description || "",
       metaDescription: product?.metaDescription || "",
@@ -152,20 +166,6 @@ const ProductForm = ({ product }: ProductFormProps) => {
   })
   const brands = useGetAllBrandsWithoutPaginationQuery(graphqlRequestClient)
   const uoms = useGetAllUomsWithoutPaginationQuery(graphqlRequestClient)
-
-  //   if (product && product.images) {
-  //     product.images.map((image) => {
-  //       image &&
-  //         setImages((prevImages) => [
-  //           ...prevImages,
-  //           {
-  //             uuid: image.file.uuid as string,
-  //             expiresAt: image.file.presignedUrl.expiresAt as string,
-  //             image: image as Image
-  //           }
-  //         ])
-  //     })
-  //   }
 
   const onSubmit = (data: CreateProductType) => {
     const { name, slug, sku, type, categoryId, brandId, uomId, isActive } = data
