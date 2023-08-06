@@ -8,6 +8,7 @@ import { formatDistanceToNow, setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 import { ClientError } from "graphql-request"
 import {
+  LucideAlertOctagon,
   LucideBoxes,
   LucideCheck,
   LucideChevronsUpDown,
@@ -48,6 +49,7 @@ import {
   FormLabel,
   FormMessage
 } from "@core/components/react-hook-form/form"
+import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Button } from "@core/components/ui/button"
 import {
   Command,
@@ -229,6 +231,20 @@ const ProductForm = ({ product }: ProductFormProps) => {
 
   return (
     <Form {...form}>
+      {errors && (
+        <Alert variant="danger">
+          <LucideAlertOctagon />
+          <AlertTitle>خطا</AlertTitle>
+          <AlertDescription>
+            {(
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => (
+              <p key={error}>{error}</p>
+            ))}
+          </AlertDescription>
+        </Alert>
+      )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="create-product">
           <div className="mb-6 mt-8 flex items-end justify-between">
