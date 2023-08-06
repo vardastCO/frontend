@@ -67,8 +67,7 @@ const SingupForm = (props: Props) => {
 
         if (nextState === "VALIDATE_OTP") {
           setValidationKey(validationKey as string)
-          //   setRemainingSeconds(remainingSeconds as number)
-          startCountdown(60)
+          startCountdown(remainingSeconds as number)
           setMessage(message as string)
           setFormState(2)
         }
@@ -87,6 +86,14 @@ const SingupForm = (props: Props) => {
       if (nextState === "VALIDATE_CELLPHONE") {
         setFormState(1)
       }
+
+      if (nextState === "SIGNUP") {
+        setFormState(3)
+      }
+
+      if (nextState === "LOGIN") {
+        router.push("/auth/signin")
+      }
     }
   })
   const signupMutation = useSignupMutation(graphqlRequestClient, {
@@ -96,6 +103,7 @@ const SingupForm = (props: Props) => {
     onSuccess: (data) => {
       const { message } = data.signup
       setErrors(null)
+      setFormState(4)
       setMessage(message as string)
     }
   })
@@ -271,7 +279,11 @@ const SingupForm = (props: Props) => {
               {secondsLeft && secondsLeft > 0 ? (
                 <span>ارسال مجدد رمز {secondsLeft}</span>
               ) : (
-                <Button variant="link" className="justify-start">
+                <Button
+                  onClick={() => setFormState(1)}
+                  variant="link"
+                  className="justify-start"
+                >
                   ارسال مجدد رمز یکبار مصرف
                 </Button>
               )}
@@ -344,7 +356,7 @@ const SingupForm = (props: Props) => {
                     <FormControl>
                       <Input
                         placeholder={t("common:email")}
-                        type="text"
+                        type="email"
                         {...field}
                       />
                     </FormControl>
@@ -361,7 +373,7 @@ const SingupForm = (props: Props) => {
                     <FormControl>
                       <Input
                         placeholder={t("common:password")}
-                        type="text"
+                        type="password"
                         {...field}
                       />
                     </FormControl>
