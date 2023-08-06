@@ -3,9 +3,6 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
-import { formatDistanceToNow, setDefaultOptions } from "date-fns"
-import { faIR } from "date-fns/locale"
 import { ClientError } from "graphql-request"
 import {
   LucideAlertOctagon,
@@ -69,15 +66,12 @@ import { Switch } from "@core/components/ui/switch"
 import { Textarea } from "@core/components/ui/textarea"
 import { toast } from "@core/hooks/use-toast"
 import { uploadPaths } from "@core/lib/uploadPaths"
+import AttributeSection from "@/app/admin/products/components/AttributeSection"
+import PriceSection from "@/app/admin/products/components/PriceSection"
 
 type ProductFormProps = {
   product?: Product
 }
-
-setDefaultOptions({
-  locale: faIR,
-  weekStartsOn: 6
-})
 
 const ProductForm = ({ product }: ProductFormProps) => {
   const { t } = useTranslation()
@@ -670,117 +664,14 @@ const ProductForm = ({ product }: ProductFormProps) => {
               />
             </div>
 
-            <div>
-              <h2 className="section-title">
-                {t("common:create_product_pricing_section_title")}
-              </h2>
-              <p className="section-description">
-                {t("common:create_product_pricing_section_description")}
-              </p>
-
-              <div className="section-body">
-                <div className="card table-responsive rounded">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>{t("common:price")}</th>
-                        <th>{t("common:submitted_date")}</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {product?.prices.map(
-                        (price) =>
-                          price && (
-                            <tr key={price.id}>
-                              <td>
-                                {digitsEnToFa(addCommas(price.amount))}{" "}
-                                {t("common:toman")}
-                              </td>
-                              <td>
-                                {digitsEnToFa(
-                                  formatDistanceToNow(
-                                    new Date(price.createdAt).getTime(),
-                                    {
-                                      addSuffix: true
-                                    }
-                                  )
-                                )}
-                              </td>
-                              <td>
-                                {price.isPublic ? (
-                                  <span className="tag tag-sm tag-light tag-success">
-                                    {t("common:public")}
-                                  </span>
-                                ) : (
-                                  <span className="tag tag-sm tag-light tag-gray">
-                                    {t("common:private")}
-                                  </span>
-                                )}
-                              </td>
-                            </tr>
-                          )
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="mt-8 flex justify-end">
-                  <Button variant="secondary">
-                    {t("common:add_entity", { entity: t("common:price") })}
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="section-title">
-                {t("common:create_product_attributes_section_title")}
-              </h2>
-              <p className="section-description">
-                {t("common:create_product_attributes_section_description")}
-              </p>
-              <div className="section-body">
-                <div className="card table-responsive rounded">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>{t("common:attribute")}</th>
-                        <th>{t("common:value")}</th>
-                        <th>{t("common:product_sku")}</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {product?.attributeValues.map(
-                        (attribute) =>
-                          attribute && (
-                            <tr key={attribute.id}>
-                              <td>{attribute.attribute.name}</td>
-                              <td>
-                                {attribute.value}{" "}
-                                {attribute.attribute.uom?.name}
-                              </td>
-                              <td>{attribute.sku}</td>
-                              <td>
-                                <Button size="small" variant="secondary">
-                                  {t("common:edit")}
-                                </Button>
-                              </td>
-                            </tr>
-                          )
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="mt-8 flex justify-end">
-                  <Button variant="secondary">
-                    {t("common:add_entity", { entity: t("common:attribute") })}
-                  </Button>
-                </div>
-              </div>
-            </div>
+            <PriceSection
+              prices={product?.prices}
+              productId={product?.id || 0}
+            />
+            <AttributeSection
+              attributes={product?.attributeValues}
+              productId={product?.id || 0}
+            />
 
             <div>
               <h2 className="section-title">

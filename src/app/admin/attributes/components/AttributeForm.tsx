@@ -76,7 +76,9 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
     (attribute?.categories as Category[]) || []
   )
   const [errors, setErrors] = useState<ClientError>()
-  const [values, setValues] = useState<string[]>(attribute?.values?.options)
+  const [values, setValues] = useState<string[]>(
+    attribute?.values?.options || []
+  )
 
   const attributeTypes = enumToKeyValueObject(AttributeTypesEnum)
 
@@ -157,7 +159,7 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
           slug,
           type,
           uomId,
-          values,
+          values: JSON.stringify(values),
           isFilterable,
           isPublic,
           isRequired,
@@ -171,7 +173,7 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
           slug,
           type,
           uomId,
-          values,
+          values: JSON.stringify(values),
           isFilterable,
           isPublic,
           isRequired,

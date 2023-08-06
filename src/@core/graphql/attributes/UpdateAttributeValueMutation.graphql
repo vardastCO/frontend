@@ -1,4 +1,4 @@
-mutation UpdateAttributeValue(
+mutation UpdateAttributeValueMutation(
   $updateAttributeValueInput: UpdateAttributeValueInput!
 ) {
   updateAttributeValue(updateAttributeValueInput: $updateAttributeValueInput) {

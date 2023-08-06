@@ -1,0 +1,8 @@
+mutation UpdatePriceMutation($updatePriceInput: UpdatePriceInput!) {
+  updatePrice(updatePriceInput: $updatePriceInput) {
+    id
+    type
+    isPublic
+    createdAt
+  }
+}
