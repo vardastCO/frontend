@@ -244,6 +244,12 @@ devDependencies:
   eslint-plugin-prettier:
     specifier: ^5.0.0
     version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.46.0)(prettier@3.0.1)
+  graphql-codegen-typescript-validation-schema:
+    specifier: ^0.11.1
+    version: 0.11.1(graphql@16.7.1)
+  graphql-codegen-zod:
+    specifier: ^1.10.6
+    version: 1.10.6(graphql@16.7.1)
   next-translate-plugin:
     specifier: 2.5.2
     version: 2.5.2(next-translate@2.5.2)
@@ -2285,8 +2291,8 @@ packages:
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
-      '@graphql-codegen/plugin-helpers': 5.0.0(graphql@16.7.1)
-      '@graphql-tools/utils': 10.0.1(graphql@16.7.1)
+      '@graphql-codegen/plugin-helpers': 5.0.1(graphql@16.7.1)
+      '@graphql-tools/utils': 10.0.4(graphql@16.7.1)
       graphql: 16.7.1
       tslib: 2.5.3
     dev: true
@@ -6506,6 +6512,36 @@ packages:
 
   /graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
+
+  /graphlib@2.1.8:
+    resolution: {integrity: sha512-jcLLfkpoVGmH7/InMC/1hIvOPSUh38oJtGhvrOFGzioE1DZ+0YW16RgmOJhHiuWTvGiJQ9Z1Ik43JvkRPRvE+A==}
+    dependencies:
+      lodash: 4.17.21
+    dev: true
+
+  /graphql-codegen-typescript-validation-schema@0.11.1(graphql@16.7.1):
+    resolution: {integrity: sha512-ompXw6VK4JXv+60wQL3H7wtzfjvw6Ic047suJ/ETW34MBjQ1JM2AcLBffmDBKvgrDWJg4mMTxJRChDeDxofIKg==}
+    peerDependencies:
+      graphql: ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@graphql-codegen/plugin-helpers': 5.0.1(graphql@16.7.1)
+      '@graphql-codegen/schema-ast': 4.0.0(graphql@16.7.1)
+      '@graphql-codegen/visitor-plugin-common': 4.0.1(graphql@16.7.1)
+      '@graphql-tools/utils': 10.0.4(graphql@16.7.1)
+      graphlib: 2.1.8
+      graphql: 16.7.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: true
+
+  /graphql-codegen-zod@1.10.6(graphql@16.7.1):
+    resolution: {integrity: sha512-53ui17iqfJknMn/kW2VxqkWqLe06+RfWIeXU4ykPhoGmUtbeoyp1a2DNSKNL1WjHV9awyfI/FnG4P87gqyPxdw==}
+    dependencies:
+      '@graphql-tools/utils': 8.13.1(graphql@16.7.1)
+    transitivePeerDependencies:
+      - graphql
+    dev: true
 
   /graphql-config@5.0.2(@types/node@20.4.8)(graphql@16.7.1):
     resolution: {integrity: sha512-7TPxOrlbiG0JplSZYCyxn2XQtqVhXomEjXUmWJVSS5ET1nPhOJSsIb/WTwqWhcYX6G0RlHXSj9PLtGTKmxLNGg==}
