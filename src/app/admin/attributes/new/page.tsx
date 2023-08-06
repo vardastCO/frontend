@@ -1,7 +1,7 @@
-import CreateAttribute from "./components/CreateAttribute"
+import AttributeForm from "../components/AttributeForm"
 
 const CreateAttributePage = () => {
-  return <CreateAttribute />
+  return <AttributeForm />
 }
 
 export default CreateAttributePage

@@ -1,3 +1,4 @@
+import { phoneNumberValidator } from "@persian-tools/persian-tools"
 import { z } from "zod"
 
 import { persianCharactersValidator } from "./persianCharactersValidator"
@@ -14,6 +15,12 @@ type Json = Literal | { [key: string]: Json } | Json[]
 export const jsonSchema: z.ZodType<Json> = z.lazy(() =>
   z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
 )
+
+export const cellphoneNumberSchema = z
+  .string()
+  .refine((data) => phoneNumberValidator(data), {
+    message: "شماره موبایل صحیح نیست"
+  })
 
 export const slugInputSchema = z
   .string()

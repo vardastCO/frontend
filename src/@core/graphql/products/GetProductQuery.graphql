@@ -294,5 +294,20 @@ query GetProduct($id: Int!) {
         createdAt
       }
     }
+    prices {
+      id
+      type
+      amount
+      isPublic
+      createdAt
+      seller {
+        id
+        name
+        slug
+        bio
+        createdAt
+        updatedAt
+      }
+    }
   }
 }
