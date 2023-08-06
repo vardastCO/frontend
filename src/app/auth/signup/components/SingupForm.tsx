@@ -101,9 +101,21 @@ const SingupForm = (props: Props) => {
       setErrors(errors)
     },
     onSuccess: (data) => {
-      const { message } = data.signup
+      const { message, nextState } = data.signup
       setErrors(null)
-      setFormState(4)
+
+      if (nextState === "VALIDATE_CELLPHONE") {
+        setFormState(1)
+      }
+
+      if (nextState === "LOGIN") {
+        router.push("/auth/signin")
+      }
+
+      if (nextState === "LOGGED_IN") {
+        setFormState(4)
+      }
+
       setMessage(message as string)
     }
   })
