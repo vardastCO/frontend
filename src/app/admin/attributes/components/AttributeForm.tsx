@@ -76,11 +76,7 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
     (attribute?.categories as Category[]) || []
   )
   const [errors, setErrors] = useState<ClientError>()
-  const [radioValues, setRadioValues] = useState<string[]>([])
-  const [checkboxValues, setCheckboxValues] = useState<string[]>([])
-  const [checkboxCheckedValues, setCheckboxCheckedValues] = useState<string[]>(
-    []
-  )
+  const [values, setValues] = useState<string[]>(attribute?.values?.options)
 
   const attributeTypes = enumToKeyValueObject(AttributeTypesEnum)
 
@@ -128,7 +124,6 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
     slug: z.string(),
     type: z.nativeEnum(AttributeTypesEnum),
     uomId: z.number().optional(),
-    values: z.array(z.string()).nullish(),
     isPublic: z.boolean().optional(),
     isFilterable: z.boolean().optional(),
     isRequired: z.boolean().optional()
@@ -144,8 +139,7 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
       uomId: attribute?.uom?.id,
       isRequired: attribute?.isRequired,
       isFilterable: attribute?.isFilterable,
-      isPublic: attribute?.isPublic,
-      values: attribute?.values?.options
+      isPublic: attribute?.isPublic
     }
   })
 
@@ -153,16 +147,7 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
   const type = form.watch("type")
 
   function onSubmit(data: CreateAttributeType) {
-    const {
-      name,
-      slug,
-      type,
-      uomId,
-      isFilterable,
-      isPublic,
-      isRequired,
-      values
-    } = data
+    const { name, slug, type, uomId, isFilterable, isPublic, isRequired } = data
 
     if (attribute) {
       updateAttributeMutation.mutate({
@@ -381,47 +366,38 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
               <div className="col-span-full flex flex-col gap-6">
                 {type === "CHECKBOX" && (
                   <>
-                    <FormField
-                      control={form.control}
-                      name="values"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            {t("common:entity_options", {
+                    <FormItem>
+                      <FormLabel>
+                        {t("common:entity_options", {
+                          entity: t("common:checkbox")
+                        })}
+                      </FormLabel>
+                      <FormControl>
+                        <TagInput
+                          tags={values}
+                          onAddition={(item) => {
+                            setValues((prevValues) => {
+                              const newValues = [...prevValues, item]
+                              return newValues
+                            })
+                          }}
+                          onDelete={(idx) => {
+                            setValues((prevValues) => {
+                              const newValues = prevValues.filter(
+                                (item, index) => index !== idx
+                              )
+                              return newValues
+                            })
+                          }}
+                          placeholder={t(
+                            "common:entity_comma_separated_options_placeholder",
+                            {
                               entity: t("common:checkbox")
-                            })}
-                          </FormLabel>
-                          <FormControl>
-                            <TagInput
-                              tags={field.value}
-                              onAddition={(item) => {
-                                setCheckboxValues((prevValues) => {
-                                  const newValues = [...prevValues, item]
-                                  form.setValue("values", newValues)
-                                  return newValues
-                                })
-                              }}
-                              onDelete={(idx) => {
-                                setCheckboxValues((prevValues) => {
-                                  const newValues = prevValues.filter(
-                                    (item, index) => index !== idx
-                                  )
-                                  form.setValue("values", newValues)
-                                  return newValues
-                                })
-                              }}
-                              placeholder={t(
-                                "common:entity_comma_separated_options_placeholder",
-                                {
-                                  entity: t("common:checkbox")
-                                }
-                              )}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                            }
+                          )}
+                        />
+                      </FormControl>
+                    </FormItem>
                     {/* <FormField
                     control={form.control}
                     name="defaultValues"
@@ -463,47 +439,39 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
                 )}
                 {type === "RADIO" && (
                   <>
-                    <FormField
-                      control={form.control}
-                      name="values"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            {t("common:entity_options", {
+                    <FormItem>
+                      <FormLabel>
+                        {t("common:entity_options", {
+                          entity: t("common:radio")
+                        })}
+                      </FormLabel>
+                      <FormControl>
+                        <TagInput
+                          tags={values}
+                          onAddition={(item) => {
+                            setValues((prevValues) => {
+                              const newValues = [...prevValues, item]
+                              return newValues
+                            })
+                          }}
+                          onDelete={(idx) => {
+                            setValues((prevValues) => {
+                              const newValues = prevValues.filter(
+                                (item, index) => index !== idx
+                              )
+                              return newValues
+                            })
+                          }}
+                          placeholder={t(
+                            "common:entity_comma_separated_options_placeholder",
+                            {
                               entity: t("common:radio")
-                            })}
-                          </FormLabel>
-                          <FormControl>
-                            <TagInput
-                              tags={field.value}
-                              onAddition={(item) => {
-                                setRadioValues((prevValues) => {
-                                  const newValues = [...prevValues, item]
-                                  form.setValue("values", newValues)
-                                  return newValues
-                                })
-                              }}
-                              onDelete={(idx) => {
-                                setRadioValues((prevValues) => {
-                                  const newValues = prevValues.filter(
-                                    (item, index) => index !== idx
-                                  )
-                                  form.setValue("values", newValues)
-                                  return newValues
-                                })
-                              }}
-                              placeholder={t(
-                                "common:entity_comma_separated_options_placeholder",
-                                {
-                                  entity: t("common:radio")
-                                }
-                              )}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                            }
+                          )}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                     {/* <FormField
                     control={form.control}
                     name="radioDefaultOption"
@@ -547,44 +515,38 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
                 )}
                 {type === "SELECT" && (
                   <>
-                    <FormField
-                      control={form.control}
-                      name="values"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            {t("common:entity_options", {
+                    <FormItem>
+                      <FormLabel>
+                        {t("common:entity_options", {
+                          entity: t("common:select_box")
+                        })}
+                      </FormLabel>
+                      <FormControl>
+                        <TagInput
+                          tags={values}
+                          onAddition={(item) => {
+                            setValues((prevValues) => {
+                              const newValues = [...prevValues, item]
+                              return newValues
+                            })
+                          }}
+                          onDelete={(idx) => {
+                            setValues((prevValues) => {
+                              const newValues = prevValues.filter(
+                                (item, index) => index !== idx
+                              )
+                              return newValues
+                            })
+                          }}
+                          placeholder={t(
+                            "common:entity_comma_separated_options_placeholder",
+                            {
                               entity: t("common:select_box")
-                            })}
-                          </FormLabel>
-                          <FormControl>
-                            <TagInput
-                              tags={field.value}
-                              onAddition={(item) => {
-                                setCheckboxValues((prevValues) => [
-                                  ...prevValues,
-                                  item
-                                ])
-                              }}
-                              onDelete={(idx) => {
-                                setCheckboxValues((prevValues) =>
-                                  prevValues.filter(
-                                    (item, index) => index !== idx
-                                  )
-                                )
-                              }}
-                              placeholder={t(
-                                "common:entity_comma_separated_options_placeholder",
-                                {
-                                  entity: t("common:select_box")
-                                }
-                              )}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                            }
+                          )}
+                        />
+                      </FormControl>
+                    </FormItem>
                     {/* <FormField
                     control={form.control}
                     name="selectDefaultOption"
