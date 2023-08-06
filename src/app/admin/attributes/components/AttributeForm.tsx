@@ -3,14 +3,21 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { LucideCheck, LucideChevronsUpDown } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
-import { AttributeTypesEnum, useCreateAttributeMutation } from "@/generated"
+import {
+  Attribute,
+  AttributeTypesEnum,
+  useCreateAttributeMutation,
+  useGetAllUomsWithoutPaginationQuery
+} from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { enumToKeyValueObject } from "@core/utils/enumToKeyValueObject"
+import { mergeClasses } from "@core/utils/mergeClasses"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import { jsonSchema, slugInputSchema } from "@core/utils/zodValidationSchemas"
 import {
@@ -22,7 +29,19 @@ import {
   FormMessage
 } from "@core/components/react-hook-form/form"
 import { Button } from "@core/components/ui/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem
+} from "@core/components/ui/command"
 import { Input } from "@core/components/ui/input"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@core/components/ui/popover"
 import {
   Select,
   SelectContent,
@@ -35,7 +54,11 @@ import { TagInput } from "@core/components/ui/tag-input"
 import { Textarea } from "@core/components/ui/textarea"
 import { useToast } from "@core/hooks/use-toast"
 
-const CreateAttribute = () => {
+type AttributeFormProps = {
+  attribute?: Attribute
+}
+
+const AttributeForm = ({ attribute }: AttributeFormProps) => {
   const { t } = useTranslation()
   const { toast } = useToast()
   const router = useRouter()
@@ -68,6 +91,7 @@ const CreateAttribute = () => {
       name: z.string().min(1),
       slug: slugInputSchema,
       type: z.nativeEnum(AttributeTypesEnum),
+      uomId: z.number().optional(),
       textDefaultValue: z.string().optional(),
       textareaDefaultValue: z.string().optional(),
       checkboxOptions: jsonSchema.optional(),
@@ -76,9 +100,9 @@ const CreateAttribute = () => {
       radioDefaultOption: z.string().optional(),
       selectOptions: jsonSchema.optional(),
       selectDefaultOption: z.string().optional(),
-      visible: z.boolean().optional(),
-      filterable: z.boolean().optional(),
-      required: z.boolean().optional()
+      isPublic: z.boolean().optional(),
+      isFilterable: z.boolean().optional(),
+      isRequired: z.boolean().optional()
     })
     .refine(
       (schema) =>
@@ -106,7 +130,16 @@ const CreateAttribute = () => {
 
   const form = useForm<CreateAttributeType>({
     resolver: zodResolver(CreateAttributeSchema),
-    defaultValues: {}
+    defaultValues: {
+      name: attribute?.name,
+      slug: attribute?.slug,
+      type: attribute?.type,
+      uomId: attribute?.uom?.id,
+      //   selectOptions: attribute?.values?.options,
+      isRequired: attribute?.isRequired,
+      isFilterable: attribute?.isFilterable,
+      isPublic: attribute?.isPublic
+    }
   })
 
   const name = form.watch("name")
@@ -141,6 +174,8 @@ const CreateAttribute = () => {
       }
     })
   }
+
+  const uoms = useGetAllUomsWithoutPaginationQuery(graphqlRequestClient)
 
   return (
     <Form {...form}>
@@ -220,7 +255,83 @@ const CreateAttribute = () => {
               </FormItem>
             )}
           />
-          <div></div>
+
+          <FormField
+            control={form.control}
+            name="uomId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:uom")}</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        disabled={uoms.isLoading || uoms.isError}
+                        noStyle
+                        role="combobox"
+                        className="input-field flex items-center text-start"
+                      >
+                        {field.value
+                          ? uoms.data?.uomsWithoutPagination.find(
+                              (uom) => uom && uom.id === field.value
+                            )?.name
+                          : t("common:choose_entity", {
+                              entity: t("common:uom")
+                            })}
+                        <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <Command>
+                      <CommandInput
+                        placeholder={t("common:search_entity", {
+                          entity: t("common:uom")
+                        })}
+                      />
+                      <CommandEmpty>
+                        {t("common:no_entity_found", {
+                          entity: t("common:uom")
+                        })}
+                      </CommandEmpty>
+                      <CommandGroup>
+                        {uoms.data?.uomsWithoutPagination.map(
+                          (uom) =>
+                            uom && (
+                              <CommandItem
+                                value={uom.name}
+                                key={uom.id}
+                                onSelect={(value) => {
+                                  form.setValue(
+                                    "uomId",
+                                    uoms.data?.uomsWithoutPagination.find(
+                                      (item) =>
+                                        item &&
+                                        item.name.toLowerCase() === value
+                                    )?.id || 0
+                                  )
+                                }}
+                              >
+                                <LucideCheck
+                                  className={mergeClasses(
+                                    "mr-2 h-4 w-4",
+                                    uom.id === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {uom.name}
+                              </CommandItem>
+                            )
+                        )}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {type && (
             <div className="col-span-full flex flex-col gap-6">
@@ -512,10 +623,11 @@ const CreateAttribute = () => {
               )}
             </div>
           )}
+
           <div className="flex flex-col gap-4">
             <FormField
               control={form.control}
-              name="visible"
+              name="isPublic"
               render={({ field }) => (
                 <FormItem>
                   <div className="flex items-center gap-1">
@@ -533,7 +645,7 @@ const CreateAttribute = () => {
             />
             <FormField
               control={form.control}
-              name="filterable"
+              name="isFilterable"
               render={({ field }) => (
                 <FormItem>
                   <div className="flex items-center gap-1">
@@ -551,7 +663,7 @@ const CreateAttribute = () => {
             />
             <FormField
               control={form.control}
-              name="required"
+              name="isRequired"
               render={({ field }) => (
                 <FormItem>
                   <div className="flex items-center gap-1">
@@ -569,9 +681,36 @@ const CreateAttribute = () => {
             />
           </div>
         </div>
+
+        {attribute && (
+          <div className="mt-12">
+            <h1 className="mb-8 text-lg font-bold text-gray-800">
+              {t("common:categories")}
+            </h1>
+            <div className="card table-responsive rounded">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>{t("common:title")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {attribute.categories.map(
+                    (category) =>
+                      category && (
+                        <tr key={category.id}>
+                          <td>{category.title}</td>
+                        </tr>
+                      )
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </form>
     </Form>
   )
 }
 
-export default CreateAttribute
+export default AttributeForm

@@ -1,5 +1,5 @@
 query GetAttribute($id: Int!, $slug: String) {
-  attribute(id: 1, slug: null) {
+  attribute(id: $id, slug: $slug) {
     id
     name
     slug
@@ -13,5 +13,24 @@ query GetAttribute($id: Int!, $slug: String) {
     isPublic
     isRequired
     isFilterable
+    uom {
+      id
+      name
+      slug
+      symbol
+      isActive
+    }
+    categories {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
+    }
   }
 }
