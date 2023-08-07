@@ -30,9 +30,14 @@ import { VocabulariesContext } from "./VocabulariesProvider"
 interface CategoryCardProps {
   vocabularySlug: string
   category: Category
+  onDeleteTriggered: (category: Category) => void
 }
 
-const CategoryCard = ({ category, vocabularySlug }: CategoryCardProps) => {
+const CategoryCard = ({
+  category,
+  vocabularySlug,
+  onDeleteTriggered
+}: CategoryCardProps) => {
   const { t } = useTranslation()
   const { removeStateAtom, entityToRemoveAtom } =
     useContext(VocabulariesContext)
@@ -59,11 +64,7 @@ const CategoryCard = ({ category, vocabularySlug }: CategoryCardProps) => {
   }
 
   const toggleRemoveItem = () => {
-    setEntityToRemove({
-      type: "category",
-      entity: category
-    })
-    setRemoveState(true)
+    onDeleteTriggered(category)
   }
 
   return (
@@ -126,6 +127,9 @@ const CategoryCard = ({ category, vocabularySlug }: CategoryCardProps) => {
               <CategoryCard
                 category={child as Category}
                 vocabularySlug={vocabularySlug}
+                onDeleteTriggered={(category) => {
+                  onDeleteTriggered(category)
+                }}
                 key={child?.id}
               />
             ))}

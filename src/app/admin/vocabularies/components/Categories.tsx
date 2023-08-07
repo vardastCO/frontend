@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { notFound } from "next/navigation"
 
 import { Category, useGetVocabularyQuery } from "@/generated"
@@ -9,6 +10,7 @@ import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
 import PageHeader from "@core/components/shared/PageHeader"
+import CategoryDeleteModal from "@/app/admin/vocabularies/components/CategoryDeleteModal"
 
 import CategoryCard from "./CategoryCard"
 import CreateCategory from "./CreateCategory"
@@ -18,6 +20,9 @@ type Props = {
 }
 
 const Categories = ({ slug }: Props) => {
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
+  const [categoryToDelete, setCategoryToDelete] = useState<Category>()
+
   const { isLoading, error, data } = useGetVocabularyQuery(
     graphqlRequestClient,
     {
@@ -35,12 +40,21 @@ const Categories = ({ slug }: Props) => {
         <CreateCategory vocabularyId={data.vocabulary.id} />
       </PageHeader>
       {!data.vocabulary.categories.length && <NoResult entity="category" />}
+      <CategoryDeleteModal
+        categoryToDelete={categoryToDelete}
+        open={deleteModalOpen}
+        onOpenChange={setDeleteModalOpen}
+      />
       <div>
         <div className="flex flex-col gap-2">
           {data.vocabulary.categories.map((category) => (
             <CategoryCard
               category={category as Category}
               vocabularySlug={data.vocabulary.slug}
+              onDeleteTriggered={(category) => {
+                setDeleteModalOpen(true)
+                setCategoryToDelete(category)
+              }}
               key={category?.id}
             />
           ))}

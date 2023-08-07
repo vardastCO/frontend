@@ -70,15 +70,13 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
   const { t } = useTranslation()
   const { toast } = useToast()
   const router = useRouter()
-  const [addCategoryDialogOpen, setAddCategoryDialogOpen] =
-    useState<boolean>(false)
   const [selectedCategories, setSelectedCategories] = useState<Category[]>(
     (attribute?.categories as Category[]) || []
   )
-  const [errors, setErrors] = useState<ClientError>()
   const [values, setValues] = useState<string[]>(
-    attribute?.values?.options || []
+    (attribute?.values?.options as string[]) || []
   )
+  const [errors, setErrors] = useState<ClientError>()
 
   const attributeTypes = enumToKeyValueObject(AttributeTypesEnum)
 
@@ -159,7 +157,9 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
           slug,
           type,
           uomId,
-          values: JSON.stringify(values),
+          values: {
+            options: values
+          },
           isFilterable,
           isPublic,
           isRequired,
@@ -173,7 +173,9 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
           slug,
           type,
           uomId,
-          values: JSON.stringify(values),
+          values: {
+            options: values
+          },
           isFilterable,
           isPublic,
           isRequired,
@@ -194,213 +196,212 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
   const uoms = useGetAllUomsWithoutPaginationQuery(graphqlRequestClient)
 
   return (
-    <>
-      <Form {...form}>
-        {errors && (
-          <Alert variant="danger">
-            <LucideAlertOctagon />
-            <AlertTitle>خطا</AlertTitle>
-            <AlertDescription>
-              {(
-                errors.response.errors?.at(0)?.extensions
-                  .displayErrors as string[]
-              ).map((error) => (
-                <p key={error}>{error}</p>
-              ))}
-            </AlertDescription>
-          </Alert>
-        )}
-        <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
-          <div className="mb-6 mt-8 flex items-end justify-between">
-            <h1 className="text-3xl font-black text-gray-800">
-              {name
-                ? name
-                : t("common:new_entity", { entity: t("common:attribute") })}
-            </h1>
-            <Button
-              className="sticky top-0"
-              type="submit"
-              loading={form.formState.isSubmitting}
-              disabled={form.formState.isSubmitting}
-            >
-              {t("common:save_entity", { entity: t("common:attribute") })}
-            </Button>
-          </div>
-          <div className="grid grid-cols-2 gap-6">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("common:name")}</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <Form {...form}>
+      {errors && (
+        <Alert variant="danger">
+          <LucideAlertOctagon />
+          <AlertTitle>خطا</AlertTitle>
+          <AlertDescription>
+            {(
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => (
+              <p key={error}>{error}</p>
+            ))}
+          </AlertDescription>
+        </Alert>
+      )}
+      <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+        <div className="mb-6 mt-8 flex items-end justify-between">
+          <h1 className="text-3xl font-black text-gray-800">
+            {name
+              ? name
+              : t("common:new_entity", { entity: t("common:attribute") })}
+          </h1>
+          <Button
+            className="sticky top-0"
+            type="submit"
+            loading={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting}
+          >
+            {t("common:save_entity", { entity: t("common:attribute") })}
+          </Button>
+        </div>
+        <div className="grid grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:name")}</FormLabel>
+                <FormControl>
+                  <Input type="text" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="slug"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("common:slug")}</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name="slug"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:slug")}</FormLabel>
+                <FormControl>
+                  <Input type="text" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("common:type")}</FormLabel>
-                  <Select
-                    onValueChange={(value) => {
-                      form.setValue("type", value as AttributeTypesEnum)
-                    }}
-                    defaultValue={field.value}
-                  >
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:type")}</FormLabel>
+                <Select
+                  onValueChange={(value) => {
+                    form.setValue("type", value as AttributeTypesEnum)
+                  }}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue
+                        placeholder={t("common:select_placeholder")}
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {Object.keys(attributeTypes).map((type) => (
+                      <SelectItem value={attributeTypes[type]} key={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="uomId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("common:uom")}</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder={t("common:select_placeholder")}
-                        />
-                      </SelectTrigger>
+                      <Button
+                        disabled={uoms.isLoading || uoms.isError}
+                        noStyle
+                        role="combobox"
+                        className="input-field flex items-center text-start"
+                      >
+                        {field.value
+                          ? uoms.data?.uomsWithoutPagination.find(
+                              (uom) => uom && uom.id === field.value
+                            )?.name
+                          : t("common:choose_entity", {
+                              entity: t("common:uom")
+                            })}
+                        <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
+                      </Button>
                     </FormControl>
-                    <SelectContent>
-                      {Object.keys(attributeTypes).map((type) => (
-                        <SelectItem value={attributeTypes[type]} key={type}>
-                          {type}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="uomId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("common:uom")}</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          disabled={uoms.isLoading || uoms.isError}
-                          noStyle
-                          role="combobox"
-                          className="input-field flex items-center text-start"
-                        >
-                          {field.value
-                            ? uoms.data?.uomsWithoutPagination.find(
-                                (uom) => uom && uom.id === field.value
-                              )?.name
-                            : t("common:choose_entity", {
-                                entity: t("common:uom")
-                              })}
-                          <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      <Command>
-                        <CommandInput
-                          placeholder={t("common:search_entity", {
-                            entity: t("common:uom")
-                          })}
-                        />
-                        <CommandEmpty>
-                          {t("common:no_entity_found", {
-                            entity: t("common:uom")
-                          })}
-                        </CommandEmpty>
-                        <CommandGroup>
-                          {uoms.data?.uomsWithoutPagination.map(
-                            (uom) =>
-                              uom && (
-                                <CommandItem
-                                  value={uom.name}
-                                  key={uom.id}
-                                  onSelect={(value) => {
-                                    form.setValue(
-                                      "uomId",
-                                      uoms.data?.uomsWithoutPagination.find(
-                                        (item) =>
-                                          item &&
-                                          item.name.toLowerCase() === value
-                                      )?.id || 0
-                                    )
-                                  }}
-                                >
-                                  <LucideCheck
-                                    className={mergeClasses(
-                                      "mr-2 h-4 w-4",
-                                      uom.id === field.value
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    )}
-                                  />
-                                  {uom.name}
-                                </CommandItem>
-                              )
-                          )}
-                        </CommandGroup>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {type && (
-              <div className="col-span-full flex flex-col gap-6">
-                {type === "CHECKBOX" && (
-                  <>
-                    <FormItem>
-                      <FormLabel>
-                        {t("common:entity_options", {
-                          entity: t("common:checkbox")
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <Command>
+                      <CommandInput
+                        placeholder={t("common:search_entity", {
+                          entity: t("common:uom")
                         })}
-                      </FormLabel>
-                      <FormControl>
-                        <TagInput
-                          tags={values}
-                          onAddition={(item) => {
-                            setValues((prevValues) => {
-                              const newValues = [...prevValues, item]
-                              return newValues
-                            })
-                          }}
-                          onDelete={(idx) => {
-                            setValues((prevValues) => {
-                              const newValues = prevValues.filter(
-                                (item, index) => index !== idx
-                              )
-                              return newValues
-                            })
-                          }}
-                          placeholder={t(
-                            "common:entity_comma_separated_options_placeholder",
-                            {
-                              entity: t("common:checkbox")
-                            }
-                          )}
-                        />
-                      </FormControl>
-                    </FormItem>
-                    {/* <FormField
+                      />
+                      <CommandEmpty>
+                        {t("common:no_entity_found", {
+                          entity: t("common:uom")
+                        })}
+                      </CommandEmpty>
+                      <CommandGroup>
+                        {uoms.data?.uomsWithoutPagination.map(
+                          (uom) =>
+                            uom && (
+                              <CommandItem
+                                value={uom.name}
+                                key={uom.id}
+                                onSelect={(value) => {
+                                  form.setValue(
+                                    "uomId",
+                                    uoms.data?.uomsWithoutPagination.find(
+                                      (item) =>
+                                        item &&
+                                        item.name.toLowerCase() === value
+                                    )?.id || 0
+                                  )
+                                }}
+                              >
+                                <LucideCheck
+                                  className={mergeClasses(
+                                    "mr-2 h-4 w-4",
+                                    uom.id === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {uom.name}
+                              </CommandItem>
+                            )
+                        )}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {type && (
+            <div className="col-span-full flex flex-col gap-6">
+              {type === "CHECKBOX" && (
+                <>
+                  <FormItem>
+                    <FormLabel>
+                      {t("common:entity_options", {
+                        entity: t("common:checkbox")
+                      })}
+                    </FormLabel>
+                    <FormControl>
+                      <TagInput
+                        tags={values}
+                        onAddition={(item) => {
+                          setValues((prevValues) => {
+                            const newValues = [...prevValues, item]
+                            return newValues
+                          })
+                        }}
+                        onDelete={(idx) => {
+                          setValues((prevValues) => {
+                            const newValues = prevValues.filter(
+                              (item, index) => index !== idx
+                            )
+                            return newValues
+                          })
+                        }}
+                        placeholder={t(
+                          "common:entity_comma_separated_options_placeholder",
+                          {
+                            entity: t("common:checkbox")
+                          }
+                        )}
+                      />
+                    </FormControl>
+                  </FormItem>
+                  {/* <FormField
                     control={form.control}
                     name="defaultValues"
                     render={({ field }) => (
@@ -437,44 +438,44 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
                       </FormItem>
                     )}
                   /> */}
-                  </>
-                )}
-                {type === "RADIO" && (
-                  <>
-                    <FormItem>
-                      <FormLabel>
-                        {t("common:entity_options", {
-                          entity: t("common:radio")
-                        })}
-                      </FormLabel>
-                      <FormControl>
-                        <TagInput
-                          tags={values}
-                          onAddition={(item) => {
-                            setValues((prevValues) => {
-                              const newValues = [...prevValues, item]
-                              return newValues
-                            })
-                          }}
-                          onDelete={(idx) => {
-                            setValues((prevValues) => {
-                              const newValues = prevValues.filter(
-                                (item, index) => index !== idx
-                              )
-                              return newValues
-                            })
-                          }}
-                          placeholder={t(
-                            "common:entity_comma_separated_options_placeholder",
-                            {
-                              entity: t("common:radio")
-                            }
-                          )}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                    {/* <FormField
+                </>
+              )}
+              {type === "RADIO" && (
+                <>
+                  <FormItem>
+                    <FormLabel>
+                      {t("common:entity_options", {
+                        entity: t("common:radio")
+                      })}
+                    </FormLabel>
+                    <FormControl>
+                      <TagInput
+                        tags={values}
+                        onAddition={(item) => {
+                          setValues((prevValues) => {
+                            const newValues = [...prevValues, item]
+                            return newValues
+                          })
+                        }}
+                        onDelete={(idx) => {
+                          setValues((prevValues) => {
+                            const newValues = prevValues.filter(
+                              (item, index) => index !== idx
+                            )
+                            return newValues
+                          })
+                        }}
+                        placeholder={t(
+                          "common:entity_comma_separated_options_placeholder",
+                          {
+                            entity: t("common:radio")
+                          }
+                        )}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                  {/* <FormField
                     control={form.control}
                     name="radioDefaultOption"
                     render={({ field }) => (
@@ -513,43 +514,43 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
                       </FormItem>
                     )}
                   /> */}
-                  </>
-                )}
-                {type === "SELECT" && (
-                  <>
-                    <FormItem>
-                      <FormLabel>
-                        {t("common:entity_options", {
-                          entity: t("common:select_box")
-                        })}
-                      </FormLabel>
-                      <FormControl>
-                        <TagInput
-                          tags={values}
-                          onAddition={(item) => {
-                            setValues((prevValues) => {
-                              const newValues = [...prevValues, item]
-                              return newValues
-                            })
-                          }}
-                          onDelete={(idx) => {
-                            setValues((prevValues) => {
-                              const newValues = prevValues.filter(
-                                (item, index) => index !== idx
-                              )
-                              return newValues
-                            })
-                          }}
-                          placeholder={t(
-                            "common:entity_comma_separated_options_placeholder",
-                            {
-                              entity: t("common:select_box")
-                            }
-                          )}
-                        />
-                      </FormControl>
-                    </FormItem>
-                    {/* <FormField
+                </>
+              )}
+              {type === "SELECT" && (
+                <>
+                  <FormItem>
+                    <FormLabel>
+                      {t("common:entity_options", {
+                        entity: t("common:select_box")
+                      })}
+                    </FormLabel>
+                    <FormControl>
+                      <TagInput
+                        tags={values}
+                        onAddition={(item) => {
+                          setValues((prevValues) => {
+                            const newValues = [...prevValues, item]
+                            return newValues
+                          })
+                        }}
+                        onDelete={(idx) => {
+                          setValues((prevValues) => {
+                            const newValues = prevValues.filter(
+                              (item, index) => index !== idx
+                            )
+                            return newValues
+                          })
+                        }}
+                        placeholder={t(
+                          "common:entity_comma_separated_options_placeholder",
+                          {
+                            entity: t("common:select_box")
+                          }
+                        )}
+                      />
+                    </FormControl>
+                  </FormItem>
+                  {/* <FormField
                     control={form.control}
                     name="selectDefaultOption"
                     render={({ field }) => (
@@ -588,198 +589,197 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
                       </FormItem>
                     )}
                   /> */}
-                  </>
-                )}
-                {type === "TEXT" && (
-                  <></>
-                  // <FormField
-                  //   control={form.control}
-                  //   name="values"
-                  //   render={({ field }) => (
-                  //     <FormItem>
-                  //       <FormLabel>{t("common:default_text")}</FormLabel>
-                  //       <FormControl>
-                  //         <Input {...field} placeholder={t("common:optional")} />
-                  //       </FormControl>
-                  //       <FormMessage />
-                  //     </FormItem>
-                  //   )}
-                  // />
-                )}
-                {type === "TEXTAREA" && (
-                  <></>
-                  // <FormField
-                  //   control={form.control}
-                  //   name="values"
-                  //   render={({ field }) => (
-                  //     <FormItem>
-                  //       <FormLabel>{t("common:default_text")}</FormLabel>
-                  //       <FormControl>
-                  //         <Textarea
-                  //           {...field}
-                  //           placeholder={t("common:optional")}
-                  //         />
-                  //       </FormControl>
-                  //       <FormMessage />
-                  //     </FormItem>
-                  //   )}
-                  // />
-                )}
-              </div>
-            )}
-
-            <div className="flex flex-col gap-4">
-              <FormField
-                control={form.control}
-                name="isPublic"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex items-center gap-1">
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormLabel noStyle>{t("common:visibility")}</FormLabel>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="isFilterable"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex items-center gap-1">
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormLabel noStyle>{t("common:filterable")}</FormLabel>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="isRequired"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex items-center gap-1">
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormLabel noStyle>{t("common:required")}</FormLabel>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-
-          {attribute && (
-            <div className="mt-12">
-              <div className="mb-8 flex items-center justify-between">
-                <h1 className="text-lg font-bold text-gray-800">
-                  {t("common:categories")}
-                </h1>
-              </div>
-              <FormItem className="mb-8">
-                <FormLabel>{t("common:category")}</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        disabled={categories.isLoading || categories.isError}
-                        noStyle
-                        role="combobox"
-                        className="input-field flex items-center text-start"
-                      >
-                        {t("common:choose_entity", {
-                          entity: t("common:category")
-                        })}
-                        <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="z-[99999]" hideWhenDetached={true}>
-                    <Command>
-                      <CommandInput
-                        placeholder={t("common:search_entity", {
-                          entity: t("common:category")
-                        })}
-                      />
-                      <CommandEmpty>
-                        {t("common:no_entity_found", {
-                          entity: t("common:category")
-                        })}
-                      </CommandEmpty>
-                      <CommandGroup>
-                        {categories.data?.categories.map(
-                          (category) =>
-                            category && (
-                              <CommandItem
-                                value={category.title}
-                                key={category.id}
-                                onSelect={(value) => {
-                                  setSelectedCategories((prevValues) => {
-                                    return [
-                                      ...prevValues,
-                                      categories.data?.categories.find(
-                                        (item) =>
-                                          item &&
-                                          item.title.toLowerCase() === value
-                                      ) as Category
-                                    ]
-                                  })
-                                }}
-                              >
-                                {category.title}
-                              </CommandItem>
-                            )
-                        )}
-                      </CommandGroup>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-
-              {selectedCategories && (
-                <div className="card table-responsive rounded">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>{t("common:title")}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {selectedCategories.map(
-                        (category) =>
-                          category && (
-                            <tr key={category.id}>
-                              <td>{category.title}</td>
-                            </tr>
-                          )
-                      )}
-                    </tbody>
-                  </table>
-                </div>
+                </>
+              )}
+              {type === "TEXT" && (
+                <></>
+                // <FormField
+                //   control={form.control}
+                //   name="values"
+                //   render={({ field }) => (
+                //     <FormItem>
+                //       <FormLabel>{t("common:default_text")}</FormLabel>
+                //       <FormControl>
+                //         <Input {...field} placeholder={t("common:optional")} />
+                //       </FormControl>
+                //       <FormMessage />
+                //     </FormItem>
+                //   )}
+                // />
+              )}
+              {type === "TEXTAREA" && (
+                <></>
+                // <FormField
+                //   control={form.control}
+                //   name="values"
+                //   render={({ field }) => (
+                //     <FormItem>
+                //       <FormLabel>{t("common:default_text")}</FormLabel>
+                //       <FormControl>
+                //         <Textarea
+                //           {...field}
+                //           placeholder={t("common:optional")}
+                //         />
+                //       </FormControl>
+                //       <FormMessage />
+                //     </FormItem>
+                //   )}
+                // />
               )}
             </div>
           )}
-        </form>
-      </Form>
-    </>
+
+          <div className="flex flex-col gap-4">
+            <FormField
+              control={form.control}
+              name="isPublic"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center gap-1">
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel noStyle>{t("common:visibility")}</FormLabel>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isFilterable"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center gap-1">
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel noStyle>{t("common:filterable")}</FormLabel>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isRequired"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center gap-1">
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel noStyle>{t("common:required")}</FormLabel>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        {attribute && (
+          <div className="mt-12">
+            <div className="mb-8 flex items-center justify-between">
+              <h1 className="text-lg font-bold text-gray-800">
+                {t("common:categories")}
+              </h1>
+            </div>
+            <FormItem className="mb-8">
+              <FormLabel>{t("common:category")}</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      disabled={categories.isLoading || categories.isError}
+                      noStyle
+                      role="combobox"
+                      className="input-field flex items-center text-start"
+                    >
+                      {t("common:choose_entity", {
+                        entity: t("common:category")
+                      })}
+                      <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="z-[99999]" hideWhenDetached={true}>
+                  <Command>
+                    <CommandInput
+                      placeholder={t("common:search_entity", {
+                        entity: t("common:category")
+                      })}
+                    />
+                    <CommandEmpty>
+                      {t("common:no_entity_found", {
+                        entity: t("common:category")
+                      })}
+                    </CommandEmpty>
+                    <CommandGroup>
+                      {categories.data?.categories.map(
+                        (category) =>
+                          category && (
+                            <CommandItem
+                              value={category.title}
+                              key={category.id}
+                              onSelect={(value) => {
+                                setSelectedCategories((prevValues) => {
+                                  return [
+                                    ...prevValues,
+                                    categories.data?.categories.find(
+                                      (item) =>
+                                        item &&
+                                        item.title.toLowerCase() === value
+                                    ) as Category
+                                  ]
+                                })
+                              }}
+                            >
+                              {category.title}
+                            </CommandItem>
+                          )
+                      )}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+
+            {selectedCategories && (
+              <div className="card table-responsive rounded">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>{t("common:title")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedCategories.map(
+                      (category) =>
+                        category && (
+                          <tr key={category.id}>
+                            <td>{category.title}</td>
+                          </tr>
+                        )
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+      </form>
+    </Form>
   )
 }
 

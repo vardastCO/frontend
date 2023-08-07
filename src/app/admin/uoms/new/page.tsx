@@ -1,7 +1,7 @@
-import CreateUOM from "./components/CreateUOM"
+import UOMForm from "../components/UOMForm"
 
 const CreateUOMPage = () => {
-  return <CreateUOM />
+  return <UOMForm />
 }
 
 export default CreateUOMPage

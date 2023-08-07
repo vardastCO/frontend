@@ -4,7 +4,11 @@ import { Key, useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request"
-import { LucideCheck, LucideChevronsUpDown } from "lucide-react"
+import {
+  LucideAlertOctagon,
+  LucideCheck,
+  LucideChevronsUpDown
+} from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
@@ -28,6 +32,7 @@ import {
   FormLabel,
   FormMessage
 } from "@core/components/react-hook-form/form"
+import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Button } from "@core/components/ui/button"
 import {
   Command,
@@ -49,7 +54,7 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@core/components/ui/popover"
-import { useToast } from "@core/hooks/use-toast"
+import { toast } from "@core/hooks/use-toast"
 
 type Props = {
   vocabularyId: number
@@ -57,11 +62,11 @@ type Props = {
 
 const CreateCategory = ({ vocabularyId }: Props) => {
   const { t } = useTranslation()
-  const { toast } = useToast()
 
   const [displayErrors, setDisplayErrors] = useState<string[] | null>(null)
   const [open, setOpen] = useState<boolean>(false)
   const [parentCategoryId, setParentCategoryId] = useState<Key | null>(null)
+  const [errors, setErrors] = useState<ClientError>()
 
   const queryClient = useQueryClient()
 
@@ -88,15 +93,8 @@ const CreateCategory = ({ vocabularyId }: Props) => {
           variant: "success"
         })
       },
-      onError: (error: ClientError) => {
-        if (error.response) {
-          const tempErrors: string[] = []
-          const { errors } = error.response
-          errors?.forEach((err) => {
-            tempErrors.push(err.extensions.displayMessage as string)
-          })
-          setDisplayErrors(tempErrors)
-        }
+      onError: (errors: ClientError) => {
+        setErrors(errors)
       }
     }
   )
@@ -152,22 +150,30 @@ const CreateCategory = ({ vocabularyId }: Props) => {
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <Form {...form}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>
-                {t("common:create_new_entity", {
-                  entity: t("common:category")
-                })}
-              </DialogTitle>
-            </DialogHeader>
-            <>
-              {createCategoryMutation.isError &&
-                displayErrors?.map((err, idx) => <p key={idx}>{err}</p>)}
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col gap-6"
-                noValidate
-              >
+          <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>
+                  {t("common:create_new_entity", {
+                    entity: t("common:category")
+                  })}
+                </DialogTitle>
+              </DialogHeader>
+              <div className="flex flex-col gap-6">
+                {errors && (
+                  <Alert variant="danger">
+                    <LucideAlertOctagon />
+                    <AlertTitle>خطا</AlertTitle>
+                    <AlertDescription>
+                      {(
+                        errors.response.errors?.at(0)?.extensions
+                          .displayErrors as string[]
+                      ).map((error) => (
+                        <p key={error}>{error}</p>
+                      ))}
+                    </AlertDescription>
+                  </Alert>
+                )}
                 <FormField
                   control={form.control}
                   name="parentCategoryId"
@@ -288,24 +294,24 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                     </FormItem>
                   )}
                 />
-              </form>
-            </>
-            <DialogFooter>
-              <div className="flex items-center justify-end gap-2">
-                <Button
-                  variant="ghost"
-                  onClick={() => setOpen(false)}
-                  loading={form.formState.isSubmitting}
-                  disabled={form.formState.isSubmitting}
-                >
-                  {t("common:cancel")}
-                </Button>
-                <Button type="submit" disabled={form.formState.isSubmitting}>
-                  {t("common:submit")}
-                </Button>
               </div>
-            </DialogFooter>
-          </DialogContent>
+              <DialogFooter>
+                <div className="flex items-center justify-end gap-2">
+                  <Button
+                    variant="ghost"
+                    onClick={() => setOpen(false)}
+                    loading={form.formState.isSubmitting}
+                    disabled={form.formState.isSubmitting}
+                  >
+                    {t("common:cancel")}
+                  </Button>
+                  <Button type="submit" disabled={form.formState.isSubmitting}>
+                    {t("common:submit")}
+                  </Button>
+                </div>
+              </DialogFooter>
+            </DialogContent>
+          </form>
         </Form>
       </Dialog>
     </>
