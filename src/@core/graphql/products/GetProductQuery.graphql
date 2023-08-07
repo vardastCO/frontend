@@ -118,7 +118,6 @@ query GetProduct($id: Int!) {
       seller {
         id
         name
-        slug
         createdAt
         updatedAt
         contacts {
@@ -211,7 +210,6 @@ query GetProduct($id: Int!) {
       seller {
         id
         name
-        slug
         createdAt
         updatedAt
         contacts {
@@ -303,7 +301,6 @@ query GetProduct($id: Int!) {
       seller {
         id
         name
-        slug
         bio
         createdAt
         updatedAt

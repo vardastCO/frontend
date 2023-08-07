@@ -2,7 +2,6 @@ mutation RemoveSellerMutation($id: Int!) {
   removeSeller(id: $id) {
     id
     name
-    slug
     bio
     createdAt
     updatedAt

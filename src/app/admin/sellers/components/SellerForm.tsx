@@ -2,9 +2,11 @@
 
 import { ChangeEvent, useRef, useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { LucideTrash, LucideWarehouse } from "lucide-react"
+import { ClientError } from "graphql-request"
+import { LucideAlertOctagon, LucideTrash, LucideWarehouse } from "lucide-react"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
@@ -12,11 +14,13 @@ import { TypeOf, z } from "zod"
 
 import {
   Seller,
+  ThreeStateSupervisionStatuses,
   useCreateSellerMutation,
   useUpdateSellerMutation
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { enumToKeyValueObject } from "@core/utils/enumToKeyValueObject"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import {
   Form,
@@ -27,8 +31,18 @@ import {
   FormMessage
 } from "@core/components/react-hook-form/form"
 import Card from "@core/components/shared/Card"
+import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
+import { Avatar, AvatarFallback, AvatarImage } from "@core/components/ui/avatar"
 import { Button } from "@core/components/ui/button"
 import { Input } from "@core/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@core/components/ui/select"
+import { Switch } from "@core/components/ui/switch"
 import { Textarea } from "@core/components/ui/textarea"
 import { useToast } from "@core/hooks/use-toast"
 import { uploadPaths } from "@core/lib/uploadPaths"
@@ -45,10 +59,16 @@ const SellerForm = ({ seller }: SellerFormProps) => {
   const logoFileFieldRef = useRef<HTMLInputElement>(null)
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [logoPreview, setLogoPreview] = useState<string>("")
+  const [errors, setErrors] = useState<ClientError>()
 
   const token = session?.accessToken || null
 
+  const statuses = enumToKeyValueObject(ThreeStateSupervisionStatuses)
+
   const createSellerMutation = useCreateSellerMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
     onSuccess: () => {
       toast({
         description: t("common:entity_added_successfully", {
@@ -61,6 +81,9 @@ const SellerForm = ({ seller }: SellerFormProps) => {
     }
   })
   const updateSellerMutation = useUpdateSellerMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
     onSuccess: () => {
       toast({
         description: t("common:entity_updated_successfully", {
@@ -76,14 +99,10 @@ const SellerForm = ({ seller }: SellerFormProps) => {
   z.setErrorMap(zodI18nMap)
   const CreateSellerSchema = z.object({
     name: z.string(),
-    slug: z.string(),
-    email: z.string().email().optional(),
+    status: z.nativeEnum(ThreeStateSupervisionStatuses),
+    isPublic: z.boolean().optional(),
     logoFileUuid: z.string().optional(),
-    phone: z.string().optional(),
-    address: z.string().optional(),
-    website: z.string().optional(),
-    about: z.string().optional(),
-    social: z.string().optional()
+    bio: z.string().optional()
   })
   type CreateSellerType = TypeOf<typeof CreateSellerSchema>
 
@@ -91,12 +110,19 @@ const SellerForm = ({ seller }: SellerFormProps) => {
     resolver: zodResolver(CreateSellerSchema),
     defaultValues: {
       name: seller?.name,
-      slug: seller?.slug,
+      status: seller?.status,
+      isPublic: seller?.isPublic || true,
+      bio: seller?.bio || "",
       logoFileUuid: seller?.logoFile?.uuid
     }
   })
 
   const name = form.watch("name")
+  const admin =
+    seller &&
+    seller.representatives &&
+    seller.representatives.length > 0 &&
+    seller.representatives.at(0)
 
   const onLogoFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -124,24 +150,27 @@ const SellerForm = ({ seller }: SellerFormProps) => {
   }
 
   function onSubmit(data: CreateSellerType) {
-    const { name, slug, logoFileUuid, email, phone, address, website, about } =
-      data
+    const { name, logoFileUuid, status, isPublic, bio } = data
 
     if (seller?.name) {
       updateSellerMutation.mutate({
         updateSellerInput: {
           id: seller.id,
           name,
-          slug,
-          logoFileUuid
+          logoFileUuid,
+          status,
+          isPublic,
+          bio
         }
       })
     } else {
       createSellerMutation.mutate({
         createSellerInput: {
           name,
-          slug,
-          logoFileUuid
+          logoFileUuid,
+          status,
+          isPublic,
+          bio
         }
       })
     }
@@ -149,6 +178,20 @@ const SellerForm = ({ seller }: SellerFormProps) => {
 
   return (
     <Form {...form}>
+      {errors && (
+        <Alert variant="danger">
+          <LucideAlertOctagon />
+          <AlertTitle>خطا</AlertTitle>
+          <AlertDescription>
+            {(
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => (
+              <p key={error}>{error}</p>
+            ))}
+          </AlertDescription>
+        </Alert>
+      )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
           <h1 className="text-3xl font-black text-gray-800">
@@ -166,8 +209,38 @@ const SellerForm = ({ seller }: SellerFormProps) => {
           </Button>
         </div>
         <div className="flex flex-col gap-8">
-          <Card template="1/2" title={t("common:title")}>
+          <Card template="1/2" title={t("common:information")}>
             <div className="grid grid-cols-2 gap-6">
+              {admin && (
+                <div className="col-span-full">
+                  <Link
+                    href={`/admin/users/${admin.user.uuid}`}
+                    prefetch={false}
+                  >
+                    <div className="flex items-center">
+                      <Avatar size="medium">
+                        {admin.user.avatarFile && (
+                          <AvatarImage
+                            src={admin.user.avatarFile.presignedUrl.url}
+                            alt={admin.user.fullName}
+                          />
+                        )}
+                        <AvatarFallback>
+                          {admin.user.firstName[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="ms-2 flex flex-col gap-2">
+                        <span className="font-medium text-gray-800">
+                          {admin.user.fullName}
+                        </span>
+                        <span className="text-sm text-gray-600">
+                          {admin.user.cellphone}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              )}
               <FormField
                 control={form.control}
                 name="name"
@@ -183,13 +256,52 @@ const SellerForm = ({ seller }: SellerFormProps) => {
               />
               <FormField
                 control={form.control}
-                name="slug"
+                name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("common:slug")}</FormLabel>
-                    <FormControl>
-                      <Input type="text" {...field} />
-                    </FormControl>
+                    <FormLabel>{t("common:status")}</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        form.setValue(
+                          "status",
+                          value as ThreeStateSupervisionStatuses
+                        )
+                      }}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={t("common:select_placeholder")}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.keys(statuses).map((type) => (
+                          <SelectItem value={statuses[type]} key={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="isPublic"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-center gap-1">
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel noStyle>{t("common:visibility")}</FormLabel>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -255,10 +367,10 @@ const SellerForm = ({ seller }: SellerFormProps) => {
             <div className="grid grid-cols-1 gap-6">
               <FormField
                 control={form.control}
-                name="about"
+                name="bio"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("common:about")}</FormLabel>
+                    <FormLabel>{t("common:bio")}</FormLabel>
                     <FormControl>
                       <Textarea {...field} />
                     </FormControl>

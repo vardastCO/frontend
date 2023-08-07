@@ -1,5 +1,7 @@
 "use client"
 
+import { useSession } from "next-auth/react"
+
 import { NavigationType } from "@core/types/Navigation"
 
 import NavigationItem from "./NavigationItem"
@@ -9,25 +11,37 @@ type Props = {
 }
 
 const Navigation = (props: Props) => {
+  const { data: session } = useSession()
   const { menus } = props
 
   return (
     <>
       {menus.map((menuSection, sectionId) => {
         return (
-          <section className="app-navigation-section" key={sectionId}>
-            <ol className="app-navigation-section-list">
-              {menuSection.title && (
-                <li className="app-navigation-section-label">
-                  {menuSection.title}
-                </li>
-              )}
-              {menuSection.items &&
-                menuSection.items.map((menuItem, idx) => (
-                  <NavigationItem key={idx} menu={menuItem} />
-                ))}
-            </ol>
-          </section>
+          ((menuSection.role &&
+            session?.profile.roles.some(
+              (role) => role?.name === menuSection.role
+            )) ||
+            !menuSection.role) && (
+            <section className="app-navigation-section" key={sectionId}>
+              <ol className="app-navigation-section-list">
+                {menuSection.title && (
+                  <li className="app-navigation-section-label">
+                    {menuSection.title}
+                  </li>
+                )}
+                {menuSection.items &&
+                  menuSection.items.map(
+                    (menuItem, idx) =>
+                      ((menuItem.abilities &&
+                        session?.abilities.includes(menuItem.abilities)) ||
+                        !menuItem.abilities) && (
+                        <NavigationItem key={idx} menu={menuItem} />
+                      )
+                  )}
+              </ol>
+            </section>
+          )
         )
       })}
     </>

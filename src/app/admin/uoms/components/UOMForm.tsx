@@ -1,12 +1,15 @@
 "use client"
 
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ClientError } from "graphql-request"
+import { LucideAlertOctagon } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
-import { useCreateUomMutation } from "@/generated"
+import { Uom, useCreateUomMutation, useUpdateUomMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import zodI18nMap from "@core/utils/zodErrorMap"
@@ -19,20 +22,45 @@ import {
   FormLabel,
   FormMessage
 } from "@core/components/react-hook-form/form"
+import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Button } from "@core/components/ui/button"
 import { Input } from "@core/components/ui/input"
 import { Switch } from "@core/components/ui/switch"
 import { useToast } from "@core/hooks/use-toast"
 
-const CreateUOM = () => {
+type UOMFormProps = {
+  uom?: Uom
+}
+
+const UOMForm = ({ uom }: UOMFormProps) => {
   const { t } = useTranslation()
   const { toast } = useToast()
   const router = useRouter()
+  const [errors, setErrors] = useState<ClientError>()
+
   const createUOMMutation = useCreateUomMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
     onSuccess: () => {
       toast({
         description: t("common:entity_added_successfully", {
-          entity: t("common:brand")
+          entity: t("common:uom")
+        }),
+        duration: 2000,
+        variant: "success"
+      })
+      router.push("/admin/uoms")
+    }
+  })
+  const updateUOMMutation = useUpdateUomMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
+    onSuccess: () => {
+      toast({
+        description: t("common:entity_updated_successfully", {
+          entity: t("common:uom")
         }),
         duration: 2000,
         variant: "success"
@@ -53,7 +81,10 @@ const CreateUOM = () => {
   const form = useForm<CreateUOMType>({
     resolver: zodResolver(CreateUOMSchema),
     defaultValues: {
-      isActive: true
+      isActive: uom?.isActive,
+      name: uom?.name,
+      symbol: uom?.symbol,
+      slug: uom?.slug
     }
   })
 
@@ -62,18 +93,44 @@ const CreateUOM = () => {
   function onSubmit(data: CreateUOMType) {
     const { name, slug, isActive, symbol } = data
 
-    createUOMMutation.mutate({
-      createUomInput: {
-        name,
-        slug,
-        isActive,
-        symbol
-      }
-    })
+    if (uom) {
+      updateUOMMutation.mutate({
+        updateUomInput: {
+          id: uom.id,
+          name,
+          slug,
+          isActive,
+          symbol
+        }
+      })
+    } else {
+      createUOMMutation.mutate({
+        createUomInput: {
+          name,
+          slug,
+          isActive,
+          symbol
+        }
+      })
+    }
   }
 
   return (
     <Form {...form}>
+      {errors && (
+        <Alert variant="danger">
+          <LucideAlertOctagon />
+          <AlertTitle>خطا</AlertTitle>
+          <AlertDescription>
+            {(
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => (
+              <p key={error}>{error}</p>
+            ))}
+          </AlertDescription>
+        </Alert>
+      )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
           <h1 className="text-3xl font-black text-gray-800">
@@ -152,4 +209,4 @@ const CreateUOM = () => {
   )
 }
 
-export default CreateUOM
+export default UOMForm

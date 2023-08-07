@@ -86,7 +86,8 @@ export const authOptions: NextAuthOptions = {
             accessTokenTtl: data.login.accessTokenTtl + Date.now(),
             refreshToken: data.login.refreshToken,
             refreshTokenTtl: data.login.refreshTokenTtl + Date.now(),
-            profile: data.login.user
+            profile: data.login.user,
+            abilities: data.login.abilities
           }
         } catch (error) {
           // @ts-ignore
@@ -99,6 +100,7 @@ export const authOptions: NextAuthOptions = {
     jwt: async ({ token, user }) => {
       if (user) {
         token.profile = user.profile
+        token.abilities = user.abilities
         token.accessToken = user.accessToken
         token.accessTokenTtl = user.accessTokenTtl
         token.refreshToken = user.refreshToken
@@ -123,6 +125,7 @@ export const authOptions: NextAuthOptions = {
         session.refreshToken = token.refreshToken as string
         session.refreshTokenTtl = token.refreshTokenTtl as number
         session.profile = token.profile as any
+        session.abilities = token.abilities as string[]
         session.error = token.error as string
       }
       return session

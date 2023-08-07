@@ -2,7 +2,6 @@ mutation UpdateSellerMutation($updateSellerInput: UpdateSellerInput!) {
   updateSeller(updateSellerInput: $updateSellerInput) {
     id
     name
-    slug
     bio
     createdAt
     updatedAt

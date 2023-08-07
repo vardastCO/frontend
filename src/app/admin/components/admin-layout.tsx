@@ -23,74 +23,63 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
           title: t("common:products"),
           path: "/admin/products",
           icon: "package",
+          abilities: "gql.products.product.index",
           items: [
             {
               title: t("common:all_entities", { entity: t("common:products") }),
               path: "/admin/products",
-              icon: "package"
+              icon: "package",
+              abilities: "gql.products.product.index"
             },
             {
               title: t("common:attributes"),
               path: "/admin/attributes",
-              icon: "layers"
+              icon: "layers",
+              abilities: "gql.products.attribute.index"
             },
             {
               title: t("common:brands"),
               path: "/admin/brands",
-              icon: "fingerprint"
+              icon: "fingerprint",
+              abilities: "gql.products.brand.index"
             },
             {
               title: t("common:uoms"),
               path: "/admin/uoms",
-              icon: "ruler"
+              icon: "ruler",
+              abilities: "gql.products.uom.index"
             }
           ]
         },
         {
           title: t("common:sellers"),
           path: "/admin/sellers",
-          icon: "store"
+          icon: "store",
+          abilities: "gql.products.seller.index"
         }
       ]
     },
     {
       title: t("common:administration"),
+      role: "admin",
       items: [
         {
           title: t("common:vocabularies_menu_title"),
           path: "/admin/vocabularies",
-          icon: "layout-grid"
+          icon: "layout-grid",
+          abilities: "gql.base.taxonomy.vocabulary.index"
         },
         {
           title: t("common:locations_menu_title"),
           path: "/admin/locations",
-          icon: "map"
+          icon: "map",
+          abilities: "gql.base.location.country.index"
         },
         {
           title: t("common:users_menu_title"),
           path: "/admin/users",
-          icon: "users"
-        }
-      ]
-    },
-    {
-      items: [
-        {
-          title: "storybook",
-          path: "/admin/storybook",
-          icon: "paintbrush-2",
-          items: [
-            {
-              title: "button",
-              path: "/admin/storybook/button",
-              icon: "users"
-            },
-            {
-              title: "form",
-              path: "/admin/storybook/form",
-              icon: "users"
-            }
-          ]
+          icon: "users",
+          abilities: "gql.users.user.index"
         }
       ]
     }

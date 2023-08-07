@@ -1,12 +1,6 @@
-mutation UpdateAttributeValueMutation(
-  $updateAttributeValueInput: UpdateAttributeValueInput!
-) {
-  updateAttributeValue(updateAttributeValueInput: $updateAttributeValueInput) {
-    id
-    value
-    isVariant
-    sku
-    attribute {
+query GetAttributesOfACategory($id: Int, $slug: String) {
+  category(id: $id, slug: $slug) {
+    attributes {
       id
       name
       slug

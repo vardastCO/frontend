@@ -5,8 +5,6 @@ import { atom, PrimitiveAtom, useAtom } from "jotai"
 
 import { Category, Vocabulary } from "@/generated"
 
-import DeleteModal from "./DeleteModal"
-
 interface entityToRemoveAtomType {
   type: "vocabulary" | "category" | "undefined"
   entity: Vocabulary | Category | undefined
@@ -42,7 +40,7 @@ export default function VocabulariesProvider({ children }: Props) {
         entityToRemoveAtom
       }}
     >
-      <DeleteModal isOpen={removeState} onChange={setRemoveState} />
+      {/* <DeleteModal isOpen={removeState} onChange={setRemoveState} /> */}
       {children}
     </VocabulariesContext.Provider>
   )

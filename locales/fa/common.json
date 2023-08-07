@@ -1,5 +1,8 @@
 {
     "about": "درباره",
+    "notice": "توجه",
+    "bio": "درباره",
+    "is_product_variant": "کالای مجزا",
     "active": "فعال",
     "actives_only": "فقط فعال‌ها",
     "add": "افزودن",
@@ -204,5 +207,6 @@
     "vocabularies_menu_title": "دسته‌بندی‌ها",
     "vocabulary": "دسته‌بندی",
     "warning": "هشدار",
-    "website": "وب‌سایت"
+    "website": "وب‌سایت",
+    "amount": "مقدار"
 }

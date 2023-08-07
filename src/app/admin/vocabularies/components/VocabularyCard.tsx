@@ -26,9 +26,13 @@ import { VocabulariesContext } from "./VocabulariesProvider"
 
 type VocabularyCardProps = {
   vocabulary: Vocabulary
+  onDeleteTriggered: (vocabulary: Vocabulary) => void
 }
 
-const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
+const VocabularyCard = ({
+  vocabulary,
+  onDeleteTriggered
+}: VocabularyCardProps) => {
   const { t } = useTranslation()
   const { removeStateAtom, entityToRemoveAtom } =
     useContext(VocabulariesContext)
@@ -37,11 +41,7 @@ const VocabularyCard = ({ vocabulary }: VocabularyCardProps) => {
   const { slug, title } = vocabulary
 
   const toggleRemoveItem = () => {
-    setEntityToRemove({
-      type: "vocabulary",
-      entity: vocabulary
-    })
-    setRemoveState(true)
+    onDeleteTriggered(vocabulary)
   }
 
   return (

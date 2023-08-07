@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { notFound, useRouter } from "next/navigation"
+import { LucideCheck, LucideX } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 import { useGetAllAttributesQuery } from "@/generated"
@@ -38,8 +39,10 @@ const Attributes = () => {
           <thead>
             <tr>
               <th>{t("common:attribute")}</th>
-              <th>{t("common:id")}</th>
               <th>{t("common:type")}</th>
+              <th>{t("common:filterable")}</th>
+              <th>{t("common:visibility")}</th>
+              <th>{t("common:required")}</th>
             </tr>
           </thead>
           <tbody>
@@ -58,10 +61,42 @@ const Attributes = () => {
                       </span>
                     </td>
                     <td>
-                      <span className="font-mono">{attribute.slug}</span>
+                      <span className="tag tag-xs tag-gray tag-light">
+                        {attribute.type}
+                      </span>
                     </td>
-                    <td>
-                      <span>{attribute.type}</span>
+                    <td align="center">
+                      {attribute.isFilterable ? (
+                        <span className="tag tag-light tag-icon tag-success tag-sm h-8 w-8 rounded-full">
+                          <LucideCheck className="icon" />
+                        </span>
+                      ) : (
+                        <span className="tag tag-light tag-icon tag-gray tag-sm h-8 w-8 rounded-full">
+                          <LucideX className="icon" />
+                        </span>
+                      )}
+                    </td>
+                    <td align="center">
+                      {attribute.isPublic ? (
+                        <span className="tag tag-light tag-icon tag-success tag-sm h-8 w-8 rounded-full">
+                          <LucideCheck className="icon" />
+                        </span>
+                      ) : (
+                        <span className="tag tag-light tag-icon tag-gray tag-sm h-8 w-8 rounded-full">
+                          <LucideX className="icon" />
+                        </span>
+                      )}
+                    </td>
+                    <td align="center">
+                      {attribute.isRequired ? (
+                        <span className="tag tag-light tag-icon tag-success tag-sm h-8 w-8 rounded-full">
+                          <LucideCheck className="icon" />
+                        </span>
+                      ) : (
+                        <span className="tag tag-light tag-icon tag-gray tag-sm h-8 w-8 rounded-full">
+                          <LucideX className="icon" />
+                        </span>
+                      )}
                     </td>
                   </tr>
                 )

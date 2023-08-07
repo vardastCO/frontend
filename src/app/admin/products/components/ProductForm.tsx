@@ -3,9 +3,6 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
-import { formatDistanceToNow, setDefaultOptions } from "date-fns"
-import { faIR } from "date-fns/locale"
 import { ClientError } from "graphql-request"
 import {
   LucideAlertOctagon,
@@ -69,15 +66,14 @@ import { Switch } from "@core/components/ui/switch"
 import { Textarea } from "@core/components/ui/textarea"
 import { toast } from "@core/hooks/use-toast"
 import { uploadPaths } from "@core/lib/uploadPaths"
+import AttributeSection from "@/app/admin/products/components/AttributeSection"
+import CreateAttributeModal from "@/app/admin/products/components/CreateAttributeModal"
+import CreatePriceModal from "@/app/admin/products/components/CreatePriceModal"
+import PriceSection from "@/app/admin/products/components/PriceSection"
 
 type ProductFormProps = {
   product?: Product
 }
-
-setDefaultOptions({
-  locale: faIR,
-  weekStartsOn: 6
-})
 
 const ProductForm = ({ product }: ProductFormProps) => {
   const { t } = useTranslation()
@@ -86,6 +82,10 @@ const ProductForm = ({ product }: ProductFormProps) => {
     { uuid: string; expiresAt: string; image?: Image }[]
   >([])
   const [errors, setErrors] = useState<ClientError>()
+  const [createPriceModalOpen, setCreatePriceModalOpen] =
+    useState<boolean>(false)
+  const [createAttributeModalOpen, setCreateAttributeModalOpen] =
+    useState<boolean>(false)
 
   const createImageMutation = useCreateImageMutation(graphqlRequestClient)
   const createProductMutation = useCreateProductMutation(graphqlRequestClient, {
@@ -230,626 +230,549 @@ const ProductForm = ({ product }: ProductFormProps) => {
   }
 
   return (
-    <Form {...form}>
-      {errors && (
-        <Alert variant="danger">
-          <LucideAlertOctagon />
-          <AlertTitle>خطا</AlertTitle>
-          <AlertDescription>
-            {(
-              errors.response.errors?.at(0)?.extensions
-                .displayErrors as string[]
-            ).map((error) => (
-              <p key={error}>{error}</p>
-            ))}
-          </AlertDescription>
-        </Alert>
+    <>
+      {product && (
+        <CreatePriceModal
+          open={createPriceModalOpen}
+          onOpenChange={setCreatePriceModalOpen}
+          productId={product.id}
+        />
       )}
-      <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
-        <div className="create-product">
-          <div className="mb-6 mt-8 flex items-end justify-between">
-            <h1 className="text-3xl font-black text-gray-800">
-              {name ? name : t("common:new_product")}
-            </h1>
-            <Button type="submit" className="sticky top-0">
-              {t("common:save_entity", { entity: t("common:product") })}
-            </Button>
-          </div>
-          <div className="flex flex-col gap-24">
-            <div className="flex flex-col gap-6">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:product_name")}</FormLabel>
-                    <FormControl size="large">
-                      <Input
-                        {...field}
-                        placeholder={t("common:enter_product_name")}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="sku"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:product_sku")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder={t("common:enter_product_sku")}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="uomId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:uom")}</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            disabled={uoms.isLoading || uoms.isError}
-                            noStyle
-                            role="combobox"
-                            className="input-field flex items-center text-start"
-                          >
-                            {field.value
-                              ? uoms.data?.uomsWithoutPagination.find(
-                                  (uom) => uom && uom.id === field.value
-                                )?.name
-                              : t("common:choose_entity", {
-                                  entity: t("common:uom")
-                                })}
-                            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        <Command>
-                          <CommandInput
-                            placeholder={t("common:search_entity", {
-                              entity: t("common:uom")
-                            })}
-                          />
-                          <CommandEmpty>
-                            {t("common:no_entity_found", {
-                              entity: t("common:uom")
-                            })}
-                          </CommandEmpty>
-                          <CommandGroup>
-                            {uoms.data?.uomsWithoutPagination.map(
-                              (uom) =>
-                                uom && (
-                                  <CommandItem
-                                    value={uom.name}
-                                    key={uom.id}
-                                    onSelect={(value) => {
-                                      form.setValue(
-                                        "uomId",
-                                        uoms.data?.uomsWithoutPagination.find(
-                                          (item) =>
-                                            item &&
-                                            item.name.toLowerCase() === value
-                                        )?.id || 0
-                                      )
-                                    }}
-                                  >
-                                    <LucideCheck
-                                      className={mergeClasses(
-                                        "mr-2 h-4 w-4",
-                                        uom.id === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                    {uom.name}
-                                  </CommandItem>
-                                )
-                            )}
-                          </CommandGroup>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="type"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:product_type")}</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        defaultValue={field.value}
-                        className="grid grid-cols-4 gap-6"
-                      >
-                        <FormItem className="product-type-item relative">
-                          <FormControl className="invisible absolute inset-0 h-full w-full">
-                            <RadioGroupItem value={ProductTypesEnum.Physical} />
-                          </FormControl>
-                          <FormLabel
-                            noStyle
-                            className="product-type-item-wrapper"
-                          >
-                            <div className="product-type-item-label">
-                              <LucidePackage
-                                className="product-type-item-icon"
-                                strokeWidth={1.5}
-                              />
-                              <span className="product-type-item-title">
-                                {t("common:physical")}
-                              </span>
-                            </div>
-                            <span className="product-type-item-description">
-                              {t("common:physical_product_type_description")}
-                            </span>
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="product-type-item relative">
-                          <FormControl className="invisible absolute inset-0 h-full w-full">
-                            <RadioGroupItem value={ProductTypesEnum.Digital} />
-                          </FormControl>
-                          <FormLabel
-                            noStyle
-                            className="product-type-item-wrapper"
-                          >
-                            <div className="product-type-item-label">
-                              <LucideGlobe
-                                className="product-type-item-icon"
-                                strokeWidth={1.5}
-                              />
-                              <span className="product-type-item-title">
-                                {t("common:digital")}
-                              </span>
-                            </div>
-                            <span className="product-type-item-description">
-                              {t("common:digital_product_type_description")}
-                            </span>
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="product-type-item relative">
-                          <FormControl className="invisible absolute inset-0 h-full w-full">
-                            <RadioGroupItem value={ProductTypesEnum.Bundle} />
-                          </FormControl>
-                          <FormLabel
-                            noStyle
-                            className="product-type-item-wrapper"
-                          >
-                            <div className="product-type-item-label">
-                              <LucideBoxes
-                                className="product-type-item-icon"
-                                strokeWidth={1.5}
-                              />
-                              <span className="product-type-item-title">
-                                {t("common:bundle")}
-                              </span>
-                            </div>
-                            <span className="product-type-item-description">
-                              {t("common:bundle_product_type_description")}
-                            </span>
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="product-type-item relative">
-                          <FormControl className="invisible absolute inset-0 h-full w-full">
-                            <RadioGroupItem value={ProductTypesEnum.Gift} />
-                          </FormControl>
-                          <FormLabel
-                            noStyle
-                            className="product-type-item-wrapper"
-                          >
-                            <div className="product-type-item-label">
-                              <LucideGift
-                                className="product-type-item-icon"
-                                strokeWidth={1.5}
-                              />
-                              <span className="product-type-item-title">
-                                {t("common:gift_card")}
-                              </span>
-                            </div>
-                            <span className="product-type-item-description">
-                              {t("common:gift_card_product_type_description")}
-                            </span>
-                          </FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="isActive"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex items-center gap-1">
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
+      {product && (
+        <CreateAttributeModal
+          open={createAttributeModalOpen}
+          onOpenChange={setCreateAttributeModalOpen}
+          productId={product.id}
+          categoryId={product.category.id}
+        />
+      )}
+      <Form {...form}>
+        {errors && (
+          <Alert variant="danger">
+            <LucideAlertOctagon />
+            <AlertTitle>خطا</AlertTitle>
+            <AlertDescription>
+              {(
+                errors.response.errors?.at(0)?.extensions
+                  .displayErrors as string[]
+              ).map((error) => (
+                <p key={error}>{error}</p>
+              ))}
+            </AlertDescription>
+          </Alert>
+        )}
+        <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+          <div className="create-product">
+            <div className="mb-6 mt-8 flex items-end justify-between">
+              <h1 className="text-3xl font-black text-gray-800">
+                {name ? name : t("common:new_product")}
+              </h1>
+              <Button type="submit" className="sticky top-0">
+                {t("common:save_entity", { entity: t("common:product") })}
+              </Button>
+            </div>
+            <div className="flex flex-col gap-24">
+              <div className="flex flex-col gap-6">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:product_name")}</FormLabel>
+                      <FormControl size="large">
+                        <Input
+                          {...field}
+                          placeholder={t("common:enter_product_name")}
                         />
                       </FormControl>
-                      <FormLabel>{t("common:is_active")}</FormLabel>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="categoryId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:category")}</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            disabled={
-                              categories.isLoading || categories.isError
-                            }
-                            noStyle
-                            role="combobox"
-                            className="input-field flex items-center text-start"
-                          >
-                            {field.value
-                              ? categories.data?.categories.find(
-                                  (category) =>
-                                    category && category.id === field.value
-                                )?.title
-                              : t("common:choose_entity", {
-                                  entity: t("common:category")
-                                })}
-                            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        <Command>
-                          <CommandInput
-                            placeholder={t("common:search_entity", {
-                              entity: t("common:category")
-                            })}
-                          />
-                          <CommandEmpty>
-                            {t("common:no_entity_found", {
-                              entity: t("common:category")
-                            })}
-                          </CommandEmpty>
-                          <CommandGroup>
-                            {categories.data?.categories.map(
-                              (category) =>
-                                category && (
-                                  <CommandItem
-                                    value={category.title}
-                                    key={category.id}
-                                    onSelect={(value) => {
-                                      form.setValue(
-                                        "categoryId",
-                                        categories.data?.categories.find(
-                                          (item) =>
-                                            item &&
-                                            item.title.toLowerCase() === value
-                                        )?.id || 0
-                                      )
-                                    }}
-                                  >
-                                    <LucideCheck
-                                      className={mergeClasses(
-                                        "mr-2 h-4 w-4",
-                                        category.id === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                    {category.title}
-                                  </CommandItem>
-                                )
-                            )}
-                          </CommandGroup>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="sku"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:product_sku")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder={t("common:enter_product_sku")}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="brandId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:brand")}</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            disabled={brands.isLoading || brands.isError}
-                            noStyle
-                            role="combobox"
-                            className="input-field flex items-center text-start"
-                          >
-                            {field.value
-                              ? brands.data?.brandsWithoutPagination.find(
-                                  (brand) => brand && brand.id === field.value
-                                )?.name
-                              : t("common:choose_entity", {
-                                  entity: t("common:brand")
-                                })}
-                            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        <Command>
-                          <CommandInput
-                            placeholder={t("common:search_entity", {
-                              entity: t("common:brand")
-                            })}
-                          />
-                          <CommandEmpty>
-                            {t("common:no_entity_found", {
-                              entity: t("common:brand")
-                            })}
-                          </CommandEmpty>
-                          <CommandGroup>
-                            {brands.data?.brandsWithoutPagination.map(
-                              (brand) =>
-                                brand && (
-                                  <CommandItem
-                                    value={brand.name}
-                                    key={brand.id}
-                                    onSelect={(value) => {
-                                      form.setValue(
-                                        "brandId",
-                                        brands.data?.brandsWithoutPagination.find(
-                                          (item) =>
-                                            item &&
-                                            item.name.toLowerCase() === value
-                                        )?.id || 0
-                                      )
-                                    }}
-                                  >
-                                    <LucideCheck
-                                      className={mergeClasses(
-                                        "mr-2 h-4 w-4",
-                                        brand.id === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                    {brand.name}
-                                  </CommandItem>
-                                )
-                            )}
-                          </CommandGroup>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Dropzone
-                existingImages={product && product.images}
-                uploadPath={uploadPaths.productImages}
-                onAddition={(file) => {
-                  setImages((prevImages) => [
-                    ...prevImages,
-                    {
-                      uuid: file.uuid as string,
-                      expiresAt: file.expiresAt as string
-                    }
-                  ])
-                }}
-                onDelete={(file) => {
-                  setImages((images) =>
-                    images.filter((image) => image.uuid !== file.uuid)
-                  )
-                }}
-              />
-            </div>
-
-            <div>
-              <h2 className="section-title">
-                {t("common:create_product_pricing_section_title")}
-              </h2>
-              <p className="section-description">
-                {t("common:create_product_pricing_section_description")}
-              </p>
-
-              <div className="section-body">
-                <div className="card table-responsive rounded">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>{t("common:price")}</th>
-                        <th>{t("common:submitted_date")}</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {product?.prices.map(
-                        (price) =>
-                          price && (
-                            <tr key={price.id}>
-                              <td>
-                                {digitsEnToFa(addCommas(price.amount))}{" "}
-                                {t("common:toman")}
-                              </td>
-                              <td>
-                                {digitsEnToFa(
-                                  formatDistanceToNow(
-                                    new Date(price.createdAt).getTime(),
-                                    {
-                                      addSuffix: true
-                                    }
+                <FormField
+                  control={form.control}
+                  name="uomId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:uom")}</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              disabled={uoms.isLoading || uoms.isError}
+                              noStyle
+                              role="combobox"
+                              className="input-field flex items-center text-start"
+                            >
+                              {field.value
+                                ? uoms.data?.uomsWithoutPagination.find(
+                                    (uom) => uom && uom.id === field.value
+                                  )?.name
+                                : t("common:choose_entity", {
+                                    entity: t("common:uom")
+                                  })}
+                              <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                          <Command>
+                            <CommandInput
+                              placeholder={t("common:search_entity", {
+                                entity: t("common:uom")
+                              })}
+                            />
+                            <CommandEmpty>
+                              {t("common:no_entity_found", {
+                                entity: t("common:uom")
+                              })}
+                            </CommandEmpty>
+                            <CommandGroup>
+                              {uoms.data?.uomsWithoutPagination.map(
+                                (uom) =>
+                                  uom && (
+                                    <CommandItem
+                                      value={uom.name}
+                                      key={uom.id}
+                                      onSelect={(value) => {
+                                        form.setValue(
+                                          "uomId",
+                                          uoms.data?.uomsWithoutPagination.find(
+                                            (item) =>
+                                              item &&
+                                              item.name.toLowerCase() === value
+                                          )?.id || 0
+                                        )
+                                      }}
+                                    >
+                                      <LucideCheck
+                                        className={mergeClasses(
+                                          "mr-2 h-4 w-4",
+                                          uom.id === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        )}
+                                      />
+                                      {uom.name}
+                                    </CommandItem>
                                   )
-                                )}
-                              </td>
-                              <td>
-                                {price.isPublic ? (
-                                  <span className="tag tag-sm tag-light tag-success">
-                                    {t("common:public")}
-                                  </span>
-                                ) : (
-                                  <span className="tag tag-sm tag-light tag-gray">
-                                    {t("common:private")}
-                                  </span>
-                                )}
-                              </td>
-                            </tr>
-                          )
-                      )}
-                    </tbody>
-                  </table>
-                </div>
+                              )}
+                            </CommandGroup>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                <div className="mt-8 flex justify-end">
-                  <Button variant="secondary">
-                    {t("common:add_entity", { entity: t("common:price") })}
-                  </Button>
-                </div>
+                <FormField
+                  control={form.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:product_type")}</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          defaultValue={field.value}
+                          className="grid grid-cols-4 gap-6"
+                        >
+                          <FormItem className="product-type-item relative">
+                            <FormControl className="invisible absolute inset-0 h-full w-full">
+                              <RadioGroupItem
+                                value={ProductTypesEnum.Physical}
+                              />
+                            </FormControl>
+                            <FormLabel
+                              noStyle
+                              className="product-type-item-wrapper"
+                            >
+                              <div className="product-type-item-label">
+                                <LucidePackage
+                                  className="product-type-item-icon"
+                                  strokeWidth={1.5}
+                                />
+                                <span className="product-type-item-title">
+                                  {t("common:physical")}
+                                </span>
+                              </div>
+                              <span className="product-type-item-description">
+                                {t("common:physical_product_type_description")}
+                              </span>
+                            </FormLabel>
+                          </FormItem>
+                          <FormItem className="product-type-item relative">
+                            <FormControl className="invisible absolute inset-0 h-full w-full">
+                              <RadioGroupItem
+                                value={ProductTypesEnum.Digital}
+                              />
+                            </FormControl>
+                            <FormLabel
+                              noStyle
+                              className="product-type-item-wrapper"
+                            >
+                              <div className="product-type-item-label">
+                                <LucideGlobe
+                                  className="product-type-item-icon"
+                                  strokeWidth={1.5}
+                                />
+                                <span className="product-type-item-title">
+                                  {t("common:digital")}
+                                </span>
+                              </div>
+                              <span className="product-type-item-description">
+                                {t("common:digital_product_type_description")}
+                              </span>
+                            </FormLabel>
+                          </FormItem>
+                          <FormItem className="product-type-item relative">
+                            <FormControl className="invisible absolute inset-0 h-full w-full">
+                              <RadioGroupItem value={ProductTypesEnum.Bundle} />
+                            </FormControl>
+                            <FormLabel
+                              noStyle
+                              className="product-type-item-wrapper"
+                            >
+                              <div className="product-type-item-label">
+                                <LucideBoxes
+                                  className="product-type-item-icon"
+                                  strokeWidth={1.5}
+                                />
+                                <span className="product-type-item-title">
+                                  {t("common:bundle")}
+                                </span>
+                              </div>
+                              <span className="product-type-item-description">
+                                {t("common:bundle_product_type_description")}
+                              </span>
+                            </FormLabel>
+                          </FormItem>
+                          <FormItem className="product-type-item relative">
+                            <FormControl className="invisible absolute inset-0 h-full w-full">
+                              <RadioGroupItem value={ProductTypesEnum.Gift} />
+                            </FormControl>
+                            <FormLabel
+                              noStyle
+                              className="product-type-item-wrapper"
+                            >
+                              <div className="product-type-item-label">
+                                <LucideGift
+                                  className="product-type-item-icon"
+                                  strokeWidth={1.5}
+                                />
+                                <span className="product-type-item-title">
+                                  {t("common:gift_card")}
+                                </span>
+                              </div>
+                              <span className="product-type-item-description">
+                                {t("common:gift_card_product_type_description")}
+                              </span>
+                            </FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="isActive"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-1">
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormLabel>{t("common:is_active")}</FormLabel>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="categoryId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:category")}</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              disabled={
+                                categories.isLoading || categories.isError
+                              }
+                              noStyle
+                              role="combobox"
+                              className="input-field flex items-center text-start"
+                            >
+                              {field.value
+                                ? categories.data?.categories.find(
+                                    (category) =>
+                                      category && category.id === field.value
+                                  )?.title
+                                : t("common:choose_entity", {
+                                    entity: t("common:category")
+                                  })}
+                              <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                          <Command>
+                            <CommandInput
+                              placeholder={t("common:search_entity", {
+                                entity: t("common:category")
+                              })}
+                            />
+                            <CommandEmpty>
+                              {t("common:no_entity_found", {
+                                entity: t("common:category")
+                              })}
+                            </CommandEmpty>
+                            <CommandGroup>
+                              {categories.data?.categories.map(
+                                (category) =>
+                                  category && (
+                                    <CommandItem
+                                      value={category.title}
+                                      key={category.id}
+                                      onSelect={(value) => {
+                                        form.setValue(
+                                          "categoryId",
+                                          categories.data?.categories.find(
+                                            (item) =>
+                                              item &&
+                                              item.title.toLowerCase() === value
+                                          )?.id || 0
+                                        )
+                                      }}
+                                    >
+                                      <LucideCheck
+                                        className={mergeClasses(
+                                          "mr-2 h-4 w-4",
+                                          category.id === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        )}
+                                      />
+                                      {category.title}
+                                    </CommandItem>
+                                  )
+                              )}
+                            </CommandGroup>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="brandId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:brand")}</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              disabled={brands.isLoading || brands.isError}
+                              noStyle
+                              role="combobox"
+                              className="input-field flex items-center text-start"
+                            >
+                              {field.value
+                                ? brands.data?.brandsWithoutPagination.find(
+                                    (brand) => brand && brand.id === field.value
+                                  )?.name
+                                : t("common:choose_entity", {
+                                    entity: t("common:brand")
+                                  })}
+                              <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                          <Command>
+                            <CommandInput
+                              placeholder={t("common:search_entity", {
+                                entity: t("common:brand")
+                              })}
+                            />
+                            <CommandEmpty>
+                              {t("common:no_entity_found", {
+                                entity: t("common:brand")
+                              })}
+                            </CommandEmpty>
+                            <CommandGroup>
+                              {brands.data?.brandsWithoutPagination.map(
+                                (brand) =>
+                                  brand && (
+                                    <CommandItem
+                                      value={brand.name}
+                                      key={brand.id}
+                                      onSelect={(value) => {
+                                        form.setValue(
+                                          "brandId",
+                                          brands.data?.brandsWithoutPagination.find(
+                                            (item) =>
+                                              item &&
+                                              item.name.toLowerCase() === value
+                                          )?.id || 0
+                                        )
+                                      }}
+                                    >
+                                      <LucideCheck
+                                        className={mergeClasses(
+                                          "mr-2 h-4 w-4",
+                                          brand.id === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        )}
+                                      />
+                                      {brand.name}
+                                    </CommandItem>
+                                  )
+                              )}
+                            </CommandGroup>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Dropzone
+                  existingImages={product && product.images}
+                  uploadPath={uploadPaths.productImages}
+                  onAddition={(file) => {
+                    setImages((prevImages) => [
+                      ...prevImages,
+                      {
+                        uuid: file.uuid as string,
+                        expiresAt: file.expiresAt as string
+                      }
+                    ])
+                  }}
+                  onDelete={(file) => {
+                    setImages((images) =>
+                      images.filter((image) => image.uuid !== file.uuid)
+                    )
+                  }}
+                />
               </div>
-            </div>
 
-            <div>
-              <h2 className="section-title">
-                {t("common:create_product_attributes_section_title")}
-              </h2>
-              <p className="section-description">
-                {t("common:create_product_attributes_section_description")}
-              </p>
-              <div className="section-body">
-                <div className="card table-responsive rounded">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>{t("common:attribute")}</th>
-                        <th>{t("common:value")}</th>
-                        <th>{t("common:product_sku")}</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {product?.attributeValues.map(
-                        (attribute) =>
-                          attribute && (
-                            <tr key={attribute.id}>
-                              <td>{attribute.attribute.name}</td>
-                              <td>
-                                {attribute.value}{" "}
-                                {attribute.attribute.uom?.name}
-                              </td>
-                              <td>{attribute.sku}</td>
-                              <td>
-                                <Button size="small" variant="secondary">
-                                  {t("common:edit")}
-                                </Button>
-                              </td>
-                            </tr>
-                          )
+              {product && (
+                <PriceSection
+                  prices={product.prices}
+                  onOpenCreateModal={() => setCreatePriceModalOpen(true)}
+                />
+              )}
+
+              {product && (
+                <AttributeSection
+                  attributes={product.attributeValues}
+                  onOpenCreateModal={() => setCreateAttributeModalOpen(true)}
+                />
+              )}
+
+              <div>
+                <h2 className="section-title">
+                  {t("common:create_product_content_section_title")}
+                </h2>
+                <p className="section-description">
+                  {t("common:create_product_content_section_description")}
+                </p>
+                <div className="section-body">
+                  <div className="flex flex-col gap-6">
+                    <FormField
+                      control={form.control}
+                      name="title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t("common:page_title")}</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
                       )}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="mt-8 flex justify-end">
-                  <Button variant="secondary">
-                    {t("common:add_entity", { entity: t("common:attribute") })}
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="section-title">
-                {t("common:create_product_content_section_title")}
-              </h2>
-              <p className="section-description">
-                {t("common:create_product_content_section_description")}
-              </p>
-              <div className="section-body">
-                <div className="flex flex-col gap-6">
-                  <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("common:page_title")}</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("common:description")}</FormLabel>
-                        <FormControl>
-                          <Textarea {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="metaDescription"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("common:meta_description")}</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="slug"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("common:slug")}</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                    />
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t("common:description")}</FormLabel>
+                          <FormControl>
+                            <Textarea {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="metaDescription"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t("common:meta_description")}</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="slug"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t("common:slug")}</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </>
   )
 }
 
