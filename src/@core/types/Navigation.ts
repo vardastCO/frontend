@@ -4,11 +4,14 @@ export interface NavigationItemType {
   title: string
   path: string
   icon: keyof typeof dynamicIconImports
-  permission?: string
+  abilities?: string
+  role?: string
   items?: NavigationItemType[]
 }
 
 export interface NavigationType {
   title?: string
+  abilities?: string
+  role?: string
   items: NavigationItemType[]
 }

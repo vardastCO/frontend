@@ -23,31 +23,31 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
           title: t("common:products"),
           path: "/admin/products",
           icon: "package",
-          permission: "gql.products.product.index",
+          abilities: "gql.products.product.index",
           items: [
             {
               title: t("common:all_entities", { entity: t("common:products") }),
               path: "/admin/products",
               icon: "package",
-              permission: "gql.products.product.index"
+              abilities: "gql.products.product.index"
             },
             {
               title: t("common:attributes"),
               path: "/admin/attributes",
               icon: "layers",
-              permission: "gql.products.attribute.index"
+              abilities: "gql.products.attribute.index"
             },
             {
               title: t("common:brands"),
               path: "/admin/brands",
               icon: "fingerprint",
-              permission: "gql.products.brand.index"
+              abilities: "gql.products.brand.index"
             },
             {
               title: t("common:uoms"),
               path: "/admin/uoms",
               icon: "ruler",
-              permission: "gql.products.uom.index"
+              abilities: "gql.products.uom.index"
             }
           ]
         },
@@ -55,30 +55,31 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
           title: t("common:sellers"),
           path: "/admin/sellers",
           icon: "store",
-          permission: "gql.products.seller.index"
+          abilities: "gql.products.seller.index"
         }
       ]
     },
     {
       title: t("common:administration"),
+      role: "admin",
       items: [
         {
           title: t("common:vocabularies_menu_title"),
           path: "/admin/vocabularies",
           icon: "layout-grid",
-          permission: "gql.base.taxonomy.vocabulary.index"
+          abilities: "gql.base.taxonomy.vocabulary.index"
         },
         {
           title: t("common:locations_menu_title"),
           path: "/admin/locations",
           icon: "map",
-          permission: "gql.base.location.country.index"
+          abilities: "gql.base.location.country.index"
         },
         {
           title: t("common:users_menu_title"),
           path: "/admin/users",
           icon: "users",
-          permission: "gql.users.user.index"
+          abilities: "gql.users.user.index"
         }
       ]
     }

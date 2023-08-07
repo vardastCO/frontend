@@ -18,24 +18,30 @@ const Navigation = (props: Props) => {
     <>
       {menus.map((menuSection, sectionId) => {
         return (
-          <section className="app-navigation-section" key={sectionId}>
-            <ol className="app-navigation-section-list">
-              {menuSection.title && (
-                <li className="app-navigation-section-label">
-                  {menuSection.title}
-                </li>
-              )}
-              {menuSection.items &&
-                menuSection.items.map(
-                  (menuItem, idx) =>
-                    ((menuItem.permission &&
-                      session?.abilities.includes(menuItem.permission)) ||
-                      !menuItem.permission) && (
-                      <NavigationItem key={idx} menu={menuItem} />
-                    )
+          ((menuSection.role &&
+            session?.profile.roles.some(
+              (role) => role?.name === menuSection.role
+            )) ||
+            !menuSection.role) && (
+            <section className="app-navigation-section" key={sectionId}>
+              <ol className="app-navigation-section-list">
+                {menuSection.title && (
+                  <li className="app-navigation-section-label">
+                    {menuSection.title}
+                  </li>
                 )}
-            </ol>
-          </section>
+                {menuSection.items &&
+                  menuSection.items.map(
+                    (menuItem, idx) =>
+                      ((menuItem.abilities &&
+                        session?.abilities.includes(menuItem.abilities)) ||
+                        !menuItem.abilities) && (
+                        <NavigationItem key={idx} menu={menuItem} />
+                      )
+                  )}
+              </ol>
+            </section>
+          )
         )
       })}
     </>
