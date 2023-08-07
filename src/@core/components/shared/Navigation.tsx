@@ -1,5 +1,7 @@
 "use client"
 
+import { useSession } from "next-auth/react"
+
 import { NavigationType } from "@core/types/Navigation"
 
 import NavigationItem from "./NavigationItem"
@@ -9,6 +11,7 @@ type Props = {
 }
 
 const Navigation = (props: Props) => {
+  const { data: session } = useSession()
   const { menus } = props
 
   return (
@@ -23,9 +26,14 @@ const Navigation = (props: Props) => {
                 </li>
               )}
               {menuSection.items &&
-                menuSection.items.map((menuItem, idx) => (
-                  <NavigationItem key={idx} menu={menuItem} />
-                ))}
+                menuSection.items.map(
+                  (menuItem, idx) =>
+                    ((menuItem.permission &&
+                      session?.abilities.includes(menuItem.permission)) ||
+                      !menuItem.permission) && (
+                      <NavigationItem key={idx} menu={menuItem} />
+                    )
+                )}
             </ol>
           </section>
         )

@@ -23,33 +23,39 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
           title: t("common:products"),
           path: "/admin/products",
           icon: "package",
+          permission: "gql.products.product.index",
           items: [
             {
               title: t("common:all_entities", { entity: t("common:products") }),
               path: "/admin/products",
-              icon: "package"
+              icon: "package",
+              permission: "gql.products.product.index"
             },
             {
               title: t("common:attributes"),
               path: "/admin/attributes",
-              icon: "layers"
+              icon: "layers",
+              permission: "gql.products.attribute.index"
             },
             {
               title: t("common:brands"),
               path: "/admin/brands",
-              icon: "fingerprint"
+              icon: "fingerprint",
+              permission: "gql.products.brand.index"
             },
             {
               title: t("common:uoms"),
               path: "/admin/uoms",
-              icon: "ruler"
+              icon: "ruler",
+              permission: "gql.products.uom.index"
             }
           ]
         },
         {
           title: t("common:sellers"),
           path: "/admin/sellers",
-          icon: "store"
+          icon: "store",
+          permission: "gql.products.seller.index"
         }
       ]
     },
@@ -59,38 +65,20 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
         {
           title: t("common:vocabularies_menu_title"),
           path: "/admin/vocabularies",
-          icon: "layout-grid"
+          icon: "layout-grid",
+          permission: "gql.base.taxonomy.vocabulary.index"
         },
         {
           title: t("common:locations_menu_title"),
           path: "/admin/locations",
-          icon: "map"
+          icon: "map",
+          permission: "gql.base.location.country.index"
         },
         {
           title: t("common:users_menu_title"),
           path: "/admin/users",
-          icon: "users"
-        }
-      ]
-    },
-    {
-      items: [
-        {
-          title: "storybook",
-          path: "/admin/storybook",
-          icon: "paintbrush-2",
-          items: [
-            {
-              title: "button",
-              path: "/admin/storybook/button",
-              icon: "users"
-            },
-            {
-              title: "form",
-              path: "/admin/storybook/form",
-              icon: "users"
-            }
-          ]
+          icon: "users",
+          permission: "gql.users.user.index"
         }
       ]
     }

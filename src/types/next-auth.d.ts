@@ -10,6 +10,7 @@ declare module "next-auth" {
     refreshTokenTtl?: number
     error?: string
     profile: BaseUser
+    abilities: string[]
   }
 }
 
@@ -20,5 +21,6 @@ declare module "next-auth" {
     accessTokenTtl?: number
     refreshTokenTtl?: number
     profile: BaseUser
+    abilities: string[]
   }
 }
