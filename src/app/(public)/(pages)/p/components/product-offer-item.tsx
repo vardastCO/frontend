@@ -16,6 +16,7 @@ import {
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import slugify from "@core/utils/persian-slugify"
 import { Button } from "@core/components/ui/button"
 import SellerContactModal from "@/app/(public)/(pages)/p/components/seller-contact-modal"
 
@@ -65,7 +66,7 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
         />
         <div className="flex flex-col items-start gap-1.5">
           <Link
-            href={`/seller/${offer.seller.id}/${offer.seller.name}`}
+            href={`/seller/${offer.seller.id}/${slugify(offer.seller.name)}`}
             prefetch={false}
           >
             <div className="font-bold text-gray-700">{offer.seller.name}</div>
