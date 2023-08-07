@@ -5,7 +5,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { LucideTrash, LucideWarehouse } from "lucide-react"
+import { ClientError } from "graphql-request"
+import { LucideAlertOctagon, LucideTrash, LucideWarehouse } from "lucide-react"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
@@ -30,6 +31,7 @@ import {
   FormMessage
 } from "@core/components/react-hook-form/form"
 import Card from "@core/components/shared/Card"
+import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from "@core/components/ui/avatar"
 import { Button } from "@core/components/ui/button"
 import { Input } from "@core/components/ui/input"
@@ -57,12 +59,16 @@ const SellerForm = ({ seller }: SellerFormProps) => {
   const logoFileFieldRef = useRef<HTMLInputElement>(null)
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [logoPreview, setLogoPreview] = useState<string>("")
+  const [errors, setErrors] = useState<ClientError>()
 
   const token = session?.accessToken || null
 
   const statuses = enumToKeyValueObject(ThreeStateSupervisionStatuses)
 
   const createSellerMutation = useCreateSellerMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
     onSuccess: () => {
       toast({
         description: t("common:entity_added_successfully", {
@@ -75,6 +81,9 @@ const SellerForm = ({ seller }: SellerFormProps) => {
     }
   })
   const updateSellerMutation = useUpdateSellerMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
     onSuccess: () => {
       toast({
         description: t("common:entity_updated_successfully", {
@@ -91,14 +100,9 @@ const SellerForm = ({ seller }: SellerFormProps) => {
   const CreateSellerSchema = z.object({
     name: z.string(),
     status: z.nativeEnum(ThreeStateSupervisionStatuses),
-    email: z.string().email().optional(),
     isPublic: z.boolean().optional(),
     logoFileUuid: z.string().optional(),
-    phone: z.string().optional(),
-    address: z.string().optional(),
-    website: z.string().optional(),
-    about: z.string().optional(),
-    social: z.string().optional()
+    bio: z.string().optional()
   })
   type CreateSellerType = TypeOf<typeof CreateSellerSchema>
 
@@ -108,6 +112,7 @@ const SellerForm = ({ seller }: SellerFormProps) => {
       name: seller?.name,
       status: seller?.status,
       isPublic: seller?.isPublic || true,
+      bio: seller?.bio || "",
       logoFileUuid: seller?.logoFile?.uuid
     }
   })
@@ -145,21 +150,27 @@ const SellerForm = ({ seller }: SellerFormProps) => {
   }
 
   function onSubmit(data: CreateSellerType) {
-    const { name, logoFileUuid, email, phone, address, website, about } = data
+    const { name, logoFileUuid, status, isPublic, bio } = data
 
     if (seller?.name) {
       updateSellerMutation.mutate({
         updateSellerInput: {
           id: seller.id,
           name,
-          logoFileUuid
+          logoFileUuid,
+          status,
+          isPublic,
+          bio
         }
       })
     } else {
       createSellerMutation.mutate({
         createSellerInput: {
           name,
-          logoFileUuid
+          logoFileUuid,
+          status,
+          isPublic,
+          bio
         }
       })
     }
@@ -167,6 +178,20 @@ const SellerForm = ({ seller }: SellerFormProps) => {
 
   return (
     <Form {...form}>
+      {errors && (
+        <Alert variant="danger">
+          <LucideAlertOctagon />
+          <AlertTitle>خطا</AlertTitle>
+          <AlertDescription>
+            {(
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => (
+              <p key={error}>{error}</p>
+            ))}
+          </AlertDescription>
+        </Alert>
+      )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
           <h1 className="text-3xl font-black text-gray-800">
@@ -342,10 +367,10 @@ const SellerForm = ({ seller }: SellerFormProps) => {
             <div className="grid grid-cols-1 gap-6">
               <FormField
                 control={form.control}
-                name="about"
+                name="bio"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("common:about")}</FormLabel>
+                    <FormLabel>{t("common:bio")}</FormLabel>
                     <FormControl>
                       <Textarea {...field} />
                     </FormControl>
