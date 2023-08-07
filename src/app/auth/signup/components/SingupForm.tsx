@@ -257,7 +257,7 @@ const SingupForm = (props: Props) => {
                   formStepOne.formState.isSubmitting
                 }
               >
-                {t("common:signup")}
+                دریافت رمز یکبار مصرف
               </Button>
             </form>
           </Form>
@@ -312,7 +312,7 @@ const SingupForm = (props: Props) => {
                   formStepTwo.formState.isSubmitting
                 }
               >
-                {t("common:signup")}
+                تایید تلفن همراه
               </Button>
             </form>
           </Form>
@@ -405,7 +405,7 @@ const SingupForm = (props: Props) => {
                   formStepThree.formState.isSubmitting
                 }
               >
-                {t("common:signup")}
+                تکمیل ثبت‌نام
               </Button>
             </form>
           </Form>
