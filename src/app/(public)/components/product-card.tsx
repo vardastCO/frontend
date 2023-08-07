@@ -4,6 +4,8 @@ import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { Product } from "@/generated"
 
+import slugify from "@core/utils/persian-slugify"
+
 interface ProductCardProps {
   product: Product
 }
@@ -24,7 +26,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         xl:[&:nth-of-type(4n)]:border-l-0"
     >
       <Link
-        href={`/p/${product.id}/${product.name}`}
+        href={`/p/${product.id}/${slugify(product.name)}`}
         className="flex h-full w-full py-2 lg:px-4"
         prefetch={false}
       >

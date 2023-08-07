@@ -21,6 +21,7 @@ import {
   Uom
 } from "@/generated"
 
+import slugify from "@core/utils/persian-slugify"
 import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
 import ProductAttributes from "@/app/(public)/(pages)/p/components/product-attributes"
@@ -190,7 +191,9 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
               <span className="font-semibold text-gray-500">برند:</span>
               <Link
                 className="font-bold text-brand-500"
-                href={`/brand/${product.brand.id}/${product.brand.name}`}
+                href={`/brand/${product.brand.id}/${slugify(
+                  product.brand.name
+                )}`}
                 prefetch={false}
               >
                 {product.brand.name}
@@ -219,6 +222,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
                   <Link
                     className="mt-2 inline-block text-brand-500"
                     href="#attributes"
+                    prefetch={false}
                   >
                     + دیگر ویژگی‌ها
                   </Link>
