@@ -16,11 +16,10 @@ import { TypeOf, z } from "zod"
 import {
   PriceTypesEnum,
   useCreatePriceMutation,
-  useGetAllSellersQuery
+  useGetSellersWithoutPaginationQuery
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { enumToKeyValueObject } from "@core/utils/enumToKeyValueObject"
 import { mergeClasses } from "@core/utils/mergeClasses"
 import {
   Form,
@@ -52,13 +51,6 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@core/components/ui/popover"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@core/components/ui/select"
 import { Switch } from "@core/components/ui/switch"
 import { toast } from "@core/hooks/use-toast"
 
@@ -75,7 +67,6 @@ const CreatePriceModal = ({
 }: CreatePriceModalProps) => {
   const { t } = useTranslation()
   const [errors, setErrors] = useState<ClientError>()
-  const priceTypes = enumToKeyValueObject(PriceTypesEnum)
 
   const queryClient = useQueryClient()
   const createPriceMutation = useCreatePriceMutation(graphqlRequestClient, {
@@ -97,12 +88,11 @@ const CreatePriceModal = ({
       onOpenChange(false)
     }
   })
-  const sellers = useGetAllSellersQuery(graphqlRequestClient)
+  const sellers = useGetSellersWithoutPaginationQuery(graphqlRequestClient)
 
   const CreatePriceSchema = z.object({
     amount: z.number(),
     sellerId: z.number(),
-    type: z.nativeEnum(PriceTypesEnum),
     isPublic: z.boolean().optional().default(true)
   })
   type CreatePrice = TypeOf<typeof CreatePriceSchema>
@@ -120,14 +110,14 @@ const CreatePriceModal = ({
   }
 
   function onSubmit(data: CreatePrice) {
-    const { type, isPublic, amount, sellerId } = data
+    const { isPublic, amount, sellerId } = data
 
     createPriceMutation.mutate({
       createPriceInput: {
         productId,
         sellerId,
         amount,
-        type,
+        type: PriceTypesEnum.Consumer,
         isPublic
       }
     })
@@ -162,37 +152,6 @@ const CreatePriceModal = ({
             <div className="flex flex-col gap-6">
               <FormField
                 control={form.control}
-                name="type"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:type")}</FormLabel>
-                    <Select
-                      onValueChange={(value) => {
-                        form.setValue("type", value as PriceTypesEnum)
-                      }}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            placeholder={t("common:select_placeholder")}
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="z-[9999]">
-                        {Object.keys(priceTypes).map((type) => (
-                          <SelectItem value={priceTypes[type]} key={type}>
-                            {type}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="sellerId"
                 render={({ field }) => (
                   <FormItem>
@@ -207,7 +166,7 @@ const CreatePriceModal = ({
                             className="input-field flex items-center text-start"
                           >
                             {field.value
-                              ? sellers.data?.sellers.data.find(
+                              ? sellers.data?.sellersWithoutPagination.find(
                                   (seller) =>
                                     seller && seller.id === field.value
                                 )?.name
@@ -231,7 +190,7 @@ const CreatePriceModal = ({
                             })}
                           </CommandEmpty>
                           <CommandGroup>
-                            {sellers.data?.sellers.data.map(
+                            {sellers.data?.sellersWithoutPagination.map(
                               (seller) =>
                                 seller && (
                                   <CommandItem
@@ -240,7 +199,7 @@ const CreatePriceModal = ({
                                     onSelect={(value) => {
                                       form.setValue(
                                         "sellerId",
-                                        sellers.data?.sellers.data.find(
+                                        sellers.data?.sellersWithoutPagination.find(
                                           (item) =>
                                             item &&
                                             item.name.toLowerCase() === value

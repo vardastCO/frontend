@@ -1,0 +1,12 @@
+query GetSellersWithoutPagination {
+  sellersWithoutPagination {
+    id
+    name
+    slug
+    bio
+    status
+    isPublic
+    createdAt
+    updatedAt
+  }
+}
