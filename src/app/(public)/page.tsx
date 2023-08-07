@@ -2,7 +2,6 @@ import { Metadata } from "next"
 import Image from "next/image"
 
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
-import FrontPageSlider from "@/app/(public)/components/front-page-slider"
 import Search from "@/app/(public)/components/search"
 
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
@@ -29,7 +28,7 @@ const Index = async () => {
           <Search isMobileView={isMobileView} />
         </div>
 
-        <FrontPageSlider />
+        {/* <FrontPageSlider /> */}
       </div>
     </div>
   )
