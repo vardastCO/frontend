@@ -149,7 +149,7 @@ const CreatePriceModal = ({
         )}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 py-8">
               <FormField
                 control={form.control}
                 name="sellerId"

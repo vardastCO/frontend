@@ -243,6 +243,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
           open={createAttributeModalOpen}
           onOpenChange={setCreateAttributeModalOpen}
           productId={product.id}
+          categoryId={product.category.id}
         />
       )}
       <Form {...form}>

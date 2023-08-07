@@ -2,19 +2,29 @@
 
 import { Dispatch, SetStateAction, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@radix-ui/react-popover"
 import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request"
-import { LucideAlertOctagon } from "lucide-react"
+import {
+  LucideAlertOctagon,
+  LucideCheck,
+  LucideChevronsUpDown
+} from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
 import {
   useCreateAttributeValueMutation,
-  useGetAllAttributesQuery
+  useGetAttributesOfACategoryQuery
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { mergeClasses } from "@core/utils/mergeClasses"
 import {
   Form,
   FormControl,
@@ -25,6 +35,13 @@ import {
 } from "@core/components/react-hook-form/form"
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Button } from "@core/components/ui/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem
+} from "@core/components/ui/command"
 import {
   Dialog,
   DialogContent,
@@ -38,6 +55,7 @@ import { toast } from "@core/hooks/use-toast"
 
 type CreateAttributeModalProps = {
   productId: number
+  categoryId: number
   open: boolean
   onOpenChange: Dispatch<SetStateAction<boolean>>
 }
@@ -45,14 +63,15 @@ type CreateAttributeModalProps = {
 const CreateAttributeModal = ({
   open,
   onOpenChange,
-  productId
+  productId,
+  categoryId
 }: CreateAttributeModalProps) => {
   const { t } = useTranslation()
   const [errors, setErrors] = useState<ClientError>()
 
   const queryClient = useQueryClient()
-  const attributes = useGetAllAttributesQuery(graphqlRequestClient, {
-    indexAttributeInput: {}
+  const attributes = useGetAttributesOfACategoryQuery(graphqlRequestClient, {
+    id: categoryId
   })
   const createAttributeValueMutation = useCreateAttributeValueMutation(
     graphqlRequestClient,
@@ -134,13 +153,92 @@ const CreateAttributeModal = ({
         )}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 py-8">
               <FormField
                 control={form.control}
-                name="sku"
+                name="attributeId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("common:product_sku")}</FormLabel>
+                    <FormLabel>{t("common:attribute")}</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            disabled={
+                              attributes.isLoading || attributes.isError
+                            }
+                            noStyle
+                            role="combobox"
+                            className="input-field flex items-center text-start"
+                          >
+                            {field.value
+                              ? attributes.data?.category.attributes.find(
+                                  (attribute) =>
+                                    attribute && attribute.id === field.value
+                                )?.name
+                              : t("common:choose_entity", {
+                                  entity: t("common:attribute")
+                                })}
+                            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="z-[9999]">
+                        <Command>
+                          <CommandInput
+                            placeholder={t("common:search_entity", {
+                              entity: t("common:attribute")
+                            })}
+                          />
+                          <CommandEmpty>
+                            {t("common:no_entity_found", {
+                              entity: t("common:attribute")
+                            })}
+                          </CommandEmpty>
+                          <CommandGroup>
+                            {attributes.data?.category.attributes.map(
+                              (attribute) =>
+                                attribute && (
+                                  <CommandItem
+                                    value={attribute.name}
+                                    key={attribute.id}
+                                    onSelect={(value) => {
+                                      form.setValue(
+                                        "attributeId",
+                                        attributes.data?.category.attributes.find(
+                                          (item) =>
+                                            item &&
+                                            item.name.toLowerCase() === value
+                                        )?.id || 0
+                                      )
+                                    }}
+                                  >
+                                    <LucideCheck
+                                      className={mergeClasses(
+                                        "mr-2 h-4 w-4",
+                                        attribute.id === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {attribute.name}
+                                  </CommandItem>
+                                )
+                            )}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="value"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("common:value")}</FormLabel>
                     <FormControl>
                       <Input type="text" {...field} />
                     </FormControl>
@@ -160,12 +258,29 @@ const CreateAttributeModal = ({
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel noStyle>{t("common:variant")}</FormLabel>
+                      <FormLabel noStyle>
+                        {t("common:is_product_variant")}
+                      </FormLabel>
                     </div>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+              {form.watch("isVariant") === true && (
+                <FormField
+                  control={form.control}
+                  name="sku"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:product_sku")}</FormLabel>
+                      <FormControl>
+                        <Input type="text" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
             </div>
             <DialogFooter>
               <div className="flex items-center justify-end gap-2">
