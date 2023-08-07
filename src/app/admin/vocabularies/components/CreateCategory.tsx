@@ -13,17 +13,15 @@ import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
-import { useCreateCategoryMutation, useGetVocabularyQuery } from "@/generated"
+import {
+  useCreateCategoryMutation,
+  useGetAllCategoriesQuery
+} from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { mergeClasses } from "@core/utils/mergeClasses"
 import { slugify } from "@core/utils/slugify"
 import zodI18nMap from "@core/utils/zodErrorMap"
-import {
-  englishInputSchema,
-  persianInputSchema,
-  slugInputSchema
-} from "@core/utils/zodValidationSchemas"
 import {
   Form,
   FormControl,
@@ -70,13 +68,11 @@ const CreateCategory = ({ vocabularyId }: Props) => {
 
   const queryClient = useQueryClient()
 
-  //   TODO: handle loading and error states
-  const { error, data, isLoading } = useGetVocabularyQuery(
-    graphqlRequestClient,
-    {
-      id: vocabularyId
+  const categories = useGetAllCategoriesQuery(graphqlRequestClient, {
+    indexCategoryInput: {
+      vocabularyId: vocabularyId
     }
-  )
+  })
 
   const createCategoryMutation = useCreateCategoryMutation(
     graphqlRequestClient,
@@ -101,10 +97,10 @@ const CreateCategory = ({ vocabularyId }: Props) => {
 
   z.setErrorMap(zodI18nMap)
   const CreateCategorySchema = z.object({
-    parentCategoryId: z.number().int(),
-    title: persianInputSchema,
-    titleEn: englishInputSchema,
-    slug: slugInputSchema,
+    parentCategoryId: z.number().optional(),
+    title: z.string(),
+    titleEn: z.string(),
+    slug: z.string(),
     sort: z.number().optional().default(0),
     isActive: z.boolean().optional().default(true)
   })
@@ -128,13 +124,18 @@ const CreateCategory = ({ vocabularyId }: Props) => {
     }
   }, [titleEn, form])
 
+  const onClose = () => {
+    form.reset()
+    setOpen(false)
+  }
+
   function onSubmit(data: CreateCategory) {
-    const { title, titleEn, slug, sort } = data
+    const { title, titleEn, slug, sort, parentCategoryId } = data
 
     createCategoryMutation.mutate({
       createCategoryInput: {
         vocabularyId,
-        parentCategoryId: parentCategoryId as number,
+        parentCategoryId,
         title,
         titleEn,
         slug,
@@ -148,71 +149,88 @@ const CreateCategory = ({ vocabularyId }: Props) => {
       <Button size="medium" onClick={() => setOpen(true)}>
         {t("common:add_entity", { entity: t("common:category") })}
       </Button>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>
-                  {t("common:create_new_entity", {
-                    entity: t("common:category")
-                  })}
-                </DialogTitle>
-              </DialogHeader>
-              <div className="flex flex-col gap-6">
-                {errors && (
-                  <Alert variant="danger">
-                    <LucideAlertOctagon />
-                    <AlertTitle>خطا</AlertTitle>
-                    <AlertDescription>
-                      {(
-                        errors.response.errors?.at(0)?.extensions
-                          .displayErrors as string[]
-                      ).map((error) => (
-                        <p key={error}>{error}</p>
-                      ))}
-                    </AlertDescription>
-                  </Alert>
-                )}
+      <Dialog open={open} onOpenChange={onClose}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {t("common:create_new_entity", {
+                entity: t("common:category")
+              })}
+            </DialogTitle>
+          </DialogHeader>
+          {errors && (
+            <Alert variant="danger">
+              <LucideAlertOctagon />
+              <AlertTitle>خطا</AlertTitle>
+              <AlertDescription>
+                {(
+                  errors.response.errors?.at(0)?.extensions
+                    .displayErrors as string[]
+                ).map((error) => (
+                  <p key={error}>{error}</p>
+                ))}
+              </AlertDescription>
+            </Alert>
+          )}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+              <div className="flex flex-col gap-6 py-8">
                 <FormField
                   control={form.control}
                   name="parentCategoryId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("common:country")}</FormLabel>
+                      <FormLabel>{t("common:category")}</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
+                              disabled={
+                                categories.isLoading || categories.isError
+                              }
                               noStyle
                               role="combobox"
                               className="input-field flex items-center text-start"
                             >
                               {field.value
-                                ? data?.vocabulary.categories.find(
+                                ? categories.data?.categories.find(
                                     (category) =>
                                       category && category.id === field.value
                                   )?.title
-                                : "Select language"}
+                                : t("common:choose_entity", {
+                                    entity: t("common:category")
+                                  })}
                               <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent>
+                        <PopoverContent className="z-[9999]">
                           <Command>
-                            <CommandInput placeholder="Search framework..." />
-                            <CommandEmpty>No framework found.</CommandEmpty>
-                            <CommandGroup className="max-h-[100px] overflow-auto">
-                              {data?.vocabulary.categories.map(
+                            <CommandInput
+                              placeholder={t("common:search_entity", {
+                                entity: t("common:category")
+                              })}
+                            />
+                            <CommandEmpty>
+                              {t("common:no_entity_found", {
+                                entity: t("common:category")
+                              })}
+                            </CommandEmpty>
+                            <CommandGroup>
+                              {categories.data?.categories.map(
                                 (category) =>
                                   category && (
                                     <CommandItem
-                                      value={`${category.id}`}
+                                      value={category.title}
                                       key={category.id}
                                       onSelect={(value) => {
                                         form.setValue(
                                           "parentCategoryId",
-                                          +value
+                                          categories.data?.categories.find(
+                                            (item) =>
+                                              item &&
+                                              item.title.toLowerCase() === value
+                                          )?.id || 0
                                         )
                                       }}
                                     >
@@ -299,7 +317,8 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                 <div className="flex items-center justify-end gap-2">
                   <Button
                     variant="ghost"
-                    onClick={() => setOpen(false)}
+                    type="button"
+                    onClick={() => onClose()}
                     loading={form.formState.isSubmitting}
                     disabled={form.formState.isSubmitting}
                   >
@@ -310,9 +329,9 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                   </Button>
                 </div>
               </DialogFooter>
-            </DialogContent>
-          </form>
-        </Form>
+            </form>
+          </Form>
+        </DialogContent>
       </Dialog>
     </>
   )
