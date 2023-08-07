@@ -2,7 +2,6 @@ mutation BecomeASellerMutation($becomeASellerInput: BecomeASellerInput!) {
   becomeASeller(becomeASellerInput: $becomeASellerInput) {
     id
     name
-    slug
     bio
     status
     isPublic

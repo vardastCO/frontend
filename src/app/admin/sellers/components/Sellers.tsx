@@ -3,10 +3,13 @@
 import { useState } from "react"
 import Image from "next/image"
 import { notFound, useRouter } from "next/navigation"
-import { LucideWarehouse } from "lucide-react"
+import { LucideCheck, LucideWarehouse, LucideX } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
-import { useGetAllSellersQuery } from "@/generated"
+import {
+  ThreeStateSupervisionStatuses,
+  useGetAllSellersQuery
+} from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
@@ -41,6 +44,8 @@ const Sellers = () => {
             <tr>
               <th></th>
               <th>{t("common:seller")}</th>
+              <th>{t("common:status")}</th>
+              <th>{t("common:visibility")}</th>
             </tr>
           </thead>
           <tbody>
@@ -58,7 +63,7 @@ const Sellers = () => {
                             src={seller.logoFile.presignedUrl.url}
                             alt={seller.name}
                             fill
-                            className="object-contain"
+                            className="object-contain p-1"
                           />
                         ) : (
                           <LucideWarehouse
@@ -72,6 +77,37 @@ const Sellers = () => {
                       <span className="font-medium text-gray-800">
                         {seller.name}
                       </span>
+                    </td>
+                    <td>
+                      {seller.status ===
+                        ThreeStateSupervisionStatuses.Pending && (
+                        <span className="tag tag-light tag-sm tag-warning">
+                          {t("common:pending")}
+                        </span>
+                      )}
+                      {seller.status ===
+                        ThreeStateSupervisionStatuses.Confirmed && (
+                        <span className="tag tag-light tag-sm tag-success">
+                          {t("common:confirmed")}
+                        </span>
+                      )}
+                      {seller.status ===
+                        ThreeStateSupervisionStatuses.Rejected && (
+                        <span className="tag tag-light tag-sm tag-gray">
+                          {t("common:rejected")}
+                        </span>
+                      )}
+                    </td>
+                    <td>
+                      {seller.isPublic ? (
+                        <span className="tag tag-light tag-icon tag-success tag-sm h-8 w-8 rounded-full">
+                          <LucideCheck className="icon" />
+                        </span>
+                      ) : (
+                        <span className="tag tag-light tag-icon tag-gray tag-sm h-8 w-8 rounded-full">
+                          <LucideX className="icon" />
+                        </span>
+                      )}
                     </td>
                   </tr>
                 )

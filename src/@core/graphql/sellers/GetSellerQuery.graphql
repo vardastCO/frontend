@@ -2,10 +2,8 @@ query GetSeller($id: Int!) {
   seller(id: $id) {
     id
     name
-    slug
     createdAt
     updatedAt
-    bio
     logoFile {
       id
       uuid
@@ -94,6 +92,47 @@ query GetSeller($id: Int!) {
         latitude
         longitude
         areasCount
+      }
+    }
+    bio
+    status
+    isPublic
+    representatives {
+      id
+      role
+      title
+      isActive
+      createdAt
+      updatedAt
+      user {
+        id
+        uuid
+        firstName
+        lastName
+        email
+        cellphone
+        telegramChatId
+        isCellphoneVerified
+        isEmailVerified
+        isTelegramVerified
+        username
+        mustChangePassword
+        lastPasswordChangeAt
+        language
+        timezone
+        status
+        suspensionReason
+        customDisplayRole
+        adminComments
+        lastLoginAt
+        lastLoginIP
+        lastFailedLoginAt
+        failedLoginAttempts
+        isLockedOut
+        lockedOutAt
+        createdAt
+        updatedAt
+        fullName
       }
     }
   }

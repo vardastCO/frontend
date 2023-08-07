@@ -8,7 +8,6 @@ mutation CreatePriceMutation($createPriceInput: CreatePriceInput!) {
     seller {
       id
       name
-      slug
       bio
       status
       isPublic

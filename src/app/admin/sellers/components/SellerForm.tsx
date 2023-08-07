@@ -2,6 +2,7 @@
 
 import { ChangeEvent, useRef, useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LucideTrash, LucideWarehouse } from "lucide-react"
@@ -12,11 +13,13 @@ import { TypeOf, z } from "zod"
 
 import {
   Seller,
+  ThreeStateSupervisionStatuses,
   useCreateSellerMutation,
   useUpdateSellerMutation
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { enumToKeyValueObject } from "@core/utils/enumToKeyValueObject"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import {
   Form,
@@ -27,8 +30,17 @@ import {
   FormMessage
 } from "@core/components/react-hook-form/form"
 import Card from "@core/components/shared/Card"
+import { Avatar, AvatarFallback, AvatarImage } from "@core/components/ui/avatar"
 import { Button } from "@core/components/ui/button"
 import { Input } from "@core/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@core/components/ui/select"
+import { Switch } from "@core/components/ui/switch"
 import { Textarea } from "@core/components/ui/textarea"
 import { useToast } from "@core/hooks/use-toast"
 import { uploadPaths } from "@core/lib/uploadPaths"
@@ -47,6 +59,8 @@ const SellerForm = ({ seller }: SellerFormProps) => {
   const [logoPreview, setLogoPreview] = useState<string>("")
 
   const token = session?.accessToken || null
+
+  const statuses = enumToKeyValueObject(ThreeStateSupervisionStatuses)
 
   const createSellerMutation = useCreateSellerMutation(graphqlRequestClient, {
     onSuccess: () => {
@@ -76,8 +90,9 @@ const SellerForm = ({ seller }: SellerFormProps) => {
   z.setErrorMap(zodI18nMap)
   const CreateSellerSchema = z.object({
     name: z.string(),
-    slug: z.string(),
+    status: z.nativeEnum(ThreeStateSupervisionStatuses),
     email: z.string().email().optional(),
+    isPublic: z.boolean().optional(),
     logoFileUuid: z.string().optional(),
     phone: z.string().optional(),
     address: z.string().optional(),
@@ -91,12 +106,18 @@ const SellerForm = ({ seller }: SellerFormProps) => {
     resolver: zodResolver(CreateSellerSchema),
     defaultValues: {
       name: seller?.name,
-      slug: seller?.slug,
+      status: seller?.status,
+      isPublic: seller?.isPublic || true,
       logoFileUuid: seller?.logoFile?.uuid
     }
   })
 
   const name = form.watch("name")
+  const admin =
+    seller &&
+    seller.representatives &&
+    seller.representatives.length > 0 &&
+    seller.representatives.at(0)
 
   const onLogoFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -124,15 +145,13 @@ const SellerForm = ({ seller }: SellerFormProps) => {
   }
 
   function onSubmit(data: CreateSellerType) {
-    const { name, slug, logoFileUuid, email, phone, address, website, about } =
-      data
+    const { name, logoFileUuid, email, phone, address, website, about } = data
 
     if (seller?.name) {
       updateSellerMutation.mutate({
         updateSellerInput: {
           id: seller.id,
           name,
-          slug,
           logoFileUuid
         }
       })
@@ -140,7 +159,6 @@ const SellerForm = ({ seller }: SellerFormProps) => {
       createSellerMutation.mutate({
         createSellerInput: {
           name,
-          slug,
           logoFileUuid
         }
       })
@@ -166,8 +184,38 @@ const SellerForm = ({ seller }: SellerFormProps) => {
           </Button>
         </div>
         <div className="flex flex-col gap-8">
-          <Card template="1/2" title={t("common:title")}>
+          <Card template="1/2" title={t("common:information")}>
             <div className="grid grid-cols-2 gap-6">
+              {admin && (
+                <div className="col-span-full">
+                  <Link
+                    href={`/admin/users/${admin.user.uuid}`}
+                    prefetch={false}
+                  >
+                    <div className="flex items-center">
+                      <Avatar size="medium">
+                        {admin.user.avatarFile && (
+                          <AvatarImage
+                            src={admin.user.avatarFile.presignedUrl.url}
+                            alt={admin.user.fullName}
+                          />
+                        )}
+                        <AvatarFallback>
+                          {admin.user.firstName[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="ms-2 flex flex-col gap-2">
+                        <span className="font-medium text-gray-800">
+                          {admin.user.fullName}
+                        </span>
+                        <span className="text-sm text-gray-600">
+                          {admin.user.cellphone}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              )}
               <FormField
                 control={form.control}
                 name="name"
@@ -183,13 +231,52 @@ const SellerForm = ({ seller }: SellerFormProps) => {
               />
               <FormField
                 control={form.control}
-                name="slug"
+                name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("common:slug")}</FormLabel>
-                    <FormControl>
-                      <Input type="text" {...field} />
-                    </FormControl>
+                    <FormLabel>{t("common:status")}</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        form.setValue(
+                          "status",
+                          value as ThreeStateSupervisionStatuses
+                        )
+                      }}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={t("common:select_placeholder")}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.keys(statuses).map((type) => (
+                          <SelectItem value={statuses[type]} key={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="isPublic"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-center gap-1">
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel noStyle>{t("common:visibility")}</FormLabel>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

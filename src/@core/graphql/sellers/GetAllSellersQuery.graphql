@@ -9,10 +9,11 @@ query GetAllSellers($indexSellerInput: IndexSellerInput) {
     data {
       id
       name
-      slug
       bio
       createdAt
       updatedAt
+      status
+      isPublic
       logoFile {
         id
         uuid

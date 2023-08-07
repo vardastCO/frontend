@@ -2,7 +2,6 @@ mutation CreateSellerMutation($createSellerInput: CreateSellerInput!) {
   createSeller(createSellerInput: $createSellerInput) {
     id
     name
-    slug
     bio
     createdAt
     updatedAt
