@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import clsx from "clsx"
 import parsePhoneNumber from "libphonenumber-js"
@@ -13,7 +14,9 @@ import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
+import PageHeader from "@core/components/shared/PageHeader"
 import { Avatar, AvatarFallback, AvatarImage } from "@core/components/ui/avatar"
+import { Button } from "@core/components/ui/button"
 import Pagination from "@/app/admin/components/Pagination"
 
 type Props = {}
@@ -36,6 +39,15 @@ const Users = (props: Props) => {
 
   return (
     <>
+      <PageHeader title={t("common:users_index_title")}>
+        {session?.abilities.includes("gql.users.user.store") && (
+          <Link href="/admin/users/new">
+            <Button size="medium">
+              {t("common:add_entity", { entity: t("common:user") })}
+            </Button>
+          </Link>
+        )}
+      </PageHeader>
       <div className="card table-responsive rounded">
         <table className="table-hover table">
           <thead>

@@ -1,7 +1,9 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { notFound, useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import { useGetAllUoMsQuery } from "@/generated"
@@ -10,10 +12,13 @@ import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
+import PageHeader from "@core/components/shared/PageHeader"
+import { Button } from "@core/components/ui/button"
 import Pagination from "@/app/admin/components/Pagination"
 
 const UOMs = () => {
   const { t } = useTranslation()
+  const { data: session } = useSession()
   const router = useRouter()
   const [currentPage, setCurrentPage] = useState<number>(1)
 
@@ -30,6 +35,15 @@ const UOMs = () => {
 
   return (
     <>
+      <PageHeader title={t("common:uoms_index_title")}>
+        {session?.abilities.includes("gql.products.uom.store") && (
+          <Link href="/admin/uoms/new">
+            <Button size="medium">
+              {t("common:add_entity", { entity: t("common:uom") })}
+            </Button>
+          </Link>
+        )}
+      </PageHeader>
       <div className="card table-responsive rounded">
         <table className="table-hover table">
           <thead>

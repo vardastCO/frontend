@@ -1,25 +1,17 @@
-import Link from "next/link"
-import useTranslation from "next-translate/useTranslation"
+import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
 
-import PageHeader from "@core/components/shared/PageHeader"
-import { Button } from "@core/components/ui/button"
+import { authOptions } from "@core/lib/authOptions"
 import Sellers from "@/app/admin/sellers/components/Sellers"
 
-const SellersIndex = () => {
-  const { t } = useTranslation()
+const SellersIndex = async () => {
+  const session = await getServerSession(authOptions)
 
-  return (
-    <>
-      <PageHeader title={t("common:sellers_index_title")}>
-        <Link href="/admin/sellers/new">
-          <Button size="medium">
-            {t("common:add_entity", { entity: t("common:seller") })}
-          </Button>
-        </Link>
-      </PageHeader>
-      <Sellers />
-    </>
-  )
+  if (!session?.abilities.includes("gql.products.seller.index")) {
+    redirect("/admin")
+  }
+
+  return <Sellers />
 }
 
 export default SellersIndex
