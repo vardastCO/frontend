@@ -33,7 +33,7 @@ const Card = ({
     >
       <div>
         {title && <h2 className="font-medium text-gray-800">{title}</h2>}
-        {description && <p>{description}</p>}
+        {description && <p className="text-sm text-gray-500">{description}</p>}
       </div>
       <div>{children}</div>
     </div>

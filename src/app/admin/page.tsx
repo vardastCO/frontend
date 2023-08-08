@@ -7,6 +7,7 @@ import { ThreeStateSupervisionStatuses } from "@/generated"
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { authOptions } from "@core/lib/authOptions"
 import BecomeSellerAlert from "@/app/admin/components/BecomeSellerAlert"
+import PastDurationEventsChart from "@/app/admin/components/PastDurationEventsChart"
 
 export const metadata: Metadata = {
   title: "وردست من"
@@ -48,6 +49,12 @@ const AdminIndex = async () => {
               </div>
             </AlertDescription>
           </Alert>
+        )}
+
+      {session?.profile.seller &&
+        session?.profile.seller.status ===
+          ThreeStateSupervisionStatuses.Confirmed && (
+          <PastDurationEventsChart />
         )}
     </div>
   )
