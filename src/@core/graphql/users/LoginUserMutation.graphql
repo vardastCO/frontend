@@ -102,6 +102,15 @@ mutation LoginUser($loginInput: LoginInput!) {
         flagEmoji
         provincesCount
       }
+      seller {
+        id
+        name
+        bio
+        status
+        isPublic
+        createdAt
+        updatedAt
+      }
     }
     abilities
     refreshToken

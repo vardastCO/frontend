@@ -22,6 +22,7 @@ import {
   Image,
   Product,
   ProductTypesEnum,
+  ThreeStateSupervisionStatuses,
   UpdateAttributeValueInputSchema,
   useCreateImageMutation,
   useCreateProductMutation,
@@ -62,6 +63,13 @@ import {
   PopoverTrigger
 } from "@core/components/ui/popover"
 import { RadioGroup, RadioGroupItem } from "@core/components/ui/radio-group"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@core/components/ui/select"
 import { Switch } from "@core/components/ui/switch"
 import { Textarea } from "@core/components/ui/textarea"
 import { toast } from "@core/hooks/use-toast"
@@ -144,6 +152,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
   })
 
   const types = enumToKeyValueObject(ProductTypesEnum)
+  const statuses = enumToKeyValueObject(ThreeStateSupervisionStatuses)
 
   z.setErrorMap(zodI18nMap)
   const CreateProductSchema = z.object({
@@ -151,6 +160,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
     slug: slugInputSchema,
     sku: z.string(),
     type: z.nativeEnum(ProductTypesEnum),
+    status: z.nativeEnum(ThreeStateSupervisionStatuses),
     isActive: z.boolean(),
     categoryId: z.number(),
     brandId: z.number(),
@@ -176,6 +186,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
       brandId: product?.brand.id,
       uomId: product?.uom.id,
       isActive: product?.isActive,
+      status: product?.status,
       attributes: product?.attributeValues as AttributeValue[]
     }
   })
@@ -199,7 +210,17 @@ const ProductForm = ({ product }: ProductFormProps) => {
   })
 
   const onSubmit = (data: CreateProductType) => {
-    const { name, slug, sku, type, categoryId, brandId, uomId, isActive } = data
+    const {
+      name,
+      slug,
+      status,
+      sku,
+      type,
+      categoryId,
+      brandId,
+      uomId,
+      isActive
+    } = data
 
     if (product) {
       updateProductMutation.mutate({
@@ -211,7 +232,9 @@ const ProductForm = ({ product }: ProductFormProps) => {
           sku,
           categoryId,
           brandId,
-          uomId
+          uomId,
+          status,
+          isActive
         }
       })
     } else {
@@ -223,7 +246,9 @@ const ProductForm = ({ product }: ProductFormProps) => {
           sku,
           categoryId,
           brandId,
-          uomId
+          uomId,
+          status,
+          isActive
         }
       })
     }
@@ -489,6 +514,41 @@ const ProductForm = ({ product }: ProductFormProps) => {
                           </FormItem>
                         </RadioGroup>
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:status")}</FormLabel>
+                      <Select
+                        onValueChange={(value) => {
+                          form.setValue(
+                            "status",
+                            value as ThreeStateSupervisionStatuses
+                          )
+                        }}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue
+                              placeholder={t("common:select_placeholder")}
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {Object.keys(statuses).map((type) => (
+                            <SelectItem value={statuses[type]} key={type}>
+                              {type}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}

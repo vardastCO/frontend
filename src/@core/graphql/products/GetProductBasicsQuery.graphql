@@ -11,5 +11,6 @@ query GetProductBasics($id: Int!) {
     metaDescription
     createdAt
     updatedAt
+    status
   }
 }

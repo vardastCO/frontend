@@ -14,6 +14,7 @@ query GetAllProducts($indexProductInput: IndexProductInput) {
       isActive
       createdAt
       updatedAt
+      status
       category {
         id
         title
