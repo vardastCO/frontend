@@ -3,12 +3,7 @@
 import { useState } from "react"
 import { useClickOutside } from "@mantine/hooks"
 import clsx from "clsx"
-import {
-  LucideChevronsUpDown,
-  LucideLogOut,
-  LucideMoon,
-  LucideSun
-} from "lucide-react"
+import { LucideChevronsUpDown, LucideLogOut } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
 import { useTheme } from "next-themes"
 import useTranslation from "next-translate/useTranslation"
@@ -47,7 +42,7 @@ const UserMenu = () => {
           >
             {open && (
               <div className="flex flex-col gap-1">
-                <Button
+                {/* <Button
                   onClick={() => toggleTeheme()}
                   variant="ghost"
                   className="justify-start text-start"
@@ -62,7 +57,7 @@ const UserMenu = () => {
                       ? t("common:switch_dark_mode_off")
                       : t("common:switch_dark_mode_on")}
                   </>
-                </Button>
+                </Button> */}
                 <Button
                   onClick={() => signOut()}
                   variant="ghost"
