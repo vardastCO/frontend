@@ -1,3 +1,7 @@
+import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
+
+import { authOptions } from "@core/lib/authOptions"
 import AddressEdit from "@/app/admin/addresses/components/AddressEdit"
 
 type AddressEditPageProps = {
@@ -5,10 +9,16 @@ type AddressEditPageProps = {
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
-const AddressEditPage = ({
+const AddressEditPage = async ({
   params: { uuid },
   searchParams
 }: AddressEditPageProps) => {
+  const session = await getServerSession(authOptions)
+
+  if (!session?.abilities.includes("gql.users.address.update")) {
+    redirect("/admin")
+  }
+
   return (
     uuid && (
       <AddressEdit uuid={uuid} fallback={searchParams.fallback as string} />

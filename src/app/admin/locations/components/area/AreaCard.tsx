@@ -1,9 +1,9 @@
 "use client"
 
-import { useContext, useState } from "react"
+import { useState } from "react"
 import clsx from "clsx"
-import { useSetAtom } from "jotai"
 import { LucideEdit, LucideMoreVertical, LucideTrash } from "lucide-react"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import { Area, useUpdateAreaMutation } from "@/generated"
@@ -19,11 +19,10 @@ import {
 } from "@core/components/ui/dropdown-menu"
 import { Label } from "@core/components/ui/label"
 import { Switch } from "@core/components/ui/switch"
-import { useToast } from "@core/hooks/use-toast"
-
-import { LocationsContext } from "./LocationsProvider"
+import { toast } from "@core/hooks/use-toast"
 
 interface AreaCardProps {
+  onDeleteTriggered: (area: Area) => void
   show: boolean
   countrySlug?: string
   provinceSlug?: string
@@ -31,14 +30,10 @@ interface AreaCardProps {
   area: Area
 }
 
-const AreaCard = ({ show, area }: AreaCardProps) => {
-  const { removeStateAtom, entityToRemoveAtom } = useContext(LocationsContext)
-  const setEntityToRemove = useSetAtom(entityToRemoveAtom)
-  const setRemoveState = useSetAtom(removeStateAtom)
+const AreaCard = ({ show, area, onDeleteTriggered }: AreaCardProps) => {
   const { t } = useTranslation()
-  const { toast } = useToast()
+  const { data: session } = useSession()
   const { name, slug, isActive } = area
-
   const [active, setActive] = useState<boolean>(isActive)
 
   const updateAreaMutation = useUpdateAreaMutation(graphqlRequestClient, {
@@ -65,11 +60,7 @@ const AreaCard = ({ show, area }: AreaCardProps) => {
   }
 
   const toggleRemoveItem = () => {
-    setEntityToRemove({
-      type: "area",
-      entity: area
-    })
-    setRemoveState(true)
+    onDeleteTriggered(area)
   }
 
   return (
@@ -99,15 +90,24 @@ const AreaCard = ({ show, area }: AreaCardProps) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>
-              <LucideEdit className="dropdown-menu-item-icon" />
-              <span>{t("common:edit")}</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={toggleRemoveItem} className="danger">
-              <LucideTrash className="dropdown-menu-item-icon" />
-              <span>{t("common:delete")}</span>
-            </DropdownMenuItem>
+            {session?.abilities.includes("gql.base.location.area.update") && (
+              <DropdownMenuItem>
+                <LucideEdit className="dropdown-menu-item-icon" />
+                <span>{t("common:edit")}</span>
+              </DropdownMenuItem>
+            )}
+            {session?.abilities.includes("gql.base.location.area.destroy") && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onSelect={toggleRemoveItem}
+                  className="danger"
+                >
+                  <LucideTrash className="dropdown-menu-item-icon" />
+                  <span>{t("common:delete")}</span>
+                </DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

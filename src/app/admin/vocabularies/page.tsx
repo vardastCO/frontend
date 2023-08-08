@@ -1,23 +1,18 @@
-import useTranslation from "next-translate/useTranslation"
+import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
 
-import PageHeader from "@core/components/shared/PageHeader"
+import { authOptions } from "@core/lib/authOptions"
 
-import CreateVocavulary from "./components/CreateVocabulary"
 import Vocabularies from "./components/Vocabularies"
 
-const VocabulariesPage = () => {
-  const { t } = useTranslation()
+const VocabulariesPage = async () => {
+  const session = await getServerSession(authOptions)
 
-  return (
-    <>
-      <PageHeader title={t("common:vocabularies_index_title")}>
-        <CreateVocavulary />
-      </PageHeader>
-      <div>
-        <Vocabularies />
-      </div>
-    </>
-  )
+  if (!session?.abilities.includes("gql.base.taxonomy.vocabulary.index")) {
+    redirect("/admin")
+  }
+
+  return <Vocabularies />
 }
 
 export default VocabulariesPage

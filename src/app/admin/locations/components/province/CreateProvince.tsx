@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQueryClient } from "@tanstack/react-query"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
-import { CityTypesEnum, useCreateCityMutation } from "@/generated"
+import { useCreateProvinceMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { slugify } from "@core/utils/slugify"
@@ -37,41 +38,45 @@ import { Switch } from "@core/components/ui/switch"
 import { useToast } from "@core/hooks/use-toast"
 
 type Props = {
-  provinceId: number
+  countryId: number
 }
 
-const CreateCity = ({ provinceId }: Props) => {
+const CreateProvince = ({ countryId }: Props) => {
   const { t } = useTranslation()
+  const { data: session } = useSession()
   const { toast } = useToast()
   const [open, setOpen] = useState(false)
 
   const queryClient = useQueryClient()
-  const createCityMutation = useCreateCityMutation(graphqlRequestClient, {
-    onSuccess: () => {
-      form.reset()
-      queryClient.invalidateQueries({ queryKey: ["GetProvince"] })
-      setOpen(false)
-      toast({
-        description: t("common:entity_added_successfully", {
-          entity: t("common:city")
-        }),
-        duration: 2000,
-        variant: "success"
-      })
+  const createProvinceMutation = useCreateProvinceMutation(
+    graphqlRequestClient,
+    {
+      onSuccess: () => {
+        form.reset()
+        queryClient.invalidateQueries({ queryKey: ["GetCountry"] })
+        setOpen(false)
+        toast({
+          description: t("common:entity_added_successfully", {
+            entity: t("common:province")
+          }),
+          duration: 2000,
+          variant: "success"
+        })
+      }
     }
-  })
+  )
 
-  const CreateCitySchema = z.object({
+  const CreateProvinceSchema = z.object({
     name: persianInputSchema,
     nameEn: englishInputSchema,
     slug: slugInputSchema,
     sort: z.number().optional().default(0),
     isActive: z.boolean().optional().default(true)
   })
-  type CreateCity = TypeOf<typeof CreateCitySchema>
+  type CreateProvince = TypeOf<typeof CreateProvinceSchema>
 
-  const form = useForm<CreateCity>({
-    resolver: zodResolver(CreateCitySchema),
+  const form = useForm<CreateProvince>({
+    resolver: zodResolver(CreateProvinceSchema),
     defaultValues: {
       sort: 0,
       isActive: true
@@ -88,17 +93,16 @@ const CreateCity = ({ provinceId }: Props) => {
     }
   }, [nameEn, form])
 
-  function onSubmit(data: CreateCity) {
+  function onSubmit(data: CreateProvince) {
     const { name, nameEn, slug, sort, isActive } = data
-    createCityMutation.mutate({
-      createCityInput: {
-        provinceId,
+    createProvinceMutation.mutate({
+      createProvinceInput: {
+        countryId,
         name,
         nameEn,
         slug,
         sort,
-        isActive,
-        type: CityTypesEnum.City
+        isActive
       }
     })
   }
@@ -106,7 +110,7 @@ const CreateCity = ({ provinceId }: Props) => {
   return (
     <>
       <Button size="medium" onClick={() => setOpen(true)}>
-        {t("common:add_entity", { entity: t("common:city") })}
+        {t("common:add_entity", { entity: t("common:province") })}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <Form {...form}>
@@ -115,12 +119,12 @@ const CreateCity = ({ provinceId }: Props) => {
               <DialogHeader>
                 <DialogTitle>
                   {t("common:create_new_entity", {
-                    entity: t("common:city")
+                    entity: t("common:province")
                   })}
                 </DialogTitle>
               </DialogHeader>
               <>
-                {createCityMutation.isError && <p>خطایی رخ داده</p>}
+                {createProvinceMutation.isError && <p>خطایی رخ داده</p>}
                 <div className="flex flex-col gap-6">
                   <FormField
                     control={form.control}
@@ -226,4 +230,4 @@ const CreateCity = ({ provinceId }: Props) => {
   )
 }
 
-export default CreateCity
+export default CreateProvince

@@ -2,10 +2,12 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { notFound, useRouter } from "next/navigation"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { formatDistanceToNow, setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import { useGetAllProductsQuery } from "@/generated"
@@ -14,10 +16,13 @@ import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
+import PageHeader from "@core/components/shared/PageHeader"
+import { Button } from "@core/components/ui/button"
 import Pagination from "@/app/admin/components/Pagination"
 
 const Products = () => {
   const { t } = useTranslation()
+  const { data: session } = useSession()
   const router = useRouter()
   const [currentPage, setCurrentPage] = useState<number>(1)
 
@@ -42,6 +47,15 @@ const Products = () => {
 
   return (
     <>
+      <PageHeader title={t("common:products_index_title")}>
+        {session?.abilities.includes("gql.products.product.store") && (
+          <Link href="/admin/products/new">
+            <Button size="medium">
+              {t("common:add_entity", { entity: t("common:product") })}
+            </Button>
+          </Link>
+        )}
+      </PageHeader>
       <div className="card table-responsive rounded">
         <table className="table-hover table">
           <thead>

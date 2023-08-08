@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQueryClient } from "@tanstack/react-query"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
-import { useCreateAreaMutation } from "@/generated"
+import { useCreateCountryMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { slugify } from "@core/utils/slugify"
@@ -36,24 +37,23 @@ import { Input } from "@core/components/ui/input"
 import { Switch } from "@core/components/ui/switch"
 import { useToast } from "@core/hooks/use-toast"
 
-type Props = {
-  cityId: number
-}
+type Props = {}
 
-const CreateArea = ({ cityId }: Props) => {
+const CreateCountry = (props: Props) => {
   const { t } = useTranslation()
+  const { data: session } = useSession()
   const { toast } = useToast()
   const [open, setOpen] = useState(false)
 
   const queryClient = useQueryClient()
-  const createAreaMutation = useCreateAreaMutation(graphqlRequestClient, {
+  const createCountryMutation = useCreateCountryMutation(graphqlRequestClient, {
     onSuccess: () => {
       form.reset()
-      queryClient.invalidateQueries({ queryKey: ["GetCity"] })
+      queryClient.invalidateQueries({ queryKey: ["GetAllCountries"] })
       setOpen(false)
       toast({
         description: t("common:entity_added_successfully", {
-          entity: t("common:area")
+          entity: t("common:country")
         }),
         duration: 2000,
         variant: "success"
@@ -61,17 +61,20 @@ const CreateArea = ({ cityId }: Props) => {
     }
   })
 
-  const CreateAreaSchema = z.object({
+  const CreateCountrySchema = z.object({
     name: persianInputSchema,
     nameEn: englishInputSchema,
     slug: slugInputSchema,
+    alphaTwo: z.string().length(2),
+    iso: z.string(),
+    phonePrefix: z.string(),
     sort: z.number().optional().default(0),
     isActive: z.boolean().optional().default(true)
   })
-  type CreateArea = TypeOf<typeof CreateAreaSchema>
+  type CreateCountry = TypeOf<typeof CreateCountrySchema>
 
-  const form = useForm<CreateArea>({
-    resolver: zodResolver(CreateAreaSchema),
+  const form = useForm<CreateCountry>({
+    resolver: zodResolver(CreateCountrySchema),
     defaultValues: {
       sort: 0,
       isActive: true
@@ -88,16 +91,20 @@ const CreateArea = ({ cityId }: Props) => {
     }
   }, [nameEn, form])
 
-  function onSubmit(data: CreateArea) {
-    const { name, nameEn, slug, sort, isActive } = data
-    createAreaMutation.mutate({
-      createAreaInput: {
-        cityId,
+  function onSubmit(data: CreateCountry) {
+    const { name, nameEn, alphaTwo, slug, phonePrefix, sort, isActive, iso } =
+      data
+
+    createCountryMutation.mutate({
+      createCountryInput: {
         name,
         nameEn,
+        alphaTwo,
         slug,
+        phonePrefix,
         sort,
-        isActive
+        isActive,
+        iso
       }
     })
   }
@@ -105,7 +112,7 @@ const CreateArea = ({ cityId }: Props) => {
   return (
     <>
       <Button size="medium" onClick={() => setOpen(true)}>
-        {t("common:add_entity", { entity: t("common:area") })}
+        {t("common:add_entity", { entity: t("common:country") })}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <Form {...form}>
@@ -114,12 +121,12 @@ const CreateArea = ({ cityId }: Props) => {
               <DialogHeader>
                 <DialogTitle>
                   {t("common:create_new_entity", {
-                    entity: t("common:area")
+                    entity: t("common:country")
                   })}
                 </DialogTitle>
               </DialogHeader>
               <>
-                {createAreaMutation.isError && <p>خطایی رخ داده</p>}
+                {createCountryMutation.isError && <p>خطایی رخ داده</p>}
                 <div className="flex flex-col gap-6">
                   <FormField
                     control={form.control}
@@ -153,6 +160,45 @@ const CreateArea = ({ cityId }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>{t("common:slug")}</FormLabel>
+                        <FormControl>
+                          <Input type="text" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="alphaTwo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("common:alpha_two_name")}</FormLabel>
+                        <FormControl>
+                          <Input type="text" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="iso"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("common:iso_name")}</FormLabel>
+                        <FormControl>
+                          <Input type="text" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="phonePrefix"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("common:phone_prefix")}</FormLabel>
                         <FormControl>
                           <Input type="text" {...field} />
                         </FormControl>
@@ -203,15 +249,15 @@ const CreateArea = ({ cityId }: Props) => {
                 <div className="flex items-center justify-end gap-2">
                   <Button
                     variant="ghost"
-                    onClick={() => setOpen(false)}
                     disabled={form.formState.isSubmitting}
+                    onClick={() => setOpen(false)}
                   >
                     {t("common:cancel")}
                   </Button>
                   <Button
                     type="submit"
-                    disabled={form.formState.isSubmitting}
                     loading={form.formState.isSubmitting}
+                    disabled={form.formState.isSubmitting}
                   >
                     {t("common:submit")}
                   </Button>
@@ -225,4 +271,4 @@ const CreateArea = ({ cityId }: Props) => {
   )
 }
 
-export default CreateArea
+export default CreateCountry

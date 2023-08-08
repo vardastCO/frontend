@@ -1,11 +1,11 @@
 "use client"
 
-import { useContext, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
-import { useSetAtom } from "jotai"
 import { LucideEdit, LucideMoreVertical, LucideTrash } from "lucide-react"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import { Country, useUpdateCountryMutation } from "@/generated"
@@ -22,21 +22,21 @@ import {
 } from "@core/components/ui/dropdown-menu"
 import { Label } from "@core/components/ui/label"
 import { Switch } from "@core/components/ui/switch"
-import { useToast } from "@core/hooks/use-toast"
-
-import { LocationsContext } from "./LocationsProvider"
+import { toast } from "@core/hooks/use-toast"
 
 type CountryCardProps = {
+  onDeleteTriggered: (country: Country) => void
   show: boolean
   country: Country
 }
 
-const CountryCard = ({ show, country }: CountryCardProps) => {
-  const { removeStateAtom, entityToRemoveAtom } = useContext(LocationsContext)
-  const setEntityToRemove = useSetAtom(entityToRemoveAtom)
-  const setRemoveState = useSetAtom(removeStateAtom)
+const CountryCard = ({
+  show,
+  country,
+  onDeleteTriggered
+}: CountryCardProps) => {
   const { t } = useTranslation()
-  const { toast } = useToast()
+  const { data: session } = useSession()
   const { name, slug, alphaTwo, isActive, provincesCount } = country
   const [active, setActive] = useState(isActive)
 
@@ -64,11 +64,7 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
   }
 
   const toggleRemoveItem = () => {
-    setEntityToRemove({
-      type: "country",
-      entity: country
-    })
-    setRemoveState(true)
+    onDeleteTriggered(country)
   }
 
   return (
@@ -113,15 +109,28 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>
-              <LucideEdit className="dropdown-menu-item-icon" />
-              <span>{t("common:edit")}</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={toggleRemoveItem} className="danger">
-              <LucideTrash className="dropdown-menu-item-icon" />
-              <span>{t("common:delete")}</span>
-            </DropdownMenuItem>
+            {session?.abilities.includes(
+              "gql.base.location.country.update"
+            ) && (
+              <DropdownMenuItem>
+                <LucideEdit className="dropdown-menu-item-icon" />
+                <span>{t("common:edit")}</span>
+              </DropdownMenuItem>
+            )}
+            {session?.abilities.includes(
+              "gql.base.location.country.destroy"
+            ) && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onSelect={toggleRemoveItem}
+                  className="danger"
+                >
+                  <LucideTrash className="dropdown-menu-item-icon" />
+                  <span>{t("common:delete")}</span>
+                </DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

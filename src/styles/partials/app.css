@@ -45,7 +45,7 @@
     dark:border-opacity-40;
 
   .app-navigation-container {
-    @apply flex flex-1 flex-col gap-8;
+    @apply flex flex-1 flex-col gap-8 overflow-y-auto;
   }
   .app-navigation-section {
     &-list {

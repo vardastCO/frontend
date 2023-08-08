@@ -1,26 +1,18 @@
-import Link from "next/link"
-import useTranslation from "next-translate/useTranslation"
+import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
 
-import PageHeader from "@core/components/shared/PageHeader"
-import { Button } from "@core/components/ui/button"
+import { authOptions } from "@core/lib/authOptions"
 
 import Attributes from "./components/Attributes"
 
-const AttributesIndex = () => {
-  const { t } = useTranslation()
+const AttributesIndex = async () => {
+  const session = await getServerSession(authOptions)
 
-  return (
-    <>
-      <PageHeader title={t("common:attributes_index_title")}>
-        <Link href="/admin/attributes/new">
-          <Button size="medium">
-            {t("common:add_entity", { entity: t("common:attribute") })}
-          </Button>
-        </Link>
-      </PageHeader>
-      <Attributes />
-    </>
-  )
+  if (!session?.abilities.includes("gql.products.attribute.index")) {
+    redirect("/admin")
+  }
+
+  return <Attributes />
 }
 
 export default AttributesIndex

@@ -41,7 +41,7 @@ const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
         />
       </div>
 
-      <div className="grid grid-cols-6 gap-6">
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-6">
         {data.brands.data.map(
           (brand) =>
             brand && (

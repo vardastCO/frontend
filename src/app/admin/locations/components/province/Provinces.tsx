@@ -1,7 +1,8 @@
 "use client"
 
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { notFound } from "next/navigation"
+import { useSession } from "next-auth/react"
 
 import { Province, useGetCountryQuery } from "@/generated"
 
@@ -10,10 +11,11 @@ import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
 import PageHeader from "@core/components/shared/PageHeader"
+import DeleteProvinceModal from "@/app/admin/locations/components/province/DeleteProvinceModal"
 
+import FiltersBar from "../FiltersBar"
+import { LocationsContext } from "../LocationsProvider"
 import CreateProvince from "./CreateProvince"
-import FiltersBar from "./FiltersBar"
-import { LocationsContext } from "./LocationsProvider"
 import ProvinceCard from "./ProvinceCard"
 
 type Props = {
@@ -21,7 +23,10 @@ type Props = {
 }
 
 const Provinces = ({ countrySlug }: Props) => {
+  const { data: session } = useSession()
   const { activesOnly } = useContext(LocationsContext)
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
+  const [provinceToDelete, setProvinceToDelete] = useState<Province>()
   const { isLoading, error, data } = useGetCountryQuery(graphqlRequestClient, {
     slug: countrySlug
   })
@@ -32,8 +37,15 @@ const Provinces = ({ countrySlug }: Props) => {
 
   return (
     <>
+      <DeleteProvinceModal
+        provinceToDelete={provinceToDelete}
+        open={deleteModalOpen}
+        onOpenChange={setDeleteModalOpen}
+      />
       <PageHeader title={data.country.name}>
-        <CreateProvince countryId={data.country.id} />
+        {session?.abilities.includes("gql.base.location.province.store") && (
+          <CreateProvince countryId={data.country.id} />
+        )}
       </PageHeader>
       {!data.country.provinces.length && <NoResult entity="province" />}
       <FiltersBar />
@@ -44,6 +56,10 @@ const Provinces = ({ countrySlug }: Props) => {
               province && (
                 <ProvinceCard
                   key={province.id}
+                  onDeleteTriggered={(province) => {
+                    setDeleteModalOpen(true)
+                    setProvinceToDelete(province)
+                  }}
                   show={activesOnly ? province.isActive : true}
                   province={province as Province}
                   countrySlug={countrySlug}
