@@ -2,8 +2,7 @@ import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 
 import { authOptions } from "@core/lib/authOptions"
-
-import Provinces from "../../components/Provinces"
+import Provinces from "@/app/admin/locations/components/province/Provinces"
 
 const ProvincesPage = async ({
   params

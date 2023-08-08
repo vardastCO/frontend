@@ -1,10 +1,9 @@
 "use client"
 
-import { useContext, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
-import { useSetAtom } from "jotai"
 import { LucideEdit, LucideMoreVertical, LucideTrash } from "lucide-react"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
@@ -22,11 +21,10 @@ import {
 } from "@core/components/ui/dropdown-menu"
 import { Label } from "@core/components/ui/label"
 import { Switch } from "@core/components/ui/switch"
-import { useToast } from "@core/hooks/use-toast"
-
-import { LocationsContext } from "./LocationsProvider"
+import { toast } from "@core/hooks/use-toast"
 
 interface ProvinceCardProps {
+  onDeleteTriggered: (city: City) => void
   show: boolean
   countrySlug: string
   provinceSlug: string
@@ -37,14 +35,11 @@ const CityCard = ({
   show,
   countrySlug,
   provinceSlug,
+  onDeleteTriggered,
   city
 }: ProvinceCardProps) => {
-  const { removeStateAtom, entityToRemoveAtom } = useContext(LocationsContext)
-  const setRemoveState = useSetAtom(removeStateAtom)
-  const setEntityToRemove = useSetAtom(entityToRemoveAtom)
   const { t } = useTranslation()
   const { data: session } = useSession()
-  const { toast } = useToast()
   const { name, slug, isActive, areasCount } = city
 
   const [active, setActive] = useState(isActive)
@@ -73,11 +68,7 @@ const CityCard = ({
   }
 
   const toggleRemoveItem = () => {
-    setEntityToRemove({
-      type: "city",
-      entity: city
-    })
-    setRemoveState(true)
+    onDeleteTriggered(city)
   }
 
   return (

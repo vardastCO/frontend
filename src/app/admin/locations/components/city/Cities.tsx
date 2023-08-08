@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { notFound } from "next/navigation"
 import { useSession } from "next-auth/react"
 
@@ -11,11 +11,12 @@ import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"
 import PageHeader from "@core/components/shared/PageHeader"
+import DeleteCityModal from "@/app/admin/locations/components/city/DeleteCityModal"
 
+import FiltersBar from "../FiltersBar"
+import { LocationsContext } from "../LocationsProvider"
 import CityCard from "./CityCard"
 import CreateCity from "./CreateCity"
-import FiltersBar from "./FiltersBar"
-import { LocationsContext } from "./LocationsProvider"
 
 type Props = {
   countrySlug: string
@@ -25,6 +26,8 @@ type Props = {
 const Cities = ({ provinceSlug, countrySlug }: Props) => {
   const { data: session } = useSession()
   const { activesOnly } = useContext(LocationsContext)
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
+  const [cityToDelete, setCityToDelete] = useState<City>()
   const { isLoading, error, data } = useGetProvinceQuery(graphqlRequestClient, {
     slug: provinceSlug
   })
@@ -35,6 +38,11 @@ const Cities = ({ provinceSlug, countrySlug }: Props) => {
 
   return (
     <>
+      <DeleteCityModal
+        cityToDelete={cityToDelete}
+        open={deleteModalOpen}
+        onOpenChange={setDeleteModalOpen}
+      />
       <PageHeader title={data.province.name}>
         {session?.abilities.includes("gql.base.location.city.store") && (
           <CreateCity provinceId={data.province.id} />
@@ -49,6 +57,10 @@ const Cities = ({ provinceSlug, countrySlug }: Props) => {
               city && (
                 <CityCard
                   key={city.id}
+                  onDeleteTriggered={(city) => {
+                    setDeleteModalOpen(true)
+                    setCityToDelete(city)
+                  }}
                   show={activesOnly ? city.isActive : true}
                   city={city as City}
                   countrySlug={countrySlug}

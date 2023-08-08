@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth"
 
 import { authOptions } from "@core/lib/authOptions"
 
-import Countries from "./components/Countries"
+import Countries from "./components/country/Countries"
 
 const LocationsIndex = async () => {
   const session = await getServerSession(authOptions)

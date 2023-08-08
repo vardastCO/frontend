@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 
 import { authOptions } from "@core/lib/authOptions"
-import Cities from "@/app/admin/locations/components/Cities"
+import Cities from "@/app/admin/locations/components/city/Cities"
 
 const CitiesPage = async ({
   params

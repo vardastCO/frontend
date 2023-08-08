@@ -1,18 +1,16 @@
 "use client"
 
-import { useContext, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
-import { useSetAtom } from "jotai"
 import { LucideEdit, LucideMoreVertical, LucideTrash } from "lucide-react"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
-import { Country, useUpdateCountryMutation } from "@/generated"
+import { Province, useUpdateProvinceMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import { getFlagEmoji } from "@core/utils/getFlagEmoji"
 import { Button } from "@core/components/ui/button"
 import {
   DropdownMenu,
@@ -23,54 +21,54 @@ import {
 } from "@core/components/ui/dropdown-menu"
 import { Label } from "@core/components/ui/label"
 import { Switch } from "@core/components/ui/switch"
-import { useToast } from "@core/hooks/use-toast"
+import { toast } from "@core/hooks/use-toast"
 
-import { LocationsContext } from "./LocationsProvider"
-
-type CountryCardProps = {
+interface ProvinceCardProps {
+  onDeleteTriggered: (province: Province) => void
   show: boolean
-  country: Country
+  countrySlug: string
+  province: Province
 }
 
-const CountryCard = ({ show, country }: CountryCardProps) => {
-  const { removeStateAtom, entityToRemoveAtom } = useContext(LocationsContext)
-  const setEntityToRemove = useSetAtom(entityToRemoveAtom)
-  const setRemoveState = useSetAtom(removeStateAtom)
+const ProvinceCard = ({
+  show,
+  countrySlug,
+  province,
+  onDeleteTriggered
+}: ProvinceCardProps) => {
   const { t } = useTranslation()
   const { data: session } = useSession()
-  const { toast } = useToast()
-  const { name, slug, alphaTwo, isActive, provincesCount } = country
+  const { name, slug, isActive, citiesCount } = province
   const [active, setActive] = useState(isActive)
 
-  const updateCountryMutation = useUpdateCountryMutation(graphqlRequestClient, {
-    onSuccess: () => {
-      toast({
-        description: t("common:entity_updated_successfully", {
-          entity: t("common:country")
-        }),
-        duration: 2000,
-        variant: "success"
-      })
-      setActive((value) => !value)
+  const updateProvinceMutation = useUpdateProvinceMutation(
+    graphqlRequestClient,
+    {
+      onSuccess: () => {
+        toast({
+          description: t("common:entity_updated_successfully", {
+            entity: t("common:province")
+          }),
+          duration: 2000,
+          variant: "success"
+        })
+        setActive((value) => !value)
+      }
     }
-  })
+  )
 
   const toggleActive = () => {
     const oldActiveMode = active
-    updateCountryMutation.mutate({
-      updateCountryInput: {
-        id: country.id,
+    updateProvinceMutation.mutate({
+      updateProvinceInput: {
+        id: province.id,
         isActive: !oldActiveMode
       }
     })
   }
 
   const toggleRemoveItem = () => {
-    setEntityToRemove({
-      type: "country",
-      entity: country
-    })
-    setRemoveState(true)
+    onDeleteTriggered(province)
   }
 
   return (
@@ -80,22 +78,17 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
         !show && "hidden"
       ])}
     >
-      <div className="flex items-center gap-2">
-        <span className="align-baseline text-2xl leading-none">
-          {getFlagEmoji(alphaTwo)}
+      <Link
+        href={`/admin/locations/country/${countrySlug}/province/${slug}`}
+        className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-gray-300"
+      >
+        {name}
+      </Link>
+      {citiesCount !== 0 && (
+        <span className="text-sm text-gray-500 dark:text-gray-600">
+          {digitsEnToFa(citiesCount)} شهر
         </span>
-        <Link
-          href={`/admin/locations/country/${slug}`}
-          className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-gray-300"
-        >
-          {name}
-        </Link>
-        {provincesCount !== 0 && (
-          <span className="text-sm text-gray-500 dark:text-gray-600">
-            {digitsEnToFa(provincesCount)} استان
-          </span>
-        )}
-      </div>
+      )}
       <div className="mr-auto flex items-center gap-2">
         <Label noStyle className="flex items-center">
           <>
@@ -103,7 +96,7 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
               onCheckedChange={toggleActive}
               checked={active}
               size="small"
-              disabled={updateCountryMutation.isLoading}
+              disabled={updateProvinceMutation.isLoading}
             />
             <span>{t("common:is_active")}</span>
           </>
@@ -116,7 +109,7 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {session?.abilities.includes(
-              "gql.base.location.country.update"
+              "gql.base.location.province.update"
             ) && (
               <DropdownMenuItem>
                 <LucideEdit className="dropdown-menu-item-icon" />
@@ -124,7 +117,7 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
               </DropdownMenuItem>
             )}
             {session?.abilities.includes(
-              "gql.base.location.country.destroy"
+              "gql.base.location.province.destroy"
             ) && (
               <>
                 <DropdownMenuSeparator />
@@ -144,4 +137,4 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
   )
 }
 
-export default CountryCard
+export default ProvinceCard

@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 
 import { authOptions } from "@core/lib/authOptions"
-import Areas from "@/app/admin/locations/components/Areas"
+import Areas from "@/app/admin/locations/components/area/Areas"
 
 const AreasPage = async ({
   params
