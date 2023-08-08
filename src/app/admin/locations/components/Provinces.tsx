@@ -2,6 +2,7 @@
 
 import { useContext } from "react"
 import { notFound } from "next/navigation"
+import { useSession } from "next-auth/react"
 
 import { Province, useGetCountryQuery } from "@/generated"
 
@@ -21,6 +22,7 @@ type Props = {
 }
 
 const Provinces = ({ countrySlug }: Props) => {
+  const { data: session } = useSession()
   const { activesOnly } = useContext(LocationsContext)
   const { isLoading, error, data } = useGetCountryQuery(graphqlRequestClient, {
     slug: countrySlug
@@ -33,7 +35,9 @@ const Provinces = ({ countrySlug }: Props) => {
   return (
     <>
       <PageHeader title={data.country.name}>
-        <CreateProvince countryId={data.country.id} />
+        {session?.abilities.includes("gql.base.location.province.store") && (
+          <CreateProvince countryId={data.country.id} />
+        )}
       </PageHeader>
       {!data.country.provinces.length && <NoResult entity="province" />}
       <FiltersBar />

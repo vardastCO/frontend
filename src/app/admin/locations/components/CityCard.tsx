@@ -6,6 +6,7 @@ import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import { LucideEdit, LucideMoreVertical, LucideTrash } from "lucide-react"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import { City, useUpdateCityMutation } from "@/generated"
@@ -42,6 +43,7 @@ const CityCard = ({
   const setRemoveState = useSetAtom(removeStateAtom)
   const setEntityToRemove = useSetAtom(entityToRemoveAtom)
   const { t } = useTranslation()
+  const { data: session } = useSession()
   const { toast } = useToast()
   const { name, slug, isActive, areasCount } = city
 
@@ -115,15 +117,24 @@ const CityCard = ({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>
-              <LucideEdit className="dropdown-menu-item-icon" />
-              <span>{t("common:edit")}</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={toggleRemoveItem} className="danger">
-              <LucideTrash className="dropdown-menu-item-icon" />
-              <span>{t("common:delete")}</span>
-            </DropdownMenuItem>
+            {session?.abilities.includes("gql.base.location.city.update") && (
+              <DropdownMenuItem>
+                <LucideEdit className="dropdown-menu-item-icon" />
+                <span>{t("common:edit")}</span>
+              </DropdownMenuItem>
+            )}
+            {session?.abilities.includes("gql.base.location.city.destroy") && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onSelect={toggleRemoveItem}
+                  className="danger"
+                >
+                  <LucideTrash className="dropdown-menu-item-icon" />
+                  <span>{t("common:delete")}</span>
+                </DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

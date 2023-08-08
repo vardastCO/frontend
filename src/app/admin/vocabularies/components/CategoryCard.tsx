@@ -1,8 +1,7 @@
 "use client"
 
-import { useContext, useState } from "react"
+import { useState } from "react"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
-import { useSetAtom } from "jotai"
 import {
   LucideEdit,
   LucideFile,
@@ -11,6 +10,7 @@ import {
   LucideMoreVertical,
   LucideTrash
 } from "lucide-react"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import { Category, useGetCategoryQuery } from "@/generated"
@@ -25,8 +25,6 @@ import {
   DropdownMenuTrigger
 } from "@core/components/ui/dropdown-menu"
 
-import { VocabulariesContext } from "./VocabulariesProvider"
-
 interface CategoryCardProps {
   vocabularySlug: string
   category: Category
@@ -39,10 +37,7 @@ const CategoryCard = ({
   onDeleteTriggered
 }: CategoryCardProps) => {
   const { t } = useTranslation()
-  const { removeStateAtom, entityToRemoveAtom } =
-    useContext(VocabulariesContext)
-  const setEntityToRemove = useSetAtom(entityToRemoveAtom)
-  const setRemoveState = useSetAtom(removeStateAtom)
+  const { data: session } = useSession()
   const { slug, title, isActive, childrenCount, id } = category
 
   const [open, setOpen] = useState(false)
@@ -107,15 +102,28 @@ const CategoryCard = ({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>
-                <LucideEdit className="dropdown-menu-item-icon" />
-                <span>{t("common:edit")}</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={toggleRemoveItem} className="danger">
-                <LucideTrash className="dropdown-menu-item-icon" />
-                <span>{t("common:delete")}</span>
-              </DropdownMenuItem>
+              {session?.abilities.includes(
+                "gql.base.taxonomy.category.update"
+              ) && (
+                <DropdownMenuItem>
+                  <LucideEdit className="dropdown-menu-item-icon" />
+                  <span>{t("common:edit")}</span>
+                </DropdownMenuItem>
+              )}
+              {session?.abilities.includes(
+                "gql.base.taxonomy.category.destroy"
+              ) && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onSelect={toggleRemoveItem}
+                    className="danger"
+                  >
+                    <LucideTrash className="dropdown-menu-item-icon" />
+                    <span>{t("common:delete")}</span>
+                  </DropdownMenuItem>
+                </>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

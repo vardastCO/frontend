@@ -6,6 +6,7 @@ import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import { LucideEdit, LucideMoreVertical, LucideTrash } from "lucide-react"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import { Country, useUpdateCountryMutation } from "@/generated"
@@ -36,6 +37,7 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
   const setEntityToRemove = useSetAtom(entityToRemoveAtom)
   const setRemoveState = useSetAtom(removeStateAtom)
   const { t } = useTranslation()
+  const { data: session } = useSession()
   const { toast } = useToast()
   const { name, slug, alphaTwo, isActive, provincesCount } = country
   const [active, setActive] = useState(isActive)
@@ -113,15 +115,28 @@ const CountryCard = ({ show, country }: CountryCardProps) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>
-              <LucideEdit className="dropdown-menu-item-icon" />
-              <span>{t("common:edit")}</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={toggleRemoveItem} className="danger">
-              <LucideTrash className="dropdown-menu-item-icon" />
-              <span>{t("common:delete")}</span>
-            </DropdownMenuItem>
+            {session?.abilities.includes(
+              "gql.base.location.country.update"
+            ) && (
+              <DropdownMenuItem>
+                <LucideEdit className="dropdown-menu-item-icon" />
+                <span>{t("common:edit")}</span>
+              </DropdownMenuItem>
+            )}
+            {session?.abilities.includes(
+              "gql.base.location.country.destroy"
+            ) && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onSelect={toggleRemoveItem}
+                  className="danger"
+                >
+                  <LucideTrash className="dropdown-menu-item-icon" />
+                  <span>{t("common:delete")}</span>
+                </DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

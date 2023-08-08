@@ -4,6 +4,7 @@ import { useContext, useState } from "react"
 import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import { LucideEdit, LucideMoreVertical, LucideTrash } from "lucide-react"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import { Area, useUpdateAreaMutation } from "@/generated"
@@ -36,6 +37,7 @@ const AreaCard = ({ show, area }: AreaCardProps) => {
   const setEntityToRemove = useSetAtom(entityToRemoveAtom)
   const setRemoveState = useSetAtom(removeStateAtom)
   const { t } = useTranslation()
+  const { data: session } = useSession()
   const { toast } = useToast()
   const { name, slug, isActive } = area
 
@@ -99,15 +101,24 @@ const AreaCard = ({ show, area }: AreaCardProps) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>
-              <LucideEdit className="dropdown-menu-item-icon" />
-              <span>{t("common:edit")}</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={toggleRemoveItem} className="danger">
-              <LucideTrash className="dropdown-menu-item-icon" />
-              <span>{t("common:delete")}</span>
-            </DropdownMenuItem>
+            {session?.abilities.includes("gql.base.location.area.update") && (
+              <DropdownMenuItem>
+                <LucideEdit className="dropdown-menu-item-icon" />
+                <span>{t("common:edit")}</span>
+              </DropdownMenuItem>
+            )}
+            {session?.abilities.includes("gql.base.location.area.destroy") && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onSelect={toggleRemoveItem}
+                  className="danger"
+                >
+                  <LucideTrash className="dropdown-menu-item-icon" />
+                  <span>{t("common:delete")}</span>
+                </DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

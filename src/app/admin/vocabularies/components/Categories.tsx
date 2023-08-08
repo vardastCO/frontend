@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { notFound } from "next/navigation"
+import { useSession } from "next-auth/react"
 
 import { Category, useGetVocabularyQuery } from "@/generated"
 
@@ -20,6 +21,7 @@ type Props = {
 }
 
 const Categories = ({ slug }: Props) => {
+  const { data: session } = useSession()
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
   const [categoryToDelete, setCategoryToDelete] = useState<Category>()
 
@@ -37,7 +39,9 @@ const Categories = ({ slug }: Props) => {
   return (
     <>
       <PageHeader title={data.vocabulary.title}>
-        <CreateCategory vocabularyId={data.vocabulary.id} />
+        {session?.abilities.includes("gql.base.taxonomy.category.store") && (
+          <CreateCategory vocabularyId={data.vocabulary.id} />
+        )}
       </PageHeader>
       {!data.vocabulary.categories.length && <NoResult entity="category" />}
       <CategoryDeleteModal

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQueryClient } from "@tanstack/react-query"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
@@ -42,6 +43,7 @@ type Props = {
 
 const CreateArea = ({ cityId }: Props) => {
   const { t } = useTranslation()
+  const { data: session } = useSession()
   const { toast } = useToast()
   const [open, setOpen] = useState(false)
 

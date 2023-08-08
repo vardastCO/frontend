@@ -1,6 +1,7 @@
 "use client"
 
 import { useContext } from "react"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import { Country, useGetAllCountriesQuery } from "@/generated"
@@ -18,6 +19,7 @@ import { LocationsContext } from "./LocationsProvider"
 
 const Countries = () => {
   const { t } = useTranslation()
+  const { data: session } = useSession()
   const { activesOnly } = useContext(LocationsContext)
   const { isLoading, error, data } =
     useGetAllCountriesQuery(graphqlRequestClient)
@@ -29,7 +31,9 @@ const Countries = () => {
   return (
     <>
       <PageHeader title={t("common:locations_index_title")}>
-        <CreateCountry />
+        {session?.abilities.includes("gql.base.location.country.store") && (
+          <CreateCountry />
+        )}
       </PageHeader>
       <FiltersBar />
       <div>

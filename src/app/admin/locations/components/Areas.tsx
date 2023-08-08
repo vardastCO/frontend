@@ -2,6 +2,7 @@
 
 import { useContext } from "react"
 import { notFound } from "next/navigation"
+import { useSession } from "next-auth/react"
 
 import { Area, useGetCityQuery } from "@/generated"
 
@@ -21,6 +22,7 @@ type Props = {
 }
 
 const Areas = ({ citySlug }: Props) => {
+  const { data: session } = useSession()
   const { activesOnly } = useContext(LocationsContext)
   const { isLoading, error, data } = useGetCityQuery(graphqlRequestClient, {
     slug: citySlug
@@ -33,7 +35,9 @@ const Areas = ({ citySlug }: Props) => {
   return (
     <>
       <PageHeader title={data.city.name}>
-        <CreateArea cityId={data.city.id} />
+        {session?.abilities.includes("gql.base.location.area.store") && (
+          <CreateArea cityId={data.city.id} />
+        )}
       </PageHeader>
       {!data.city.areas.length && <NoResult entity="area" />}
       <FiltersBar />
