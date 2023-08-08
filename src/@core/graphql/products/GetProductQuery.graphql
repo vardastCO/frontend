@@ -11,6 +11,7 @@ query GetProduct($id: Int!) {
     metaDescription
     createdAt
     updatedAt
+    status
     images {
       id
       sort

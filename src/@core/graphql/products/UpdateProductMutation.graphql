@@ -11,6 +11,7 @@ mutation UpdateProductMutation($updateProductInput: UpdateProductInput!) {
     metaDescription
     createdAt
     updatedAt
+    status
     uom {
       id
       name
