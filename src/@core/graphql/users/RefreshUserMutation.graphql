@@ -105,6 +105,15 @@ mutation RefreshUserMutation($refreshInput: RefreshInput!) {
         createdAt
         deletedAt
       }
+      seller {
+        id
+        name
+        bio
+        status
+        isPublic
+        createdAt
+        updatedAt
+      }
     }
   }
 }

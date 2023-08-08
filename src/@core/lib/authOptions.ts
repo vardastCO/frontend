@@ -28,6 +28,7 @@ async function refreshAccessToken(tokenObject: any) {
     return {
       ...tokenObject,
       profile: data.refresh.user,
+      abilities: data.refresh.abilities,
       accessToken: data.refresh.accessToken,
       accessTokenTtl: data.refresh.accessTokenTtl + Date.now(),
       refreshToken: data.refresh.refreshToken,

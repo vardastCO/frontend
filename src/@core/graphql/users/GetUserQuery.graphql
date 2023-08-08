@@ -61,5 +61,14 @@ query GetUser($id: Int, $uuid: String) {
       createdAt
       updatedAt
     }
+    seller {
+      id
+      name
+      bio
+      status
+      isPublic
+      createdAt
+      updatedAt
+    }
   }
 }
