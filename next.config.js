@@ -15,7 +15,8 @@ const nextConfig = {
   images: {
     dangerouslyAllowSVG: true,
     domains: ["api.dicebear.com", "localhost", "static.vardast.com"]
-  }
+  },
+  poweredByHeader: false
 }
 
 module.exports = withPlugins([nextTranslate, withBundleAnalyzer], nextConfig)

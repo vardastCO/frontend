@@ -14,7 +14,9 @@ export default async function middleware(request: NextRequest) {
   if (productPathRegexpText) {
     const id = productPathRegexpText[1]
     const name = productPathRegexpText[2]
-    const data = await fetch(`${request.nextUrl.origin}/api/products/${id}`)
+    const data = await fetch(
+      `http://${request.nextUrl.hostname}:${request.nextUrl.port}/api/products/${id}`
+    )
     if (data && data.status === 200) {
       const res = await data.json()
       if (!name || name !== encodeURI(slugify(res.product.name))) {
@@ -34,7 +36,9 @@ export default async function middleware(request: NextRequest) {
   if (searchPathRegexpText) {
     const id = searchPathRegexpText[1]
     const title = searchPathRegexpText[2]
-    const data = await fetch(`${request.nextUrl.origin}/api/categories/${id}`)
+    const data = await fetch(
+      `http://${request.nextUrl.hostname}:${request.nextUrl.port}/api/categories/${id}`
+    )
     if (data && data.status === 200) {
       const res = await data.json()
       if (!title || title !== encodeURI(slugify(res.category.title))) {
@@ -57,7 +61,9 @@ export default async function middleware(request: NextRequest) {
   if (brandPathRegexpText) {
     const id = brandPathRegexpText[1]
     const title = brandPathRegexpText[2]
-    const data = await fetch(`${request.nextUrl.origin}/api/brands/${id}`)
+    const data = await fetch(
+      `http://${request.nextUrl.hostname}:${request.nextUrl.port}/api/brands/${id}`
+    )
     if (data && data.status === 200) {
       const res = await data.json()
       if (!title || title !== encodeURI(slugify(res.brand.name))) {
@@ -80,7 +86,9 @@ export default async function middleware(request: NextRequest) {
   if (sellerPathRegexpText) {
     const id = sellerPathRegexpText[1]
     const title = sellerPathRegexpText[2]
-    const data = await fetch(`${request.nextUrl.origin}/api/sellers/${id}`)
+    const data = await fetch(
+      `http://${request.nextUrl.hostname}:${request.nextUrl.port}/api/sellers/${id}`
+    )
     if (data && data.status === 200) {
       const res = await data.json()
       if (!title || title !== encodeURI(slugify(res.seller.name))) {
