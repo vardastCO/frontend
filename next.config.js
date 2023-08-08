@@ -16,6 +16,25 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     domains: ["api.dicebear.com", "localhost", "static.vardast.com"]
   },
+  async redirects() {
+    return [
+      {
+        source: "/p",
+        destination: "/search",
+        permanent: true
+      },
+      {
+        source: "/brand",
+        destination: "/brands",
+        permanent: true
+      },
+      {
+        source: "/seller",
+        destination: "/sellers",
+        permanent: true
+      }
+    ]
+  },
   poweredByHeader: false
 }
 
