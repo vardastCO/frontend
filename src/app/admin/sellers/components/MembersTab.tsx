@@ -1,29 +1,53 @@
+import { useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import { SellerRepresentative } from "@/generated"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@core/components/ui/avatar"
-import { useToast } from "@core/hooks/use-toast"
+import { Button } from "@core/components/ui/button"
+import CreateMemberModal from "@/app/admin/sellers/components/CreateMemberModal"
 
 type MembersTabProps = {
+  sellerId: number
   representatives: SellerRepresentative[]
 }
 
-const MembersTab = ({ representatives }: MembersTabProps) => {
+const MembersTab = ({ representatives, sellerId }: MembersTabProps) => {
   const { t } = useTranslation()
-  const { toast } = useToast()
+  const { data: session } = useSession()
   const router = useRouter()
   const pathname = usePathname()
+  const [createMemberModalOpen, setCreateMemberModalOpen] =
+    useState<boolean>(false)
 
   return (
     <>
+      <CreateMemberModal
+        sellerId={sellerId}
+        open={createMemberModalOpen}
+        onOpenChange={setCreateMemberModalOpen}
+      />
+      {session?.abilities.includes(
+        "gql.products.seller_representative.store"
+      ) && (
+        <div className="mb-6 flex items-end justify-between">
+          <Button
+            className="mr-auto"
+            onClick={() => setCreateMemberModalOpen(true)}
+          >
+            {t("common:add_entity", { entity: t("common:member") })}
+          </Button>
+        </div>
+      )}
       {representatives && representatives.length > 0 && (
         <div className="card table-responsive rounded">
           <table className="table-hover table">
             <thead>
               <tr>
                 <th></th>
+                <th>{t("common:title")}</th>
                 <th>{t("common:role")}</th>
                 <th>{t("common:status")}</th>
               </tr>
@@ -57,6 +81,7 @@ const MembersTab = ({ representatives }: MembersTabProps) => {
                           {representative.user.fullName}
                         </span>
                       </td>
+                      <td>{representative.title}</td>
                       <td>{representative.role}</td>
                       <td>
                         {representative.isActive ? (
