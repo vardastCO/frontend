@@ -3,7 +3,13 @@
 import { notFound } from "next/navigation"
 import useTranslation from "next-translate/useTranslation"
 
-import { Address, ContactInfo, Seller, useGetSellerQuery } from "@/generated"
+import {
+  Address,
+  ContactInfo,
+  Seller,
+  SellerRepresentative,
+  useGetSellerQuery
+} from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
@@ -17,6 +23,7 @@ import {
 } from "@core/components/ui/tabs"
 import AddressesTab from "@/app/admin/components/AddressesTab"
 import ContactInfosTab from "@/app/admin/components/ContactInfosTab"
+import MembersTab from "@/app/admin/sellers/components/MembersTab"
 import SellerForm from "@/app/admin/sellers/components/SellerForm"
 
 type Props = {
@@ -45,6 +52,7 @@ const SellerEdit = ({ uuid }: Props) => {
           <TabsTrigger value="contactInfos">
             {t("common:contactInfos")}
           </TabsTrigger>
+          <TabsTrigger value="members">{t("common:members")}</TabsTrigger>
         </TabsList>
         <TabsContent value="information">
           <SellerForm seller={data.seller as Seller} />
@@ -61,6 +69,13 @@ const SellerEdit = ({ uuid }: Props) => {
             relatedType="Seller"
             relatedId={data.seller.id}
             contactInfos={data.seller.contacts as ContactInfo[]}
+          />
+        </TabsContent>
+        <TabsContent value="members">
+          <MembersTab
+            representatives={
+              data.seller.representatives as SellerRepresentative[]
+            }
           />
         </TabsContent>
       </Tabs>
