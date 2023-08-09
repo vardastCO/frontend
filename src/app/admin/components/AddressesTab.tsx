@@ -1,5 +1,6 @@
 import { usePathname, useRouter } from "next/navigation"
 import { LucideCheck, LucideX } from "lucide-react"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import {
@@ -24,23 +25,27 @@ const AddressesTab = ({
 }: AddressesTabProps) => {
   const { t } = useTranslation()
   const { toast } = useToast()
+  const { data: session } = useSession()
   const router = useRouter()
   const pathname = usePathname()
 
   return (
     <>
-      <div className="mb-6 flex items-end justify-between">
-        <Button
-          className="mr-auto"
-          onClick={() =>
-            router.push(
-              `/admin/addresses/new?type=${relatedType}&id=${relatedId}&fallback=${pathname}`
-            )
-          }
-        >
-          {t("common:add_entity", { entity: t("common:address") })}
-        </Button>
-      </div>
+      {session?.abilities.includes("gql.users.address.store") && (
+        <div className="mb-6 flex items-end justify-between">
+          <Button
+            className="mr-auto"
+            onClick={() =>
+              router.push(
+                `/admin/addresses/new?type=${relatedType}&id=${relatedId}&fallback=${pathname}`
+              )
+            }
+          >
+            {t("common:add_entity", { entity: t("common:address") })}
+          </Button>
+        </div>
+      )}
+
       {addresses && addresses.length > 0 && (
         <div className="card table-responsive rounded">
           <table className="table-hover table">

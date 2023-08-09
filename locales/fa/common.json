@@ -1,5 +1,9 @@
 {
     "about": "درباره",
+    "members": "اعضاء",
+    "member": "عضو",
+    "role": "نقش",
+    "reset_password": "تغییر کلمه عبور",
     "notice": "توجه",
     "bio": "درباره",
     "is_product_variant": "کالای مجزا",

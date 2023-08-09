@@ -2,6 +2,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { parsePhoneNumber } from "libphonenumber-js"
 import { LucideCheck, LucideX } from "lucide-react"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import {
@@ -26,23 +27,26 @@ const ContactInfosTab = ({
 }: ContactInfosTabProps) => {
   const { t } = useTranslation()
   const { toast } = useToast()
+  const { data: session } = useSession()
   const router = useRouter()
   const pathname = usePathname()
 
   return (
     <>
-      <div className="mb-6 flex items-end justify-between">
-        <Button
-          className="mr-auto"
-          onClick={() =>
-            router.push(
-              `/admin/contact-infos/new?type=${relatedType}&id=${relatedId}&fallback=${pathname}`
-            )
-          }
-        >
-          {t("common:add_entity", { entity: t("common:contactInfo") })}
-        </Button>
-      </div>
+      {session?.abilities.includes("gql.users.contact_info.store") && (
+        <div className="mb-6 flex items-end justify-between">
+          <Button
+            className="mr-auto"
+            onClick={() =>
+              router.push(
+                `/admin/contact-infos/new?type=${relatedType}&id=${relatedId}&fallback=${pathname}`
+              )
+            }
+          >
+            {t("common:add_entity", { entity: t("common:contactInfo") })}
+          </Button>
+        </div>
+      )}
       {contactInfos && contactInfos.length > 0 && (
         <div className="card table-responsive rounded">
           <table className="table-hover table">
