@@ -1,4 +1,4 @@
-mutation Signup($SignupInput: SignupInput!) {
+mutation SignupMutation($SignupInput: SignupInput!) {
   signup(SignupInput: $SignupInput) {
     message
     nextState
