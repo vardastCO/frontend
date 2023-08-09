@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
 import {
+  Attribute,
   useCreateAttributeValueMutation,
   useGetAttributesOfACategoryQuery
 } from "@/generated"
@@ -50,6 +51,13 @@ import {
   DialogTitle
 } from "@core/components/ui/dialog"
 import { Input } from "@core/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@core/components/ui/select"
 import { Switch } from "@core/components/ui/switch"
 import { toast } from "@core/hooks/use-toast"
 
@@ -67,6 +75,7 @@ const CreateAttributeModal = ({
   categoryId
 }: CreateAttributeModalProps) => {
   const { t } = useTranslation()
+  const [selectAttribute, setSelectAttribute] = useState<Attribute>()
   const [errors, setErrors] = useState<ClientError>()
 
   const queryClient = useQueryClient()
@@ -96,12 +105,17 @@ const CreateAttributeModal = ({
     }
   )
 
-  const CreateAttributeSchema = z.object({
-    attributeId: z.number(),
-    sku: z.string().optional(),
-    value: z.string(),
-    isVariant: z.boolean().optional().default(false)
-  })
+  const CreateAttributeSchema = z
+    .object({
+      attributeId: z.number(),
+      sku: z.string().optional(),
+      value: z.string(),
+      isVariant: z.boolean().optional().default(false)
+    })
+    .refine((schema) => (schema.isVariant ? !!schema.sku : true), {
+      path: ["sku"],
+      message: t("zod:errors.invalid_type_received_undefined")
+    })
   type CreateAttribute = TypeOf<typeof CreateAttributeSchema>
 
   const form = useForm<CreateAttribute>({
@@ -203,14 +217,16 @@ const CreateAttributeModal = ({
                                     value={attribute.name}
                                     key={attribute.id}
                                     onSelect={(value) => {
-                                      form.setValue(
-                                        "attributeId",
-                                        attributes.data?.category.attributes.find(
-                                          (item) =>
-                                            item &&
-                                            item.name.toLowerCase() === value
-                                        )?.id || 0
-                                      )
+                                      setSelectAttribute(() => {
+                                        const item =
+                                          attributes.data?.category.attributes.find(
+                                            (item) =>
+                                              item &&
+                                              item.name.toLowerCase() === value
+                                          ) as Attribute
+                                        form.setValue("attributeId", item.id)
+                                        return item
+                                      })
                                     }}
                                   >
                                     <LucideCheck
@@ -233,19 +249,56 @@ const CreateAttributeModal = ({
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="value"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:value")}</FormLabel>
-                    <FormControl>
-                      <Input type="text" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {selectAttribute && selectAttribute.type === "TEXT" && (
+                <FormField
+                  control={form.control}
+                  name="value"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:value")}</FormLabel>
+                      <FormControl>
+                        <Input type="text" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+              {selectAttribute && selectAttribute.type === "SELECT" && (
+                <FormField
+                  control={form.control}
+                  name="value"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:value")}</FormLabel>
+                      <Select
+                        onValueChange={(value) => {
+                          form.setValue("value", value)
+                        }}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue
+                              placeholder={t("common:select_placeholder")}
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="z-[9999]">
+                          {selectAttribute.values?.options.map(
+                            (option: string) => (
+                              <SelectItem value={option} key={option}>
+                                {option}
+                              </SelectItem>
+                            )
+                          )}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
               <FormField
                 control={form.control}
                 name="isVariant"
