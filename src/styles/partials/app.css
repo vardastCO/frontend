@@ -15,18 +15,30 @@
     overflow-auto
     overscroll-contain
     px-4
-    py-6;
+    py-4
+    lg:py-6;
 }
 
 .app-sidebar {
-  @apply sticky
+  @apply absolute
     top-0
+    z-50
+    h-full
     flex-shrink-0
+    translate-x-80
     bg-gray-100
-    bg-opacity-60
+    bg-opacity-90
     backdrop-blur-sm
+    transition
+    duration-200
     dark:bg-gray-950
-    dark:bg-opacity-10;
+    dark:bg-opacity-10
+    lg:sticky
+    lg:translate-x-0;
+
+  &.open {
+    @apply translate-x-0;
+  }
 
   .app-sidebar-inner {
     @apply relative flex h-full;

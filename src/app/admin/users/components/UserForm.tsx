@@ -286,7 +286,7 @@ const UserForm = ({ user }: Props) => {
       )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
-          <h1 className="text-3xl font-black text-gray-800">
+          <h1 className="text-xl font-black text-gray-800 lg:text-3xl">
             {user
               ? t("common:edit_entity", { entity: t("common:user") })
               : t("common:new_entity", { entity: t("common:user") })}
@@ -302,7 +302,7 @@ const UserForm = ({ user }: Props) => {
         </div>
         <div className="flex flex-col gap-8">
           <Card template="1/2" title={t("common:personal_information")}>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <FormField
                 control={form.control}
                 name="firstName"
@@ -333,7 +333,7 @@ const UserForm = ({ user }: Props) => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="col-span-2">
+                  <FormItem className="col-span-full">
                     <FormLabel>{t("common:email")}</FormLabel>
                     <FormControl>
                       <Input type="email" {...field} />
@@ -346,7 +346,7 @@ const UserForm = ({ user }: Props) => {
                 control={form.control}
                 name="cellphone"
                 render={({ field }) => (
-                  <FormItem className="col-span-2">
+                  <FormItem className="col-span-full">
                     <FormLabel>{t("common:cellphone")}</FormLabel>
                     <FormControl>
                       <Input type="phone" {...field} />
@@ -417,7 +417,7 @@ const UserForm = ({ user }: Props) => {
           </Card>
 
           <Card template="1/2" title={t("common:settings")}>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <FormField
                 control={form.control}
                 name="countryId"
@@ -646,7 +646,7 @@ const UserForm = ({ user }: Props) => {
                   )}
                 />
                 {form.watch("mustChangePassword") === true && (
-                  <div className="mt-6 grid grid-cols-2 gap-6">
+                  <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
                     <FormField
                       control={form.control}
                       name="newPassword"

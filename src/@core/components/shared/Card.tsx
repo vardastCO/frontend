@@ -6,7 +6,7 @@ import { mergeClasses } from "@core/utils/mergeClasses"
 const cardVariants = cva("card rounded p-4", {
   variants: {
     template: {
-      "1/2": ["grid grid-cols-[1fr_2fr]"]
+      "1/2": ["grid grid-cols-1 gap-4 lg:grid-cols-[1fr_2fr]"]
     }
   }
 })

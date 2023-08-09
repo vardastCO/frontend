@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth"
 import { signOut } from "next-auth/react"
 
 import { authOptions } from "@core/lib/authOptions"
-import AdminLayoutComponent from "@/app/admin/components/admin-layout"
+import AdminLayoutComponent from "@/app/admin/components/AdminLayout"
 
 export const dynamic = "force-dynamic"
 

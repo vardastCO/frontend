@@ -1,8 +1,12 @@
-import { ReactNode, Suspense } from "react"
+"use client"
+
+import { ReactNode, Suspense, useState } from "react"
+import { LucideMenu } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import Sidebar from "@core/components/shared/Sidebar"
+import { Button } from "@core/components/ui/button"
 import { NavigationType } from "@core/types/Navigation"
 
 type AdminLayoutComponentProps = {
@@ -10,7 +14,8 @@ type AdminLayoutComponentProps = {
 }
 
 const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
-  const { t } = useTranslation("common")
+  const { t } = useTranslation()
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
   const menus: NavigationType[] = [
     {
       items: [
@@ -88,13 +93,23 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
   return (
     <div className="app">
       <div className="app-inner">
-        <Suspense>
-          <Sidebar menus={menus} />
-        </Suspense>
+        <Sidebar
+          menus={menus}
+          open={sidebarOpen}
+          onOpenChanged={setSidebarOpen}
+        />
         <div className="app-content">
           <div className="mx-auto flex w-full flex-col">
-            <div className="mb-3 flex items-center">
-              <div className="flex items-center gap-2">
+            <div className="mb-3 flex items-center gap-2">
+              <Button
+                onClick={() => setSidebarOpen(true)}
+                variant="ghost"
+                iconOnly
+                className="lg:hidden"
+              >
+                <LucideMenu className="icon" />
+              </Button>
+              <div className="flex-1 overflow-y-auto">
                 <Suspense>
                   <Breadcrumb />
                 </Suspense>
