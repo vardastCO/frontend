@@ -1,6 +1,7 @@
 "use client"
 
 import { notFound } from "next/navigation"
+import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import {
@@ -32,6 +33,7 @@ type Props = {
 
 const SellerEdit = ({ uuid }: Props) => {
   const { t } = useTranslation()
+  const { data: session } = useSession()
   const { isLoading, error, data } = useGetSellerQuery(graphqlRequestClient, {
     id: +uuid
   })
@@ -48,36 +50,50 @@ const SellerEdit = ({ uuid }: Props) => {
           <TabsTrigger value="information">
             {t("common:information")}
           </TabsTrigger>
-          <TabsTrigger value="addresses">{t("common:addresses")}</TabsTrigger>
-          <TabsTrigger value="contactInfos">
-            {t("common:contactInfos")}
-          </TabsTrigger>
-          <TabsTrigger value="members">{t("common:members")}</TabsTrigger>
+          {session?.abilities.includes("gql.users.address.index") && (
+            <TabsTrigger value="addresses">{t("common:addresses")}</TabsTrigger>
+          )}
+          {session?.abilities.includes("gql.users.contact_info.index") && (
+            <TabsTrigger value="contactInfos">
+              {t("common:contactInfos")}
+            </TabsTrigger>
+          )}
+          {session?.abilities.includes(
+            "gql.products.seller_representative.index"
+          ) && <TabsTrigger value="members">{t("common:members")}</TabsTrigger>}
         </TabsList>
         <TabsContent value="information">
           <SellerForm seller={data.seller as Seller} />
         </TabsContent>
-        <TabsContent value="addresses">
-          <AddressesTab
-            relatedType="Seller"
-            relatedId={data.seller.id}
-            addresses={data.seller.addresses as Address[]}
-          />
-        </TabsContent>
-        <TabsContent value="contactInfos">
-          <ContactInfosTab
-            relatedType="Seller"
-            relatedId={data.seller.id}
-            contactInfos={data.seller.contacts as ContactInfo[]}
-          />
-        </TabsContent>
-        <TabsContent value="members">
-          <MembersTab
-            representatives={
-              data.seller.representatives as SellerRepresentative[]
-            }
-          />
-        </TabsContent>
+        {session?.abilities.includes("gql.users.address.index") && (
+          <TabsContent value="addresses">
+            <AddressesTab
+              relatedType="Seller"
+              relatedId={data.seller.id}
+              addresses={data.seller.addresses as Address[]}
+            />
+          </TabsContent>
+        )}
+        {session?.abilities.includes("gql.users.contact_info.index") && (
+          <TabsContent value="contactInfos">
+            <ContactInfosTab
+              relatedType="Seller"
+              relatedId={data.seller.id}
+              contactInfos={data.seller.contacts as ContactInfo[]}
+            />
+          </TabsContent>
+        )}
+        {session?.abilities.includes(
+          "gql.products.seller_representative.index"
+        ) && (
+          <TabsContent value="members">
+            <MembersTab
+              representatives={
+                data.seller.representatives as SellerRepresentative[]
+              }
+            />
+          </TabsContent>
+        )}
       </Tabs>
     </>
   )
