@@ -174,7 +174,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
       )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
-          <h1 className="text-3xl font-black text-gray-800">
+          <h1 className="text-xl font-black text-gray-800 lg:text-3xl">
             {name
               ? name
               : t("common:new_entity", { entity: t("common:brand") })}
@@ -190,7 +190,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
         </div>
         <div className="flex flex-col gap-8">
           <Card template="1/2" title={t("common:title")}>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <FormField
                 control={form.control}
                 name="name"

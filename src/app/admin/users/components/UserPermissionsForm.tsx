@@ -27,6 +27,7 @@ import {
   FormLabel,
   FormMessage
 } from "@core/components/react-hook-form/form"
+import Card from "@core/components/shared/Card"
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Button } from "@core/components/ui/button"
 import { Checkbox } from "@core/components/ui/checkbox"
@@ -121,7 +122,7 @@ const UserPermissionsForm = ({
       )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
-          <h1 className="text-3xl font-black text-gray-800">
+          <h1 className="text-xl font-black text-gray-800 lg:text-3xl">
             {t("common:edit_entity", {
               entity: t("common:role_and_permissions")
             })}
@@ -139,13 +140,8 @@ const UserPermissionsForm = ({
         </div>
         <div className="flex flex-col gap-8">
           {roles && (
-            <div className="card flex items-start rounded p-4">
-              <div className="w-1/3">
-                <h2 className="font-medium text-gray-800">
-                  {t("common:roles")}
-                </h2>
-              </div>
-              <div className="w-2/3">
+            <Card title={t("common:roles")}>
+              <div>
                 <FormField
                   control={form.control}
                   name="roles"
@@ -193,17 +189,12 @@ const UserPermissionsForm = ({
                   )}
                 />
               </div>
-            </div>
+            </Card>
           )}
 
           {permissions && (
-            <div className="card flex items-start rounded p-4">
-              <div className="w-1/3">
-                <h2 className="font-medium text-gray-800">
-                  {t("common:permissions")}
-                </h2>
-              </div>
-              <div className="w-2/3">
+            <Card title={t("common:permissions")}>
+              <div>
                 <FormField
                   control={form.control}
                   name="permissions"
@@ -251,7 +242,7 @@ const UserPermissionsForm = ({
                   )}
                 />
               </div>
-            </div>
+            </Card>
           )}
         </div>
       </form>

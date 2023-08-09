@@ -82,7 +82,7 @@ const Users = (props: Props) => {
                       </span>
                     </td>
                     <td>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 whitespace-nowrap">
                         {user.email ? (
                           <>
                             <span
@@ -103,7 +103,7 @@ const Users = (props: Props) => {
                       </div>
                     </td>
                     <td>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 whitespace-nowrap">
                         {user.cellphone ? (
                           <>
                             <span

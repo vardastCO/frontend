@@ -418,7 +418,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                       <FormControl>
                         <RadioGroup
                           defaultValue={field.value}
-                          className="grid grid-cols-4 gap-6"
+                          className="grid w-full grid-cols-1 lg:grid-cols-4 lg:gap-6"
                         >
                           <FormItem className="product-type-item relative">
                             <FormControl className="invisible absolute inset-0 h-full w-full">
