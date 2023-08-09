@@ -6,6 +6,7 @@ import { ThreeStateSupervisionStatuses } from "@/generated"
 
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { authOptions } from "@core/lib/authOptions"
+import AdminInsight from "@/app/admin/components/AdminInsight"
 import BecomeSellerAlert from "@/app/admin/components/BecomeSellerAlert"
 import PastDurationEventsChart from "@/app/admin/components/PastDurationEventsChart"
 
@@ -18,6 +19,10 @@ const AdminIndex = async () => {
 
   return (
     <div>
+      {session?.profile.roles.some((role) => role?.name === "admin") && (
+        <AdminInsight />
+      )}
+
       {!session?.profile.seller &&
         !session?.profile.roles.some(
           (role) => role?.name === "admin" || role?.name === "seller"
