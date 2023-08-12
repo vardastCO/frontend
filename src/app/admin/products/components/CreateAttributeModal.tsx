@@ -1,6 +1,6 @@
 "use client"
 
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Popover,
@@ -20,8 +20,10 @@ import { TypeOf, z } from "zod"
 
 import {
   Attribute,
+  AttributeValue,
   useCreateAttributeValueMutation,
-  useGetAttributesOfACategoryQuery
+  useGetAttributesOfACategoryQuery,
+  useUpdateAttributeValueMutation
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
@@ -66,17 +68,21 @@ type CreateAttributeModalProps = {
   categoryId: number
   open: boolean
   onOpenChange: Dispatch<SetStateAction<boolean>>
+  attribute?: AttributeValue
 }
 
 const CreateAttributeModal = ({
   open,
   onOpenChange,
   productId,
-  categoryId
+  categoryId,
+  attribute
 }: CreateAttributeModalProps) => {
   const { t } = useTranslation()
   const [attributeOpen, setAttributeOpen] = useState<boolean>(false)
-  const [selectAttribute, setSelectAttribute] = useState<Attribute>()
+  const [selectAttribute, setSelectAttribute] = useState<
+    Attribute | undefined
+  >()
   const [errors, setErrors] = useState<ClientError>()
 
   const queryClient = useQueryClient()
@@ -96,6 +102,28 @@ const CreateAttributeModal = ({
         })
         toast({
           description: t("common:entity_added_successfully", {
+            entity: t("common:attribute")
+          }),
+          duration: 2000,
+          variant: "success"
+        })
+        onOpenChange(false)
+      }
+    }
+  )
+  const updateAttributeValueMutation = useUpdateAttributeValueMutation(
+    graphqlRequestClient,
+    {
+      onError: (errors: ClientError) => {
+        setErrors(errors)
+      },
+      onSuccess: () => {
+        form.reset()
+        queryClient.invalidateQueries({
+          queryKey: ["GetProduct", { id: productId }]
+        })
+        toast({
+          description: t("common:entity_updated_successfully", {
             entity: t("common:attribute")
           }),
           duration: 2000,
@@ -126,22 +154,60 @@ const CreateAttributeModal = ({
 
   const onClose = () => {
     form.reset()
+    setSelectAttribute(undefined)
     onOpenChange(false)
   }
 
   function onSubmit(data: CreateAttribute) {
     const { attributeId, isVariant, sku, value } = data
 
-    createAttributeValueMutation.mutate({
-      createAttributeValueInput: {
-        attributeId,
-        isVariant,
-        productId,
-        sku,
-        value
-      }
-    })
+    if (attribute) {
+      updateAttributeValueMutation.mutate({
+        updateAttributeValueInput: {
+          id: attribute.id,
+          attributeId,
+          isVariant,
+          productId,
+          sku,
+          value
+        }
+      })
+    } else {
+      createAttributeValueMutation.mutate({
+        createAttributeValueInput: {
+          attributeId,
+          isVariant,
+          productId,
+          sku,
+          value
+        }
+      })
+    }
   }
+
+  useEffect(() => {
+    if (attribute) {
+      form.setValue("attributeId", attribute.attribute.id, {
+        shouldDirty: true
+      })
+      form.setValue("value", attribute.value, {
+        shouldDirty: true
+      })
+      form.setValue("isVariant", attribute.isVariant, {
+        shouldDirty: true
+      })
+      form.setValue("sku", attribute.sku || "", {
+        shouldDirty: true
+      })
+      setSelectAttribute(attribute.attribute)
+    }
+
+    return () => {
+      setSelectAttribute(undefined)
+      form.reset()
+    }
+  }, [attribute, form, open])
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>

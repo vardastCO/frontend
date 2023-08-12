@@ -58,6 +58,10 @@ query GetProduct($id: Int!) {
           symbol
           isActive
         }
+        values {
+          options
+          defaults
+        }
       }
     }
     category {
