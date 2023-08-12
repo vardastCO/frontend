@@ -92,6 +92,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
   const [errors, setErrors] = useState<ClientError>()
   const [createPriceModalOpen, setCreatePriceModalOpen] =
     useState<boolean>(false)
+  const [attributeToEdit, setAttributeToEdit] = useState<AttributeValue>()
   const [createAttributeModalOpen, setCreateAttributeModalOpen] =
     useState<boolean>(false)
 
@@ -266,9 +267,13 @@ const ProductForm = ({ product }: ProductFormProps) => {
       {product && (
         <CreateAttributeModal
           open={createAttributeModalOpen}
-          onOpenChange={setCreateAttributeModalOpen}
+          onOpenChange={(state) => {
+            setCreateAttributeModalOpen(state)
+            setAttributeToEdit(undefined)
+          }}
           productId={product.id}
           categoryId={product.category.id}
+          attribute={attributeToEdit}
         />
       )}
       <Form {...form}>
@@ -447,6 +452,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                           <FormItem className="product-type-item relative">
                             <FormControl className="invisible absolute inset-0 h-full w-full">
                               <RadioGroupItem
+                                disabled={true}
                                 value={ProductTypesEnum.Digital}
                               />
                             </FormControl>
@@ -470,7 +476,10 @@ const ProductForm = ({ product }: ProductFormProps) => {
                           </FormItem>
                           <FormItem className="product-type-item relative">
                             <FormControl className="invisible absolute inset-0 h-full w-full">
-                              <RadioGroupItem value={ProductTypesEnum.Bundle} />
+                              <RadioGroupItem
+                                disabled={true}
+                                value={ProductTypesEnum.Bundle}
+                              />
                             </FormControl>
                             <FormLabel
                               noStyle
@@ -492,7 +501,10 @@ const ProductForm = ({ product }: ProductFormProps) => {
                           </FormItem>
                           <FormItem className="product-type-item relative">
                             <FormControl className="invisible absolute inset-0 h-full w-full">
-                              <RadioGroupItem value={ProductTypesEnum.Gift} />
+                              <RadioGroupItem
+                                disabled={true}
+                                value={ProductTypesEnum.Gift}
+                              />
                             </FormControl>
                             <FormLabel
                               noStyle
@@ -761,6 +773,10 @@ const ProductForm = ({ product }: ProductFormProps) => {
                 <AttributeSection
                   attributes={product.attributeValues}
                   onOpenCreateModal={() => setCreateAttributeModalOpen(true)}
+                  onOpenEditModal={(attribute) => {
+                    setAttributeToEdit(attribute)
+                    setCreateAttributeModalOpen(true)
+                  }}
                 />
               )}
 

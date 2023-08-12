@@ -27,10 +27,12 @@ import { toast } from "@core/hooks/use-toast"
 type AttributeSectionProps = {
   attributes: Maybe<AttributeValue>[] | undefined
   onOpenCreateModal: () => void
+  onOpenEditModal: (attribute: AttributeValue) => void
 }
 
 const AttributeSection = ({
   onOpenCreateModal,
+  onOpenEditModal,
   attributes
 }: AttributeSectionProps) => {
   const { t } = useTranslation()
@@ -170,6 +172,9 @@ const AttributeSection = ({
                                 size="small"
                                 type="button"
                                 variant="secondary"
+                                onClick={() => {
+                                  onOpenEditModal(attribute)
+                                }}
                               >
                                 {t("common:edit")}
                               </Button>

@@ -113,16 +113,16 @@ const CreateProvince = ({ countryId }: Props) => {
         {t("common:add_entity", { entity: t("common:province") })}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>
-                  {t("common:create_new_entity", {
-                    entity: t("common:province")
-                  })}
-                </DialogTitle>
-              </DialogHeader>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {t("common:create_new_entity", {
+                entity: t("common:province")
+              })}
+            </DialogTitle>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
               <>
                 {createProvinceMutation.isError && <p>خطایی رخ داده</p>}
                 <div className="flex flex-col gap-6">
@@ -222,9 +222,9 @@ const CreateProvince = ({ countryId }: Props) => {
                   </Button>
                 </div>
               </DialogFooter>
-            </DialogContent>
-          </form>
-        </Form>
+            </form>
+          </Form>
+        </DialogContent>
       </Dialog>
     </>
   )

@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { redirect, useRouter, useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { LucideAlertOctagon } from "lucide-react"
 import { signIn, useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
@@ -19,6 +20,7 @@ import {
   FormLabel,
   FormMessage
 } from "@core/components/react-hook-form/form"
+import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Button } from "@core/components/ui/button"
 import { Input } from "@core/components/ui/input"
 
@@ -82,13 +84,21 @@ const SigninForm = () => {
           className="ml-auto h-12"
         />
         <h1 className="text-xl font-bold text-gray-800">{t("common:login")}</h1>
+
+        {error && (
+          <Alert variant="danger">
+            <LucideAlertOctagon />
+            <AlertTitle>خطا</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             noValidate
             className="flex flex-col gap-6"
           >
-            {error && <div className="message">{error}</div>}
             <FormField
               control={form.control}
               name="username"

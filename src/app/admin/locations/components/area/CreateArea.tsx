@@ -110,16 +110,16 @@ const CreateArea = ({ cityId }: Props) => {
         {t("common:add_entity", { entity: t("common:area") })}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>
-                  {t("common:create_new_entity", {
-                    entity: t("common:area")
-                  })}
-                </DialogTitle>
-              </DialogHeader>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {t("common:create_new_entity", {
+                entity: t("common:area")
+              })}
+            </DialogTitle>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
               <>
                 {createAreaMutation.isError && <p>خطایی رخ داده</p>}
                 <div className="flex flex-col gap-6">
@@ -219,9 +219,9 @@ const CreateArea = ({ cityId }: Props) => {
                   </Button>
                 </div>
               </DialogFooter>
-            </DialogContent>
-          </form>
-        </Form>
+            </form>
+          </Form>
+        </DialogContent>
       </Dialog>
     </>
   )

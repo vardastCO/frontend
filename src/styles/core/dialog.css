@@ -25,13 +25,11 @@
         top-[50%]
         z-50
         grid
-        max-h-[80vh]
         w-full
         max-w-sm
         translate-x-[-50%]
         translate-y-[-50%]
         gap-4
-        overflow-y-auto
         rounded-lg
         bg-white
         p-6

@@ -25,6 +25,10 @@
       }
     }
 
+    &:has([data-disabled]) {
+      @apply opacity-40;
+    }
+
     .product-type-item-wrapper {
       @apply card
         h-full

@@ -66,6 +66,7 @@ const CreatePriceModal = ({
   productId
 }: CreatePriceModalProps) => {
   const { t } = useTranslation()
+  const [sellerOpen, setSellerOpen] = useState<boolean>(false)
   const [errors, setErrors] = useState<ClientError>()
 
   const queryClient = useQueryClient()
@@ -156,7 +157,7 @@ const CreatePriceModal = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("common:seller")}</FormLabel>
-                    <Popover>
+                    <Popover open={sellerOpen} onOpenChange={setSellerOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
@@ -205,6 +206,7 @@ const CreatePriceModal = ({
                                             item.name.toLowerCase() === value
                                         )?.id || 0
                                       )
+                                      setSellerOpen(false)
                                     }}
                                   >
                                     <LucideCheck
