@@ -137,7 +137,7 @@ const CreateAttributeModal = ({
         isVariant,
         productId,
         sku,
-        value
+        value: JSON.stringify(value)
       }
     })
   }
