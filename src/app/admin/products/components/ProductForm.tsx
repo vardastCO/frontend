@@ -75,7 +75,7 @@ import { Textarea } from "@core/components/ui/textarea"
 import { toast } from "@core/hooks/use-toast"
 import { uploadPaths } from "@core/lib/uploadPaths"
 import AttributeSection from "@/app/admin/products/components/AttributeSection"
-import CreateAttributeModal from "@/app/admin/products/components/CreateAttributeModal"
+import AttributeValueModal from "@/app/admin/products/components/AttributeValueModal"
 import CreatePriceModal from "@/app/admin/products/components/CreatePriceModal"
 import PriceSection from "@/app/admin/products/components/PriceSection"
 
@@ -265,7 +265,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
         />
       )}
       {product && (
-        <CreateAttributeModal
+        <AttributeValueModal
           open={createAttributeModalOpen}
           onOpenChange={(state) => {
             setCreateAttributeModalOpen(state)

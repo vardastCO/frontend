@@ -1,25 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import {
-  LucideEdit,
-  LucideFolderClosed,
-  LucideMoreVertical,
-  LucideTrash
-} from "lucide-react"
+import { LucideFolderClosed } from "lucide-react"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
 import { Vocabulary } from "@/generated"
-
-import { Button } from "@core/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "@core/components/ui/dropdown-menu"
 
 type VocabularyCardProps = {
   vocabulary: Vocabulary
@@ -39,7 +25,7 @@ const VocabularyCard = ({
   }
 
   return (
-    <div className="card flex items-center gap-3 rounded px-4 py-2 pe-2">
+    <div className="card flex items-center gap-3 rounded px-4 py-4 pe-2">
       <div className="flex items-center gap-2">
         <Link
           href={`/admin/vocabularies/${slug}`}
@@ -49,7 +35,7 @@ const VocabularyCard = ({
           {title}
         </Link>
       </div>
-      <div className="mr-auto flex items-center gap-2">
+      {/* <div className="mr-auto flex items-center gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" iconOnly>
@@ -81,7 +67,7 @@ const VocabularyCard = ({
             )}
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
+      </div> */}
     </div>
   )
 }
