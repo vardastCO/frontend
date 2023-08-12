@@ -1,6 +1,6 @@
 "use client"
 
-import { Dispatch, useEffect, useState } from "react"
+import { Dispatch, Suspense, useEffect, useState } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useClickOutside } from "@mantine/hooks"
 import clsx from "clsx"
@@ -48,7 +48,9 @@ const Sidebar = ({ menus, open, onOpenChanged }: SidebarProps) => {
                 <div className="app-navigation-container">
                   <Navigation menus={menus} />
                 </div>
-                <UserMenu />
+                <Suspense>
+                  <UserMenu />
+                </Suspense>
               </div>
             </div>
           </div>

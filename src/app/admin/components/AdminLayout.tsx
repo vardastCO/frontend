@@ -20,36 +20,36 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
     {
       items: [
         {
-          title: t("common:home"),
+          title: "خانه",
           path: "/admin",
           icon: "home"
         },
         {
-          title: t("common:products"),
+          title: "کالاها",
           path: "/admin/products",
           icon: "package",
           abilities: "gql.products.product.index",
           items: [
             {
-              title: t("common:all_entities", { entity: t("common:products") }),
+              title: "تمام کالاها",
               path: "/admin/products",
               icon: "package",
               abilities: "gql.products.product.index"
             },
             {
-              title: t("common:attributes"),
+              title: "مشخصه‌ها",
               path: "/admin/attributes",
               icon: "layers",
               abilities: "gql.products.attribute.index"
             },
             {
-              title: t("common:brands"),
+              title: "برندها",
               path: "/admin/brands",
               icon: "fingerprint",
               abilities: "gql.products.brand.index"
             },
             {
-              title: t("common:uoms"),
+              title: "واحدهای اندازه‌گیری",
               path: "/admin/uoms",
               icon: "ruler",
               abilities: "gql.products.uom.index"
@@ -57,7 +57,7 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
           ]
         },
         {
-          title: t("common:sellers"),
+          title: "فروشندگان",
           path: "/admin/sellers",
           icon: "store",
           abilities: "gql.products.seller.index"
@@ -65,23 +65,23 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
       ]
     },
     {
-      title: t("common:administration"),
+      title: "مدیریت",
       role: "admin",
       items: [
         {
-          title: t("common:vocabularies_menu_title"),
+          title: "دسته‌بندی‌ها",
           path: "/admin/vocabularies",
           icon: "layout-grid",
           abilities: "gql.base.taxonomy.vocabulary.index"
         },
         {
-          title: t("common:locations_menu_title"),
+          title: "مناطق جغرافیایی",
           path: "/admin/locations",
           icon: "map",
           abilities: "gql.base.location.country.index"
         },
         {
-          title: t("common:users_menu_title"),
+          title: "کاربران",
           path: "/admin/users",
           icon: "users",
           abilities: "gql.users.user.index"
