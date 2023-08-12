@@ -1,5 +1,11 @@
 .app {
-  @apply flex h-screen flex-col bg-gray-50 dark:bg-gray-900;
+  @apply flex
+    h-auto
+    min-h-screen
+    flex-col
+    bg-gray-50
+    dark:bg-gray-900
+    lg:h-screen;
 }
 
 .app-inner {
@@ -16,11 +22,13 @@
     overscroll-contain
     px-4
     py-4
+    pb-[calc(var(--safe-aera-inset-bottom)+120px)]
+    pt-[calc(var(--safe-aera-inset-top)+20px)]
     lg:py-6;
 }
 
 .app-sidebar {
-  @apply absolute
+  @apply fixed
     top-0
     z-50
     h-full
