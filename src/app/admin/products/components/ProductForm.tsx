@@ -447,6 +447,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                           <FormItem className="product-type-item relative">
                             <FormControl className="invisible absolute inset-0 h-full w-full">
                               <RadioGroupItem
+                                disabled={true}
                                 value={ProductTypesEnum.Digital}
                               />
                             </FormControl>
@@ -470,7 +471,10 @@ const ProductForm = ({ product }: ProductFormProps) => {
                           </FormItem>
                           <FormItem className="product-type-item relative">
                             <FormControl className="invisible absolute inset-0 h-full w-full">
-                              <RadioGroupItem value={ProductTypesEnum.Bundle} />
+                              <RadioGroupItem
+                                disabled={true}
+                                value={ProductTypesEnum.Bundle}
+                              />
                             </FormControl>
                             <FormLabel
                               noStyle
@@ -492,7 +496,10 @@ const ProductForm = ({ product }: ProductFormProps) => {
                           </FormItem>
                           <FormItem className="product-type-item relative">
                             <FormControl className="invisible absolute inset-0 h-full w-full">
-                              <RadioGroupItem value={ProductTypesEnum.Gift} />
+                              <RadioGroupItem
+                                disabled={true}
+                                value={ProductTypesEnum.Gift}
+                              />
                             </FormControl>
                             <FormLabel
                               noStyle
