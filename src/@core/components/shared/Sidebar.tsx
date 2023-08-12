@@ -1,6 +1,7 @@
 "use client"
 
-import { Dispatch, useState } from "react"
+import { Dispatch, useEffect, useState } from "react"
+import { usePathname, useSearchParams } from "next/navigation"
 import { useClickOutside } from "@mantine/hooks"
 import clsx from "clsx"
 import { SetStateAction } from "jotai"
@@ -17,6 +18,8 @@ type SidebarProps = {
 }
 
 const Sidebar = ({ menus, open, onOpenChanged }: SidebarProps) => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const ref = useClickOutside(() => {
     if (open) {
@@ -25,10 +28,15 @@ const Sidebar = ({ menus, open, onOpenChanged }: SidebarProps) => {
     }
   })
 
+  useEffect(() => {
+    onOpenChanged(false)
+    setIsOpen(false)
+  }, [onOpenChanged, pathname, searchParams])
+
   return (
     <>
       {open && (
-        <div className="fixed inset-0 z-50 h-full w-full bg-gray-800 bg-opacity-40"></div>
+        <div className="pointer-events-none fixed inset-0 z-50 h-full w-full bg-gray-800 bg-opacity-40"></div>
       )}
       <div ref={ref} className={clsx(["app-sidebar", open ? "open" : ""])}>
         <div className="app-sidebar-inner">
