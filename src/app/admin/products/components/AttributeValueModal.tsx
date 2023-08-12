@@ -63,7 +63,7 @@ import {
 import { Switch } from "@core/components/ui/switch"
 import { toast } from "@core/hooks/use-toast"
 
-type CreateAttributeModalProps = {
+type AttributeValueModalProps = {
   productId: number
   categoryId: number
   open: boolean
@@ -71,13 +71,13 @@ type CreateAttributeModalProps = {
   attribute?: AttributeValue
 }
 
-const CreateAttributeModal = ({
+const AttributeValueModal = ({
   open,
   onOpenChange,
   productId,
   categoryId,
   attribute
-}: CreateAttributeModalProps) => {
+}: AttributeValueModalProps) => {
   const { t } = useTranslation()
   const [attributeOpen, setAttributeOpen] = useState<boolean>(false)
   const [selectAttribute, setSelectAttribute] = useState<
@@ -134,7 +134,7 @@ const CreateAttributeModal = ({
     }
   )
 
-  const CreateAttributeSchema = z
+  const AttributeValueFormSchema = z
     .object({
       attributeId: z.number(),
       sku: z.string().optional(),
@@ -145,10 +145,10 @@ const CreateAttributeModal = ({
       path: ["sku"],
       message: t("zod:errors.invalid_type_received_undefined")
     })
-  type CreateAttribute = TypeOf<typeof CreateAttributeSchema>
+  type AttributeValueForm = TypeOf<typeof AttributeValueFormSchema>
 
-  const form = useForm<CreateAttribute>({
-    resolver: zodResolver(CreateAttributeSchema),
+  const form = useForm<AttributeValueForm>({
+    resolver: zodResolver(AttributeValueFormSchema),
     defaultValues: {}
   })
 
@@ -158,7 +158,7 @@ const CreateAttributeModal = ({
     onOpenChange(false)
   }
 
-  function onSubmit(data: CreateAttribute) {
+  function onSubmit(data: AttributeValueForm) {
     const { attributeId, isVariant, sku, value } = data
 
     if (attribute) {
@@ -432,4 +432,4 @@ const CreateAttributeModal = ({
   )
 }
 
-export default CreateAttributeModal
+export default AttributeValueModal
