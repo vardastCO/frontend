@@ -75,6 +75,7 @@ const CreateAttributeModal = ({
   categoryId
 }: CreateAttributeModalProps) => {
   const { t } = useTranslation()
+  const [attributeOpen, setAttributeOpen] = useState<boolean>(false)
   const [selectAttribute, setSelectAttribute] = useState<Attribute>()
   const [errors, setErrors] = useState<ClientError>()
 
@@ -137,7 +138,7 @@ const CreateAttributeModal = ({
         isVariant,
         productId,
         sku,
-        value: JSON.stringify(value)
+        value
       }
     })
   }
@@ -174,7 +175,10 @@ const CreateAttributeModal = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("common:attribute")}</FormLabel>
-                    <Popover>
+                    <Popover
+                      open={attributeOpen}
+                      onOpenChange={setAttributeOpen}
+                    >
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
@@ -225,6 +229,7 @@ const CreateAttributeModal = ({
                                               item.name.toLowerCase() === value
                                           ) as Attribute
                                         form.setValue("attributeId", item.id)
+                                        setAttributeOpen(false)
                                         return item
                                       })
                                     }}

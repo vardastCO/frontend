@@ -1,6 +1,6 @@
 "use client"
 
-import { Key, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request"
@@ -60,10 +60,8 @@ type Props = {
 
 const CreateCategory = ({ vocabularyId }: Props) => {
   const { t } = useTranslation()
-
-  const [displayErrors, setDisplayErrors] = useState<string[] | null>(null)
+  const [parentCategoryOpen, setParentCategoryOpen] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
-  const [parentCategoryId, setParentCategoryId] = useState<Key | null>(null)
   const [errors, setErrors] = useState<ClientError>()
 
   const queryClient = useQueryClient()
@@ -180,8 +178,11 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                   name="parentCategoryId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("common:category")}</FormLabel>
-                      <Popover>
+                      <FormLabel>{t("common:parent_category")}</FormLabel>
+                      <Popover
+                        open={parentCategoryOpen}
+                        onOpenChange={setParentCategoryOpen}
+                      >
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
@@ -232,6 +233,7 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                                               item.title.toLowerCase() === value
                                           )?.id || 0
                                         )
+                                        setParentCategoryOpen(false)
                                       }}
                                     >
                                       <LucideCheck
