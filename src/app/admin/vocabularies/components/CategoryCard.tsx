@@ -29,12 +29,14 @@ interface CategoryCardProps {
   vocabularySlug: string
   category: Category
   onDeleteTriggered: (category: Category) => void
+  onEditTriggered: (category: Category) => void
 }
 
 const CategoryCard = ({
   category,
   vocabularySlug,
-  onDeleteTriggered
+  onDeleteTriggered,
+  onEditTriggered
 }: CategoryCardProps) => {
   const { t } = useTranslation()
   const { data: session } = useSession()
@@ -62,6 +64,10 @@ const CategoryCard = ({
     onDeleteTriggered(category)
   }
 
+  const toggleEditItem = () => {
+    onEditTriggered(category)
+  }
+
   return (
     <>
       <div className="card flex items-center gap-3 rounded px-4 py-2 pe-2">
@@ -83,7 +89,7 @@ const CategoryCard = ({
           </div>
           <Button
             noStyle
-            onClick={() => toggleChilds()}
+            onClick={() => (hasChildren ? toggleChilds() : null)}
             className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-gray-300"
           >
             {title}
@@ -105,7 +111,7 @@ const CategoryCard = ({
               {session?.abilities.includes(
                 "gql.base.taxonomy.category.update"
               ) && (
-                <DropdownMenuItem>
+                <DropdownMenuItem onSelect={toggleEditItem}>
                   <LucideEdit className="dropdown-menu-item-icon" />
                   <span>{t("common:edit")}</span>
                 </DropdownMenuItem>
@@ -135,6 +141,9 @@ const CategoryCard = ({
               <CategoryCard
                 category={child as Category}
                 vocabularySlug={vocabularySlug}
+                onEditTriggered={(category) => {
+                  onEditTriggered(category)
+                }}
                 onDeleteTriggered={(category) => {
                   onDeleteTriggered(category)
                 }}

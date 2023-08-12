@@ -213,9 +213,13 @@ const AttributeValueModal = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {t("common:add_entity", {
-              entity: t("common:attribute")
-            })}
+            {attribute
+              ? t("common:edit_entity", {
+                  entity: t("common:attribute")
+                })
+              : t("common:add_entity", {
+                  entity: t("common:attribute")
+                })}
           </DialogTitle>
         </DialogHeader>
         {errors && (

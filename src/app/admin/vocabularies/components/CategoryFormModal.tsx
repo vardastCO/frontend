@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request"
@@ -14,8 +14,10 @@ import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
 import {
+  Category,
   useCreateCategoryMutation,
-  useGetAllCategoriesQuery
+  useGetAllCategoriesQuery,
+  useUpdateCategoryMutation
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
@@ -52,25 +54,43 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@core/components/ui/popover"
+import { Switch } from "@core/components/ui/switch"
 import { toast } from "@core/hooks/use-toast"
 
-type Props = {
+type CategoryFormModalProps = {
+  open: boolean
+  onOpenChange: Dispatch<SetStateAction<boolean>>
+  category?: Category
   vocabularyId: number
 }
 
-const CreateCategory = ({ vocabularyId }: Props) => {
+const CategoryFormModal = ({
+  open,
+  onOpenChange,
+  category,
+  vocabularyId
+}: CategoryFormModalProps) => {
   const { t } = useTranslation()
   const [parentCategoryOpen, setParentCategoryOpen] = useState<boolean>(false)
-  const [open, setOpen] = useState<boolean>(false)
   const [errors, setErrors] = useState<ClientError>()
 
   const queryClient = useQueryClient()
 
-  const categories = useGetAllCategoriesQuery(graphqlRequestClient, {
-    indexCategoryInput: {
-      vocabularyId: vocabularyId
+  const categories = useGetAllCategoriesQuery(
+    graphqlRequestClient,
+    {
+      indexCategoryInput: {
+        vocabularyId: vocabularyId
+      }
+    },
+    {
+      onSuccess: () => {
+        if (category) {
+          form.setValue("parentCategoryId", category.parentCategory?.id)
+        }
+      }
     }
-  })
+  )
 
   const createCategoryMutation = useCreateCategoryMutation(
     graphqlRequestClient,
@@ -78,9 +98,29 @@ const CreateCategory = ({ vocabularyId }: Props) => {
       onSuccess: () => {
         form.reset()
         queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
-        setOpen(false)
+        onOpenChange(false)
         toast({
           description: t("common:entity_added_successfully", {
+            entity: t("common:category")
+          }),
+          duration: 2000,
+          variant: "success"
+        })
+      },
+      onError: (errors: ClientError) => {
+        setErrors(errors)
+      }
+    }
+  )
+  const updateCategoryMutation = useUpdateCategoryMutation(
+    graphqlRequestClient,
+    {
+      onSuccess: () => {
+        form.reset()
+        queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
+        onOpenChange(false)
+        toast({
+          description: t("common:entity_updated_successfully", {
             entity: t("common:category")
           }),
           duration: 2000,
@@ -122,38 +162,72 @@ const CreateCategory = ({ vocabularyId }: Props) => {
     }
   }, [titleEn, form])
 
+  useEffect(() => {
+    if (category) {
+      form.setValue("parentCategoryId", category.parentCategory?.id)
+      form.setValue("title", category.title)
+      form.setValue("titleEn", category.titleEn || "")
+      form.setValue("slug", category.slug)
+      form.setValue("isActive", category.isActive)
+      form.setValue("sort", category.sort)
+    }
+
+    return () => {
+      form.reset()
+    }
+  }, [category, form, open])
+
   const onClose = () => {
     form.reset()
-    setOpen(false)
+    setErrors(undefined)
+    onOpenChange(false)
   }
 
   function onSubmit(data: CreateCategory) {
-    const { title, titleEn, slug, sort, parentCategoryId } = data
+    const { title, titleEn, slug, sort, parentCategoryId, isActive } = data
 
-    createCategoryMutation.mutate({
-      createCategoryInput: {
-        vocabularyId,
-        parentCategoryId,
-        title,
-        titleEn,
-        slug,
-        sort
-      }
-    })
+    if (category) {
+      updateCategoryMutation.mutate({
+        updateCategoryInput: {
+          id: category.id,
+          parentCategoryId,
+          title,
+          titleEn,
+          slug,
+          sort,
+          isActive
+        }
+      })
+    } else {
+      createCategoryMutation.mutate({
+        createCategoryInput: {
+          vocabularyId,
+          parentCategoryId,
+          title,
+          titleEn,
+          slug,
+          sort,
+          isActive
+        }
+      })
+    }
   }
+
+  console.log(category?.parentCategory)
 
   return (
     <>
-      <Button size="medium" onClick={() => setOpen(true)}>
-        {t("common:add_entity", { entity: t("common:category") })}
-      </Button>
       <Dialog open={open} onOpenChange={onClose}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {t("common:create_new_entity", {
-                entity: t("common:category")
-              })}
+              {category
+                ? t("common:edit_entity", {
+                    entity: t("common:category")
+                  })
+                : t("common:create_new_entity", {
+                    entity: t("common:category")
+                  })}
             </DialogTitle>
           </DialogHeader>
           {errors && (
@@ -199,7 +273,7 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                                       category && category.id === field.value
                                   )?.title
                                 : t("common:choose_entity", {
-                                    entity: t("common:category")
+                                    entity: t("common:parent_category")
                                   })}
                               <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
                             </Button>
@@ -209,12 +283,12 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                           <Command>
                             <CommandInput
                               placeholder={t("common:search_entity", {
-                                entity: t("common:category")
+                                entity: t("common:parent_category")
                               })}
                             />
                             <CommandEmpty>
                               {t("common:no_entity_found", {
-                                entity: t("common:category")
+                                entity: t("common:parent_category")
                               })}
                             </CommandEmpty>
                             <CommandGroup>
@@ -314,6 +388,24 @@ const CreateCategory = ({ vocabularyId }: Props) => {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="isActive"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-1">
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormLabel noStyle>{t("common:is_active")}</FormLabel>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
               <DialogFooter>
                 <div className="flex items-center justify-end gap-2">
@@ -339,4 +431,4 @@ const CreateCategory = ({ vocabularyId }: Props) => {
   )
 }
 
-export default CreateCategory
+export default CategoryFormModal
