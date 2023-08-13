@@ -25,9 +25,15 @@ type Props = {
 
 const UserEdit = ({ uuid }: Props) => {
   const { t } = useTranslation()
-  const { isLoading, error, data } = useGetUserQuery(graphqlRequestClient, {
-    uuid
-  })
+  const { isLoading, error, data } = useGetUserQuery(
+    graphqlRequestClient,
+    {
+      uuid
+    },
+    {
+      staleTime: 1000
+    }
+  )
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />

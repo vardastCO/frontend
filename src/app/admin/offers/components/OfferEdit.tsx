@@ -1,22 +1,20 @@
 "use client"
 
 import { notFound } from "next/navigation"
-import useTranslation from "next-translate/useTranslation"
 
-import { Attribute, useGetAttributeQuery } from "@/generated"
+import { Offer, useGetOfferQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
-import AttributeForm from "@/app/admin/attributes/components/AttributeForm"
+import OfferForm from "@/app/admin/offers/components/OfferForm"
 
 type Props = {
   uuid: string
 }
 
-const AttributeEdit = ({ uuid }: Props) => {
-  const { t } = useTranslation()
-  const { isLoading, error, data } = useGetAttributeQuery(
+const OfferEdit = ({ uuid }: Props) => {
+  const { isLoading, error, data } = useGetOfferQuery(
     graphqlRequestClient,
     {
       id: +uuid
@@ -30,7 +28,7 @@ const AttributeEdit = ({ uuid }: Props) => {
   if (error) return <LoadingFailed />
   if (!data) notFound()
 
-  return <AttributeForm attribute={data.attribute as Attribute} />
+  return <OfferForm offer={data.offer as Offer} />
 }
 
-export default AttributeEdit
+export default OfferEdit

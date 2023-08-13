@@ -26,10 +26,10 @@
 @import "tailwindcss/utilities";
 
 :root {
-  --safe-aera-inset-top: env(safe-area-inset-top);
-  --safe-aera-inset-right: env(safe-area-inset-right);
-  --safe-aera-inset-bottom: env(safe-area-inset-bottom);
-  --safe-aera-inset-left: env(safe-area-inset-left);
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-right: env(safe-area-inset-right);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  --safe-area-inset-left: env(safe-area-inset-left);
   --swiper-theme-color: theme(colors.brand.500);
 }
 

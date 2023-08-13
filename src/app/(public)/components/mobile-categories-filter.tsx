@@ -252,7 +252,7 @@ const MobileCategoriesFilter = ({
       open={CategoriesFilterVisibility}
       onOpenChange={setCategoriesFilterVisibility}
     >
-      <Dialog.Content className="fixed inset-0 z-40 h-[calc(100%-calc(64px+var(--safe-aera-inset-bottom)))] overflow-y-auto overscroll-contain bg-white">
+      <Dialog.Content className="fixed inset-0 z-40 h-[calc(100%-calc(64px+var(--safe-area-inset-bottom)))] overflow-y-auto overscroll-contain bg-white">
         <div>
           <div className="sticky top-0 border-b border-gray-200 bg-white p-4">
             <div className="flex items-center gap-2">

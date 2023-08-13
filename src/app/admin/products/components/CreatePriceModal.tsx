@@ -15,6 +15,7 @@ import { TypeOf, z } from "zod"
 
 import {
   PriceTypesEnum,
+  ThreeStateSupervisionStatuses,
   useCreatePriceMutation,
   useGetSellersWithoutPaginationQuery
 } from "@/generated"
@@ -89,7 +90,11 @@ const CreatePriceModal = ({
       onOpenChange(false)
     }
   })
-  const sellers = useGetSellersWithoutPaginationQuery(graphqlRequestClient)
+  const sellers = useGetSellersWithoutPaginationQuery(graphqlRequestClient, {
+    indexSellerInput: {
+      status: ThreeStateSupervisionStatuses.Confirmed
+    }
+  })
 
   const CreatePriceSchema = z.object({
     amount: z.number(),

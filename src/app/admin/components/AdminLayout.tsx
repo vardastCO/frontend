@@ -2,7 +2,6 @@
 
 import { ReactNode, Suspense, useState } from "react"
 import { LucideMenu } from "lucide-react"
-import useTranslation from "next-translate/useTranslation"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import Sidebar from "@core/components/shared/Sidebar"
@@ -14,7 +13,6 @@ type AdminLayoutComponentProps = {
 }
 
 const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
-  const { t } = useTranslation()
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
   const menus: NavigationType[] = [
     {
@@ -35,6 +33,12 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
               path: "/admin/products",
               icon: "package",
               abilities: "gql.products.product.index"
+            },
+            {
+              title: "پیشنهادات",
+              path: "/admin/offers",
+              icon: "package",
+              abilities: "gql.products.offer.index"
             },
             {
               title: "مشخصه‌ها",

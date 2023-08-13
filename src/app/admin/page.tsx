@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { LucideInfo } from "lucide-react"
 import { getServerSession } from "next-auth"
 
-import { ThreeStateSupervisionStatuses } from "@/generated"
+import { ThreeStateSupervisionStatuses, UserStatusesEnum } from "@/generated"
 
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { authOptions } from "@core/lib/authOptions"
@@ -24,9 +24,22 @@ const AdminIndex = async () => {
       )}
 
       {!session?.profile.seller &&
+        session?.profile.status === UserStatusesEnum.Active &&
         !session?.profile.roles.some(
           (role) => role?.name === "admin" || role?.name === "seller"
         ) && <BecomeSellerAlert />}
+
+      {session?.profile.status !== UserStatusesEnum.Active && (
+        <Alert variant="danger">
+          <LucideInfo />
+          <AlertTitle>اطلاعیه</AlertTitle>
+          <AlertDescription>
+            <div className="flex flex-col items-start gap-2">
+              <p>حساب کاربری شما فعال نیست.</p>
+            </div>
+          </AlertDescription>
+        </Alert>
+      )}
 
       {session?.profile.seller &&
         session?.profile.seller.status ===

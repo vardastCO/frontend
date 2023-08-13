@@ -1,7 +1,6 @@
 "use client"
 
 import { notFound } from "next/navigation"
-import useTranslation from "next-translate/useTranslation"
 
 import { Uom, useGetUomQuery } from "@/generated"
 
@@ -15,10 +14,15 @@ type Props = {
 }
 
 const UOMEdit = ({ uuid }: Props) => {
-  const { t } = useTranslation()
-  const { isLoading, error, data } = useGetUomQuery(graphqlRequestClient, {
-    id: +uuid
-  })
+  const { isLoading, error, data } = useGetUomQuery(
+    graphqlRequestClient,
+    {
+      id: +uuid
+    },
+    {
+      staleTime: 1000
+    }
+  )
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />
