@@ -34,9 +34,15 @@ type Props = {
 const SellerEdit = ({ uuid }: Props) => {
   const { t } = useTranslation()
   const { data: session } = useSession()
-  const { isLoading, error, data } = useGetSellerQuery(graphqlRequestClient, {
-    id: +uuid
-  })
+  const { isLoading, error, data } = useGetSellerQuery(
+    graphqlRequestClient,
+    {
+      id: +uuid
+    },
+    {
+      staleTime: 1000
+    }
+  )
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />

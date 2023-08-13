@@ -1,7 +1,6 @@
 "use client"
 
 import { notFound } from "next/navigation"
-import useTranslation from "next-translate/useTranslation"
 
 import { Product, useGetProductQuery } from "@/generated"
 
@@ -15,10 +14,15 @@ type Props = {
 }
 
 const ProductEdit = ({ id }: Props) => {
-  const { t } = useTranslation()
-  const { isLoading, error, data } = useGetProductQuery(graphqlRequestClient, {
-    id: +id
-  })
+  const { isLoading, error, data } = useGetProductQuery(
+    graphqlRequestClient,
+    {
+      id: +id
+    },
+    {
+      staleTime: 1000
+    }
+  )
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />

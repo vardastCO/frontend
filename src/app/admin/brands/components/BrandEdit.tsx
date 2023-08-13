@@ -25,9 +25,15 @@ type Props = {
 
 const BrandEdit = ({ uuid }: Props) => {
   const { t } = useTranslation()
-  const { isLoading, error, data } = useGetBrandQuery(graphqlRequestClient, {
-    id: +uuid
-  })
+  const { isLoading, error, data } = useGetBrandQuery(
+    graphqlRequestClient,
+    {
+      id: +uuid
+    },
+    {
+      staleTime: 1000
+    }
+  )
 
   if (isLoading) return <Loading />
   if (error) return <LoadingFailed />

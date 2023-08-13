@@ -20,6 +20,9 @@ const AttributeEdit = ({ uuid }: Props) => {
     graphqlRequestClient,
     {
       id: +uuid
+    },
+    {
+      staleTime: 1000
     }
   )
 
