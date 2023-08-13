@@ -95,7 +95,7 @@ const Search = ({ isMobileView }: SearchProps) => {
         className={clsx([
           "z-30 w-full",
           isMobileView && open
-            ? "fixed inset-0 mx-auto h-[calc(100%-calc(64px+var(--safe-aera-inset-bottom)))] w-full overflow-y-auto"
+            ? "fixed inset-0 mx-auto h-[calc(100%-calc(64px+var(--safe-area-inset-bottom)))] w-full overflow-y-auto"
             : "relative max-w-sm md:max-w-md lg:max-w-lg"
         ])}
       >

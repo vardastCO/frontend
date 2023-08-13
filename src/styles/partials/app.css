@@ -22,8 +22,8 @@
     overscroll-contain
     px-4
     py-4
-    pb-[calc(var(--safe-aera-inset-bottom)+120px)]
-    pt-[calc(var(--safe-aera-inset-top)+20px)]
+    pb-[calc(var(--safe-area-inset-bottom)+120px)]
+    pt-[calc(var(--safe-area-inset-top)+20px)]
     lg:py-6;
 }
 

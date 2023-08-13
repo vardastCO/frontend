@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import Image from "next/image"
 
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import FrontPageHeader from "@/app/(public)/components/front-page-header"
 import Search from "@/app/(public)/components/search"
 
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
@@ -16,7 +17,8 @@ const Index = async () => {
   return (
     <div className="">
       <div className="container mx-auto px-4">
-        <div className="mt-[32vh] flex flex-col items-center justify-center">
+        {!isMobileView && <FrontPageHeader />}
+        <div className="mt-[30vh] flex flex-col items-center justify-center">
           <div className="relative mb-8 h-20">
             <Image
               src={logoHorizontal}
@@ -27,8 +29,6 @@ const Index = async () => {
           </div>
           <Search isMobileView={isMobileView} />
         </div>
-
-        {/* <FrontPageSlider /> */}
       </div>
     </div>
   )
