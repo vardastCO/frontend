@@ -29,7 +29,7 @@ const AdminIndex = async () => {
           (role) => role?.name === "admin" || role?.name === "seller"
         ) && <BecomeSellerAlert />}
 
-      {session?.profile.status !== UserStatusesEnum.Active && (
+      {session?.profile.status === UserStatusesEnum.NotActivated && (
         <Alert variant="danger">
           <LucideInfo />
           <AlertTitle>اطلاعیه</AlertTitle>
