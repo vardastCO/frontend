@@ -1,0 +1,10 @@
+mutation UpdateOfferMutation($updateOfferInput: UpdateOfferInput!) {
+  updateOffer(updateOfferInput: $updateOfferInput) {
+    id
+    status
+    isPublic
+    isAvailable
+    createdAt
+    updatedAt
+  }
+}

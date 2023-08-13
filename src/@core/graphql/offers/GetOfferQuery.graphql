@@ -1,0 +1,40 @@
+query GetOffer($id: Int!) {
+  offer(id: $id) {
+    id
+    status
+    isPublic
+    isAvailable
+    createdAt
+    updatedAt
+    seller {
+      id
+      name
+      bio
+      status
+      isPublic
+      createdAt
+      updatedAt
+    }
+    product {
+      id
+      slug
+      type
+      name
+      sku
+      status
+      isActive
+      description
+      title
+      metaDescription
+      createdAt
+      updatedAt
+    }
+    lastPublicConsumerPrice {
+      id
+      type
+      amount
+      isPublic
+      createdAt
+    }
+  }
+}
