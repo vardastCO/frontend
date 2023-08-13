@@ -38,7 +38,7 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
               title: "پیشنهادات",
               path: "/admin/offers",
               icon: "package",
-              abilities: "gql.products.offer.index"
+              abilities: "gql.products.offer.index.mine"
             },
             {
               title: "مشخصه‌ها",
