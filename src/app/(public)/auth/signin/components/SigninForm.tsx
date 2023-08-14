@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { redirect, useRouter, useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LucideAlertOctagon } from "lucide-react"
 import { signIn, useSession } from "next-auth/react"
@@ -69,11 +69,11 @@ const SigninForm = () => {
     })
   }
 
-  useEffect(() => {
-    if (session?.status === "authenticated") {
-      redirect(searchParams.get("callbackUrl") || "/admin")
-    }
-  })
+  //   useEffect(() => {
+  //     if (session?.status === "authenticated") {
+  //       redirect(searchParams.get("callbackUrl") || "/admin")
+  //     }
+  //   })
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-gray-50 p-4">
