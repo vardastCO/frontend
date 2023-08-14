@@ -8,7 +8,7 @@ import Search from "@/app/(public)/components/search"
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
 
 export const metadata: Metadata = {
-  title: "بازار آنلاین مصالح ساختمای",
+  title: "بازار آنلاین مصالح ساختمانی",
   description: "وردست - بازار آنلاین مصالح ساختمانی"
 }
 
