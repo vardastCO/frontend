@@ -213,8 +213,6 @@ const CategoryFormModal = ({
     }
   }
 
-  console.log(category?.parentCategory)
-
   return (
     <>
       <Dialog open={open} onOpenChange={onClose}>
