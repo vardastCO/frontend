@@ -70,5 +70,15 @@ query GetUser($id: Int, $uuid: String) {
       createdAt
       updatedAt
     }
+    sessions {
+      id
+      agent
+      loginIp
+      lastActiveIp
+      lastActivityAt
+      deletionReason
+      createdAt
+      deletedAt
+    }
   }
 }
