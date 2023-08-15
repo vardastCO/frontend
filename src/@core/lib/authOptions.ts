@@ -3,6 +3,8 @@ import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 import {
+  GetUserDocument,
+  GetUserQuery,
   LoginUserDocument,
   LoginUserMutation,
   RefreshUserMutation,
@@ -25,9 +27,13 @@ async function refreshAccessToken(tokenObject: any) {
       }
     )
 
+    if (!data) {
+      return null
+    }
+
     return {
       ...tokenObject,
-      profile: data.refresh.user,
+      userId: data.refresh.user.id,
       abilities: data.refresh.abilities,
       accessToken: data.refresh.accessToken,
       accessTokenTtl: data.refresh.accessTokenTtl + Date.now(),
@@ -78,8 +84,6 @@ export const authOptions: NextAuthOptions = {
             }
           )
 
-          console.log(data)
-
           if (!data) {
             return null
           }
@@ -89,7 +93,7 @@ export const authOptions: NextAuthOptions = {
             accessTokenTtl: data.login.accessTokenTtl + Date.now(),
             refreshToken: data.login.refreshToken,
             refreshTokenTtl: data.login.refreshTokenTtl + Date.now(),
-            profile: data.login.user,
+            userId: data.login.user.id,
             abilities: data.login.abilities
           }
         } catch (error) {
@@ -102,7 +106,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        token.profile = user.profile
+        token.userId = user.userId
         token.abilities = user.abilities
         token.accessToken = user.accessToken
         token.accessTokenTtl = user.accessTokenTtl
@@ -119,15 +123,31 @@ export const authOptions: NextAuthOptions = {
       }
 
       token = await refreshAccessToken(token)
+
       return Promise.resolve(token)
     },
     session: async ({ session, token }) => {
       if (token) {
+        const userClient = new GraphQLClient(
+          process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
+          {
+            headers: {
+              authorization: `Bearer ${token.accessToken}`
+            }
+          }
+        )
+        const userInfo: GetUserQuery = await userClient.request(
+          GetUserDocument,
+          {
+            id: token.userId
+          }
+        )
+
         session.accessToken = token.accessToken as string
         session.accessTokenTtl = token.accessTokenTtl as number
         session.refreshToken = token.refreshToken as string
         session.refreshTokenTtl = token.refreshTokenTtl as number
-        session.profile = token.profile as any
+        session.profile = userInfo.user as any
         session.abilities = token.abilities as string[]
         session.error = token.error as string
       }

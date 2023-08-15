@@ -20,6 +20,7 @@ declare module "next-auth" {
     refreshToken?: string
     accessTokenTtl?: number
     refreshTokenTtl?: number
+    userId: number
     profile: BaseUser
     abilities: string[]
   }

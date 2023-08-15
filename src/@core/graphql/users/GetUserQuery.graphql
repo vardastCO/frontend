@@ -80,5 +80,39 @@ query GetUser($id: Int, $uuid: String) {
       createdAt
       deletedAt
     }
+    avatarFile {
+      id
+      uuid
+      modelType
+      modelId
+      name
+      originalName
+      size
+      mimeType
+      disk
+      bucketName
+      orderColumn
+      createdAt
+      updatedAt
+      presignedUrl {
+        url
+        expiresAt
+      }
+    }
+    country {
+      id
+      name
+      nameEn
+      slug
+      alphaTwo
+      iso
+      phonePrefix
+      sort
+      isActive
+      latitude
+      longitude
+      flagEmoji
+      provincesCount
+    }
   }
 }
