@@ -78,6 +78,8 @@ export const authOptions: NextAuthOptions = {
             }
           )
 
+          console.log(data)
+
           if (!data) {
             return null
           }

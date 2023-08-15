@@ -15,6 +15,7 @@ import {
   TabsList,
   TabsTrigger
 } from "@core/components/ui/tabs"
+import UserSessionsTab from "@/app/admin/users/components/UserSessionsTab"
 
 import UserForm from "./UserForm"
 import UserPermissionsForm from "./UserPermissionsForm"
@@ -50,6 +51,7 @@ const UserEdit = ({ uuid }: Props) => {
           <TabsTrigger value="permissions">
             {t("common:permissions")}
           </TabsTrigger>
+          <TabsTrigger value="sessions">{t("common:sessions")}</TabsTrigger>
         </TabsList>
         <TabsContent value="information">
           <UserForm user={data.user as User} />
@@ -60,6 +62,9 @@ const UserEdit = ({ uuid }: Props) => {
             userRoles={data.user.roles as Role[]}
             userPermissions={data.user.permissions as Permission[]}
           />
+        </TabsContent>
+        <TabsContent value="sessions">
+          <UserSessionsTab sessions={data.user.sessions} />
         </TabsContent>
       </Tabs>
     </>
