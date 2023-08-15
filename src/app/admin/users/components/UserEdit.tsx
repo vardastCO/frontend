@@ -3,7 +3,7 @@
 import { notFound } from "next/navigation"
 import useTranslation from "next-translate/useTranslation"
 
-import { Permission, Role, useGetUserQuery, User } from "@/generated"
+import { Permission, Role, Session, useGetUserQuery, User } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
@@ -64,7 +64,7 @@ const UserEdit = ({ uuid }: Props) => {
           />
         </TabsContent>
         <TabsContent value="sessions">
-          <UserSessionsTab sessions={data.user.sessions} />
+          <UserSessionsTab sessions={data.user.sessions as Session[]} />
         </TabsContent>
       </Tabs>
     </>
