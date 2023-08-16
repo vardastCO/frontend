@@ -670,7 +670,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                   name="brandId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("common:brand")}</FormLabel>
+                      <FormLabel>{t("common:brand_producer")}</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
