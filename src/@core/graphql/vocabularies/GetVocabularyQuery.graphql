@@ -18,6 +18,7 @@ query GetVocabulary($id: Int, $slug: String) {
       createdAt
       updatedAt
       childrenCount
+      productsCount
       parentCategory {
         id
         title

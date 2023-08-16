@@ -10,6 +10,7 @@ query GetCategory($id: Int, $slug: String) {
     updatedAt
     childrenCount
     id
+    productsCount
     children {
       id
       title
@@ -21,6 +22,7 @@ query GetCategory($id: Int, $slug: String) {
       createdAt
       updatedAt
       childrenCount
+      productsCount
       parentCategory {
         id
         title

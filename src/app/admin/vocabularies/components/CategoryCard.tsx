@@ -40,7 +40,7 @@ const CategoryCard = ({
 }: CategoryCardProps) => {
   const { t } = useTranslation()
   const { data: session } = useSession()
-  const { slug, title, isActive, childrenCount, id } = category
+  const { slug, title, isActive, childrenCount, productsCount, id } = category
 
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState(isActive)
@@ -97,6 +97,11 @@ const CategoryCard = ({
           {hasChildren && (
             <span className="text-sm text-gray-500 dark:text-gray-600">
               {digitsEnToFa(childrenCount)} زیر دسته
+            </span>
+          )}
+          {productsCount > 0 && (
+            <span className="text-sm text-gray-500 dark:text-gray-600">
+              {digitsEnToFa(productsCount)} کالا
             </span>
           )}
         </div>
