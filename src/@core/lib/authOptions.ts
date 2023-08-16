@@ -3,8 +3,8 @@ import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 import {
-  GetUserDocument,
-  GetUserQuery,
+  GetWhoAmIDocument,
+  GetWhoAmIQuery,
   LoginUserDocument,
   LoginUserMutation,
   RefreshUserMutation,
@@ -136,18 +136,14 @@ export const authOptions: NextAuthOptions = {
             }
           }
         )
-        const userInfo: GetUserQuery = await userClient.request(
-          GetUserDocument,
-          {
-            id: token.userId
-          }
-        )
+        const userInfo: GetWhoAmIQuery =
+          await userClient.request(GetWhoAmIDocument)
 
         session.accessToken = token.accessToken as string
         session.accessTokenTtl = token.accessTokenTtl as number
         session.refreshToken = token.refreshToken as string
         session.refreshTokenTtl = token.refreshTokenTtl as number
-        session.profile = userInfo.user as any
+        session.profile = userInfo.whoAmI as any
         session.abilities = token.abilities as string[]
         session.error = token.error as string
       }
