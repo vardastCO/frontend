@@ -1,5 +1,6 @@
 import { Metadata } from "next"
 import Image from "next/image"
+import Link from "next/link"
 
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import FrontPageHeader from "@/app/(public)/components/front-page-header"
@@ -29,6 +30,12 @@ const Index = async () => {
           </div>
           <Search isMobileView={isMobileView} />
         </div>
+        {!isMobileView && (
+          <div className="fixed inset-x-0 bottom-0 mx-auto mb-12 flex w-full justify-center gap-4 text-center text-sm text-gray-500">
+            <Link href="/about">درباره وردست</Link>
+            <Link href="/contact">تماس با ما</Link>
+          </div>
+        )}
       </div>
     </div>
   )
