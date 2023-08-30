@@ -127,26 +127,27 @@ export const authOptions: NextAuthOptions = {
       return Promise.resolve(token)
     },
     session: async ({ session, token }) => {
-      if (token) {
-        const userClient = new GraphQLClient(
-          process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
-          {
-            headers: {
-              authorization: `Bearer ${token.accessToken}`
-            }
+      //   if (token) {
+      const userClient = new GraphQLClient(
+        process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
+        {
+          headers: {
+            authorization: `Bearer ${token.accessToken}`
           }
-        )
-        const userInfo: GetWhoAmIQuery =
-          await userClient.request(GetWhoAmIDocument)
+        }
+      )
+      const userInfo: GetWhoAmIQuery = await userClient.request(
+        GetWhoAmIDocument
+      )
 
-        session.accessToken = token.accessToken as string
-        session.accessTokenTtl = token.accessTokenTtl as number
-        session.refreshToken = token.refreshToken as string
-        session.refreshTokenTtl = token.refreshTokenTtl as number
-        session.profile = userInfo.whoAmI as any
-        session.abilities = token.abilities as string[]
-        session.error = token.error as string
-      }
+      session.accessToken = token.accessToken as string
+      session.accessTokenTtl = token.accessTokenTtl as number
+      session.refreshToken = token.refreshToken as string
+      session.refreshTokenTtl = token.refreshTokenTtl as number
+      session.profile = userInfo.whoAmI as any
+      session.abilities = token.abilities as string[]
+      session.error = token.error as string
+      //   }
       return session
     }
   }
