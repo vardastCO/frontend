@@ -32,7 +32,7 @@ const UserSessionsTab = ({ sessions }: UserSessionsTabProps) => {
               (session) =>
                 session && (
                   <tr key={session.id}>
-                    <td>
+                    <td className="whitespace-nowrap">
                       {digitsEnToFa(
                         formatDistanceToNow(
                           new Date(session.lastActivityAt).getTime(),
@@ -42,9 +42,13 @@ const UserSessionsTab = ({ sessions }: UserSessionsTabProps) => {
                         )
                       )}
                     </td>
-                    <td>{session.lastActiveIp}</td>
-                    <td>{session.agent}</td>
+                    <td className="whitespace-nowrap">
+                      {session.lastActiveIp}
+                    </td>
                     <td>
+                      <code className="text-sm">{session.agent}</code>
+                    </td>
+                    <td className="whitespace-nowrap">
                       {digitsEnToFa(
                         formatDistanceToNow(
                           new Date(session.createdAt).getTime(),
