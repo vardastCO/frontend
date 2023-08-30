@@ -1,5 +1,5 @@
 import { GraphQLClient } from "graphql-request"
-import { NextAuthOptions } from "next-auth"
+import { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 import {
@@ -48,7 +48,7 @@ async function refreshAccessToken(tokenObject: any) {
   }
 }
 
-export const authOptions: NextAuthOptions = {
+export const authOptions: AuthOptions = {
   session: {
     strategy: "jwt"
   },
@@ -64,14 +64,19 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       // @ts-ignore
-      authorize: async (credentials) => {
+      authorize: async (credentials, request) => {
         const { username, password } = credentials as {
           username: string
           password: string
         }
 
         const client = new GraphQLClient(
-          process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || ""
+          process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
+          {
+            headers: {
+              ...request.headers
+            }
+          }
         )
         try {
           const data: LoginUserMutation = await client.request(
@@ -136,9 +141,8 @@ export const authOptions: NextAuthOptions = {
           }
         }
       )
-      const userInfo: GetWhoAmIQuery = await userClient.request(
-        GetWhoAmIDocument
-      )
+      const userInfo: GetWhoAmIQuery =
+        await userClient.request(GetWhoAmIDocument)
 
       session.accessToken = token.accessToken as string
       session.accessTokenTtl = token.accessTokenTtl as number
