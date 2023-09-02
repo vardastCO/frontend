@@ -141,8 +141,9 @@ export const authOptions: AuthOptions = {
           }
         }
       )
-      const userInfo: GetWhoAmIQuery =
-        await userClient.request(GetWhoAmIDocument)
+      const userInfo: GetWhoAmIQuery = await userClient.request(
+        GetWhoAmIDocument
+      )
 
       session.accessToken = token.accessToken as string
       session.accessTokenTtl = token.accessTokenTtl as number

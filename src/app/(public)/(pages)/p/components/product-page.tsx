@@ -4,6 +4,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { addDays, format } from "date-fns"
+import { useSession } from "next-auth/react"
 import {
   AggregateOffer,
   BreadcrumbList,
@@ -41,6 +42,7 @@ type ProductPageProps = {
 }
 
 const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
+  const { data: session } = useSession()
   const { data } = useQuery<GetProductQuery>({
     queryKey: ["product", { id: +id }],
     queryFn: () => getProductQueryFn(id)
@@ -174,6 +176,18 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
         <div>
           <Breadcrumb dynamic={false} items={breadcrumb} />
         </div>
+        {session?.abilities.includes(
+          "gql.products.product.moderated_update"
+        ) && (
+          <div>
+            <Link
+              className="btn btn-secondary btn-sm"
+              href={`/admin/products/${product.id}`}
+            >
+              ویرایش
+            </Link>
+          </div>
+        )}
         <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr]">
           {product.images.length > 0 && (
             <ProductImages
