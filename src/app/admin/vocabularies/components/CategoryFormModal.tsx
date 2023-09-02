@@ -7,7 +7,8 @@ import { ClientError } from "graphql-request"
 import {
   LucideAlertOctagon,
   LucideCheck,
-  LucideChevronsUpDown
+  LucideChevronsUpDown,
+  LucideX
 } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
@@ -190,7 +191,7 @@ const CategoryFormModal = ({
       updateCategoryMutation.mutate({
         updateCategoryInput: {
           id: category.id,
-          parentCategoryId,
+          parentCategoryId: parentCategoryId === 0 ? null : parentCategoryId,
           title,
           titleEn,
           slug,
@@ -255,28 +256,44 @@ const CategoryFormModal = ({
                         open={parentCategoryOpen}
                         onOpenChange={setParentCategoryOpen}
                       >
-                        <PopoverTrigger asChild>
-                          <FormControl>
+                        <div className="flex w-full items-center">
+                          <PopoverTrigger asChild>
+                            <FormControl className="flex-1">
+                              <Button
+                                disabled={
+                                  categories.isLoading || categories.isError
+                                }
+                                noStyle
+                                role="combobox"
+                                className="input-field flex items-center text-start"
+                              >
+                                {field.value
+                                  ? categories.data?.categories.find(
+                                      (category) =>
+                                        category && category.id === field.value
+                                    )?.title
+                                  : t("common:choose_entity", {
+                                      entity: t("common:parent_category")
+                                    })}
+                                <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+
+                          {form.getValues("parentCategoryId") !== 0 && (
                             <Button
-                              disabled={
-                                categories.isLoading || categories.isError
-                              }
-                              noStyle
-                              role="combobox"
-                              className="input-field flex items-center text-start"
+                              className="ms-2"
+                              variant="secondary"
+                              iconOnly
+                              type="button"
+                              onClick={() => {
+                                form.setValue("parentCategoryId", 0)
+                              }}
                             >
-                              {field.value
-                                ? categories.data?.categories.find(
-                                    (category) =>
-                                      category && category.id === field.value
-                                  )?.title
-                                : t("common:choose_entity", {
-                                    entity: t("common:parent_category")
-                                  })}
-                              <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
+                              <LucideX className="icon" />
                             </Button>
-                          </FormControl>
-                        </PopoverTrigger>
+                          )}
+                        </div>
                         <PopoverContent className="z-[9999]">
                           <Command>
                             <CommandInput
