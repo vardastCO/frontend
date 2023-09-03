@@ -70,23 +70,16 @@ export const authOptions: AuthOptions = {
           password: string
         }
 
-        console.log("SIGNIN: ==========================" + Date.now())
-
         const client = new GraphQLClient(
           process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
           {
             headers: {
-              ...request.headers
+              "user-agent": request.headers ? request.headers["user-agent"] : ""
             }
           }
         )
 
-        console.log(
-          "SIGNIN: ==========================" + Date.now() + " " + client
-        )
-
         try {
-          console.log("SIGNIN: ==========================" + Date.now())
           const data: LoginUserMutation = await client.request(
             LoginUserDocument,
             {
