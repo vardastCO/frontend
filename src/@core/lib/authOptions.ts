@@ -132,7 +132,9 @@ export const authOptions: AuthOptions = {
       return Promise.resolve(token)
     },
     session: async ({ session, token }) => {
-      //   if (token) {
+      console.log(
+        "==========================" + Date.now() + " " + token.accessToken
+      )
       const userClient = new GraphQLClient(
         process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
         {
@@ -141,19 +143,22 @@ export const authOptions: AuthOptions = {
           }
         }
       )
-      const userInfo: GetWhoAmIQuery = await userClient.request(
-        GetWhoAmIDocument
-      )
 
-      session.accessToken = token.accessToken as string
-      session.accessTokenTtl = token.accessTokenTtl as number
-      session.refreshToken = token.refreshToken as string
-      session.refreshTokenTtl = token.refreshTokenTtl as number
-      session.profile = userInfo.whoAmI as any
-      session.abilities = token.abilities as string[]
-      session.error = token.error as string
-      //   }
-      return session
+      try {
+        const userInfo: GetWhoAmIQuery =
+          await userClient.request(GetWhoAmIDocument)
+        session.accessToken = token.accessToken as string
+        session.accessTokenTtl = token.accessTokenTtl as number
+        session.refreshToken = token.refreshToken as string
+        session.refreshTokenTtl = token.refreshTokenTtl as number
+        session.profile = userInfo.whoAmI as any
+        session.abilities = token.abilities as string[]
+        session.error = token.error as string
+        return session
+      } catch (error) {
+        // @ts-ignore
+        throw new Error(error.response.errors[0].extensions.displayMessage)
+      }
     }
   }
 }
