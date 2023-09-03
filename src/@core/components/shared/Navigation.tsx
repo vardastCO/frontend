@@ -1,39 +1,50 @@
 "use client"
 
-import { usePathname } from "next/navigation"
-import MenuItem from "./NavigationItem"
+import { useSession } from "next-auth/react"
+
+import { NavigationType } from "@core/types/Navigation"
+
+import NavigationItem from "./NavigationItem"
 
 type Props = {
-  menus: {
-    title: string
-    path: string
-    icon: string
-  }[]
+  menus: NavigationType[]
 }
 
 const Navigation = (props: Props) => {
+  const { data: session } = useSession()
   const { menus } = props
-  const pathname = usePathname()
-
-  const isActive = (linkPath: string): boolean => {
-    const currentPathModified = pathname.split("/").slice(2).join("/")
-    const linkPathModified = linkPath.split("/").slice(2).join("/")
-    return linkPathModified === currentPathModified
-      ? true
-      : linkPathModified !== "" &&
-          currentPathModified.startsWith(linkPathModified)
-  }
 
   return (
-    <ol className="flex flex-col gap-1">
-      {menus.map((menu, idx) => {
+    <>
+      {menus.map((menuSection, sectionId) => {
         return (
-          <li key={idx}>
-            <MenuItem menu={menu} isActive={isActive(menu.path)} />
-          </li>
+          ((menuSection.role &&
+            session?.profile.roles.some(
+              (role) => role?.name === menuSection.role
+            )) ||
+            !menuSection.role) && (
+            <section className="app-navigation-section" key={sectionId}>
+              <ol className="app-navigation-section-list">
+                {menuSection.title && (
+                  <li className="app-navigation-section-label">
+                    {menuSection.title}
+                  </li>
+                )}
+                {menuSection.items &&
+                  menuSection.items.map(
+                    (menuItem, idx) =>
+                      ((menuItem.abilities &&
+                        session?.abilities.includes(menuItem.abilities)) ||
+                        !menuItem.abilities) && (
+                        <NavigationItem key={idx} menu={menuItem} />
+                      )
+                  )}
+              </ol>
+            </section>
+          )
         )
       })}
-    </ol>
+    </>
   )
 }
 

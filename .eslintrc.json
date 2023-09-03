@@ -2,9 +2,11 @@
     "root": true,
     "extends": [
         "next/core-web-vitals",
-        "plugin:storybook/recommended"
+        "plugin:prettier/recommended"
     ],
     "ignorePatterns": [
-        "src/stories/*"
+        "src/stories/*",
+        "src/generated.ts",
+        "old-to-delete"
     ]
 }

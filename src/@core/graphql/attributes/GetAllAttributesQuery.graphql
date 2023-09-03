@@ -1,0 +1,25 @@
+query GetAllAttributes($indexAttributeInput: IndexAttributeInput) {
+  attributes(indexAttributeInput: $indexAttributeInput) {
+    total
+    perPage
+    currentPage
+    lastPage
+    to
+    from
+    data {
+      id
+      name
+      slug
+      type
+      createdAt
+      updatedAt
+      values {
+        options
+        defaults
+      }
+      isPublic
+      isRequired
+      isFilterable
+    }
+  }
+}

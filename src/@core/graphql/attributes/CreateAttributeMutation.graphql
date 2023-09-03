@@ -1,0 +1,17 @@
+mutation CreateAttributeMutation($createAttributeInput: CreateAttributeInput!) {
+  createAttribute(createAttributeInput: $createAttributeInput) {
+    id
+    name
+    slug
+    type
+    createdAt
+    updatedAt
+    isPublic
+    isRequired
+    isFilterable
+    values {
+      options
+      defaults
+    }
+  }
+}

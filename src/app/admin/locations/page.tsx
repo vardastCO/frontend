@@ -1,21 +1,18 @@
-import CreateCountry from "@/app/admin/locations/components/CreateCountry"
-import PageHeader from "@core/components/shared/PageHeader"
-import useTranslation from "next-translate/useTranslation"
-import Countries from "./components/Countries"
+import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
 
-const LocationsIndex = () => {
-  const { t } = useTranslation()
+import { authOptions } from "@core/lib/authOptions"
 
-  return (
-    <>
-      <PageHeader title={t("common:locations_index_title")}>
-        <CreateCountry />
-      </PageHeader>
-      <div>
-        <Countries />
-      </div>
-    </>
-  )
+import Countries from "./components/country/Countries"
+
+const LocationsIndex = async () => {
+  const session = await getServerSession(authOptions)
+
+  if (!session?.abilities.includes("gql.base.location.country.index")) {
+    redirect("/admin")
+  }
+
+  return <Countries />
 }
 
 export default LocationsIndex

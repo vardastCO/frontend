@@ -18,6 +18,19 @@ query GetVocabulary($id: Int, $slug: String) {
       createdAt
       updatedAt
       childrenCount
+      productsCount
+      parentCategory {
+        id
+        title
+        titleEn
+        slug
+        icon
+        sort
+        isActive
+        createdAt
+        updatedAt
+        childrenCount
+      }
     }
   }
 }

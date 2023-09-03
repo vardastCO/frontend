@@ -1,78 +1,23 @@
-import { Button } from "@core/components/Button"
-import Breadcrumb from "@core/components/shared/Breadcrumb"
-import Sidebar from "@core/components/shared/Sidebar"
-import { IconLayoutSidebarRightCollapse, IconSearch } from "@tabler/icons-react"
-import useTranslation from "next-translate/useTranslation"
+import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
+import { signOut } from "next-auth/react"
 
-export default function AdminLayout({
+import { authOptions } from "@core/lib/authOptions"
+import AdminLayoutComponent from "@/app/admin/components/AdminLayout"
+
+export const dynamic = "force-dynamic"
+
+export default async function AdminLayout({
   children
 }: {
   children: React.ReactNode
 }) {
-  const { t } = useTranslation("common")
-  const menus = [
-    {
-      title: t("common:home"),
-      path: "/admin",
-      icon: "IconSmartHome"
-    },
-    {
-      title: t("common:vocabularies_menu_title"),
-      path: "/admin/vocabularies",
-      icon: "IconCategory"
-    },
-    {
-      title: t("common:locations_menu_title"),
-      path: "/admin/locations",
-      icon: "IconMap2"
-    },
-    {
-      title: t("common:users_menu_title"),
-      path: "/admin/users",
-      icon: "IconUsers"
-    }
-  ]
-  return (
-    <>
-      <div className="flex h-screen flex-col bg-gray-100">
-        <div className="flex h-auto flex-1 overflow-hidden">
-          <Sidebar menus={menus} />
-          <div className="relative flex h-auto w-full flex-col overflow-auto overscroll-contain bg-white px-4 py-6">
-            <div className="mx-auto flex w-full flex-col">
-              <div className="mb-3 flex items-center">
-                <div className="flex items-center gap-2">
-                  <Button intent="ghost" iconOnly>
-                    <IconLayoutSidebarRightCollapse className="icon" />
-                  </Button>
-                  <Breadcrumb />
-                </div>
-                <form autoComplete="off" action="" className="mr-auto">
-                  <div className="input-inset">
-                    <div className="input-element">
-                      <IconSearch className="h-4 w-4 text-gray-400" />
-                    </div>
-                    <input
-                      type="text"
-                      className="input-field"
-                      placeholder="جستجو..."
-                      autoComplete="off"
-                      name="search"
-                      tabIndex={-1}
-                      role="presentation"
-                    />
-                    <div className="input-element" dir="ltr">
-                      <span className="font-sans text-sm text-gray-500">
-                        ⌘K
-                      </span>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div className="mx-auto w-full max-w-5xl">{children}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  )
+  const session = await getServerSession(authOptions)
+
+  if (!session) redirect("/auth/signin")
+  if (session.error === "RefreshAccessTokenError") {
+    signOut({ callbackUrl: "/auth/signin", redirect: true })
+  }
+
+  return <AdminLayoutComponent>{children}</AdminLayoutComponent>
 }

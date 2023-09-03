@@ -1,0 +1,69 @@
+query GetAllProducts($indexProductInput: IndexProductInput) {
+  products(indexProductInput: $indexProductInput) {
+    total
+    perPage
+    currentPage
+    lastPage
+    to
+    from
+    data {
+      id
+      slug
+      name
+      sku
+      isActive
+      createdAt
+      updatedAt
+      status
+      category {
+        id
+        title
+        titleEn
+        slug
+      }
+      createdBy {
+        id
+        uuid
+        fullName
+      }
+      images {
+        id
+        sort
+        isPublic
+        file {
+          id
+          uuid
+          modelType
+          modelId
+          name
+          originalName
+          size
+          mimeType
+          disk
+          bucketName
+          orderColumn
+          createdAt
+          updatedAt
+          presignedUrl {
+            url
+            expiresAt
+          }
+        }
+      }
+      lowestPrice {
+        id
+        type
+        amount
+        isPublic
+        createdAt
+      }
+      uom {
+        id
+        name
+        slug
+        symbol
+        isActive
+      }
+    }
+  }
+}

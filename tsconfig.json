@@ -18,6 +18,7 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
+        "downlevelIteration": true,
         "baseUrl": ".",
         "paths": {
             "@core/*": [
@@ -43,6 +44,7 @@
     ],
     "exclude": [
         "node_modules",
+        "old-to-delete",
         "src/stories/**/*.ts"
     ]
 }

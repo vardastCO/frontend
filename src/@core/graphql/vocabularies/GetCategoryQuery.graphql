@@ -10,7 +10,45 @@ query GetCategory($id: Int, $slug: String) {
     updatedAt
     childrenCount
     id
+    productsCount
     children {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
+      productsCount
+      parentCategory {
+        id
+        title
+        titleEn
+        slug
+        icon
+        sort
+        isActive
+        createdAt
+        updatedAt
+        childrenCount
+      }
+    }
+    parentCategory {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
+    }
+    parentsChain {
       id
       title
       titleEn

@@ -1,16 +1,18 @@
-import PageHeader from "@core/components/shared/PageHeader"
-import useTranslation from "next-translate/useTranslation"
+import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
+
+import { authOptions } from "@core/lib/authOptions"
+
 import Users from "./components/Users"
 
-const UsersIndex = () => {
-  const { t } = useTranslation()
+const UsersIndex = async () => {
+  const session = await getServerSession(authOptions)
 
-  return (
-    <>
-      <PageHeader title={t("common:users_index_title")}></PageHeader>
-      <Users />
-    </>
-  )
+  if (!session?.abilities.includes("gql.users.user.index")) {
+    redirect("/admin")
+  }
+
+  return <Users />
 }
 
 export default UsersIndex

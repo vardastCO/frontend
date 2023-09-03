@@ -1,7 +1,6 @@
-import { IconRefresh } from "@tabler/icons-react"
-import useTranslation from "next-translate/useTranslation"
-
 import { useRouter } from "next/navigation"
+import { RefreshCcw } from "lucide-react"
+import useTranslation from "next-translate/useTranslation"
 
 type Props = {}
 
@@ -13,7 +12,7 @@ const LoadingFailed = (props: Props) => {
     <div className="flex h-auto items-center justify-center py-8">
       <div className="text-center">
         <button className="mb-3" onClick={() => router.refresh()}>
-          <IconRefresh className="h-6 w-6 text-gray-400" />
+          <RefreshCcw className="h-6 w-6 text-gray-400" />
         </button>
         <h3 className="mb-1 font-bold text-gray-700">
           {t("common:something_went_wrong")}

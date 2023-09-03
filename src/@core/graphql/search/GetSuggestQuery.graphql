@@ -1,0 +1,53 @@
+query GetSuggestQuery($suggestInput: SuggestInput!) {
+  suggest(suggestInput: $suggestInput) {
+    products {
+      id
+      slug
+      type
+      name
+      sku
+      isActive
+      description
+      title
+      metaDescription
+      createdAt
+      updatedAt
+      images {
+        id
+        sort
+        isPublic
+        file {
+          id
+          uuid
+          modelType
+          modelId
+          name
+          originalName
+          size
+          mimeType
+          disk
+          bucketName
+          orderColumn
+          createdAt
+          updatedAt
+          presignedUrl {
+            url
+            expiresAt
+          }
+        }
+      }
+    }
+    categories {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
+    }
+  }
+}

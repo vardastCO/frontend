@@ -1,0 +1,61 @@
+query SellerRepresentatives(
+  $indexSellerRepresentativeInput: IndexSellerRepresentativeInput
+) {
+  sellerRepresentatives(
+    indexSellerRepresentativeInput: $indexSellerRepresentativeInput
+  ) {
+    total
+    perPage
+    currentPage
+    lastPage
+    from
+    to
+    data {
+      id
+      role
+      title
+      isActive
+      createdAt
+      updatedAt
+      user {
+        id
+        uuid
+        firstName
+        lastName
+        email
+        cellphone
+        telegramChatId
+        isCellphoneVerified
+        isEmailVerified
+        isTelegramVerified
+        username
+        mustChangePassword
+        lastPasswordChangeAt
+        language
+        timezone
+        status
+        suspensionReason
+        customDisplayRole
+        adminComments
+        lastLoginAt
+        lastLoginIP
+        lastFailedLoginAt
+        failedLoginAttempts
+        isLockedOut
+        lockedOutAt
+        createdAt
+        updatedAt
+        fullName
+      }
+      seller {
+        id
+        name
+        bio
+        status
+        isPublic
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}

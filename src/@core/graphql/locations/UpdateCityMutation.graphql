@@ -1,5 +1,5 @@
-mutation UpdateCityMutation($input: UpdateCityInput!) {
-  updateCity(updateCityInput: $input) {
+mutation UpdateCityMutation($updateCityInput: UpdateCityInput!) {
+  updateCity(updateCityInput: $updateCityInput) {
     id
     name
     nameEn
@@ -9,11 +9,6 @@ mutation UpdateCityMutation($input: UpdateCityInput!) {
     isActive
     latitude
     longitude
-    province {
-      id
-    }
-    parentCity {
-      id
-    }
+    areasCount
   }
 }

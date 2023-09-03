@@ -1,6 +1,9 @@
-import ndpLogo from "@/assets/ndp-logo.svg"
-import { IconSelector } from "@tabler/icons-react"
+"use client"
+
 import Image from "next/image"
+import { LucideChevronsUpDown } from "lucide-react"
+
+import ndpLogo from "@/assets/ndp-logo.svg"
 
 type Props = {}
 
@@ -15,7 +18,7 @@ const OrganizationMenu = (props: Props) => {
           نیک داده پرداز
         </span>
         <span className="mr-auto flex h-8 w-8 items-center justify-center">
-          <IconSelector className="h-3 w-3 text-gray-600" />
+          <LucideChevronsUpDown className="h-3 w-3 text-gray-600" />
         </span>
       </div>
     </div>
