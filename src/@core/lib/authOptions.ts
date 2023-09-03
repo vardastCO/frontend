@@ -110,6 +110,7 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     jwt: async ({ token, user }) => {
+      console.log("JWT: ==========================" + Date.now() + " " + user)
       if (user) {
         token.userId = user.userId
         token.abilities = user.abilities
@@ -133,7 +134,7 @@ export const authOptions: AuthOptions = {
     },
     session: async ({ session, token }) => {
       console.log(
-        "==========================" + Date.now() + " " + token.accessToken
+        "SESSION: ==========================" + Date.now() + " " + token
       )
       const userClient = new GraphQLClient(
         process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
