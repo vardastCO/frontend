@@ -89,6 +89,10 @@ export const authOptions: AuthOptions = {
             }
           )
 
+          console.log(
+            "SIGNIN: ==========================" + Date.now() + " " + data
+          )
+
           if (!data) {
             return null
           }
