@@ -70,6 +70,8 @@ export const authOptions: AuthOptions = {
           password: string
         }
 
+        console.log("SIGNIN: ==========================" + Date.now())
+
         const client = new GraphQLClient(
           process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
           {
@@ -78,6 +80,11 @@ export const authOptions: AuthOptions = {
             }
           }
         )
+
+        console.log(
+          "SIGNIN: ==========================" + Date.now() + " " + client
+        )
+
         try {
           const data: LoginUserMutation = await client.request(
             LoginUserDocument,
