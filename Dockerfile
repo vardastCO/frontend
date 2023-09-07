@@ -4,11 +4,14 @@ FROM node:14
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
-COPY package*.json ./
+# Install PNPM globally
+RUN npm install -g pnpm
 
-# Install dependencies
-RUN npm install
+# Copy package.json and pnpm-lock.yaml (or pnpmfile.js if you have it) to the container
+COPY package.json pnpm-lock.yaml* pnpmfile.js* ./
+
+# Install dependencies using PNPM
+RUN pnpm install
 
 # Copy the rest of the application code to the container
 COPY . .
@@ -16,5 +19,5 @@ COPY . .
 # Expose the port that Next.js runs on (default is 3000)
 EXPOSE 3000
 
-# Start the Next.js development server using npm
-CMD ["npm", "run", "dev"]
+# Start the Next.js development server using PNPM
+CMD ["pnpm", "run", "dev"]
