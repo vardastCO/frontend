@@ -1,0 +1,53 @@
+mutation UpdateSellerRepresentativeMutation(
+  $updateSellerRepresentativeInput: UpdateSellerRepresentativeInput!
+) {
+  updateSellerRepresentative(
+    updateSellerRepresentativeInput: $updateSellerRepresentativeInput
+  ) {
+    id
+    role
+    title
+    isActive
+    createdAt
+    updatedAt
+    seller {
+      id
+      name
+      bio
+      status
+      isPublic
+      createdAt
+      updatedAt
+    }
+    user {
+      id
+      uuid
+      firstName
+      lastName
+      email
+      cellphone
+      telegramChatId
+      isCellphoneVerified
+      isEmailVerified
+      isTelegramVerified
+      username
+      mustChangePassword
+      lastPasswordChangeAt
+      language
+      timezone
+      status
+      suspensionReason
+      customDisplayRole
+      adminComments
+      lastLoginAt
+      lastLoginIP
+      lastFailedLoginAt
+      failedLoginAttempts
+      isLockedOut
+      lockedOutAt
+      createdAt
+      updatedAt
+      fullName
+    }
+  }
+}

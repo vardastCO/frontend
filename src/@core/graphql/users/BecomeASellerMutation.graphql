@@ -1,0 +1,11 @@
+mutation BecomeASellerMutation($becomeASellerInput: BecomeASellerInput!) {
+  becomeASeller(becomeASellerInput: $becomeASellerInput) {
+    id
+    name
+    bio
+    status
+    isPublic
+    createdAt
+    updatedAt
+  }
+}

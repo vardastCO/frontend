@@ -1,0 +1,26 @@
+query GetAttributesOfACategory($id: Int, $slug: String) {
+  category(id: $id, slug: $slug) {
+    attributes {
+      id
+      name
+      slug
+      type
+      isPublic
+      isRequired
+      isFilterable
+      createdAt
+      updatedAt
+      values {
+        options
+        defaults
+      }
+      uom {
+        id
+        name
+        slug
+        symbol
+        isActive
+      }
+    }
+  }
+}

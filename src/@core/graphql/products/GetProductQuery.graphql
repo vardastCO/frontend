@@ -1,0 +1,315 @@
+query GetProduct($id: Int!) {
+  product(id: $id) {
+    id
+    slug
+    type
+    name
+    sku
+    isActive
+    description
+    title
+    metaDescription
+    createdAt
+    updatedAt
+    status
+    images {
+      id
+      sort
+      isPublic
+      file {
+        id
+        uuid
+        modelType
+        modelId
+        name
+        originalName
+        size
+        mimeType
+        disk
+        bucketName
+        orderColumn
+        createdAt
+        updatedAt
+        presignedUrl {
+          url
+          expiresAt
+        }
+      }
+    }
+    attributeValues {
+      id
+      value
+      isVariant
+      sku
+      attribute {
+        id
+        name
+        slug
+        type
+        isPublic
+        isRequired
+        isFilterable
+        createdAt
+        updatedAt
+        uom {
+          id
+          name
+          slug
+          symbol
+          isActive
+        }
+        values {
+          options
+          defaults
+        }
+      }
+    }
+    category {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
+      parentCategory {
+        id
+        title
+        titleEn
+        slug
+        icon
+        sort
+        isActive
+        createdAt
+        updatedAt
+        childrenCount
+      }
+      parentsChain {
+        id
+        title
+        titleEn
+        slug
+        icon
+        sort
+        isActive
+        createdAt
+        updatedAt
+        childrenCount
+      }
+    }
+    brand {
+      id
+      name
+      slug
+      createdAt
+      updatedAt
+    }
+    uom {
+      id
+      name
+      slug
+      symbol
+      isActive
+    }
+    lowestPrice {
+      id
+      type
+      amount
+      isPublic
+      createdAt
+      seller {
+        id
+        name
+        createdAt
+        updatedAt
+        contacts {
+          id
+          relatedType
+          relatedId
+          title
+          code
+          number
+          ext
+          type
+          sort
+          isPublic
+          status
+          rejectionReason
+          createdAt
+          updatedAt
+          country {
+            id
+            name
+            nameEn
+            slug
+            alphaTwo
+            iso
+            phonePrefix
+            sort
+            isActive
+            latitude
+            longitude
+            flagEmoji
+            provincesCount
+          }
+        }
+        addresses {
+          id
+          relatedType
+          relatedId
+          title
+          address
+          postalCode
+          latitude
+          longitude
+          sort
+          isPublic
+          status
+          rejectionReason
+          createdAt
+          updatedAt
+          city {
+            id
+            name
+            nameEn
+            slug
+            type
+            sort
+            isActive
+            latitude
+            longitude
+            areasCount
+          }
+          province {
+            id
+            name
+            nameEn
+            slug
+            path
+            sort
+            isActive
+            latitude
+            longitude
+            citiesCount
+          }
+        }
+      }
+    }
+    highestPrice {
+      id
+      type
+      amount
+      isPublic
+      createdAt
+    }
+    publicOffers {
+      id
+      status
+      isPublic
+      isAvailable
+      createdAt
+      updatedAt
+      seller {
+        id
+        name
+        createdAt
+        updatedAt
+        contacts {
+          id
+          relatedType
+          relatedId
+          title
+          code
+          number
+          ext
+          type
+          sort
+          isPublic
+          status
+          rejectionReason
+          createdAt
+          updatedAt
+          country {
+            id
+            name
+            nameEn
+            slug
+            alphaTwo
+            iso
+            phonePrefix
+            sort
+            isActive
+            latitude
+            longitude
+            flagEmoji
+            provincesCount
+          }
+        }
+        addresses {
+          id
+          relatedType
+          relatedId
+          title
+          address
+          postalCode
+          latitude
+          longitude
+          sort
+          isPublic
+          status
+          rejectionReason
+          createdAt
+          updatedAt
+          city {
+            id
+            name
+            nameEn
+            slug
+            type
+            sort
+            isActive
+            latitude
+            longitude
+            areasCount
+          }
+          province {
+            id
+            name
+            nameEn
+            slug
+            path
+            sort
+            isActive
+            latitude
+            longitude
+            citiesCount
+          }
+        }
+      }
+      lastPublicConsumerPrice {
+        id
+        type
+        amount
+        isPublic
+        createdAt
+      }
+    }
+    prices {
+      id
+      type
+      amount
+      isPublic
+      createdAt
+      seller {
+        id
+        name
+        bio
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}

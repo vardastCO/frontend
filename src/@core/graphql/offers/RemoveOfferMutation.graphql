@@ -1,0 +1,10 @@
+mutation RemoveOffer($id: Int!) {
+  removeOffer(id: $id) {
+    id
+    status
+    isPublic
+    isAvailable
+    createdAt
+    updatedAt
+  }
+}

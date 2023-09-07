@@ -1,0 +1,50 @@
+query GetAllCategories($indexCategoryInput: IndexCategoryInput!) {
+  categories(indexCategoryInput: $indexCategoryInput) {
+    title
+    titleEn
+    slug
+    icon
+    sort
+    isActive
+    createdAt
+    updatedAt
+    childrenCount
+    id
+    children {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
+    }
+    parentCategory {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
+    }
+    parentsChain {
+      id
+      title
+      titleEn
+      slug
+      icon
+      sort
+      isActive
+      createdAt
+      updatedAt
+      childrenCount
+    }
+  }
+}

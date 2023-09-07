@@ -1,0 +1,7 @@
+html[lang="fa"] {
+  direction: rtl;
+}
+
+body {
+  @apply font-yekanBakh antialiased;
+}

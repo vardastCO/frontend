@@ -1,0 +1,12 @@
+{
+    "root": true,
+    "extends": [
+        "next/core-web-vitals",
+        "plugin:prettier/recommended"
+    ],
+    "ignorePatterns": [
+        "src/stories/*",
+        "src/generated.ts",
+        "old-to-delete"
+    ]
+}

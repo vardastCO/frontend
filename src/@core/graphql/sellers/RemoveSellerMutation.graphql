@@ -1,0 +1,9 @@
+mutation RemoveSellerMutation($id: Int!) {
+  removeSeller(id: $id) {
+    id
+    name
+    bio
+    createdAt
+    updatedAt
+  }
+}
