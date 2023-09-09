@@ -17,6 +17,7 @@ import {
   PriceTypesEnum,
   ThreeStateSupervisionStatuses,
   useCreatePriceMutation,
+  useGetAllAttributeValuesWithoutPaginationQuery,
   useGetSellersWithoutPaginationQuery
 } from "@/generated"
 
@@ -68,6 +69,7 @@ const CreatePriceModal = ({
 }: CreatePriceModalProps) => {
   const { t } = useTranslation()
   const [sellerOpen, setSellerOpen] = useState<boolean>(false)
+  const [attributeValueOpen, setAttributeValueOpen] = useState<boolean>(false)
   const [errors, setErrors] = useState<ClientError>()
 
   const queryClient = useQueryClient()
@@ -90,6 +92,17 @@ const CreatePriceModal = ({
       onOpenChange(false)
     }
   })
+
+  const variantAttributeValues = useGetAllAttributeValuesWithoutPaginationQuery(
+    graphqlRequestClient,
+    {
+      indexAttributeInput: {
+        productId,
+        isVariant: true
+      }
+    }
+  )
+
   const sellers = useGetSellersWithoutPaginationQuery(graphqlRequestClient, {
     indexSellerInput: {
       status: ThreeStateSupervisionStatuses.Confirmed
@@ -99,6 +112,7 @@ const CreatePriceModal = ({
   const CreatePriceSchema = z.object({
     amount: z.number(),
     sellerId: z.number(),
+    attributeValueId: z.number(),
     isPublic: z.boolean().optional().default(true)
   })
   type CreatePrice = TypeOf<typeof CreatePriceSchema>
@@ -116,12 +130,13 @@ const CreatePriceModal = ({
   }
 
   function onSubmit(data: CreatePrice) {
-    const { isPublic, amount, sellerId } = data
+    const { isPublic, amount, sellerId, attributeValueId } = data
 
     createPriceMutation.mutate({
       createPriceInput: {
         productId,
         sellerId,
+        attributeValueId,
         amount,
         type: PriceTypesEnum.Consumer,
         isPublic
@@ -156,6 +171,89 @@ const CreatePriceModal = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
             <div className="flex flex-col gap-6 py-8">
+              <FormField
+                control={form.control}
+                name="attributeValueId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("common:attribute")}</FormLabel>
+                    <Popover
+                      open={attributeValueOpen}
+                      onOpenChange={setAttributeValueOpen}
+                    >
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            disabled={
+                              variantAttributeValues.isLoading ||
+                              variantAttributeValues.isError
+                            }
+                            noStyle
+                            role="combobox"
+                            className="input-field flex items-center text-start"
+                          >
+                            {field.value
+                              ? variantAttributeValues.data?.attributeValuesWithoutPagination.find(
+                                  (attributeValue) =>
+                                    attributeValue &&
+                                    attributeValue.id === field.value
+                                )?.sku
+                              : t("common:choose_entity", {
+                                  entity: t("common:attribute")
+                                })}
+                            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="z-[9999]">
+                        <Command>
+                          <CommandInput
+                            placeholder={t("common:search_entity", {
+                              entity: t("common:attribute")
+                            })}
+                          />
+                          <CommandEmpty>
+                            {t("common:no_entity_found", {
+                              entity: t("common:attribute")
+                            })}
+                          </CommandEmpty>
+                          <CommandGroup>
+                            {variantAttributeValues.data?.attributeValuesWithoutPagination.map(
+                              (attributeValue) =>
+                                attributeValue && (
+                                  <CommandItem
+                                    value={attributeValue.sku as string}
+                                    key={attributeValue.id}
+                                    onSelect={(value) => {
+                                      form.setValue(
+                                        "attributeValueId",
+                                        variantAttributeValues.data?.attributeValuesWithoutPagination.find(
+                                          (item) => item && item.sku === value
+                                        )?.id || 0
+                                      )
+                                      setSellerOpen(false)
+                                    }}
+                                  >
+                                    <LucideCheck
+                                      className={mergeClasses(
+                                        "mr-2 h-4 w-4",
+                                        attributeValue.id === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {`${attributeValue.attribute.name}: ${attributeValue.value} - ${attributeValue.sku}`}
+                                  </CommandItem>
+                                )
+                            )}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="sellerId"

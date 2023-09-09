@@ -310,6 +310,9 @@ query GetProduct($id: Int!) {
         createdAt
         updatedAt
       }
+      attributeValue {
+        sku
+      }
     }
   }
 }
