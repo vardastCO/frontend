@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { addDays, format } from "date-fns"
 import { useSession } from "next-auth/react"
+import useTranslation from "next-translate/useTranslation"
 import {
   AggregateOffer,
   BreadcrumbList,
@@ -43,6 +44,7 @@ type ProductPageProps = {
 
 const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
   const { data: session } = useSession()
+  const { t } = useTranslation()
   const { data } = useQuery<GetProductQuery>({
     queryKey: ["product", { id: +id }],
     queryFn: () => getProductQueryFn(id)
@@ -202,7 +204,9 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
             </h1>
 
             <div className="flex items-center gap-1.5">
-              <span className="font-semibold text-gray-500">برند:</span>
+              <span className="font-semibold text-gray-500">
+                {t("common:producer")}:
+              </span>
               <Link
                 className="font-bold text-brand-500"
                 href={`/brand/${product.brand.id}/${slugify(

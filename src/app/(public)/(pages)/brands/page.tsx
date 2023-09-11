@@ -13,7 +13,7 @@ interface BrandsIndexProps {
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "برندها"
+    title: "تولید کننده‌ها"
   }
 }
 

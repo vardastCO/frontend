@@ -40,11 +40,11 @@ const Brands = () => {
 
   return (
     <>
-      <PageHeader title={t("common:brands_index_title")}>
+      <PageHeader title={t("common:producers")}>
         {session?.abilities.includes("gql.products.brand.store") && (
           <Link href="/admin/brands/new">
             <Button size="medium">
-              {t("common:add_entity", { entity: t("common:brand") })}
+              {t("common:add_entity", { entity: t("common:producer") })}
             </Button>
           </Link>
         )}
@@ -54,7 +54,7 @@ const Brands = () => {
           <thead>
             <tr>
               <th></th>
-              <th>{t("common:brand")}</th>
+              <th>{t("common:producer")}</th>
             </tr>
           </thead>
           <tbody>

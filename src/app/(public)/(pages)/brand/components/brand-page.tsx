@@ -3,6 +3,7 @@
 import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
+import useTranslation from "next-translate/useTranslation"
 
 import { Brand, GetBrandQuery, IndexProductInput } from "@/generated"
 
@@ -18,6 +19,7 @@ interface BrandPageProps {
 }
 
 const BrandPage = ({ isMobileView, args, slug }: BrandPageProps) => {
+  const { t } = useTranslation()
   const { data, error } = useQuery<GetBrandQuery>(
     ["brand", { id: +slug[0] }],
     () => getBrandQueryFn(+slug[0]),
@@ -39,7 +41,11 @@ const BrandPage = ({ isMobileView, args, slug }: BrandPageProps) => {
         <Breadcrumb
           dynamic={false}
           items={[
-            { label: "برندهای وردست", path: "/brands", isCurrent: false },
+            {
+              label: t("common:producer_vardast"),
+              path: "/brands",
+              isCurrent: false
+            },
             {
               label: data.brand.name,
               path: `/brand/${data.brand.id}/${data.brand.name}`,

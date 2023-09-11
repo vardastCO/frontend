@@ -670,7 +670,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                   name="brandId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("common:brand_producer")}</FormLabel>
+                      <FormLabel>{t("common:producer")}</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -685,7 +685,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                                     (brand) => brand && brand.id === field.value
                                   )?.name
                                 : t("common:choose_entity", {
-                                    entity: t("common:brand")
+                                    entity: t("common:producer")
                                   })}
                               <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0" />
                             </Button>
@@ -695,12 +695,12 @@ const ProductForm = ({ product }: ProductFormProps) => {
                           <Command>
                             <CommandInput
                               placeholder={t("common:search_entity", {
-                                entity: t("common:brand")
+                                entity: t("common:producer")
                               })}
                             />
                             <CommandEmpty>
                               {t("common:no_entity_found", {
-                                entity: t("common:brand")
+                                entity: t("common:producer")
                               })}
                             </CommandEmpty>
                             <CommandGroup>

@@ -44,7 +44,7 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
               className="flex items-center justify-between py-3"
               onClick={() => onCategoryChanged(category as Category)}
             >
-              {category.title}
+              {`${category.title} (${category.productsCount})`}
               {category.childrenCount > 0 && (
                 <LucideChevronLeft className="h-4 w-4 text-gray-400" />
               )}
@@ -96,7 +96,7 @@ const CategoriesList = ({
               className="flex items-center justify-between py-3"
               onClick={() => onCategoryChanged(category as Category, false)}
             >
-              {category.title}
+              {`${category.title} (${category.productsCount})`}
               {category.childrenCount > 0 && (
                 <LucideChevronLeft className="h-4 w-4 text-gray-400" />
               )}

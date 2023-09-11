@@ -31,7 +31,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
         prefetch={false}
       >
         <div className="flex flex-1 flex-row lg:flex-col">
-          <div className="relative w-32 flex-shrink-0 bg-[url('/images/blank.png')] bg-[length:2em] bg-center bg-no-repeat align-middle lg:h-48 lg:w-full">
+          <div
+            id={`product-image-${product.id}`}
+            className="relative w-32 flex-shrink-0 bg-[url('/images/blank.png')] bg-[length:2em] bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:h-48 lg:w-full"
+          >
             {product.images.at(0)?.file.presignedUrl.url && (
               <Image
                 src={product.images.at(0)?.file.presignedUrl.url as string}
@@ -40,6 +43,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 sizes="(max-width: 640px) 33vw, 10vw"
                 className="object-contain"
                 loading="eager"
+                onLoadingComplete={() => {
+                  const div = document.getElementById(
+                    `product-image-${product.id}`
+                  )
+                  if (div) {
+                    div.className = div.className + " opacity-100"
+                  }
+                }}
               />
             )}
           </div>

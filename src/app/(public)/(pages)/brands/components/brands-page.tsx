@@ -6,6 +6,7 @@ import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
 import { LucideWarehouse } from "lucide-react"
+import useTranslation from "next-translate/useTranslation"
 
 import { GetAllBrandsQuery } from "@/generated"
 
@@ -17,6 +18,7 @@ interface BrandsPageProps {
 }
 
 const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
+  const { t } = useTranslation()
   const { data, error } = useQuery<GetAllBrandsQuery>(
     ["brands"],
     () => getAllBrandsQueryFn(),
@@ -37,7 +39,13 @@ const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
       <div>
         <Breadcrumb
           dynamic={false}
-          items={[{ label: "برندهای وردست", path: "/brands", isCurrent: true }]}
+          items={[
+            {
+              label: t("common:producer_vardast"),
+              path: "/brands",
+              isCurrent: true
+            }
+          ]}
         />
       </div>
 
