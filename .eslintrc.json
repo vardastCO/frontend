@@ -1,12 +1,32 @@
 {
-    "root": true,
-    "extends": [
-        "next/core-web-vitals",
-        "plugin:prettier/recommended"
+  "root": true,
+  "extends": ["next/core-web-vitals", "plugin:prettier/recommended"],
+  "ignorePatterns": ["src/stories/*", "src/generated.ts", "old-to-delete"],
+  "rules": {
+    "linebreak-style": "off",
+    "import/no-unresolved": [
+      2,
+      {
+        "caseSensitive": false
+      }
     ],
-    "ignorePatterns": [
-        "src/stories/*",
-        "src/generated.ts",
-        "old-to-delete"
-    ]
+    "import/no-import-module-exports": "off",
+    "import/no-extraneous-dependencies": "off",
+    "implicit-arrow-linebreak": "off",
+    "no-param-reassign": "off",
+    "consistent-return": "off",
+    "wrap-iife": "off",
+    "comma-dangle": "off",
+    "operator-linebreak": "off",
+    "object-curly-newline": "off",
+    "no-underscore-dangle": "off",
+    "no-restricted-exports": "off",
+    "import/prefer-default-export": "off",
+    "import/no-cycle": "off",
+    "max-len": "off",
+    "no-empty-pattern": "off",
+    "indent": "off",
+    "react/display-name": "off",
+    "no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }]
+  }
 }
