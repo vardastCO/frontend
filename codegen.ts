@@ -2,7 +2,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli"
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: "http://194.31.194.170:3080/graphql",
+  schema: "https://dev.api.vardast.com/graphql",
   documents: "src/@core/graphql/**/*graphql",
   ignoreNoDocuments: true,
   generates: {

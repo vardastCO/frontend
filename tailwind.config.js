@@ -23,7 +23,7 @@ module.exports = {
         extrablack: "950"
       },
       colors: {
-        brand: colors.blue
+        brand: colors.orange
       }
     }
   },

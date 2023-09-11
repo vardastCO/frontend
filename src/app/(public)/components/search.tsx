@@ -32,7 +32,7 @@ const Search = ({ isMobileView }: SearchProps) => {
     defaultValue: []
   })
   const [open, setOpen] = useState<boolean>(false)
-  const [query, setQuery] = useDebouncedState<string>("", 200)
+  const [query, setQuery] = useDebouncedState<string>("", 500)
   const ref = useClickOutside(() => {
     if (open) setOpen(false)
   })
@@ -45,7 +45,7 @@ const Search = ({ isMobileView }: SearchProps) => {
       }
     },
     {
-      enabled: false
+      enabled: !!query
     }
   )
 
@@ -73,12 +73,6 @@ const Search = ({ isMobileView }: SearchProps) => {
     setOpen(false)
     push(uri)
   }
-
-  useEffect(() => {
-    if (query) {
-      searchQuery.refetch()
-    }
-  }, [query, searchQuery])
 
   return (
     <>
