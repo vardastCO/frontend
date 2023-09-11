@@ -12,7 +12,8 @@ import {
 } from "@/generated"
 
 import { Button } from "@core/components/ui/button"
-import { useToast } from "@core/hooks/use-toast"
+
+// import { useToast } from "@core/hooks/use-toast"
 
 type ContactInfosTabProps = {
   relatedType: keyof typeof ContactInfoRelatedTypes
@@ -26,7 +27,7 @@ const ContactInfosTab = ({
   contactInfos
 }: ContactInfosTabProps) => {
   const { t } = useTranslation()
-  const { toast } = useToast()
+  // const { toast } = useToast()
   const { data: session } = useSession()
   const router = useRouter()
   const pathname = usePathname()

@@ -16,10 +16,9 @@ import { LocationsContext } from "./LocationsProvider"
 
 type Props = {}
 
-const FiltersBar = (props: Props) => {
+const FiltersBar = (_: Props) => {
   const { t } = useTranslation()
-  const { activesOnly, setActivesOnly, toggleActivesOnly } =
-    useContext(LocationsContext)
+  const { activesOnly, toggleActivesOnly } = useContext(LocationsContext)
   return (
     <div className="mb-6 flex items-center">
       <div className="mr-auto">

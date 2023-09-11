@@ -20,7 +20,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 type Props = {}
 
-const PastDurationEventsChart = (props: Props) => {
+const PastDurationEventsChart = (_: Props) => {
   const { data, isLoading } =
     useGetPastDurationEventsChartQuery(graphqlRequestClient)
 

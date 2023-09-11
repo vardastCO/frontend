@@ -15,7 +15,7 @@ import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
 interface VocabulariesListProps {
-  onCategoryChanged: (category: Category) => void
+  onCategoryChanged: (_: Category) => void
 }
 
 const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
@@ -57,7 +57,7 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
 
 interface CategoriesListProps {
   categoryId: number
-  onCategoryChanged: (category: Category, force: boolean) => void
+  onCategoryChanged: (_: Category, __: boolean) => void
 }
 
 const CategoriesList = ({

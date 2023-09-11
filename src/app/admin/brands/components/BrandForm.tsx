@@ -133,8 +133,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
   }
 
   function onSubmit(data: CreateBrandType) {
-    const { name, slug, logoFileUuid, email, phone, address, website, about } =
-      data
+    const { name, slug, logoFileUuid } = data
 
     if (brand?.name) {
       updateBrandMutation.mutate({

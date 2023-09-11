@@ -7,7 +7,7 @@ import { Button } from "@core/components/ui/button"
 
 interface ProductSortProps {
   sort: ProductSortablesEnum
-  onSortChanged: (sort: ProductSortablesEnum) => void
+  onSortChanged: (_: ProductSortablesEnum) => void
 }
 
 const ProductSort = ({ sort, onSortChanged }: ProductSortProps) => {

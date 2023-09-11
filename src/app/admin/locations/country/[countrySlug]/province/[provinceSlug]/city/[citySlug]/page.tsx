@@ -15,8 +15,8 @@ const AreasPage = async ({
     redirect("/admin")
   }
 
-  const countrySlug = params.countrySlug as string
-  const provinceSlug = params.provinceSlug as string
+  // const countrySlug = params.countrySlug as string
+  // const provinceSlug = params.provinceSlug as string
   const citySlug = params.citySlug as string
 
   return <Areas citySlug={citySlug} />

@@ -1,7 +1,8 @@
 "use client"
 
 import { notFound } from "next/navigation"
-import useTranslation from "next-translate/useTranslation"
+
+// import useTranslation from "next-translate/useTranslation"
 
 import { Attribute, useGetAttributeQuery } from "@/generated"
 
@@ -15,7 +16,7 @@ type Props = {
 }
 
 const AttributeEdit = ({ uuid }: Props) => {
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   const { isLoading, error, data } = useGetAttributeQuery(
     graphqlRequestClient,
     {

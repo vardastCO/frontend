@@ -7,7 +7,8 @@
 // comm: Comment some code
 // merge: Fix merge conflicts
 // docs: Documentation updates
-// revert: changes that improve the security of the codebase
+// revert: Changes that improve the security of the codebase
+// lint: Fix lint errors
 
 module.exports = {
   extends: ["@commitlint/config-conventional"],
@@ -41,7 +42,8 @@ module.exports = {
         "comm",
         "merge",
         "docs",
-        "revert"
+        "revert",
+        "lint"
       ]
     ]
   }

@@ -23,7 +23,7 @@ const KEYS = {
   COMMA: "Comma"
 }
 
-const DELIMITERS = ["ENTER", "COMMA"]
+// const DELIMITERS = ["ENTER", "COMMA"]
 
 interface TagItemProps {
   title: string
@@ -42,12 +42,12 @@ const TagItem = ({ title }: TagItemProps) => {
 
 export interface TagInputProps extends InputHTMLAttributes<HTMLInputElement> {
   tags: string[]
-  onDelete: (idx: number) => void
-  onAddition: (tag: string) => void
+  onDelete: (_: number) => void
+  onAddition: (_: string) => void
 }
 
 const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
-  ({ onDelete, onAddition, tags, placeholder, className, ...props }, ref) => {
+  ({ onDelete, onAddition, tags, placeholder, className }) => {
     const [query, setQuery] = useState<string>("")
     let textInput: HTMLInputElement | null = null
 
@@ -115,7 +115,7 @@ const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
       const tags = pastedText.split(",")
 
       // Only add unique tags
-      const uniqueTags = uniq(tags)
+      // const uniqueTags = uniq(tags)
       uniq(tags)
         .map((tag) => tag.trim())
         .forEach((tag) => {

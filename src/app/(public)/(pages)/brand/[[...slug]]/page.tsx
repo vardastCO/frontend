@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from "next"
+import { Metadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
 
 import { IndexProductInput, ProductSortablesEnum } from "@/generated"
@@ -19,8 +19,8 @@ interface BrandIndexProps {
 }
 
 export async function generateMetadata(
-  { params }: BrandIndexProps,
-  parent: ResolvingMetadata
+  { params }: BrandIndexProps
+  // parent: ResolvingMetadata
 ): Promise<Metadata> {
   const brandId = params.slug[0] as number
   const brand = await getBrandQueryFn(brandId)

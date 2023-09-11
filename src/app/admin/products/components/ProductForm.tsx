@@ -14,7 +14,7 @@ import {
   LucidePackage
 } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
-import { useFieldArray, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
 import {
@@ -152,7 +152,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
     }
   })
 
-  const types = enumToKeyValueObject(ProductTypesEnum)
+  // const types = enumToKeyValueObject(ProductTypesEnum)
   const statuses = enumToKeyValueObject(ThreeStateSupervisionStatuses)
 
   z.setErrorMap(zodI18nMap)
@@ -205,10 +205,10 @@ const ProductForm = ({ product }: ProductFormProps) => {
   const brands = useGetAllBrandsWithoutPaginationQuery(graphqlRequestClient)
   const uoms = useGetAllUomsWithoutPaginationQuery(graphqlRequestClient)
 
-  const attributes = useFieldArray({
-    name: "attributes",
-    control: form.control
-  })
+  // const attributes = useFieldArray({
+  //   name: "attributes",
+  //   control: form.control
+  // })
 
   const onSubmit = (data: CreateProductType) => {
     const {

@@ -15,8 +15,8 @@ import { Button } from "@core/components/ui/button"
 interface DropzoneProps {
   existingImages: Maybe<ImageType>[] | undefined
   uploadPath: string
-  onAddition: (file: FilesWithPreview) => void
-  onDelete: (file: FilesWithPreview) => void
+  onAddition: (_: FilesWithPreview) => void
+  onDelete: (_: FilesWithPreview) => void
 }
 export interface FilesWithPreview extends FileWithPath {
   preview: string
@@ -31,7 +31,7 @@ const Dropzone = ({
   onAddition,
   onDelete
 }: DropzoneProps) => {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const { t } = useTranslation()
   const [files, setFiles] = useState<FilesWithPreview[]>([])
 

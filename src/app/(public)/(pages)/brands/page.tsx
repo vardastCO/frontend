@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-const BrandsIndex = async ({ searchParams }: BrandsIndexProps) => {
+const BrandsIndex = async (_: BrandsIndexProps) => {
   const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
 

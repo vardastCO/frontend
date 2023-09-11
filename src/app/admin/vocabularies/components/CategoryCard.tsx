@@ -28,8 +28,8 @@ import {
 interface CategoryCardProps {
   vocabularySlug: string
   category: Category
-  onDeleteTriggered: (category: Category) => void
-  onEditTriggered: (category: Category) => void
+  onDeleteTriggered: (_: Category) => void
+  onEditTriggered: (_: Category) => void
 }
 
 const CategoryCard = ({
@@ -40,13 +40,12 @@ const CategoryCard = ({
 }: CategoryCardProps) => {
   const { t } = useTranslation()
   const { data: session } = useSession()
-  const { slug, title, isActive, childrenCount, productsCount, id } = category
+  const { title, childrenCount, productsCount, id } = category
 
   const [open, setOpen] = useState(false)
-  const [active, setActive] = useState(isActive)
   const hasChildren: boolean = !!category.childrenCount
 
-  const { status, data, error, refetch } = useGetCategoryQuery(
+  const { data, refetch } = useGetCategoryQuery(
     graphqlRequestClient,
     {
       id

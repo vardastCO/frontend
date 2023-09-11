@@ -39,7 +39,7 @@ import signLogo from "@/assets/sign.svg"
 
 type Props = {}
 
-const SingupForm = (props: Props) => {
+const SingupForm = (_: Props) => {
   const { t } = useTranslation()
   const session = useSession()
   const router = useRouter()
@@ -80,7 +80,7 @@ const SingupForm = (props: Props) => {
       setErrors(errors)
     },
     onSuccess: (data) => {
-      const { nextState, validationKey, message } = data.validateOtp
+      const { nextState, message } = data.validateOtp
       setErrors(null)
       setMessage(message as string)
 

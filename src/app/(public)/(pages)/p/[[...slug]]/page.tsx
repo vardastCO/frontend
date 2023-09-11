@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from "next"
+import { Metadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
 
 import getQueryClient from "@core/clients/getQueryClient"
@@ -14,11 +14,11 @@ interface ProductIndexProps {
 }
 
 export async function generateMetadata(
-  { params }: ProductIndexProps,
-  parent: ResolvingMetadata
+  { params }: ProductIndexProps
+  // parent: ResolvingMetadata
 ): Promise<Metadata> {
   const id = params.slug[0] as number
-  const slug = params.slug[1] as string
+  // const slug = params.slug[1] as string
   const data = await getProductQueryFn(id)
 
   return {
@@ -35,7 +35,7 @@ export async function generateMetadata(
 const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
   const isMobileView = CheckIsMobileView()
   const id = slug[0] as number
-  const pSlug = slug[1] as string
+  // const pSlug = slug[1] as string
 
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery(["product", { id: +id }], () =>

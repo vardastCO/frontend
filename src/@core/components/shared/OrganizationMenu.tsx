@@ -7,7 +7,7 @@ import ndpLogo from "@/assets/ndp-logo.svg"
 
 type Props = {}
 
-const OrganizationMenu = (props: Props) => {
+const OrganizationMenu = (_: Props) => {
   return (
     <div className="mb-6">
       <div className="flex items-center gap-2 rounded p-1">

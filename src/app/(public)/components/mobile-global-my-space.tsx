@@ -2,7 +2,7 @@
 
 import { useContext } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+// import { useRouter } from "next/navigation"
 import * as Dialog from "@radix-ui/react-dialog"
 import { useAtom } from "jotai"
 import { LucideArrowRight, LucideInfo, LucideMailbox } from "lucide-react"
@@ -11,7 +11,7 @@ import { Button } from "@core/components/ui/button"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
 const MobileMySpace = () => {
-  const { push } = useRouter()
+  // const { push } = useRouter()
   const { mySpaceVisibilityAtom } = useContext(PublicContext)
   const [mySpaceVisibility, setMySpaceVisibility] = useAtom(
     mySpaceVisibilityAtom

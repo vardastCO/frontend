@@ -6,7 +6,7 @@ import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LucideAlertOctagon } from "lucide-react"
-import { signIn, useSession } from "next-auth/react"
+import { signIn } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
@@ -28,7 +28,7 @@ import signLogo from "@/assets/sign.svg"
 
 const SigninForm = () => {
   const { t } = useTranslation()
-  const session = useSession()
+  // const session = useSession()
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>("")

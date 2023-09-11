@@ -19,7 +19,7 @@ interface BrandsPageProps {
 
 const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
   const { t } = useTranslation()
-  const { data, error } = useQuery<GetAllBrandsQuery>(
+  const { data } = useQuery<GetAllBrandsQuery>(
     ["brands"],
     () => getAllBrandsQueryFn(),
     {

@@ -26,7 +26,7 @@ import { RequireAtLeastOne } from "@core/types/RequireAtLeastOne"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
 interface VocabulariesListProps {
-  onCategoryChanged: (category: Category) => void
+  onCategoryChanged: (_: Category) => void
 }
 
 const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
@@ -68,8 +68,8 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
 
 interface CategoriesListProps {
   categoryId: number
-  onCategoryChanged: (category: Category, force: boolean) => void
-  onMounted: (category: Category) => void
+  onCategoryChanged: (_: Category, __: boolean) => void
+  onMounted: (_: Category) => void
 }
 
 const CategoriesList = ({
@@ -130,12 +130,11 @@ const CategoriesList = ({
 interface BrandOrSellerCategoriesInterface {
   brandId?: number
   sellerId?: number
-  onCategoryFilterChanged: ({
-    status,
-    value
-  }: { value: InputMaybe<number> } & {
-    status: Checkbox.CheckedState
-  }) => void
+  onCategoryFilterChanged: (
+    _: { value: InputMaybe<number> } & {
+      status: Checkbox.CheckedState
+    }
+  ) => void
   categoryIdsFilter: InputMaybe<number[]> | undefined
 }
 type BrandOrSellerCategoriesProps = RequireAtLeastOne<
@@ -210,10 +209,9 @@ type MobileCategoriesFilterProps = {
   brandId?: number
   sellerId?: number
   categoryIdsFilter: InputMaybe<number[]> | undefined
-  onCategoryFilterChanged: ({
-    status,
-    value
-  }: { value: InputMaybe<number> } & { status: Checkbox.CheckedState }) => void
+  onCategoryFilterChanged: (
+    _: { value: InputMaybe<number> } & { status: Checkbox.CheckedState }
+  ) => void
 }
 
 const MobileCategoriesFilter = ({
@@ -234,8 +232,8 @@ const MobileCategoriesFilter = ({
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   )
-  const [selectedCategoriesFilter, setSelectedCategoriesFilter] =
-    useState<Category | null>(null)
+  // const [selectedCategoriesFilter, setSelectedCategoriesFilter] =
+  //   useState<Category | null>(null)
 
   useEffect(() => {
     if (!CategoriesFilterVisibility) {

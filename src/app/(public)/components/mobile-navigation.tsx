@@ -10,7 +10,7 @@ import { PublicContext } from "@/app/(public)/components/public-provider"
 
 type Props = {}
 
-const MobileNavigation = (props: Props) => {
+const MobileNavigation = (_: Props) => {
   const { globalCategoriesFilterVisibilityAtom, mySpaceVisibilityAtom } =
     useContext(PublicContext)
   const [

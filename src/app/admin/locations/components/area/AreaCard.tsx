@@ -22,7 +22,7 @@ import { Switch } from "@core/components/ui/switch"
 import { toast } from "@core/hooks/use-toast"
 
 interface AreaCardProps {
-  onDeleteTriggered: (area: Area) => void
+  onDeleteTriggered: (_: Area) => void
   show: boolean
   countrySlug?: string
   provinceSlug?: string
@@ -33,7 +33,7 @@ interface AreaCardProps {
 const AreaCard = ({ show, area, onDeleteTriggered }: AreaCardProps) => {
   const { t } = useTranslation()
   const { data: session } = useSession()
-  const { name, slug, isActive } = area
+  const { name, isActive } = area
   const [active, setActive] = useState<boolean>(isActive)
 
   const updateAreaMutation = useUpdateAreaMutation(graphqlRequestClient, {

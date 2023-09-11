@@ -36,7 +36,7 @@ import { toast } from "@core/hooks/use-toast"
 
 type Props = {}
 
-const CreateVocavulary = (props: Props) => {
+const CreateVocavulary = (_: Props) => {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [errors, setErrors] = useState<ClientError>()

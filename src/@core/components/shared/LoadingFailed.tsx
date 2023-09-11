@@ -4,7 +4,7 @@ import useTranslation from "next-translate/useTranslation"
 
 type Props = {}
 
-const LoadingFailed = (props: Props) => {
+const LoadingFailed = (_: Props) => {
   const { t } = useTranslation()
   const router = useRouter()
 

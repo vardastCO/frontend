@@ -24,7 +24,7 @@ import { Switch } from "@core/components/ui/switch"
 import { toast } from "@core/hooks/use-toast"
 
 interface ProvinceCardProps {
-  onDeleteTriggered: (city: City) => void
+  onDeleteTriggered: (_: City) => void
   show: boolean
   countrySlug: string
   provinceSlug: string

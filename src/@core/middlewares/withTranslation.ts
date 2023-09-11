@@ -18,7 +18,7 @@ import i18n from "i18n"
 
 import { MiddlewareFactory } from "./types"
 
-export const withTranslation: MiddlewareFactory = (next: NextMiddleware) => {
+export const withTranslation: MiddlewareFactory = (_: NextMiddleware) => {
   return async (request: NextRequest) => {
     const locale = request.nextUrl.locale || i18n.defaultLocale
     request.nextUrl.searchParams.set("lang", locale)

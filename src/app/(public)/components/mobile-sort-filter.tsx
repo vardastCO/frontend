@@ -14,7 +14,7 @@ import { PublicContext } from "@/app/(public)/components/public-provider"
 
 type MobileSortFilterProps = {
   sort: ProductSortablesEnum
-  onSortChanged: (sort: ProductSortablesEnum) => void
+  onSortChanged: (_: ProductSortablesEnum) => void
 }
 
 const MobileSortFilter = ({ sort, onSortChanged }: MobileSortFilterProps) => {

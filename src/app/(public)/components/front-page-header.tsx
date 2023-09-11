@@ -16,7 +16,7 @@ import {
 
 type Props = {}
 
-const FrontPageHeader = (props: Props) => {
+const FrontPageHeader = (_: Props) => {
   const categories = useGetVocabularyQuery(graphqlRequestClient, {
     slug: "product_categories"
   })

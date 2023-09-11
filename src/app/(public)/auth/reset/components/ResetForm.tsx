@@ -38,7 +38,7 @@ import signLogo from "@/assets/sign.svg"
 
 type Props = {}
 
-const ResetForm = (props: Props) => {
+const ResetForm = (_: Props) => {
   const { t } = useTranslation()
   const session = useSession()
   const router = useRouter()
@@ -79,7 +79,7 @@ const ResetForm = (props: Props) => {
       setErrors(errors)
     },
     onSuccess: (data) => {
-      const { nextState, validationKey, message } = data.validateOtp
+      const { nextState, message } = data.validateOtp
       setErrors(null)
       setMessage(message as string)
 

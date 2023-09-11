@@ -10,7 +10,7 @@ import { Button } from "@core/components/ui/button"
 type ProductPaginationProps = {
   total: number
   currentPage: number
-  onChange: (page: number) => void
+  onChange: (_: number) => void
 }
 
 const ProductPagination = ({

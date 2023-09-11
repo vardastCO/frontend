@@ -18,7 +18,7 @@ interface SellerPageProps {
 }
 
 const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
-  const { data, error } = useQuery<GetSellerQuery>(
+  const { data } = useQuery<GetSellerQuery>(
     ["seller", { id: +slug[0] }],
     () => getSellerQueryFn(+slug[0]),
     {

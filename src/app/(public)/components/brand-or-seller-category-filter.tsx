@@ -19,12 +19,11 @@ interface BrandCategoryFilterInterface {
   brandId?: number
   sellerId?: number
   categoryIdsFilter: InputMaybe<number[]> | undefined
-  onCategoryIdsFilterChanged: ({
-    status,
-    value
-  }: { value: InputMaybe<number> } & {
-    status: Checkbox.CheckedState
-  }) => void
+  onCategoryIdsFilterChanged: (
+    _: { value: InputMaybe<number> } & {
+      status: Checkbox.CheckedState
+    }
+  ) => void
 }
 
 type BrandCategoryFilterProps = RequireAtLeastOne<
