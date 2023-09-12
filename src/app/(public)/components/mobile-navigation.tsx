@@ -48,7 +48,7 @@ const MobileNavigation = (_: Props) => {
     const isActiveNav = !!pathname.includes(activePath)
 
     return isActiveNav
-      ? "text-blue-600 dark:text-blue-500"
+      ? "text-brand-600 dark:text-brand-500"
       : "text-gray-500 dark;text-gray-400"
   }
 
@@ -58,7 +58,7 @@ const MobileNavigation = (_: Props) => {
         className="h-[calc(64px+env(safe-area-inset-bottom))]"
         aria-hidden="true"
       ></div>
-      <div className="fixed bottom-0 left-0 z-50 h-[calc(64px+env(safe-area-inset-bottom))] w-full border-t border-gray-200 bg-white bg-opacity-50 backdrop-blur-xl dark:border-gray-600 dark:bg-gray-700">
+      <div className="fixed bottom-0 left-0 z-50 h-[calc(64px+env(safe-area-inset-bottom))] w-full border-gray-200 bg-gray-50 bg-opacity-50 backdrop-blur-xl dark:border-gray-600 dark:bg-gray-700">
         <div className="mx-auto grid h-full max-w-lg grid-cols-3 pb-[env(safe-area-inset-bottom)] font-medium">
           {_navbar_items.map(({ Icon, href, id, title }) => (
             <Link

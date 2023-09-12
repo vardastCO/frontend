@@ -10,7 +10,7 @@ export default function PublicLayout({
   const isMobileView = CheckIsMobileView()
   return (
     <>
-      <Header isMobileView={isMobileView} />
+      {!isMobileView && <Header isMobileView={isMobileView} />}
       {children}
     </>
   )

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { redirect, useRouter, useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ClientError } from "graphql-request"
@@ -13,7 +12,7 @@ import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
 import {
-  useSignupMutation,
+  usePasswordResetMutation,
   useValidateCellphoneMutation,
   useValidateOtpMutation,
   ValidationTypes
@@ -39,7 +38,7 @@ import signLogo from "@/assets/sign.svg"
 
 type Props = {}
 
-const SingupForm = (_: Props) => {
+const ResetForm = (_: Props) => {
   const { t } = useTranslation()
   const session = useSession()
   const router = useRouter()
@@ -63,7 +62,7 @@ const SingupForm = (_: Props) => {
         setErrors(null)
 
         if (nextState === "LOGIN") {
-          router.push("/auth/signin")
+          router.push("/profile/auth/signin")
         }
 
         if (nextState === "VALIDATE_OTP") {
@@ -88,21 +87,21 @@ const SingupForm = (_: Props) => {
         setFormState(1)
       }
 
-      if (nextState === "SIGNUP") {
+      if (nextState === "PASSWORD_RESET") {
         setFormState(3)
       }
 
       if (nextState === "LOGIN") {
-        router.push("/auth/signin")
+        router.push("/profile/auth/signin")
       }
     }
   })
-  const signupMutation = useSignupMutation(graphqlRequestClient, {
+  const passwordResetMutation = usePasswordResetMutation(graphqlRequestClient, {
     onError: (errors: ClientError) => {
       setErrors(errors)
     },
     onSuccess: (data) => {
-      const { message, nextState } = data.signup
+      const { message, nextState } = data.passwordReset
       setErrors(null)
 
       if (nextState === "VALIDATE_CELLPHONE") {
@@ -110,75 +109,71 @@ const SingupForm = (_: Props) => {
       }
 
       if (nextState === "LOGIN") {
-        router.push("/auth/signin")
-      }
-
-      if (nextState === "LOGGED_IN") {
-        setFormState(4)
+        router.push("/profile/auth/signin")
       }
 
       setMessage(message as string)
     }
   })
 
-  const SignupFormStepOneSchema = z.object({
+  const PasswordResetFormStepOneSchema = z.object({
     cellphone: cellphoneNumberSchema
   })
-  type SignupFormStepOneType = TypeOf<typeof SignupFormStepOneSchema>
+  type PasswordResetFormStepOneType = TypeOf<
+    typeof PasswordResetFormStepOneSchema
+  >
 
-  const formStepOne = useForm<SignupFormStepOneType>({
-    resolver: zodResolver(SignupFormStepOneSchema)
+  const formStepOne = useForm<PasswordResetFormStepOneType>({
+    resolver: zodResolver(PasswordResetFormStepOneSchema)
   })
 
-  const SignupFormStepTwoSchema = z.object({
+  const PasswordResetFormStepTwoSchema = z.object({
     otp: z.string()
   })
-  type SignupFormStepTwoType = TypeOf<typeof SignupFormStepTwoSchema>
+  type PasswordResetFormStepTwoType = TypeOf<
+    typeof PasswordResetFormStepTwoSchema
+  >
 
-  const formStepTwo = useForm<SignupFormStepTwoType>({
-    resolver: zodResolver(SignupFormStepTwoSchema)
+  const formStepTwo = useForm<PasswordResetFormStepTwoType>({
+    resolver: zodResolver(PasswordResetFormStepTwoSchema)
   })
 
-  const SignupFormStepThreeSchema = z.object({
-    firstName: z.string(),
-    lastName: z.string(),
-    email: z.string().email().optional().or(z.literal("")),
+  const PasswordResetFormStepThreeSchema = z.object({
     password: z.string()
   })
-  type SignupFormStepThreeType = TypeOf<typeof SignupFormStepThreeSchema>
+  type PasswordResetFormStepThreeType = TypeOf<
+    typeof PasswordResetFormStepThreeSchema
+  >
 
-  const formStepThree = useForm<SignupFormStepThreeType>({
-    resolver: zodResolver(SignupFormStepThreeSchema)
+  const formStepThree = useForm<PasswordResetFormStepThreeType>({
+    resolver: zodResolver(PasswordResetFormStepThreeSchema)
   })
 
-  function onSubmitStepOne(data: SignupFormStepOneType) {
+  function onSubmitStepOne(data: PasswordResetFormStepOneType) {
     const { cellphone } = data
     validateCellphoneMutation.mutate({
       ValidateCellphoneInput: {
         countryId: 244,
         cellphone,
-        validationType: ValidationTypes.Signup
+        validationType: ValidationTypes.PasswordReset
       }
     })
   }
-  function onSubmitStepTwo(data: SignupFormStepTwoType) {
+  function onSubmitStepTwo(data: PasswordResetFormStepTwoType) {
     const { otp } = data
     validateOtpMutation.mutate({
       ValidateOtpInput: {
         token: otp,
         validationKey,
-        validationType: ValidationTypes.Signup
+        validationType: ValidationTypes.PasswordReset
       }
     })
   }
-  function onSubmitStepThree(data: SignupFormStepThreeType) {
-    const { firstName, lastName, email, password } = data
-    signupMutation.mutate({
+  function onSubmitStepThree(data: PasswordResetFormStepThreeType) {
+    const { password } = data
+    passwordResetMutation.mutate({
       SignupInput: {
         validationKey,
-        firstName,
-        lastName,
-        email,
         password
       }
     })
@@ -199,7 +194,7 @@ const SingupForm = (_: Props) => {
           className="ml-auto h-12"
         />
         <h1 className="text-xl font-bold text-gray-800">
-          {t("common:signup")}
+          {t("common:reset_password")}
         </h1>
 
         {errors && (
@@ -330,64 +325,13 @@ const SingupForm = (_: Props) => {
             >
               <FormField
                 control={formStepThree.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:first_name")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("common:first_name")}
-                        type="text"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-              <FormField
-                control={formStepThree.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:last_name")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("common:last_name")}
-                        type="text"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-              <FormField
-                control={formStepThree.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:email")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("common:email")}
-                        type="email"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-              <FormField
-                control={formStepThree.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("common:password")}</FormLabel>
+                    <FormLabel>{t("common:new_password")}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder={t("common:password")}
+                        placeholder={t("common:new_password")}
                         type="password"
                         {...field}
                       />
@@ -400,29 +344,22 @@ const SingupForm = (_: Props) => {
                 type="submit"
                 fullWidth
                 disabled={
-                  signupMutation.isLoading ||
+                  passwordResetMutation.isLoading ||
                   formStepThree.formState.isSubmitting
                 }
                 loading={
-                  signupMutation.isLoading ||
+                  passwordResetMutation.isLoading ||
                   formStepThree.formState.isSubmitting
                 }
               >
-                تکمیل ثبت‌نام
+                تغییر کلمه عبور
               </Button>
             </form>
           </Form>
         )}
-
-        <Link
-          href="/auth/signin"
-          className="text-center text-gray-500 hover:text-gray-700"
-        >
-          {t("common:already_have_an_account_login")}
-        </Link>
       </div>
     </div>
   )
 }
 
-export default SingupForm
+export default ResetForm

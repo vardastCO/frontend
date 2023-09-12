@@ -144,13 +144,13 @@ const SigninForm = () => {
           </form>
         </Form>
         <Link
-          href="/auth/reset"
+          href="/profile/auth/reset"
           className="text-center text-gray-500 hover:text-gray-700"
         >
           {t("common:forgot_your_password")}
         </Link>
         <Link
-          href="/auth/signup"
+          href="/profile/auth/signup"
           className="text-center font-medium text-blue-500 hover:text-blue-700"
         >
           {t("common:dont_have_an_account")}

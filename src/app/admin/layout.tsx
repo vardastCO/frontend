@@ -14,9 +14,9 @@ export default async function AdminLayout({
 }) {
   const session = await getServerSession(authOptions)
 
-  if (!session) redirect("/auth/signin")
+  if (!session) redirect("/profile/auth/signin")
   if (session.error === "RefreshAccessTokenError") {
-    signOut({ callbackUrl: "/auth/signin", redirect: true })
+    signOut({ callbackUrl: "/profile/auth/signin", redirect: true })
   }
 
   return <AdminLayoutComponent>{children}</AdminLayoutComponent>
