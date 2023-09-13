@@ -16,7 +16,7 @@ import {
 
 type Props = {}
 
-const FrontPageHeader = (props: Props) => {
+const FrontPageHeader = (_: Props) => {
   const categories = useGetVocabularyQuery(graphqlRequestClient, {
     slug: "product_categories"
   })
@@ -73,7 +73,7 @@ const FrontPageHeader = (props: Props) => {
         </ol>
       )}
       <div className="mr-auto">
-        <Link href="/auth/signin" className="btn btn-ghost">
+        <Link href="/profile/auth/signin" className="btn btn-ghost">
           ورود / ثبت‌نام
         </Link>
       </div>

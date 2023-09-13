@@ -4,7 +4,8 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Home } from "lucide-react"
-import useTranslation from "next-translate/useTranslation"
+
+// import useTranslation from "next-translate/useTranslation"
 
 export interface CrumbItemProps {
   label: string
@@ -18,7 +19,7 @@ interface BreadcrumbProps {
 }
 
 const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   const pathname = usePathname()
   const [breadcrumbs, setBreadcrumbs] = useState<CrumbItemProps[]>()
 

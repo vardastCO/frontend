@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { usePathname, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
@@ -18,7 +18,7 @@ const MembersTab = ({ representatives, sellerId }: MembersTabProps) => {
   const { t } = useTranslation()
   const { data: session } = useSession()
   const router = useRouter()
-  const pathname = usePathname()
+  // const pathname = usePathname()
   const [createMemberModalOpen, setCreateMemberModalOpen] =
     useState<boolean>(false)
 

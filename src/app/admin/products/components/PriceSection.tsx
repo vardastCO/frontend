@@ -36,9 +36,8 @@ const PriceSection = ({ onOpenCreateModal, prices }: PriceSectionProps) => {
               <thead>
                 <tr>
                   <th>{t("common:price")}</th>
-                  <th>{t("common:product_sku")}</th>
-                  <th>{t("common:seller")}</th>
                   <th>{t("common:submitted_date")}</th>
+                  <th>{t("common:seller")}</th>
                   <th></th>
                 </tr>
               </thead>
@@ -51,8 +50,6 @@ const PriceSection = ({ onOpenCreateModal, prices }: PriceSectionProps) => {
                           {digitsEnToFa(addCommas(price.amount))}{" "}
                           {t("common:toman")}
                         </td>
-                        <td>{price.attributeValue?.sku}</td>
-                        <td>{price.seller.name}</td>
                         <td>
                           {digitsEnToFa(
                             formatDistanceToNow(
@@ -63,6 +60,7 @@ const PriceSection = ({ onOpenCreateModal, prices }: PriceSectionProps) => {
                             )
                           )}
                         </td>
+                        <td>{price.seller.name}</td>
                         <td>
                           {price.isPublic ? (
                             <span className="tag tag-sm tag-light tag-success">

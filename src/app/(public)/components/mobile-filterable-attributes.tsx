@@ -1,7 +1,7 @@
 "use client"
 
 import { useContext, useState } from "react"
-import { useParams } from "next/navigation"
+// import { useParams } from "next/navigation"
 import * as Checkbox from "@radix-ui/react-checkbox"
 import * as Dialog from "@radix-ui/react-dialog"
 import * as Label from "@radix-ui/react-label"
@@ -60,11 +60,9 @@ const MobileFilterableAttributeItem = ({
 type MobileFilterableAttributePageProps = {
   attribute: Attribute
   filterAttributes: FilterAttribute[]
-  onFilterAttributesChanged: ({
-    status,
-    id,
-    value
-  }: FilterAttribute & { status: Checkbox.CheckedState }) => void
+  onFilterAttributesChanged: (
+    _: FilterAttribute & { status: Checkbox.CheckedState }
+  ) => void
 }
 
 const MobileFilterableAttributePage = ({
@@ -118,11 +116,9 @@ const MobileFilterableAttributePage = ({
 type MobileFilterableAttributesProps = {
   selectedCategoryId: InputMaybe<number[]> | undefined
   filterAttributes: FilterAttribute[]
-  onFilterAttributesChanged: ({
-    status,
-    id,
-    value
-  }: FilterAttribute & { status: Checkbox.CheckedState }) => void
+  onFilterAttributesChanged: (
+    _: FilterAttribute & { status: Checkbox.CheckedState }
+  ) => void
   onRemoveAllFilters: () => void
 }
 
@@ -132,7 +128,7 @@ const MobileFilterableAttributes = ({
   onRemoveAllFilters,
   selectedCategoryId
 }: MobileFilterableAttributesProps) => {
-  const { slug } = useParams()
+  // const { slug } = useParams()
   const [selectedFilterAttribute, setSelectedFilterAttribute] =
     useState<Attribute | null>(null)
   const { filtersVisibilityAtom } = useContext(PublicContext)
@@ -140,7 +136,7 @@ const MobileFilterableAttributes = ({
     filtersVisibilityAtom
   )
 
-  const { data, isLoading, error } = useGetAllFilterableAttributesQuery(
+  const { data } = useGetAllFilterableAttributesQuery(
     graphqlRequestClient,
     {
       filterableAttributesInput: {

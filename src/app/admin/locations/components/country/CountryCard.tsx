@@ -25,7 +25,7 @@ import { Switch } from "@core/components/ui/switch"
 import { toast } from "@core/hooks/use-toast"
 
 type CountryCardProps = {
-  onDeleteTriggered: (country: Country) => void
+  onDeleteTriggered: (_: Country) => void
   show: boolean
   country: Country
 }

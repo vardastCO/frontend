@@ -27,7 +27,7 @@ import { toast } from "@core/hooks/use-toast"
 type AttributeSectionProps = {
   attributes: Maybe<AttributeValue>[] | undefined
   onOpenCreateModal: () => void
-  onOpenEditModal: (attribute: AttributeValue) => void
+  onOpenEditModal: (_: AttributeValue) => void
 }
 
 const AttributeSection = ({

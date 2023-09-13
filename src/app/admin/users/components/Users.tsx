@@ -21,7 +21,7 @@ import Pagination from "@/app/admin/components/Pagination"
 
 type Props = {}
 
-const Users = (props: Props) => {
+const Users = (_: Props) => {
   const { t } = useTranslation()
   const router = useRouter()
   const { data: session } = useSession()

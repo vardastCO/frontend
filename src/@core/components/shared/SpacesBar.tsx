@@ -2,7 +2,7 @@ import { LucideHelpCircle, LucidePlus } from "lucide-react"
 
 type Props = {}
 
-const Sidebar = (props: Props) => {
+const Sidebar = (_: Props) => {
   return (
     <div className="bg-gray-25 flex-shrink-0 border-l border-gray-200 py-6">
       <div className="flex h-full w-full flex-col px-3">

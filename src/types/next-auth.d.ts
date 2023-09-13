@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { User as BaseUser } from "@/generated"
 
 import "next-auth"

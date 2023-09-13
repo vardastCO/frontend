@@ -4,7 +4,7 @@ interface PageHeaderProps {
   slot?: React.ReactNode
 }
 
-function PageHeader({ children, title, slot }: PageHeaderProps) {
+function PageHeader({ children, title }: PageHeaderProps) {
   return (
     <div className="mb-6 mt-8">
       {/* <button className="btn-sm btn">

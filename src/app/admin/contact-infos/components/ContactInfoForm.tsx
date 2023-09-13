@@ -188,9 +188,7 @@ const ContactInfoForm = ({
       status,
       title,
       countryId,
-      type,
-      cityId,
-      provinceId
+      type
     } = data
 
     if (passedContactInfo) {

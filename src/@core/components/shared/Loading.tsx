@@ -3,7 +3,7 @@ import useTranslation from "next-translate/useTranslation"
 
 type Props = {}
 
-const Loading = (props: Props) => {
+const Loading = (_: Props) => {
   const { t } = useTranslation()
 
   return (

@@ -2,27 +2,28 @@
 
 import Link from "next/link"
 import { LucideFolderClosed } from "lucide-react"
-import { useSession } from "next-auth/react"
-import useTranslation from "next-translate/useTranslation"
+
+// import { useSession } from "next-auth/react"
+
+// import useTranslation from "next-translate/useTranslation"
 
 import { Vocabulary } from "@/generated"
 
 type VocabularyCardProps = {
   vocabulary: Vocabulary
-  onDeleteTriggered: (vocabulary: Vocabulary) => void
+  onDeleteTriggered: (_: Vocabulary) => void
 }
 
 const VocabularyCard = ({
-  vocabulary,
-  onDeleteTriggered
+  vocabulary // onDeleteTriggered
 }: VocabularyCardProps) => {
-  const { t } = useTranslation()
-  const { data: session } = useSession()
+  // const { t } = useTranslation()
+  // const { data: _ } = useSession()
   const { slug, title } = vocabulary
 
-  const toggleRemoveItem = () => {
-    onDeleteTriggered(vocabulary)
-  }
+  // const toggleRemoveItem = () => {
+  //   onDeleteTriggered(vocabulary)
+  // }
 
   return (
     <div className="card flex items-center gap-3 rounded px-4 py-4 pe-2">

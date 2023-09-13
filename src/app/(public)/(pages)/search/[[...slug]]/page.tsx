@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from "next"
+import { Metadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
 
 import { IndexProductInput, ProductSortablesEnum } from "@/generated"
@@ -17,8 +17,8 @@ type SearchIndexProps = {
 }
 
 export async function generateMetadata(
-  { params, searchParams }: SearchIndexProps,
-  parent: ResolvingMetadata
+  { params }: SearchIndexProps
+  // parent: ResolvingMetadata
 ): Promise<Metadata> {
   if (params.slug && params.slug.length) {
     const category = await getCategoryQueryFn(+params.slug[0])

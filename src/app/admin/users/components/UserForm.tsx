@@ -75,8 +75,8 @@ const UserForm = ({ user }: Props) => {
   const { data: session } = useSession()
   const router = useRouter()
   const [errors, setErrors] = useState<ClientError>()
-  const [countryId, setCountryId] = useState<string | null>(null)
-  const [timezone, setTimezone] = useState<string | null>(null)
+  // const [countryId, setCountryId] = useState<string | null>(null)
+  // const [timezone, setTimezone] = useState<string | null>(null)
   const avatarFileFieldRef = useRef<HTMLInputElement>(null)
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string>("")
@@ -221,9 +221,7 @@ const UserForm = ({ user }: Props) => {
       timezone,
       status,
       language,
-      newPassword,
       mustChangePassword,
-      displayRoleId,
       password,
       avatarUuid
     } = data

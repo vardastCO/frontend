@@ -99,7 +99,7 @@ const ProductList = ({
     }
   )
 
-  const { data, error } = useQuery<GetAllProductsQuery>(
+  const { data } = useQuery<GetAllProductsQuery>(
     [
       "products",
       {

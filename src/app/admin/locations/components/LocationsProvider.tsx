@@ -4,13 +4,13 @@ import { createContext, useState } from "react"
 
 interface LocationsContextType {
   activesOnly: boolean
-  setActivesOnly: (state: boolean) => void
+  setActivesOnly: (_: boolean) => void
   toggleActivesOnly: () => void
 }
 
 export const LocationsContext = createContext<LocationsContextType>({
   activesOnly: false,
-  setActivesOnly: (state: boolean) => {},
+  setActivesOnly: (_: boolean) => {},
   toggleActivesOnly: () => {}
 })
 

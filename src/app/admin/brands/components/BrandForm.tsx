@@ -58,7 +58,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
     onSuccess: () => {
       toast({
         description: t("common:entity_added_successfully", {
-          entity: t("common:brand")
+          entity: t("common:producer")
         }),
         duration: 2000,
         variant: "success"
@@ -73,7 +73,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
     onSuccess: () => {
       toast({
         description: t("common:entity_updated_successfully", {
-          entity: t("common:brand")
+          entity: t("common:producer")
         }),
         duration: 2000,
         variant: "success"
@@ -133,8 +133,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
   }
 
   function onSubmit(data: CreateBrandType) {
-    const { name, slug, logoFileUuid, email, phone, address, website, about } =
-      data
+    const { name, slug, logoFileUuid } = data
 
     if (brand?.name) {
       updateBrandMutation.mutate({
@@ -177,7 +176,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
           <h1 className="text-xl font-black text-gray-800 lg:text-3xl">
             {name
               ? name
-              : t("common:new_entity", { entity: t("common:brand") })}
+              : t("common:new_entity", { entity: t("common:producer") })}
           </h1>
           <Button
             className="sticky top-0"
@@ -185,7 +184,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
             loading={form.formState.isSubmitting}
             disabled={form.formState.isSubmitting}
           >
-            {t("common:save_entity", { entity: t("common:brand") })}
+            {t("common:save_entity", { entity: t("common:producer") })}
           </Button>
         </div>
         <div className="flex flex-col gap-8">

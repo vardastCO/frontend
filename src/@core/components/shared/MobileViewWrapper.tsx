@@ -2,7 +2,7 @@ import { ReactElement } from "react"
 import { headers } from "next/headers"
 
 type Props = {
-  children(object: any): ReactElement
+  children(_: any): ReactElement
 }
 
 const MobileViewWrapper = ({ children }: Props) => {

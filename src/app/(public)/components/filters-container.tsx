@@ -18,11 +18,9 @@ interface FiltersContainerInterface {
   brandId?: number
   sellerId?: number
   filterAttributes: FilterAttribute[]
-  onFilterAttributesChanged: ({
-    status,
-    id,
-    value
-  }: FilterAttribute & { status: Checkbox.CheckedState }) => void
+  onFilterAttributesChanged: (
+    _: FilterAttribute & { status: Checkbox.CheckedState }
+  ) => void
 }
 
 type FiltersContainerProps = RequireAtLeastOne<

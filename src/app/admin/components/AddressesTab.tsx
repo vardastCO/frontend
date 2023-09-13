@@ -10,7 +10,8 @@ import {
 } from "@/generated"
 
 import { Button } from "@core/components/ui/button"
-import { useToast } from "@core/hooks/use-toast"
+
+// import { useToast } from "@core/hooks/use-toast"
 
 type AddressesTabProps = {
   relatedType: keyof typeof AddressRelatedTypes
@@ -24,7 +25,7 @@ const AddressesTab = ({
   addresses
 }: AddressesTabProps) => {
   const { t } = useTranslation()
-  const { toast } = useToast()
+  // const { toast } = useToast()
   const { data: session } = useSession()
   const router = useRouter()
   const pathname = usePathname()

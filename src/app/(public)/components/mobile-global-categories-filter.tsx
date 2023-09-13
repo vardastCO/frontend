@@ -2,7 +2,6 @@
 
 import { useContext, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import * as Dialog from "@radix-ui/react-dialog"
 import { useQuery } from "@tanstack/react-query"
 import { useAtom } from "jotai"
 import { LucideArrowRight, LucideChevronLeft } from "lucide-react"
@@ -15,7 +14,7 @@ import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
 interface VocabulariesListProps {
-  onCategoryChanged: (category: Category) => void
+  onCategoryChanged: (_: Category) => void
 }
 
 const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
@@ -44,7 +43,7 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
               className="flex items-center justify-between py-3"
               onClick={() => onCategoryChanged(category as Category)}
             >
-              {category.title}
+              {`${category.title} (${category.productsCount})`}
               {category.childrenCount > 0 && (
                 <LucideChevronLeft className="h-4 w-4 text-gray-400" />
               )}
@@ -57,7 +56,7 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
 
 interface CategoriesListProps {
   categoryId: number
-  onCategoryChanged: (category: Category, force: boolean) => void
+  onCategoryChanged: (_: Category, __: boolean) => void
 }
 
 const CategoriesList = ({
@@ -96,7 +95,7 @@ const CategoriesList = ({
               className="flex items-center justify-between py-3"
               onClick={() => onCategoryChanged(category as Category, false)}
             >
-              {category.title}
+              {`${category.title} (${category.productsCount})`}
               {category.childrenCount > 0 && (
                 <LucideChevronLeft className="h-4 w-4 text-gray-400" />
               )}
@@ -129,62 +128,54 @@ const MobileGlobalCategoriesFilter = () => {
   }, [globalCategoriesFilterVisibility])
 
   return (
-    <Dialog.Root
-      open={globalCategoriesFilterVisibility}
-      onOpenChange={setGlobalCategoriesFilterVisibility}
-    >
-      <Dialog.Content className="fixed inset-0 z-40 h-[calc(100%-calc(64px+var(--safe-area-inset-bottom)))] overflow-y-auto overscroll-contain bg-white">
-        <div>
-          <div className="sticky top-0 border-b border-gray-200 bg-white p-4">
-            <div className="flex items-center gap-2">
-              <Button
-                onClick={() => {
-                  if (!selectedCategory)
-                    setGlobalCategoriesFilterVisibility(false)
-                  if (selectedCategory && !previousCategory)
-                    setSelectedCategory(null)
-                  if (selectedCategory && previousCategory) {
-                    setSelectedCategory(previousCategory)
-                    setPreviousCategory(selectedCategory.parentCategory || null)
-                  }
-                }}
-                variant="ghost"
-                size="small"
-                iconOnly
-              >
-                <LucideArrowRight className="h-5 w-5" />
-              </Button>
-              <div className="font-bold text-gray-800">
-                {selectedCategory ? selectedCategory.title : "همه دسته‌بندی‌ها"}
-              </div>
-            </div>
-          </div>
-          <div className="p-4">
-            {selectedCategory ? (
-              <CategoriesList
-                onCategoryChanged={(category, force) => {
-                  category.childrenCount > 0 && !force
-                    ? (setPreviousCategory(selectedCategory),
-                      setSelectedCategory(category))
-                    : (setGlobalCategoriesFilterVisibility(false),
-                      push(`/search/${category.id}/${category.title}`))
-                }}
-                categoryId={selectedCategory.id}
-              />
-            ) : (
-              <VocabulariesList
-                onCategoryChanged={(category) => {
-                  category.childrenCount > 0
-                    ? setSelectedCategory(category)
-                    : (setGlobalCategoriesFilterVisibility(false),
-                      push(`/search/${category.id}/${category.title}`))
-                }}
-              />
-            )}
+    <>
+      <div className="sticky top-0 border-b border-gray-200 bg-white p-4">
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={() => {
+              if (!selectedCategory) setGlobalCategoriesFilterVisibility(false)
+              if (selectedCategory && !previousCategory)
+                setSelectedCategory(null)
+              if (selectedCategory && previousCategory) {
+                setSelectedCategory(previousCategory)
+                setPreviousCategory(selectedCategory.parentCategory || null)
+              }
+            }}
+            variant="ghost"
+            size="small"
+            iconOnly
+          >
+            <LucideArrowRight className="h-5 w-5" />
+          </Button>
+          <div className="font-bold text-gray-800">
+            {selectedCategory ? selectedCategory.title : "همه دسته‌بندی‌ها"}
           </div>
         </div>
-      </Dialog.Content>
-    </Dialog.Root>
+      </div>
+      <div className="p-4">
+        {selectedCategory ? (
+          <CategoriesList
+            onCategoryChanged={(category, force) => {
+              category.childrenCount > 0 && !force
+                ? (setPreviousCategory(selectedCategory),
+                  setSelectedCategory(category))
+                : (setGlobalCategoriesFilterVisibility(false),
+                  push(`/search/${category.id}/${category.title}`))
+            }}
+            categoryId={selectedCategory.id}
+          />
+        ) : (
+          <VocabulariesList
+            onCategoryChanged={(category) => {
+              category.childrenCount > 0
+                ? setSelectedCategory(category)
+                : (setGlobalCategoriesFilterVisibility(false),
+                  push(`/search/${category.id}/${category.title}`))
+            }}
+          />
+        )}
+      </div>
+    </>
   )
 }
 

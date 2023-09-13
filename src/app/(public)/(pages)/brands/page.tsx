@@ -13,11 +13,11 @@ interface BrandsIndexProps {
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "برندها"
+    title: "تولید کننده‌ها"
   }
 }
 
-const BrandsIndex = async ({ searchParams }: BrandsIndexProps) => {
+const BrandsIndex = async (_: BrandsIndexProps) => {
   const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
 

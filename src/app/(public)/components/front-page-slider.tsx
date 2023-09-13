@@ -16,7 +16,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 
 type Props = {}
 
-const FrontPageSlider = (props: Props) => {
+const FrontPageSlider = (_: Props) => {
   return (
     <div className="mx-auto mt-12 max-w-[768px] overflow-hidden rounded-md">
       <Swiper

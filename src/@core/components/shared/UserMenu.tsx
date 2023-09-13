@@ -5,7 +5,7 @@ import { useClickOutside } from "@mantine/hooks"
 import clsx from "clsx"
 import { LucideChevronsUpDown, LucideLogOut } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
-import { useTheme } from "next-themes"
+// import { useTheme } from "next-themes"
 import useTranslation from "next-translate/useTranslation"
 
 import { Button } from "@core/components/ui/button"
@@ -14,7 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 const UserMenu = () => {
   const { t } = useTranslation()
-  const { theme, setTheme } = useTheme()
+  // const { theme, setTheme } = useTheme()
   const { data: session } = useSession()
   const [open, setOpen] = useState<boolean>(false)
   const ref = useClickOutside(() => {
@@ -26,10 +26,10 @@ const UserMenu = () => {
     setOpen(!oldOpen)
   }
 
-  const toggleTeheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark"
-    setTheme(newTheme)
-  }
+  // const toggleTeheme = () => {
+  //   const newTheme = theme === "dark" ? "light" : "dark"
+  //   setTheme(newTheme)
+  // }
 
   return (
     <>

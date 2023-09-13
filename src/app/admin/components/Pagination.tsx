@@ -8,7 +8,7 @@ import { Button } from "@core/components/ui/button"
 type Props = {
   total: number
   page: number
-  onChange: (page: number) => void
+  onChange: (_: number) => void
 }
 
 const Pagination = ({ total, page, onChange }: Props) => {

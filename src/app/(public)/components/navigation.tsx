@@ -6,13 +6,13 @@ import { GetVocabularyQuery } from "@/generated"
 
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 
-const nav = [
-  { title: "مصالح ساختمای" },
-  { title: "تاسیسات" },
-  { title: "ابزار و یراق" },
-  { title: "درب و پنجره" },
-  { title: "آهن آلات" }
-]
+// const nav = [
+//   { title: "مصالح ساختمای" },
+//   { title: "تاسیسات" },
+//   { title: "ابزار و یراق" },
+//   { title: "درب و پنجره" },
+//   { title: "آهن آلات" }
+// ]
 const Navigation = () => {
   const { data } = useQuery<GetVocabularyQuery>({
     queryKey: ["vocabulary", { slug: "product_categories" }],

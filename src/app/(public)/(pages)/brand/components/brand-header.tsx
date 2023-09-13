@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { LucideWarehouse } from "lucide-react"
+import useTranslation from "next-translate/useTranslation"
 
 import { Brand } from "@/generated"
 
@@ -9,6 +10,8 @@ type BrandHeaderProps = {
 }
 
 const BrandHeader = ({ brand }: BrandHeaderProps) => {
+  const { t } = useTranslation()
+
   return (
     <Link href={`/brand/${brand.id}/${brand.name}`}>
       <div className="mb-8 flex items-end gap-2 md:mb-12 md:gap-6">
@@ -32,7 +35,7 @@ const BrandHeader = ({ brand }: BrandHeaderProps) => {
             {brand.name}
           </h1>
           <div className="flex items-center gap-6 text-xs text-gray-500 md:text-sm">
-            کالاهای ثبت شده با این برند
+            {t("common:producer_submitted_product")}
           </div>
         </div>
       </div>

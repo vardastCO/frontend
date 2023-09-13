@@ -1,6 +1,6 @@
 "use client"
 
-import { Dispatch, Suspense, useEffect, useState } from "react"
+import { Dispatch, Suspense, useEffect } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useClickOutside } from "@mantine/hooks"
 import clsx from "clsx"
@@ -20,17 +20,17 @@ type SidebarProps = {
 const Sidebar = ({ menus, open, onOpenChanged }: SidebarProps) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  // const [isOpen, setIsOpen] = useState<boolean>(false)
   const ref = useClickOutside(() => {
     if (open) {
       onOpenChanged(false)
-      setIsOpen(false)
+      // setIsOpen(false)
     }
   })
 
   useEffect(() => {
     onOpenChanged(false)
-    setIsOpen(false)
+    // setIsOpen(false)
   }, [onOpenChanged, pathname, searchParams])
 
   return (
