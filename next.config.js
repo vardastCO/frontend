@@ -14,7 +14,7 @@ const nextConfig = {
   },
   images: {
     dangerouslyAllowSVG: true,
-    domains: ["api.dicebear.com", "localhost", "static.vardast.com"]
+    domains: ["api.dicebear.com","storage" ,"localhost", "static.vardast.com"]
   },
   async redirects() {
     return [
