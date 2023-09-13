@@ -3,9 +3,9 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
+  LucideHome,
   LucideIcon,
   LucideLayoutGrid,
-  LucideSearch,
   LucideUserCircle
 } from "lucide-react"
 
@@ -20,9 +20,9 @@ type NavbarItem = {
 
 const _navbar_items: NavbarItem[] = [
   {
-    href: "/search",
-    Icon: LucideSearch,
-    title: "جستجو",
+    href: "/",
+    Icon: LucideHome,
+    title: "خانه",
     id: 0
   },
   {
@@ -34,7 +34,7 @@ const _navbar_items: NavbarItem[] = [
   {
     href: "/profile",
     Icon: LucideUserCircle,
-    title: "وردست من",
+    title: "حساب کاربری",
     id: 2
   }
 ]
@@ -45,7 +45,7 @@ const MobileNavigation = (_: Props) => {
   const pathname = usePathname()
 
   const getActiveClassName = (activePath: string) => {
-    const isActiveNav = !!pathname.includes(activePath)
+    const isActiveNav = pathname.split("/")[1] === activePath.split("/")[1]
 
     return isActiveNav
       ? "text-brand-600 dark:text-brand-500"
