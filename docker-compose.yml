@@ -1,10 +1,14 @@
-version: '3'
+version: '3.3'
 services:
-  nextjs:
+  next-app:
+    container_name: vardast-web
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
-    volumes:
-      - .:/app
+    networks:
+      - myNet
+networks:
+  myNet:
+    external: true
