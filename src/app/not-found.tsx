@@ -15,10 +15,10 @@ export default function NotFound() {
           alt="صفحه مورد نظر شما پیدا نشد"
           className="mb-12"
         />
-        <h2 className="font-bold text-gray-800">همم!</h2>
-        <p className="text-gray-700">صفحه مورد نظر شما پیدا نشد</p>
+        <h2 className="font-bold text-alpha-800">همم!</h2>
+        <p className="text-alpha-700">صفحه مورد نظر شما پیدا نشد</p>
         <div className="mt-8 flex flex-col gap-6">
-          <Link href="/" className="inline-block text-sm text-brand-500">
+          <Link href="/" className="inline-block text-sm text-primary-500">
             برگشت به خانه
           </Link>
         </div>

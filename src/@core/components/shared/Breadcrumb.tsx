@@ -61,7 +61,7 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
             legacyBehavior
           >
             <a title={process.env.NEXT_PUBLIC_TITLE}>
-              <Home className="h-4 w-4 text-gray-400" />
+              <Home className="h-4 w-4 text-alpha-400" />
             </a>
           </Link>
         </li>
@@ -69,13 +69,13 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
           breadcrumbs.map((crumb, idx) => (
             <li key={idx} className="flex items-end align-middle leading-none">
               {idx !== breadcrumbs.length && (
-                <span className="mx-1 text-gray-400">/</span>
+                <span className="mx-1 text-alpha-400">/</span>
               )}
               <Link href={crumb.path} passHref legacyBehavior prefetch={false}>
                 <a
                   title={crumb.label}
                   aria-current={crumb.isCurrent ? "page" : "false"}
-                  className="text-gray-600"
+                  className="text-alpha-600"
                 >
                   {crumb.label}
                 </a>

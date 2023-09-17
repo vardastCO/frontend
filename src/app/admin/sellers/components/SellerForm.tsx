@@ -194,7 +194,7 @@ const SellerForm = ({ seller }: SellerFormProps) => {
       )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
-          <h1 className="text-xl font-black text-gray-800 lg:text-3xl">
+          <h1 className="text-xl font-black text-alpha-800 lg:text-3xl">
             {name
               ? name
               : t("common:new_entity", { entity: t("common:seller") })}
@@ -230,10 +230,10 @@ const SellerForm = ({ seller }: SellerFormProps) => {
                         </AvatarFallback>
                       </Avatar>
                       <div className="ms-2 flex flex-col gap-2">
-                        <span className="font-medium text-gray-800">
+                        <span className="font-medium text-alpha-800">
                           {admin.user.fullName}
                         </span>
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-alpha-600">
                           {admin.user.cellphone}
                         </span>
                       </div>
@@ -318,7 +318,7 @@ const SellerForm = ({ seller }: SellerFormProps) => {
                 accept="image/*"
                 ref={logoFileFieldRef}
               />
-              <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-gray-200">
+              <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-alpha-200">
                 {logoPreview || seller?.logoFile ? (
                   <Image
                     src={
@@ -331,7 +331,7 @@ const SellerForm = ({ seller }: SellerFormProps) => {
                   />
                 ) : (
                   <LucideWarehouse
-                    className="h-8 w-8 text-gray-400"
+                    className="h-8 w-8 text-alpha-400"
                     strokeWidth={1.5}
                   />
                 )}

@@ -25,3 +25,32 @@ Build app
 ```bash
 pnpm build
 ```
+
+
+<!-- page creation structure -->
+- /<name of page>
+|
+-- /components
+   |
+   --- /index.tsx
+-- /page.tsx
+
+<!-- page.tsx pattern -->
+/<page>/page.tsx
+const <Name>Page = async () => {
+  .
+  .
+  .
+}
+
+export default <Name>Page
+
+<!-- index.tsx pattern -->
+/<page>/components/index.tsx
+const <Name>Index = async () => {
+  .
+  .
+  .
+}
+
+export default <Name>Index

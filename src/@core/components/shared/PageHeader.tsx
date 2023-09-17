@@ -12,7 +12,7 @@ function PageHeader({ children, title }: PageHeaderProps) {
         <span>مناطق جغرافیایی</span>
       </button> */}
       <div className="flex items-end">
-        <h1 className="text-3xl font-black text-gray-800">{title}</h1>
+        <h1 className="text-3xl font-black text-alpha-800">{title}</h1>
         <div className="mr-auto">{children}</div>
       </div>
     </div>

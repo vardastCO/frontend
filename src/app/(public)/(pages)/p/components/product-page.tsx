@@ -38,7 +38,7 @@ export type GroupedAttributes = {
 }
 
 type ProductPageProps = {
-  isMobileView: RegExpMatchArray | null
+  isMobileView: boolean
   id: number
 }
 
@@ -199,16 +199,16 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           )}
 
           <div className="flex flex-col gap-4">
-            <h1 className="text-xl font-extrabold leading-relaxed text-gray-800">
+            <h1 className="text-xl font-extrabold leading-relaxed text-alpha-800">
               {product.name}
             </h1>
 
             <div className="flex items-center gap-1.5">
-              <span className="font-semibold text-gray-500">
+              <span className="font-semibold text-alpha-500">
                 {t("common:producer")}:
               </span>
               <Link
-                className="font-bold text-brand-500"
+                className="font-bold text-primary-500"
                 href={`/brand/${product.brand.id}/${slugify(
                   product.brand.name
                 )}`}
@@ -220,15 +220,15 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
 
             {groupedAttributes.length > 0 && (
               <div className="mt-8">
-                <div className="mb-4 font-bold text-gray-800">ویژگی‌ها</div>
+                <div className="mb-4 font-bold text-alpha-800">ویژگی‌ها</div>
                 <ul className="ms-6 list-outside list-disc space-y-2">
                   {groupedAttributes.slice(0, 3).map((attribute, idx) => (
                     <li key={idx}>
                       <div className="flex items-center gap-1.5">
-                        <span className="font-semibold text-gray-500">
+                        <span className="font-semibold text-alpha-500">
                           {attribute.name}
                         </span>
-                        <span className="font-bold text-gray-700">
+                        <span className="font-bold text-alpha-700">
                           {attribute.values.join(", ")}{" "}
                           {attribute.uom && attribute.uom.name}
                         </span>
@@ -238,7 +238,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
                 </ul>
                 {groupedAttributes.length > 3 && (
                   <Link
-                    className="mt-2 inline-block text-brand-500"
+                    className="mt-2 inline-block text-primary-500"
                     href="#attributes"
                     prefetch={false}
                   >

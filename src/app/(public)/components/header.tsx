@@ -11,7 +11,7 @@ import logoSign from "@/assets/sign.svg"
 import Search from "./search"
 
 interface HeaderProps {
-  isMobileView: RegExpMatchArray | null
+  isMobileView: boolean
 }
 
 const Header = ({ isMobileView }: HeaderProps) => {
@@ -31,9 +31,9 @@ const Header = ({ isMobileView }: HeaderProps) => {
       )}
       <div
         className={clsx([
-          "flex flex-col gap-4 border-gray-200 bg-gray-50 p-4",
+          "flex flex-col gap-4 border-alpha-200 bg-alpha-50 p-4",
           isMobileView
-            ? "fixed bottom-0 left-0 z-50 h-[calc(128px+env(safe-area-inset-bottom))] w-full border-t dark:border-gray-600 dark:bg-gray-700"
+            ? "fixed bottom-0 left-0 z-50 h-[calc(128px+env(safe-area-inset-bottom))] w-full border-t dark:border-alpha-600 dark:bg-alpha-700"
             : "pb-0 md:pb-4 lg:border-b"
         ])}
       >

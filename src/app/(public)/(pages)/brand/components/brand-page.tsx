@@ -5,15 +5,15 @@ import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
 import useTranslation from "next-translate/useTranslation"
 
-import { Brand, GetBrandQuery, IndexProductInput } from "@/generated"
+import { GetBrandQuery, IndexProductInput } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getBrandQueryFn } from "@core/queryFns/brandQueryFns"
-import BrandHeader from "@/app/(public)/(pages)/brand/components/brand-header"
+// import BrandHeader from "@/app/(public)/(pages)/brand/components/primary-header"
 import ProductList from "@/app/(public)/components/product-list"
 
 interface BrandPageProps {
-  isMobileView: RegExpMatchArray | null
+  isMobileView: boolean
   slug: Array<string | number>
   args: IndexProductInput
 }
@@ -55,7 +55,7 @@ const BrandPage = ({ isMobileView, args, slug }: BrandPageProps) => {
         />
       </div>
 
-      <BrandHeader brand={data.brand as Brand} />
+      {/* <BrandHeader brand={data.brand as Brand} /> */}
 
       <ProductList
         args={args}

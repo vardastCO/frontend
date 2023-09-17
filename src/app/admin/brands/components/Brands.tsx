@@ -66,7 +66,7 @@ const Brands = () => {
                     onClick={() => router.push(`/admin/brands/${brand.id}`)}
                   >
                     <td className="w-12">
-                      <div className="relative flex aspect-square h-12 w-12 items-center justify-center overflow-hidden rounded bg-gray-50">
+                      <div className="relative flex aspect-square h-12 w-12 items-center justify-center overflow-hidden rounded bg-alpha-50">
                         {brand.logoFile ? (
                           <Image
                             src={brand.logoFile.presignedUrl.url}
@@ -76,14 +76,14 @@ const Brands = () => {
                           />
                         ) : (
                           <LucideWarehouse
-                            className="h-5 w-5 text-gray-400"
+                            className="h-5 w-5 text-alpha-400"
                             strokeWidth={1.5}
                           />
                         )}
                       </div>
                     </td>
                     <td>
-                      <span className="font-medium text-gray-800">
+                      <span className="font-medium text-alpha-800">
                         {brand.name}
                       </span>
                     </td>

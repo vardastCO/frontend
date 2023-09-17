@@ -35,7 +35,7 @@ const MobileSortFilter = ({ sort, onSortChanged }: MobileSortFilterProps) => {
       >
         <Dialog.Content className="fixed inset-0 z-40 h-[calc(100%-calc(64px+var(--safe-area-inset-bottom)))] overflow-y-auto overscroll-contain bg-white">
           <div>
-            <div className="sticky top-0 border-b border-gray-200 bg-white p-4">
+            <div className="sticky top-0 border-b border-alpha-200 bg-white p-4">
               <div className="flex items-center gap-2">
                 <Button
                   onClick={() => setSortFilterVisibility(false)}
@@ -45,18 +45,18 @@ const MobileSortFilter = ({ sort, onSortChanged }: MobileSortFilterProps) => {
                 >
                   <LucideArrowRight className="h-5 w-5" />
                 </Button>
-                <div className="font-bold text-gray-800">مرتب‌سازی</div>
+                <div className="font-bold text-alpha-800">مرتب‌سازی</div>
               </div>
             </div>
             <div className="p-4">
-              <div className="flex flex-col divide-y divide-gray-200">
+              <div className="flex flex-col divide-y divide-alpha-200">
                 <Button
                   noStyle
                   className={clsx([
                     "py-3 text-start",
                     sort === ProductSortablesEnum.Newest
-                      ? "font-bold text-brand-500"
-                      : "text-gray-700"
+                      ? "font-bold text-primary-500"
+                      : "text-alpha-700"
                   ])}
                   onClick={() => onSortChanged(ProductSortablesEnum.Newest)}
                 >
@@ -67,8 +67,8 @@ const MobileSortFilter = ({ sort, onSortChanged }: MobileSortFilterProps) => {
                   className={clsx([
                     "py-3 text-start",
                     sort === ProductSortablesEnum.MostAffordable
-                      ? "font-bold text-brand-500"
-                      : "text-gray-700"
+                      ? "font-bold text-primary-500"
+                      : "text-alpha-700"
                   ])}
                   onClick={() =>
                     onSortChanged(ProductSortablesEnum.MostAffordable)
@@ -81,8 +81,8 @@ const MobileSortFilter = ({ sort, onSortChanged }: MobileSortFilterProps) => {
                   className={clsx([
                     "py-3 text-start",
                     sort === ProductSortablesEnum.MostExpensive
-                      ? "font-bold text-brand-500"
-                      : "text-gray-700"
+                      ? "font-bold text-primary-500"
+                      : "text-alpha-700"
                   ])}
                   onClick={() =>
                     onSortChanged(ProductSortablesEnum.MostExpensive)

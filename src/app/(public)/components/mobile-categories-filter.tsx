@@ -38,15 +38,15 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
   if (vocabularies.isLoading)
     return (
       <div className="flex animate-pulse flex-col gap-3">
-        <div className="h-8 w-[80%] rounded-md bg-gray-200"></div>
-        <div className="h-8 w-full rounded-md bg-gray-200"></div>
-        <div className="h-8 w-[90%] rounded-md bg-gray-200"></div>
+        <div className="h-8 w-[80%] rounded-md bg-alpha-200"></div>
+        <div className="h-8 w-full rounded-md bg-alpha-200"></div>
+        <div className="h-8 w-[90%] rounded-md bg-alpha-200"></div>
       </div>
     )
   if (!vocabularies.data) return <></>
 
   return (
-    <ul className="flex flex-col divide-y divide-gray-200">
+    <ul className="flex flex-col divide-y divide-alpha-200">
       {vocabularies.data.vocabulary.categories.map(
         (category) =>
           category && (
@@ -57,7 +57,7 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
             >
               {category.title}
               {category.childrenCount > 0 && (
-                <LucideChevronLeft className="h-4 w-4 text-gray-400" />
+                <LucideChevronLeft className="h-4 w-4 text-alpha-400" />
               )}
             </li>
           )
@@ -91,9 +91,9 @@ const CategoriesList = ({
   if (categoriesQuery.isLoading)
     return (
       <div className="flex animate-pulse flex-col gap-3">
-        <div className="h-8 w-[80%] rounded-md bg-gray-200"></div>
-        <div className="h-8 w-full rounded-md bg-gray-200"></div>
-        <div className="h-8 w-[90%] rounded-md bg-gray-200"></div>
+        <div className="h-8 w-[80%] rounded-md bg-alpha-200"></div>
+        <div className="h-8 w-full rounded-md bg-alpha-200"></div>
+        <div className="h-8 w-[90%] rounded-md bg-alpha-200"></div>
       </div>
     )
   if (!categoriesQuery.data) return <></>
@@ -101,7 +101,7 @@ const CategoriesList = ({
   const data = categoriesQuery.data
 
   return (
-    <ul className="flex flex-col divide-y divide-gray-200">
+    <ul className="flex flex-col divide-y divide-alpha-200">
       <li
         className="flex items-center justify-between py-3 font-medium"
         onClick={() => onCategoryChanged(data.category as Category, true)}
@@ -118,7 +118,7 @@ const CategoriesList = ({
             >
               {category.title}
               {category.childrenCount > 0 && (
-                <LucideChevronLeft className="h-4 w-4 text-gray-400" />
+                <LucideChevronLeft className="h-4 w-4 text-alpha-400" />
               )}
             </li>
           )
@@ -174,11 +174,11 @@ const BrandOrSellerCategories = ({
                     justify-center
                     rounded-md
                     border-2
-                    border-gray-600
+                    border-alpha-600
                     bg-white
                     outline-none
-                    data-[state='checked']:border-brand-500
-                    data-[state='checked']:bg-brand-500"
+                    data-[state='checked']:border-primary-500
+                    data-[state='checked']:bg-primary-500"
                   checked={
                     !!categoryIdsFilter &&
                     categoryIdsFilter.some((item) => item === category.id)
@@ -252,7 +252,7 @@ const MobileCategoriesFilter = ({
     >
       <Dialog.Content className="fixed inset-0 z-40 h-[calc(100%-calc(64px+var(--safe-area-inset-bottom)))] overflow-y-auto overscroll-contain bg-white">
         <div>
-          <div className="sticky top-0 border-b border-gray-200 bg-white p-4">
+          <div className="sticky top-0 border-b border-alpha-200 bg-white p-4">
             <div className="flex items-center gap-2">
               <Button
                 onClick={() => {
@@ -277,7 +277,7 @@ const MobileCategoriesFilter = ({
               >
                 <LucideArrowRight className="h-5 w-5" />
               </Button>
-              <div className="font-bold text-gray-800">
+              <div className="font-bold text-alpha-800">
                 {selectedCategory && !brandId && !sellerId
                   ? selectedCategory.title
                   : "همه دسته‌بندی‌ها"}

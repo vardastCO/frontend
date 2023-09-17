@@ -1,6 +1,6 @@
 input {
   &::placeholder {
-    @apply text-gray-400 dark:text-gray-500;
+    @apply text-alpha-400 dark:text-alpha-500;
   }
 }
 
@@ -16,11 +16,11 @@ input {
     px-3
     py-3
     leading-normal
-    text-gray-700
+    text-alpha-700
     shadow-[0_0_0_1px_var(--border-color),0_1px_0_0_rgba(0,0,0,0.08),0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)]
     outline-none
     ring-0
-    ring-brand-300/20
+    ring-primary-300/20
     transition-all
     duration-200
     ease-linear
@@ -30,15 +30,15 @@ input {
     focus-visible:outline-none
     focus-visible:ring-4
     disabled:cursor-not-allowed
-    disabled:bg-gray-50
-    dark:bg-gray-800
-    dark:text-gray-300
+    disabled:bg-alpha-50
+    dark:bg-alpha-800
+    dark:text-alpha-300
     dark:shadow-none
-    dark:ring-brand-600/20;
+    dark:ring-primary-600/20;
 
   &:where(:focus, :focus-visible) {
     --border-opacity: 0.4;
-    --border-color: rgba(theme(colors.brand.600), var(--border-opacity));
+    --border-color: rgba(theme(colors.primary.600), var(--border-opacity));
   }
 
   &:where(select) {
@@ -59,14 +59,14 @@ input {
     items-center
     whitespace-nowrap
     rounded
-    bg-gray-50
+    bg-alpha-50
     p-3
     text-center
     leading-normal
-    text-gray-700
+    text-alpha-700
     shadow-[0_0_0_1px_var(--border-color),0_1px_0_0_rgba(0,0,0,0.08),0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)]
-    dark:bg-gray-800
-    dark:text-gray-400
+    dark:bg-alpha-800
+    dark:text-alpha-400
     dark:shadow-none;
 
   svg,
@@ -95,8 +95,8 @@ input {
         justify-center
         whitespace-nowrap
         p-3
-        text-gray-400
-        dark:text-gray-500;
+        text-alpha-400
+        dark:text-alpha-500;
 
     &:has(button, a) {
       @apply pointer-events-auto;

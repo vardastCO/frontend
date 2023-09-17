@@ -6,7 +6,7 @@ import ProductList from "@/app/(public)/components/product-list"
 import SearchHeader from "@/app/(public)/components/search-header"
 
 interface SearchPageProps {
-  isMobileView: RegExpMatchArray | null
+  isMobileView: boolean
   slug: Array<string | number>
   args: IndexProductInput
 }

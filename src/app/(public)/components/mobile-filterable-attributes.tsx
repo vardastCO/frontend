@@ -38,13 +38,13 @@ const MobileFilterableAttributeItem = ({
     >
       <div className="flex w-full items-center gap-2">
         {filterAttributes.some((item) => item.id === attribute.id) && (
-          <span className="block h-2 w-2 rounded-full bg-brand-500"></span>
+          <span className="block h-2 w-2 rounded-full bg-primary-500"></span>
         )}
-        <span className="font-bold text-gray-800">{attribute.name}</span>
-        <LucideChevronLeft className="ms-auto h-4 w-4 text-gray-400" />
+        <span className="font-bold text-alpha-800">{attribute.name}</span>
+        <LucideChevronLeft className="ms-auto h-4 w-4 text-alpha-400" />
       </div>
       {filterAttributes.some((item) => item.id === attribute.id) && (
-        <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-gray-600">
+        <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-alpha-600">
           {filterAttributes.map(
             (item) =>
               item.id === attribute.id && (
@@ -85,11 +85,11 @@ const MobileFilterableAttributePage = ({
                     justify-center
                     rounded-md
                     border-2
-                    border-gray-600
+                    border-alpha-600
                     bg-white
                     outline-none
-                    data-[state='checked']:border-brand-500
-                    data-[state='checked']:bg-brand-500"
+                    data-[state='checked']:border-primary-500
+                    data-[state='checked']:bg-primary-500"
                 checked={filterAttributes.some(
                   (item) => item.id === attribute.id && item.value === value
                 )}
@@ -155,7 +155,7 @@ const MobileFilterableAttributes = ({
     <Dialog.Root open={filtersVisibility} onOpenChange={setFiltersVisibility}>
       <Dialog.Content className="fixed inset-0 z-40 h-[calc(100%-calc(64px+var(--safe-area-inset-bottom)))] overflow-y-auto overscroll-contain bg-white">
         <div>
-          <div className="sticky top-0 border-b border-gray-200 bg-white p-4">
+          <div className="sticky top-0 border-b border-alpha-200 bg-white p-4">
             <div className="flex items-center gap-2">
               <Button
                 onClick={() => {
@@ -168,7 +168,7 @@ const MobileFilterableAttributes = ({
               >
                 <LucideArrowRight className="h-5 w-5" />
               </Button>
-              <div className="font-bold text-gray-800">
+              <div className="font-bold text-alpha-800">
                 {selectedFilterAttribute
                   ? selectedFilterAttribute.name
                   : "فیلترها"}
@@ -197,7 +197,7 @@ const MobileFilterableAttributes = ({
               />
             ) : (
               <>
-                <div className="flex flex-col divide-y divide-gray-200">
+                <div className="flex flex-col divide-y divide-alpha-200">
                   {data?.filterableAttributes.filters.map(
                     (filter) =>
                       filter && (

@@ -137,7 +137,7 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
                         role="presentation"
                       />
                       <div className="input-element" dir="ltr">
-                        <span className="font-sans text-sm text-gray-400">
+                        <span className="font-sans text-sm text-alpha-400">
                           ⌘K
                         </span>
                       </div>

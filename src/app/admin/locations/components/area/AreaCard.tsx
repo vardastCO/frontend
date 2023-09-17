@@ -70,7 +70,7 @@ const AreaCard = ({ show, area, onDeleteTriggered }: AreaCardProps) => {
         !show && "hidden"
       ])}
     >
-      <span className="text-gray-800 dark:text-gray-400">{name}</span>
+      <span className="text-alpha-800 dark:text-alpha-400">{name}</span>
       <div className="mr-auto flex items-center gap-2">
         <Label noStyle className="flex items-center">
           <>

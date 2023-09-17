@@ -191,14 +191,14 @@ const SingupForm = (_: Props) => {
   })
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-gray-50 p-4">
+    <div className="flex min-h-screen w-full items-center justify-center bg-alpha-50 p-4">
       <div className="flex w-full max-w-xs flex-col justify-start gap-8 py-12">
         <Image
           src={signLogo}
           alt={process.env.NEXT_PUBLIC_TITLE as string}
           className="ml-auto h-12"
         />
-        <h1 className="text-xl font-bold text-gray-800">
+        <h1 className="text-xl font-bold text-alpha-800">
           {t("common:signup")}
         </h1>
 
@@ -416,7 +416,7 @@ const SingupForm = (_: Props) => {
 
         <Link
           href="/profile/auth/signin"
-          className="text-center text-gray-500 hover:text-gray-700"
+          className="text-center text-alpha-500 hover:text-alpha-700"
         >
           {t("common:already_have_an_account_login")}
         </Link>

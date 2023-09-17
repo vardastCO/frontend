@@ -30,9 +30,9 @@ const VocabularyCard = ({
       <div className="flex items-center gap-2">
         <Link
           href={`/admin/vocabularies/${slug}`}
-          className="flex items-center gap-1 font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-gray-300"
+          className="flex items-center gap-1 font-bold text-alpha-800 underline-offset-2 hover:text-alpha-900 hover:underline dark:text-alpha-400 dark:hover:text-alpha-300"
         >
-          <LucideFolderClosed className="h-6 w-6 text-gray-500 dark:text-gray-700" />
+          <LucideFolderClosed className="h-6 w-6 text-alpha-500 dark:text-alpha-700" />
           {title}
         </Link>
       </div>

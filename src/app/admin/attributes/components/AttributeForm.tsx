@@ -213,7 +213,7 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
       )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
-          <h1 className="text-xl font-black text-gray-800 lg:text-3xl">
+          <h1 className="text-xl font-black text-alpha-800 lg:text-3xl">
             {name
               ? name
               : t("common:new_entity", { entity: t("common:attribute") })}
@@ -690,7 +690,7 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
         {attribute && (
           <div className="mt-12">
             <div className="mb-8 flex items-center justify-between">
-              <h1 className="text-lg font-bold text-gray-800">
+              <h1 className="text-lg font-bold text-alpha-800">
                 {t("common:categories")}
               </h1>
             </div>

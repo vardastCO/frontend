@@ -122,7 +122,7 @@ const UserPermissionsForm = ({
       )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
-          <h1 className="text-xl font-black text-gray-800 lg:text-3xl">
+          <h1 className="text-xl font-black text-alpha-800 lg:text-3xl">
             {t("common:edit_entity", {
               entity: t("common:role_and_permissions")
             })}

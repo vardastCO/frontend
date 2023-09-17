@@ -84,7 +84,7 @@ const SearchHeader = ({ selectedCategoryId }: SearchHeaderProps) => {
         <Breadcrumb dynamic={false} items={breadcrumb} />
       </div>
       <div className="mb-8">
-        <h1 className="text-xl font-extrabold text-gray-800">
+        <h1 className="text-xl font-extrabold text-alpha-800">
           {data.category.title}
         </h1>
       </div>

@@ -9,7 +9,7 @@ const ProductAttributes = ({ attributes }: ProductAttributesProps) => {
     <div
       id="attributes"
       className="divide-y
-        divide-gray-200
+        divide-alpha-200
         [&>div]:grid
         [&>div]:grid-cols-1
         [&>div]:gap-2
@@ -19,7 +19,7 @@ const ProductAttributes = ({ attributes }: ProductAttributesProps) => {
     >
       {attributes.map((attribute, idx) => (
         <div key={idx}>
-          <span className="inline-block text-sm font-medium text-gray-400 md:text-left md:text-base">
+          <span className="inline-block text-sm font-medium text-alpha-400 md:text-left md:text-base">
             {attribute.name}
           </span>
           <span className="inline-block">

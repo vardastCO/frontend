@@ -12,7 +12,7 @@ import SellerHeader from "@/app/(public)/(pages)/seller/components/seller-header
 import ProductList from "@/app/(public)/components/product-list"
 
 interface SellerPageProps {
-  isMobileView: RegExpMatchArray | null
+  isMobileView: boolean
   slug: Array<string | number>
   args: IndexProductInput
 }

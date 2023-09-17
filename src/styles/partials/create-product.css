@@ -1,9 +1,9 @@
 .create-product {
   .section-title {
-    @apply text-lg font-bold text-gray-800;
+    @apply text-lg font-bold text-alpha-800;
   }
   .section-description {
-    @apply text-gray-600;
+    @apply text-alpha-600;
   }
   .section-body {
     @apply mt-16;
@@ -12,15 +12,15 @@
   .product-type-item {
     &:has([data-state="checked"]) {
       .product-type-item-wrapper {
-        @apply border-brand-400
+        @apply border-primary-400
         shadow-sm
-        shadow-brand-300/50;
+        shadow-primary-300/50;
 
         .product-type-item-title {
-          @apply text-brand-800;
+          @apply text-primary-800;
         }
         .product-type-item-icon {
-          @apply text-brand-400;
+          @apply text-primary-400;
         }
       }
     }
@@ -41,13 +41,13 @@
         @apply mb-1.5 flex items-center gap-1;
       }
       .product-type-item-icon {
-        @apply h-5 w-5 text-gray-400;
+        @apply h-5 w-5 text-alpha-400;
       }
       .product-type-item-title {
-        @apply font-medium text-gray-800;
+        @apply font-medium text-alpha-800;
       }
       .product-type-item-description {
-        @apply text-sm text-gray-600;
+        @apply text-sm text-alpha-600;
       }
     }
   }

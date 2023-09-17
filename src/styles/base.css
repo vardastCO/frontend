@@ -3,5 +3,5 @@ html[lang="fa"] {
 }
 
 body {
-  @apply bg-gray-50 font-yekanBakh antialiased;
+  @apply bg-alpha-100 font-yekanBakh antialiased;
 }

@@ -284,7 +284,7 @@ const UserForm = ({ user }: Props) => {
       )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
-          <h1 className="text-xl font-black text-gray-800 lg:text-3xl">
+          <h1 className="text-xl font-black text-alpha-800 lg:text-3xl">
             {user
               ? t("common:edit_entity", { entity: t("common:user") })
               : t("common:new_entity", { entity: t("common:user") })}
@@ -365,7 +365,7 @@ const UserForm = ({ user }: Props) => {
                 accept="image/*"
                 ref={avatarFileFieldRef}
               />
-              <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-gray-200">
+              <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-alpha-200">
                 {avatarPreview || user?.avatarFile ? (
                   <Image
                     src={
@@ -378,7 +378,7 @@ const UserForm = ({ user }: Props) => {
                   />
                 ) : (
                   <LucideUser
-                    className="h-8 w-8 text-gray-400"
+                    className="h-8 w-8 text-alpha-400"
                     strokeWidth={1.5}
                   />
                 )}

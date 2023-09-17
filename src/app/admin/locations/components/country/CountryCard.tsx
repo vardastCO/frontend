@@ -80,12 +80,12 @@ const CountryCard = ({
         </span>
         <Link
           href={`/admin/locations/country/${slug}`}
-          className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-gray-300"
+          className="font-bold text-alpha-800 underline-offset-2 hover:text-alpha-900 hover:underline dark:text-alpha-400 dark:hover:text-alpha-300"
         >
           {name}
         </Link>
         {provincesCount !== 0 && (
-          <span className="text-sm text-gray-500 dark:text-gray-600">
+          <span className="text-sm text-alpha-500 dark:text-alpha-600">
             {digitsEnToFa(provincesCount)} استان
           </span>
         )}

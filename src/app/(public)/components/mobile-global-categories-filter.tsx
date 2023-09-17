@@ -27,15 +27,15 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
   if (vocabularies.isLoading)
     return (
       <div className="flex animate-pulse flex-col gap-3">
-        <div className="h-8 w-[80%] rounded-md bg-gray-200"></div>
-        <div className="h-8 w-full rounded-md bg-gray-200"></div>
-        <div className="h-8 w-[90%] rounded-md bg-gray-200"></div>
+        <div className="h-8 w-[80%] rounded-md bg-alpha-200"></div>
+        <div className="h-8 w-full rounded-md bg-alpha-200"></div>
+        <div className="h-8 w-[90%] rounded-md bg-alpha-200"></div>
       </div>
     )
   if (!vocabularies.data) return <></>
 
   return (
-    <ul className="grid h-full grid-cols-2 grid-rows-2 gap-4 divide-gray-200 px-4">
+    <ul className="grid h-full grid-cols-2 grid-rows-2 gap-4 divide-alpha-200 px-4">
       {vocabularies.data.vocabulary.categories.map(
         (category) =>
           category && (
@@ -97,9 +97,9 @@ const CategoriesList = ({
   if (categoriesQuery.isLoading)
     return (
       <div className="flex animate-pulse flex-col gap-3">
-        <div className="h-8 w-[80%] rounded-md bg-gray-200"></div>
-        <div className="h-8 w-full rounded-md bg-gray-200"></div>
-        <div className="h-8 w-[90%] rounded-md bg-gray-200"></div>
+        <div className="h-8 w-[80%] rounded-md bg-alpha-200"></div>
+        <div className="h-8 w-full rounded-md bg-alpha-200"></div>
+        <div className="h-8 w-[90%] rounded-md bg-alpha-200"></div>
       </div>
     )
   if (!categoriesQuery.data) return <></>
@@ -107,7 +107,7 @@ const CategoriesList = ({
   const data = categoriesQuery.data
 
   return (
-    <ul className="flex flex-col gap-y-4 divide-gray-200 px-4">
+    <ul className="flex flex-col gap-y-4 divide-alpha-200 px-4">
       {data.category.children.map(
         (category) =>
           category && (
@@ -176,7 +176,7 @@ const MobileGlobalCategoriesFilter = () => {
 
   return (
     <>
-      <div className="flex flex-col border-gray-200 py-4">
+      <div className="flex flex-col border-alpha-200 py-4">
         <div className="grid grid-cols-5 items-center gap-2 border-b">
           <Button
             onClick={() => {
@@ -195,7 +195,7 @@ const MobileGlobalCategoriesFilter = () => {
           >
             <LucideArrowRight className="h-5 w-5" />
           </Button>
-          <div className="col-span-3 px-4 text-center font-bold text-gray-800">
+          <div className="col-span-3 px-4 text-center font-bold text-alpha-800">
             {selectedCategory ? selectedCategory.title : "همه دسته‌بندی‌ها"}
           </div>
           <div></div>

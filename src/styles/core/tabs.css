@@ -1,5 +1,5 @@
 .tabs {
-  --highlight-color: theme(colors.brand.600);
+  --highlight-color: theme(colors.primary.600);
   @apply flex;
 
   &[data-orientation="horizontal"] {
@@ -33,22 +33,22 @@
   @apply relative
     cursor-default
     p-3
-    text-gray-700
+    text-alpha-700
     outline-none
     transition;
 
   &[data-hovered],
   &:focus {
-    @apply text-gray-800;
+    @apply text-alpha-800;
   }
 
   &[aria-selected="true"] {
     --border-color: var(--highlight-color);
-    @apply text-gray-800;
+    @apply text-alpha-800;
   }
 
   &[aria-disabled] {
-    @apply text-gray-500;
+    @apply text-alpha-500;
 
     &[aria-selected="true"] {
       --border-color: theme(colors.gray.300);

@@ -85,14 +85,14 @@ const UserMenu = () => {
                 <AvatarFallback>{session.profile.firstName[0]}</AvatarFallback>
               </Avatar>
               <div className="flex flex-1 flex-col truncate">
-                <span className="truncate font-medium text-gray-800">
+                <span className="truncate font-medium text-alpha-800">
                   {session.profile.fullName}
                 </span>
-                <span className="truncate text-sm text-gray-500">
+                <span className="truncate text-sm text-alpha-500">
                   {session.profile.email}
                 </span>
               </div>
-              <LucideChevronsUpDown className="h-3 w-3 text-gray-600" />
+              <LucideChevronsUpDown className="h-3 w-3 text-alpha-600" />
             </Button>
           </div>
         </div>

@@ -12,7 +12,7 @@ import "swiper/css/pagination"
 import "swiper/css/thumbs"
 
 interface ProductImagesProps {
-  isMobileView: RegExpMatchArray | null
+  isMobileView: boolean
   images: ProductImage[]
 }
 

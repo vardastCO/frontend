@@ -50,7 +50,7 @@ const ComboBox = ({
                   labelKey
                 ]
               : triggerPlaceholder ?? t("common:select_placeholder")}
-            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0 text-gray-500" />
+            <LucideChevronsUpDown className="ms-auto h-4 w-4 shrink-0 text-alpha-500" />
           </Button>
         </FormControl>
       </PopoverTrigger>

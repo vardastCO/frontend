@@ -5,13 +5,13 @@
   @apply inline-block
     text-sm
     font-medium
-    text-gray-600
-    dark:text-gray-400;
+    text-alpha-600
+    dark:text-alpha-400;
 }
 .form-control {
 }
 .form-message {
-  @apply text-sm text-gray-500;
+  @apply text-sm text-alpha-500;
 
   &.error {
     @apply text-red-600;

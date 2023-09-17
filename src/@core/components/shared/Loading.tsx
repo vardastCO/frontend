@@ -9,8 +9,8 @@ const Loading = (_: Props) => {
   return (
     <div className="flex h-auto items-center justify-center py-8">
       <div className="text-center">
-        <RefreshCcw className="mx-auto mb-3 h-6 w-6 animate-spin text-gray-400" />
-        <h3 className="mb-1 font-bold text-gray-700">
+        <RefreshCcw className="mx-auto mb-3 h-6 w-6 animate-spin text-alpha-400" />
+        <h3 className="mb-1 font-bold text-alpha-700">
           {t("common:loading_please_wait")}
         </h3>
       </div>

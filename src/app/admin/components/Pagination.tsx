@@ -27,7 +27,7 @@ const Pagination = ({ total, page, onChange }: Props) => {
     items-stretch
     divide-x
     divide-x-reverse
-    divide-gray-200
+    divide-alpha-200
     rounded-md
     text-xs
     md:text-sm
@@ -38,7 +38,7 @@ const Pagination = ({ total, page, onChange }: Props) => {
           <Button
             noStyle
             onClick={() => pagination.previous()}
-            className="inline-flex cursor-pointer items-center justify-center bg-white px-2 text-gray-700 hover:bg-gray-50 md:px-3"
+            className="inline-flex cursor-pointer items-center justify-center bg-white px-2 text-alpha-700 hover:bg-alpha-50 md:px-3"
           >
             قبلی
           </Button>
@@ -51,9 +51,9 @@ const Pagination = ({ total, page, onChange }: Props) => {
                 noStyle
                 onClick={() => pagination.setPage(page)}
                 className={clsx([
-                  "inline-flex h-8 w-8 cursor-pointer items-center justify-center hover:bg-gray-50 md:h-12 md:w-12",
+                  "inline-flex h-8 w-8 cursor-pointer items-center justify-center hover:bg-alpha-50 md:h-12 md:w-12",
                   page === pagination.active
-                    ? "bg-gray-50 font-bold text-gray-800"
+                    ? "bg-alpha-50 font-bold text-alpha-800"
                     : "bg-white"
                 ])}
               >
@@ -70,7 +70,7 @@ const Pagination = ({ total, page, onChange }: Props) => {
           <Button
             noStyle
             onClick={() => pagination.next()}
-            className="inline-flex cursor-pointer items-center justify-center bg-white px-2 hover:bg-gray-50 md:px-3"
+            className="inline-flex cursor-pointer items-center justify-center bg-white px-2 hover:bg-alpha-50 md:px-3"
           >
             بعدی
           </Button>

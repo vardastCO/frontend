@@ -32,8 +32,8 @@ const Card = ({
       {...props}
     >
       <div>
-        {title && <h2 className="font-medium text-gray-800">{title}</h2>}
-        {description && <p className="text-sm text-gray-500">{description}</p>}
+        {title && <h2 className="font-medium text-alpha-800">{title}</h2>}
+        {description && <p className="text-sm text-alpha-500">{description}</p>}
       </div>
       <div>{children}</div>
     </div>

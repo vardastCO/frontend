@@ -11,7 +11,7 @@
       will-change-[opacity,transform]
       focus:outline-none
       focus-visible:outline-none
-      dark:bg-gray-800
+      dark:bg-alpha-800
       dark:shadow-none;
 
   & .dropdown-menu-inner {
@@ -20,7 +20,7 @@
   }
 
   & .dropdown-menu-separator {
-    @apply m-1.5 h-px bg-gray-200 dark:bg-gray-700/50;
+    @apply m-1.5 h-px bg-alpha-200 dark:bg-alpha-700/50;
   }
 
   & .dropdown-menu-arrow svg {
@@ -41,15 +41,15 @@
           p-2
           text-base
           leading-none
-          text-gray-700
+          text-alpha-700
           outline-none
           ring-0
           ring-offset-0
-          hover:bg-gray-50
-          hover:text-gray-800
-          dark:text-gray-300
-          dark:hover:bg-gray-900/50
-          dark:hover:text-gray-200;
+          hover:bg-alpha-50
+          hover:text-alpha-800
+          dark:text-alpha-300
+          dark:hover:bg-alpha-900/50
+          dark:hover:text-alpha-200;
 
     &.danger {
       @apply text-red-600
@@ -64,7 +64,7 @@
   }
 
   & .dropdown-menu-item-icon {
-    @apply h-4 w-4 text-gray-400;
+    @apply h-4 w-4 text-alpha-400;
     stroke-width: 1.5;
   }
 

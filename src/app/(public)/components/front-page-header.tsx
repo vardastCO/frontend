@@ -49,7 +49,7 @@ const FrontPageHeader = (_: Props) => {
               <PopoverContent>
                 <PopoverArrow />
                 <div className="card rounded-md px-4">
-                  <ol className="flex flex-col divide-y divide-gray-200">
+                  <ol className="flex flex-col divide-y divide-alpha-200">
                     {categories.data?.vocabulary.categories.slice(5).map(
                       (category) =>
                         category && (

@@ -46,7 +46,7 @@ import VocabularyFilter from "@/app/(public)/components/vocabulary-filter"
 import ProductCard from "./product-card"
 
 interface ProductListProps {
-  isMobileView: RegExpMatchArray | null
+  isMobileView: boolean
   args: IndexProductInput
   selectedCategoryIds: InputMaybe<number[]> | undefined
   brandId?: number
@@ -248,12 +248,12 @@ const ProductList = ({
                     onClick={() => setFiltersVisibility(true)}
                     size="small"
                     variant="ghost"
-                    className="border border-gray-200"
+                    className="border border-alpha-200"
                   >
                     {filterAttributes.length > 0 && (
-                      <span className="absolute -right-1 -top-1 block h-2.5 w-2.5 rounded-full bg-brand-500"></span>
+                      <span className="absolute -right-1 -top-1 block h-2.5 w-2.5 rounded-full bg-primary-500"></span>
                     )}
-                    <LucideSlidersHorizontal className="icon text-gray-400" />
+                    <LucideSlidersHorizontal className="icon text-alpha-400" />
                     فیلترها
                   </Button>
                   <MobileFilterableAttributes
@@ -274,18 +274,18 @@ const ProductList = ({
               onClick={() => setCategoriesFilterVisibility(true)}
               size="small"
               variant="ghost"
-              className="border border-gray-200"
+              className="border border-alpha-200"
             >
-              <LucideLayoutGrid className="icon text-gray-400" />
+              <LucideLayoutGrid className="icon text-alpha-400" />
               دسته‌بندی‌ها
             </Button>
             <Button
               onClick={() => setSortFilterVisibility(true)}
               size="small"
               variant="ghost"
-              className="border border-gray-200"
+              className="border border-alpha-200"
             >
-              <LucideSortDesc className="icon text-gray-400" />
+              <LucideSortDesc className="icon text-alpha-400" />
               مرتب‌سازی
             </Button>
           </div>
@@ -302,7 +302,7 @@ const ProductList = ({
       >
         {!isMobileView && (
           <div>
-            <div className="divide-y divide-gray-200 rounded-md border border-gray-300 px-4">
+            <div className="divide-y divide-alpha-200 rounded-md border border-alpha-300 px-4">
               <div className="-mx-4 flex items-center p-4">
                 <strong>فیلترها</strong>
                 {filterAttributes.length > 0 && (
@@ -360,7 +360,7 @@ const ProductList = ({
         <div>
           {data.products.data.length > 0 ? (
             <>
-              <div className="flex items-center border-b border-gray-200 py-1 md:py-3">
+              <div className="flex items-center border-b border-alpha-200 py-1 md:py-3">
                 <ProductSort
                   sort={sort}
                   onSortChanged={(sort) => {

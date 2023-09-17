@@ -67,11 +67,11 @@ const BrandOrSellerCategoryFilter = ({
                     justify-center
                     rounded-md
                     border-2
-                    border-gray-600
+                    border-alpha-600
                     bg-white
                     outline-none
-                    data-[state='checked']:border-brand-500
-                    data-[state='checked']:bg-brand-500"
+                    data-[state='checked']:border-primary-500
+                    data-[state='checked']:bg-primary-500"
                     checked={
                       !!categoryIdsFilter &&
                       categoryIdsFilter.some((item) => item === category.id)

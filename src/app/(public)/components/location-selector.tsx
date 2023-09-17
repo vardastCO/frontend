@@ -48,7 +48,7 @@ const LocationSelector = () => {
 
   const ProvinceList = ({ provinces }: ProvinceListProps) => {
     return (
-      <div className="flex w-full flex-col divide-y divide-gray-200">
+      <div className="flex w-full flex-col divide-y divide-alpha-200">
         {provinces.map(
           (province) =>
             province && (
@@ -60,7 +60,7 @@ const LocationSelector = () => {
                   className="flex items-center justify-between py-3"
                 >
                   <span>{province.name}</span>
-                  <LucideChevronLeft className="h-4 w-4 text-gray-500" />
+                  <LucideChevronLeft className="h-4 w-4 text-alpha-500" />
                 </Button>
               </>
             )
@@ -80,7 +80,7 @@ const LocationSelector = () => {
           <LucideArrowRight className="icon" />
           <span>همه شهرها</span>
         </Button>
-        <div className="flex w-full flex-col space-y-3 divide-y divide-gray-200">
+        <div className="flex w-full flex-col space-y-3 divide-y divide-alpha-200">
           <Label className="flex w-full items-center gap-1.5 pt-3">
             <Checkbox />
             همه شهرهای {province.name}
@@ -124,7 +124,7 @@ const LocationSelector = () => {
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <div className="sticky -top-6 -mx-6 -mt-6 border-b border-gray-200 bg-white p-6">
+        <div className="sticky -top-6 -mx-6 -mt-6 border-b border-alpha-200 bg-white p-6">
           <h1 className="dialog-title">انتخاب شهر</h1>
           <div className="mt-6 flex flex-col gap-4">
             <div className="flex flex-wrap gap-2">
@@ -132,7 +132,7 @@ const LocationSelector = () => {
                 selectedCities.map((city) => (
                   <div
                     key={city.id}
-                    className="flex items-center gap-1 rounded border border-gray-200 px-2 py-1 pl-1 text-sm"
+                    className="flex items-center gap-1 rounded border border-alpha-200 px-2 py-1 pl-1 text-sm"
                   >
                     {city.name}
                     <Button
@@ -164,7 +164,7 @@ const LocationSelector = () => {
         </div>
         {countryQuery.isLoading && (
           <div className="flex items-center justify-center p-12">
-            <LucideLoader2 className="animate-spin text-gray-400" />
+            <LucideLoader2 className="animate-spin text-alpha-400" />
           </div>
         )}
         {countryQuery.data &&

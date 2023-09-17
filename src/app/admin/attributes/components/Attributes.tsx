@@ -70,7 +70,7 @@ const Attributes = () => {
                     }
                   >
                     <td>
-                      <span className="font-medium text-gray-800">
+                      <span className="font-medium text-alpha-800">
                         {attribute.name}
                       </span>
                     </td>

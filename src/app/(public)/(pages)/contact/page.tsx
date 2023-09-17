@@ -23,13 +23,13 @@ const ContactPage = async () => {
         <h1 className="mb-8 text-3xl font-bold">تماس با ما</h1>
         <div className="flex flex-col gap-4">
           <p>
-            <span className="block text-sm font-semibold text-gray-600">
+            <span className="block text-sm font-semibold text-alpha-600">
               آدرس ایمیل:
             </span>
             <span className="block">info@vardast.com</span>
           </p>
           <p>
-            <span className="block text-sm font-semibold text-gray-600">
+            <span className="block text-sm font-semibold text-alpha-600">
               تلفن تماس:
             </span>
             <span className="block text-right" dir="ltr">
@@ -37,7 +37,7 @@ const ContactPage = async () => {
             </span>
           </p>
           <p>
-            <span className="block text-sm font-semibold text-gray-600">
+            <span className="block text-sm font-semibold text-alpha-600">
               آدرس:
             </span>
             <span className="block">

@@ -14,7 +14,7 @@ import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getAllBrandsQueryFn } from "@core/queryFns/allBrandsQueryFns"
 
 interface BrandsPageProps {
-  isMobileView: RegExpMatchArray | null
+  isMobileView: boolean
 }
 
 const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
@@ -54,7 +54,7 @@ const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
           (brand) =>
             brand && (
               <Link href={`/brand/${brand.id}`} key={brand.id} prefetch={false}>
-                <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-gray-200 bg-gray-50">
+                <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-alpha-200 bg-alpha-50">
                   {brand.logoFile ? (
                     <Image
                       src={brand.logoFile.presignedUrl.url as string}
@@ -64,7 +64,7 @@ const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
                     />
                   ) : (
                     <LucideWarehouse
-                      className="h-8 w-8 text-gray-400 md:h-10 md:w-10"
+                      className="h-8 w-8 text-alpha-400 md:h-10 md:w-10"
                       strokeWidth={1.5}
                     />
                   )}

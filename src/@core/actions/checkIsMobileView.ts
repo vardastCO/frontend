@@ -8,7 +8,7 @@ export const CheckIsMobileView = () => {
   const userAgent = headersList.get("user-agent")
 
   // Let's check if the device is a mobile device
-  return userAgent!.match(
+  return !!userAgent!.match(
     /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
   )
 }

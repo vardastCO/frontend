@@ -9,14 +9,14 @@
     rounded-full
     border-2
     border-transparent
-    bg-gray-300
+    bg-alpha-300
     ring-offset-2
-    ring-offset-gray-700
+    ring-offset-alpha-700
     transition
     duration-200
     data-[state="checked"]:bg-emerald-400
-    dark:bg-gray-600
-    dark:data-[state="checked"]:bg-brand-400;
+    dark:bg-alpha-600
+    dark:data-[state="checked"]:bg-primary-400;
   -webkit-tap-highlight-color: transparent;
 
   &-thumb {

@@ -77,7 +77,7 @@
   }
 
   &-gray {
-    @apply bg-gray-100 text-gray-700;
+    @apply bg-alpha-100 text-alpha-700;
   }
   &-primary {
     @apply bg-indigo-100 text-indigo-700;

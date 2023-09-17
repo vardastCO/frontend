@@ -21,11 +21,11 @@ interface lateatSearchType {
   uri: string
 }
 
-interface SearchProps {
-  isMobileView: RegExpMatchArray | null
+interface ISearch {
+  isMobileView: boolean
 }
 
-const Search = ({ isMobileView }: SearchProps) => {
+const Search: React.FC<ISearch> = ({ isMobileView }) => {
   const { push } = useRouter()
   const [latestSearch, SetLatestSearch] = useLocalStorage<lateatSearchType[]>({
     key: "latest-search",
@@ -79,7 +79,7 @@ const Search = ({ isMobileView }: SearchProps) => {
       {!isMobileView && (
         <div
           className={clsx([
-            "fixed inset-0 z-20 h-full w-full bg-gray-800 transition duration-200",
+            "fixed inset-0 z-20 h-full w-full bg-alpha-800 transition duration-200",
             open ? "visible opacity-50" : "invisible opacity-0"
           ])}
         ></div>
@@ -102,12 +102,12 @@ const Search = ({ isMobileView }: SearchProps) => {
                 items-center
                 gap-2
                 rounded-md
-                bg-gray-100
+                bg-alpha-100
                 px-4
                 py-3"
           >
-            <LucideSearch className="h-6 w-6 text-gray-400" />
-            <span className="text-gray-500">جستجو در وردست...</span>
+            <LucideSearch className="h-6 w-6 text-alpha-400" />
+            <span className="text-alpha-500">جستجو در وردست...</span>
           </Button>
         </div>
 
@@ -119,8 +119,8 @@ const Search = ({ isMobileView }: SearchProps) => {
               isMobileView ? "h-full" : "rounded-md"
             ])}
           >
-            <div className="flex items-center gap-2 border-b border-gray-200 pb-3">
-              <LucideSearch className="h-6 w-6 text-gray-400" />
+            <div className="flex items-center gap-2 border-b border-alpha-200 pb-3">
+              <LucideSearch className="h-6 w-6 text-alpha-400" />
               <input
                 autoFocus
                 defaultValue={query}
@@ -143,7 +143,7 @@ const Search = ({ isMobileView }: SearchProps) => {
               {!query && latestSearch.length > 0 && (
                 <div>
                   <div className="flex items-center justify-between">
-                    <div className="text-sm font-semibold text-gray-700 md:text-base">
+                    <div className="text-sm font-semibold text-alpha-700 md:text-base">
                       آخرین جستجوی‌های شما
                     </div>
                     <Button
@@ -152,14 +152,14 @@ const Search = ({ isMobileView }: SearchProps) => {
                       size="small"
                       onClick={() => SetLatestSearch([])}
                     >
-                      <LucideTrash className="icon text-gray-400" />
+                      <LucideTrash className="icon text-alpha-400" />
                     </Button>
                   </div>
                   <ul className="hide-scrollbar flex items-center gap-3 overflow-x-auto overflow-y-hidden whitespace-nowrap py-4">
                     {latestSearch.map((item, idx: number) => (
                       <li key={idx}>
                         <a
-                          className="inline-flex rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600 shadow-sm hover:bg-gray-100 hover:text-gray-700"
+                          className="inline-flex rounded-lg border border-alpha-200 px-3 py-2 text-sm text-alpha-600 shadow-sm hover:bg-alpha-100 hover:text-alpha-700"
                           href={item.uri}
                         >
                           {item.query}
@@ -173,16 +173,16 @@ const Search = ({ isMobileView }: SearchProps) => {
               {searchQuery.fetchStatus === "fetching" &&
                 searchQuery.status === "loading" && (
                   <div className="flex animate-pulse flex-col gap-3">
-                    <div className="h-12 w-[30%] rounded-md bg-gray-200"></div>
-                    <div className="h-5 w-[80%] rounded-md bg-gray-200"></div>
-                    <div className="h-5 w-full rounded-md bg-gray-200"></div>
-                    <div className="h-5 w-[90%] rounded-md bg-gray-200"></div>
-                    <div className="h-5 w-[70%] rounded-md bg-gray-200"></div>
+                    <div className="h-12 w-[30%] rounded-md bg-alpha-200"></div>
+                    <div className="h-5 w-[80%] rounded-md bg-alpha-200"></div>
+                    <div className="h-5 w-full rounded-md bg-alpha-200"></div>
+                    <div className="h-5 w-[90%] rounded-md bg-alpha-200"></div>
+                    <div className="h-5 w-[70%] rounded-md bg-alpha-200"></div>
                   </div>
                 )}
 
               {searchQuery.data && (
-                <div className="flex flex-col gap-6 divide-y divide-gray-200 [&>div:nth-child(n+2)]:pt-4">
+                <div className="flex flex-col gap-6 divide-y divide-alpha-200 [&>div:nth-child(n+2)]:pt-4">
                   {searchQuery.data.suggest.products.length > 0 && (
                     <div className="hide-scrollbar flex items-center gap-3 overflow-x-auto overflow-y-hidden whitespace-nowrap">
                       {searchQuery.data.suggest.products.slice(0, 10).map(
@@ -196,7 +196,7 @@ const Search = ({ isMobileView }: SearchProps) => {
                                 )
                               }
                               key={suggestedProduct.id}
-                              className="flex items-start gap-2 rounded-md border border-gray-200 p-2"
+                              className="flex items-start gap-2 rounded-md border border-alpha-200 p-2"
                             >
                               <div className="relative h-14 w-14 rounded-md">
                                 <Image
@@ -210,7 +210,7 @@ const Search = ({ isMobileView }: SearchProps) => {
                                   fill
                                 />
                               </div>
-                              <div className="text-sm text-gray-800">
+                              <div className="text-sm text-alpha-800">
                                 {suggestedProduct.name}
                               </div>
                             </Button>
@@ -225,7 +225,7 @@ const Search = ({ isMobileView }: SearchProps) => {
                           suggestedCategory && (
                             <Button
                               noStyle
-                              className="w-full rounded px-3 py-2 text-start text-gray-700 hover:bg-gray-50"
+                              className="w-full rounded px-3 py-2 text-start text-alpha-700 hover:bg-alpha-50"
                               onClick={() =>
                                 navigateToSearch(
                                   query,
@@ -235,7 +235,7 @@ const Search = ({ isMobileView }: SearchProps) => {
                               key={suggestedCategory.id}
                             >
                               جستجوی {query} در دسته{" "}
-                              <strong className="text-brand-500">
+                              <strong className="text-primary-500">
                                 {suggestedCategory.title}
                               </strong>
                             </Button>
@@ -246,7 +246,7 @@ const Search = ({ isMobileView }: SearchProps) => {
                   <div>
                     <Button
                       noStyle
-                      className="flex w-full items-center gap-2 rounded px-3 py-2 text-start text-gray-700 hover:bg-gray-50"
+                      className="flex w-full items-center gap-2 rounded px-3 py-2 text-start text-alpha-700 hover:bg-alpha-50"
                       onClick={() =>
                         navigateToSearch(query, `/search?query=${query}`)
                       }

@@ -20,7 +20,7 @@
         ring
         ring-transparent
         transition-all
-        dark:bg-gray-950
+        dark:bg-alpha-950
         dark:bg-opacity-20;
 
   & svg {
@@ -36,8 +36,8 @@
 
   &[data-state="checked"],
   &[data-state="indeterminate"] {
-    --border-color: rgba(theme(colors.brand.600), var(--border-opacity));
-    @apply bg-brand-600 shadow-none;
+    --border-color: rgba(theme(colors.primary.600), var(--border-opacity));
+    @apply bg-primary-600 shadow-none;
 
     & svg {
       stroke-dashoffset: 44;

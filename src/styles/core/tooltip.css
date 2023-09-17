@@ -14,9 +14,11 @@
   border-radius: theme(borderRadius.lg);
   color: theme(colors.white);
   transition: opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1);
-  transition: opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1),
+  transition:
+    opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1),
     transform 0.3s cubic-bezier(0.73, 0.01, 0, 1);
-  transition: opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1),
+  transition:
+    opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1),
     transform 0.3s cubic-bezier(0.73, 0.01, 0, 1);
   pointer-events: none;
   z-index: 100000;
@@ -47,9 +49,11 @@
   height: 0;
   transform: translate(-50%, calc(-50% - 6px));
   transition: opacity 0.1s cubic-bezier(0.73, 0.01, 0, 1) 0s;
-  transition: opacity 0.1s cubic-bezier(0.73, 0.01, 0, 1) 0s,
+  transition:
+    opacity 0.1s cubic-bezier(0.73, 0.01, 0, 1) 0s,
     transform 0.6s cubic-bezier(0.73, 0.01, 0, 1) 0s;
-  transition: opacity 0.1s cubic-bezier(0.73, 0.01, 0, 1) 0s,
+  transition:
+    opacity 0.1s cubic-bezier(0.73, 0.01, 0, 1) 0s,
     transform 0.6s cubic-bezier(0.73, 0.01, 0, 1) 0s;
   z-index: 110000;
 }
@@ -89,9 +93,11 @@
 [data-n-tooltip]:focus:before,
 [data-n-tooltip]:hover:before {
   transition: opacity 0.1s cubic-bezier(0.73, 0.01, 0, 1) 0.1s;
-  transition: opacity 0.1s cubic-bezier(0.73, 0.01, 0, 1) 0.1s,
+  transition:
+    opacity 0.1s cubic-bezier(0.73, 0.01, 0, 1) 0.1s,
     transform 0.6s cubic-bezier(0.73, 0.01, 0, 1) 0.1s;
-  transition: opacity 0.1s cubic-bezier(0.73, 0.01, 0, 1) 0.1s,
+  transition:
+    opacity 0.1s cubic-bezier(0.73, 0.01, 0, 1) 0.1s,
     transform 0.6s cubic-bezier(0.73, 0.01, 0, 1) 0.1s;
   transform: translate(-50%, calc(-50% - 2px));
 }
@@ -187,32 +193,40 @@
 }
 [data-n-tooltip][data-n-tooltip-config*="delay"]:before {
   transition: opacity 0.2s cubic-bezier(0.73, 0.01, 0, 1) 0s;
-  transition: opacity 0.2s cubic-bezier(0.73, 0.01, 0, 1) 0s,
+  transition:
+    opacity 0.2s cubic-bezier(0.73, 0.01, 0, 1) 0s,
     transform 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0s;
-  transition: opacity 0.2s cubic-bezier(0.73, 0.01, 0, 1) 0s,
+  transition:
+    opacity 0.2s cubic-bezier(0.73, 0.01, 0, 1) 0s,
     transform 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0s;
 }
 [data-n-tooltip][data-n-tooltip-config*="delay"]:after {
   transition: opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0s;
-  transition: opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0s,
+  transition:
+    opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0s,
     transform 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0s;
-  transition: opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0s,
+  transition:
+    opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0s,
     transform 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0s;
 }
 [data-n-tooltip][data-n-tooltip-config*="delay"]:focus:before,
 [data-n-tooltip][data-n-tooltip-config*="delay"]:hover:before {
   transition: opacity 0.2s cubic-bezier(0.73, 0.01, 0, 1) 0.5s;
-  transition: opacity 0.2s cubic-bezier(0.73, 0.01, 0, 1) 0.5s,
+  transition:
+    opacity 0.2s cubic-bezier(0.73, 0.01, 0, 1) 0.5s,
     transform 0.6s cubic-bezier(0.73, 0.01, 0, 1) 0.5s;
-  transition: opacity 0.2s cubic-bezier(0.73, 0.01, 0, 1) 0.5s,
+  transition:
+    opacity 0.2s cubic-bezier(0.73, 0.01, 0, 1) 0.5s,
     transform 0.6s cubic-bezier(0.73, 0.01, 0, 1) 0.5s;
 }
 [data-n-tooltip][data-n-tooltip-config*="delay"]:focus:after,
 [data-n-tooltip][data-n-tooltip-config*="delay"]:hover:after {
   transition: opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0.4s;
-  transition: opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0.4s,
+  transition:
+    opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0.4s,
     transform 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0.4s;
-  transition: opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0.4s,
+  transition:
+    opacity 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0.4s,
     transform 0.3s cubic-bezier(0.73, 0.01, 0, 1) 0.4s;
 }
 [data-n-tooltip][data-n-tooltip-config*="shadow"]:after {

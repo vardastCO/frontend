@@ -71,17 +71,17 @@ const CategoryCard = ({
     <>
       <div className="card flex items-center gap-3 rounded px-4 py-2 pe-2">
         <div className="flex flex-1 items-center gap-2">
-          <LucideGripVertical className="hidden h-5 w-5 text-gray-400" />
+          <LucideGripVertical className="hidden h-5 w-5 text-alpha-400" />
           <div className="flex h-8 w-8 items-center justify-center">
             {hasChildren && (
               <LucideFolderClosed
-                className="h-5 w-5 text-gray-500 dark:text-gray-700"
+                className="h-5 w-5 text-alpha-500 dark:text-alpha-700"
                 strokeWidth={1.5}
               />
             )}
             {!hasChildren && (
               <LucideFile
-                className="h-5 w-5 text-gray-500 dark:text-gray-700"
+                className="h-5 w-5 text-alpha-500 dark:text-alpha-700"
                 strokeWidth={1.5}
               />
             )}
@@ -89,17 +89,17 @@ const CategoryCard = ({
           <Button
             noStyle
             onClick={() => (hasChildren ? toggleChilds() : null)}
-            className="font-bold text-gray-800 underline-offset-2 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-gray-300"
+            className="font-bold text-alpha-800 underline-offset-2 hover:text-alpha-900 hover:underline dark:text-alpha-400 dark:hover:text-alpha-300"
           >
             {title}
           </Button>
           {hasChildren && (
-            <span className="text-sm text-gray-500 dark:text-gray-600">
+            <span className="text-sm text-alpha-500 dark:text-alpha-600">
               {digitsEnToFa(childrenCount)} زیر دسته
             </span>
           )}
           {productsCount > 0 && (
-            <span className="text-sm text-gray-500 dark:text-gray-600">
+            <span className="text-sm text-alpha-500 dark:text-alpha-600">
               {digitsEnToFa(productsCount)} کالا
             </span>
           )}
@@ -139,7 +139,7 @@ const CategoryCard = ({
         </div>
       </div>
       {open && (
-        <div className="ms-8 border-s border-gray-200 ps-2">
+        <div className="ms-8 border-s border-alpha-200 ps-2">
           <div className="flex flex-col gap-2">
             {data?.category.children.map((child) => (
               <CategoryCard

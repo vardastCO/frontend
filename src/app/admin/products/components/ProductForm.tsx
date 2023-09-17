@@ -294,7 +294,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
         <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
           <div className="create-product">
             <div className="mb-6 mt-8 flex items-end justify-between">
-              <h1 className="text-3xl font-black text-gray-800">
+              <h1 className="text-3xl font-black text-alpha-800">
                 {name ? name : t("common:new_product")}
               </h1>
               <Button type="submit" className="sticky top-0">

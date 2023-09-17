@@ -36,7 +36,7 @@ const Sidebar = ({ menus, open, onOpenChanged }: SidebarProps) => {
   return (
     <>
       {open && (
-        <div className="pointer-events-none fixed inset-0 z-50 h-full w-full bg-gray-800 bg-opacity-40"></div>
+        <div className="pointer-events-none fixed inset-0 z-50 h-full w-full bg-alpha-800 bg-opacity-40"></div>
       )}
       <div ref={ref} className={clsx(["app-sidebar", open ? "open" : ""])}>
         <div className="app-sidebar-inner">

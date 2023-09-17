@@ -91,11 +91,11 @@ const Products = () => {
                     </td>
                     <td>
                       <div className="flex flex-col gap-1.5">
-                        <span className="font-medium text-gray-800">
+                        <span className="font-medium text-alpha-800">
                           {product.name}
                         </span>
                         {product.sku && (
-                          <span className="text-xs text-gray-600">
+                          <span className="text-xs text-alpha-600">
                             کد کالا: {product.sku}
                           </span>
                         )}

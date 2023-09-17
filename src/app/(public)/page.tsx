@@ -31,7 +31,7 @@ const Index = async () => {
           <Search isMobileView={isMobileView} />
         </div>
         {!isMobileView && (
-          <div className="fixed inset-x-0 bottom-0 mx-auto mb-12 flex w-full justify-center gap-4 text-center text-sm text-gray-500">
+          <div className="fixed inset-x-0 bottom-0 mx-auto mb-12 flex w-full justify-center gap-4 text-center text-sm text-alpha-500">
             <Link href="/about">درباره وردست</Link>
             <Link href="/contact">تماس با ما</Link>
           </div>

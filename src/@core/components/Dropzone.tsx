@@ -158,7 +158,7 @@ const Dropzone = ({
         <div
           className={clsx([
             "card relative rounded p-4 transition",
-            isDragActive && "bg-gray-50"
+            isDragActive && "bg-alpha-50"
           ])}
         >
           {files.length || existingImages ? (
@@ -177,7 +177,7 @@ const Dropzone = ({
                       image && (
                         <li
                           key={image?.file.uuid}
-                          className="relative h-32 overflow-hidden rounded border border-gray-200"
+                          className="relative h-32 overflow-hidden rounded border border-alpha-200"
                         >
                           <Image
                             src={image.file.presignedUrl.url}
@@ -192,10 +192,10 @@ const Dropzone = ({
                 {files.map((file) => (
                   <li
                     key={file.name}
-                    className="relative h-32 overflow-hidden rounded border border-gray-200"
+                    className="relative h-32 overflow-hidden rounded border border-alpha-200"
                   >
                     {file.status === "uploading" && (
-                      <div className="absolute inset-0 z-10 flex h-full w-full items-center justify-center bg-gray-800 bg-opacity-10 text-brand-600 backdrop-blur-sm">
+                      <div className="absolute inset-0 z-10 flex h-full w-full items-center justify-center bg-alpha-800 bg-opacity-10 text-primary-600 backdrop-blur-sm">
                         <span className="animate-spin">
                           <LucideLoader2 className="h-5 w-5" />
                         </span>
@@ -227,11 +227,11 @@ const Dropzone = ({
             </>
           ) : (
             <div className="flex h-60 w-full flex-col items-center justify-center gap-1">
-              <ImagePlus className="h-12 w-12 text-gray-400" />
-              <span className="font-medium text-gray-800">
+              <ImagePlus className="h-12 w-12 text-alpha-400" />
+              <span className="font-medium text-alpha-800">
                 {t("common:add_images_dropzone_title")}
               </span>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-alpha-500">
                 {t("common:add_images_dropzone_description")}
               </span>
             </div>

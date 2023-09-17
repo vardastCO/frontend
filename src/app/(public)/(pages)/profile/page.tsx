@@ -1,17 +1,27 @@
+import { Metadata } from "next"
 import { redirect } from "next/navigation"
 
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 
-import MobileMySpace from "../../components/mobile-global-my-space"
+import ProfileIndex from "./components"
 
-const ContactPage = async () => {
+// set dynamic metadata
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "حساب کاربری"
+  }
+}
+
+const ProfilePage = async ({ ...params }) => {
   const isMobileView = CheckIsMobileView()
+
+  console.log(params)
 
   if (!isMobileView) {
     redirect("/")
   }
 
-  return <MobileMySpace />
+  return <ProfileIndex />
 }
 
-export default ContactPage
+export default ProfilePage

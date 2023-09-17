@@ -50,9 +50,9 @@ const FiltersContainer = ({
       {getAllFilterableAttributesQuery.fetchStatus === "fetching" &&
         getAllFilterableAttributesQuery.status === "loading" && (
           <div className="flex animate-pulse flex-col gap-3 py-6">
-            <div className="h-5 w-[80%] rounded-md bg-gray-200"></div>
-            <div className="h-5 w-full rounded-md bg-gray-200"></div>
-            <div className="h-5 w-[90%] rounded-md bg-gray-200"></div>
+            <div className="h-5 w-[80%] rounded-md bg-alpha-200"></div>
+            <div className="h-5 w-full rounded-md bg-alpha-200"></div>
+            <div className="h-5 w-[90%] rounded-md bg-alpha-200"></div>
           </div>
         )}
       {getAllFilterableAttributesQuery.data &&
@@ -83,11 +83,11 @@ const FiltersContainer = ({
                         justify-center
                         rounded-md
                         border-2
-                        border-gray-600
+                        border-alpha-600
                         bg-white
                         outline-none
-                        data-[state='checked']:border-brand-500
-                        data-[state='checked']:bg-brand-500"
+                        data-[state='checked']:border-primary-500
+                        data-[state='checked']:bg-primary-500"
                             checked={filterAttributes.some(
                               (item) =>
                                 item.id === filter.id && item.value === value

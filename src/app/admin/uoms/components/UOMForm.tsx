@@ -133,7 +133,7 @@ const UOMForm = ({ uom }: UOMFormProps) => {
       )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
-          <h1 className="text-xl font-black text-gray-800 lg:text-3xl">
+          <h1 className="text-xl font-black text-alpha-800 lg:text-3xl">
             {name ? name : t("common:new_entity", { entity: t("common:uom") })}
           </h1>
           <Button

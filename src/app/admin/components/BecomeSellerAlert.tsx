@@ -183,7 +183,7 @@ const BecomeSellerAlert = () => {
                     accept="image/*"
                     ref={logoFileFieldRef}
                   />
-                  <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-gray-200">
+                  <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-alpha-200">
                     {logoPreview ? (
                       <Image
                         src={logoPreview}
@@ -193,7 +193,7 @@ const BecomeSellerAlert = () => {
                       />
                     ) : (
                       <LucideWarehouse
-                        className="h-8 w-8 text-gray-400"
+                        className="h-8 w-8 text-alpha-400"
                         strokeWidth={1.5}
                       />
                     )}

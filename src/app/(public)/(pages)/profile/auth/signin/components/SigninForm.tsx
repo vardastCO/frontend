@@ -76,14 +76,16 @@ const SigninForm = () => {
   //   })
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-gray-50 p-4">
+    <div className="flex min-h-screen w-full items-center justify-center bg-alpha-50 p-4">
       <div className="flex w-full max-w-xs flex-col gap-8 py-12">
         <Image
           src={signLogo}
           alt={process.env.NEXT_PUBLIC_TITLE as string}
           className="ml-auto h-12"
         />
-        <h1 className="text-xl font-bold text-gray-800">{t("common:login")}</h1>
+        <h1 className="text-xl font-bold text-alpha-800">
+          {t("common:login")}
+        </h1>
 
         {error && (
           <Alert variant="danger">
@@ -145,7 +147,7 @@ const SigninForm = () => {
         </Form>
         <Link
           href="/profile/auth/reset"
-          className="text-center text-gray-500 hover:text-gray-700"
+          className="text-center text-alpha-500 hover:text-alpha-700"
         >
           {t("common:forgot_your_password")}
         </Link>

@@ -3,8 +3,8 @@
     h-auto
     min-h-screen
     flex-col
-    bg-gray-50
-    dark:bg-gray-900
+    bg-alpha-50
+    dark:bg-alpha-900
     lg:h-screen;
 }
 
@@ -34,12 +34,12 @@
     h-full
     flex-shrink-0
     translate-x-80
-    bg-gray-100
+    bg-alpha-100
     bg-opacity-90
     backdrop-blur-sm
     transition
     duration-200
-    dark:bg-gray-950
+    dark:bg-alpha-950
     dark:bg-opacity-10
     lg:sticky
     lg:translate-x-0;
@@ -58,10 +58,10 @@
     w-80
     flex-shrink-0
     border-l
-    border-gray-100
+    border-alpha-100
     py-5
     transition-all
-    dark:border-gray-800
+    dark:border-alpha-800
     dark:border-opacity-40;
 
   .app-navigation-container {
@@ -75,8 +75,8 @@
       @apply py-2
         text-sm
         font-medium
-        text-gray-600
-        dark:text-gray-500;
+        text-alpha-600
+        dark:text-alpha-500;
     }
   }
   .app-navigation-item {
@@ -89,11 +89,11 @@
           px-2
           py-3
           leading-normal
-          text-gray-700
-          hover:bg-gray-200
+          text-alpha-700
+          hover:bg-alpha-200
           hover:bg-opacity-50
-          dark:text-gray-400
-          dark:hover:bg-gray-800
+          dark:text-alpha-400
+          dark:hover:bg-alpha-800
           dark:hover:bg-opacity-30;
     }
 
@@ -103,8 +103,8 @@
       .icon {
         @apply h-5
         w-5
-        text-gray-400
-        dark:text-gray-600;
+        text-alpha-400
+        dark:text-alpha-600;
       }
     }
 
@@ -115,27 +115,27 @@
             w-6
             items-center
             justify-center
-            text-gray-500
+            text-alpha-500
             focus:outline-none
             focus-visible:outline-none
-            dark:text-gray-600;
+            dark:text-alpha-600;
     }
 
     &:has(.active),
     &.active {
       > span {
-        @apply bg-gray-200
+        @apply bg-alpha-200
               font-medium
-              text-gray-800
-              dark:bg-gray-800
+              text-alpha-800
+              dark:bg-alpha-800
               dark:bg-opacity-50
-              dark:text-gray-200;
+              dark:text-alpha-200;
       }
 
       .app-navigation-item-link {
         .icon {
-          @apply text-gray-700
-                  dark:text-gray-300;
+          @apply text-alpha-700
+                  dark:text-alpha-300;
         }
       }
       .app-navigation-item-arrow {
@@ -160,9 +160,9 @@
         hidden
         flex-col
         border-s
-        border-gray-300
+        border-alpha-300
         pt-3
-        dark:border-gray-700;
+        dark:border-alpha-700;
 
       .app-navigation-item-children-item {
         .app-navigation-item-children-item-link {
@@ -175,21 +175,21 @@
             px-2
             py-3
             leading-normal
-            text-gray-600
+            text-alpha-600
             before:-ms-3
             before:me-3
             before:block
             before:h-2
             before:w-2
             before:rounded-full
-            before:bg-gray-300
-            hover:text-gray-700
-            dark:text-gray-500
-            dark:before:bg-gray-700
-            dark:hover:text-gray-400;
+            before:bg-alpha-300
+            hover:text-alpha-700
+            dark:text-alpha-500
+            dark:before:bg-alpha-700
+            dark:hover:text-alpha-400;
 
           &.active {
-            @apply text-gray-700 before:bg-brand-600 dark:text-gray-400;
+            @apply text-alpha-700 before:bg-primary-600 dark:text-alpha-400;
           }
         }
       }

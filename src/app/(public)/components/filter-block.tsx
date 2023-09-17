@@ -23,7 +23,7 @@ const FilterBlock = ({
   return (
     <Collapsible.Root open={open} onOpenChange={setOpen}>
       <div className="flex items-center py-3">
-        <span className="font-bold text-gray-800">{title}</span>
+        <span className="font-bold text-alpha-800">{title}</span>
         <Collapsible.Trigger asChild>
           <Button variant="ghost" size="small" className="mr-auto" iconOnly>
             <LucideChevronDown

@@ -53,7 +53,7 @@
 }
 
 .combobox-separator {
-  @apply -mx-1 h-px bg-gray-200;
+  @apply -mx-1 h-px bg-alpha-200;
 }
 
 .combobox-shortcut {
@@ -110,7 +110,7 @@
     py-2
     outline-none
     data-[disabled]:pointer-events-none
-    data-[selected]:bg-gray-100
-    data-[selected]:text-gray-800
+    data-[selected]:bg-alpha-100
+    data-[selected]:text-alpha-800
     data-[disabled]:opacity-50;
 }

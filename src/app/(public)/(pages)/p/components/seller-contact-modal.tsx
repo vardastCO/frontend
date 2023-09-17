@@ -33,18 +33,18 @@ const SellerContactModal = ({
         <DialogHeader>
           <DialogTitle>اطلاعات تماس {seller.name}</DialogTitle>
         </DialogHeader>
-        <div className="flex items-center gap-2.5 rounded-md bg-gray-50 p-4">
+        <div className="flex items-center gap-2.5 rounded-md bg-alpha-50 p-4">
           <LucideWarehouse
-            className="hidden h-8 w-8 text-gray-400 md:block"
+            className="hidden h-8 w-8 text-alpha-400 md:block"
             strokeWidth={1.5}
           />
           <div className="flex flex-col items-start gap-1.5">
-            <div className="font-bold text-gray-700">{seller.name}</div>
+            <div className="font-bold text-alpha-700">{seller.name}</div>
             <div className="flex items-center gap-6 text-sm">
               {seller.addresses && seller.addresses.length > 0 && (
-                <div className="flex items-center gap-1 text-gray-500">
+                <div className="flex items-center gap-1 text-alpha-500">
                   <LucideMapPin
-                    className="h-4 w-4 text-gray-400"
+                    className="h-4 w-4 text-alpha-400"
                     strokeWidth={1.5}
                   />
                   {seller.addresses.at(0)?.city.name}
@@ -52,20 +52,20 @@ const SellerContactModal = ({
               )}
               {/* TODO */}
               {/* <div className="flex items-center gap-1">
-              <span className="text-gray-500">عملکرد</span>
+              <span className="text-alpha-500">عملکرد</span>
               <span className="font-bold text-emerald-500">عالی</span>
             </div> */}
             </div>
           </div>
         </div>
-        <div className="flex flex-col divide-y divide-gray-200">
+        <div className="flex flex-col divide-y divide-alpha-200">
           {seller.contacts && seller.contacts.length > 0 && (
             <div className="flex items-stretch gap-2 py-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-md bg-green-500 text-white">
                 <LucidePhone className="h-6 w-6" strokeWidth={1.5} />
               </div>
               <div className="flex flex-col gap-4">
-                <span className="text-sm font-medium leading-none text-gray-500">
+                <span className="text-sm font-medium leading-none text-alpha-500">
                   تلفن تماس
                 </span>
                 <Link
@@ -93,7 +93,7 @@ const SellerContactModal = ({
                   <LucideMapPin className="h-6 w-6" strokeWidth={1.5} />
                 </div>
                 <div className="flex flex-col gap-4">
-                  <span className="text-sm font-medium leading-none text-gray-500">
+                  <span className="text-sm font-medium leading-none text-alpha-500">
                     موقعیت مکانی
                   </span>
                   <Link

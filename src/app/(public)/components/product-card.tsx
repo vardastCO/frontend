@@ -57,12 +57,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div className="flex flex-1 flex-col">
             <h2
               title={product.name}
-              className="mb-6 mt-4 line-clamp-2 h-12 text-gray-800"
+              className="mb-6 mt-4 line-clamp-2 h-12 text-alpha-800"
             >
               {product.name}
             </h2>
             {product.lowestPrice && (
-              <div className="flex flex-col items-stretch justify-between text-gray-800">
+              <div className="flex flex-col items-stretch justify-between text-alpha-800">
                 <div className="flex items-start gap-2">
                   {hasDiscount && (
                     <div className="mt-2 rounded bg-red-500 px-2 py-1.5 text-center text-sm font-semibold leading-none text-white">
@@ -70,7 +70,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     </div>
                   )}
                   <div>
-                    <span className="text-xs leading-none text-gray-600">
+                    <span className="text-xs leading-none text-alpha-600">
                       قیمت
                       {product.uom && ` هر ${product.uom.name}`}
                     </span>
@@ -85,7 +85,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
                     <div className="mt-2 flex-1">
                       {hasDiscount && (
-                        <span className="text-sm text-gray-500 line-through">
+                        <span className="text-sm text-alpha-500 line-through">
                           {digitsEnToFa(
                             addCommas(`${product.lowestPrice.amount}`)
                           )}

@@ -2,16 +2,16 @@
   @apply flex
     items-center
     text-start
-    data-[placeholder]:text-gray-400
-    dark:data-[placeholder]:text-gray-500;
+    data-[placeholder]:text-alpha-400
+    dark:data-[placeholder]:text-alpha-500;
 
   .select-field-arrow {
     @apply ms-auto
         h-4
         w-4
         shrink-0
-        text-gray-500
-        dark:text-gray-600;
+        text-alpha-500
+        dark:text-alpha-600;
   }
 }
 
@@ -25,7 +25,7 @@
     rounded
     bg-white
     shadow-[0_0_0_1px_var(--border-color),0_1px_0_0_rgba(0,0,0,0.08),0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)]
-    dark:bg-gray-800;
+    dark:bg-alpha-800;
 }
 
 .select-list-inner {
@@ -42,16 +42,16 @@
     rounded
     px-3
     py-2
-    text-gray-700
+    text-alpha-700
     outline-none
-    hover:bg-gray-100
-    focus:bg-gray-100
+    hover:bg-alpha-100
+    focus:bg-alpha-100
     data-[state="checked"]:font-bold
-    data-[state="checked"]:text-brand-600
-    dark:text-gray-300
-    dark:hover:bg-gray-900/80
-    dark:focus:bg-gray-900/80
-    dark:data-[state="checked"]:text-brand-500;
+    data-[state="checked"]:text-primary-600
+    dark:text-alpha-300
+    dark:hover:bg-alpha-900/80
+    dark:focus:bg-alpha-900/80
+    dark:data-[state="checked"]:text-primary-500;
 }
 
 .select-list-selected-item-indicator {

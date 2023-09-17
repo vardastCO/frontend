@@ -62,12 +62,12 @@ const UOMs = () => {
                     onClick={() => router.push(`/admin/uoms/${uom.id}`)}
                   >
                     <td>
-                      <span className="font-medium text-gray-800">
+                      <span className="font-medium text-alpha-800">
                         {uom.name}
                       </span>
                     </td>
                     <td>
-                      <span className="font-medium text-gray-800">
+                      <span className="font-medium text-alpha-800">
                         {uom.symbol}
                       </span>
                     </td>

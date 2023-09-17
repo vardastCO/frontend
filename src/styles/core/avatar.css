@@ -9,13 +9,13 @@
     justify-center
     overflow-hidden
     rounded-md
-    bg-gray-200
+    bg-alpha-200
     align-middle
     text-base
     font-medium
     uppercase
     leading-none
-    text-gray-800;
+    text-alpha-800;
 
   > img {
     @apply h-full w-full object-cover;

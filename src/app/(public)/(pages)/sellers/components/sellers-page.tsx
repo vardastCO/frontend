@@ -13,7 +13,7 @@ import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getAllSellersQueryFn } from "@core/queryFns/allSellersQueryFns"
 
 interface SellersPageProps {
-  isMobileView: RegExpMatchArray | null
+  isMobileView: boolean
 }
 
 const SellersPage = ({ isMobileView }: SellersPageProps) => {
@@ -53,7 +53,7 @@ const SellersPage = ({ isMobileView }: SellersPageProps) => {
                 prefetch={false}
               >
                 <div>
-                  <div className="relative flex h-16 w-16 items-center justify-center rounded-md border border-gray-200 bg-gray-50 md:h-28 md:w-28">
+                  <div className="relative flex h-16 w-16 items-center justify-center rounded-md border border-alpha-200 bg-alpha-50 md:h-28 md:w-28">
                     {seller.logoFile ? (
                       <Image
                         src={seller.logoFile.presignedUrl.url as string}
@@ -63,7 +63,7 @@ const SellersPage = ({ isMobileView }: SellersPageProps) => {
                       />
                     ) : (
                       <LucideWarehouse
-                        className="h-8 w-8 text-gray-400 md:h-10 md:w-10"
+                        className="h-8 w-8 text-alpha-400 md:h-10 md:w-10"
                         strokeWidth={1.5}
                       />
                     )}

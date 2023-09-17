@@ -24,7 +24,7 @@
     rounded
     bg-white
     px-4 py-3
-    text-gray-700
+    text-alpha-700
     shadow-[0_0_0_1px_var(--border-color),0_1px_0_0_rgba(0,0,0,0.08),0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)];
 
   &-success {

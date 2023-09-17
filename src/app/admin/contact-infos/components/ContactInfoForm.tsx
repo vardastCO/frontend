@@ -249,7 +249,7 @@ const ContactInfoForm = ({
       )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="mb-6 mt-8 flex items-end justify-between">
-          <h1 className="text-3xl font-black text-gray-800">
+          <h1 className="text-3xl font-black text-alpha-800">
             {passedContactInfo
               ? t("common:edit_entity", { entity: t("common:contactInfo") })
               : t("common:new_entity", { entity: t("common:contactInfo") })}

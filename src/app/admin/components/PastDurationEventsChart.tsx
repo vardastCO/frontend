@@ -32,13 +32,13 @@ const PastDurationEventsChart = (_: Props) => {
       {isLoading && (
         <div className="animate-pulse">
           <div className="mt-4 flex items-baseline space-x-6 space-x-reverse">
-            <div className="h-72 w-full rounded-t-lg bg-gray-200 dark:bg-gray-700"></div>
-            <div className="h-56 w-full rounded-t-lg bg-gray-200 dark:bg-gray-700"></div>
-            <div className="h-72 w-full rounded-t-lg bg-gray-200 dark:bg-gray-700"></div>
-            <div className="h-64 w-full rounded-t-lg bg-gray-200 dark:bg-gray-700"></div>
-            <div className="h-80 w-full rounded-t-lg bg-gray-200 dark:bg-gray-700"></div>
-            <div className="h-72 w-full rounded-t-lg bg-gray-200 dark:bg-gray-700"></div>
-            <div className="h-80 w-full rounded-t-lg bg-gray-200 dark:bg-gray-700"></div>
+            <div className="h-72 w-full rounded-t-lg bg-alpha-200 dark:bg-alpha-700"></div>
+            <div className="h-56 w-full rounded-t-lg bg-alpha-200 dark:bg-alpha-700"></div>
+            <div className="h-72 w-full rounded-t-lg bg-alpha-200 dark:bg-alpha-700"></div>
+            <div className="h-64 w-full rounded-t-lg bg-alpha-200 dark:bg-alpha-700"></div>
+            <div className="h-80 w-full rounded-t-lg bg-alpha-200 dark:bg-alpha-700"></div>
+            <div className="h-72 w-full rounded-t-lg bg-alpha-200 dark:bg-alpha-700"></div>
+            <div className="h-80 w-full rounded-t-lg bg-alpha-200 dark:bg-alpha-700"></div>
           </div>
         </div>
       )}
