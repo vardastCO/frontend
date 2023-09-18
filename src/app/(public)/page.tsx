@@ -16,28 +16,26 @@ export const metadata: Metadata = {
 const Index = async () => {
   const isMobileView = CheckIsMobileView()
   return (
-    <div className="">
-      <div className="container mx-auto px-4">
-        {!isMobileView && <FrontPageHeader />}
-        <div className="mt-[30vh] flex flex-col items-center justify-center">
-          <div className="relative mb-8 h-20">
-            <Image
-              src={logoHorizontal}
-              alt={`${process.env.NEXT_PUBLIC_TITLE} - ${process.env.NEXT_PUBLIC_SLOGAN}`}
-              className="h-20 w-auto object-contain"
-              priority
-            />
-          </div>
-          <Search isMobileView={isMobileView} />
+    <>
+      {!isMobileView && <FrontPageHeader />}
+      <div className="mt-[30vh] flex flex-col items-center justify-center">
+        <div className="relative mb-8 h-20">
+          <Image
+            src={logoHorizontal}
+            alt={`${process.env.NEXT_PUBLIC_TITLE} - ${process.env.NEXT_PUBLIC_SLOGAN}`}
+            className="h-20 w-auto object-contain"
+            priority
+          />
         </div>
-        {!isMobileView && (
-          <div className="fixed inset-x-0 bottom-0 mx-auto mb-12 flex w-full justify-center gap-4 text-center text-sm text-alpha-500">
-            <Link href="/about">درباره وردست</Link>
-            <Link href="/contact">تماس با ما</Link>
-          </div>
-        )}
+        <Search isMobileView={isMobileView} />
       </div>
-    </div>
+      {!isMobileView && (
+        <div className="fixed inset-x-0 bottom-0 mx-auto mb-12 flex w-full justify-center gap-4 text-center text-sm text-alpha-500">
+          <Link href="/about">درباره وردست</Link>
+          <Link href="/contact">تماس با ما</Link>
+        </div>
+      )}
+    </>
   )
 }
 

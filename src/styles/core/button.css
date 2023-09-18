@@ -25,6 +25,10 @@
     focus-visible:outline-none;
   -webkit-tap-highlight-color: transparent;
 
+  &-block {
+    @apply w-full;
+  }
+
   & > .icon {
     width: 1em;
     height: 1em;
@@ -41,7 +45,8 @@
         text-sm;
   }
   &-md {
-    @apply gap-2
+    @apply h-4xl
+        gap-2
         px-4
         py-3.5
         text-base;

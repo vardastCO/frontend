@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { redirect } from "next/navigation"
 
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import withTitle from "@core/middlewares/withTitle"
 
 import ProfileIndex from "./components"
 
@@ -12,10 +13,8 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-const ProfilePage = async ({ ...params }) => {
+const ProfilePage = async () => {
   const isMobileView = CheckIsMobileView()
-
-  console.log(params)
 
   if (!isMobileView) {
     redirect("/")
@@ -24,4 +23,4 @@ const ProfilePage = async ({ ...params }) => {
   return <ProfileIndex />
 }
 
-export default ProfilePage
+export default withTitle(ProfilePage, { title: "حساب کاربری" })

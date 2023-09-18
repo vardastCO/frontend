@@ -1,10 +1,18 @@
+import { Metadata } from "next"
 import Image from "next/image"
 import clsx from "clsx"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import withTitle from "@core/middlewares/withTitle"
 
 import logo from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "درباره ما"
+  }
+}
 
 const AboutPage = async () => {
   const isMobileView = CheckIsMobileView()
@@ -46,4 +54,4 @@ const AboutPage = async () => {
   )
 }
 
-export default AboutPage
+export default withTitle(AboutPage, { title: "درباره ما" })

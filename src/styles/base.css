@@ -1,7 +1,8 @@
 html[lang="fa"] {
   direction: rtl;
+  @apply h-full;
 }
 
 body {
-  @apply bg-alpha-100 font-yekanBakh antialiased;
+  @apply h-full bg-alpha-100 font-yekanBakh antialiased;
 }

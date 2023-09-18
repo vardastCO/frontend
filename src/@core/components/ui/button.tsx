@@ -18,7 +18,6 @@ const buttonVariants = cva("btn", {
     size: {
       xsmall: "btn-xs",
       small: "btn-sm",
-      DEFAULT: "",
       medium: "btn-md",
       large: "btn-lg",
       xlarge: "btn-xl"
@@ -31,17 +30,20 @@ const buttonVariants = cva("btn", {
     },
     iconOnly: {
       true: "btn-icon-only"
+    },
+    other: {
+      block: "btn-block"
     }
   },
   compoundVariants: [
     {
       variant: "primary",
-      size: "DEFAULT"
+      size: "medium"
     }
   ],
   defaultVariants: {
     variant: "primary",
-    size: "DEFAULT"
+    size: "medium"
   }
 })
 
@@ -61,6 +63,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       loading,
       fullWidth,
       iconOnly,
+      other,
       asChild = false,
       noStyle = false,
       ...props
@@ -79,6 +82,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                 loading,
                 fullWidth,
                 iconOnly,
+                other,
                 className
               })
         )}

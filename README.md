@@ -54,3 +54,8 @@ const <Name>Index = async () => {
 }
 
 export default <Name>Index
+
+
+<!-- default spacing classes -->
+gap => 2xl
+p, m, rounded => base
