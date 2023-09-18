@@ -1,12 +1,11 @@
 import { Metadata } from "next"
 import Image from "next/image"
-import clsx from "clsx"
 
-import Breadcrumb from "@core/components/shared/Breadcrumb"
-import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
-import withTitle from "@core/middlewares/withTitle"
+import { _about_items } from "@core/lib/constants"
 
 import logo from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
+
+import IconProvider from "./components/IconProvider"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -15,43 +14,43 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const AboutPage = async () => {
-  const isMobileView = CheckIsMobileView()
   return (
-    <div
-      className={clsx([
-        "container mx-auto px-4",
-        isMobileView ? "" : "pt-1 md:py-8"
-      ])}
-    >
-      <div>
-        <Breadcrumb
-          dynamic={false}
-          items={[{ label: "درباره وردست", path: "/about", isCurrent: false }]}
+    <>
+      <div className="mx-auto w-[calc(48%)] pt lg:w-1/2">
+        <Image
+          src={logo}
+          alt="وردست"
+          className="w-full shrink-0 object-contain"
         />
       </div>
-
-      <div className="">
-        <div className="flex items-center gap-6 max-sm:flex-col">
-          <div className="w-full p-12 lg:w-1/2 lg:p-24">
-            <Image src={logo} alt="وردست" className="shrink-0 object-contain" />
+      <p className="mx-auto">
+        نسخه
+        <span className="px-xs text-primary">1.15.12</span>
+      </p>
+      <div className="flex flex-1 flex-col items-center justify-start">
+        <p className="text-justify leading-loose">
+          وردست به عنوان یک دستیار، در واقع یک پلتفرم مارکت پلیس (بازار آنلاین)
+          برای فعالیت همه ذینفعان صنعت ساختمان است، که در فاز نخست تمرکز آن رفع
+          مشکلات و ارتقای بهره‌وری در زنجیره تأمین مصالح و تجهیزات ساختمانی
+          به‌وسیله‌ی ایجاد ابزار خرید و فروش آنلاین برای تولیدکنندگان و تأمین
+          کنندگان از یک سو و از سوی دیگر پیمانکاران و سازندگان بخش ساختمان
+          می‌باشد، که نهایتاً تجربه‌ی متفاوتی از خرید و فروش مصالح و تجهیزات
+          ساختمانی را برای کاربران هر دو سوی این پلتفرم رقم خواهد زد.
+        </p>
+        <div className="mx-auto flex w-full flex-1 flex-col items-center justify-center gap-y-xl">
+          <div className="grid w-full auto-cols-auto grid-cols-4 items-center">
+            {_about_items.map((props, index) => (
+              <IconProvider key={index} {...props} />
+            ))}
           </div>
-          <div className="flex-1">
-            <h1 className="mb-8 text-2xl font-bold">درباره وردست</h1>
-            <p className="text-justify leading-loose">
-              وردست به عنوان یک دستیار، در واقع یک پلتفرم مارکت پلیس (بازار
-              آنلاین) برای فعالیت همه ذینفعان صنعت ساختمان است، که در فاز نخست
-              تمرکز آن رفع مشکلات و ارتقای بهره‌وری در زنجیره تأمین مصالح و
-              تجهیزات ساختمانی به‌وسیله‌ی ایجاد ابزار خرید و فروش آنلاین برای
-              تولیدکنندگان و تأمین کنندگان از یک سو و از سوی دیگر پیمانکاران و
-              سازندگان بخش ساختمان می‌باشد، که نهایتاً تجربه‌ی متفاوتی از خرید و
-              فروش مصالح و تجهیزات ساختمانی را برای کاربران هر دو سوی این پلتفرم
-              رقم خواهد زد.
-            </p>
+          <div className="flex flex-col items-center gap-y-xs">
+            <h2>محصولی از شرکت خلق ارزش مهسان</h2>
+            <p className="text-xs font-bold text-primary">(وردست)</p>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
-export default withTitle(AboutPage, { title: "درباره ما" })
+export default AboutPage

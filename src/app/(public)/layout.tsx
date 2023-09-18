@@ -1,5 +1,3 @@
-import { Children, cloneElement } from "react"
-
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import MobileNavigation from "@/app/(public)/components/mobile-navigation"
 import PublicProvider from "@/app/(public)/components/public-provider"
@@ -16,9 +14,7 @@ export default function PublicLayout({
   return (
     <PublicProvider>
       <div className="container mx-auto flex h-full flex-col">
-        {Children.map(children, (element) => {
-          return cloneElement(element as React.ReactElement<any>, {})
-        })}
+        {children}
         {isMobileView && <MobileSearchBar isMobileView={isMobileView} />}
         {isMobileView && <MobileNavigation />}
       </div>

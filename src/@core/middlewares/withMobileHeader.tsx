@@ -1,13 +1,13 @@
 import MobileHeader from "@/app/(public)/components/header/MobileHeader"
 
-export default function withTitle(
+export default function withMobileHeader(
   Component: React.FC,
-  { title }: { title: string }
+  headerProps: { title: string; hasBack?: boolean }
 ) {
   return (props: any) => {
     return (
       <>
-        <MobileHeader title={title} />
+        <MobileHeader {...headerProps} />
         <Component {...props} />
       </>
     )

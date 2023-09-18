@@ -2,42 +2,11 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import {
-  LucideHome,
-  LucideIcon,
-  LucideLayoutGrid,
-  LucideUserCircle
-} from "lucide-react"
 
 import { mergeClasses } from "@core/utils/mergeClasses"
+import { _navbar_items, _withNavigationRoutes } from "@core/lib/constants"
 
-type NavbarItem = {
-  href: string
-  Icon: LucideIcon
-  title: string
-  id: number
-}
-
-const _navbar_items: NavbarItem[] = [
-  {
-    href: "/",
-    Icon: LucideHome,
-    title: "خانه",
-    id: 0
-  },
-  {
-    href: "/categories",
-    Icon: LucideLayoutGrid,
-    title: "دسته‌بندی‌ها",
-    id: 1
-  },
-  {
-    href: "/profile",
-    Icon: LucideUserCircle,
-    title: "حساب کاربری",
-    id: 2
-  }
-]
+import VerticalSpace from "./header/VerticalSpace"
 
 type Props = {}
 
@@ -52,38 +21,42 @@ const MobileNavigation = (_: Props) => {
       : "text-alpha-500 dark;text-alpha-400"
   }
 
-  return (
-    <>
-      <div
-        className="h-[calc(64px+env(safe-area-inset-bottom))]"
-        aria-hidden="true"
-      ></div>
-      <div className="fixed bottom-0 left-0 z-50 h-[calc(64px+env(safe-area-inset-bottom))] w-full border-alpha-200 bg-alpha-50 bg-opacity-50 backdrop-blur-xl dark:border-alpha-600 dark:bg-alpha-700">
-        <div className="mx-auto grid h-full max-w-lg grid-cols-3 pb-[env(safe-area-inset-bottom)] font-medium">
-          {_navbar_items.map(({ Icon, href, id, title }) => (
-            <Link
-              key={id}
-              href={href}
-              className="group inline-flex flex-col items-center justify-center px-5 hover:bg-alpha-50 dark:hover:bg-alpha-800"
-              prefetch={false}
-            >
-              <Icon
-                className={mergeClasses(
-                  "mb-2 h-5 w-5",
-                  getActiveClassName(href)
-                )}
-              />
-              <span
-                className={mergeClasses("text-sm", getActiveClassName(href))}
+  const isShowNavigation = () => {
+    return _withNavigationRoutes.some((path) => pathname === path)
+  }
+
+  if (isShowNavigation()) {
+    return (
+      <>
+        <VerticalSpace />
+        <div className="fixed bottom-0 left-0 z-50 h-[calc(64px+env(safe-area-inset-bottom))] w-full border-alpha-200 bg-alpha-50 bg-opacity-50 backdrop-blur-xl dark:border-alpha-600 dark:bg-alpha-700">
+          <div className="mx-auto grid h-full max-w-lg grid-cols-3 pb-[env(safe-area-inset-bottom)] font-medium">
+            {_navbar_items.map(({ Icon, href, id, title }) => (
+              <Link
+                key={id}
+                href={href}
+                className="group inline-flex flex-col items-center justify-center px-5 hover:bg-alpha-50 dark:hover:bg-alpha-800"
+                prefetch={false}
               >
-                {title}
-              </span>
-            </Link>
-          ))}
+                <Icon
+                  className={mergeClasses(
+                    "mb-2 h-5 w-5",
+                    getActiveClassName(href)
+                  )}
+                />
+                <span
+                  className={mergeClasses("text-sm", getActiveClassName(href))}
+                >
+                  {title}
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
-    </>
-  )
+      </>
+    )
+  }
+  return null
 }
 
 export default MobileNavigation

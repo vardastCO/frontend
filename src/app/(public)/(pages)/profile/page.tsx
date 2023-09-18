@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { redirect } from "next/navigation"
 
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
-import withTitle from "@core/middlewares/withTitle"
+import withMobileHeader from "@core/middlewares/withMobileHeader"
 
 import ProfileIndex from "./components"
 
@@ -23,4 +23,4 @@ const ProfilePage = async () => {
   return <ProfileIndex />
 }
 
-export default withTitle(ProfilePage, { title: "حساب کاربری" })
+export default withMobileHeader(ProfilePage, { title: "حساب کاربری" })
