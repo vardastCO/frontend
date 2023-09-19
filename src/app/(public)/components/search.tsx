@@ -1,8 +1,5 @@
 "use client"
 
-import { useState } from "react"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
 import {
   useClickOutside,
   useDebouncedState,
@@ -10,6 +7,9 @@ import {
 } from "@mantine/hooks"
 import clsx from "clsx"
 import { LucideSearch, LucideTrash, LucideX } from "lucide-react"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 import { useGetSuggestQuery } from "@/generated"
 
@@ -87,7 +87,8 @@ const Search = ({ isMobileView }: SearchProps) => {
 
       <div
         className={clsx([
-          "z-30 w-full",
+          open ? "z-30" : "",
+          "w-full",
           isMobileView && open
             ? "fixed inset-0 mx-auto h-[calc(100%-calc(64px+var(--safe-area-inset-bottom)))] w-full overflow-y-auto"
             : "relative max-w-sm md:max-w-md lg:max-w-lg"
