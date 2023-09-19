@@ -1,5 +1,8 @@
 "use client"
 
+import { useState } from "react"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
 import {
   useClickOutside,
   useDebouncedState,
@@ -7,9 +10,6 @@ import {
 } from "@mantine/hooks"
 import clsx from "clsx"
 import { LucideSearch, LucideTrash, LucideX } from "lucide-react"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
 
 import { useGetSuggestQuery } from "@/generated"
 

@@ -1,7 +1,7 @@
 "use client"
 
-import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import Link from "next/link"
+import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 
 import {
   useGetAllBrandsQuery,
@@ -36,13 +36,13 @@ const AdminInsight = () => {
       </Link>
       <Link href="/admin">
         <div className="card flex flex-col gap-2 rounded p-4">
-          <div className="font-bold text-alpha-400">تولید کننده ها</div>
+          <div className="text-alpha-400 font-bold">تولید کننده ها</div>
           {brands.isLoading ? (
             <div className="animate-pulse">
-              <div className="h-5 w-full rounded-md bg-alpha-200"></div>
+              <div className="bg-alpha-200 h-5 w-full rounded-md"></div>
             </div>
           ) : (
-            <div className="text-xl font-bold text-alpha-800">
+            <div className="text-alpha-800 text-xl font-bold">
               {digitsEnToFa(addCommas(`${brands.data?.brands.total}`))}
             </div>
           )}

@@ -1,6 +1,6 @@
-import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import Image from "next/image"
 import Link from "next/link"
+import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { Product } from "@/generated"
 
