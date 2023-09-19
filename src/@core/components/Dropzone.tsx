@@ -157,7 +157,7 @@ const Dropzone = ({
         <input {...getInputProps()} />
         <div
           className={clsx([
-            "card relative rounded p-4 transition",
+            "card relative rounded border-dashed p-4 transition",
             isDragActive && "bg-alpha-50"
           ])}
         >

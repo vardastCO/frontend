@@ -25,10 +25,6 @@
     focus-visible:outline-none;
   -webkit-tap-highlight-color: transparent;
 
-  &-block {
-    @apply w-full;
-  }
-
   & > .icon {
     width: 1em;
     height: 1em;

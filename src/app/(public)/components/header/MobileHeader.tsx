@@ -13,7 +13,7 @@ interface IModalHeader {
 const MobileHeader: React.FC<IModalHeader> = ({ title, hasBack }) => {
   const { back } = useRouter()
   return (
-    <div className="sticky top-0 border-b border-alpha-200 bg-alpha-100">
+    <div className="sticky top-0 z-40 border-b border-alpha-200 bg-alpha-100">
       <div className="grid h-4xl grid-cols-3 items-center">
         <div>
           {hasBack && (

@@ -2,9 +2,12 @@ import {
   LucideGlobe,
   LucideHome,
   LucideIcon,
+  LucideInfo,
   LucideLayoutGrid,
   LucideMail,
   LucideMapPin,
+  LucideNewspaper,
+  LucidePhone,
   LucidePhoneIncoming,
   LucideUserCircle
 } from "lucide-react"
@@ -54,4 +57,31 @@ export const _about_items = [
   { Icon: LucidePhoneIncoming, href: "" },
 
   { Icon: LucideMapPin, href: "" }
+]
+
+export const _profile_items = [
+  // {
+  //   href: "/profile/faq",
+  //   Icon: LucideShieldQuestion,
+  //   title: "سوالات متداول",
+  //   id: 0
+  // },
+  {
+    href: "/profile/privacy",
+    Icon: LucideNewspaper,
+    title: "قوانین و مقررات",
+    id: 1
+  },
+  {
+    href: "/profile/contact",
+    Icon: LucidePhone,
+    title: "تماس با ما",
+    id: 2
+  },
+  {
+    href: "/profile/about",
+    Icon: LucideInfo,
+    title: "درباره ما",
+    id: 3
+  }
 ]

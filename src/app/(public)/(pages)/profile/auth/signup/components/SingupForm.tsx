@@ -250,7 +250,7 @@ const SingupForm = (_: Props) => {
 
               <Button
                 type="submit"
-                fullWidth
+                block
                 disabled={
                   validateCellphoneMutation.isLoading ||
                   formStepOne.formState.isSubmitting
@@ -305,7 +305,7 @@ const SingupForm = (_: Props) => {
 
               <Button
                 type="submit"
-                fullWidth
+                block
                 disabled={
                   validateOtpMutation.isLoading ||
                   formStepTwo.formState.isSubmitting
@@ -398,7 +398,7 @@ const SingupForm = (_: Props) => {
               ></FormField>
               <Button
                 type="submit"
-                fullWidth
+                block
                 disabled={
                   signupMutation.isLoading ||
                   formStepThree.formState.isSubmitting

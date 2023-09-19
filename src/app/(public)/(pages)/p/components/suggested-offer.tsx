@@ -155,7 +155,7 @@ const SuggestedOffer = ({ offersCount, offer, uom }: SuggestedOfferProps) => {
             <div className="md:mr-auto">
               <Button
                 size="medium"
-                fullWidth
+                block
                 onClick={() => showSellerContact()}
                 disabled={createEventTrackerMutation.isLoading}
                 loading={createEventTrackerMutation.isLoading}

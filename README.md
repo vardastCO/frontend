@@ -26,36 +26,42 @@ Build app
 pnpm build
 ```
 
-
 <!-- page creation structure -->
+
 - /<name of page>
-|
--- /components
-   |
-   --- /index.tsx
--- /page.tsx
+  |
+  -- /components
+  |
+  --- /index.tsx
+  -- /page.tsx
 
 <!-- page.tsx pattern -->
+
 /<page>/page.tsx
 const <Name>Page = async () => {
-  .
-  .
-  .
+.
+.
+.
 }
 
 export default <Name>Page
 
 <!-- index.tsx pattern -->
+
 /<page>/components/index.tsx
 const <Name>Index = async () => {
-  .
-  .
-  .
+.
+.
+.
 }
 
 export default <Name>Index
 
-
 <!-- default spacing classes -->
+
 gap => 2xl
 p, m, rounded => base
+
+<!-- withMobileHeader -->
+
+for wrapping page with header use withMobileHeader-HOC inside layout of each page you want

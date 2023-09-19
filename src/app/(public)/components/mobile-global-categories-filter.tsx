@@ -3,6 +3,7 @@
 import { useContext, useEffect, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { useQuery } from "@tanstack/react-query"
 import { useAtom } from "jotai"
 import { LucideArrowRight } from "lucide-react"
@@ -72,7 +73,9 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
               </div>
               <div className="my-auto flex flex-col">
                 <h2 className="font-semibold">{category.title}</h2>
-                <p className="text-sm text-green-500">{`${category.productsCount} کالا`}</p>
+                <p className="text-sm text-green-500">{`${digitsEnToFa(
+                  addCommas(category.productsCount)
+                )} کالا`}</p>
               </div>
             </li>
           )
@@ -139,7 +142,9 @@ const CategoriesList = ({
               </div>
               <div className="my-auto flex flex-col">
                 <h2 className="font-semibold">{category.title}</h2>
-                <p className="text-sm text-green-500">{`${category.productsCount} کالا`}</p>
+                <p className="text-sm text-green-500">{`${digitsEnToFa(
+                  addCommas(category.productsCount)
+                )} کالا`}</p>
               </div>
               <div className="my-auto mr-auto">
                 <p className="rounded-full bg-green-400 px-2 text-left text-white">

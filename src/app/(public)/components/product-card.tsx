@@ -30,7 +30,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         className="flex h-full w-full py-2 lg:px-4"
         prefetch={false}
       >
-        <div className="flex flex-1 flex-row lg:flex-col">
+        <div className="flex flex-1 flex-row gap-4 lg:flex-col">
           <div
             id={`product-image-${product.id}`}
             className="relative w-32 flex-shrink-0 bg-[url('/images/blank.png')] bg-[length:2em] bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:h-48 lg:w-full"

@@ -25,14 +25,11 @@ const buttonVariants = cva("btn", {
     loading: {
       true: "btn-loading"
     },
-    fullWidth: {
+    block: {
       true: "w-full"
     },
     iconOnly: {
       true: "btn-icon-only"
-    },
-    other: {
-      block: "btn-block"
     }
   },
   compoundVariants: [
@@ -61,9 +58,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       variant,
       size,
       loading,
-      fullWidth,
+      block,
       iconOnly,
-      other,
       asChild = false,
       noStyle = false,
       ...props
@@ -80,9 +76,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                 variant,
                 size,
                 loading,
-                fullWidth,
+                block,
                 iconOnly,
-                other,
                 className
               })
         )}
