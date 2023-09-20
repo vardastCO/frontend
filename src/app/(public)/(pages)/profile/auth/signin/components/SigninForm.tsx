@@ -76,7 +76,7 @@ const SigninForm = () => {
   //   })
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-alpha-50 p-4">
+    <div className="flex min-h-screen w-full items-center justify-center p-4">
       <div className="flex w-full max-w-xs flex-col gap-8 py-12">
         <Image
           src={signLogo}

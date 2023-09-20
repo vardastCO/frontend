@@ -11,6 +11,8 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  console.log(product)
+
   const hasDiscount = false
   return (
     <div

@@ -1,6 +1,7 @@
 "use client"
 
 import { notFound } from "next/navigation"
+import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { useQuery } from "@tanstack/react-query"
 import { BreadcrumbList, ItemList, WithContext } from "schema-dts"
 
@@ -8,6 +9,8 @@ import { GetCategoryQuery } from "@/generated"
 
 import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
+
+import MobileHeader from "./header/MobileHeader"
 
 interface SearchHeaderProps {
   selectedCategoryId: number
@@ -74,20 +77,23 @@ const SearchHeader = ({ selectedCategoryId }: SearchHeaderProps) => {
 
   breadcrumb.push({
     path: encodeURI(`/search/${data.category.id}/${data.category.title}`),
-    label: data.category.title,
+    label: `${data.category.title} (${digitsEnToFa(
+      addCommas(data.category.productsCount)
+    )} کالا)`,
     isCurrent: true
   })
 
   return (
     <>
+      <MobileHeader title={data.category.title} />
       <div>
         <Breadcrumb dynamic={false} items={breadcrumb} />
       </div>
-      <div className="mb-8">
+      {/* <div className="mb-8">
         <h1 className="text-xl font-extrabold text-alpha-800">
           {data.category.title}
         </h1>
-      </div>
+      </div> */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

@@ -2,8 +2,6 @@ import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import MobileNavigation from "@/app/(public)/components/mobile-navigation"
 import PublicProvider from "@/app/(public)/components/public-provider"
 
-import { MobileSearchBar } from "./components/header/MobileSearchBar"
-
 export default function PublicLayout({
   children
 }: {
@@ -13,11 +11,20 @@ export default function PublicLayout({
 
   return (
     <PublicProvider>
-      <div className="container mx-auto flex h-full flex-col">
-        {children}
-        {isMobileView && <MobileSearchBar isMobileView={isMobileView} />}
-        {isMobileView && <MobileNavigation />}
-      </div>
+      {isMobileView ? (
+        <div className="container mx-auto flex h-full flex-col">
+          <div
+            className={`flex flex-1 flex-col ${
+              isMobileView ? "overflow-y-scroll" : ""
+            }`}
+          >
+            {children}
+          </div>
+          {isMobileView && <MobileNavigation />}
+        </div>
+      ) : (
+        <div className="container mx-auto">{children}</div>
+      )}
     </PublicProvider>
   )
 }

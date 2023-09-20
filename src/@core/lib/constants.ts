@@ -1,4 +1,5 @@
 import {
+  LucideBookmark,
   LucideGlobe,
   LucideHome,
   LucideIcon,
@@ -26,7 +27,7 @@ export const queryClientOptions = {
   }
 }
 
-export const _withNavigationRoutes: string[] = ["/", "/profile"]
+export const _withNavigationRoutes: string[] = ["/", "/profile", "/categories"]
 
 export const _navbar_items: NavbarItem[] = [
   {
@@ -38,14 +39,20 @@ export const _navbar_items: NavbarItem[] = [
   {
     href: "/categories",
     Icon: LucideLayoutGrid,
-    title: "دسته‌بندی‌ها",
+    title: "دسته‌بندی",
     id: 1
+  },
+  {
+    href: "/bookmarks",
+    Icon: LucideBookmark,
+    title: "علاقه‌مندی",
+    id: 2
   },
   {
     href: "/profile",
     Icon: LucideUserCircle,
     title: "حساب کاربری",
-    id: 2
+    id: 3
   }
 ]
 

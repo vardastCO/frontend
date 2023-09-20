@@ -10,6 +10,7 @@ interface PublicContextType {
   filtersVisibilityAtom: PrimitiveAtom<boolean>
   mySpaceVisibilityAtom: PrimitiveAtom<boolean>
   currentPageAtom: PrimitiveAtom<number>
+  showNavigationBackButton: PrimitiveAtom<boolean>
 }
 
 const categoriesFilterVisibilityAtom = atom<boolean>(false)
@@ -18,6 +19,7 @@ const sortFilterVisibilityAtom = atom<boolean>(false)
 const filtersVisibilityAtom = atom<boolean>(false)
 const mySpaceVisibilityAtom = atom<boolean>(false)
 const currentPageAtom = atom<number>(1)
+const showNavigationBackButton = atom<boolean>(false)
 
 export const PublicContext = createContext<PublicContextType>({
   categoriesFilterVisibilityAtom,
@@ -25,7 +27,8 @@ export const PublicContext = createContext<PublicContextType>({
   sortFilterVisibilityAtom,
   filtersVisibilityAtom,
   mySpaceVisibilityAtom,
-  currentPageAtom
+  currentPageAtom,
+  showNavigationBackButton
 })
 
 type PublicProviderProps = {
@@ -41,7 +44,8 @@ const PublicProvider = ({ children }: PublicProviderProps) => {
         sortFilterVisibilityAtom,
         filtersVisibilityAtom,
         mySpaceVisibilityAtom,
-        currentPageAtom
+        currentPageAtom,
+        showNavigationBackButton
       }}
     >
       {children}

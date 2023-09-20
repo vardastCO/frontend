@@ -1,8 +1,10 @@
-import MobileHeader from "@/app/(public)/components/header/MobileHeader"
+import MobileHeader, {
+  IModalHeader
+} from "@/app/(public)/components/header/MobileHeader"
 
 export default function withMobileHeader(
   Component: React.FC,
-  headerProps: { title: string; hasBack?: boolean }
+  headerProps: IModalHeader
 ) {
   return (props: any) => {
     return (

@@ -370,7 +370,7 @@ const ProductList = ({
                     push(pathname + "?" + params.toString())
                   }}
                 />
-                <ProductCount count={data.products.total || 0} />
+                {/* <ProductCount count={data.products.total || 0} /> */}
               </div>
 
               <div>

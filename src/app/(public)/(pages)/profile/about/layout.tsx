@@ -3,5 +3,5 @@ import MobileBaseLayout from "@/app/(public)/components/MobileBaseLayout"
 
 export default withMobileHeader(MobileBaseLayout, {
   title: "درباره ما",
-  hasBack: true
+  hasBack: {}
 })

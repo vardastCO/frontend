@@ -15,6 +15,7 @@ import { useGetSuggestQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
+import { Input } from "@core/components/ui/input"
 
 interface lateatSearchType {
   query: string
@@ -91,26 +92,27 @@ const Search: React.FC<ISearch> = ({ isMobileView }) => {
           "w-full",
           isMobileView && open
             ? "fixed inset-0 mx-auto h-[calc(100%-calc(64px+var(--safe-area-inset-bottom)))] w-full overflow-y-auto"
-            : "relative max-w-sm md:max-w-md lg:max-w-lg"
+            : "relative mx-auto md:max-w-md lg:max-w-lg"
         ])}
       >
-        <div>
-          <Button
-            onClick={() => setOpen(true)}
-            noStyle
-            className="flex
+        {/* <div> */}
+        <Button
+          onClick={() => setOpen(true)}
+          noStyle
+          className="flex
+                h-full
                 w-full
                 items-center
                 gap-2
                 rounded-md
-                bg-alpha-100
+                bg-alpha-200
                 px-4
                 py-3"
-          >
-            <LucideSearch className="h-6 w-6 text-alpha-400" />
-            <span className="text-alpha-500">جستجو در وردست...</span>
-          </Button>
-        </div>
+        >
+          <LucideSearch className="h-6 w-6 text-primary" />
+          <span className="text-alpha-800">جستجو در وردست...</span>
+        </Button>
+        {/* </div> */}
 
         {open && (
           <div
@@ -122,13 +124,13 @@ const Search: React.FC<ISearch> = ({ isMobileView }) => {
           >
             <div className="flex items-center gap-2 border-b border-alpha-200 pb-3">
               <LucideSearch className="h-6 w-6 text-alpha-400" />
-              <input
+              <Input
                 autoFocus
                 defaultValue={query}
                 onChange={(e) => setQuery(e.target.value)}
                 type="text"
                 placeholder="جستجو در وردست..."
-                className="w-full border-0 bg-transparent focus:outline-none focus-visible:outline-none"
+                // className="w-full border-0 bg-transparent focus:outline-none focus-visible:outline-none"
               />
               <Button
                 variant="ghost"
