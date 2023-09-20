@@ -124,7 +124,7 @@ const CategoriesList = ({
                 className="relative h-[calc(30vw)] w-full flex-shrink-0 bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:w-full"
               >
                 <Image
-                  src={"/images/sample.png"}
+                  src={`/images/categories/${category.id}.png`}
                   alt={category.title}
                   fill
                   sizes="(max-width: 65vw) full, full"
