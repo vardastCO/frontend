@@ -51,7 +51,7 @@ const TableFooter = forwardRef<
   <tfoot
     ref={ref}
     className={mergeClasses(
-      "bg-primary text-primary-foreground font-medium",
+      "text-primary-foreground bg-primary font-medium",
       className
     )}
     {...props}
