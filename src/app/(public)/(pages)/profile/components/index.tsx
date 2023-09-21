@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 
 import { Button } from "@core/components/ui/button"
@@ -9,6 +10,7 @@ import ProfileItem from "./ProfileItem"
 
 const ProfileIndex = () => {
   const { push } = useRouter()
+  const [loader, setLoader] = useState(false)
 
   return (
     <>
@@ -22,8 +24,10 @@ const ProfileIndex = () => {
       <div className="p">
         <Button
           onClick={() => {
+            setLoader(true)
             push("/admin")
           }}
+          loading={loader}
           block
         >
           ورود / ثبت‌نام

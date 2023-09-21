@@ -46,7 +46,7 @@ const MobileNavigation = (_: Props) => {
             style={{
               height: hideSearchBarFlag ? "7rem" : "11rem"
             }}
-            className={`fixed bottom-0 left-0 z-50 w-full border-t border-alpha-200 bg-alpha-100 bg-opacity-50 backdrop-blur-xl dark:border-alpha-600 dark:bg-alpha-700`}
+            className={`fixed bottom-0 left-0 z-50 w-full border-t border-alpha-200 bg-alpha-white bg-opacity-50 backdrop-blur-xl dark:border-alpha-600 dark:bg-alpha-700`}
           >
             {!hideSearchBarFlag && (
               <div className="flex h-[4rem] gap-x-2 p-2 px-4 pb-0 pt-1.5">
