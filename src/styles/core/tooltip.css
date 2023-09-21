@@ -58,31 +58,31 @@
   z-index: 110000;
 }
 [data-n-tooltip]:after {
-  background: theme(colors.gray.900);
+  background: theme(colors.alpha.900);
 }
 [data-n-tooltip]:before {
-  border-top-color: theme(colors.gray.900);
+  border-top-color: theme(colors.alpha.900);
   border-right-color: transparent;
   border-bottom-color: transparent;
   border-left-color: transparent;
 }
 [data-n-tooltip][data-n-tooltip-config*="right"]:before {
   border-top-color: transparent;
-  border-right-color: theme(colors.gray.900);
+  border-right-color: theme(colors.alpha.900);
   border-bottom-color: transparent;
   border-left-color: transparent;
 }
 [data-n-tooltip][data-n-tooltip-config*="bottom"]:before {
   border-top-color: transparent;
   border-right-color: transparent;
-  border-bottom-color: theme(colors.gray.900);
+  border-bottom-color: theme(colors.alpha.900);
   border-left-color: transparent;
 }
 [data-n-tooltip][data-n-tooltip-config*="left"]:before {
   border-top-color: transparent;
   border-right-color: transparent;
   border-bottom-color: transparent;
-  border-left-color: theme(colors.gray.900);
+  border-left-color: theme(colors.alpha.900);
 }
 [data-n-tooltip]:focus:after,
 [data-n-tooltip]:focus:before,
@@ -243,7 +243,7 @@
   border-radius: 0;
 }
 [data-n-tooltip][data-n-tooltip-config*="invert"]:after {
-  color: theme(colors.gray.800);
+  color: theme(colors.alpha.800);
   background: theme(colors.white);
 }
 [data-n-tooltip][data-n-tooltip-config*="invert"]:before {
@@ -352,31 +352,31 @@
   border-left-color: theme(colors.amber.600);
 }
 [data-n-tooltip][data-n-tooltip-config*="danger"]:after {
-  background: theme(colors.red.600);
+  background: theme(colors.error.600);
 }
 [data-n-tooltip][data-n-tooltip-config*="danger"]:before {
-  border-top-color: theme(colors.red.600);
+  border-top-color: theme(colors.error.600);
   border-right-color: transparent;
   border-bottom-color: transparent;
   border-left-color: transparent;
 }
 [data-n-tooltip][data-n-tooltip-config*="danger"][data-n-tooltip-config*="right"]:before {
   border-top-color: transparent;
-  border-right-color: theme(colors.red.600);
+  border-right-color: theme(colors.error.600);
   border-bottom-color: transparent;
   border-left-color: transparent;
 }
 [data-n-tooltip][data-n-tooltip-config*="danger"][data-n-tooltip-config*="bottom"]:before {
   border-top-color: transparent;
   border-right-color: transparent;
-  border-bottom-color: theme(colors.red.600);
+  border-bottom-color: theme(colors.error.600);
   border-left-color: transparent;
 }
 [data-n-tooltip][data-n-tooltip-config*="danger"][data-n-tooltip-config*="left"]:before {
   border-top-color: transparent;
   border-right-color: transparent;
   border-bottom-color: transparent;
-  border-left-color: theme(colors.red.600);
+  border-left-color: theme(colors.error.600);
 }
 [data-n-tooltip][data-n-tooltip=""]:after,
 [data-n-tooltip][data-n-tooltip=""]:before {

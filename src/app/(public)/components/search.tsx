@@ -89,10 +89,10 @@ const Search: React.FC<ISearch> = ({ isMobileView }) => {
       <div
         className={clsx([
           open ? "z-30" : "",
-          "w-full",
+          "h-full w-full",
           isMobileView && open
             ? "fixed inset-0 mx-auto h-[calc(100%-calc(64px+var(--safe-area-inset-bottom)))] w-full overflow-y-auto"
-            : "relative mx-auto md:max-w-md lg:max-w-lg"
+            : " relative mx-auto md:max-w-md lg:max-w-lg"
         ])}
       >
         {/* <div> */}
@@ -130,7 +130,7 @@ const Search: React.FC<ISearch> = ({ isMobileView }) => {
                 onChange={(e) => setQuery(e.target.value)}
                 type="text"
                 placeholder="جستجو در وردست..."
-                // className="w-full border-0 bg-transparent focus:outline-none focus-visible:outline-none"
+                className="w-full border-0 bg-transparent focus:outline-none focus-visible:outline-none"
               />
               <Button
                 variant="ghost"

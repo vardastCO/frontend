@@ -1,6 +1,6 @@
 .combobox-list-container {
   --border-opacity: 0.1;
-  --border-color: rgba(theme(colors.gray.700), var(--border-opacity));
+  --border-color: rgba(theme(colors.alpha.700), var(--border-opacity));
   @apply !max-h-64
     w-full
     max-w-[var(--radix-popper-anchor-width)]

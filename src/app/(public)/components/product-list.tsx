@@ -37,7 +37,6 @@ import MobileCategoriesFilter from "@/app/(public)/components/mobile-categories-
 import MobileFilterableAttributes from "@/app/(public)/components/mobile-filterable-attributes"
 import MobileSortFilter from "@/app/(public)/components/mobile-sort-filter"
 import NoProductFound from "@/app/(public)/components/no-product-found"
-import ProductCount from "@/app/(public)/components/product-count"
 import ProductPagination from "@/app/(public)/components/product-pagination"
 import ProductSort from "@/app/(public)/components/product-sort"
 import { PublicContext } from "@/app/(public)/components/public-provider"

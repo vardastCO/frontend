@@ -146,7 +146,7 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
                 </div>
               </form> */}
             </div>
-            <div className="mx-auto w-full max-w-5xl">{children}</div>
+            <div className="max-w-3.5 mx-auto w-full">{children}</div>
           </div>
         </div>
       </div>

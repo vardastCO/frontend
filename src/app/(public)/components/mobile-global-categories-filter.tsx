@@ -27,7 +27,7 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
 
   if (vocabularies.isLoading)
     return (
-      <div className="flex animate-pulse flex-col gap-3 py">
+      <div className="flex animate-pulse flex-col gap-3 p">
         <div className="h-8 w-[80%] rounded-md bg-alpha-200"></div>
         <div className="h-8 w-full rounded-md bg-alpha-200"></div>
         <div className="h-8 w-[90%] rounded-md bg-alpha-200"></div>
@@ -36,30 +36,25 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
   if (!vocabularies.data) return <></>
 
   return (
-    <ul className="grid h-full grid-cols-2 grid-rows-2 gap-4 divide-alpha-200 px-4 py">
+    <ul className="grid h-full grid-cols-2 grid-rows-2 gap-4 divide-alpha-200 p-6">
       {vocabularies.data.vocabulary.categories.map(
         (category) =>
           category && (
             <li
               key={category.id}
-              className={`grid min-h-[calc(65vw)] grid-rows-4 gap-4 rounded-xl bg-white px-2 py-4`}
+              className={`flex h-[calc(60vw)] flex-col gap-3 rounded-2xl bg-white p`}
               onClick={() => onCategoryChanged(category as Category)}
             >
-              <div className="mr-auto">
-                {/* <p className="rounded-full bg-green-400 px-2 text-left text-white">
-                  جدید
-                </p> */}
-              </div>
               <div
                 id={`category-image-${category.id}`}
-                className="relative row-span-2 w-full flex-shrink-0 bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:w-full"
+                className="relative w-full flex-1 flex-shrink-0 bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:w-full"
               >
                 <Image
                   src={`/images/categories/${category.id}.png`}
                   alt={category.title}
                   fill
-                  sizes="(max-width: 65vw) full, full"
-                  className="object-contain"
+                  // sizes="full, full"
+                  className="h-full object-contain"
                   loading="eager"
                   onLoadingComplete={() => {
                     const div = document.getElementById(
@@ -71,11 +66,11 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
                   }}
                 />
               </div>
-              <div className="my-auto flex flex-col">
-                <h2 className="font-semibold">{category.title}</h2>
+              <div className="flex-start flex h-1/4 flex-col gap-y-2">
                 <p className="text-sm text-primary">{`${digitsEnToFa(
                   addCommas(category.productsCount)
                 )} کالا`}</p>
+                <h2 className="font-bold">{category.title}</h2>
               </div>
             </li>
           )
@@ -99,7 +94,7 @@ const CategoriesList = ({
   })
   if (categoriesQuery.isLoading)
     return (
-      <div className="flex animate-pulse flex-col gap-3 py">
+      <div className="flex animate-pulse flex-col gap-3 p">
         <div className="h-8 w-[80%] rounded-md bg-alpha-200"></div>
         <div className="h-8 w-full rounded-md bg-alpha-200"></div>
         <div className="h-8 w-[90%] rounded-md bg-alpha-200"></div>
@@ -110,13 +105,13 @@ const CategoriesList = ({
   const data = categoriesQuery.data
 
   return (
-    <ul className="grid h-full grid-cols-2 gap-4 divide-alpha-200 px-4 py">
+    <ul className="grid h-full grid-cols-2 gap-4 divide-alpha-200 px-6 py">
       {data.category.children.map(
         (category) =>
           category && (
             <li
               key={category.id}
-              className={`gap-4 rounded-xl bg-white px-2 py-4`}
+              className={`gap-4 rounded-2xl bg-white px-2 py-4`}
               onClick={() => onCategoryChanged(category as Category, false)}
             >
               <div
@@ -199,9 +194,8 @@ const MobileGlobalCategoriesFilter = () => {
     globalCategoriesFilterVisibility,
     setGlobalCategoriesFilterVisibility
   ] = useAtom(globalCategoriesFilterVisibilityAtom)
-  const [ShowNavigationBackButton, setShowNavigationBackButton] = useAtom(
-    showNavigationBackButton
-  )
+  // eslint-disable-next-line no-unused-vars
+  const [_, setShowNavigationBackButton] = useAtom(showNavigationBackButton)
   const [previousCategory, setPreviousCategory] = useState<Category | null>(
     null
   )
@@ -249,13 +243,13 @@ const MobileGlobalCategoriesFilter = () => {
               }
             }}
             variant="ghost"
-            className="ml-auto px-4"
+            className="ml-auto px-6"
             size="small"
             iconOnly
           >
             <LucideArrowRight className="h-5 w-5" />
           </Button>
-          <div className="col-span-3 px-4 text-center font-bold text-alpha-800">
+          <div className="col-span-3 px-6 text-center font-bold text-alpha-800">
             {selectedCategory ? selectedCategory.title : "دسته‌بندی‌ها"}
           </div>
           <div></div>

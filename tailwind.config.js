@@ -3,24 +3,6 @@
 import tailwindColors from "tailwindcss/colors"
 import plugin from "tailwindcss/plugin"
 
-const spacing = {
-  "3xs": "2px",
-  "2xs": "6px",
-  xs: "8px",
-  sm: "12px",
-  md: "16px",
-  lg: "20px",
-  xl: "26px",
-  "2xl": "24px",
-  "3xl": "34px",
-  "4xl": "42px",
-  "5xl": "56px",
-  "6xl": "72px",
-  "7xl": "90px",
-  "8xl": "110px",
-  "9xl": "132px"
-}
-
 const myColors = {
   primary: {
     50: "#feefe9",
@@ -56,9 +38,10 @@ module.exports = {
   theme: {
     extend: {
       spacing: {
-        ...spacing,
-        DEFAULT: spacing.md,
-        spaceY: spacing["5xl"]
+        DEFAULT: "0.875rem"
+      },
+      borderRadius: {
+        DEFAULT: "0.5rem"
       },
       fontFamily: {
         yekanBakh: [
@@ -70,9 +53,6 @@ module.exports = {
           "Segoe UI Symbol",
           "Noto Color Emoji"
         ]
-      },
-      borderRadius: {
-        DEFAULT: spacing.xs
       },
       fontWeight: {
         extrablack: "950"
@@ -101,7 +81,7 @@ module.exports = {
   plugins: [
     plugin(function ({ addBase }) {
       addBase({
-        html: { fontSize: "12px" }
+        html: { fontSize: "0.875rem" }
       })
     }),
     require("tailwindcss-animate")

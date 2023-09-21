@@ -1,17 +1,17 @@
 .table {
   --table-bg: theme(colors.transparent);
-  --table-text-color: theme(colors.gray.700);
+  --table-text-color: theme(colors.alpha.700);
   --table-accent-bg: theme(colors.transparent);
-  --table-striped-bg: theme(colors.gray.50);
-  --table-border-color: theme(colors.gray.200);
+  --table-striped-bg: theme(colors.alpha.50);
+  --table-border-color: theme(colors.alpha.200);
   --table-border-width: 1px;
 
   .dark & {
-    --table-bg: rgba(theme(colors.gray.800), 0.1);
-    --table-accent-bg: rgba(theme(colors.gray.800), 0.4);
-    --table-striped-bg: theme(colors.gray.600);
-    --table-border-color: rgba(theme(colors.gray.800), 0.8);
-    --table-text-color: theme(colors.gray.400);
+    --table-bg: rgba(theme(colors.alpha.800), 0.1);
+    --table-accent-bg: rgba(theme(colors.alpha.800), 0.4);
+    --table-striped-bg: theme(colors.alpha.600);
+    --table-border-color: rgba(theme(colors.alpha.800), 0.8);
+    --table-text-color: theme(colors.alpha.400);
   }
 
   @apply w-full align-top;
@@ -32,12 +32,12 @@
 
   & > thead {
     @apply align-bottom;
-    --table-text-color: theme(colors.gray.600);
-    --table-accent-bg: theme(colors.gray.50);
+    --table-text-color: theme(colors.alpha.600);
+    --table-accent-bg: theme(colors.alpha.50);
 
     .dark & {
-      --table-text-color: theme(colors.gray.600);
-      --table-accent-bg: rgba(theme(colors.gray.900), 0.3);
+      --table-text-color: theme(colors.alpha.600);
+      --table-accent-bg: rgba(theme(colors.alpha.900), 0.3);
     }
   }
 

@@ -7,7 +7,7 @@
   --invalid-color: var(--spectrum-global-color-static-red-600);
   --invalid-color-pressed: var(--spectrum-global-color-static-red-700);
   --border-opacity: 0.1;
-  --border-color: rgba(theme(colors.gray.700), var(--border-opacity));
+  --border-color: rgba(theme(colors.alpha.700), var(--border-opacity));
 
   @apply flex
         h-4

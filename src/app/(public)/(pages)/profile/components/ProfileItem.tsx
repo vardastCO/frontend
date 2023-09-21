@@ -10,8 +10,8 @@ interface IProfileItem {
 
 const ProfileItem: React.FC<IProfileItem> = ({ href, Icon, title }) => {
   return (
-    <Link href={href} prefetch={false} className="flex items-center gap-xs p">
-      <Icon className="h-lg w-lg" />
+    <Link href={href} prefetch={false} className="flex items-center gap-x p-6">
+      <Icon className="h-6 w-6" />
       {title}
     </Link>
   )

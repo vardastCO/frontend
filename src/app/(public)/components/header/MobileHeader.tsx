@@ -16,8 +16,8 @@ export interface IModalHeader {
 const MobileHeader: React.FC<IModalHeader> = ({ title, hasBack }) => {
   const { back } = useRouter()
   return (
-    <div className="sticky top-0 z-40 border-b border-alpha-200 bg-alpha-100">
-      <div className="grid h-5xl grid-cols-12 items-center">
+    <div className="sticky top-0 z-40 border-b border-alpha-200 bg-alpha-white">
+      <div className="grid h-16 grid-cols-12 items-center">
         <div>
           {hasBack && (
             <Button
@@ -27,7 +27,7 @@ const MobileHeader: React.FC<IModalHeader> = ({ title, hasBack }) => {
               onClick={() => (hasBack.onClick ? hasBack.onClick() : back())}
               iconOnly
             >
-              <ArrowRight className="h w" />
+              <ArrowRight className="h-6 w-6" />
             </Button>
           )}
         </div>

@@ -51,7 +51,7 @@
     @apply text-alpha-500;
 
     &[aria-selected="true"] {
-      --border-color: theme(colors.gray.300);
+      --border-color: theme(colors.alpha.300);
     }
   }
 }

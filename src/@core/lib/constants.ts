@@ -1,16 +1,22 @@
 import {
-  LucideBookmark,
+  BookmarkIcon,
+  HomeIcon,
+  Squares2X2Icon,
+  UserCircleIcon
+} from "@heroicons/react/24/outline"
+import {
+  // LucideBookmark,
   LucideGlobe,
-  LucideHome,
+  // LucideHome,
   LucideIcon,
   LucideInfo,
-  LucideLayoutGrid,
+  // LucideLayoutGrid,
   LucideMail,
   LucideMapPin,
   LucideNewspaper,
   LucidePhone,
-  LucidePhoneIncoming,
-  LucideUserCircle
+  LucidePhoneIncoming
+  // LucideUserCircle
 } from "lucide-react"
 
 type NavbarItem = {
@@ -32,25 +38,25 @@ export const _withNavigationRoutes: string[] = ["/", "/profile", "/categories"]
 export const _navbar_items: NavbarItem[] = [
   {
     href: "/",
-    Icon: LucideHome,
+    Icon: HomeIcon,
     title: "خانه",
     id: 0
   },
   {
     href: "/categories",
-    Icon: LucideLayoutGrid,
+    Icon: Squares2X2Icon,
     title: "دسته‌بندی",
     id: 1
   },
   {
     href: "/bookmarks",
-    Icon: LucideBookmark,
+    Icon: BookmarkIcon,
     title: "علاقه‌مندی",
     id: 2
   },
   {
     href: "/profile",
-    Icon: LucideUserCircle,
+    Icon: UserCircleIcon,
     title: "حساب کاربری",
     id: 3
   }

@@ -10,9 +10,9 @@ const IconProvider = ({
   return (
     <a
       href={href}
-      className="mx-auto flex h-4xl w-4xl flex-col items-center justify-center rounded-lg bg-primary-50 p-sm text-primary"
+      className="mx-auto flex h-14 w-14 flex-col items-center justify-center rounded-lg bg-primary-50 p-1.5 text-primary"
     >
-      <Icon className="h-full w-full" />
+      <Icon className="h-2/3 w-2/3" />
     </a>
   )
 }
