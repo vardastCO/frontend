@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { useQuery } from "@tanstack/react-query"
 import { useAtom } from "jotai"
+import { LucideLoader2 } from "lucide-react"
 
 import { Category, GetCategoryQuery, GetVocabularyQuery } from "@/generated"
 
@@ -15,11 +16,27 @@ import { PublicContext } from "@/app/(public)/components/public-provider"
 
 import MobileHeader from "./header/MobileHeader"
 
+type ILoader = null | number
+
 interface VocabulariesListProps {
+  loader: ILoader
   onCategoryChanged: (_: Category) => void
 }
 
-const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
+const ProductLoader = () => {
+  return (
+    <div className="absolute inset-0 z-10 flex h-full w-full items-center justify-center rounded-2xl bg-alpha-800 bg-opacity-10 text-primary-600 backdrop-blur-sm">
+      <span className="animate-spin">
+        <LucideLoader2 className="h-8 w-8" />
+      </span>
+    </div>
+  )
+}
+
+const VocabulariesList = ({
+  onCategoryChanged,
+  loader
+}: VocabulariesListProps) => {
   const vocabularies = useQuery<GetVocabularyQuery>({
     queryKey: ["vocabulary", { slug: "product_categories" }],
     queryFn: () => getVocabularyQueryFn("product_categories")
@@ -49,6 +66,7 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
                 id={`category-image-${category.id}`}
                 className="relative w-full flex-1 flex-shrink-0 bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:w-full"
               >
+                {loader === category.id ? <ProductLoader /> : <></>}
                 <Image
                   src={`/images/categories/${category.id}.png`}
                   alt={category.title}
@@ -81,12 +99,14 @@ const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
 
 interface CategoriesListProps {
   categoryId: number
+  loader: ILoader
   onCategoryChanged: (_: Category, __: boolean) => void
 }
 
 const CategoriesList = ({
   onCategoryChanged,
-  categoryId
+  categoryId,
+  loader
 }: CategoriesListProps) => {
   const categoriesQuery = useQuery<GetCategoryQuery>({
     queryKey: ["category", { id: categoryId }],
@@ -118,6 +138,7 @@ const CategoriesList = ({
                 id={`category-image-${category.id}`}
                 className="relative h-[calc(30vw)] w-full flex-shrink-0 bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:w-full"
               >
+                {loader === category.id ? <ProductLoader /> : <></>}
                 <Image
                   src={"/images/blank.png"}
                   alt={category.title}
@@ -187,6 +208,7 @@ const CategoriesList = ({
 }
 
 const MobileGlobalCategoriesFilter = () => {
+  const [loader, setLoader] = useState<ILoader>(null)
   const { push } = useRouter()
   const { globalCategoriesFilterVisibilityAtom, showNavigationBackButton } =
     useContext(PublicContext)
@@ -206,6 +228,7 @@ const MobileGlobalCategoriesFilter = () => {
   useEffect(() => {
     if (!globalCategoriesFilterVisibility) {
       setSelectedCategory(null)
+      setLoader(null)
       setShowNavigationBackButton(false)
       setPreviousCategory(null)
     }
@@ -219,9 +242,11 @@ const MobileGlobalCategoriesFilter = () => {
           hasBack={{
             onClick: () => {
               if (!selectedCategory) setGlobalCategoriesFilterVisibility(false)
-              if (selectedCategory && !previousCategory)
+              if (selectedCategory && !previousCategory) {
                 setSelectedCategory(null)
-              setShowNavigationBackButton(false)
+                setLoader(null)
+                setShowNavigationBackButton(false)
+              }
               if (selectedCategory && previousCategory) {
                 setSelectedCategory(previousCategory)
                 setShowNavigationBackButton(true)
@@ -256,23 +281,29 @@ const MobileGlobalCategoriesFilter = () => {
         </div> */}
         {selectedCategory ? (
           <CategoriesList
+            loader={loader}
             onCategoryChanged={(category, force) => {
               category.childrenCount > 0 && !force
                 ? (setPreviousCategory(selectedCategory),
                   setSelectedCategory(category),
-                  setShowNavigationBackButton(true))
+                  setShowNavigationBackButton(true),
+                  setLoader(null))
                 : (setGlobalCategoriesFilterVisibility(false),
+                  setLoader(category.id),
                   push(`/search/${category.id}/${category.title}`))
             }}
             categoryId={selectedCategory.id}
           />
         ) : (
           <VocabulariesList
+            loader={loader}
             onCategoryChanged={(category) => {
               category.childrenCount > 0
                 ? (setSelectedCategory(category),
-                  setShowNavigationBackButton(true))
+                  setShowNavigationBackButton(true),
+                  setLoader(null))
                 : (setGlobalCategoriesFilterVisibility(false),
+                  setLoader(category.id),
                   push(`/search/${category.id}/${category.title}`))
             }}
           />

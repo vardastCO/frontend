@@ -11,7 +11,12 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  console.log(product)
+  const onLoadingCompletedImage = () => {
+    const div = document.getElementById(`product-image-${product.id}`)
+    if (div) {
+      div.className = div.className + " opacity-100"
+    }
+  }
 
   const hasDiscount = false
   return (
@@ -35,9 +40,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className="flex flex-1 flex-row gap-4 lg:flex-col">
           <div
             id={`product-image-${product.id}`}
-            className="relative w-32 flex-shrink-0 bg-[url('/images/blank.png')] bg-[length:2em] bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:h-48 lg:w-full"
+            className={`relative w-32 flex-shrink-0 bg-[url('/images/blank.png')] bg-[length:2em] bg-center bg-no-repeat align-middle duration-1000 ease-out lg:h-48 lg:w-full ${
+              product.images.at(0)?.file.presignedUrl.url ? "opacity-0" : ""
+            }`}
           >
-            {product.images.at(0)?.file.presignedUrl.url && (
+            {product.images.at(0)?.file.presignedUrl.url ? (
               <Image
                 src={product.images.at(0)?.file.presignedUrl.url as string}
                 alt={product.name}
@@ -45,14 +52,17 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 sizes="(max-width: 640px) 33vw, 10vw"
                 className="object-contain"
                 loading="eager"
-                onLoadingComplete={() => {
-                  const div = document.getElementById(
-                    `product-image-${product.id}`
-                  )
-                  if (div) {
-                    div.className = div.className + " opacity-100"
-                  }
-                }}
+                onLoadingComplete={onLoadingCompletedImage}
+                onError={onLoadingCompletedImage}
+              />
+            ) : (
+              <Image
+                src={"/images/blank.png"}
+                alt={product.name}
+                fill
+                sizes="(max-width: 640px) 33vw, 10vw"
+                className="object-contain"
+                loading="eager"
               />
             )}
           </div>

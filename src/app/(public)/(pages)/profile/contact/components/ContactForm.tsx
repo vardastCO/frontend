@@ -55,8 +55,8 @@ const ContactForm = () => {
     resolver: zodResolver(formSchema)
   })
 
-  function onSubmitStepOne(data: FormType) {
-    console.log("submit", data)
+  function onSubmitStepOne(_: FormType) {
+    // console.log("submit", data)
   }
 
   return (
