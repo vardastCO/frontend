@@ -11,7 +11,10 @@ interface MobileSearchBarProps {
 export const MobileSearchBar: React.FC<MobileSearchBarProps> = ({
   isMobileView
 }) => {
-  const isCurrentPath = useIsCurrentPath(["", "profile"])
+  const isCurrentPath = useIsCurrentPath([
+    { path: "", forceEqual: false },
+    { path: "profile", forceEqual: false }
+  ])
 
   if (isCurrentPath) {
     return null
