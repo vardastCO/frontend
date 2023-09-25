@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useAtom } from "jotai"
@@ -18,42 +18,54 @@ type Props = {}
 
 const MobileNavigation = (_: Props) => {
   const { showNavigationBackButton } = useContext(PublicContext)
-  const [ShowNavigationBackButton] = useAtom(showNavigationBackButton)
+  const [ShowNavigationBackButton, setShowNavigationBackButton] = useAtom(
+    showNavigationBackButton
+  )
   const pathname = usePathname()
-  const hideSearchBarFlag = useIsCurrentPath(["", "profile", "search"])
+  const hideSearchBarFlag = useIsCurrentPath([
+    {
+      forceEqual: false,
+      path: ""
+    },
+    {
+      forceEqual: false,
+      path: "profile"
+    }
+  ])
+  const getIsActiveNav = (activePath: string) =>
+    pathname.split("/")[1] === activePath.split("/")[1]
   const getActiveClassName = (activePath: string) => {
-    const isActiveNav = pathname.split("/")[1] === activePath.split("/")[1]
+    const isActiveNav = getIsActiveNav(activePath)
 
     return isActiveNav
-      ? "text-primary-600 dark:text-primary-500 font-bold"
+      ? "text-primary-600 dark:text-primary-500"
       : "text-alpha-800 dark:text-alpha-900"
   }
 
   const isShowNavigation = () => {
-    return _withNavigationRoutes.some((path) => pathname === path)
+    return _withNavigationRoutes.some(({ path, forceEqual }) =>
+      forceEqual ? pathname.includes(path) : pathname === path
+    )
   }
+
+  useEffect(() => {
+    setShowNavigationBackButton(false)
+  }, [pathname, setShowNavigationBackButton])
 
   if (isShowNavigation()) {
     return (
-      <>
+      <div className={hideSearchBarFlag ? "pb-[60px]" : "pb-[110px]"}>
         <div
-          className="bg-alpha-white"
-          style={{
-            paddingTop: hideSearchBarFlag ? "7rem" : "11rem"
-          }}
+          className={`fixed bottom-0 left-0 z-50 w-full border-t border-alpha-200 bg-alpha-white bg-opacity-5 backdrop-blur-xl dark:border-alpha-600 dark:bg-alpha-700`}
         >
-          <div
-            style={{
-              height: hideSearchBarFlag ? "7rem" : "11rem"
-            }}
-            className={`fixed bottom-0 left-0 z-50 w-full border-t border-alpha-200 bg-alpha-white bg-opacity-50 backdrop-blur-xl dark:border-alpha-600 dark:bg-alpha-700`}
-          >
+          <div className="">
             {!hideSearchBarFlag && (
-              <div className="flex h-[4rem] gap-x-2 p-2 px-4 pb-0 pt-1.5">
+              <div className="flex gap-x px-8 pt">
                 {ShowNavigationBackButton && (
                   <div className="h-full">
                     <Button
-                      className=""
+                      // variant="ghost"
+                      block
                       onClick={() => {
                         document.getElementById("header-back-button")?.click()
                       }}
@@ -66,29 +78,37 @@ const MobileNavigation = (_: Props) => {
                 <Search isMobileView={true} />
               </div>
             )}
-            <div className="mx-auto grid h-[7rem] max-w-lg grid-cols-4">
-              {_navbar_items.map(({ Icon, href, id, title }) => (
-                <Link
-                  key={id}
-                  href={href}
-                  className="group inline-flex flex-col items-center justify-center py dark:hover:bg-alpha-800"
-                  prefetch={false}
-                >
-                  <Icon
-                    className={mergeClasses(
-                      "mb-2 h-7 w-7",
-                      getActiveClassName(href)
-                    )}
-                  />
-                  <span className={mergeClasses("", getActiveClassName(href))}>
-                    {title}
-                  </span>
-                </Link>
-              ))}
+            <div className="grid w-full max-w-lg grid-cols-4 bg-alpha-white bg-opacity-5">
+              {_navbar_items.map(({ Icon, ActiveIcon, href, id, title }) => {
+                const ShowedIcon = getIsActiveNav(href) ? ActiveIcon : Icon
+                return (
+                  <Link
+                    key={id}
+                    href={href}
+                    className="group inline-flex h-full flex-col items-center justify-center pb-[calc(env(safe-area-inset-bottom)*0.5+10px)] pt"
+                    prefetch={false}
+                  >
+                    <ShowedIcon
+                      className={mergeClasses(
+                        "mb-1 h-7 w-7",
+                        getActiveClassName(href)
+                      )}
+                    />
+                    <p
+                      className={mergeClasses(
+                        "text-xs",
+                        getActiveClassName(href)
+                      )}
+                    >
+                      {title}
+                    </p>
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </div>
-      </>
+      </div>
     )
   }
   return null

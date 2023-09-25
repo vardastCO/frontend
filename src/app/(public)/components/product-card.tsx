@@ -19,6 +19,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   }
 
   const hasDiscount = false
+
   return (
     <div
       className="relative
@@ -67,12 +68,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
             )}
           </div>
           <div className="flex flex-1 flex-col">
-            <h2
+            <h6
               title={product.name}
               className="mb-6 mt-4 line-clamp-2 h-12 text-alpha-800"
             >
               {product.name}
-            </h2>
+            </h6>
             {product.lowestPrice && (
               <div className="flex flex-col items-stretch justify-between text-alpha-800">
                 <div className="flex items-start gap-2">

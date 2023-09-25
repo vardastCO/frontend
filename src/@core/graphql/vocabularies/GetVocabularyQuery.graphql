@@ -19,6 +19,16 @@ query GetVocabulary($id: Int, $slug: String) {
       updatedAt
       childrenCount
       productsCount
+      imageCategory {
+        file {
+          id
+          size
+          name
+          presignedUrl {
+            url
+          }
+        }
+      }
       parentCategory {
         id
         title

@@ -31,9 +31,9 @@ const MobileHeader: React.FC<IModalHeader> = ({ title, hasBack }) => {
             </Button>
           )}
         </div>
-        <div className="col-span-10 text-center font-bold text-alpha-800">
+        <h3 className="col-span-10 text-center font-bold text-alpha-800">
           {title}
-        </div>
+        </h3>
         <div></div>
       </div>
     </div>

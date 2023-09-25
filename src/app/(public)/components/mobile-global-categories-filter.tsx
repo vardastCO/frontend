@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, useEffect, useState } from "react"
+import { PropsWithChildren, useContext, useEffect, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
@@ -23,6 +23,16 @@ interface VocabulariesListProps {
   onCategoryChanged: (_: Category) => void
 }
 
+interface IVocabularyItem {
+  title: string
+  isSubCategory?: boolean
+  id: number
+  src: string
+  productsCount: number
+  loader: ILoader
+  onClick: (_?: any) => void
+}
+
 const ProductLoader = () => {
   return (
     <div className="absolute inset-0 z-10 flex h-full w-full items-center justify-center rounded-2xl bg-alpha-800 bg-opacity-10 text-primary-600 backdrop-blur-sm">
@@ -30,6 +40,84 @@ const ProductLoader = () => {
         <LucideLoader2 className="h-8 w-8" />
       </span>
     </div>
+  )
+}
+
+const VocabularySkeleton = ({ isSubCategory }: { isSubCategory?: boolean }) => {
+  return (
+    <li
+      className={`${
+        isSubCategory ? "h-[calc(40vw)]" : "h-[calc(60vw)]"
+      } flex animate-pulse flex-col gap-3 rounded-2xl bg-alpha-200 p-3`}
+    ></li>
+  )
+}
+
+const VocabularySkeletonContainer = ({
+  isSubCategory
+}: {
+  isSubCategory?: boolean
+}) => {
+  return (
+    <ul className="grid h-full grid-cols-2 grid-rows-2 gap-4 divide-alpha-200 p-6">
+      {[...Array(7)].map((_, index) => (
+        <VocabularySkeleton isSubCategory={isSubCategory} key={index} />
+      ))}
+    </ul>
+  )
+}
+
+const VocabularyItem = ({
+  onClick,
+  title,
+  src,
+  productsCount,
+  id,
+  loader,
+  isSubCategory
+}: IVocabularyItem) => {
+  return (
+    <li
+      className={`${
+        isSubCategory ? "h-[calc(40vw)]" : "h-[calc(60vw)]"
+      } flex flex-col gap-3 rounded-2xl bg-alpha-100 p-3`}
+      onClick={onClick}
+    >
+      <div className="flex-start flex flex-col gap-y-2">
+        <p className="truncate whitespace-pre text-sm font-semibold">{title}</p>
+        <p className="text-xs text-primary">{`${digitsEnToFa(
+          addCommas(productsCount)
+        )} کالا`}</p>
+      </div>
+      <div
+        id={`category-image-${id}`}
+        className="relative w-full flex-1 flex-shrink-0 bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:w-full"
+      >
+        {loader === id ? <ProductLoader /> : <></>}
+        <Image
+          src={src}
+          alt={title}
+          fill
+          // sizes="full, full"
+          className="h-full object-contain"
+          loading="eager"
+          onLoadingComplete={() => {
+            const div = document.getElementById(`category-image-${id}`)
+            if (div) {
+              div.className = div.className + " opacity-100"
+            }
+          }}
+        />
+      </div>
+    </li>
+  )
+}
+
+const VocabularyListLayout: React.FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <ul className="grid h-full grid-cols-2 grid-rows-2 gap-4 divide-alpha-200 p-6">
+      {children}
+    </ul>
   )
 }
 
@@ -42,58 +130,34 @@ const VocabulariesList = ({
     queryFn: () => getVocabularyQueryFn("product_categories")
   })
 
-  if (vocabularies.isLoading)
-    return (
-      <div className="flex animate-pulse flex-col gap-3 p">
-        <div className="h-8 w-[80%] rounded-md bg-alpha-200"></div>
-        <div className="h-8 w-full rounded-md bg-alpha-200"></div>
-        <div className="h-8 w-[90%] rounded-md bg-alpha-200"></div>
-      </div>
-    )
-  if (!vocabularies.data) return <></>
+  if (vocabularies.isLoading) {
+    return <VocabularySkeletonContainer />
+  }
+
+  if (!vocabularies.data) {
+    return <></>
+  }
 
   return (
-    <ul className="grid h-full grid-cols-2 grid-rows-2 gap-4 divide-alpha-200 p-6">
+    <VocabularyListLayout>
       {vocabularies.data.vocabulary.categories.map(
         (category) =>
           category && (
-            <li
+            <VocabularyItem
               key={category.id}
-              className={`flex h-[calc(60vw)] flex-col gap-3 rounded-2xl bg-white p`}
+              loader={loader}
               onClick={() => onCategoryChanged(category as Category)}
-            >
-              <div
-                id={`category-image-${category.id}`}
-                className="relative w-full flex-1 flex-shrink-0 bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:w-full"
-              >
-                {loader === category.id ? <ProductLoader /> : <></>}
-                <Image
-                  src={`/images/categories/${category.id}.png`}
-                  alt={category.title}
-                  fill
-                  // sizes="full, full"
-                  className="h-full object-contain"
-                  loading="eager"
-                  onLoadingComplete={() => {
-                    const div = document.getElementById(
-                      `category-image-${category.id}`
-                    )
-                    if (div) {
-                      div.className = div.className + " opacity-100"
-                    }
-                  }}
-                />
-              </div>
-              <div className="flex-start flex h-1/4 flex-col gap-y-2">
-                <p className="text-sm text-primary">{`${digitsEnToFa(
-                  addCommas(category.productsCount)
-                )} کالا`}</p>
-                <h2 className="font-bold">{category.title}</h2>
-              </div>
-            </li>
+              title={category.title}
+              productsCount={category.productsCount}
+              id={category.id}
+              src={
+                (category?.imageCategory[0]?.file.presignedUrl
+                  ?.url as string) ?? `/images/categories/${category.id}.png`
+              }
+            />
           )
       )}
-    </ul>
+    </VocabularyListLayout>
   )
 }
 
@@ -112,98 +176,34 @@ const CategoriesList = ({
     queryKey: ["category", { id: categoryId }],
     queryFn: () => getCategoryQueryFn(categoryId)
   })
-  if (categoriesQuery.isLoading)
-    return (
-      <div className="flex animate-pulse flex-col gap-3 p">
-        <div className="h-8 w-[80%] rounded-md bg-alpha-200"></div>
-        <div className="h-8 w-full rounded-md bg-alpha-200"></div>
-        <div className="h-8 w-[90%] rounded-md bg-alpha-200"></div>
-      </div>
-    )
-  if (!categoriesQuery.data) return <></>
-
-  const data = categoriesQuery.data
+  if (categoriesQuery.isLoading) {
+    return <VocabularySkeletonContainer isSubCategory />
+  }
+  if (!categoriesQuery.data) {
+    return <></>
+  }
 
   return (
-    <ul className="grid h-full grid-cols-2 gap-4 divide-alpha-200 px-6 py">
-      {data.category.children.map(
+    <VocabularyListLayout>
+      {categoriesQuery.data.category.children.map(
         (category) =>
           category && (
-            <li
+            <VocabularyItem
               key={category.id}
-              className={`gap-4 rounded-2xl bg-white px-2 py-4`}
+              isSubCategory
+              loader={loader}
               onClick={() => onCategoryChanged(category as Category, false)}
-            >
-              <div
-                id={`category-image-${category.id}`}
-                className="relative h-[calc(30vw)] w-full flex-shrink-0 bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:w-full"
-              >
-                {loader === category.id ? <ProductLoader /> : <></>}
-                <Image
-                  src={"/images/blank.png"}
-                  alt={category.title}
-                  fill
-                  sizes="(max-width: 65vw) full, full"
-                  className="object-contain"
-                  loading="eager"
-                  onLoadingComplete={() => {
-                    const div = document.getElementById(
-                      `category-image-${category.id}`
-                    )
-                    if (div) {
-                      div.className = div.className + " opacity-100"
-                    }
-                  }}
-                />
-              </div>
-              <div className="my-auto flex flex-col">
-                <h2 className="font-semibold">{category.title}</h2>
-                <p className="text-sm text-primary">{`${digitsEnToFa(
-                  addCommas(category.productsCount)
-                )} کالا`}</p>
-              </div>
-            </li>
-            // <li
-            //   key={category.id}
-            //   className={`grid grid-cols-4 gap-4 rounded-xl bg-white px-2 py-4`}
-            //   onClick={() => onCategoryChanged(category as Category, true)}
-            // >
-            //   <div
-            //     id={`category-image-${category.id}`}
-            //     className="relative col-span-2 min-h-[calc(22vw)] w-full flex-shrink-0 bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:w-full"
-            //   >
-            //     <Image
-            //       src={"/images/sample.png"}
-            //       alt={category.title}
-            //       fill
-            //       sizes="(max-width: 65vw) full, full"
-            //       className="object-contain"
-            //       loading="eager"
-            //       onLoadingComplete={() => {
-            //         const div = document.getElementById(
-            //           `category-image-${category.id}`
-            //         )
-            //         if (div) {
-            //           div.className = div.className + " opacity-100"
-            //         }
-            //       }}
-            //     />
-            //   </div>
-            //   <div className="my-auto flex flex-col">
-            //     <h2 className="font-semibold">{category.title}</h2>
-            //     <p className="text-sm-600 text-error">{`${digitsEnToFa(
-            //       addCommas(category.productsCount)
-            //     )} کالا`}</p>
-            //   </div>
-            //   <div className="my-auto mr-auto">
-            //     {/* <p className="rounded-full bg-green-400 px-2 text-left text-white">
-            //       جدید
-            //     </p> */}
-            //   </div>
-            // </li>
+              title={category.title}
+              productsCount={category.productsCount}
+              id={category.id}
+              src={
+                (category?.imageCategory[0]?.file.presignedUrl
+                  ?.url as string) ?? `/images/blank.png`
+              }
+            />
           )
       )}
-    </ul>
+    </VocabularyListLayout>
   )
 }
 

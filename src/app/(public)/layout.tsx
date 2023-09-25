@@ -14,7 +14,7 @@ export default function PublicLayout({
       {isMobileView ? (
         <div className="container mx-auto flex h-full flex-col">
           <div
-            className={`flex flex-1 flex-col ${
+            className={`flex flex-1 flex-col pb-[calc(env(safe-area-inset-bottom)*1.1)] ${
               isMobileView ? "overflow-y-scroll" : ""
             }`}
           >

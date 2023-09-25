@@ -27,7 +27,7 @@ const Index = async () => {
             priority
           />
         </div>
-        <div className="h-[4rem] w-full p-2 px pb-0 pt-1.5">
+        <div className="w-full px">
           <Search isMobileView={isMobileView} />
         </div>
       </div>

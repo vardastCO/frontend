@@ -35,6 +35,16 @@ query GetCategory($id: Int, $slug: String) {
         updatedAt
         childrenCount
       }
+      imageCategory {
+        file {
+          id
+          size
+          name
+          presignedUrl {
+            url
+          }
+        }
+      }
     }
     parentCategory {
       id

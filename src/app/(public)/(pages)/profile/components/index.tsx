@@ -15,7 +15,7 @@ const ProfileIndex = () => {
   return (
     <>
       <div className="flex-1 pt">
-        <ul className="flex flex-col bg-alpha-white">
+        <ul className="flex flex-col bg-alpha-100">
           {_profile_items.map((props) => (
             <ProfileItem key={props.id} {...props} />
           ))}

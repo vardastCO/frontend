@@ -166,13 +166,13 @@
     @apply p-3;
 
     &.btn-xs {
-      @apply p-1.5;
+      @apply p-1;
     }
     &.btn-sm {
       @apply p-1.5;
     }
     &.btn-md {
-      @apply p-3.5;
+      @apply p-2.5;
     }
     &.btn-lg {
       @apply p-4;

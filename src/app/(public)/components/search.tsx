@@ -104,8 +104,8 @@ const Search: React.FC<ISearch> = ({ isMobileView }) => {
                 w-full
                 items-center
                 gap-2
-                rounded-md
-                bg-alpha-200
+                rounded-lg
+                bg-alpha-100
                 px-4
                 py-3"
         >
