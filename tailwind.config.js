@@ -5,30 +5,30 @@ import plugin from "tailwindcss/plugin"
 
 const myColors = {
   primary: {
-    50: "#feefe9",
-    100: "#fbcebe",
-    200: "#f8ae92",
-    300: "#f58e66",
-    400: "#f36d3b",
-    500: "#f04d0f",
-    600: "#f15b22",
-    700: "#99310a",
-    800: "#6d2307",
-    900: "#411504",
-    950: "#160701"
+    50: "#FEEFE9",
+    100: "#FCDED3",
+    200: "#FBCEBD",
+    300: "#F9BDA7",
+    400: "#F79D7A",
+    500: "#F47C4E",
+    600: "#F15B22",
+    700: "#C1491B",
+    800: "#913714",
+    900: "#60240E",
+    950: "#481B0A"
   },
   secondary: {
-    50: "#f2f4f4",
-    100: "#dadfdf",
-    200: "#c1cac9",
-    300: "#a8b4b3",
-    400: "#8f9f9e",
-    500: "#768988",
-    600: "#9eacab",
-    700: "#4b5757",
-    800: "#353e3e",
-    900: "#202525",
-    950: "#0b0c0c"
+    50: "#EDF2F4",
+    100: "#DCE4E7",
+    200: "#CCD6DA",
+    300: "#AAB9C0",
+    400: "#899DA7",
+    500: "#67808D",
+    600: "#466473",
+    700: "#38505C",
+    800: "#2A3C45",
+    900: "#1C282E",
+    950: "#151E23"
   }
 }
 
@@ -44,8 +44,8 @@ const tailwind = {
         DEFAULT: "0.5rem"
       },
       fontFamily: {
-        yekanBakh: [
-          "Yekan Bakh",
+        iranYekan: [
+          "Iran Yekan",
           "Helvetica Neue",
           "sans-serif",
           "Apple Color Emoji",
