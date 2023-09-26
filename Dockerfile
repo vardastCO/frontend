@@ -14,7 +14,6 @@ COPY ./ ./
 RUN cp .env.example .env
 
 RUN pnpm install
-RUN pnpm codegen
 
 # Build the app for production
 RUN pnpm build

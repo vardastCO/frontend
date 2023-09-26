@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { notFound, useRouter } from "next/navigation"
+import { notFound } from "next/navigation"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { formatDistanceToNow, setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
@@ -23,7 +23,6 @@ import Pagination from "@/app/admin/components/Pagination"
 const Products = () => {
   const { t } = useTranslation()
   const { data: session } = useSession()
-  const router = useRouter()
   const [currentPage, setCurrentPage] = useState<number>(1)
 
   const { isLoading, error, data } = useGetAllProductsQuery(
@@ -73,8 +72,12 @@ const Products = () => {
               (product) =>
                 product && (
                   <tr
+                    className="cursor-pointer"
                     key={product.id}
-                    onClick={() => router.push(`/admin/products/${product.id}`)}
+                    onClick={() => {
+                      window.open(`/admin/products/${product.id}`, "_ blank")
+                      // router.push(`/admin/products/${product.id}`)
+                    }}
                   >
                     <td className="w-12">
                       <div className="relative aspect-square h-12 w-12 overflow-hidden rounded">
