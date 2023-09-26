@@ -135,7 +135,7 @@ const SigninForm = () => {
             ></FormField>
             <Button
               type="submit"
-              fullWidth
+              block
               disabled={loading || form.formState.isSubmitting}
               loading={loading || form.formState.isSubmitting}
             >

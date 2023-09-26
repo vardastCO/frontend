@@ -245,7 +245,7 @@ const ResetForm = (props: Props) => {
 
               <Button
                 type="submit"
-                fullWidth
+                block
                 disabled={
                   validateCellphoneMutation.isLoading ||
                   formStepOne.formState.isSubmitting
@@ -300,7 +300,7 @@ const ResetForm = (props: Props) => {
 
               <Button
                 type="submit"
-                fullWidth
+                block
                 disabled={
                   validateOtpMutation.isLoading ||
                   formStepTwo.formState.isSubmitting
@@ -342,7 +342,7 @@ const ResetForm = (props: Props) => {
               ></FormField>
               <Button
                 type="submit"
-                fullWidth
+                block
                 disabled={
                   passwordResetMutation.isLoading ||
                   formStepThree.formState.isSubmitting
