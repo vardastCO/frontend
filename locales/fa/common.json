@@ -16,6 +16,8 @@
   "bio": "درباره",
   "is_product_variant": "کالای مجزا",
   "active": "فعال",
+  "inactive": "غیر فعال",
+  "operation": "عملیات",
   "session": "نشست",
   "sessions": "نشست‌ها",
   "created_at": "تاریخ ثبت",

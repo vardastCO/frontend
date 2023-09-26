@@ -1,9 +1,10 @@
-import { Fragment } from "react"
+import { Fragment, useState } from "react"
 import { usePagination } from "@mantine/hooks"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
 
 import { Button } from "@core/components/ui/button"
+import { Input } from "@core/components/ui/input"
 
 type Props = {
   total: number
@@ -17,6 +18,8 @@ const Pagination = ({ total, page, onChange }: Props) => {
     page,
     onChange
   })
+
+  const [inputValue, setInputValue] = useState<string>("")
 
   return (
     <div className="mb-10 mt-8 text-center lg:mb-0">
@@ -75,6 +78,21 @@ const Pagination = ({ total, page, onChange }: Props) => {
             بعدی
           </Button>
         )}
+        <Input
+          placeholder="شماره صفحه را وارد کنید"
+          onChange={(e) => {
+            setInputValue(e.target.value)
+          }}
+          value={inputValue}
+        />
+        <Button
+          noStyle
+          disabled={!inputValue}
+          onClick={() => pagination.setPage(+inputValue)}
+          className="inline-flex cursor-pointer items-center justify-center bg-white px-2 hover:bg-alpha-50 md:px-3"
+        >
+          برو
+        </Button>
       </div>
     </div>
   )

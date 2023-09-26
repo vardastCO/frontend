@@ -65,20 +65,14 @@ const Products = () => {
               <th>{t("common:updated")}</th>
               <th>{t("common:stock")}</th>
               <th>{t("common:price")}</th>
+              <th>{t("common:operation")}</th>
             </tr>
           </thead>
           <tbody>
             {data?.products.data.map(
               (product) =>
                 product && (
-                  <tr
-                    className="cursor-pointer"
-                    key={product.id}
-                    onClick={() => {
-                      window.open(`/admin/products/${product.id}`, "_ blank")
-                      // router.push(`/admin/products/${product.id}`)
-                    }}
-                  >
+                  <tr key={product.id}>
                     <td className="w-12">
                       <div className="relative aspect-square h-12 w-12 overflow-hidden rounded">
                         <Image
@@ -143,6 +137,14 @@ const Products = () => {
                       ) : (
                         "--"
                       )}
+                    </td>
+                    <td>
+                      <Link
+                        target="_blank"
+                        href={`/admin/products/${product.id}`}
+                      >
+                        <Button>ویرایش</Button>
+                      </Link>
                     </td>
                   </tr>
                 )
