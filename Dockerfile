@@ -1,3 +1,4 @@
+# Use a Node.js base image with Yarn installed
 FROM node:18.15.0-alpine
 
   # Set the working directory

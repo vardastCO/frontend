@@ -89,7 +89,7 @@ const Search: React.FC<ISearch> = ({ isMobileView }) => {
       <div
         className={clsx([
           open ? "z-30" : "",
-          "h-full w-full",
+          "w-full",
           isMobileView && open
             ? "fixed inset-0 mx-auto h-[calc(100%-calc(64px+var(--safe-area-inset-bottom)))] w-full overflow-y-auto"
             : " relative mx-auto md:max-w-md lg:max-w-lg"

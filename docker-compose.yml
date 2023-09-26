@@ -1,4 +1,4 @@
-version: "3.3"
+version: '3.3'
 services:
   next-app:
     container_name: vardast-web
@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     networks:
       - myNet
 networks:
