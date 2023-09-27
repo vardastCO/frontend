@@ -300,96 +300,100 @@ const ProductList = ({
         ])}
       >
         {!isMobileView && (
-          <div className="rounded-md px-4">
-            <div className="-mx-4 flex items-center p-4">
-              <strong>فیلترها</strong>
-              {filterAttributes.length > 0 && (
-                <Button
-                  size="small"
-                  noStyle
-                  className="ms-auto text-sm text-red-500"
-                  onClick={() => removeAllFilters()}
-                >
-                  حذف همه فیلترها
-                </Button>
-              )}
-            </div>
+          <div>
+            <div className="rounded-md px-4">
+              <div className="-mx-4 flex items-center p-4">
+                <strong>فیلترها</strong>
+                {filterAttributes.length > 0 && (
+                  <Button
+                    size="small"
+                    noStyle
+                    className="ms-auto text-sm text-red-500"
+                    onClick={() => removeAllFilters()}
+                  >
+                    حذف همه فیلترها
+                  </Button>
+                )}
+              </div>
 
-            {selectedCategoryIds &&
-              selectedCategoryIds.length === 1 &&
-              !brandId &&
-              !sellerId && (
-                <CategoryFilter selectedCategoryId={selectedCategoryIds[0]} />
-              )}
+              {selectedCategoryIds &&
+                selectedCategoryIds.length === 1 &&
+                !brandId &&
+                !sellerId && (
+                  <CategoryFilter selectedCategoryId={selectedCategoryIds[0]} />
+                )}
 
-            {brandId && (
-              <BrandOrSellerCategoryFilter
-                categoryIdsFilter={categoryIdsFilter}
-                onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
-                brandId={brandId}
-              />
-            )}
-
-            {sellerId && (
-              <BrandOrSellerCategoryFilter
-                categoryIdsFilter={categoryIdsFilter}
-                onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
-                sellerId={sellerId}
-              />
-            )}
-
-            {selectedCategoryIds &&
-              selectedCategoryIds.length === 1 &&
-              selectedCategoryIds[0] !== 0 && (
-                <FiltersContainer
-                  selectedCategoryId={selectedCategoryIds[0]}
-                  filterAttributes={filterAttributes}
-                  onFilterAttributesChanged={onFilterAttributesChanged}
+              {brandId && (
+                <BrandOrSellerCategoryFilter
+                  categoryIdsFilter={categoryIdsFilter}
+                  onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
+                  brandId={brandId}
                 />
               )}
 
-            {!selectedCategoryIds && !brandId && !sellerId && (
-              <VocabularyFilter />
-            )}
+              {sellerId && (
+                <BrandOrSellerCategoryFilter
+                  categoryIdsFilter={categoryIdsFilter}
+                  onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
+                  sellerId={sellerId}
+                />
+              )}
+
+              {selectedCategoryIds &&
+                selectedCategoryIds.length === 1 &&
+                selectedCategoryIds[0] !== 0 && (
+                  <FiltersContainer
+                    selectedCategoryId={selectedCategoryIds[0]}
+                    filterAttributes={filterAttributes}
+                    onFilterAttributesChanged={onFilterAttributesChanged}
+                  />
+                )}
+
+              {!selectedCategoryIds && !brandId && !sellerId && (
+                <VocabularyFilter />
+              )}
+            </div>
           </div>
         )}
-
-        {data.products.data.length > 0 ? (
-          <>
-            <div className="flex items-center py-1 md:py-3">
-              <ProductSort
-                sort={sort}
-                onSortChanged={(sort) => {
-                  setSort(sort)
-                  const params = new URLSearchParams(searchParams as any)
-                  params.set("orderBy", `${sort}`)
-                  push(pathname + "?" + params.toString())
-                }}
-              />
-              {/* <ProductCount count={data.products.total || 0} /> */}
-            </div>
-
-            <div className="grid gap-y sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
-              {data.products.data.map((product, idx) => (
-                <ProductCard key={idx} product={product as Product} />
-              ))}
-            </div>
-            {data.products.lastPage && data.products.lastPage > 1 && (
-              <ProductPagination
-                total={data.products.lastPage}
-                currentPage={currentPage}
-                onChange={(page) => {
-                  setCurrentPage(page)
-                  const params = new URLSearchParams(searchParams as any)
-                  params.set("page", `${page}`)
-                  push(pathname + "?" + params.toString())
-                }}
-              />
-            )}
-          </>
-        ) : (
-          <NoProductFound />
-        )}
+        <div>
+          {data.products.data.length > 0 ? (
+            <>
+              <div className="flex items-center py-1 md:py-3">
+                <ProductSort
+                  sort={sort}
+                  onSortChanged={(sort) => {
+                    setSort(sort)
+                    const params = new URLSearchParams(searchParams as any)
+                    params.set("orderBy", `${sort}`)
+                    push(pathname + "?" + params.toString())
+                  }}
+                />
+                {/* <ProductCount count={data.products.total || 0} /> */}
+              </div>
+              <div>
+                <div className="grid gap-y sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
+                  {data.products.data.map((product, idx) => (
+                    <ProductCard key={idx} product={product as Product} />
+                  ))}
+                </div>
+                {data.products.lastPage && data.products.lastPage > 1 && (
+                  <ProductPagination
+                    total={data.products.lastPage}
+                    currentPage={currentPage}
+                    onChange={(page) => {
+                      setCurrentPage(page)
+                      const params = new URLSearchParams(searchParams as any)
+                      params.set("page", `${page}`)
+                      push(pathname + "?" + params.toString())
+                    }}
+                  />
+                )}
+              </div>
+            </>
+          ) : (
+            <NoProductFound />
+          )}
+        </div>
       </div>
     </div>
   )
