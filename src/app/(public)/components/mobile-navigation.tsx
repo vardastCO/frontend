@@ -96,7 +96,7 @@ const MobileNavigation = (_: Props) => {
                     />
                     <p
                       className={mergeClasses(
-                        "text-xs",
+                        "text-xs font-bold",
                         getActiveClassName(href)
                       )}
                     >

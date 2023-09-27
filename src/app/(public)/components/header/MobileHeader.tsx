@@ -1,12 +1,13 @@
 "use client"
 
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { ArrowRight } from "lucide-react"
 
 import { Button } from "@core/components/ui/button"
 
 export interface IModalHeader {
-  title: string
+  title?: string
   hasBack?: {
     onClick?: (_?: any) => void
     hidden?: boolean
@@ -31,9 +32,21 @@ const MobileHeader: React.FC<IModalHeader> = ({ title, hasBack }) => {
             </Button>
           )}
         </div>
-        <h3 className="col-span-10 text-center font-bold text-alpha-800">
-          {title}
-        </h3>
+        {title ? (
+          <h3 className="col-span-10 text-center font-bold text-alpha-800">
+            {title}
+          </h3>
+        ) : (
+          <div className="col-span-10">
+            <Image
+              src={"/images/logo.png"}
+              alt={"vardast"}
+              width={24}
+              height={24}
+              className="mx-auto"
+            />
+          </div>
+        )}
         <div></div>
       </div>
     </div>

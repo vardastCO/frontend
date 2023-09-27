@@ -80,11 +80,11 @@ const VocabularyItem = ({
     <li
       className={`${
         isSubCategory ? "h-[calc(40vw)]" : "h-[calc(60vw)]"
-      } flex flex-col gap-3 rounded-2xl bg-alpha-100 p-3`}
+      } flex flex-col rounded-2xl bg-alpha-white p-3`}
       onClick={onClick}
     >
-      <div className="flex-start flex flex-col gap-y-2">
-        <p className="truncate whitespace-pre text-sm font-semibold">{title}</p>
+      <div className="flex h-12 flex-col gap-y-0.5">
+        <p className="text-sm font-semibold">{title}</p>
         <p className="text-xs text-primary">{`${digitsEnToFa(
           addCommas(productsCount)
         )} کالا`}</p>
@@ -150,6 +150,7 @@ const VocabulariesList = ({
               title={category.title}
               productsCount={category.productsCount}
               id={category.id}
+              // src={`/images/categories/${category.id}.png`}
               src={
                 (category?.imageCategory[0]?.file.presignedUrl
                   ?.url as string) ?? `/images/categories/${category.id}.png`
@@ -236,7 +237,7 @@ const MobileGlobalCategoriesFilter = () => {
 
   return (
     <>
-      <div className="flex flex-col border-alpha-200">
+      <div className="flex flex-1 flex-col border-alpha-200 bg-alpha-100">
         <MobileHeader
           title={selectedCategory ? selectedCategory.title : "دسته‌بندی‌ها"}
           hasBack={{
