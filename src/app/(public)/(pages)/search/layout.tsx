@@ -12,7 +12,7 @@ export default function SearchLayout({
     <div
       className={clsx([
         "container mx-auto",
-        isMobileView ? "" : "pt-1 md:py-8"
+        isMobileView ? "bg-alpha-100" : "pt-1 md:py-8"
       ])}
     >
       {children}

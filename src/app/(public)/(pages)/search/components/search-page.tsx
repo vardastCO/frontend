@@ -19,13 +19,11 @@ const SearchPage = ({ isMobileView, slug, args }: SearchPageProps) => {
       {slug && slug.length > 0 && (
         <SearchHeader selectedCategoryId={+slug[0]} />
       )}
-      <div className="px-6 py">
-        <ProductList
-          isMobileView={isMobileView}
-          args={args}
-          selectedCategoryIds={selectedCategoryId ? [selectedCategoryId] : null}
-        />
-      </div>
+      <ProductList
+        isMobileView={isMobileView}
+        args={args}
+        selectedCategoryIds={selectedCategoryId ? [selectedCategoryId] : null}
+      />
     </>
   )
 }

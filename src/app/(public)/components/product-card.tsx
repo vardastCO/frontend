@@ -21,18 +21,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const hasDiscount = false
 
   return (
-    <div
-      className="relative
-        border-b
-        transition
-        hover:z-10
-        sm:border-l-0
-        md:hover:shadow-lg
-        lg:border-l
-        lg:[&:nth-of-type(3n)]:border-l-0
-        xl:[&:nth-of-type(3n)]:border-l
-        xl:[&:nth-of-type(4n)]:border-l-0"
-    >
+    <div className="relative rounded-xl bg-alpha-white p transition hover:z-10 md:hover:shadow-lg lg:[&:nth-of-type(3n)]:border-l-0 xl:[&:nth-of-type(3n)]:border-l xl:[&:nth-of-type(4n)]:border-l-0">
       <Link
         href={`/p/${product.id}/${slugify(product.name)}`}
         className="flex h-full w-full py-2 lg:px-4"

@@ -213,7 +213,7 @@ const ProductList = ({
   if (!data) notFound()
 
   return (
-    <>
+    <div className="px">
       {isMobileView && (
         <>
           <MobileCategoriesFilter
@@ -236,7 +236,7 @@ const ProductList = ({
               push(pathname + "?" + params.toString())
             }}
           />
-          <div className="mt-2 flex items-start gap-2">
+          <div className="flex items-start gap-3 border-b pb">
             {selectedCategoryIds &&
               selectedCategoryIds.length > 0 &&
               getFilterableAttributesQuery.data &&
@@ -246,8 +246,8 @@ const ProductList = ({
                   <Button
                     onClick={() => setFiltersVisibility(true)}
                     size="small"
-                    variant="ghost"
-                    className="border border-alpha-200"
+                    variant="secondary"
+                    className="rounded-full border border-alpha-200"
                   >
                     {filterAttributes.length > 0 && (
                       <span className="absolute -right-1 -top-1 block h-2.5 w-2.5 rounded-full bg-primary-500"></span>
@@ -272,8 +272,8 @@ const ProductList = ({
             <Button
               onClick={() => setCategoriesFilterVisibility(true)}
               size="small"
-              variant="ghost"
-              className="border border-alpha-200"
+              variant="secondary"
+              className="rounded-full border border-alpha-200"
             >
               <LucideLayoutGrid className="icon text-alpha-400" />
               دسته‌بندی‌ها
@@ -281,8 +281,8 @@ const ProductList = ({
             <Button
               onClick={() => setSortFilterVisibility(true)}
               size="small"
-              variant="ghost"
-              className="border border-alpha-200"
+              variant="secondary"
+              className="rounded-full border border-alpha-200"
             >
               <LucideSortDesc className="icon text-alpha-400" />
               مرتب‌سازی
@@ -300,104 +300,98 @@ const ProductList = ({
         ])}
       >
         {!isMobileView && (
-          <div>
-            <div className="divide-y divide-alpha-200 rounded-md border border-alpha-300 px-4">
-              <div className="-mx-4 flex items-center p-4">
-                <strong>فیلترها</strong>
-                {filterAttributes.length > 0 && (
-                  <Button
-                    size="small"
-                    noStyle
-                    className="ms-auto text-sm text-red-500"
-                    onClick={() => removeAllFilters()}
-                  >
-                    حذف همه فیلترها
-                  </Button>
-                )}
-              </div>
-
-              {selectedCategoryIds &&
-                selectedCategoryIds.length === 1 &&
-                !brandId &&
-                !sellerId && (
-                  <CategoryFilter selectedCategoryId={selectedCategoryIds[0]} />
-                )}
-
-              {brandId && (
-                <BrandOrSellerCategoryFilter
-                  categoryIdsFilter={categoryIdsFilter}
-                  onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
-                  brandId={brandId}
-                />
-              )}
-
-              {sellerId && (
-                <BrandOrSellerCategoryFilter
-                  categoryIdsFilter={categoryIdsFilter}
-                  onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
-                  sellerId={sellerId}
-                />
-              )}
-
-              {selectedCategoryIds &&
-                selectedCategoryIds.length === 1 &&
-                selectedCategoryIds[0] !== 0 && (
-                  <FiltersContainer
-                    selectedCategoryId={selectedCategoryIds[0]}
-                    filterAttributes={filterAttributes}
-                    onFilterAttributesChanged={onFilterAttributesChanged}
-                  />
-                )}
-
-              {!selectedCategoryIds && !brandId && !sellerId && (
-                <VocabularyFilter />
+          <div className="rounded-md px-4">
+            <div className="-mx-4 flex items-center p-4">
+              <strong>فیلترها</strong>
+              {filterAttributes.length > 0 && (
+                <Button
+                  size="small"
+                  noStyle
+                  className="ms-auto text-sm text-red-500"
+                  onClick={() => removeAllFilters()}
+                >
+                  حذف همه فیلترها
+                </Button>
               )}
             </div>
+
+            {selectedCategoryIds &&
+              selectedCategoryIds.length === 1 &&
+              !brandId &&
+              !sellerId && (
+                <CategoryFilter selectedCategoryId={selectedCategoryIds[0]} />
+              )}
+
+            {brandId && (
+              <BrandOrSellerCategoryFilter
+                categoryIdsFilter={categoryIdsFilter}
+                onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
+                brandId={brandId}
+              />
+            )}
+
+            {sellerId && (
+              <BrandOrSellerCategoryFilter
+                categoryIdsFilter={categoryIdsFilter}
+                onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
+                sellerId={sellerId}
+              />
+            )}
+
+            {selectedCategoryIds &&
+              selectedCategoryIds.length === 1 &&
+              selectedCategoryIds[0] !== 0 && (
+                <FiltersContainer
+                  selectedCategoryId={selectedCategoryIds[0]}
+                  filterAttributes={filterAttributes}
+                  onFilterAttributesChanged={onFilterAttributesChanged}
+                />
+              )}
+
+            {!selectedCategoryIds && !brandId && !sellerId && (
+              <VocabularyFilter />
+            )}
           </div>
         )}
 
-        <div>
-          {data.products.data.length > 0 ? (
-            <>
-              <div className="flex items-center border-b border-alpha-200 py-1 md:py-3">
-                <ProductSort
-                  sort={sort}
-                  onSortChanged={(sort) => {
-                    setSort(sort)
-                    const params = new URLSearchParams(searchParams as any)
-                    params.set("orderBy", `${sort}`)
-                    push(pathname + "?" + params.toString())
-                  }}
-                />
-                {/* <ProductCount count={data.products.total || 0} /> */}
-              </div>
+        {data.products.data.length > 0 ? (
+          <>
+            <div className="flex items-center py-1 md:py-3">
+              <ProductSort
+                sort={sort}
+                onSortChanged={(sort) => {
+                  setSort(sort)
+                  const params = new URLSearchParams(searchParams as any)
+                  params.set("orderBy", `${sort}`)
+                  push(pathname + "?" + params.toString())
+                }}
+              />
+              {/* <ProductCount count={data.products.total || 0} /> */}
+            </div>
 
-              <div>
-                <div className="grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
-                  {data.products.data.map((product, idx) => (
-                    <ProductCard key={idx} product={product as Product} />
-                  ))}
-                </div>
-                {data.products.lastPage && data.products.lastPage > 1 && (
-                  <ProductPagination
-                    total={data.products.lastPage}
-                    currentPage={currentPage}
-                    onChange={(page) => {
-                      setCurrentPage(page)
-                      const params = new URLSearchParams(searchParams as any)
-                      params.set("page", `${page}`)
-                      push(pathname + "?" + params.toString())
-                    }}
-                  />
-                )}
-              </div>
-            </>
-          ) : (
-            <NoProductFound />
-          )}
-        </div>
+            <div className="grid gap-y sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
+              {data.products.data.map((product, idx) => (
+                <ProductCard key={idx} product={product as Product} />
+              ))}
+            </div>
+            {data.products.lastPage && data.products.lastPage > 1 && (
+              <ProductPagination
+                total={data.products.lastPage}
+                currentPage={currentPage}
+                onChange={(page) => {
+                  setCurrentPage(page)
+                  const params = new URLSearchParams(searchParams as any)
+                  params.set("page", `${page}`)
+                  push(pathname + "?" + params.toString())
+                }}
+              />
+            )}
+          </>
+        ) : (
+          <NoProductFound />
+        )}
       </div>
-    </>
+    </div>
   )
 }
 

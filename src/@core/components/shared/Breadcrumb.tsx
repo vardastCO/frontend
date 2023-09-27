@@ -54,7 +54,7 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
         className="hide-scrollbar flex items-end overflow-y-auto whitespace-nowrap py-4 align-middle text-sm leading-none"
         aria-label="breadcrumb"
       >
-        <li className="flex items-end align-middle leading-none">
+        <li className="flex items-end pr align-middle leading-none">
           <Link
             href="/"
             aria-current={pathname === "/" ? "page" : "false"}

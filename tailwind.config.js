@@ -66,9 +66,18 @@ const tailwind = {
           ...myColors.secondary,
           DEFAULT: myColors.secondary[600]
         },
-        error: tailwindColors.red,
-        succuss: tailwindColors.green,
-        warning: tailwindColors.yellow,
+        error: {
+          ...tailwindColors.red,
+          DEFAULT: tailwindColors.red[600]
+        },
+        succuss: {
+          ...tailwindColors.green,
+          DEFAULT: tailwindColors.green[600]
+        },
+        warning: {
+          ...tailwindColors.yellow,
+          DEFAULT: tailwindColors.yellow[600]
+        },
         alpha: {
           white: tailwindColors.white,
           ...tailwindColors.gray,

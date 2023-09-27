@@ -86,9 +86,7 @@ const SearchHeader = ({ selectedCategoryId }: SearchHeaderProps) => {
   return (
     <>
       <MobileHeader title={data.category.title} />
-      <div className="px-6">
-        <Breadcrumb dynamic={false} items={breadcrumb} />
-      </div>
+      <Breadcrumb dynamic={false} items={breadcrumb} />
       {/* <div className="mb-8">
         <h1 className="text-xl font-extrabold text-alpha-800">
           {data.category.title}
