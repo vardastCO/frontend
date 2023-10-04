@@ -190,35 +190,45 @@ const CategoryFormModal = ({
     onOpenChange(false)
   }
 
-  function onSubmit(data: CreateCategory) {
-    const { title, titleEn, slug, sort, parentCategoryId, isActive } = data
+  console.log("====================================")
+  console.log(category && category.imageCategory)
+  console.log("====================================")
 
-    if (category) {
-      updateCategoryMutation.mutate({
-        updateCategoryInput: {
-          id: category.id,
-          parentCategoryId: parentCategoryId === 0 ? null : parentCategoryId,
-          title,
-          titleEn,
-          slug,
-          sort,
-          isActive,
-          fileUuid: images[0]["uuid"]
-        }
-      })
-    } else {
-      createCategoryMutation.mutate({
-        createCategoryInput: {
-          vocabularyId,
-          parentCategoryId,
-          title,
-          titleEn,
-          slug,
-          sort,
-          isActive,
-          fileUuid: images[0]["uuid"]
-        }
-      })
+  function onSubmit(data: CreateCategory) {
+    try {
+      const { title, titleEn, slug, sort, parentCategoryId, isActive } = data
+
+      if (category) {
+        updateCategoryMutation.mutate({
+          updateCategoryInput: {
+            id: category.id,
+            parentCategoryId: parentCategoryId === 0 ? null : parentCategoryId,
+            title,
+            titleEn,
+            slug,
+            sort,
+            isActive,
+            fileUuid: images[0]?.uuid
+          }
+        })
+      } else {
+        createCategoryMutation.mutate({
+          createCategoryInput: {
+            vocabularyId,
+            parentCategoryId,
+            title,
+            titleEn,
+            slug,
+            sort,
+            isActive,
+            fileUuid: images[0]?.uuid
+          }
+        })
+      }
+    } catch (error) {
+      console.log("...........................")
+      console.log(error)
+      console.log("...........................")
     }
   }
 
