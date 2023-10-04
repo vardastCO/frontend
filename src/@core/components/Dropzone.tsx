@@ -8,12 +8,12 @@ import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { FileWithPath, useDropzone } from "react-dropzone"
 
-import { Image as ImageType, Maybe } from "@/generated"
+import { ImageCategory, Image as ImageType, Maybe } from "@/generated"
 
 import { Button } from "@core/components/ui/button"
 
 interface DropzoneProps {
-  existingImages: Maybe<ImageType>[] | undefined
+  existingImages?: Maybe<ImageType | ImageCategory>[]
   uploadPath: string
   onAddition: (_: FilesWithPreview) => void
   onDelete: (_: FilesWithPreview) => void

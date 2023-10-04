@@ -16,6 +16,7 @@ import { TypeOf, z } from "zod"
 
 import {
   Category,
+  Image,
   useCreateCategoryMutation,
   useGetAllCategoriesQuery,
   useUpdateCategoryMutation
@@ -25,6 +26,7 @@ import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { mergeClasses } from "@core/utils/mergeClasses"
 import { slugify } from "@core/utils/slugify"
 import zodI18nMap from "@core/utils/zodErrorMap"
+import Dropzone from "@core/components/Dropzone"
 import {
   Form,
   FormControl,
@@ -57,6 +59,7 @@ import {
 } from "@core/components/ui/popover"
 import { Switch } from "@core/components/ui/switch"
 import { toast } from "@core/hooks/use-toast"
+import { uploadPaths } from "@core/lib/uploadPaths"
 
 type CategoryFormModalProps = {
   open: boolean
@@ -74,6 +77,9 @@ const CategoryFormModal = ({
   const { t } = useTranslation()
   const [parentCategoryOpen, setParentCategoryOpen] = useState<boolean>(false)
   const [errors, setErrors] = useState<ClientError>()
+  const [images, setImages] = useState<
+    { uuid: string; expiresAt: string; image?: Image }[]
+  >([])
 
   const queryClient = useQueryClient()
 
@@ -196,7 +202,8 @@ const CategoryFormModal = ({
           titleEn,
           slug,
           sort,
-          isActive
+          isActive,
+          fileUuid: images[0]["uuid"]
         }
       })
     } else {
@@ -208,7 +215,8 @@ const CategoryFormModal = ({
           titleEn,
           slug,
           sort,
-          isActive
+          isActive,
+          fileUuid: images[0]["uuid"]
         }
       })
     }
@@ -420,6 +428,28 @@ const CategoryFormModal = ({
                       <FormMessage />
                     </FormItem>
                   )}
+                />
+                <Dropzone
+                  existingImages={
+                    category && category.imageCategory
+                      ? category.imageCategory
+                      : undefined
+                  }
+                  uploadPath={uploadPaths.productImages}
+                  onAddition={(file) => {
+                    setImages((prevImages) => [
+                      ...prevImages,
+                      {
+                        uuid: file.uuid as string,
+                        expiresAt: file.expiresAt as string
+                      }
+                    ])
+                  }}
+                  onDelete={(file) => {
+                    setImages((images) =>
+                      images.filter((image) => image.uuid !== file.uuid)
+                    )
+                  }}
                 />
               </div>
               <DialogFooter>
