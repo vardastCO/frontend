@@ -152,8 +152,10 @@ const VocabulariesList = ({
               id={category.id}
               // src={`/images/categories/${category.id}.png`}
               src={
-                (category?.imageCategory[0]?.file.presignedUrl
-                  ?.url as string) ?? `/images/categories/${category.id}.png`
+                (category?.imageCategory &&
+                  (category?.imageCategory[0]?.file.presignedUrl
+                    ?.url as string)) ??
+                `/images/categories/${category.id}.png`
               }
             />
           )
@@ -198,8 +200,10 @@ const CategoriesList = ({
               productsCount={category.productsCount}
               id={category.id}
               src={
-                (category?.imageCategory[0]?.file.presignedUrl
-                  ?.url as string) ?? `/images/blank.png`
+                (category?.imageCategory &&
+                  (category?.imageCategory[0]?.file.presignedUrl
+                    ?.url as string)) ??
+                `/images/blank.png`
               }
             />
           )
