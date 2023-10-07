@@ -1,17 +1,25 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
-import { useRouter, useSearchParams } from "next/navigation"
+import { redirect, useRouter, useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ClientError } from "graphql-request"
 import { LucideAlertOctagon } from "lucide-react"
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
+import {
+  useValidateCellphoneMutation,
+  useValidateOtpMutation,
+  ValidationTypes
+} from "@/generated"
+
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import zodI18nMap from "@core/utils/zodErrorMap"
+import { cellphoneNumberSchema } from "@core/utils/zodValidationSchemas"
 import {
   Form,
   FormControl,
@@ -23,142 +31,278 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Button } from "@core/components/ui/button"
 import { Input } from "@core/components/ui/input"
+import useCountdown from "@core/hooks/use-countdown"
 
-import signLogo from "@/assets/sign.svg"
+import logoType from "@/assets/logo-type.svg"
 
-const SigninForm = () => {
+type Props = {}
+
+const SigninForm = (_: Props) => {
   const { t } = useTranslation()
-  // const session = useSession()
+  const session = useSession()
   const router = useRouter()
-  const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string>("")
   const searchParams = useSearchParams()
+  const [formState, setFormState] = useState<number>(1)
+  const [validationKey, setValidationKey] = useState<string>("")
+  const [errors, setErrors] = useState<ClientError | null>()
+  const [loginErrors, setLoginErrors] = useState<string | null>()
+  const [message, setMessage] = useState<string>("")
+  const { secondsLeft, startCountdown } = useCountdown()
   z.setErrorMap(zodI18nMap)
 
-  const SigninFormSchema = z
-    .object({
-      username: z
-        .string()
-        .min(1, { message: t("zod:errors.invalid_type_received_undefined") }),
-      password: z
-        .string()
-        .min(1, { message: t("zod:errors.invalid_type_received_undefined") })
-    })
-    .required()
-  type SigninFormType = TypeOf<typeof SigninFormSchema>
+  const validateCellphoneMutation = useValidateCellphoneMutation(
+    graphqlRequestClient,
+    {
+      onError: (errors: ClientError) => {
+        setErrors(errors)
+      },
+      onSuccess: (data) => {
+        const { nextState, message, remainingSeconds, validationKey } =
+          data.validateCellphone
+        setErrors(null)
+        setLoginErrors(null)
 
-  const form = useForm<SigninFormType>({
-    resolver: zodResolver(SigninFormSchema)
+        if (nextState === "LOGIN") {
+          router.push("/profile/auth/signin")
+        }
+
+        if (nextState === "VALIDATE_OTP") {
+          setValidationKey(validationKey as string)
+          startCountdown(remainingSeconds as number)
+          setMessage(message as string)
+          setFormState(2)
+        }
+      }
+    }
+  )
+  const validateOtpMutation = useValidateOtpMutation(graphqlRequestClient, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
+    onSuccess: (data) => {
+      const { message } = data.validateOtp
+      formStepOne.getValues()
+      signIn("credentials", {
+        cellphone: formStepOne.getValues().cellphone,
+        validationKey,
+        redirect: false
+      }).then((callback) => {
+        if (callback?.error) {
+          setLoginErrors(callback?.error)
+        }
+        if (callback?.ok && !callback?.error) {
+          setErrors(null)
+          setLoginErrors(null)
+          setMessage(message as string)
+          router.push(searchParams.get("callbackUrl") || "/admin")
+        }
+      })
+    }
   })
 
-  function onSubmit(data: SigninFormType) {
-    setLoading(true)
-    const { username, password } = data
-    signIn("credentials", {
-      username,
-      password,
-      redirect: false
-    }).then((callback) => {
-      if (callback?.error) {
-        setLoading(false)
-        setError(callback.error)
+  const SignupFormStepOneSchema = z.object({
+    cellphone: cellphoneNumberSchema
+  })
+  type SignupFormStepOneType = TypeOf<typeof SignupFormStepOneSchema>
+
+  const formStepOne = useForm<SignupFormStepOneType>({
+    resolver: zodResolver(SignupFormStepOneSchema)
+  })
+
+  const SignupFormStepTwoSchema = z.object({
+    otp: z.string()
+  })
+  type SignupFormStepTwoType = TypeOf<typeof SignupFormStepTwoSchema>
+
+  const formStepTwo = useForm<SignupFormStepTwoType>({
+    resolver: zodResolver(SignupFormStepTwoSchema)
+  })
+
+  function onSubmitStepOne(data: SignupFormStepOneType) {
+    const { cellphone } = data
+    validateCellphoneMutation.mutate({
+      ValidateCellphoneInput: {
+        countryId: 244,
+        cellphone,
+        validationType: ValidationTypes.Login
       }
-      if (callback?.ok && !callback?.error) {
-        router.push(searchParams.get("callbackUrl") || "/admin")
+    })
+  }
+  function onSubmitStepTwo(data: SignupFormStepTwoType) {
+    const { otp } = data
+    validateOtpMutation.mutate({
+      ValidateOtpInput: {
+        token: otp,
+        validationKey,
+        validationType: ValidationTypes.Login
       }
     })
   }
 
-  //   useEffect(() => {
-  //     if (session?.status === "authenticated") {
-  //       redirect(searchParams.get("callbackUrl") || "/admin")
-  //     }
-  //   })
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      redirect(searchParams.get("callbackUrl") || "/admin")
+    }
+  })
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center p-4">
-      <div className="flex w-full max-w-xs flex-col gap-8 py-12">
-        <Image
-          src={signLogo}
-          alt={process.env.NEXT_PUBLIC_TITLE as string}
-          className="ml-auto h-12"
-        />
-        <h1 className="text-xl font-bold text-alpha-800">
-          {t("common:login")}
-        </h1>
+    <>
+      <Image
+        src={logoType}
+        alt={process.env.NEXT_PUBLIC_TITLE as string}
+        className="mx-auto w-3/5 py-20"
+      />
 
-        {error && (
-          <Alert variant="danger">
-            <LucideAlertOctagon />
-            <AlertTitle>خطا</AlertTitle>
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
+      {errors && (
+        <Alert variant="danger">
+          <LucideAlertOctagon />
+          <AlertTitle>خطا</AlertTitle>
+          <AlertDescription>
+            {(
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => (
+              <p key={error}>{error}</p>
+            ))}
+          </AlertDescription>
+        </Alert>
+      )}
 
-        <Form {...form}>
+      {loginErrors && (
+        <Alert variant="danger">
+          <LucideAlertOctagon />
+          <AlertTitle>خطا</AlertTitle>
+          <AlertDescription>{loginErrors}</AlertDescription>
+        </Alert>
+      )}
+
+      {!errors && message && (
+        <Alert variant="success">
+          <AlertDescription>{message}</AlertDescription>
+        </Alert>
+      )}
+
+      {formState === 1 && (
+        <Form {...formStepOne}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            id="login-cellphone"
+            onSubmit={formStepOne.handleSubmit(onSubmitStepOne)}
             noValidate
-            className="flex flex-col gap-6"
+            className="flex flex-1 flex-col gap-8"
+          >
+            <p className="text-alpha-800">
+              برای ثبت نام / ورود در
+              <span className="text-primary"> وردست</span>، شماره همراه خود را
+              وارد کنید.
+            </p>
+            <FormField
+              control={formStepOne.control}
+              name="cellphone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("common:cellphone")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="tel"
+                      inputMode="numeric"
+                      dir="rtl"
+                      placeholder={t("common:cellphone")}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            ></FormField>
+          </form>
+          <Button
+            type="submit"
+            block
+            form="login-cellphone"
+            disabled={
+              validateCellphoneMutation.isLoading ||
+              formStepOne.formState.isSubmitting
+            }
+            loading={
+              validateCellphoneMutation.isLoading ||
+              formStepOne.formState.isSubmitting
+            }
+          >
+            دریافت رمز یکبار مصرف
+          </Button>
+        </Form>
+      )}
+
+      {formState === 2 && (
+        <Form {...formStepTwo}>
+          <form
+            id="verify-otp-form"
+            onSubmit={formStepTwo.handleSubmit(onSubmitStepTwo)}
+            noValidate
+            className="flex flex-1 flex-col gap-8"
           >
             <FormField
-              control={form.control}
-              name="username"
+              control={formStepTwo.control}
+              name="otp"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("common:username")}</FormLabel>
+                  <FormLabel>{t("common:otp")}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder={t("common:username")}
-                      type="text"
+                      type="tel"
+                      inputMode="numeric"
+                      dir="rtl"
+                      placeholder={t("common:otp")}
                       {...field}
                     />
                   </FormControl>
                   <FormMessage />
+                  {
+                    <div className="flex items-center justify-between">
+                      <Button
+                        onClick={() => {
+                          setFormState(1)
+                          formStepTwo.reset()
+                        }}
+                        size={"xsmall"}
+                        variant="ghost"
+                      >
+                        ویرایش شماره همراه
+                      </Button>
+                      <p className="text-left text-sm text-succuss">
+                        {secondsLeft && secondsLeft > 0 ? secondsLeft : 0} ثانیه
+                      </p>
+                    </div>
+                  }
                 </FormItem>
               )}
             ></FormField>
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("common:password")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={t("common:password")}
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            ></FormField>
-            <Button
-              type="submit"
-              block
-              disabled={loading || form.formState.isSubmitting}
-              loading={loading || form.formState.isSubmitting}
-            >
-              {t("common:login")}
-            </Button>
           </form>
+          <Button
+            onClick={() => formStepOne.handleSubmit(onSubmitStepOne)}
+            variant="ghost"
+            block
+          >
+            ارسال مجدد رمز یکبار مصرف
+          </Button>
+          <Button
+            type="submit"
+            form="verify-otp-form"
+            block
+            disabled={
+              validateOtpMutation.isLoading ||
+              formStepTwo.formState.isSubmitting
+            }
+            loading={
+              validateOtpMutation.isLoading ||
+              formStepTwo.formState.isSubmitting
+            }
+          >
+            تایید تلفن همراه
+          </Button>
         </Form>
-        <Link
-          href="/profile/auth/reset"
-          className="text-center text-alpha-500 hover:text-alpha-700"
-        >
-          {t("common:forgot_your_password")}
-        </Link>
-        <Link
-          href="/profile/auth/signup"
-          className="text-center font-medium text-blue-500 hover:text-blue-700"
-        >
-          {t("common:dont_have_an_account")}
-        </Link>
-      </div>
-    </div>
+      )}
+    </>
   )
 }
 

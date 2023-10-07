@@ -88,8 +88,10 @@
   &.btn-secondary {
     --border-opacity: 0.1;
     --border-color: rgba(theme(colors.alpha.700), var(--border-opacity));
-    @apply bg-alpha-white
-        text-alpha-700
+    @apply border
+        border-primary
+        bg-alpha-white
+        text-primary
         ring-0
         ring-alpha-700/5
         hover:bg-alpha-50
@@ -106,7 +108,7 @@
 
   &.btn-ghost {
     @apply bg-transparent
-        text-alpha-700
+        text-primary
         ring-0
         hover:bg-alpha-100
         focus-visible:bg-alpha-100

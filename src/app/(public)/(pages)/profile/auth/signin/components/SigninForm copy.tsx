@@ -28,6 +28,7 @@ import signLogo from "@/assets/sign.svg"
 
 const SigninForm = () => {
   const { t } = useTranslation()
+  // const session = useSession()
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
@@ -75,14 +76,16 @@ const SigninForm = () => {
   //   })
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-gray-50 p-4">
+    <div className="flex min-h-screen w-full items-center justify-center p-4">
       <div className="flex w-full max-w-xs flex-col gap-8 py-12">
         <Image
           src={signLogo}
           alt={process.env.NEXT_PUBLIC_TITLE as string}
           className="ml-auto h-12"
         />
-        <h1 className="text-xl font-bold text-gray-800">{t("common:login")}</h1>
+        <h1 className="text-xl font-bold text-alpha-800">
+          {t("common:login")}
+        </h1>
 
         {error && (
           <Alert variant="danger">
@@ -143,13 +146,13 @@ const SigninForm = () => {
           </form>
         </Form>
         <Link
-          href="/auth/reset"
-          className="text-center text-gray-500 hover:text-gray-700"
+          href="/profile/auth/reset"
+          className="text-center text-alpha-500 hover:text-alpha-700"
         >
           {t("common:forgot_your_password")}
         </Link>
         <Link
-          href="/auth/signup"
+          href="/profile/auth/signup"
           className="text-center font-medium text-blue-500 hover:text-blue-700"
         >
           {t("common:dont_have_an_account")}

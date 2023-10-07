@@ -5,8 +5,8 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import {
   GetWhoAmIDocument,
   GetWhoAmIQuery,
-  LoginWithOtpDocument,
-  LoginWithOtpMutation,
+  LoginUserDocument,
+  LoginUserMutation,
   RefreshUserMutation,
   RefreshUserMutationDocument
 } from "@/generated"
@@ -61,14 +61,14 @@ export const authOptions: AuthOptions = {
     CredentialsProvider({
       type: "credentials",
       credentials: {
-        cellphone: { label: "Cellphone", type: "text" },
-        validationKey: { label: "ValidationKey", type: "text" }
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" }
       },
       // @ts-ignore
       authorize: async (credentials, request) => {
-        const { cellphone, validationKey } = credentials as {
-          cellphone: string
-          validationKey: string
+        const { username, password } = credentials as {
+          username: string
+          password: string
         }
 
         const client = new GraphQLClient(
@@ -81,12 +81,12 @@ export const authOptions: AuthOptions = {
         )
 
         try {
-          const data: LoginWithOtpMutation = await client.request(
-            LoginWithOtpDocument,
+          const data: LoginUserMutation = await client.request(
+            LoginUserDocument,
             {
-              LoginOTPInput: {
-                cellphone,
-                validationKey
+              loginInput: {
+                username,
+                password
               }
             }
           )
@@ -96,12 +96,12 @@ export const authOptions: AuthOptions = {
           }
 
           return {
-            accessToken: data.loginWithOtp.accessToken,
-            accessTokenTtl: data.loginWithOtp.accessTokenTtl + Date.now(),
-            refreshToken: data.loginWithOtp.refreshToken,
-            refreshTokenTtl: data.loginWithOtp.refreshTokenTtl + Date.now(),
-            userId: data.loginWithOtp.user.id,
-            abilities: data.loginWithOtp.abilities
+            accessToken: data.login.accessToken,
+            accessTokenTtl: data.login.accessTokenTtl + Date.now(),
+            refreshToken: data.login.refreshToken,
+            refreshTokenTtl: data.login.refreshTokenTtl + Date.now(),
+            userId: data.login.user.id,
+            abilities: data.login.abilities
           }
         } catch (error) {
           // @ts-ignore

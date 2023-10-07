@@ -174,7 +174,7 @@ const CategoryFormModal = ({
       form.setValue("parentCategoryId", category.parentCategory?.id)
       form.setValue("title", category.title)
       form.setValue("titleEn", category.titleEn || "")
-      form.setValue("slug", category.slug)
+      form.setValue("slug", category.slug ?? "")
       form.setValue("isActive", category.isActive)
       form.setValue("sort", category.sort)
     }
@@ -189,10 +189,6 @@ const CategoryFormModal = ({
     setErrors(undefined)
     onOpenChange(false)
   }
-
-  console.log("====================================")
-  console.log(category && category.imageCategory)
-  console.log("====================================")
 
   function onSubmit(data: CreateCategory) {
     try {

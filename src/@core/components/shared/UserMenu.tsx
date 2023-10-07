@@ -82,15 +82,29 @@ const UserMenu = () => {
                     alt={session.profile.fullName || ""}
                   />
                 )}
-                <AvatarFallback>{session.profile.firstName[0]}</AvatarFallback>
+                <AvatarFallback>
+                  {session.profile.firstName && session.profile?.firstName[0]}
+                </AvatarFallback>
               </Avatar>
               <div className="flex flex-1 flex-col truncate">
-                <span className="truncate font-medium text-alpha-800">
-                  {session.profile.fullName}
-                </span>
-                <span className="truncate text-sm text-alpha-500">
-                  {session.profile.email}
-                </span>
+                {session.profile.fullName || session.profile.email ? (
+                  <>
+                    {session.profile.fullName && (
+                      <span className="truncate font-medium text-alpha-800">
+                        {session.profile.fullName}
+                      </span>
+                    )}
+                    {session.profile.email && (
+                      <span className="truncate text-sm text-alpha-500">
+                        {session.profile.email}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <span className="truncate font-medium text-alpha-800">
+                    {session.profile.cellphone}
+                  </span>
+                )}
               </div>
               <LucideChevronsUpDown className="h-3 w-3 text-alpha-600" />
             </Button>

@@ -62,6 +62,10 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   {
     forceEqual: true,
     path: "/search"
+  },
+  {
+    forceEqual: false,
+    path: "/profile/auth/signin"
   }
 ]
 

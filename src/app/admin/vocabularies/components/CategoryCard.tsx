@@ -43,7 +43,6 @@ const CategoryCard = ({
   const { title, childrenCount, productsCount, id } = category
 
   const [open, setOpen] = useState(false)
-  const hasChildren: boolean = !!category.childrenCount
 
   const { data, refetch } = useGetCategoryQuery(
     graphqlRequestClient,
@@ -73,13 +72,13 @@ const CategoryCard = ({
         <div className="flex flex-1 items-center gap-2">
           <LucideGripVertical className="hidden h-5 w-5 text-alpha-400" />
           <div className="flex h-8 w-8 items-center justify-center">
-            {hasChildren && (
+            {!!childrenCount && (
               <LucideFolderClosed
                 className="h-5 w-5 text-alpha-500 dark:text-alpha-700"
                 strokeWidth={1.5}
               />
             )}
-            {!hasChildren && (
+            {!!!childrenCount && (
               <LucideFile
                 className="h-5 w-5 text-alpha-500 dark:text-alpha-700"
                 strokeWidth={1.5}
@@ -88,12 +87,12 @@ const CategoryCard = ({
           </div>
           <Button
             noStyle
-            onClick={() => (hasChildren ? toggleChilds() : null)}
+            onClick={() => (!!childrenCount ? toggleChilds() : null)}
             className="font-bold text-alpha-800 underline-offset-2 hover:text-alpha-900 hover:underline dark:text-alpha-400 dark:hover:text-alpha-300"
           >
             {title}
           </Button>
-          {hasChildren && (
+          {!!childrenCount && (
             <span className="text-sm text-alpha-500 dark:text-alpha-600">
               {digitsEnToFa(childrenCount)} زیر دسته
             </span>
