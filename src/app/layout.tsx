@@ -253,7 +253,7 @@ export default function AdminLayout({
             `}
           </Script>
         </head>
-        <Script id="firebase" strategy="afterInteractive">
+        {/* <Script id="firebase" strategy="afterInteractive">
           {`// Import the functions you need from the SDKs you need 
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js"; 
             import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js"; 
@@ -276,7 +276,7 @@ export default function AdminLayout({
             const app = initializeApp(firebaseConfig); 
             const analytics = getAnalytics(app);
           `}
-        </Script>
+        </Script> */}
         <body>
           <NextTopLoader
             color="#030712"
