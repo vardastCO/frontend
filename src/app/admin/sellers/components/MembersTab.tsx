@@ -74,7 +74,8 @@ const MembersTab = ({ representatives, sellerId }: MembersTabProps) => {
                           )}
 
                           <AvatarFallback>
-                            {representative.user.firstName[0]}
+                            {representative.user.firstName &&
+                              representative.user.firstName[0]}
                           </AvatarFallback>
                         </Avatar>
                         <span className="ms-2 font-medium text-alpha-800">

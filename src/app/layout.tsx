@@ -1,6 +1,7 @@
 import "@/styles/globals.css"
 
 import { Metadata } from "next"
+import Script from "next/script"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 import useTranslation from "next-translate/useTranslation"
@@ -224,6 +225,17 @@ export default function AdminLayout({
   return (
     <RadixDirectionProvider>
       <html lang={lang} suppressHydrationWarning>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-LT14MTLPRV"
+        ></Script>
+        <Script id="google-tag-manager" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || []; 
+            function gtag(){dataLayer.push(arguments);} 
+            gtag('js', new Date()); 
+            gtag('config', 'G-LT14MTLPRV');
+          `}
+        </Script>
         <body>
           <NextTopLoader
             color="#030712"

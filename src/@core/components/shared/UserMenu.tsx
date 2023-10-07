@@ -82,7 +82,9 @@ const UserMenu = () => {
                     alt={session.profile.fullName || ""}
                   />
                 )}
-                <AvatarFallback>{session.profile.firstName[0]}</AvatarFallback>
+                <AvatarFallback>
+                  {session.profile.firstName && session.profile?.firstName[0]}
+                </AvatarFallback>
               </Avatar>
               <div className="flex flex-1 flex-col truncate">
                 <span className="truncate font-medium text-alpha-800">

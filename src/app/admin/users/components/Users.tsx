@@ -75,7 +75,9 @@ const Users = (_: Props) => {
                           />
                         )}
 
-                        <AvatarFallback>{user.firstName[0]}</AvatarFallback>
+                        <AvatarFallback>
+                          {user.firstName && user.firstName[0]}
+                        </AvatarFallback>
                       </Avatar>
                       <span className="ms-2 font-medium text-alpha-800">
                         {user.fullName}

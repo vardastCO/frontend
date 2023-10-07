@@ -226,7 +226,7 @@ const SellerForm = ({ seller }: SellerFormProps) => {
                           />
                         )}
                         <AvatarFallback>
-                          {admin.user.firstName[0]}
+                          {admin.user.firstName && admin.user.firstName[0]}
                         </AvatarFallback>
                       </Avatar>
                       <div className="ms-2 flex flex-col gap-2">
