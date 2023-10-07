@@ -172,8 +172,8 @@ const UserForm = ({ user }: Props) => {
   const form = useForm<UserEditForm>({
     resolver: zodResolver(UserEditFormSchema),
     defaultValues: {
-      firstName: user?.firstName,
-      lastName: user?.lastName,
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
       email: user?.email || "",
       cellphone: user?.cellphone || "",
       countryId: user?.country.id,
