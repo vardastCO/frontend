@@ -58,7 +58,7 @@ const MobileNavigation = (_: Props) => {
         <div
           className={`fixed bottom-0 left-0 z-50 w-full border-t border-alpha-200 bg-alpha-white bg-opacity-5 backdrop-blur-xl dark:border-alpha-600 dark:bg-alpha-700`}
         >
-          <div className="flex justify-center">
+          <div>
             {!hideSearchBarFlag && (
               <div className="flex gap-x px-8 pt">
                 {ShowNavigationBackButton && (
