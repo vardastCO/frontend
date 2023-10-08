@@ -66,6 +66,10 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   {
     forceEqual: false,
     path: "/profile/auth/signin"
+  },
+  {
+    forceEqual: false,
+    path: "/favorites"
   }
 ]
 
@@ -85,7 +89,7 @@ export const _navbar_items: NavbarItem[] = [
     id: 1
   },
   {
-    href: "/bookmarks",
+    href: "/favorites",
     Icon: BookmarkIcon,
     ActiveIcon: SolidBookmarkIcon,
     title: "علاقه‌مندی",

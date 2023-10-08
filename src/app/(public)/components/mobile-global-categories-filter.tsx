@@ -113,9 +113,15 @@ const VocabularyItem = ({
   )
 }
 
-const VocabularyListLayout: React.FC<PropsWithChildren> = ({ children }) => {
+const VocabularyListLayout: React.FC<
+  PropsWithChildren<{ isSubcategory?: boolean }>
+> = ({ isSubcategory, children }) => {
   return (
-    <ul className="grid h-full grid-cols-2 grid-rows-2 gap-4 divide-alpha-200 p-6">
+    <ul
+      className={`grid h-full grid-cols-2 ${
+        isSubcategory ? "grid-rows-4" : "grid-rows-2"
+      } gap-4 divide-alpha-200 p-6`}
+    >
       {children}
     </ul>
   )
@@ -189,7 +195,7 @@ const CategoriesList = ({
   }
 
   return (
-    <VocabularyListLayout>
+    <VocabularyListLayout isSubcategory>
       {categoriesQuery.data.category.children.map(
         (category) =>
           category && (

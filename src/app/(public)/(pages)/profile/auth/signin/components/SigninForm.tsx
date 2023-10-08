@@ -1,12 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Image from "next/image"
-import { redirect, useRouter, useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ClientError } from "graphql-request"
 import { LucideAlertOctagon } from "lucide-react"
-import { signIn, useSession } from "next-auth/react"
+import { signIn } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
@@ -39,7 +39,7 @@ type Props = {}
 
 const SigninForm = (_: Props) => {
   const { t } = useTranslation()
-  const session = useSession()
+  // const session = useSession()
   const router = useRouter()
   const searchParams = useSearchParams()
   const [formState, setFormState] = useState<number>(1)
@@ -142,11 +142,11 @@ const SigninForm = (_: Props) => {
     })
   }
 
-  useEffect(() => {
-    if (session?.status === "authenticated") {
-      redirect(searchParams.get("callbackUrl") || "/admin")
-    }
-  }, [searchParams, session?.status])
+  // useEffect(() => {
+  //   if (session?.status === "authenticated") {
+  //     redirect(searchParams.get("callbackUrl") || "/admin")
+  //   }
+  // }, [searchParams, session?.status])
 
   return (
     <>

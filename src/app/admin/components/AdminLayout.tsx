@@ -16,6 +16,7 @@ type AdminLayoutComponentProps = {
 const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
   const { t } = useTranslation()
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
+
   const menus: NavigationType[] = [
     {
       items: [
