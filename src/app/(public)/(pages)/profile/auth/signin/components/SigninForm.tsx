@@ -47,6 +47,7 @@ const SigninForm = (_: Props) => {
   const [errors, setErrors] = useState<ClientError | null>()
   const [loginErrors, setLoginErrors] = useState<string | null>()
   const [message, setMessage] = useState<string>("")
+  const [pageLoading, setPageLoading] = useState(false)
   const { secondsLeft, startCountdown } = useCountdown()
   z.setErrorMap(zodI18nMap)
 
@@ -91,6 +92,7 @@ const SigninForm = (_: Props) => {
           setLoginErrors(callback?.error)
         }
         if (callback?.ok && !callback?.error) {
+          setPageLoading(true)
           setErrors(null)
           setLoginErrors(null)
           setMessage(message as string)
@@ -143,7 +145,7 @@ const SigninForm = (_: Props) => {
     if (session?.status === "authenticated") {
       redirect(searchParams.get("callbackUrl") || "/admin")
     }
-  })
+  }, [searchParams, session?.status])
 
   return (
     <>
@@ -265,6 +267,7 @@ const SigninForm = (_: Props) => {
                           formStepTwo.reset()
                         }}
                         size={"xsmall"}
+                        type="button"
                         variant="ghost"
                       >
                         ویرایش شماره همراه
@@ -279,8 +282,13 @@ const SigninForm = (_: Props) => {
             ></FormField>
           </form>
           <Button
-            onClick={() => formStepOne.handleSubmit(onSubmitStepOne)}
+            onClick={() => {
+              onSubmitStepOne({ cellphone: formStepOne.watch("cellphone") })
+            }}
+            loading={validateCellphoneMutation.isLoading}
+            disabled={secondsLeft > 0}
             variant="ghost"
+            type="button"
             block
           >
             ارسال مجدد رمز یکبار مصرف
@@ -291,10 +299,13 @@ const SigninForm = (_: Props) => {
             block
             disabled={
               validateOtpMutation.isLoading ||
+              validateCellphoneMutation.isLoading ||
               formStepTwo.formState.isSubmitting
             }
             loading={
+              pageLoading ||
               validateOtpMutation.isLoading ||
+              validateCellphoneMutation.isLoading ||
               formStepTwo.formState.isSubmitting
             }
           >
