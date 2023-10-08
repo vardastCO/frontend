@@ -96,7 +96,7 @@ const SigninForm = (_: Props) => {
           setErrors(null)
           setLoginErrors(null)
           setMessage(message as string)
-          router.push(searchParams.get("callbackUrl") || "/admin")
+          router.push("/admin")
         }
       })
     }
