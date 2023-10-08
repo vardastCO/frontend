@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
+import FavoritesComponent from "@/app/(public)/(pages)/favorites/components/FavoritesComponent"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -10,14 +11,14 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-const ContactPage = async () => {
+const FavoritePage = async () => {
   const isMobileView = CheckIsMobileView()
 
   if (!isMobileView) {
     redirect("/")
   }
 
-  return <div>favorites</div>
+  return <FavoritesComponent />
 }
 
-export default withMobileHeader(ContactPage, { title: "علاقه مندی ها" })
+export default withMobileHeader(FavoritePage, { title: "علاقه مندی ها" })

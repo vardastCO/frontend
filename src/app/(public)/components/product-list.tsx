@@ -213,7 +213,7 @@ const ProductList = ({
   if (!data) notFound()
 
   return (
-    <div className="px">
+    <>
       {isMobileView && (
         <>
           <MobileCategoriesFilter
@@ -236,57 +236,59 @@ const ProductList = ({
               push(pathname + "?" + params.toString())
             }}
           />
-          <div className="flex items-start gap-3 border-b pb">
-            {selectedCategoryIds &&
-              selectedCategoryIds.length > 0 &&
-              getFilterableAttributesQuery.data &&
-              getFilterableAttributesQuery.data.filterableAttributes.filters
-                .length > 0 && (
-                <>
-                  <Button
-                    onClick={() => setFiltersVisibility(true)}
-                    size="small"
-                    variant="secondary"
-                    className="rounded-full border border-alpha-200"
-                  >
-                    {filterAttributes.length > 0 && (
-                      <span className="absolute -right-1 -top-1 block h-2.5 w-2.5 rounded-full bg-primary-500"></span>
-                    )}
-                    <LucideSlidersHorizontal className="icon text-alpha-400" />
-                    فیلترها
-                  </Button>
-                  <MobileFilterableAttributes
-                    filterAttributes={filterAttributes}
-                    selectedCategoryId={selectedCategoryIds}
-                    onFilterAttributesChanged={({ status, id, value }) => {
-                      onFilterAttributesChanged({ status, id, value })
-                      setFiltersVisibility(false)
-                    }}
-                    onRemoveAllFilters={() => {
-                      removeAllFilters()
-                      setFiltersVisibility(false)
-                    }}
-                  />
-                </>
-              )}
-            <Button
-              onClick={() => setCategoriesFilterVisibility(true)}
-              size="small"
-              variant="secondary"
-              className="rounded-full border border-alpha-200"
-            >
-              <LucideLayoutGrid className="icon text-alpha-400" />
-              دسته‌بندی‌ها
-            </Button>
-            <Button
-              onClick={() => setSortFilterVisibility(true)}
-              size="small"
-              variant="secondary"
-              className="rounded-full border border-alpha-200"
-            >
-              <LucideSortDesc className="icon text-alpha-400" />
-              مرتب‌سازی
-            </Button>
+          <div className="bg-alpha-white p">
+            <div className="flex items-start gap-3">
+              {selectedCategoryIds &&
+                selectedCategoryIds.length > 0 &&
+                getFilterableAttributesQuery.data &&
+                getFilterableAttributesQuery.data.filterableAttributes.filters
+                  .length > 0 && (
+                  <>
+                    <Button
+                      onClick={() => setFiltersVisibility(true)}
+                      size="small"
+                      variant="secondary"
+                      className="rounded-full border border-alpha-200"
+                    >
+                      {filterAttributes.length > 0 && (
+                        <span className="absolute -right-1 -top-1 block h-2.5 w-2.5 rounded-full bg-primary-500"></span>
+                      )}
+                      <LucideSlidersHorizontal className="icon text-alpha-400" />
+                      فیلترها
+                    </Button>
+                    <MobileFilterableAttributes
+                      filterAttributes={filterAttributes}
+                      selectedCategoryId={selectedCategoryIds}
+                      onFilterAttributesChanged={({ status, id, value }) => {
+                        onFilterAttributesChanged({ status, id, value })
+                        setFiltersVisibility(false)
+                      }}
+                      onRemoveAllFilters={() => {
+                        removeAllFilters()
+                        setFiltersVisibility(false)
+                      }}
+                    />
+                  </>
+                )}
+              <Button
+                onClick={() => setCategoriesFilterVisibility(true)}
+                size="small"
+                variant="secondary"
+                className="rounded-full border border-alpha-200"
+              >
+                <LucideLayoutGrid className="icon text-alpha-400" />
+                دسته‌بندی‌ها
+              </Button>
+              <Button
+                onClick={() => setSortFilterVisibility(true)}
+                size="small"
+                variant="secondary"
+                className="rounded-full border border-alpha-200"
+              >
+                <LucideSortDesc className="icon text-alpha-400" />
+                مرتب‌سازی
+              </Button>
+            </div>
           </div>
         </>
       )}
@@ -395,7 +397,7 @@ const ProductList = ({
           )}
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

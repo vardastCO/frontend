@@ -89,9 +89,9 @@
     --border-opacity: 0.1;
     --border-color: rgba(theme(colors.alpha.700), var(--border-opacity));
     @apply border
-        border-primary
+        border-alpha-200
         bg-alpha-white
-        text-primary
+        text-alpha
         ring-0
         ring-alpha-700/5
         hover:bg-alpha-50

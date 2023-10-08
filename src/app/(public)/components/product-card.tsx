@@ -21,10 +21,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const hasDiscount = false
 
   return (
-    <div className="relative rounded-xl bg-alpha-white p transition hover:z-10 md:hover:shadow-lg lg:[&:nth-of-type(3n)]:border-l-0 xl:[&:nth-of-type(3n)]:border-l xl:[&:nth-of-type(4n)]:border-l-0">
+    <div className="relative px transition hover:z-10 md:hover:shadow-lg lg:[&:nth-of-type(3n)]:border-l-0 xl:[&:nth-of-type(3n)]:border-l xl:[&:nth-of-type(4n)]:border-l-0">
       <Link
         href={`/p/${product.id}/${slugify(product.name)}`}
-        className="flex h-full w-full py-2 lg:px-4"
+        className="flex h-full w-full rounded-xl bg-alpha-white p py-2 lg:px-4"
         prefetch={false}
       >
         <div className="flex flex-1 flex-row gap-4 lg:flex-col">
@@ -56,7 +56,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               />
             )}
           </div>
-          <div className="flex flex-1 flex-col">
+          <div className="flex flex-1 flex-col border-r pr">
             <h6
               title={product.name}
               className="mb-6 mt-4 line-clamp-2 h-12 text-alpha-800"

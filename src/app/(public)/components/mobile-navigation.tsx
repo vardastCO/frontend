@@ -39,7 +39,7 @@ const MobileNavigation = (_: Props) => {
 
     return isActiveNav
       ? "text-primary-600 dark:text-primary-500"
-      : "text-alpha-800 dark:text-alpha-900"
+      : "text-alpha-500 dark:text-alpha-900"
   }
 
   const isShowNavigation = () => {
