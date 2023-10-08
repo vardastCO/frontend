@@ -5,6 +5,7 @@ import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 
 import {
   useGetAllBrandsQuery,
+  useGetAllCategoriesQuery,
   useGetAllProductsQuery,
   useGetAllSellersQuery,
   useGetAllUsersQuery
@@ -17,6 +18,12 @@ const AdminInsight = () => {
   const products = useGetAllProductsQuery(graphqlRequestClient)
   const sellers = useGetAllSellersQuery(graphqlRequestClient)
   const brands = useGetAllBrandsQuery(graphqlRequestClient)
+
+  const allCategoriesQuery = useGetAllCategoriesQuery(graphqlRequestClient, {
+    indexCategoryInput: {
+      vocabularyId: 1
+    }
+  })
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -72,6 +79,22 @@ const AdminInsight = () => {
           ) : (
             <div className="text-xl font-bold text-alpha-800">
               {digitsEnToFa(addCommas(`${sellers.data?.sellers.total}`))}
+            </div>
+          )}
+        </div>
+      </Link>
+      <Link href="/admin/vocabularies">
+        <div className="card flex flex-col gap-2 rounded p-4">
+          <div className="font-bold text-alpha-400">دسته بندی ها</div>
+          {allCategoriesQuery.isLoading ? (
+            <div className="animate-pulse">
+              <div className="h-5 w-full rounded-md bg-alpha-200"></div>
+            </div>
+          ) : (
+            <div className="text-xl font-bold text-alpha-800">
+              {digitsEnToFa(
+                addCommas(`${allCategoriesQuery.data?.categories.length}`)
+              )}
             </div>
           )}
         </div>
