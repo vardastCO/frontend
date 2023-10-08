@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useQueryClient, UseQueryResult } from "@tanstack/react-query"
+import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request"
 import {
   LucideAlertOctagon,
@@ -16,9 +16,9 @@ import { TypeOf, z } from "zod"
 
 import {
   Category,
-  GetVocabularyQuery,
   Image,
   useCreateCategoryMutation,
+  useGetAllCategoriesQuery,
   useUpdateCategoryMutation
 } from "@/generated"
 
@@ -67,7 +67,6 @@ type CategoryFormModalProps = {
   onOpenChange: Dispatch<SetStateAction<boolean>>
   category?: Category
   vocabularyId: number
-  vocabularyQuery: UseQueryResult<GetVocabularyQuery, unknown>
   getCategoryQueryResult: IGetCategoryQueryResult
 }
 
@@ -76,7 +75,6 @@ const CategoryFormModal = ({
   onOpenChange,
   category,
   vocabularyId,
-  vocabularyQuery,
   getCategoryQueryResult
 }: CategoryFormModalProps) => {
   const { t } = useTranslation()
@@ -87,6 +85,22 @@ const CategoryFormModal = ({
   >([])
 
   const queryClient = useQueryClient()
+
+  const allCategoriesQuery = useGetAllCategoriesQuery(
+    graphqlRequestClient,
+    {
+      indexCategoryInput: {
+        vocabularyId: vocabularyId
+      }
+    },
+    {
+      onSuccess: () => {
+        if (category) {
+          form.setValue("parentCategoryId", category.parentCategory?.id)
+        }
+      }
+    }
+  )
 
   const createCategoryMutation = useCreateCategoryMutation(
     graphqlRequestClient,
@@ -275,15 +289,15 @@ const CategoryFormModal = ({
                             <FormControl className="flex-1">
                               <Button
                                 disabled={
-                                  vocabularyQuery.isLoading ||
-                                  vocabularyQuery.isError
+                                  allCategoriesQuery.isLoading ||
+                                  allCategoriesQuery.isError
                                 }
                                 noStyle
                                 role="combobox"
                                 className="input-field flex items-center text-start"
                               >
                                 {field.value
-                                  ? vocabularyQuery.data?.vocabulary.categories.find(
+                                  ? allCategoriesQuery.data?.categories.find(
                                       (category) =>
                                         category && category.id === field.value
                                     )?.title
@@ -322,7 +336,7 @@ const CategoryFormModal = ({
                               })}
                             </CommandEmpty>
                             <CommandGroup>
-                              {vocabularyQuery.data?.vocabulary.categories.map(
+                              {allCategoriesQuery.data?.categories.map(
                                 (category) =>
                                   category && (
                                     <CommandItem
@@ -331,7 +345,7 @@ const CategoryFormModal = ({
                                       onSelect={(value) => {
                                         form.setValue(
                                           "parentCategoryId",
-                                          vocabularyQuery.data?.vocabulary.categories.find(
+                                          allCategoriesQuery.data?.categories.find(
                                             (item) =>
                                               item &&
                                               item.title.toLowerCase() === value

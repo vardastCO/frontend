@@ -56,7 +56,6 @@ const Categories = ({ slug }: Props) => {
           setCategoryToDelete(undefined)
           setFormModalOpen(state)
         }}
-        vocabularyQuery={vocabularyQuery}
         category={categoryToEdit}
         vocabularyId={vocabularyQuery.data.vocabulary.id}
       />
