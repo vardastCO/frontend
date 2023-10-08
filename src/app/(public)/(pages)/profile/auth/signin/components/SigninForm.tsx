@@ -78,6 +78,7 @@ const SigninForm = (_: Props) => {
   )
   const validateOtpMutation = useValidateOtpMutation(graphqlRequestClient, {
     onError: (errors: ClientError) => {
+      setPageLoading(false)
       setErrors(errors)
     },
     onSuccess: (data) => {
@@ -92,7 +93,6 @@ const SigninForm = (_: Props) => {
           setLoginErrors(callback?.error)
         }
         if (callback?.ok && !callback?.error) {
-          setPageLoading(true)
           setErrors(null)
           setLoginErrors(null)
           setMessage(message as string)
@@ -131,6 +131,7 @@ const SigninForm = (_: Props) => {
     })
   }
   function onSubmitStepTwo(data: SignupFormStepTwoType) {
+    setPageLoading(true)
     const { otp } = data
     validateOtpMutation.mutate({
       ValidateOtpInput: {

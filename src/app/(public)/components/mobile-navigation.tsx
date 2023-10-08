@@ -58,7 +58,7 @@ const MobileNavigation = (_: Props) => {
         <div
           className={`fixed bottom-0 left-0 z-50 w-full border-t border-alpha-200 bg-alpha-white bg-opacity-5 backdrop-blur-xl dark:border-alpha-600 dark:bg-alpha-700`}
         >
-          <div className="">
+          <div className="flex justify-center">
             {!hideSearchBarFlag && (
               <div className="flex gap-x px-8 pt">
                 {ShowNavigationBackButton && (
@@ -78,7 +78,7 @@ const MobileNavigation = (_: Props) => {
                 <Search isMobileView={true} />
               </div>
             )}
-            <div className="grid w-full max-w-lg grid-cols-4 bg-alpha-white bg-opacity-5">
+            <div className="grid w-full grid-cols-4 bg-alpha-white bg-opacity-5">
               {_navbar_items.map(({ Icon, ActiveIcon, href, id, title }) => {
                 const ShowedIcon = getIsActiveNav(href) ? ActiveIcon : Icon
                 return (
