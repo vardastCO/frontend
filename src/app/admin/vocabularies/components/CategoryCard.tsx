@@ -24,19 +24,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@core/components/ui/dropdown-menu"
+import { IGetCategoryQueryResult } from "@/app/admin/vocabularies/components/Categories"
 
 interface CategoryCardProps {
   vocabularySlug: string
   category: Category
   onDeleteTriggered: (_: Category) => void
   onEditTriggered: (_: Category) => void
+  setGetCategoryQueryResult: (_: IGetCategoryQueryResult) => void
 }
 
 const CategoryCard = ({
   category,
   vocabularySlug,
   onDeleteTriggered,
-  onEditTriggered
+  onEditTriggered,
+  setGetCategoryQueryResult
 }: CategoryCardProps) => {
   const { t } = useTranslation()
   const { data: session } = useSession()
@@ -44,7 +47,7 @@ const CategoryCard = ({
 
   const [open, setOpen] = useState(false)
 
-  const { data, refetch } = useGetCategoryQuery(
+  const getCategoryQuery = useGetCategoryQuery(
     graphqlRequestClient,
     {
       id
@@ -54,7 +57,12 @@ const CategoryCard = ({
 
   const toggleChilds = () => {
     const newOpen = !open
-    if (newOpen) refetch()
+    if (newOpen) {
+      getCategoryQuery.refetch()
+      setGetCategoryQueryResult(getCategoryQuery)
+    } else {
+      setGetCategoryQueryResult(null)
+    }
     setOpen(newOpen)
   }
 
@@ -140,9 +148,10 @@ const CategoryCard = ({
       {open && (
         <div className="ms-8 border-s border-alpha-200 ps-2">
           <div className="flex flex-col gap-2">
-            {data?.category.children.map((child) => (
+            {getCategoryQuery.data?.category.children.map((child) => (
               <CategoryCard
                 category={child as Category}
+                setGetCategoryQueryResult={setGetCategoryQueryResult}
                 vocabularySlug={vocabularySlug}
                 onEditTriggered={(category) => {
                   onEditTriggered(category)

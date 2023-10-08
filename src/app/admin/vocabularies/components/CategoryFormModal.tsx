@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useQueryClient } from "@tanstack/react-query"
+import { useQueryClient, UseQueryResult } from "@tanstack/react-query"
 import { ClientError } from "graphql-request"
 import {
   LucideAlertOctagon,
@@ -16,9 +16,9 @@ import { TypeOf, z } from "zod"
 
 import {
   Category,
+  GetVocabularyQuery,
   Image,
   useCreateCategoryMutation,
-  useGetAllCategoriesQuery,
   useUpdateCategoryMutation
 } from "@/generated"
 
@@ -60,19 +60,24 @@ import {
 import { Switch } from "@core/components/ui/switch"
 import { toast } from "@core/hooks/use-toast"
 import { uploadPaths } from "@core/lib/uploadPaths"
+import { IGetCategoryQueryResult } from "@/app/admin/vocabularies/components/Categories"
 
 type CategoryFormModalProps = {
   open: boolean
   onOpenChange: Dispatch<SetStateAction<boolean>>
   category?: Category
   vocabularyId: number
+  vocabularyQuery: UseQueryResult<GetVocabularyQuery, unknown>
+  getCategoryQueryResult: IGetCategoryQueryResult
 }
 
 const CategoryFormModal = ({
   open,
   onOpenChange,
   category,
-  vocabularyId
+  vocabularyId,
+  vocabularyQuery,
+  getCategoryQueryResult
 }: CategoryFormModalProps) => {
   const { t } = useTranslation()
   const [parentCategoryOpen, setParentCategoryOpen] = useState<boolean>(false)
@@ -83,28 +88,14 @@ const CategoryFormModal = ({
 
   const queryClient = useQueryClient()
 
-  const categories = useGetAllCategoriesQuery(
-    graphqlRequestClient,
-    {
-      indexCategoryInput: {
-        vocabularyId: vocabularyId
-      }
-    },
-    {
-      onSuccess: () => {
-        if (category) {
-          form.setValue("parentCategoryId", category.parentCategory?.id)
-        }
-      }
-    }
-  )
-
   const createCategoryMutation = useCreateCategoryMutation(
     graphqlRequestClient,
     {
       onSuccess: () => {
         form.reset()
-        queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
+        if (!category?.parentCategory) {
+          queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
+        }
         onOpenChange(false)
         toast({
           description: t("common:entity_added_successfully", {
@@ -124,7 +115,13 @@ const CategoryFormModal = ({
     {
       onSuccess: () => {
         form.reset()
-        queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
+        if (category?.parentCategory) {
+          if (getCategoryQueryResult) {
+            getCategoryQueryResult.refetch()
+          }
+        } else {
+          queryClient.invalidateQueries({ queryKey: ["GetVocabulary"] })
+        }
         onOpenChange(false)
         toast({
           description: t("common:entity_updated_successfully", {
@@ -164,9 +161,10 @@ const CategoryFormModal = ({
   useEffect(() => {
     if (titleEn) {
       form.setValue("slug", slugify(titleEn))
-    } else {
-      form.setValue("slug", "")
     }
+    //  else {
+    //   form.setValue("slug", "")
+    // }
   }, [titleEn, form])
 
   useEffect(() => {
@@ -180,6 +178,8 @@ const CategoryFormModal = ({
     }
 
     return () => {
+      setErrors(undefined)
+      setImages([])
       form.reset()
     }
   }, [category, form, open])
@@ -204,7 +204,7 @@ const CategoryFormModal = ({
             slug,
             sort,
             isActive,
-            fileUuid: images[0]?.uuid
+            fileUuid: images[images.length - 1]?.uuid
           }
         })
       } else {
@@ -217,7 +217,7 @@ const CategoryFormModal = ({
             slug,
             sort,
             isActive,
-            fileUuid: images[0]?.uuid
+            fileUuid: images[images.length - 1]?.uuid
           }
         })
       }
@@ -275,14 +275,15 @@ const CategoryFormModal = ({
                             <FormControl className="flex-1">
                               <Button
                                 disabled={
-                                  categories.isLoading || categories.isError
+                                  vocabularyQuery.isLoading ||
+                                  vocabularyQuery.isError
                                 }
                                 noStyle
                                 role="combobox"
                                 className="input-field flex items-center text-start"
                               >
                                 {field.value
-                                  ? categories.data?.categories.find(
+                                  ? vocabularyQuery.data?.vocabulary.categories.find(
                                       (category) =>
                                         category && category.id === field.value
                                     )?.title
@@ -321,7 +322,7 @@ const CategoryFormModal = ({
                               })}
                             </CommandEmpty>
                             <CommandGroup>
-                              {categories.data?.categories.map(
+                              {vocabularyQuery.data?.vocabulary.categories.map(
                                 (category) =>
                                   category && (
                                     <CommandItem
@@ -330,7 +331,7 @@ const CategoryFormModal = ({
                                       onSelect={(value) => {
                                         form.setValue(
                                           "parentCategoryId",
-                                          categories.data?.categories.find(
+                                          vocabularyQuery.data?.vocabulary.categories.find(
                                             (item) =>
                                               item &&
                                               item.title.toLowerCase() === value

@@ -19,17 +19,20 @@ import {
 } from "@core/components/ui/alert-dialog"
 import { Button } from "@core/components/ui/button"
 import { toast } from "@core/hooks/use-toast"
+import { IGetCategoryQueryResult } from "@/app/admin/vocabularies/components/Categories"
 
 type CategoryDeleteModalProps = {
   categoryToDelete?: Category
   open: boolean
   onOpenChange: Dispatch<SetStateAction<boolean>>
+  getCategoryQueryResult: IGetCategoryQueryResult
 }
 
 const CategoryDeleteModal = ({
   categoryToDelete,
   open,
-  onOpenChange
+  onOpenChange,
+  getCategoryQueryResult
 }: CategoryDeleteModalProps) => {
   const { t } = useTranslation()
   const [errors, setErrors] = useState<ClientError>()
@@ -45,6 +48,9 @@ const CategoryDeleteModal = ({
         queryClient.invalidateQueries({
           queryKey: ["GetVocabulary", "GetCategory"]
         })
+        if (getCategoryQueryResult) {
+          getCategoryQueryResult.refetch()
+        }
         onOpenChange(false)
         toast({
           description: t("common:entity_removed_successfully", {

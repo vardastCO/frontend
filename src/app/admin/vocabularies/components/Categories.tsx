@@ -2,10 +2,11 @@
 
 import { useState } from "react"
 import { notFound } from "next/navigation"
+import { UseQueryResult } from "@tanstack/react-query"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 
-import { Category, useGetVocabularyQuery } from "@/generated"
+import { Category, GetCategoryQuery, useGetVocabularyQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Loading from "@core/components/shared/Loading"
@@ -18,6 +19,11 @@ import CategoryFormModal from "@/app/admin/vocabularies/components/CategoryFormM
 
 import CategoryCard from "./CategoryCard"
 
+export type IGetCategoryQueryResult = UseQueryResult<
+  GetCategoryQuery,
+  unknown
+> | null
+
 type Props = {
   slug: string
 }
@@ -29,49 +35,54 @@ const Categories = ({ slug }: Props) => {
   const [categoryToEdit, setCategoryToEdit] = useState<Category>()
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
   const [categoryToDelete, setCategoryToDelete] = useState<Category>()
+  const [getCategoryQueryResult, setGetCategoryQueryResult] =
+    useState<IGetCategoryQueryResult>(null)
 
-  const { isLoading, error, data } = useGetVocabularyQuery(
-    graphqlRequestClient,
-    {
-      slug: slug
-    }
-  )
+  const vocabularyQuery = useGetVocabularyQuery(graphqlRequestClient, {
+    slug: slug
+  })
 
-  if (isLoading) return <Loading />
-  if (error) return <LoadingFailed />
-  if (!data) notFound()
+  if (vocabularyQuery.isLoading) return <Loading />
+  if (vocabularyQuery.error) return <LoadingFailed />
+  if (!vocabularyQuery.data) notFound()
 
   return (
     <>
       <CategoryFormModal
+        getCategoryQueryResult={getCategoryQueryResult}
         open={formModalOpen}
         onOpenChange={(state) => {
           setCategoryToEdit(undefined)
           setCategoryToDelete(undefined)
           setFormModalOpen(state)
         }}
+        vocabularyQuery={vocabularyQuery}
         category={categoryToEdit}
-        vocabularyId={data.vocabulary.id}
+        vocabularyId={vocabularyQuery.data.vocabulary.id}
       />
-      <PageHeader title={data.vocabulary.title}>
+      <PageHeader title={vocabularyQuery.data.vocabulary.title}>
         {session?.abilities.includes("gql.base.taxonomy.category.store") && (
           <Button size="medium" onClick={() => setFormModalOpen(true)}>
             {t("common:add_entity", { entity: t("common:category") })}
           </Button>
         )}
       </PageHeader>
-      {!data.vocabulary.categories.length && <NoResult entity="category" />}
+      {!vocabularyQuery.data.vocabulary.categories.length && (
+        <NoResult entity="category" />
+      )}
       <CategoryDeleteModal
+        getCategoryQueryResult={getCategoryQueryResult}
         categoryToDelete={categoryToDelete}
         open={deleteModalOpen}
         onOpenChange={setDeleteModalOpen}
       />
       <div>
         <div className="flex flex-col gap-2">
-          {data.vocabulary.categories.map((category) => (
+          {vocabularyQuery.data.vocabulary.categories.map((category) => (
             <CategoryCard
               category={category as Category}
-              vocabularySlug={data.vocabulary.slug}
+              setGetCategoryQueryResult={setGetCategoryQueryResult}
+              vocabularySlug={vocabularyQuery.data.vocabulary.slug}
               onEditTriggered={(category) => {
                 setCategoryToEdit(category)
                 setFormModalOpen(true)
