@@ -31,6 +31,7 @@ interface CategoryCardProps {
   category: Category
   onDeleteTriggered: (_: Category) => void
   onEditTriggered: (_: Category) => void
+  onEditAttributes: (_: Category) => void
   setGetCategoryQueryResult: (_: IGetCategoryQueryResult) => void
 }
 
@@ -39,6 +40,7 @@ const CategoryCard = ({
   vocabularySlug,
   onDeleteTriggered,
   onEditTriggered,
+  onEditAttributes,
   setGetCategoryQueryResult
 }: CategoryCardProps) => {
   const { t } = useTranslation()
@@ -74,19 +76,22 @@ const CategoryCard = ({
     onEditTriggered(category)
   }
 
+  const toggleEditAttributeItem = () => {
+    onEditAttributes(category)
+  }
+
   return (
     <>
       <div className="card flex items-center gap-3 rounded px-4 py-2 pe-2">
         <div className="flex flex-1 items-center gap-2">
           <LucideGripVertical className="hidden h-5 w-5 text-alpha-400" />
           <div className="flex h-8 w-8 items-center justify-center">
-            {!!childrenCount && (
+            {!!childrenCount ? (
               <LucideFolderClosed
                 className="h-5 w-5 text-alpha-500 dark:text-alpha-700"
                 strokeWidth={1.5}
               />
-            )}
-            {!!!childrenCount && (
+            ) : (
               <LucideFile
                 className="h-5 w-5 text-alpha-500 dark:text-alpha-700"
                 strokeWidth={1.5}
@@ -112,6 +117,9 @@ const CategoryCard = ({
           )}
         </div>
         <div className="mr-auto flex items-center gap-2">
+          <Button onClick={toggleEditAttributeItem} size={"small"}>
+            ویرایش مشخصه ها
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" iconOnly>
@@ -155,6 +163,9 @@ const CategoryCard = ({
                 vocabularySlug={vocabularySlug}
                 onEditTriggered={(category) => {
                   onEditTriggered(category)
+                }}
+                onEditAttributes={(category) => {
+                  onEditAttributes(category)
                 }}
                 onDeleteTriggered={(category) => {
                   onDeleteTriggered(category)

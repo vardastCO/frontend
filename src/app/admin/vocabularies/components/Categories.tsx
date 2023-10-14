@@ -16,6 +16,7 @@ import PageHeader from "@core/components/shared/PageHeader"
 import { Button } from "@core/components/ui/button"
 import CategoryDeleteModal from "@/app/admin/vocabularies/components/CategoryDeleteModal"
 import CategoryFormModal from "@/app/admin/vocabularies/components/CategoryFormModal"
+import EditCategoryAttributeModal from "@/app/admin/vocabularies/components/EditCategoryAttributeModal"
 
 import CategoryCard from "./CategoryCard"
 
@@ -32,7 +33,11 @@ const Categories = ({ slug }: Props) => {
   const { t } = useTranslation()
   const { data: session } = useSession()
   const [formModalOpen, setFormModalOpen] = useState<boolean>(false)
+  const [editCategoryAttributeModal, setEditCategoryAttributeModal] =
+    useState(false)
   const [categoryToEdit, setCategoryToEdit] = useState<Category>()
+  const [attributeCategoryToEdit, setAttributeCategoryToEdit] =
+    useState<Category>()
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
   const [categoryToDelete, setCategoryToDelete] = useState<Category>()
   const [getCategoryQueryResult, setGetCategoryQueryResult] =
@@ -48,6 +53,13 @@ const Categories = ({ slug }: Props) => {
 
   return (
     <>
+      <EditCategoryAttributeModal
+        open={editCategoryAttributeModal}
+        category={attributeCategoryToEdit}
+        onOpenChange={(state) => {
+          setEditCategoryAttributeModal(state)
+        }}
+      />
       <CategoryFormModal
         getCategoryQueryResult={getCategoryQueryResult}
         open={formModalOpen}
@@ -85,6 +97,10 @@ const Categories = ({ slug }: Props) => {
               onEditTriggered={(category) => {
                 setCategoryToEdit(category)
                 setFormModalOpen(true)
+              }}
+              onEditAttributes={(category) => {
+                setAttributeCategoryToEdit(category)
+                setEditCategoryAttributeModal(true)
               }}
               onDeleteTriggered={(category) => {
                 setCategoryToDelete(category)
