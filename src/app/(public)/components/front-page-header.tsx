@@ -6,7 +6,7 @@ import { LucideChevronDown } from "lucide-react"
 
 import { useGetVocabularyQuery } from "@/generated"
 
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import graphqlRequestClientWithoutToken from "@core/clients/graphqlRequestClientWithoutToken"
 import slugify from "@core/utils/persian-slugify"
 import {
   Popover,
@@ -17,7 +17,7 @@ import {
 type Props = {}
 
 const FrontPageHeader = (_: Props) => {
-  const categories = useGetVocabularyQuery(graphqlRequestClient, {
+  const categories = useGetVocabularyQuery(graphqlRequestClientWithoutToken, {
     slug: "product_categories"
   })
 

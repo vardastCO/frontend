@@ -27,7 +27,7 @@ import {
   useGetAllFilterableAttributesBasicsQuery
 } from "@/generated"
 
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import graphqlRequestClientWithoutToken from "@core/clients/graphqlRequestClientWithoutToken"
 import { Button } from "@core/components/ui/button"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import BrandOrSellerCategoryFilter from "@/app/(public)/components/brand-or-seller-category-filter"
@@ -84,7 +84,7 @@ const ProductList = ({
   const setFiltersVisibility = useSetAtom(filtersVisibilityAtom)
 
   const getFilterableAttributesQuery = useGetAllFilterableAttributesBasicsQuery(
-    graphqlRequestClient,
+    graphqlRequestClientWithoutToken,
     {
       filterableAttributesInput: {
         categoryId:
@@ -236,7 +236,7 @@ const ProductList = ({
               push(pathname + "?" + params.toString())
             }}
           />
-          <div className="bg-alpha-white p">
+          <div className="sticky top-0 z-50 bg-alpha-white p">
             <div className="flex items-start gap-3">
               {selectedCategoryIds &&
                 selectedCategoryIds.length > 0 &&
@@ -297,7 +297,7 @@ const ProductList = ({
         className={clsx([
           "",
           isMobileView
-            ? ""
+            ? "pt"
             : "grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]"
         ])}
       >
@@ -360,18 +360,20 @@ const ProductList = ({
         <div>
           {data.products.data.length > 0 ? (
             <>
-              <div className="flex items-center py-1 md:py-3">
-                <ProductSort
-                  sort={sort}
-                  onSortChanged={(sort) => {
-                    setSort(sort)
-                    const params = new URLSearchParams(searchParams as any)
-                    params.set("orderBy", `${sort}`)
-                    push(pathname + "?" + params.toString())
-                  }}
-                />
-                {/* <ProductCount count={data.products.total || 0} /> */}
-              </div>
+              {!isMobileView && (
+                <div className="flex items-center py-1 md:py-3">
+                  <ProductSort
+                    sort={sort}
+                    onSortChanged={(sort) => {
+                      setSort(sort)
+                      const params = new URLSearchParams(searchParams as any)
+                      params.set("orderBy", `${sort}`)
+                      push(pathname + "?" + params.toString())
+                    }}
+                  />
+                  {/* <ProductCount count={data.products.total || 0} /> */}
+                </div>
+              )}
               <div>
                 <div className="grid gap-y sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
                   {data.products.data.map((product, idx) => (

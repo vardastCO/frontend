@@ -17,7 +17,7 @@ import {
   ValidationTypes
 } from "@/generated"
 
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import graphqlRequestClientWithoutToken from "@core/clients/graphqlRequestClientWithoutToken"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import { cellphoneNumberSchema } from "@core/utils/zodValidationSchemas"
 import {
@@ -52,9 +52,10 @@ const SigninForm = (_: Props) => {
   z.setErrorMap(zodI18nMap)
 
   const validateCellphoneMutation = useValidateCellphoneMutation(
-    graphqlRequestClient,
+    graphqlRequestClientWithoutToken,
     {
       onError: (errors: ClientError) => {
+        setPageLoading(false)
         setErrors(errors)
       },
       onSuccess: (data) => {
@@ -76,31 +77,34 @@ const SigninForm = (_: Props) => {
       }
     }
   )
-  const validateOtpMutation = useValidateOtpMutation(graphqlRequestClient, {
-    onError: (errors: ClientError) => {
-      setPageLoading(false)
-      setErrors(errors)
-    },
-    onSuccess: (data) => {
-      const { message } = data.validateOtp
-      formStepOne.getValues()
-      signIn("credentials", {
-        cellphone: formStepOne.getValues().cellphone,
-        validationKey,
-        redirect: false
-      }).then((callback) => {
-        if (callback?.error) {
-          setLoginErrors(callback?.error)
-        }
-        if (callback?.ok && !callback?.error) {
-          setErrors(null)
-          setLoginErrors(null)
-          setMessage(message as string)
-          router.push("/admin")
-        }
-      })
+  const validateOtpMutation = useValidateOtpMutation(
+    graphqlRequestClientWithoutToken,
+    {
+      onError: (errors: ClientError) => {
+        setPageLoading(false)
+        setErrors(errors)
+      },
+      onSuccess: (data) => {
+        const { message } = data.validateOtp
+        formStepOne.getValues()
+        signIn("credentials", {
+          cellphone: formStepOne.getValues().cellphone,
+          validationKey,
+          redirect: false
+        }).then((callback) => {
+          if (callback?.error) {
+            setLoginErrors(callback?.error)
+          }
+          if (callback?.ok && !callback?.error) {
+            setErrors(null)
+            setLoginErrors(null)
+            setMessage(message as string)
+            router.push(searchParams.get("callbackUrl") || "/admin")
+          }
+        })
+      }
     }
-  })
+  )
 
   const SignupFormStepOneSchema = z.object({
     cellphone: cellphoneNumberSchema

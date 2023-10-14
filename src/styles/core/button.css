@@ -149,12 +149,10 @@
   &[loading] {
     @apply cursor-progress;
 
-    &::before {
-      right: 0;
+    &::after {
       content: "";
-      width: 1em;
-      height: 1em;
-      margin: auto;
+      width: 1.2em;
+      height: 1.2em;
       border: 2px solid transparent;
       border-top-color: currentColor;
       border-radius: 50%;

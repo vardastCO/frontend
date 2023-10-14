@@ -13,7 +13,7 @@ import { LucideSearch, LucideTrash, LucideX } from "lucide-react"
 
 import { useGetSuggestQuery } from "@/generated"
 
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import graphqlRequestClientWithoutToken from "@core/clients/graphqlRequestClientWithoutToken"
 import { Button } from "@core/components/ui/button"
 import { Input } from "@core/components/ui/input"
 
@@ -39,7 +39,7 @@ const Search: React.FC<ISearch> = ({ isMobileView }) => {
   })
 
   const searchQuery = useGetSuggestQuery(
-    graphqlRequestClient,
+    graphqlRequestClientWithoutToken,
     {
       suggestInput: {
         query

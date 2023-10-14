@@ -1,6 +1,7 @@
 import request from "graphql-request"
-import { getServerSession } from "next-auth"
-import { getSession } from "next-auth/react"
+
+// import { getServerSession } from "next-auth"
+// import { getSession } from "next-auth/react"
 
 import {
   GetAllProductsDocument,
@@ -8,7 +9,7 @@ import {
   IndexProductInput
 } from "@/generated"
 
-import { authOptions } from "@core/lib/authOptions"
+// import { authOptions } from "@core/lib/authOptions"
 
 interface getAllProductsQueryFnArgs extends IndexProductInput {}
 
@@ -20,10 +21,10 @@ export const getAllProductsQueryFn = async ({
   categoryIds,
   orderBy
 }: getAllProductsQueryFnArgs = {}): Promise<GetAllProductsQuery> => {
-  const session =
-    typeof window === "undefined"
-      ? await getServerSession(authOptions)
-      : await getSession()
+  // const session =
+  //   typeof window === "undefined"
+  //     ? await getServerSession(authOptions)
+  //     : await getSession()
 
   return await request(
     process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT as string,
@@ -37,9 +38,9 @@ export const getAllProductsQueryFn = async ({
         categoryIds,
         orderBy
       }
-    },
-    {
-      authorization: `Bearer ${session?.accessToken}`
     }
+    // {
+    //   authorization: `Bearer ${session?.accessToken}`
+    // }
   )
 }

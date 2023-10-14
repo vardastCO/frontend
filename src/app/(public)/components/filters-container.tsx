@@ -9,7 +9,7 @@ import {
   useGetAllFilterableAttributesQuery
 } from "@/generated"
 
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import graphqlRequestClientWithoutToken from "@core/clients/graphqlRequestClientWithoutToken"
 import { RequireAtLeastOne } from "@core/types/RequireAtLeastOne"
 import FilterBlock from "@/app/(public)/components/filter-block"
 
@@ -34,7 +34,7 @@ const FiltersContainer = ({
   filterAttributes
 }: FiltersContainerProps) => {
   const getAllFilterableAttributesQuery = useGetAllFilterableAttributesQuery(
-    graphqlRequestClient,
+    graphqlRequestClientWithoutToken,
     {
       filterableAttributesInput: {
         categoryId: selectedCategoryId || 0

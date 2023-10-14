@@ -28,6 +28,7 @@ const ProfileIndex = () => {
             push("/admin")
           }}
           loading={loader}
+          disabled={loader}
           block
         >
           ورود / ثبت‌نام

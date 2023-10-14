@@ -18,7 +18,7 @@ import {
   ValidationTypes
 } from "@/generated"
 
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import graphqlRequestClientWithoutToken from "@core/clients/graphqlRequestClientWithoutToken"
 import zodI18nMap from "@core/utils/zodErrorMap"
 import { cellphoneNumberSchema } from "@core/utils/zodValidationSchemas"
 import {
@@ -51,7 +51,7 @@ const ResetForm = (_: Props) => {
   z.setErrorMap(zodI18nMap)
 
   const validateCellphoneMutation = useValidateCellphoneMutation(
-    graphqlRequestClient,
+    graphqlRequestClientWithoutToken,
     {
       onError: (errors: ClientError) => {
         setErrors(errors)
@@ -74,47 +74,53 @@ const ResetForm = (_: Props) => {
       }
     }
   )
-  const validateOtpMutation = useValidateOtpMutation(graphqlRequestClient, {
-    onError: (errors: ClientError) => {
-      setErrors(errors)
-    },
-    onSuccess: (data) => {
-      const { nextState, message } = data.validateOtp
-      setErrors(null)
-      setMessage(message as string)
+  const validateOtpMutation = useValidateOtpMutation(
+    graphqlRequestClientWithoutToken,
+    {
+      onError: (errors: ClientError) => {
+        setErrors(errors)
+      },
+      onSuccess: (data) => {
+        const { nextState, message } = data.validateOtp
+        setErrors(null)
+        setMessage(message as string)
 
-      if (nextState === "VALIDATE_CELLPHONE") {
-        setFormState(1)
-      }
+        if (nextState === "VALIDATE_CELLPHONE") {
+          setFormState(1)
+        }
 
-      if (nextState === "PASSWORD_RESET") {
-        setFormState(3)
-      }
+        if (nextState === "PASSWORD_RESET") {
+          setFormState(3)
+        }
 
-      if (nextState === "LOGIN") {
-        router.push("/profile/auth/signin")
+        if (nextState === "LOGIN") {
+          router.push("/profile/auth/signin")
+        }
       }
     }
-  })
-  const passwordResetMutation = usePasswordResetMutation(graphqlRequestClient, {
-    onError: (errors: ClientError) => {
-      setErrors(errors)
-    },
-    onSuccess: (data) => {
-      const { message, nextState } = data.passwordReset
-      setErrors(null)
+  )
+  const passwordResetMutation = usePasswordResetMutation(
+    graphqlRequestClientWithoutToken,
+    {
+      onError: (errors: ClientError) => {
+        setErrors(errors)
+      },
+      onSuccess: (data) => {
+        const { message, nextState } = data.passwordReset
+        setErrors(null)
 
-      if (nextState === "VALIDATE_CELLPHONE") {
-        setFormState(1)
+        if (nextState === "VALIDATE_CELLPHONE") {
+          setFormState(1)
+        }
+
+        if (nextState === "LOGIN") {
+          router.push("/profile/auth/signin")
+        }
+
+        setMessage(message as string)
       }
-
-      if (nextState === "LOGIN") {
-        router.push("/profile/auth/signin")
-      }
-
-      setMessage(message as string)
     }
-  })
+  )
 
   const PasswordResetFormStepOneSchema = z.object({
     cellphone: cellphoneNumberSchema

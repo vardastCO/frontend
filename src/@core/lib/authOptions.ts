@@ -104,8 +104,18 @@ export const authOptions: AuthOptions = {
             abilities: data.loginWithOtp.abilities
           }
         } catch (error) {
+          console.log(
+            "=====================eeeeeeeeeeeeeeeeeeeeeeeeeeeeee==============="
+          )
+          console.log(error)
           // @ts-ignore
-          throw new Error(error.response.errors[0].extensions.displayMessage)
+          if (error?.response) {
+            throw new Error(
+              // @ts-ignore
+              error.response?.errors[0]?.extensions?.displayMessage
+            )
+          }
+          throw new Error("خطای ورود")
         }
       }
     })

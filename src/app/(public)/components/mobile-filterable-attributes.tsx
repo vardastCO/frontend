@@ -15,7 +15,7 @@ import {
   useGetAllFilterableAttributesQuery
 } from "@/generated"
 
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import graphqlRequestClientWithoutToken from "@core/clients/graphqlRequestClientWithoutToken"
 import { Button } from "@core/components/ui/button"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 
@@ -137,7 +137,7 @@ const MobileFilterableAttributes = ({
   )
 
   const { data } = useGetAllFilterableAttributesQuery(
-    graphqlRequestClient,
+    graphqlRequestClientWithoutToken,
     {
       filterableAttributesInput: {
         categoryId:

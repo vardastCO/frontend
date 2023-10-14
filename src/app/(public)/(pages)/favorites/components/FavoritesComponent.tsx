@@ -43,7 +43,7 @@ const FavoritesComponent = () => {
         <div className="mx-auto flex max-w-xs flex-col items-center py-8">
           <LucidePackageX className="mb-4 h-10 w-10 text-alpha-400" />
           <p className="mb-2 text-lg font-bold text-alpha-800">
-            محصولی پیدا نشد
+            علاقه مندی یافت نشد
           </p>
         </div>
       )}
