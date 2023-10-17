@@ -12,13 +12,16 @@ const CategoryListContainer: React.FC<
       {description && (
         <div className="flex flex-col gap-y bg-alpha-white p">
           <h4 className="text-alpha-500">درباره دسته بندی</h4>
-          <p
-            className={`${
-              more ? "" : "line-clamp-3"
-            } text-justify text-sm leading-6`}
-          >
-            {description}
-          </p>
+          {description.split("\n\n").map((paragraph, index) => (
+            <p
+              key={index}
+              className={`${
+                more ? "" : "line-clamp-3"
+              } text-justify text-sm leading-6`}
+            >
+              {paragraph}
+            </p>
+          ))}
           {!more && (
             <span
               className="text-left text-primary underline"

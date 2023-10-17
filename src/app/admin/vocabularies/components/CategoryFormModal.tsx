@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useQueryClient } from "@tanstack/react-query"
 import { ClientError } from "graphql-request"
 import {
-  LucideAlertOctagon,
+  // LucideAlertOctagon,
   LucideCheck,
   LucideChevronsUpDown,
   LucideX
@@ -35,7 +35,6 @@ import {
   FormLabel,
   FormMessage
 } from "@core/components/react-hook-form/form"
-import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Button } from "@core/components/ui/button"
 import {
   Command,
@@ -58,8 +57,10 @@ import {
   PopoverTrigger
 } from "@core/components/ui/popover"
 import { Switch } from "@core/components/ui/switch"
+import { Textarea } from "@core/components/ui/textarea"
 import { toast } from "@core/hooks/use-toast"
 import { uploadPaths } from "@core/lib/uploadPaths"
+// import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { IGetCategoryQueryResult } from "@/app/admin/vocabularies/components/Categories"
 
 type CategoryFormModalProps = {
@@ -79,7 +80,7 @@ const CategoryFormModal = ({
 }: CategoryFormModalProps) => {
   const { t } = useTranslation()
   const [parentCategoryOpen, setParentCategoryOpen] = useState<boolean>(false)
-  const [errors, setErrors] = useState<ClientError>()
+  // const [errors, setErrors] = useState<ClientError>()
   const [images, setImages] = useState<
     { uuid: string; expiresAt: string; image?: Image }[]
   >([])
@@ -120,7 +121,14 @@ const CategoryFormModal = ({
         })
       },
       onError: (errors: ClientError) => {
-        setErrors(errors)
+        toast({
+          description: (
+            errors.response.errors?.at(0)?.extensions.displayErrors as string[]
+          ).map((error) => error),
+          duration: 5000,
+          variant: "danger"
+        })
+        // setErrors(errors)
       }
     }
   )
@@ -146,7 +154,14 @@ const CategoryFormModal = ({
         })
       },
       onError: (errors: ClientError) => {
-        setErrors(errors)
+        toast({
+          description: (
+            errors.response.errors?.at(0)?.extensions.displayErrors as string[]
+          ).map((error) => error),
+          duration: 5000,
+          variant: "danger"
+        })
+        // setErrors(errors)
       }
     }
   )
@@ -156,6 +171,7 @@ const CategoryFormModal = ({
     parentCategoryId: z.number().optional(),
     title: z.string(),
     titleEn: z.string(),
+    description: z.string().optional(),
     slug: z.string(),
     sort: z.number().optional().default(0),
     isActive: z.boolean().optional().default(true)
@@ -185,6 +201,7 @@ const CategoryFormModal = ({
     if (category) {
       form.setValue("parentCategoryId", category.parentCategory?.id)
       form.setValue("title", category.title)
+      form.setValue("description", category?.description || "")
       form.setValue("titleEn", category.titleEn || "")
       form.setValue("slug", category.slug || "")
       form.setValue("isActive", category.isActive)
@@ -192,7 +209,7 @@ const CategoryFormModal = ({
     }
 
     return () => {
-      setErrors(undefined)
+      // setErrors(undefined)
       setImages([])
       form.reset()
     }
@@ -200,45 +217,49 @@ const CategoryFormModal = ({
 
   const onClose = () => {
     form.reset()
-    setErrors(undefined)
+    // setErrors(undefined)
     onOpenChange(false)
   }
 
   function onSubmit(data: CreateCategory) {
-    try {
-      const { title, titleEn, slug, sort, parentCategoryId, isActive } = data
+    const {
+      title,
+      titleEn,
+      slug,
+      sort,
+      parentCategoryId,
+      isActive,
+      description
+    } = data
 
-      if (category) {
-        updateCategoryMutation.mutate({
-          updateCategoryInput: {
-            id: category.id,
-            parentCategoryId: parentCategoryId === 0 ? null : parentCategoryId,
-            title,
-            titleEn,
-            slug,
-            sort,
-            isActive,
-            fileUuid: images[images.length - 1]?.uuid
-          }
-        })
-      } else {
-        createCategoryMutation.mutate({
-          createCategoryInput: {
-            vocabularyId,
-            parentCategoryId,
-            title,
-            titleEn,
-            slug,
-            sort,
-            isActive,
-            fileUuid: images[images.length - 1]?.uuid
-          }
-        })
-      }
-    } catch (error) {
-      console.log("...........................")
-      console.log(error)
-      console.log("...........................")
+    if (category) {
+      updateCategoryMutation.mutate({
+        updateCategoryInput: {
+          id: category.id,
+          parentCategoryId: parentCategoryId === 0 ? null : parentCategoryId,
+          title,
+          description,
+          titleEn,
+          slug,
+          sort,
+          isActive,
+          fileUuid: images[images.length - 1]?.uuid
+        }
+      })
+    } else {
+      createCategoryMutation.mutate({
+        createCategoryInput: {
+          vocabularyId,
+          description,
+          parentCategoryId,
+          title,
+          titleEn,
+          slug,
+          sort,
+          isActive,
+          fileUuid: images[images.length - 1]?.uuid
+        }
+      })
     }
   }
 
@@ -257,7 +278,7 @@ const CategoryFormModal = ({
                   })}
             </DialogTitle>
           </DialogHeader>
-          {errors && (
+          {/* {errors && (
             <Alert variant="danger">
               <LucideAlertOctagon />
               <AlertTitle>خطا</AlertTitle>
@@ -270,7 +291,7 @@ const CategoryFormModal = ({
                 ))}
               </AlertDescription>
             </Alert>
-          )}
+          )} */}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
               <div className="flex flex-col gap-6 py-8">
@@ -446,6 +467,19 @@ const CategoryFormModal = ({
                         </FormControl>
                         <FormLabel noStyle>{t("common:is_active")}</FormLabel>
                       </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("common:description")}</FormLabel>
+                      <FormControl>
+                        <Textarea {...field} />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}

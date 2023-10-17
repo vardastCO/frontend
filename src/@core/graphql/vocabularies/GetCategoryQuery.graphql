@@ -22,6 +22,7 @@ query GetCategory($id: Int, $slug: String) {
       isActive
       createdAt
       updatedAt
+      description
       childrenCount
       productsCount
       parentCategory {
