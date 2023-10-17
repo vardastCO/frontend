@@ -33,6 +33,10 @@
   --swiper-theme-color: theme(colors.primary.500);
 }
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }

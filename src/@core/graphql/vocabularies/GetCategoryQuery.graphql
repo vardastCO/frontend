@@ -11,6 +11,7 @@ query GetCategory($id: Int, $slug: String) {
     childrenCount
     id
     productsCount
+    description
     children {
       id
       title

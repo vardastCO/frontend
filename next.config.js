@@ -25,6 +25,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/my-api",
+        destination: "https://dev.api.vardast.ir/graphql",
+        permanent: true
+      },
+      {
         source: "/p",
         destination: "/search",
         permanent: true

@@ -1,6 +1,7 @@
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import MobileNavigation from "@/app/(public)/components/mobile-navigation"
 import PublicProvider from "@/app/(public)/components/public-provider"
+import { SearchActionModal } from "@/app/(public)/components/search"
 
 export default function PublicLayout({
   children
@@ -11,6 +12,7 @@ export default function PublicLayout({
 
   return (
     <PublicProvider>
+      <SearchActionModal isMobileView={isMobileView} />
       {isMobileView ? (
         <div className="container mx-auto flex h-full flex-col">
           <div

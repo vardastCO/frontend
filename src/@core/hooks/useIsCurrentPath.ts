@@ -15,9 +15,11 @@ const useIsCurrentPath = (pathnames: WithNavigationRouteItem[]) => {
   }
 
   if (pathnames.length > 0) {
-    return pathnames.some(({ path, forceEqual }) =>
+    return pathnames.some(({ path, forceEqual, dynamicRouteAllow = false }) =>
       forceEqual
         ? pathname.split("/")[1].includes(path)
+        : dynamicRouteAllow
+        ? path === pathname.split("/")[1] && pathname.split("/").length > 2
         : path === pathname.split("/")[1]
     )
   }

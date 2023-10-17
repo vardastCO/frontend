@@ -10,8 +10,6 @@ import { GetCategoryQuery } from "@/generated"
 import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
 
-import MobileHeader from "./header/MobileHeader"
-
 interface SearchHeaderProps {
   selectedCategoryId: number
 }
@@ -85,7 +83,6 @@ const SearchHeader = ({ selectedCategoryId }: SearchHeaderProps) => {
 
   return (
     <>
-      <MobileHeader title={data.category.title} />
       <div className="bg-alpha-white">
         <Breadcrumb dynamic={false} items={breadcrumb} />
       </div>

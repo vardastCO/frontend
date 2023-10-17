@@ -216,28 +216,28 @@ const ProductList = ({
     <>
       {isMobileView && (
         <>
-          <MobileCategoriesFilter
-            categoryId={selectedCategoryIds}
-            brandId={brandId}
-            sellerId={sellerId}
-            categoryIdsFilter={categoryIdsFilter}
-            onCategoryFilterChanged={({ status, value }) => {
-              onCategoryIdsFilterChanged({ status, value })
-              setCategoriesFilterVisibility(false)
-            }}
-          />
-          <MobileSortFilter
-            sort={sort}
-            onSortChanged={(sort) => {
-              setSortFilterVisibility(false)
-              setSort(sort)
-              const params = new URLSearchParams(searchParams as any)
-              params.set("orderBy", `${sort}`)
-              push(pathname + "?" + params.toString())
-            }}
-          />
           <div className="sticky top-0 z-50 bg-alpha-white p">
             <div className="flex items-start gap-3">
+              <MobileCategoriesFilter
+                categoryId={selectedCategoryIds}
+                brandId={brandId}
+                sellerId={sellerId}
+                categoryIdsFilter={categoryIdsFilter}
+                onCategoryFilterChanged={({ status, value }) => {
+                  onCategoryIdsFilterChanged({ status, value })
+                  setCategoriesFilterVisibility(false)
+                }}
+              />
+              <MobileSortFilter
+                sort={sort}
+                onSortChanged={(sort) => {
+                  setSortFilterVisibility(false)
+                  setSort(sort)
+                  const params = new URLSearchParams(searchParams as any)
+                  params.set("orderBy", `${sort}`)
+                  push(pathname + "?" + params.toString())
+                }}
+              />
               {selectedCategoryIds &&
                 selectedCategoryIds.length > 0 &&
                 getFilterableAttributesQuery.data &&
@@ -270,15 +270,17 @@ const ProductList = ({
                     />
                   </>
                 )}
-              <Button
-                onClick={() => setCategoriesFilterVisibility(true)}
-                size="small"
-                variant="secondary"
-                className="rounded-full border border-alpha-200"
-              >
-                <LucideLayoutGrid className="icon text-alpha-400" />
-                دسته‌بندی‌ها
-              </Button>
+              {!isMobileView && (
+                <Button
+                  onClick={() => setCategoriesFilterVisibility(true)}
+                  size="small"
+                  variant="secondary"
+                  className="rounded-full border border-alpha-200"
+                >
+                  <LucideLayoutGrid className="icon text-alpha-400" />
+                  دسته‌بندی‌ها
+                </Button>
+              )}
               <Button
                 onClick={() => setSortFilterVisibility(true)}
                 size="small"
@@ -375,7 +377,7 @@ const ProductList = ({
                 </div>
               )}
               <div>
-                <div className="grid gap-y sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
+                <div className="grid gap-y pb-5 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
                   {data.products.data.map((product, idx) => (
                     <ProductCard key={idx} product={product as Product} />
                   ))}

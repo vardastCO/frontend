@@ -6,29 +6,29 @@ import { atom, PrimitiveAtom } from "jotai"
 interface PublicContextType {
   categoriesFilterVisibilityAtom: PrimitiveAtom<boolean>
   globalCategoriesFilterVisibilityAtom: PrimitiveAtom<boolean>
+  globalSearchModalAtom: PrimitiveAtom<boolean>
   sortFilterVisibilityAtom: PrimitiveAtom<boolean>
   filtersVisibilityAtom: PrimitiveAtom<boolean>
   mySpaceVisibilityAtom: PrimitiveAtom<boolean>
   currentPageAtom: PrimitiveAtom<number>
-  showNavigationBackButton: PrimitiveAtom<boolean>
 }
 
 const categoriesFilterVisibilityAtom = atom<boolean>(false)
 const globalCategoriesFilterVisibilityAtom = atom<boolean>(false)
+const globalSearchModalAtom = atom<boolean>(false)
 const sortFilterVisibilityAtom = atom<boolean>(false)
 const filtersVisibilityAtom = atom<boolean>(false)
 const mySpaceVisibilityAtom = atom<boolean>(false)
 const currentPageAtom = atom<number>(1)
-const showNavigationBackButton = atom<boolean>(false)
 
 export const PublicContext = createContext<PublicContextType>({
   categoriesFilterVisibilityAtom,
   globalCategoriesFilterVisibilityAtom,
+  globalSearchModalAtom,
   sortFilterVisibilityAtom,
   filtersVisibilityAtom,
   mySpaceVisibilityAtom,
-  currentPageAtom,
-  showNavigationBackButton
+  currentPageAtom
 })
 
 type PublicProviderProps = {
@@ -41,11 +41,11 @@ const PublicProvider = ({ children }: PublicProviderProps) => {
       value={{
         categoriesFilterVisibilityAtom,
         globalCategoriesFilterVisibilityAtom,
+        globalSearchModalAtom,
         sortFilterVisibilityAtom,
         filtersVisibilityAtom,
         mySpaceVisibilityAtom,
-        currentPageAtom,
-        showNavigationBackButton
+        currentPageAtom
       }}
     >
       {children}

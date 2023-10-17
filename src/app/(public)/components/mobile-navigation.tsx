@@ -1,9 +1,7 @@
 "use client"
 
-import { useContext, useEffect } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useAtom } from "jotai"
+import { usePathname, useRouter } from "next/navigation"
 import { ArrowRight } from "lucide-react"
 
 import { mergeClasses } from "@core/utils/mergeClasses"
@@ -11,16 +9,12 @@ import { Button } from "@core/components/ui/button"
 import useIsCurrentPath from "@core/hooks/useIsCurrentPath"
 import { _navbar_items, _withNavigationRoutes } from "@core/lib/constants"
 
-import { PublicContext } from "./public-provider"
 import Search from "./search"
 
 type Props = {}
 
 const MobileNavigation = (_: Props) => {
-  const { showNavigationBackButton } = useContext(PublicContext)
-  const [ShowNavigationBackButton, setShowNavigationBackButton] = useAtom(
-    showNavigationBackButton
-  )
+  const router = useRouter()
   const pathname = usePathname()
   const hideSearchBarFlag = useIsCurrentPath([
     {
@@ -30,6 +24,23 @@ const MobileNavigation = (_: Props) => {
     {
       forceEqual: false,
       path: "profile"
+    }
+  ])
+  const ShowNavigationBackButton = useIsCurrentPath([
+    {
+      forceEqual: false,
+      dynamicRouteAllow: true,
+      path: "categories"
+    },
+    {
+      forceEqual: false,
+      dynamicRouteAllow: true,
+      path: "search"
+    },
+    {
+      forceEqual: false,
+      dynamicRouteAllow: true,
+      path: "p"
     }
   ])
   const getIsActiveNav = (activePath: string) =>
@@ -48,10 +59,6 @@ const MobileNavigation = (_: Props) => {
     )
   }
 
-  useEffect(() => {
-    setShowNavigationBackButton(false)
-  }, [pathname, setShowNavigationBackButton])
-
   if (isShowNavigation()) {
     return (
       <div className={hideSearchBarFlag ? "pb-[60px]" : "pb-[110px]"}>
@@ -67,7 +74,7 @@ const MobileNavigation = (_: Props) => {
                       // variant="ghost"
                       block
                       onClick={() => {
-                        document.getElementById("header-back-button")?.click()
+                        router.back()
                       }}
                       iconOnly
                     >

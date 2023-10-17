@@ -75,7 +75,6 @@ const MobileHeader: React.FC<IModalHeader> = ({
         <div className="col-span-2 mr-auto">
           {shareIcon && (
             <Button
-              className={hasBack && hasBack.hidden ? "hidden" : ""}
               id="header-back-button"
               variant={"ghost"}
               iconOnly

@@ -36,6 +36,7 @@ type NavbarItem = {
 export type WithNavigationRouteItem = {
   forceEqual: boolean
   path: string
+  dynamicRouteAllow?: boolean
 }
 
 export const queryClientOptions = {
@@ -56,7 +57,7 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
     path: "/profile"
   },
   {
-    forceEqual: false,
+    forceEqual: true,
     path: "/categories"
   },
   {
@@ -70,6 +71,10 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   {
     forceEqual: false,
     path: "/favorites"
+  },
+  {
+    forceEqual: true,
+    path: "/p"
   }
 ]
 
