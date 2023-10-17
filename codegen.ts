@@ -2,7 +2,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli"
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: "https://api.vardast.com/graphql",
+  schema: "https://dev.api.vardast.ir/graphql",
   documents: "src/@core/graphql/**/*graphql",
   ignoreNoDocuments: true,
   generates: {
@@ -25,5 +25,4 @@ const config: CodegenConfig = {
     afterAllFileWrite: ["prettier --write"]
   }
 }
-
 export default config
