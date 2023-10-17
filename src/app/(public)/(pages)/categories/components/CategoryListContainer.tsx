@@ -11,27 +11,22 @@ const CategoryListContainer: React.FC<
     <>
       {description && (
         <div className="flex flex-col gap-y bg-alpha-white p">
-          <h4 className="text-alpha-500">درباره دسته بندی</h4>
-          {description.split("\n\n").map((paragraph, index) => (
-            <p
-              key={index}
-              className={`${
-                more ? "" : "line-clamp-3"
-              } text-justify text-sm leading-6`}
-            >
-              {paragraph}
-            </p>
-          ))}
-          {!more && (
-            <span
-              className="text-left text-primary underline"
-              onClick={() => {
-                setMore(!more)
-              }}
-            >
-              بیشتر
-            </span>
-          )}
+          <h4 className="text-alpha-500">معرفی</h4>
+          <div className={`${more ? "" : "line-clamp-3"}`}>
+            {description.split("\n\n").map((paragraph, index) => (
+              <p key={index} className="text-justify text-sm leading-6">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          <span
+            className="text-left text-primary underline"
+            onClick={() => {
+              setMore(!more)
+            }}
+          >
+            {more ? "کمتر" : "بیشتر"}
+          </span>
         </div>
       )}
       <ul
