@@ -5,30 +5,27 @@ import { atom, PrimitiveAtom } from "jotai"
 
 interface PublicContextType {
   categoriesFilterVisibilityAtom: PrimitiveAtom<boolean>
-  globalCategoriesFilterVisibilityAtom: PrimitiveAtom<boolean>
   globalSearchModalAtom: PrimitiveAtom<boolean>
   sortFilterVisibilityAtom: PrimitiveAtom<boolean>
   filtersVisibilityAtom: PrimitiveAtom<boolean>
-  mySpaceVisibilityAtom: PrimitiveAtom<boolean>
-  currentPageAtom: PrimitiveAtom<number>
+  showNavbar: PrimitiveAtom<boolean>
+  navigationHeight: PrimitiveAtom<number>
 }
 
 const categoriesFilterVisibilityAtom = atom<boolean>(false)
-const globalCategoriesFilterVisibilityAtom = atom<boolean>(false)
 const globalSearchModalAtom = atom<boolean>(false)
 const sortFilterVisibilityAtom = atom<boolean>(false)
 const filtersVisibilityAtom = atom<boolean>(false)
-const mySpaceVisibilityAtom = atom<boolean>(false)
-const currentPageAtom = atom<number>(1)
+const showNavbar = atom<boolean>(true)
+const navigationHeight = atom<number>(0)
 
 export const PublicContext = createContext<PublicContextType>({
   categoriesFilterVisibilityAtom,
-  globalCategoriesFilterVisibilityAtom,
   globalSearchModalAtom,
   sortFilterVisibilityAtom,
   filtersVisibilityAtom,
-  mySpaceVisibilityAtom,
-  currentPageAtom
+  navigationHeight,
+  showNavbar
 })
 
 type PublicProviderProps = {
@@ -40,12 +37,11 @@ const PublicProvider = ({ children }: PublicProviderProps) => {
     <PublicContext.Provider
       value={{
         categoriesFilterVisibilityAtom,
-        globalCategoriesFilterVisibilityAtom,
         globalSearchModalAtom,
         sortFilterVisibilityAtom,
         filtersVisibilityAtom,
-        mySpaceVisibilityAtom,
-        currentPageAtom
+        navigationHeight,
+        showNavbar
       }}
     >
       {children}

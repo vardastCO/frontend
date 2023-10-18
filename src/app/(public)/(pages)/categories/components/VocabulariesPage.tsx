@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import { GetVocabularyQuery } from "@/generated"
@@ -8,11 +8,12 @@ import { GetVocabularyQuery } from "@/generated"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 import CategoryListContainer from "@/app/(public)/(pages)/categories/components/CategoryListContainer"
 import CategoryListItem from "@/app/(public)/(pages)/categories/components/CategoryListItem"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
 import CategorySkeleton from "@/app/(public)/(pages)/categories/components/CategorySkeleton"
 
 const VocabulariesPage = () => {
-  const router = useRouter()
-
+  const [selectedItemId, setSelectedItemId] =
+    useState<ICategoryListLoader>(null)
   const getVocabularyQueryFcQuery = useQuery<GetVocabularyQuery>({
     queryKey: ["vocabulary", { slug: "product_categories" }],
     queryFn: () => getVocabularyQueryFn("product_categories")
@@ -33,17 +34,14 @@ const VocabulariesPage = () => {
           category && (
             <CategoryListItem
               onClick={() => {
-                // setSelectedItemId(category.id)
-                if (category.childrenCount > 0) {
-                  return router.push(
-                    `/categories/${category.id}?title=${category.title}`
-                  )
-                }
-                router.push(
-                  `/search/${category.id}/${category.title}?title=${category.title}`
-                )
+                setSelectedItemId(category.id)
               }}
-              selectedItemId={null}
+              href={
+                category.childrenCount > 0
+                  ? `/categories/${category.id}?title=${category.title}`
+                  : `/search/${category.id}/${category.title}?title=${category.title}`
+              }
+              selectedItemId={selectedItemId}
               key={category.id}
               title={category.title}
               productsCount={category.productsCount}

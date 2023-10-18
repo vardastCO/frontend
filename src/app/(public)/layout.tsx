@@ -1,4 +1,6 @@
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import PwaNotificationProvider from "@core/providers/PwaNotificationProvider"
+import MobileScrollProvider from "@/app/(public)/components/header/MobileScrollProvider"
 import MobileNavigation from "@/app/(public)/components/mobile-navigation"
 import PublicProvider from "@/app/(public)/components/public-provider"
 import { SearchActionModal } from "@/app/(public)/components/search"
@@ -12,21 +14,17 @@ export default function PublicLayout({
 
   return (
     <PublicProvider>
-      <SearchActionModal isMobileView={isMobileView} />
-      {isMobileView ? (
-        <div className="container mx-auto flex h-full flex-col">
-          <div
-            className={`flex flex-1 flex-col pb-[calc(env(safe-area-inset-bottom)*1.1)] ${
-              isMobileView ? "overflow-y-scroll" : ""
-            }`}
-          >
-            {children}
-          </div>
-          {isMobileView && <MobileNavigation />}
-        </div>
-      ) : (
-        <div className="container mx-auto">{children}</div>
-      )}
+      <PwaNotificationProvider isMobileView={isMobileView}>
+        <SearchActionModal isMobileView={isMobileView} />
+        {isMobileView ? (
+          <>
+            <MobileScrollProvider>{children}</MobileScrollProvider>
+            <MobileNavigation />
+          </>
+        ) : (
+          <div className="container mx-auto">{children}</div>
+        )}
+      </PwaNotificationProvider>
     </PublicProvider>
   )
 }

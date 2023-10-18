@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home } from "lucide-react"
+import { HomeIcon } from "@heroicons/react/24/solid"
 
 // import useTranslation from "next-translate/useTranslation"
 
@@ -61,7 +61,7 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
             legacyBehavior
           >
             <a title={process.env.NEXT_PUBLIC_TITLE}>
-              <Home className="h-4 w-4 text-alpha-400" />
+              <HomeIcon className="h-5 w-5" />
             </a>
           </Link>
         </li>
@@ -75,7 +75,11 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
                 <a
                   title={crumb.label}
                   aria-current={crumb.isCurrent ? "page" : "false"}
-                  className="text-alpha-600"
+                  className={
+                    idx < breadcrumbs.length - 1
+                      ? "text-alpha-600"
+                      : "font-semibold"
+                  }
                 >
                   {crumb.label}
                 </a>

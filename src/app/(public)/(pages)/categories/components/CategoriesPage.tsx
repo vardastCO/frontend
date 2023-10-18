@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 
 import { GetCategoryQuery } from "@/generated"
@@ -17,7 +16,6 @@ interface CategoriesListProps {
 }
 
 const CategoriesPage = ({ categoryId }: CategoriesListProps) => {
-  const router = useRouter()
   const [selectedItemId, setSelectedItemId] =
     useState<ICategoryListLoader>(null)
 
@@ -36,6 +34,7 @@ const CategoriesPage = ({ categoryId }: CategoriesListProps) => {
 
   return (
     <CategoryListContainer
+      isSubcategory
       description={
         getCategoryQueryFnQuery.data.category.description ?? undefined
       }
@@ -44,17 +43,15 @@ const CategoriesPage = ({ categoryId }: CategoriesListProps) => {
         (category) =>
           category && (
             <CategoryListItem
+              isSubCategory
               onClick={() => {
                 setSelectedItemId(category.id)
-                if (category.childrenCount > 0) {
-                  return router.push(
-                    `/categories/${category.id}?title=${category.title}`
-                  )
-                }
-                router.push(
-                  `/search/${category.id}/${category.title}?title=${category.title}`
-                )
               }}
+              href={
+                category.childrenCount > 0
+                  ? `/categories/${category.id}?title=${category.title}`
+                  : `/search/${category.id}/${category.title}?title=${category.title}`
+              }
               selectedItemId={selectedItemId}
               key={category.id}
               title={category.title}

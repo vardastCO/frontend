@@ -24,10 +24,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
     <div className="relative px transition hover:z-10 md:hover:shadow-lg">
       <Link
         href={`/p/${product.id}/${slugify(product.name)}`}
-        className="flex h-full w-full rounded-xl bg-alpha-white p py-2 lg:px-4"
+        className="flex h-full w-full rounded-xl bg-alpha-white lg:px-4"
         prefetch={false}
       >
-        <div className="flex flex-1 flex-row gap-4 lg:flex-col">
+        <div className="grid flex-1 grid-cols-3 gap-4 lg:flex lg:flex-col">
           <div
             id={`product-image-${product.id}`}
             className={`relative w-32 flex-shrink-0 bg-[url('/images/blank.png')] bg-[length:2em] bg-center bg-no-repeat align-middle duration-1000 ease-out lg:h-48 lg:w-full ${
@@ -56,7 +56,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               />
             )}
           </div>
-          <div className="flex flex-1 flex-col border-r pr sm:border-r-0">
+          <div className="lg:col-span1 col-span-2 flex flex-1 flex-col border-r p py-2 sm:border-r-0">
             <h6
               title={product.name}
               className="mb-6 mt-4 line-clamp-2 h-12 text-alpha-800"

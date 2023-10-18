@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 
 import CategoryListLoader, {
@@ -13,6 +14,7 @@ interface IVocabularyItem {
   productsCount: number
   onClick: (_?: any) => void
   selectedItemId: ICategoryListLoader
+  href: string
 }
 
 const CategoryListItem = ({
@@ -22,16 +24,20 @@ const CategoryListItem = ({
   id,
   isSubCategory,
   onClick,
-  selectedItemId
+  selectedItemId,
+  href
 }: IVocabularyItem) => {
   return (
-    <li
+    <Link
+      href={href}
       className={`${
         isSubCategory ? "h-[calc(40vw)]" : "h-[calc(60vw)]"
-      } flex flex-col rounded-2xl bg-alpha-white p-3`}
+      } relative flex flex-col overflow-hidden rounded-2xl bg-alpha-white active:bg-primary-50`}
       onClick={onClick}
+      shallow
     >
-      <div className="flex h-12 flex-col gap-y-0.5">
+      {selectedItemId === id ? <CategoryListLoader /> : <></>}
+      <div className="flex h-20 flex-col justify-center gap-y-0.5 p-3">
         <p className="text-sm font-semibold">{title}</p>
         <p className="text-xs text-primary">{`${digitsEnToFa(
           addCommas(productsCount)
@@ -39,14 +45,14 @@ const CategoryListItem = ({
       </div>
       <div
         id={`category-image-${id}`}
-        className="relative w-full flex-1 flex-shrink-0 bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out lg:w-full"
+        className="w-full flex-1 flex-shrink-0 bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out"
       >
-        {selectedItemId === id ? <CategoryListLoader /> : <></>}
         <Image
           src={src}
+          // src={`/images/categories/${id}.png`}
           alt={title}
-          fill
-          // sizes="full, full"
+          width={200}
+          height={200}
           className="h-full object-contain"
           loading="eager"
           onLoadingComplete={() => {
@@ -57,7 +63,7 @@ const CategoryListItem = ({
           }}
         />
       </div>
-    </li>
+    </Link>
   )
 }
 
