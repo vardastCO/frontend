@@ -10,6 +10,7 @@ import NextTopLoader from "nextjs-toploader"
 
 import NextAuthProvider from "@core/providers/NextAuthProvider"
 import NextThemeProvider from "@core/providers/NextThemeProvider"
+import PwaNotificationProvider from "@core/providers/PwaNotificationProvider"
 import RadixDirectionProvider from "@core/providers/RadixDirectionProvider"
 import ReactQueryProvider from "@core/providers/ReactQueryProvider"
 import { Toaster } from "@core/providers/ToasterProvider"
@@ -286,7 +287,7 @@ export default function AdminLayout({
           <NextAuthProvider>
             <ReactQueryProvider>
               <NextThemeProvider>
-                {children}
+                <PwaNotificationProvider>{children}</PwaNotificationProvider>
                 <Toaster />
               </NextThemeProvider>
             </ReactQueryProvider>
