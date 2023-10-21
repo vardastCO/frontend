@@ -89,11 +89,13 @@ const SigninForm = (_: Props) => {
         formStepOne.getValues()
         signIn("credentials", {
           cellphone: formStepOne.getValues().cellphone,
+          signInType: "otp",
           validationKey,
           redirect: false
         }).then((callback) => {
           if (callback?.error) {
             setLoginErrors(callback?.error)
+            setPageLoading(false)
           }
           if (callback?.ok && !callback?.error) {
             setErrors(null)
@@ -146,6 +148,45 @@ const SigninForm = (_: Props) => {
     })
   }
 
+  const SigninFormStepZeroSchema = z
+    .object({
+      username: z
+        .string()
+        .min(1, { message: t("zod:errors.invalid_type_received_undefined") }),
+      password: z
+        .string()
+        .min(1, { message: t("zod:errors.invalid_type_received_undefined") })
+    })
+    .required()
+
+  type SignInFormStepZeroType = TypeOf<typeof SigninFormStepZeroSchema>
+
+  const form = useForm<SignInFormStepZeroType>({
+    resolver: zodResolver(SigninFormStepZeroSchema)
+  })
+
+  function onSubmitStepZero(data: SignInFormStepZeroType) {
+    setPageLoading(true)
+    const { username, password } = data
+    signIn("credentials", {
+      username,
+      password,
+      signInType: "username",
+      redirect: false
+    }).then((callback) => {
+      if (callback?.error) {
+        setLoginErrors(callback?.error)
+        setPageLoading(false)
+      }
+      if (callback?.ok && !callback?.error) {
+        setErrors(null)
+        setLoginErrors(null)
+        setMessage(message as string)
+        router.push("/admin")
+      }
+    })
+  }
+
   // useEffect(() => {
   //   if (session?.status === "authenticated") {
   //     redirect(searchParams.get("callbackUrl") || "/admin")
@@ -189,6 +230,70 @@ const SigninForm = (_: Props) => {
         </Alert>
       )}
 
+      {formState === 0 && (
+        <Form {...form}>
+          <form
+            id="login-username"
+            onSubmit={form.handleSubmit(onSubmitStepZero)}
+            noValidate
+            className="flex flex-1 flex-col gap-8"
+          >
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("common:username")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={t("common:username")}
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            ></FormField>
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("common:password")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={t("common:password")}
+                      type="password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            ></FormField>
+          </form>
+          <Button
+            type="button"
+            variant="link"
+            onClick={() => {
+              setFormState(1)
+            }}
+          >
+            ورود با رمز یکبار مصرف
+          </Button>
+          <Button
+            type="submit"
+            block
+            form="login-username"
+            disabled={pageLoading || form.formState.isSubmitting}
+            loading={pageLoading || form.formState.isSubmitting}
+          >
+            {t("common:login")}
+          </Button>
+        </Form>
+      )}
+
       {formState === 1 && (
         <Form {...formStepOne}>
           <form
@@ -222,6 +327,15 @@ const SigninForm = (_: Props) => {
               )}
             ></FormField>
           </form>
+          <Button
+            type="button"
+            variant="link"
+            onClick={() => {
+              setFormState(0)
+            }}
+          >
+            ورود با نام کاربری و رمز عبور
+          </Button>
           <Button
             type="submit"
             block

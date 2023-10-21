@@ -2,106 +2,24 @@
 
 import { ReactNode, Suspense, useState } from "react"
 import { LucideMenu } from "lucide-react"
-import useTranslation from "next-translate/useTranslation"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import Sidebar from "@core/components/shared/Sidebar"
 import { Button } from "@core/components/ui/button"
-import { NavigationType } from "@core/types/Navigation"
+import { _sidebarMenu } from "@core/lib/constants"
 
 type AdminLayoutComponentProps = {
   children: ReactNode
 }
 
 const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
-  const { t } = useTranslation()
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
-
-  const menus: NavigationType[] = [
-    {
-      items: [
-        {
-          title: "خانه",
-          path: "/admin",
-          icon: "home"
-        },
-        {
-          title: "کالاها",
-          path: "/admin/products",
-          icon: "package",
-          abilities: "gql.products.product.index",
-          items: [
-            {
-              title: "تمام کالاها",
-              path: "/admin/products",
-              icon: "package",
-              abilities: "gql.products.product.index"
-            },
-            {
-              title: "پیشنهادات",
-              path: "/admin/offers",
-              icon: "package",
-              abilities: "gql.products.offer.index.mine"
-            },
-            {
-              title: "مشخصه‌ها",
-              path: "/admin/attributes",
-              icon: "layers",
-              abilities: "gql.products.attribute.index"
-            },
-            {
-              title: t("common:producers"),
-              path: "/admin/brands",
-              icon: "fingerprint",
-              abilities: "gql.products.brand.index"
-            },
-            {
-              title: "واحدهای اندازه‌گیری",
-              path: "/admin/uoms",
-              icon: "ruler",
-              abilities: "gql.products.uom.index"
-            }
-          ]
-        },
-        {
-          title: "فروشندگان",
-          path: "/admin/sellers",
-          icon: "store",
-          abilities: "gql.products.seller.index"
-        }
-      ]
-    },
-    {
-      title: "مدیریت",
-      role: "admin",
-      items: [
-        {
-          title: "دسته‌بندی‌ها",
-          path: "/admin/vocabularies",
-          icon: "layout-grid",
-          abilities: "gql.base.taxonomy.vocabulary.index"
-        },
-        {
-          title: "مناطق جغرافیایی",
-          path: "/admin/locations",
-          icon: "map",
-          abilities: "gql.base.location.country.index"
-        },
-        {
-          title: "کاربران",
-          path: "/admin/users",
-          icon: "users",
-          abilities: "gql.users.user.index"
-        }
-      ]
-    }
-  ]
 
   return (
     <div className="app">
       <div className="app-inner">
         <Sidebar
-          menus={menus}
+          menus={_sidebarMenu}
           open={sidebarOpen}
           onOpenChanged={setSidebarOpen}
         />

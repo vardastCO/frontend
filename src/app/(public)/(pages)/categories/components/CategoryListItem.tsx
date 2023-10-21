@@ -2,9 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 
-import CategoryListLoader, {
-  ICategoryListLoader
-} from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
 
 interface IVocabularyItem {
   title: string
@@ -24,19 +22,19 @@ const CategoryListItem = ({
   id,
   isSubCategory,
   onClick,
-  selectedItemId,
+  // selectedItemId,
   href
 }: IVocabularyItem) => {
   return (
     <Link
       href={href}
       className={`${
-        isSubCategory ? "h-[calc(40vw)]" : "h-[calc(60vw)]"
-      } relative flex flex-col overflow-hidden rounded-2xl bg-alpha-white active:bg-primary-50`}
+        isSubCategory ? "h-[calc(42vw)]" : "h-[calc(60vw)]"
+      } relative flex flex-col overflow-hidden rounded-2xl bg-alpha-white hover:border hover:!border-primary active:border active:!border-primary`}
       onClick={onClick}
       shallow
     >
-      {selectedItemId === id ? <CategoryListLoader /> : <></>}
+      {/* {selectedItemId === id ? <CategoryListLoader /> : <></>} */}
       <div className="flex h-20 flex-col justify-center gap-y-0.5 p-3">
         <p className="text-sm font-semibold">{title}</p>
         <p className="text-xs text-primary">{`${digitsEnToFa(

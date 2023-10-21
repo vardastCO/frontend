@@ -5,6 +5,8 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import {
   GetWhoAmIDocument,
   GetWhoAmIQuery,
+  LoginUserDocument,
+  LoginUserMutation,
   LoginWithOtpDocument,
   LoginWithOtpMutation,
   RefreshUserMutation,
@@ -59,17 +61,25 @@ export const authOptions: AuthOptions = {
   },
   providers: [
     CredentialsProvider({
+      name: "Otp",
       type: "credentials",
       credentials: {
         cellphone: { label: "Cellphone", type: "text" },
-        validationKey: { label: "ValidationKey", type: "text" }
+        validationKey: { label: "ValidationKey", type: "text" },
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
+        signInType: { label: "SignInType", type: "text" }
       },
       // @ts-ignore
       authorize: async (credentials, request) => {
-        const { cellphone, validationKey } = credentials as {
-          cellphone: string
-          validationKey: string
-        }
+        const { signInType, username, password, cellphone, validationKey } =
+          credentials as {
+            cellphone: string
+            validationKey: string
+            username: string
+            password: string
+            signInType: string
+          }
 
         const client = new GraphQLClient(
           process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
@@ -81,33 +91,55 @@ export const authOptions: AuthOptions = {
         )
 
         try {
-          const data: LoginWithOtpMutation = await client.request(
-            LoginWithOtpDocument,
-            {
-              LoginOTPInput: {
-                cellphone,
-                validationKey
+          if (signInType === "otp") {
+            const data: LoginWithOtpMutation = await client.request(
+              LoginWithOtpDocument,
+              {
+                LoginOTPInput: {
+                  cellphone,
+                  validationKey
+                }
               }
+            )
+            if (!data) {
+              return null
             }
-          )
 
-          if (!data) {
-            return null
+            return {
+              accessToken: data.loginWithOtp.accessToken,
+              accessTokenTtl: data.loginWithOtp.accessTokenTtl + Date.now(),
+              refreshToken: data.loginWithOtp.refreshToken,
+              refreshTokenTtl: data.loginWithOtp.refreshTokenTtl + Date.now(),
+              userId: data.loginWithOtp.user.id,
+              abilities: data.loginWithOtp.abilities
+            }
           }
+          if (signInType === "username") {
+            const data: LoginUserMutation = await client.request(
+              LoginUserDocument,
+              {
+                loginInput: {
+                  username,
+                  password
+                }
+              }
+            )
 
-          return {
-            accessToken: data.loginWithOtp.accessToken,
-            accessTokenTtl: data.loginWithOtp.accessTokenTtl + Date.now(),
-            refreshToken: data.loginWithOtp.refreshToken,
-            refreshTokenTtl: data.loginWithOtp.refreshTokenTtl + Date.now(),
-            userId: data.loginWithOtp.user.id,
-            abilities: data.loginWithOtp.abilities
+            if (!data) {
+              return null
+            }
+
+            return {
+              accessToken: data.login.accessToken,
+              accessTokenTtl: data.login.accessTokenTtl + Date.now(),
+              refreshToken: data.login.refreshToken,
+              refreshTokenTtl: data.login.refreshTokenTtl + Date.now(),
+              userId: data.login.user.id,
+              abilities: data.login.abilities
+            }
           }
         } catch (error) {
-          console.log(
-            "=====================eeeeeeeeeeeeeeeeeeeeeeeeeeeeee==============="
-          )
-          console.log(error)
+          console.log("----nextjs error-----", error)
           // @ts-ignore
           if (error?.response) {
             throw new Error(

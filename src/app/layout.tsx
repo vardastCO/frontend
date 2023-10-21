@@ -13,6 +13,7 @@ import NextThemeProvider from "@core/providers/NextThemeProvider"
 import RadixDirectionProvider from "@core/providers/RadixDirectionProvider"
 import ReactQueryProvider from "@core/providers/ReactQueryProvider"
 import { Toaster } from "@core/providers/ToasterProvider"
+import { myColors } from "@/app/theme"
 
 export const metadata: Metadata = {
   title: {
@@ -279,9 +280,9 @@ export default function AdminLayout({
         </Script> */}
         <body>
           <NextTopLoader
-            color="#030712"
+            color={myColors.primary[600]}
             showSpinner={false}
-            shadow="0 0 10px #030712,0 0 5px #030712"
+            // shadow={`0 0 10px ${myColors.primary[50]},0 0 5px ${myColors.primary[50]}`}
           />
           <NextAuthProvider>
             <ReactQueryProvider>

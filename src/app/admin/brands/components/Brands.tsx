@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { notFound, useRouter } from "next/navigation"
+import { notFound } from "next/navigation"
 import { LucideWarehouse } from "lucide-react"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
@@ -21,7 +21,6 @@ import Pagination from "@/app/admin/components/Pagination"
 const Brands = () => {
   const { t } = useTranslation()
   const { data: session } = useSession()
-  const router = useRouter()
   const [currentPage, setCurrentPage] = useState<number>(1)
 
   const { isLoading, error, data } = useGetAllBrandsQuery(
@@ -55,16 +54,14 @@ const Brands = () => {
             <tr>
               <th></th>
               <th>{t("common:producer")}</th>
+              <th>{t("common:operation")}</th>
             </tr>
           </thead>
           <tbody>
             {data?.brands.data.map(
               (brand) =>
                 brand && (
-                  <tr
-                    key={brand.id}
-                    onClick={() => router.push(`/admin/brands/${brand.id}`)}
-                  >
+                  <tr key={brand.id}>
                     <td className="w-12">
                       <div className="relative flex aspect-square h-12 w-12 items-center justify-center overflow-hidden rounded bg-alpha-50">
                         {brand.logoFile ? (
@@ -86,6 +83,11 @@ const Brands = () => {
                       <span className="font-medium text-alpha-800">
                         {brand.name}
                       </span>
+                    </td>
+                    <td>
+                      <Link target="_blank" href={`/admin/brands/${brand.id}`}>
+                        <Button>ویرایش</Button>
+                      </Link>
                     </td>
                   </tr>
                 )

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { notFound, useRouter } from "next/navigation"
+import { notFound } from "next/navigation"
 import { LucideCheck, LucideWarehouse, LucideX } from "lucide-react"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
@@ -24,7 +24,6 @@ import Pagination from "@/app/admin/components/Pagination"
 const Sellers = () => {
   const { t } = useTranslation()
   const { data: session } = useSession()
-  const router = useRouter()
   const [currentPage, setCurrentPage] = useState<number>(1)
 
   const { isLoading, error, data } = useGetAllSellersQuery(
@@ -60,16 +59,14 @@ const Sellers = () => {
               <th>{t("common:seller")}</th>
               <th>{t("common:status")}</th>
               <th>{t("common:visibility")}</th>
+              <th>{t("common:operation")}</th>
             </tr>
           </thead>
           <tbody>
             {data?.sellers.data.map(
               (seller) =>
                 seller && (
-                  <tr
-                    key={seller.id}
-                    onClick={() => router.push(`/admin/sellers/${seller.id}`)}
-                  >
+                  <tr key={seller.id}>
                     <td className="w-12">
                       <div className="relative flex aspect-square h-12 w-12 items-center justify-center overflow-hidden rounded bg-alpha-50">
                         {seller.logoFile ? (
@@ -122,6 +119,14 @@ const Sellers = () => {
                           <LucideX className="icon" />
                         </span>
                       )}
+                    </td>
+                    <td>
+                      <Link
+                        target="_blank"
+                        href={`/admin/sellers/${seller.id}`}
+                      >
+                        <Button>ویرایش</Button>
+                      </Link>
                     </td>
                   </tr>
                 )

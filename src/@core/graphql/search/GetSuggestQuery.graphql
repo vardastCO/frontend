@@ -49,5 +49,13 @@ query GetSuggestQuery($suggestInput: SuggestInput!) {
       updatedAt
       childrenCount
     }
+    brand {
+      id
+      name
+    }
+    seller {
+      id
+      name
+    }
   }
 }

@@ -268,6 +268,56 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                     )}
                   </div>
                 )}
+                {searchQuery.data.suggest.brand.length > 0 && (
+                  <div>
+                    {searchQuery.data.suggest.brand.slice(0, 3).map(
+                      (suggestedCategory) =>
+                        suggestedCategory && (
+                          <Button
+                            noStyle
+                            className="w-full rounded px-3 py-2 text-start text-alpha-700 hover:bg-alpha-50"
+                            onClick={() =>
+                              navigateToSearch(
+                                query,
+                                `/brand/${suggestedCategory.id}/${suggestedCategory.name}?query=${query}`
+                              )
+                            }
+                            key={suggestedCategory.id}
+                          >
+                            جستجوی {query} در تولید کننده{" "}
+                            <strong className="text-primary-500">
+                              {suggestedCategory.name}
+                            </strong>
+                          </Button>
+                        )
+                    )}
+                  </div>
+                )}
+                {searchQuery.data.suggest.seller.length > 0 && (
+                  <div>
+                    {searchQuery.data.suggest.seller.slice(0, 3).map(
+                      (suggestedCategory) =>
+                        suggestedCategory && (
+                          <Button
+                            noStyle
+                            className="w-full rounded px-3 py-2 text-start text-alpha-700 hover:bg-alpha-50"
+                            onClick={() =>
+                              navigateToSearch(
+                                query,
+                                `/seller/${suggestedCategory.id}/${suggestedCategory.name}?query=${query}`
+                              )
+                            }
+                            key={suggestedCategory.id}
+                          >
+                            جستجوی {query} در فروشنده‌{" "}
+                            <strong className="text-primary-500">
+                              {suggestedCategory.name}
+                            </strong>
+                          </Button>
+                        )
+                    )}
+                  </div>
+                )}
                 <div>
                   <Button
                     noStyle
