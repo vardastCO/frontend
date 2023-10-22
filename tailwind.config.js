@@ -46,7 +46,7 @@ const tailwind = {
           ...tailwindColors.red,
           DEFAULT: tailwindColors.red[600]
         },
-        succuss: {
+        success: {
           ...tailwindColors.green,
           DEFAULT: tailwindColors.green[600]
         },

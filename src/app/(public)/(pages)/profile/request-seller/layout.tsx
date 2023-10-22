@@ -7,6 +7,6 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => (
   <MobileBaseLayout>{children}</MobileBaseLayout>
 )
 export default withMobileHeader(Layout, {
-  title: "قوانین و مقررات",
+  title: "درخواست تبدیل به فروشنده",
   hasBack: {}
 })

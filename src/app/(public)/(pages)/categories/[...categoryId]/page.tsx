@@ -38,7 +38,7 @@ const CategoryIdPage: React.FC<CategoryIdPageIndexProps> = async ({
   const dehydratedState = dehydrate(queryClient)
 
   if (!isMobileView) {
-    redirect("/")
+    redirect("/home")
   }
 
   return (

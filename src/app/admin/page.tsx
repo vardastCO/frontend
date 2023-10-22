@@ -7,7 +7,6 @@ import { ThreeStateSupervisionStatuses, UserStatusesEnum } from "@/generated"
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { authOptions } from "@core/lib/authOptions"
 import AdminInsight from "@/app/admin/components/AdminInsight"
-import BecomeSellerAlert from "@/app/admin/components/BecomeSellerAlert"
 import PastDurationEventsChart from "@/app/admin/components/PastDurationEventsChart"
 
 export const metadata: Metadata = {
@@ -23,11 +22,11 @@ const AdminIndex = async () => {
         <AdminInsight />
       )}
 
-      {!session?.profile.seller &&
+      {/* {!session?.profile.seller &&
         session?.profile.status === UserStatusesEnum.Active &&
         !session?.profile.roles.some(
           (role) => role?.name === "admin" || role?.name === "seller"
-        ) && <BecomeSellerAlert />}
+        ) && <BecomeSellerAlert />} */}
 
       {session?.profile.status === UserStatusesEnum.NotActivated && (
         <Alert variant="danger">

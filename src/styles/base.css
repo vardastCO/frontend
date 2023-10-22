@@ -2,7 +2,10 @@ html[lang="fa"] {
   direction: rtl;
   @apply h-full;
 }
+html {
+  @apply bg-alpha-100;
+}
 
 body {
-  @apply font-iranYekan h-full bg-alpha-white antialiased;
+  @apply h-full overflow-hidden bg-alpha-100 font-iranYekan antialiased md:overflow-auto md:bg-alpha-white;
 }

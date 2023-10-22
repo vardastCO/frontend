@@ -23,7 +23,7 @@ const CategoryListItem = ({
   id,
   isSubCategory,
   onClick,
-  // selectedItemId,
+  selectedItemId,
   href
 }: IVocabularyItem) => {
   return (
@@ -32,7 +32,8 @@ const CategoryListItem = ({
       className={clsx(
         isSubCategory ? "h-[calc(42vw)]" : "h-[calc(60vw)]",
         isSubCategory ? "grid-rows-7" : "grid-rows-4",
-        "relative grid gap-4 overflow-hidden rounded-2xl bg-alpha-white hover:border hover:!border-primary active:border active:!border-primary"
+        "relative grid transform gap-2 overflow-hidden rounded-2xl bg-alpha-white transition",
+        selectedItemId === id ? "outline outline-2 outline-primary" : ""
       )}
       onClick={onClick}
       shallow
@@ -52,7 +53,7 @@ const CategoryListItem = ({
         id={`category-image-${id}`}
         className={`${
           isSubCategory ? "row-span-4" : "row-span-3"
-        } w-full flex-1 flex-shrink-0 bg-center bg-no-repeat align-middle opacity-0 duration-1000 ease-out`}
+        } w-full flex-1 flex-shrink-0  bg-center bg-no-repeat align-middle  duration-1000 ease-out`}
       >
         <Image
           src={src}
@@ -60,7 +61,7 @@ const CategoryListItem = ({
           alt={title}
           width={isSubCategory ? 800 : 1000}
           height={isSubCategory ? 450 : 1000}
-          className="h-full object-contain"
+          className="h-full w-full object-contain"
           loading="eager"
           onLoadingComplete={() => {
             const div = document.getElementById(`category-image-${id}`)

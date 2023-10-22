@@ -15,7 +15,7 @@ const FavoritePage = async () => {
   const isMobileView = CheckIsMobileView()
 
   if (!isMobileView) {
-    redirect("/")
+    redirect("/home")
   }
 
   return <FavoritesComponent />

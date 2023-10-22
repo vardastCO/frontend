@@ -41,7 +41,10 @@ const MobileHeader: React.FC<IModalHeader> = ({
   }, [pathname])
 
   return (
-    <div className="sticky top-0 z-40 border-b border-alpha-200 bg-alpha-white">
+    <div
+      id="mobile-header-navbar"
+      className="fixed top-0 z-40 w-full border-b border-alpha-200 bg-alpha-white"
+    >
       <div className="grid h-16 grid-cols-12 items-center">
         <div className="col-span-2 ml-auto">
           {hasBack && (

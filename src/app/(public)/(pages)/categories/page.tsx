@@ -27,7 +27,7 @@ const CategoriesPage = async () => {
   const dehydratedState = dehydrate(queryClient)
 
   if (!isMobileView) {
-    redirect("/")
+    redirect("/home")
   }
 
   return (

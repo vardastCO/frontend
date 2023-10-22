@@ -56,8 +56,8 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
       >
         <li className="flex items-end pr align-middle leading-none">
           <Link
-            href="/"
-            aria-current={pathname === "/" ? "page" : "false"}
+            href="/home"
+            aria-current={pathname === "/home" ? "page" : "false"}
             legacyBehavior
           >
             <a title={process.env.NEXT_PUBLIC_TITLE}>

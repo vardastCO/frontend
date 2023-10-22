@@ -35,6 +35,11 @@ const nextConfig = {
         permanent: true
       },
       {
+        source: "/",
+        destination: "/home",
+        permanent: true
+      },
+      {
         source: "/brand",
         destination: "/brands",
         permanent: true

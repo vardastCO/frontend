@@ -132,7 +132,7 @@ export const queryClientOptions = {
 export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   {
     forceEqual: false,
-    path: "/"
+    path: "/home"
   },
   {
     forceEqual: false,
@@ -162,7 +162,7 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
 
 export const _navbar_items: NavbarItem[] = [
   {
-    href: "/",
+    href: "/home",
     Icon: HomeIcon,
     ActiveIcon: SolidHomeIcon,
     title: "خانه",

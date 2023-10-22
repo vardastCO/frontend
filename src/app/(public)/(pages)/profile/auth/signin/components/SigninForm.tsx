@@ -2,8 +2,9 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import clsx from "clsx"
 import { ClientError } from "graphql-request"
 import { LucideAlertOctagon } from "lucide-react"
 import { signIn } from "next-auth/react"
@@ -41,7 +42,7 @@ const SigninForm = (_: Props) => {
   const { t } = useTranslation()
   // const session = useSession()
   const router = useRouter()
-  const searchParams = useSearchParams()
+  // const searchParams = useSearchParams()
   const [formState, setFormState] = useState<number>(1)
   const [validationKey, setValidationKey] = useState<string>("")
   const [errors, setErrors] = useState<ClientError | null>()
@@ -101,7 +102,7 @@ const SigninForm = (_: Props) => {
             setErrors(null)
             setLoginErrors(null)
             setMessage(message as string)
-            router.push(searchParams.get("callbackUrl") || "/admin")
+            router.push("/profile/request-seller")
           }
         })
       }
@@ -182,14 +183,14 @@ const SigninForm = (_: Props) => {
         setErrors(null)
         setLoginErrors(null)
         setMessage(message as string)
-        router.push("/admin")
+        router.push("/profile/request-seller")
       }
     })
   }
 
   // useEffect(() => {
   //   if (session?.status === "authenticated") {
-  //     redirect(searchParams.get("callbackUrl") || "/admin")
+  //     redirect(searchParams.get("callbackUrl") || "/profile/request-seller")
   //   }
   // }, [searchParams, session?.status])
 
@@ -391,7 +392,9 @@ const SigninForm = (_: Props) => {
                       >
                         ویرایش شماره همراه
                       </Button>
-                      <p className="text-left text-sm text-succuss">
+                      <p
+                        className={clsx("text-left", "text-sm", "text-succuss")}
+                      >
                         {secondsLeft && secondsLeft > 0 ? secondsLeft : 0} ثانیه
                       </p>
                     </div>

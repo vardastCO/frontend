@@ -1,8 +1,4 @@
 import { Metadata } from "next"
-import { redirect } from "next/navigation"
-
-import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
-import withMobileHeader from "@core/middlewares/withMobileHeader"
 
 import ProfileIndex from "./components"
 
@@ -14,13 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const ProfilePage = async () => {
-  const isMobileView = CheckIsMobileView()
-
-  if (!isMobileView) {
-    redirect("/")
-  }
-
   return <ProfileIndex />
 }
 
-export default withMobileHeader(ProfilePage, { title: "حساب کاربری" })
+export default ProfilePage

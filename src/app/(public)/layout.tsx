@@ -14,17 +14,16 @@ export default function PublicLayout({
 
   return (
     <PublicProvider>
-      <PwaNotificationProvider isMobileView={isMobileView}>
-        <SearchActionModal isMobileView={isMobileView} />
-        {isMobileView ? (
-          <>
-            <MobileScrollProvider>{children}</MobileScrollProvider>
-            <MobileNavigation />
-          </>
-        ) : (
-          <div className="container mx-auto">{children}</div>
-        )}
-      </PwaNotificationProvider>
+      <SearchActionModal isMobileView={isMobileView} />
+      {isMobileView ? (
+        <>
+          <PwaNotificationProvider isMobileView={isMobileView} />
+          <MobileScrollProvider>{children}</MobileScrollProvider>
+          <MobileNavigation />
+        </>
+      ) : (
+        <div className="container mx-auto">{children}</div>
+      )}
     </PublicProvider>
   )
 }

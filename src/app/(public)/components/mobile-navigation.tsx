@@ -26,7 +26,7 @@ const MobileNavigation = (_: Props) => {
   const hideSearchBarFlag = useIsCurrentPath([
     {
       forceEqual: false,
-      path: ""
+      path: "home"
     },
     {
       forceEqual: false,
@@ -74,6 +74,7 @@ const MobileNavigation = (_: Props) => {
     return (
       <div
         ref={ref}
+        id="mobile-navigation-bar"
         className={`${
           showNavbarScroll ? "bottom-0" : "-bottom-[5rem]"
         } fixed left-0 z-50 w-full transform border-t border-alpha-200 bg-alpha-white bg-opacity-5 backdrop-blur-xl transition-all duration-300 dark:border-alpha-600 dark:bg-alpha-700`}
