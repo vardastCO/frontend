@@ -177,7 +177,7 @@ const UserForm = ({ user }: Props) => {
       email: user?.email || "",
       cellphone: user?.cellphone || "",
       countryId: user?.country.id,
-      timezone: user?.timezone.toLowerCase() || "asia/tehran",
+      timezone: user?.timezone?.toLowerCase() || "asia/tehran",
       language: user?.language || UserLanguagesEnum.Farsi,
       mustChangePassword: user?.mustChangePassword,
       displayRoleId: user?.displayRole.id,
