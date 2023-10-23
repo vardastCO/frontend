@@ -15,6 +15,8 @@ RUN cp .env.example .env
 
 RUN pnpm install
 
+RUN npx prettier --plugin-search-dir=. src/**/*.{ts,tsx,css} --write
+
 # Build the app for production
 RUN pnpm build
 
