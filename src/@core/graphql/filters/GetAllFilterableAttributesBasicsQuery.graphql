@@ -1,7 +1,7 @@
 query GetAllFilterableAttributesBasics(
   $filterableAttributesInput: FilterableAttributesInput!
 ) {
-  filterableAdminAttributes(filterableAdminAttributes: $filterableAttributesInput) {
+   filterableAdminAttributes(filterableAdminAttributes: $filterableAttributesInput) {
     filters {
       id
       name
