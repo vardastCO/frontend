@@ -241,7 +241,7 @@ const ProductList = ({
               {selectedCategoryIds &&
                 selectedCategoryIds.length > 0 &&
                 getFilterableAttributesQuery.data &&
-                getFilterableAttributesQuery.data.filterableAttributes.filters
+                getFilterableAttributesQuery.data.filterableAdminAttributes.filters
                   .length > 0 && (
                   <>
                     <Button
