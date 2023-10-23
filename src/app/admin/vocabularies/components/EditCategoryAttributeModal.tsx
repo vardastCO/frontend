@@ -1,6 +1,7 @@
 "use client"
 
 import { Dispatch, SetStateAction, useState } from "react"
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ClientError } from "graphql-request"
@@ -28,6 +29,7 @@ import {
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
+import { Button } from "@core/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -85,6 +87,11 @@ const EditCategoryAttributeModal = ({
             <DialogTitle>
               {t("common:edit_entity", { entity: t("common:attributes") })}
             </DialogTitle>
+            <Link className="flex justify-center" href="/admin/attributes/new">
+              <Button size="medium">
+                {t("common:add_entity", { entity: t("common:attribute") })}
+              </Button>
+            </Link>
           </DialogHeader>
           <div className="flex flex-col divide-y">
             {uetAllFilterableAdminAttributesQuery.isLoading ? (
@@ -93,9 +100,9 @@ const EditCategoryAttributeModal = ({
               <LoadingFailed />
             ) : !uetAllFilterableAdminAttributesQuery.data ? (
               notFound()
-            ) : uetAllFilterableAdminAttributesQuery.data?.filterableAttributes
-                .filters.length ? (
-              uetAllFilterableAdminAttributesQuery.data?.filterableAttributes.filters.map(
+            ) : uetAllFilterableAdminAttributesQuery.data
+                ?.filterableAdminAttributes.filters.length ? (
+              uetAllFilterableAdminAttributesQuery.data?.filterableAdminAttributes.filters.map(
                 (categoryItem) => (
                   <AttributeItem
                     category={categoryItem}
@@ -182,7 +189,11 @@ const AttributeItem = ({ category }: AttributeItemFormProps) => {
       )}
       <form className="py-4" onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <div className="flex items-center gap-6">
-          <div className="flex flex-1 flex-col">
+          <Link
+            href={`/admin/attributes/${category?.id}`}
+            target="_blank"
+            className="flex flex-1 flex-col"
+          >
             <p className="font-bold">{category?.name}</p>
             <div className="pr pt">
               {category?.values?.options.map(
@@ -194,7 +205,7 @@ const AttributeItem = ({ category }: AttributeItemFormProps) => {
                   )
               )}
             </div>
-          </div>
+          </Link>
           <FormField
             control={form.control}
             name="isPublic"
