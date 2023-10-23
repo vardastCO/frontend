@@ -1,6 +1,5 @@
 import { PropsWithChildren } from "react"
 
-import withMobileHeader from "@core/middlewares/withMobileHeader"
 import MobileBaseLayout from "@/app/(public)/components/MobileBaseLayout"
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
@@ -11,4 +10,4 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-export default withMobileHeader(Layout, { title: "حساب کاربری" })
+export default Layout

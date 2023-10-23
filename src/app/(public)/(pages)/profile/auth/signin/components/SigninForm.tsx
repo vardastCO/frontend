@@ -102,7 +102,7 @@ const SigninForm = (_: Props) => {
             setErrors(null)
             setLoginErrors(null)
             setMessage(message as string)
-            router.push("/profile/request-seller")
+            router.push("/admin")
           }
         })
       }
@@ -183,14 +183,14 @@ const SigninForm = (_: Props) => {
         setErrors(null)
         setLoginErrors(null)
         setMessage(message as string)
-        router.push("/profile/request-seller")
+        router.push("/admin")
       }
     })
   }
 
   // useEffect(() => {
   //   if (session?.status === "authenticated") {
-  //     redirect(searchParams.get("callbackUrl") || "/profile/request-seller")
+  //     redirect(searchParams.get("callbackUrl") || "/admin")
   //   }
   // }, [searchParams, session?.status])
 

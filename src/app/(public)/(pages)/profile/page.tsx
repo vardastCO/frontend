@@ -1,5 +1,7 @@
 import { Metadata } from "next"
 
+import withMobileHeader from "@core/middlewares/withMobileHeader"
+
 import ProfileIndex from "./components"
 
 // set dynamic metadata
@@ -13,4 +15,4 @@ const ProfilePage = async () => {
   return <ProfileIndex />
 }
 
-export default ProfilePage
+export default withMobileHeader(ProfilePage, { title: "حساب کاربری" })

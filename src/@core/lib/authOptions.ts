@@ -197,9 +197,6 @@ export const authOptions: AuthOptions = {
         session.error = token.error as string
         return session
       } catch (error) {
-        console.log("====================================")
-        console.log(error)
-        console.log("====================================")
         // @ts-ignore
         throw new Error(error.response.errors[0].extensions.displayMessage)
       }

@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 
 import { authOptions } from "@core/lib/authOptions"
+import withMobileHeader from "@core/middlewares/withMobileHeader"
 
 import SigninForm from "./components/SigninForm"
 
@@ -15,4 +16,7 @@ const SigninPage = async () => {
   return <SigninForm />
 }
 
-export default SigninPage
+export default withMobileHeader(SigninPage, {
+  title: "ورود به حساب کاربری",
+  hasBack: {}
+})
