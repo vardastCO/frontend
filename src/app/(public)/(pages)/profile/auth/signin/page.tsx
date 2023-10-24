@@ -9,7 +9,11 @@ import SigninForm from "./components/SigninForm"
 const SigninPage = async () => {
   const session = await getServerSession(authOptions)
 
-  if (session) {
+  if (
+    session?.profile.roles.some(
+      (role) => role?.name === "admin" || role?.name === "product_moderator"
+    )
+  ) {
     redirect("/admin")
   }
 

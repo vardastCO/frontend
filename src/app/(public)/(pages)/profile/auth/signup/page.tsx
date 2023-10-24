@@ -7,7 +7,11 @@ import SingupForm from "@/app/(public)/(pages)/profile/auth/signup/components/Si
 const SignupPage = async () => {
   const session = await getServerSession(authOptions)
 
-  if (session) {
+  if (
+    session?.profile.roles.some(
+      (role) => role?.name === "admin" || role?.name === "product_moderator"
+    )
+  ) {
     redirect("/admin")
   }
 

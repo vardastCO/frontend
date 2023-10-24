@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import clsx from "clsx"
 import { ClientError } from "graphql-request"
 import { LucideAlertOctagon } from "lucide-react"
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
 import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
@@ -49,6 +49,7 @@ const SigninForm = (_: Props) => {
   const [loginErrors, setLoginErrors] = useState<string | null>()
   const [message, setMessage] = useState<string>("")
   const [pageLoading, setPageLoading] = useState(false)
+  const session = useSession()
   const { secondsLeft, startCountdown } = useCountdown()
   z.setErrorMap(zodI18nMap)
 
@@ -102,6 +103,7 @@ const SigninForm = (_: Props) => {
             setErrors(null)
             setLoginErrors(null)
             setMessage(message as string)
+            session.update()
             router.push("/admin")
           }
         })
@@ -183,6 +185,7 @@ const SigninForm = (_: Props) => {
         setErrors(null)
         setLoginErrors(null)
         setMessage(message as string)
+        session.update()
         router.push("/admin")
       }
     })

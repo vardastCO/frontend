@@ -3,20 +3,25 @@
 import Link from "next/link"
 import { PopoverArrow } from "@radix-ui/react-popover"
 import { LucideChevronDown } from "lucide-react"
+import { Session } from "next-auth"
+import { signOut } from "next-auth/react"
 
 import { useGetVocabularyQuery } from "@/generated"
 
 import graphqlRequestClientWithoutToken from "@core/clients/graphqlRequestClientWithoutToken"
 import slugify from "@core/utils/persian-slugify"
+import { Button } from "@core/components/ui/button"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger
 } from "@core/components/ui/popover"
 
-type Props = {}
+type Props = {
+  session: Session | null
+}
 
-const FrontPageHeader = (_: Props) => {
+const FrontPageHeader = ({ session }: Props) => {
   const categories = useGetVocabularyQuery(graphqlRequestClientWithoutToken, {
     slug: "product_categories"
   })
@@ -72,10 +77,27 @@ const FrontPageHeader = (_: Props) => {
           </li>
         </ol>
       )}
-      <div className="mr-auto">
-        <Link href="/profile/auth/signin" className="btn btn-ghost">
-          ورود / ثبت‌نام
-        </Link>
+      <div className="mr-auto flex gap-x">
+        {session?.profile.roles.some(
+          (role) => role?.name === "admin" || role?.name === "product_moderator"
+        ) ? (
+          <Link href="/admin" className="btn btn-primary">
+            {session.profile.roles.some((role) => role?.name === "admin")
+              ? "ورود به پنل ادمین"
+              : "ورود به پنل فروشنده"}
+          </Link>
+        ) : (
+          !session && (
+            <Link href="/profile/auth/signin" className="btn btn-ghost">
+              ورود / ثبت‌نام
+            </Link>
+          )
+        )}
+        {session?.user && (
+          <Button variant={"danger"} onClick={() => signOut()}>
+            خروج
+          </Button>
+        )}
       </div>
     </div>
   )

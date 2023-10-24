@@ -48,7 +48,15 @@ const UserPermissionsForm = ({
   const router = useRouter()
   const [errors, setErrors] = useState<ClientError>()
   const { data: roles } = useGetAllRolesQuery(graphqlRequestClient)
-  const { data: permissions } = useGetAllPermissionsQuery(graphqlRequestClient)
+  const { data: permissions } = useGetAllPermissionsQuery(
+    graphqlRequestClient,
+    {
+      indexPermissionInput: {
+        page: 1,
+        perPage: 130
+      }
+    }
+  )
 
   const updateUserMutation = useUpdateUserMutation(graphqlRequestClient, {
     onError: (errors: ClientError) => {
@@ -199,7 +207,7 @@ const UserPermissionsForm = ({
                   control={form.control}
                   name="permissions"
                   render={() => (
-                    <FormItem>
+                    <FormItem className="md:grid md:grid-cols-2 xl:grid-cols-3">
                       {permissions.permissions.data.map(
                         (item) =>
                           item && (

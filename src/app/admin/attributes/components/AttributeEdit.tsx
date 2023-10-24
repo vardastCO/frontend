@@ -13,9 +13,10 @@ import AttributeForm from "@/app/admin/attributes/components/AttributeForm"
 
 type Props = {
   uuid: string
+  categoryId?: string
 }
 
-const AttributeEdit = ({ uuid }: Props) => {
+const AttributeEdit = ({ uuid, categoryId }: Props) => {
   // const { t } = useTranslation()
   const { isLoading, error, data } = useGetAttributeQuery(
     graphqlRequestClient,
@@ -31,7 +32,12 @@ const AttributeEdit = ({ uuid }: Props) => {
   if (error) return <LoadingFailed />
   if (!data) notFound()
 
-  return <AttributeForm attribute={data.attribute as Attribute} />
+  return (
+    <AttributeForm
+      attribute={data.attribute as Attribute}
+      categoryId={categoryId}
+    />
+  )
 }
 
 export default AttributeEdit

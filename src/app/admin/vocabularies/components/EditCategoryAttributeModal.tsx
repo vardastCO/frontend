@@ -87,7 +87,10 @@ const EditCategoryAttributeModal = ({
             <DialogTitle>
               {t("common:edit_entity", { entity: t("common:attributes") })}
             </DialogTitle>
-            <Link className="flex justify-center" href="/admin/attributes/new">
+            <Link
+              className="flex justify-center"
+              href={`/admin/attributes/new/${category?.id ? category?.id : ""}`}
+            >
               <Button size="medium">
                 {t("common:add_entity", { entity: t("common:attribute") })}
               </Button>

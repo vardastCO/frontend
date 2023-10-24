@@ -112,7 +112,7 @@ const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
 
       const clipboardData = event.clipboardData || window.Clipboard
       const pastedText = clipboardData.getData("text")
-      const tags = pastedText.split(",")
+      const tags = pastedText.split("-")
 
       // Only add unique tags
       // const uniqueTags = uniq(tags)

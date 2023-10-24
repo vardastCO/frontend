@@ -16,7 +16,7 @@ const AdminLayoutComponent = ({ children }: AdminLayoutComponentProps) => {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
 
   return (
-    <div className="app">
+    <div className="app h-full overflow-y-scroll md:overflow-y-auto">
       <div className="app-inner">
         <Sidebar
           menus={_sidebarMenu}

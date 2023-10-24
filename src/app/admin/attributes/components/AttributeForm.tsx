@@ -64,9 +64,10 @@ import { useToast } from "@core/hooks/use-toast"
 
 type AttributeFormProps = {
   attribute?: Attribute
+  categoryId?: string
 }
 
-const AttributeForm = ({ attribute }: AttributeFormProps) => {
+const AttributeForm = ({ attribute, categoryId }: AttributeFormProps) => {
   const { t } = useTranslation()
   const { toast } = useToast()
   const router = useRouter()
@@ -94,7 +95,11 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
           duration: 2000,
           variant: "success"
         })
-        router.push("/admin/attributes")
+        if (categoryId) {
+          router.back()
+        } else {
+          router.push("/admin/attributes")
+        }
       }
     }
   )
@@ -163,7 +168,9 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
           isFilterable,
           isPublic,
           isRequired,
-          categoryIds: selectedCategories.map((item) => item.id)
+          categoryIds: categoryId
+            ? [+categoryId]
+            : selectedCategories.map((item) => item.id)
         }
       })
     } else {
@@ -179,7 +186,9 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
           isFilterable,
           isPublic,
           isRequired,
-          categoryIds: selectedCategories.map((item) => item.id)
+          categoryIds: categoryId
+            ? [+categoryId]
+            : selectedCategories.map((item) => item.id)
         }
       })
     }
@@ -188,11 +197,13 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
   const productsVocabulary = useGetVocabularyQuery(graphqlRequestClient, {
     slug: "product_categories"
   })
+
   const categories = useGetAllCategoriesQuery(graphqlRequestClient, {
     indexCategoryInput: {
       vocabularyId: productsVocabulary.data?.vocabulary.id
     }
   })
+
   const uoms = useGetAllUomsWithoutPaginationQuery(graphqlRequestClient)
 
   return (
@@ -755,7 +766,7 @@ const AttributeForm = ({ attribute }: AttributeFormProps) => {
               <FormMessage />
             </FormItem>
 
-            {selectedCategories && (
+            {!categoryId && selectedCategories && (
               <div className="card table-responsive rounded">
                 <table className="table">
                   <thead>

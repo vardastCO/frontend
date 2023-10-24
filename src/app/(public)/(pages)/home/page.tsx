@@ -1,8 +1,10 @@
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import { getServerSession } from "next-auth"
 
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import { authOptions } from "@core/lib/authOptions"
 import FrontPageHeader from "@/app/(public)/components/front-page-header"
 import Search from "@/app/(public)/components/search"
 
@@ -15,9 +17,10 @@ export const metadata: Metadata = {
 
 const Index = async () => {
   const isMobileView = CheckIsMobileView()
+  const session = await getServerSession(authOptions)
   return (
     <>
-      {!isMobileView && <FrontPageHeader />}
+      {!isMobileView && <FrontPageHeader session={session} />}
       <div className="mt-[30vh] flex flex-col items-center justify-center">
         <div className="relative mb-8 h-20">
           <Image

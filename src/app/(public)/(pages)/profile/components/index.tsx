@@ -3,10 +3,11 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline"
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import clsx from "clsx"
 import { LucideInfo } from "lucide-react"
-import { useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 
 import { ThreeStateSupervisionStatuses, UserStatusesEnum } from "@/generated"
 
@@ -23,14 +24,22 @@ const ProfileIndex = () => {
 
   return (
     <div className="flex flex-1 flex-col bg-alpha-100">
-      <div className="flex flex-1 flex-col gap-y py">
+      <div className="flex flex-1 flex-col gap-y">
         {session.data && (
-          <div className="flex flex-col gap-y bg-alpha-white px py-2">
+          <div className="mt flex flex-col gap-y bg-alpha-white px py">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-x-2">
                 <UserCircleIcon className="h-11 w-11 text-primary" />
                 <span className="truncate font-medium text-alpha-800">
-                  {session.data?.profile.cellphone}
+                  {session.data?.profile.fullName
+                    ? session.data?.profile.fullName
+                    : ""}
+                  {session.data?.profile.cellphone && (
+                    <span className="truncate font-medium text-alpha-800">
+                      {" - "}
+                      {session.data?.profile.cellphone}
+                    </span>
+                  )}
                 </span>
               </div>
               <div
@@ -95,27 +104,38 @@ const ProfileIndex = () => {
               )}
           </div>
         )}
-        <ul className="flex flex-col bg-alpha-white">
+        <ul className="flex flex-1 flex-col bg-alpha-white">
           {_profile_items.map((props) => (
             <ProfileItem key={props.id} {...props} />
           ))}
+          {session.data && (
+            <Link
+              href={""}
+              onClick={() => {
+                setLoader(true)
+                signOut()
+              }}
+              className="flex items-center gap-x p-6 text-error"
+            >
+              <ArrowRightOnRectangleIcon className="h-6 w-6" />
+              خروج از حساب کاربری
+            </Link>
+          )}
         </ul>
       </div>
-      {!session.data && (
-        <div className="p">
-          <Button
-            onClick={() => {
-              setLoader(true)
-              push("/profile/auth/signin")
-            }}
-            loading={loader}
-            disabled={loader}
-            block
-          >
-            ورود / ثبت‌نام
-          </Button>
-        </div>
-      )}
+      <div className="p">
+        <Button
+          onClick={() => {
+            setLoader(true)
+            push("/profile/auth/signin")
+          }}
+          loading={loader}
+          disabled={loader}
+          block
+        >
+          {session.data ? "ورود به پنل ادمین" : "ورود / ثبت نام"}
+        </Button>
+      </div>
     </div>
   )
 }

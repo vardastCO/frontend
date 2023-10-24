@@ -1,5 +1,5 @@
-query GetAllPermissions {
-  permissions {
+query GetAllPermissions($indexPermissionInput: IndexPermissionInput) {
+  permissions(indexPermissionInput: $indexPermissionInput) {
     total
     perPage
     currentPage
