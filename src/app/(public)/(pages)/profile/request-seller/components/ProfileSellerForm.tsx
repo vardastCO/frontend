@@ -201,7 +201,11 @@ const ProfileSellerForm = () => {
           )}
         </div>
       </form>
-      <Link type="button" className="btn btn-secondary" href={"/profile"}>
+      <Link
+        type="button"
+        className="btn btn-secondary btn-md"
+        href={"/profile"}
+      >
         {t("common:back")}
       </Link>
       <Button
