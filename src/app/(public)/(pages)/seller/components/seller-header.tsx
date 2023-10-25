@@ -18,8 +18,8 @@ type SellerHeaderProps = {
 
 const SellerHeader = ({ seller }: SellerHeaderProps) => {
   return (
-    <div className="mb-8 flex items-end gap-6 md:mb-12">
-      <div className="relative flex h-16 w-16 items-center justify-center rounded-md border border-alpha-200 bg-alpha-50 md:h-28 md:w-28">
+    <div className="flex flex-col items-center justify-center md:mb-12 md:flex-row md:items-end md:justify-start md:gap-6">
+      <div className="relative flex h-16 w-full items-center justify-center rounded-md border border-alpha-200 bg-alpha-50 md:h-28 md:w-28">
         {seller.logoFile ? (
           <Image
             src={seller.logoFile.presignedUrl.url}
@@ -35,9 +35,9 @@ const SellerHeader = ({ seller }: SellerHeaderProps) => {
         )}
       </div>
       <div className="flex flex-col items-start gap-4">
-        <h1 className="text-base font-bold text-alpha-800 md:text-xl">
+        {/* <h1 className="text-base font-bold text-alpha-800 md:text-xl">
           {seller.name}
-        </h1>
+        </h1> */}
         <div className="flex items-center gap-2 md:gap-6">
           {seller.addresses && seller.addresses.length > 0 && (
             <div className="flex items-center gap-1 text-alpha-500">

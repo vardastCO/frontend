@@ -3,6 +3,7 @@ import { dehydrate } from "@tanstack/react-query"
 
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllSellersQueryFn } from "@core/queryFns/allSellersQueryFns"
 import SellersPage from "@/app/(public)/(pages)/sellers/components/sellers-page"
@@ -32,4 +33,6 @@ const SellersIndex = async (_: SellersIndexProps) => {
   )
 }
 
-export default SellersIndex
+export default withMobileHeader(SellersIndex, {
+  title: "فروشندگان"
+})

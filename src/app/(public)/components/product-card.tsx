@@ -23,7 +23,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div className="relative px transition hover:z-10 md:hover:shadow-lg">
       <Link
-        href={`/p/${product.id}/${slugify(product.name)}`}
+        href={`/p/${product.id}/${slugify(product.name)}${
+          product.title ? `?title=${product.title}` : ""
+        }`}
         className="flex h-full w-full rounded-xl bg-alpha-white lg:px-4"
         prefetch={false}
       >

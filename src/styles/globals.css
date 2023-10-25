@@ -23,6 +23,9 @@
 @import "core/tabs.css";
 @import "core/select.css";
 @import "core/tag-input.css";
+@import "core/swiper/swiper.css";
+@import "core/swiper/pagination.css";
+@import "core/swiper/thumbs.css";
 @import "tailwindcss/utilities";
 
 :root {
@@ -30,7 +33,7 @@
   --safe-area-inset-right: env(safe-area-inset-right);
   --safe-area-inset-bottom: env(safe-area-inset-bottom);
   --safe-area-inset-left: env(safe-area-inset-left);
-  --swiper-theme-color: theme(colors.primary.500);
+  --swiper-theme-color: theme(colors.primary.600) !important;
 }
 
 * {

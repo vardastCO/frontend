@@ -157,6 +157,14 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   {
     forceEqual: true,
     path: "/p"
+  },
+  {
+    forceEqual: true,
+    path: "/brand"
+  },
+  {
+    forceEqual: true,
+    path: "/seller"
   }
 ]
 

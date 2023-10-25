@@ -3,6 +3,7 @@ import { dehydrate } from "@tanstack/react-query"
 
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
 import ProductPage from "@/app/(public)/(pages)/p/components/product-page"
@@ -50,4 +51,6 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
   )
 }
 
-export default ProductIndex
+export default withMobileHeader(ProductIndex, {
+  shareIcon: {}
+})

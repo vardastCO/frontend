@@ -59,9 +59,9 @@ const CategoryListItem = ({
           src={src}
           // src={`/images/categories/${id}.png`}
           alt={title}
-          width={isSubCategory ? 800 : 1000}
-          height={isSubCategory ? 450 : 1000}
-          className="h-full w-full object-contain"
+          width={isSubCategory ? 1600 : 1600}
+          height={isSubCategory ? 900 : 1600}
+          className="h-full w-full"
           loading="eager"
           onLoadingComplete={() => {
             const div = document.getElementById(`category-image-${id}`)

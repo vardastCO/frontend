@@ -48,6 +48,26 @@ const MobileNavigation = (_: Props) => {
       forceEqual: false,
       dynamicRouteAllow: true,
       path: "p"
+    },
+    {
+      forceEqual: false,
+      dynamicRouteAllow: true,
+      path: "brands"
+    },
+    {
+      forceEqual: false,
+      dynamicRouteAllow: true,
+      path: "sellers"
+    },
+    {
+      forceEqual: false,
+      dynamicRouteAllow: true,
+      path: "brand"
+    },
+    {
+      forceEqual: false,
+      dynamicRouteAllow: true,
+      path: "seller"
     }
   ])
   const getIsActiveNav = (activePath: string) =>

@@ -3,6 +3,7 @@ import { dehydrate } from "@tanstack/react-query"
 
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllBrandsQueryFn } from "@core/queryFns/allBrandsQueryFns"
 import BrandsPage from "@/app/(public)/(pages)/brands/components/brands-page"
@@ -32,4 +33,6 @@ const BrandsIndex = async (_: BrandsIndexProps) => {
   )
 }
 
-export default BrandsIndex
+export default withMobileHeader(BrandsIndex, {
+  title: "تولید کننده‌ها"
+})

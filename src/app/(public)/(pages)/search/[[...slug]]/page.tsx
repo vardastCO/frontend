@@ -98,5 +98,4 @@ const SearchIndex = async ({
     </ReactQueryHydrate>
   )
 }
-
 export default withMobileHeader(SearchIndex, {})

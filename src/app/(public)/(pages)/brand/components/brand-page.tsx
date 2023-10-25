@@ -2,7 +2,6 @@
 
 import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import clsx from "clsx"
 import useTranslation from "next-translate/useTranslation"
 
 import { GetBrandQuery, IndexProductInput } from "@/generated"
@@ -31,13 +30,9 @@ const BrandPage = ({ isMobileView, args, slug }: BrandPageProps) => {
   if (!data) notFound()
 
   return (
-    <div
-      className={clsx([
-        "container mx-auto px-4",
-        isMobileView ? "" : "pt-1 md:py-8"
-      ])}
-    >
-      <div>
+    <>
+      <>{/* <BrandHeader brand={data.brand as Brand} /> */}</>
+      <div className="bg-alpha-white">
         <Breadcrumb
           dynamic={false}
           items={[
@@ -54,16 +49,13 @@ const BrandPage = ({ isMobileView, args, slug }: BrandPageProps) => {
           ]}
         />
       </div>
-
-      {/* <BrandHeader brand={data.brand as Brand} /> */}
-
       <ProductList
         args={args}
         isMobileView={isMobileView}
         selectedCategoryIds={args["categoryIds"] || undefined}
         brandId={+slug[0]}
       />
-    </div>
+    </>
   )
 }
 

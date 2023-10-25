@@ -23,7 +23,7 @@ const ProfileIndex = () => {
   const session = useSession()
 
   return (
-    <div className="flex flex-1 flex-col bg-alpha-100">
+    <div className="flex flex-1 flex-col bg-alpha-100 pt">
       <div className="flex flex-1 flex-col gap-y">
         {session.data && (
           <div className="mt flex flex-col gap-y bg-alpha-white px py">

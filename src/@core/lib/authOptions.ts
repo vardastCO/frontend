@@ -102,7 +102,7 @@ export const authOptions: AuthOptions = {
               }
             )
             if (!data) {
-              return null
+              return false
             }
 
             return {
@@ -126,7 +126,7 @@ export const authOptions: AuthOptions = {
             )
 
             if (!data) {
-              return null
+              return false
             }
 
             return {

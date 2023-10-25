@@ -5,6 +5,7 @@ import { IndexProductInput, ProductSortablesEnum } from "@/generated"
 
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllCategoriesQueryFn } from "@core/queryFns/allCategoriesQueryFns"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
@@ -102,4 +103,6 @@ const BrandIndex = async ({
   )
 }
 
-export default BrandIndex
+export default withMobileHeader(BrandIndex, {
+  shareIcon: {}
+})

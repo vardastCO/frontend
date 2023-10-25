@@ -28,7 +28,7 @@ const FavoritesComponent = () => {
   }, [])
 
   return (
-    <div>
+    <>
       {pageLoading ? (
         <div className="flex items-center justify-center p-12">
           <LucideLoader2 className="animate-spin text-alpha-400" />
@@ -47,7 +47,7 @@ const FavoritesComponent = () => {
           </p>
         </div>
       )}
-    </div>
+    </>
   )
 }
 

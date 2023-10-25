@@ -28,12 +28,7 @@ const SellersPage = ({ isMobileView }: SellersPageProps) => {
   if (!data) notFound()
 
   return (
-    <div
-      className={clsx([
-        "container mx-auto px-4",
-        isMobileView ? "" : "pt-1 md:py-8"
-      ])}
-    >
+    <>
       <div>
         <Breadcrumb
           dynamic={false}
@@ -43,12 +38,19 @@ const SellersPage = ({ isMobileView }: SellersPageProps) => {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-6 md:grid-cols-6">
+      <div
+        className={clsx([
+          "",
+          isMobileView
+            ? "pt"
+            : "grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]"
+        ])}
+      >
         {data.sellers.data.map(
           (seller) =>
             seller && (
               <Link
-                href={`/seller/${seller.id}`}
+                href={`/seller/${seller.id}?title=${seller.name}`}
                 key={seller.id}
                 prefetch={false}
               >
@@ -74,7 +76,7 @@ const SellersPage = ({ isMobileView }: SellersPageProps) => {
             )
         )}
       </div>
-    </div>
+    </>
   )
 }
 

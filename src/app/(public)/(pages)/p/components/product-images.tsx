@@ -7,10 +7,6 @@ import { Swiper, SwiperSlide } from "swiper/react"
 
 import { Image as ProductImage } from "@/generated"
 
-import "swiper/css"
-import "swiper/css/pagination"
-import "swiper/css/thumbs"
-
 interface ProductImagesProps {
   isMobileView: boolean
   images: ProductImage[]

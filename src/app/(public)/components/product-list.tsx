@@ -216,7 +216,7 @@ const ProductList = ({
     <>
       {isMobileView && (
         <>
-          <div className="sticky top-0.5 z-50 border-b bg-alpha-white p">
+          <div className="sticky top-0 z-50 border-b bg-alpha-white p">
             <div className="flex items-start gap-3">
               <MobileCategoriesFilter
                 categoryId={selectedCategoryIds}

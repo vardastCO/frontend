@@ -2,7 +2,6 @@
 
 import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import clsx from "clsx"
 
 import { GetSellerQuery, IndexProductInput, Seller } from "@/generated"
 
@@ -29,12 +28,7 @@ const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
   if (!data) notFound()
 
   return (
-    <div
-      className={clsx([
-        "container mx-auto px-4",
-        isMobileView ? "" : "pt-1 md:py-8"
-      ])}
-    >
+    <>
       <div>
         <Breadcrumb
           dynamic={false}
@@ -57,7 +51,7 @@ const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
         selectedCategoryIds={args["categoryIds"] || undefined}
         sellerId={+slug[0]}
       />
-    </div>
+    </>
   )
 }
 
