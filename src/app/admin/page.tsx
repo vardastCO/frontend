@@ -19,7 +19,7 @@ const AdminIndex = async () => {
 
   if (
     !session?.profile.roles.some(
-      (role) => role?.name === "admin" || role?.name === "product_moderator"
+      (role) => role?.name === "admin" || role?.name === "seller"
     )
   ) {
     redirect("/home")

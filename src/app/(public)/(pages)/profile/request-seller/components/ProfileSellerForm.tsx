@@ -2,6 +2,7 @@
 
 import { ChangeEvent, useRef, useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ClientError } from "graphql-request"
@@ -200,6 +201,9 @@ const ProfileSellerForm = () => {
           )}
         </div>
       </form>
+      <Link type="button" className="btn btn-secondary" href={"/profile"}>
+        {t("common:back")}
+      </Link>
       <Button
         form="seller-form"
         type="submit"

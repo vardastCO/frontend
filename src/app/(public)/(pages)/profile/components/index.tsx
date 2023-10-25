@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline"
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import clsx from "clsx"
@@ -12,15 +12,19 @@ import { signOut, useSession } from "next-auth/react"
 import { ThreeStateSupervisionStatuses, UserStatusesEnum } from "@/generated"
 
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
-import { Button } from "@core/components/ui/button"
 import { _profile_items } from "@core/lib/constants"
 
 import ProfileItem from "./ProfileItem"
 
 const ProfileIndex = () => {
-  const { push } = useRouter()
+  const { push, refresh } = useRouter()
+  const pathname = usePathname()
   const [loader, setLoader] = useState(false)
   const session = useSession()
+
+  useEffect(() => {
+    session.update()
+  }, [pathname])
 
   return (
     <div className="flex flex-1 flex-col bg-alpha-100 pt">
@@ -123,18 +127,43 @@ const ProfileIndex = () => {
           )}
         </ul>
       </div>
-      <div className="p">
-        <Button
+      {/* <Button
           onClick={() => {
             setLoader(true)
+            refresh()
             push("/profile/auth/signin")
           }}
           loading={loader}
           disabled={loader}
           block
-        >
-          {session.data ? "ورود به پنل ادمین" : "ورود / ثبت نام"}
-        </Button>
+          >
+          {session?.data
+            ? session?.data?.profile.roles.some(
+              (role) => role?.name === "admin"
+              )
+              ? "ورود به پنل ادمین"
+              : "ورود به پنل فروشنده"
+              : "ورود / ثبت نام"}
+            </Button> */}
+      <div className="p">
+        {session.data?.profile.roles.some(
+          (role) => role?.name === "admin" || role?.name === "seller"
+        ) ? (
+          <Link href="/admin" className="btn btn-md btn-primary block">
+            {session.data.profile.roles.some((role) => role?.name === "admin")
+              ? "ورود به پنل ادمین"
+              : "ورود به پنل فروشنده"}
+          </Link>
+        ) : (
+          !session.data && (
+            <Link
+              href="/profile/auth/signin"
+              className="btn btn-md btn-primary block"
+            >
+              ورود / ثبت‌نام
+            </Link>
+          )
+        )}
       </div>
     </div>
   )

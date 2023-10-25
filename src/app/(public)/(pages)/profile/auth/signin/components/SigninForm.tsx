@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import clsx from "clsx"
@@ -100,11 +101,12 @@ const SigninForm = (_: Props) => {
             setPageLoading(false)
           }
           if (callback?.ok && !callback?.error) {
+            router.refresh()
             setErrors(null)
             setLoginErrors(null)
             setMessage(message as string)
             session.update()
-            router.push("/admin")
+            router.push("/home")
           }
         })
       }
@@ -182,18 +184,19 @@ const SigninForm = (_: Props) => {
         setPageLoading(false)
       }
       if (callback?.ok && !callback?.error) {
+        router.refresh()
         setErrors(null)
         setLoginErrors(null)
         setMessage(message as string)
         session.update()
-        router.push("/admin")
+        router.push("/home")
       }
     })
   }
 
   // useEffect(() => {
   //   if (session?.status === "authenticated") {
-  //     redirect(searchParams.get("callbackUrl") || "/admin")
+  //     redirect(searchParams.get("callbackUrl") || "/home")
   //   }
   // }, [searchParams, session?.status])
 
@@ -286,6 +289,13 @@ const SigninForm = (_: Props) => {
           >
             ورود با رمز یکبار مصرف
           </Button>
+          <Link
+            type="button"
+            className="btn btn-secondary btn-md"
+            href={"/profile"}
+          >
+            {t("common:back")}
+          </Link>
           <Button
             type="submit"
             block
@@ -340,6 +350,13 @@ const SigninForm = (_: Props) => {
           >
             ورود با نام کاربری و رمز عبور
           </Button>
+          <Link
+            type="button"
+            className="btn btn-secondary btn-md"
+            href={"/profile"}
+          >
+            {t("common:back")}
+          </Link>
           <Button
             type="submit"
             block
@@ -418,6 +435,13 @@ const SigninForm = (_: Props) => {
           >
             ارسال مجدد رمز یکبار مصرف
           </Button>
+          <Link
+            type="button"
+            className="btn btn-secondary btn-md"
+            href={"/profile"}
+          >
+            {t("common:back")}
+          </Link>
           <Button
             type="submit"
             form="verify-otp-form"

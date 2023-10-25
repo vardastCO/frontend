@@ -79,7 +79,7 @@ const FrontPageHeader = ({ session }: Props) => {
       )}
       <div className="mr-auto flex gap-x">
         {session?.profile.roles.some(
-          (role) => role?.name === "admin" || role?.name === "product_moderator"
+          (role) => role?.name === "admin" || role?.name === "seller"
         ) ? (
           <Link href="/admin" className="btn btn-primary">
             {session.profile.roles.some((role) => role?.name === "admin")
@@ -87,7 +87,7 @@ const FrontPageHeader = ({ session }: Props) => {
               : "ورود به پنل فروشنده"}
           </Link>
         ) : (
-          !session && (
+          !session?.user && (
             <Link href="/profile/auth/signin" className="btn btn-ghost">
               ورود / ثبت‌نام
             </Link>
