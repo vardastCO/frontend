@@ -9,9 +9,15 @@ import {
 } from "react"
 import { usePathname } from "next/navigation"
 import clsx from "clsx"
+import { motion } from "framer-motion"
 import { useSetAtom } from "jotai"
 
 import { PublicContext } from "@/app/(public)/components/public-provider"
+
+const variants = {
+  hidden: { opacity: 0, y: 0 },
+  enter: { opacity: 1, y: 0 }
+}
 
 const MobileScrollProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { showNavbar } = useContext(PublicContext)
@@ -35,11 +41,21 @@ const MobileScrollProvider: React.FC<PropsWithChildren> = ({ children }) => {
             ?.clientHeight ?? 0
       })
     }
+    if (ref?.current) {
+      ref.current.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      })
+    }
   }, [pathname])
 
   return (
     <div className="container relative mx-auto flex h-full transform flex-col transition-all duration-200">
-      <div
+      <motion.main
+        variants={variants}
+        initial="hidden"
+        animate="enter"
+        transition={{ type: "linear" }}
         onScroll={(e: any) => {
           var st = e.target?.scrollTop
           const showNavbarFlag = st === 0 ? true : st < lastScrollTop
@@ -59,7 +75,7 @@ const MobileScrollProvider: React.FC<PropsWithChildren> = ({ children }) => {
         )}
       >
         {children}
-      </div>
+      </motion.main>
     </div>
   )
 }
