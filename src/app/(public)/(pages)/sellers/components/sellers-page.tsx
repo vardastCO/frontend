@@ -1,22 +1,19 @@
 "use client"
 
-import Image from "next/image"
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import clsx from "clsx"
-import { LucideWarehouse } from "lucide-react"
 
-import { GetAllSellersQuery } from "@/generated"
+import { GetAllSellersQuery, Seller } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getAllSellersQueryFn } from "@core/queryFns/allSellersQueryFns"
+import SellerCard from "@/app/(public)/components/seller-card"
 
 interface SellersPageProps {
   isMobileView: boolean
 }
 
-const SellersPage = ({ isMobileView }: SellersPageProps) => {
+const SellersPage = (_: SellersPageProps) => {
   const { data } = useQuery<GetAllSellersQuery>(
     ["sellers"],
     () => getAllSellersQueryFn(),
@@ -29,7 +26,7 @@ const SellersPage = ({ isMobileView }: SellersPageProps) => {
 
   return (
     <>
-      <div>
+      <div className="bg-alpha-white">
         <Breadcrumb
           dynamic={false}
           items={[
@@ -38,42 +35,10 @@ const SellersPage = ({ isMobileView }: SellersPageProps) => {
         />
       </div>
 
-      <div
-        className={clsx([
-          "",
-          isMobileView
-            ? "pt"
-            : "grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]"
-        ])}
-      >
+      <div className="mt grid gap-y pb-5 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
         {data.sellers.data.map(
           (seller) =>
-            seller && (
-              <Link
-                href={`/seller/${seller.id}?title=${seller.name}`}
-                key={seller.id}
-                prefetch={false}
-              >
-                <div>
-                  <div className="relative flex h-16 w-16 items-center justify-center rounded-md border border-alpha-200 bg-alpha-50 md:h-28 md:w-28">
-                    {seller.logoFile ? (
-                      <Image
-                        src={seller.logoFile.presignedUrl.url as string}
-                        alt={seller.name as string}
-                        fill
-                        className="object-contain p-3"
-                      />
-                    ) : (
-                      <LucideWarehouse
-                        className="h-8 w-8 text-alpha-400 md:h-10 md:w-10"
-                        strokeWidth={1.5}
-                      />
-                    )}
-                  </div>
-                  <h2>{seller.name}</h2>
-                </div>
-              </Link>
-            )
+            seller && <SellerCard key={seller.id} seller={seller as Seller} />
         )}
       </div>
     </>

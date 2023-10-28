@@ -1,23 +1,20 @@
 "use client"
 
-import Image from "next/image"
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import clsx from "clsx"
-import { LucideWarehouse } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
-import { GetAllBrandsQuery } from "@/generated"
+import { Brand, GetAllBrandsQuery } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getAllBrandsQueryFn } from "@core/queryFns/allBrandsQueryFns"
+import BrandCard from "@/app/(public)/components/brand-card"
 
 interface BrandsPageProps {
   isMobileView: boolean
 }
 
-const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
+const BrandsPage = (_: BrandsPageProps) => {
   const { t } = useTranslation()
   const { data } = useQuery<GetAllBrandsQuery>(
     ["brands"],
@@ -30,13 +27,8 @@ const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
   if (!data) notFound()
 
   return (
-    <div
-      className={clsx([
-        "container mx-auto px-4",
-        isMobileView ? "" : "pt-1 md:py-8"
-      ])}
-    >
-      <div>
+    <>
+      <div className="bg-alpha-white">
         <Breadcrumb
           dynamic={false}
           items={[
@@ -49,34 +41,13 @@ const BrandsPage = ({ isMobileView }: BrandsPageProps) => {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-6 md:grid-cols-6">
+      <div className="mt grid gap-y pb-5 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
         {data.brands.data.map(
           (brand) =>
-            brand && (
-              <Link href={`/brand/${brand.id}`} key={brand.id} prefetch={false}>
-                <div className="relative flex h-28 w-28 items-center justify-center rounded-md border border-alpha-200 bg-alpha-50">
-                  {brand.logoFile ? (
-                    <Image
-                      src={brand.logoFile.presignedUrl.url as string}
-                      alt={brand.name as string}
-                      fill
-                      className="object-contain p-3"
-                    />
-                  ) : (
-                    <LucideWarehouse
-                      className="h-8 w-8 text-alpha-400 md:h-10 md:w-10"
-                      strokeWidth={1.5}
-                    />
-                  )}
-                </div>
-                <div className="mt-2">
-                  <h2>{brand.name}</h2>
-                </div>
-              </Link>
-            )
+            brand && <BrandCard key={brand.id} brand={brand as Brand} />
         )}
       </div>
-    </div>
+    </>
   )
 }
 

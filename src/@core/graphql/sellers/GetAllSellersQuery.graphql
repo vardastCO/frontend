@@ -7,6 +7,10 @@ query GetAllSellers($indexSellerInput: IndexSellerInput) {
     from
     to
     data {
+      rating
+      offers {
+        id
+      }
       id
       name
       bio
