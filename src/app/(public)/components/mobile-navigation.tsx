@@ -26,10 +26,6 @@ const MobileNavigation = (_: Props) => {
   const hideSearchBarFlag = useIsCurrentPath([
     {
       forceEqual: false,
-      path: "home"
-    },
-    {
-      forceEqual: false,
       path: "profile"
     }
   ])

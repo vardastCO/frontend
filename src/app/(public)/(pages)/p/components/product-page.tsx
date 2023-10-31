@@ -19,16 +19,18 @@ import {
   GetProductQuery,
   Offer,
   Price,
+  Product,
   Image as ProductImage,
   Uom
 } from "@/generated"
 
-import slugify from "@core/utils/persian-slugify"
 import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
 import ProductAttributes from "@/app/(public)/(pages)/p/components/product-attributes"
 import ProductImages from "@/app/(public)/(pages)/p/components/product-images"
 import ProductOffers from "@/app/(public)/(pages)/p/components/product-offers"
+import ProductIntroduce from "@/app/(public)/(pages)/p/components/ProductIntroduce"
+import SameProducts from "@/app/(public)/(pages)/p/components/SameProducts"
 import SuggestedOffer from "@/app/(public)/(pages)/p/components/suggested-offer"
 
 export type GroupedAttributes = {
@@ -174,7 +176,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
 
   return (
     <>
-      <div>
+      <div className="bg-alpha-white">
         <Breadcrumb dynamic={false} items={breadcrumb} />
       </div>
       {session?.abilities.includes("gql.products.product.moderated_update") && (
@@ -187,84 +189,41 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           </Link>
         </div>
       )}
-      <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-[5fr_7fr]">
-        {product.images.length > 0 && (
-          <ProductImages
-            isMobileView={isMobileView}
-            images={product.images as ProductImage[]}
-          />
-        )}
-
-        <div className="flex flex-col gap-4">
-          <h1 className="text-xl font-extrabold leading-relaxed text-alpha-800">
-            {product.name}
-          </h1>
-
-          <div className="flex items-center gap-1.5">
-            <span className="font-semibold text-alpha-500">
-              {t("common:producer")}:
-            </span>
-            <Link
-              className="font-bold text-primary-500"
-              href={`/brand/${product.brand.id}/${slugify(
-                product.brand.name
-              )}?title=${product.brand.name}`}
-              prefetch={false}
-            >
-              {product.brand.name}
-            </Link>
-          </div>
-
-          {groupedAttributes.length > 0 && (
-            <div className="mt-8">
-              <div className="mb-4 font-bold text-alpha-800">ویژگی‌ها</div>
-              <ul className="ms-6 list-outside list-disc space-y-2">
-                {groupedAttributes.slice(0, 3).map((attribute, idx) => (
-                  <li key={idx}>
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-semibold text-alpha-500">
-                        {attribute.name}
-                      </span>
-                      <span className="font-bold text-alpha-700">
-                        {attribute.values.join(", ")}{" "}
-                        {attribute.uom && attribute.uom.name}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              {groupedAttributes.length > 3 && (
-                <Link
-                  className="mt-2 inline-block text-primary-500"
-                  href="#attributes"
-                  prefetch={false}
-                >
-                  + دیگر ویژگی‌ها
-                </Link>
-              )}
-            </div>
-          )}
-
-          {product.lowestPrice && (
-            <SuggestedOffer
-              offersCount={product.publicOffers.length}
-              offer={product.lowestPrice as Price}
-              uom={product.uom as Uom}
+      <div className="mb-12 grid grid-cols-1 gap-2 lg:grid-cols-[5fr_7fr]">
+        <div className="bg-alpha-white md:max-w-[200px]">
+          {product.images.length > 0 && (
+            <ProductImages
+              isMobileView={isMobileView}
+              images={product.images as ProductImage[]}
             />
           )}
         </div>
+
+        <ProductIntroduce product={product as Product} />
+
+        {product.lowestPrice && (
+          <SuggestedOffer
+            offersCount={product.publicOffers.length}
+            offer={product.lowestPrice as Price}
+            uom={product.uom as Uom}
+          />
+        )}
+        {product.attributeValues.length > 0 && (
+          <ProductAttributes
+            attributes={groupedAttributes as GroupedAttributes[]}
+          />
+        )}
+        {product.publicOffers.length > 0 && (
+          <ProductOffers
+            uom={product.uom as Uom}
+            offers={product.publicOffers as Offer[]}
+          />
+        )}
+        {isMobileView && product.sameCategory.length > 0 && (
+          <SameProducts sameCategories={product.sameCategory as Product[]} />
+        )}
       </div>
-      {product.publicOffers.length > 0 && (
-        <ProductOffers
-          uom={product.uom as Uom}
-          offers={product.publicOffers as Offer[]}
-        />
-      )}
-      {product.attributeValues.length > 0 && (
-        <ProductAttributes
-          attributes={groupedAttributes as GroupedAttributes[]}
-        />
-      )}
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

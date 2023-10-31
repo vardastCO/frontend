@@ -17,7 +17,7 @@ const BrandCard = ({ brand }: BrandCardProps) => {
   }
 
   return (
-    <div className="relative px transition hover:z-10 md:hover:shadow-lg">
+    <div className="relative h-24 px transition hover:z-10 md:hover:shadow-lg">
       <Link
         href={`/brand/${brand?.id}?title=${brand?.name}`}
         prefetch={false}

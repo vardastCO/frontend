@@ -10,6 +10,7 @@ import CategoryListContainer from "@/app/(public)/(pages)/categories/components/
 import CategoryListItem from "@/app/(public)/(pages)/categories/components/CategoryListItem"
 import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
 import CategorySkeleton from "@/app/(public)/(pages)/categories/components/CategorySkeleton"
+import NoProductFound from "@/app/(public)/components/no-product-found"
 
 const VocabulariesPage = () => {
   const [selectedItemId, setSelectedItemId] =
@@ -20,11 +21,15 @@ const VocabulariesPage = () => {
   })
 
   if (getVocabularyQueryFcQuery.isLoading) {
-    return <CategorySkeleton />
+    return (
+      <CategoryListContainer>
+        <CategorySkeleton />
+      </CategoryListContainer>
+    )
   }
 
   if (!getVocabularyQueryFcQuery.data) {
-    return <></>
+    return <NoProductFound />
   }
 
   return (

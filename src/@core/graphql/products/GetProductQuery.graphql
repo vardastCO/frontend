@@ -11,6 +11,8 @@ query GetProduct($id: Int!) {
     metaDescription
     createdAt
     updatedAt
+    rating
+    tag
     status
     images {
       id
@@ -125,6 +127,11 @@ query GetProduct($id: Int!) {
         name
         createdAt
         updatedAt
+        logoFile {
+          presignedUrl {
+            url
+          }
+        }
         contacts {
           id
           relatedType
@@ -295,6 +302,114 @@ query GetProduct($id: Int!) {
         amount
         isPublic
         createdAt
+      }
+    }
+    offers {
+      id
+      status
+      isPublic
+      isAvailable
+      createdAt
+      updatedAt
+      seller {
+        id
+        name
+        createdAt
+        updatedAt
+        contacts {
+          id
+          relatedType
+          relatedId
+          title
+          code
+          number
+          ext
+          type
+          sort
+          isPublic
+          status
+          rejectionReason
+          createdAt
+          updatedAt
+          country {
+            id
+            name
+            nameEn
+            slug
+            alphaTwo
+            iso
+            phonePrefix
+            sort
+            isActive
+            latitude
+            longitude
+            flagEmoji
+            provincesCount
+          }
+        }
+        addresses {
+          id
+          relatedType
+          relatedId
+          title
+          address
+          postalCode
+          latitude
+          longitude
+          sort
+          isPublic
+          status
+          rejectionReason
+          createdAt
+          updatedAt
+          city {
+            id
+            name
+            nameEn
+            slug
+            type
+            sort
+            isActive
+            latitude
+            longitude
+            areasCount
+          }
+          province {
+            id
+            name
+            nameEn
+            slug
+            path
+            sort
+            isActive
+            latitude
+            longitude
+            citiesCount
+          }
+        }
+      }
+      lastPublicConsumerPrice {
+        id
+        type
+        amount
+        isPublic
+        createdAt
+      }
+    }
+    sameCategory {
+      title
+      id
+      name
+      rating
+      images {
+        file {
+          presignedUrl {
+            url
+          }
+        }
+      }
+      lowestPrice {
+        amount
       }
     }
     prices {

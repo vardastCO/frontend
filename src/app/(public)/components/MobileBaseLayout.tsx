@@ -19,19 +19,32 @@ const MobileBaseLayout: React.FC<IMobileBaseLayout> = ({
 }) => {
   const isMobileView = CheckIsMobileView()
 
+  if (isMobileView) {
+    return (
+      <div
+        className={
+          noStyle === true
+            ? ""
+            : clsx(
+                noStyle,
+                limitWidth && !isMobileView ? "max-w-sm" : "w-full",
+                bgWhite && "bg-alpha-white",
+                spaceLess ? "" : "gap-y px-3.5 py",
+                "m-auto flex flex-1 flex-col"
+              )
+        }
+      >
+        {children}
+      </div>
+    )
+  }
+
   return (
     <div
-      className={
-        noStyle === true
-          ? ""
-          : clsx(
-              noStyle,
-              limitWidth && !isMobileView ? "max-w-sm" : "w-full",
-              bgWhite && "bg-alpha-white",
-              spaceLess ? "" : "gap-y px-3.5 py",
-              "m-auto flex flex-1 flex-col"
-            )
-      }
+      className={clsx(
+        limitWidth ? "max-w-sm" : "w-full",
+        "m-auto flex h-full w-full flex-1 flex-col gap bg-alpha-white p"
+      )}
     >
       {children}
     </div>

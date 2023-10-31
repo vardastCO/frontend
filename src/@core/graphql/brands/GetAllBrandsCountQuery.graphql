@@ -1,0 +1,5 @@
+query GetAllBrandsCount($indexBrandInput: IndexBrandInput) {
+  brands(indexBrandInput: $indexBrandInput) {
+    total
+  }
+}

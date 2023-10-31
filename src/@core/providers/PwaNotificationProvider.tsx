@@ -29,7 +29,9 @@ export default function PwaNotificationProvider({ isMobileView }: Props) {
         setPwaModal(true)
       }
     } catch (error) {
+      console.log("====================================")
       console.log(error)
+      console.log("====================================")
     }
   }, [isMobileView])
 

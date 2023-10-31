@@ -9,13 +9,9 @@ const VocabularySkeleton = ({ isSubCategory }: { isSubCategory?: boolean }) => {
 }
 
 const CategorySkeleton = ({ isSubCategory }: { isSubCategory?: boolean }) => {
-  return (
-    <ul className="grid h-full grid-cols-2 grid-rows-2 gap-4 divide-alpha-200 p-6">
-      {[...Array(7)].map((_, index) => (
-        <VocabularySkeleton isSubCategory={isSubCategory} key={index} />
-      ))}
-    </ul>
-  )
+  return [...Array(7)].map((_, index) => (
+    <VocabularySkeleton isSubCategory={isSubCategory} key={index} />
+  ))
 }
 
 export default CategorySkeleton

@@ -23,7 +23,16 @@ const ProductImages = ({ images, isMobileView }: ProductImagesProps) => {
           spaceBetween={50}
           slidesPerView={1}
           loop={true}
-          pagination={isMobileView ? true : false}
+          pagination={
+            isMobileView
+              ? {
+                  enabled: true,
+                  // el: ".swiper-pagination",
+                  dynamicBullets: true,
+                  dynamicMainBullets: 4
+                }
+              : false
+          }
           thumbs={{ swiper: thumbsSwiper }}
           modules={[Pagination, Thumbs]}
         >

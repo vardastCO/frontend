@@ -9,10 +9,6 @@ import SigninForm from "./components/SigninForm"
 const SigninPage = async () => {
   const session = await getServerSession(authOptions)
 
-  console.log("====================================")
-  console.log(session?.profile)
-  console.log("====================================")
-
   if (
     session?.profile.roles.some(
       (role) => role?.name === "admin" || role?.name === "seller"

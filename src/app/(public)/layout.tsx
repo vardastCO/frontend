@@ -22,7 +22,9 @@ export default function PublicLayout({
           <MobileNavigation />
         </>
       ) : (
-        <div className="container mx-auto bg-alpha-white">{children}</div>
+        <div className="container mx-auto h-full bg-alpha-white p">
+          {children}
+        </div>
       )}
     </PublicProvider>
   )

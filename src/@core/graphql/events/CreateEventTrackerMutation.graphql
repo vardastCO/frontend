@@ -9,5 +9,8 @@ mutation CreateEventTrackerMutation(
     subjectType
     subjectId
     url
+    user {
+      cellphone
+    }
   }
 }

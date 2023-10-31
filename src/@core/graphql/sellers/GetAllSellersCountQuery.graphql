@@ -1,0 +1,5 @@
+query GetAllSellersCount($indexSellerInput: IndexSellerInput) {
+  sellers(indexSellerInput: $indexSellerInput) {
+    total
+  }
+}

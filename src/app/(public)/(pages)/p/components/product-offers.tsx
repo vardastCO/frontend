@@ -11,10 +11,8 @@ type ProductOffersProps = {
 
 const ProductOffers = ({ offers, uom }: ProductOffersProps) => {
   return (
-    <div id="sellers" className="border-t-2 border-alpha-100 pt-4">
-      <h2 className="mb-4 text-lg font-bold text-alpha-800">
-        فروشندگان این کالا
-      </h2>
+    <div id="attributes" className="flex flex-col gap-y bg-alpha-white p">
+      <h4 className="py">فروشندگان</h4>
       <div className="flex flex-col gap-3 even:[&>div]:bg-alpha-100">
         {offers.map((offer) => (
           <ProductOfferItem key={offer.id} offer={offer} uom={uom} />

@@ -14,7 +14,8 @@ const tailwind = {
         7: "repeat(7, minmax(0, 1fr));"
       },
       spacing: {
-        DEFAULT: "0.875rem"
+        DEFAULT: "0.875rem",
+        half: "0.5px"
       },
       borderRadius: {
         DEFAULT: "0.5rem"
@@ -53,6 +54,10 @@ const tailwind = {
         warning: {
           ...tailwindColors.yellow,
           DEFAULT: tailwindColors.yellow[600]
+        },
+        info: {
+          ...tailwindColors.blue,
+          DEFAULT: tailwindColors.blue[600]
         },
         alpha: {
           white: tailwindColors.white,

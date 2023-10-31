@@ -139,7 +139,6 @@ export const authOptions: AuthOptions = {
             }
           }
         } catch (error) {
-          console.log("----nextjs error-----", error)
           // @ts-ignore
           if (error?.response) {
             throw new Error(
@@ -154,26 +153,30 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     jwt: async ({ token, user }) => {
-      if (user) {
-        token.userId = user.userId
-        token.abilities = user.abilities
-        token.accessToken = user.accessToken
-        token.accessTokenTtl = user.accessTokenTtl
-        token.refreshToken = user.refreshToken
-        token.refreshTokenTtl = user.refreshTokenTtl
-      }
+      try {
+        if (user) {
+          token.userId = user.userId
+          token.abilities = user.abilities
+          token.accessToken = user.accessToken
+          token.accessTokenTtl = user.accessTokenTtl
+          token.refreshToken = user.refreshToken
+          token.refreshTokenTtl = user.refreshTokenTtl
+        }
 
-      const shouldRefreshTime = Math.round(
-        (token.accessTokenTtl as number) - Date.now()
-      )
+        const shouldRefreshTime = Math.round(
+          (token.accessTokenTtl as number) - Date.now()
+        )
 
-      if (shouldRefreshTime > 0) {
+        if (shouldRefreshTime > 0) {
+          return Promise.resolve(token)
+        }
+
+        token = await refreshAccessToken(token)
+
         return Promise.resolve(token)
+      } catch (error) {
+        throw new Error("خطای ورود غیر مجاز")
       }
-
-      token = await refreshAccessToken(token)
-
-      return Promise.resolve(token)
     },
     session: async ({ session, token }) => {
       const userClient = new GraphQLClient(

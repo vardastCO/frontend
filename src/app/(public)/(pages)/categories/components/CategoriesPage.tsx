@@ -10,6 +10,7 @@ import CategoryListContainer from "@/app/(public)/(pages)/categories/components/
 import CategoryListItem from "@/app/(public)/(pages)/categories/components/CategoryListItem"
 import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
 import CategorySkeleton from "@/app/(public)/(pages)/categories/components/CategorySkeleton"
+import NoProductFound from "@/app/(public)/components/no-product-found"
 
 interface CategoriesListProps {
   categoryId: string
@@ -25,11 +26,15 @@ const CategoriesPage = ({ categoryId }: CategoriesListProps) => {
   })
 
   if (getCategoryQueryFnQuery.isLoading) {
-    return <CategorySkeleton isSubCategory />
+    return (
+      <CategoryListContainer>
+        <CategorySkeleton isSubCategory />
+      </CategoryListContainer>
+    )
   }
 
   if (!getCategoryQueryFnQuery.data) {
-    return <></>
+    return <NoProductFound />
   }
 
   return (

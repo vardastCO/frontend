@@ -31,7 +31,7 @@ const CategoryListItem = ({
       href={href}
       className={clsx(
         isSubCategory ? "h-[calc(42vw)]" : "h-[calc(60vw)]",
-        isSubCategory ? "grid-rows-7" : "grid-rows-4",
+        isSubCategory ? "grid-rows-7 pb-2" : "grid-rows-4",
         "relative grid transform gap-2 overflow-hidden rounded-2xl bg-alpha-white transition",
         selectedItemId === id ? "outline outline-2 outline-primary" : ""
       )}

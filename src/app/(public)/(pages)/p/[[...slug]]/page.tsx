@@ -45,9 +45,11 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
   const dehydratedState = dehydrate(queryClient)
 
   return (
-    <ReactQueryHydrate state={dehydratedState}>
-      <ProductPage id={id} isMobileView={isMobileView} />
-    </ReactQueryHydrate>
+    <>
+      <ReactQueryHydrate state={dehydratedState}>
+        <ProductPage id={id} isMobileView={isMobileView} />
+      </ReactQueryHydrate>
+    </>
   )
 }
 

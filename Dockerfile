@@ -9,11 +9,11 @@ RUN npm i -g pnpm ts-node
   # Copy package.json and yarn.lock files
 COPY ./package*.json  ./
 
+RUN pnpm install
+
 COPY ./ ./
 
 RUN cp .env.example .env
-
-RUN pnpm install
 
 RUN npx prettier --plugin-search-dir=. src/**/*.{ts,tsx,css} --write
 
