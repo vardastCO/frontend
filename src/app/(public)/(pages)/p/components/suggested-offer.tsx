@@ -66,13 +66,14 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
       <div className="flex flex-col gap-y bg-alpha-white p">
         <h4 className="py">برترین فروشنده</h4>
         <div className="flex flex-col rounded-2xl border bg-alpha-100 p">
-          <div className="flex gap-x-2 pb">
-            {offer.seller.rating !== undefined &&
-              offer.seller.rating !== null &&
-              +offer.seller.rating > 0 &&
-              digitsEnToFa(+`${offer.seller.rating}`)}
-            <StarIcon className="h-5 w-5 text-warning-500" />
-          </div>
+          {offer.seller.rating && offer.seller.rating > 0 ? (
+            <div className="flex gap-x-2 pb">
+              {digitsEnToFa(+`${offer.seller.rating}`)}
+              <StarIcon className="h-5 w-5 text-warning-500" />
+            </div>
+          ) : (
+            ""
+          )}
           <div className="flex items-center gap-x-3">
             <div className="flex flex-1 items-center gap-3">
               <div className="relative">

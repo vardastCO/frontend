@@ -26,13 +26,12 @@ type Props = {
   uom: Uom
 }
 
-const ProductOfferItem = ({ offer, uom }: Props) => {
+const ProductOfferItem = ({ offer }: Props) => {
   const [contactModalOpen, setContactModalOpen] = useState<boolean>(false)
   setDefaultOptions({
     locale: faIR,
     weekStartsOn: 6
   })
-  const hasDiscount = false
   const createEventTrackerMutation = useCreateEventTrackerMutation(
     graphqlRequestClient,
     {
@@ -61,14 +60,14 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
         onOpenChange={setContactModalOpen}
       />
       <div className="flex flex-col p">
-        {offer.seller.rating !== undefined &&
-          offer.seller.rating !== null &&
-          +offer.seller.rating > 0 && (
-            <div className="flex gap-x-2 pb">
-              {digitsEnToFa(+`${offer.seller.rating}`)}
-              <StarIcon className="h-5 w-5 text-warning-500" />
-            </div>
-          )}
+        {offer.seller.rating && offer.seller.rating > 0 ? (
+          <div className="flex gap-x-2 pb">
+            {digitsEnToFa(+`${offer.seller.rating}`)}
+            <StarIcon className="h-5 w-5 text-warning-500" />
+          </div>
+        ) : (
+          ""
+        )}
         <div className="flex items-center gap-x-3">
           <div className="flex flex-1 items-center gap-3">
             <div className="relative">

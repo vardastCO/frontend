@@ -19,7 +19,7 @@ const SellerCard = ({ seller }: SellerCardProps) => {
   }
 
   return (
-    <div className="relative px transition hover:z-10 md:hover:shadow-lg">
+    <div className="relative px transition hover:z-10 md:h-auto md:hover:shadow-lg">
       <Link
         href={`/seller/${seller.id}?title=${seller.name}`}
         prefetch={false}
@@ -65,10 +65,14 @@ const SellerCard = ({ seller }: SellerCardProps) => {
               <MapPinIcon className="h-4 w-4 text-alpha-600" />
               {seller.addresses.length > 0 && seller.addresses[0].province.name}
             </p>
-            <p className="flex items-center gap-x-0.5 text-alpha-600">
-              {digitsEnToFa(+`${seller.rating}`) || "_"}
-              <StarIcon className="h-5 w-5 text-warning" />
-            </p>
+            {seller.rating && seller?.rating > 0 ? (
+              <p className="flex items-center gap-x-0.5 text-alpha-600">
+                {digitsEnToFa(+`${seller.rating}`)}
+                <StarIcon className="h-5 w-5 text-warning" />
+              </p>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </Link>
