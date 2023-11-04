@@ -62,7 +62,7 @@ const HomeIndex = ({ isMobileView }: { isMobileView: boolean }) => {
               className="w-full"
               priority
             />
-            <span className="absolute bottom-0 left-1/4 text-white">
+            <span className="absolute bottom-0 left-1/4 text-white lg:text-2xl xl:text-4xl">
               {digitsEnToFa(allBrandsCount.data?.brands.total || 0)}
             </span>
           </Link>
@@ -78,7 +78,7 @@ const HomeIndex = ({ isMobileView }: { isMobileView: boolean }) => {
               className="w-full"
               priority
             />
-            <span className="absolute bottom-0 left-1/4 text-white">
+            <span className="absolute bottom-0 left-1/4 text-white lg:text-2xl xl:text-4xl">
               {digitsEnToFa(allSellersCount.data?.sellers.total || 0)}
             </span>
           </Link>

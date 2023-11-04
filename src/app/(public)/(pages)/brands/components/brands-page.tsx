@@ -1,24 +1,47 @@
 "use client"
 
-import { notFound } from "next/navigation"
+import { useState } from "react"
+import {
+  notFound,
+  usePathname,
+  useRouter,
+  useSearchParams
+} from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import useTranslation from "next-translate/useTranslation"
 
-import { Brand, GetAllBrandsQuery } from "@/generated"
+import { Brand, GetAllBrandsQuery, IndexBrandInput } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getAllBrandsQueryFn } from "@core/queryFns/allBrandsQueryFns"
-import BrandCard from "@/app/(public)/components/brand-card"
+import BrandOrSellerCard from "@/app/(public)/components/BrandOrSellerCard"
+import BrandsOrSellersContainer from "@/app/(public)/components/BrandsOrSellersContainer"
+import ProductPagination from "@/app/(public)/components/product-pagination"
 
 interface BrandsPageProps {
   isMobileView: boolean
+  args: IndexBrandInput
 }
 
-const BrandsPage = (_: BrandsPageProps) => {
+const BrandsPage = ({ args }: BrandsPageProps) => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const { push } = useRouter()
+  const [currentPage, setCurrentPage] = useState<number>(args.page || 1)
   const { t } = useTranslation()
   const { data } = useQuery<GetAllBrandsQuery>(
-    ["brands"],
-    () => getAllBrandsQueryFn(),
+    [
+      "brands",
+      {
+        ...args,
+        page: currentPage
+      }
+    ],
+    () =>
+      getAllBrandsQueryFn({
+        ...args,
+        page: currentPage
+      }),
     {
       keepPreviousData: true
     }
@@ -28,7 +51,7 @@ const BrandsPage = (_: BrandsPageProps) => {
 
   return (
     <>
-      <div className="bg-alpha-white">
+      <div className="border-b bg-alpha-white">
         <Breadcrumb
           dynamic={false}
           items={[
@@ -41,12 +64,26 @@ const BrandsPage = (_: BrandsPageProps) => {
         />
       </div>
 
-      <div className="mt grid gap-y pb-5 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
+      <BrandsOrSellersContainer>
         {data.brands.data.map(
           (brand) =>
-            brand && <BrandCard key={brand.id} brand={brand as Brand} />
+            brand && (
+              <BrandOrSellerCard key={brand.id} content={brand as Brand} />
+            )
         )}
-      </div>
+      </BrandsOrSellersContainer>
+      {data.brands.lastPage && data.brands.lastPage > 1 && (
+        <ProductPagination
+          total={data.brands.lastPage}
+          currentPage={currentPage}
+          onChange={(page) => {
+            setCurrentPage(page)
+            const params = new URLSearchParams(searchParams as any)
+            params.set("page", `${page}`)
+            push(pathname + "?" + params.toString())
+          }}
+        />
+      )}
     </>
   )
 }

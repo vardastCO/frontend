@@ -1,8 +1,16 @@
 import request from "graphql-request"
 
-import { GetAllBrandsDocument, GetAllBrandsQuery } from "@/generated"
+import {
+  GetAllBrandsDocument,
+  GetAllBrandsQuery,
+  IndexBrandInput
+} from "@/generated"
 
-export const getAllBrandsQueryFn = async (): Promise<GetAllBrandsQuery> => {
+interface getAllBrandsFnArgs extends IndexBrandInput {}
+
+export const getAllBrandsQueryFn = async ({
+  page
+}: getAllBrandsFnArgs = {}): Promise<GetAllBrandsQuery> => {
   // const session =
   //   typeof window === "undefined"
   //     ? await getServerSession(authOptions)
@@ -11,7 +19,11 @@ export const getAllBrandsQueryFn = async (): Promise<GetAllBrandsQuery> => {
   return await request(
     process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT as string,
     GetAllBrandsDocument,
-    {}
+    {
+      IndexBrandInput: {
+        page
+      }
+    }
     // {
     //   authorization: `Bearer ${session?.accessToken}`
     // }

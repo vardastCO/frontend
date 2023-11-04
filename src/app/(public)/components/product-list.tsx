@@ -98,7 +98,7 @@ const ProductList = ({
     }
   )
 
-  const { data } = useQuery<GetAllProductsQuery>(
+  const allProductsQuery = useQuery<GetAllProductsQuery>(
     [
       "products",
       {
@@ -210,7 +210,7 @@ const ProductList = ({
     push(pathname + "?" + params.toString())
   }
 
-  if (!data) notFound()
+  if (!allProductsQuery.data) notFound()
 
   return (
     <>
@@ -360,7 +360,7 @@ const ProductList = ({
           </div>
         )}
         <div>
-          {data.products.data.length > 0 ? (
+          {allProductsQuery.data.products.data.length > 0 ? (
             <>
               {!isMobileView && (
                 <div className="flex items-center py-1 md:py-3">
@@ -378,22 +378,23 @@ const ProductList = ({
               )}
               <div>
                 <div className="grid gap-y pb-5 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
-                  {data.products.data.map((product, idx) => (
+                  {allProductsQuery.data.products.data.map((product, idx) => (
                     <ProductCard key={idx} product={product as Product} />
                   ))}
                 </div>
-                {data.products.lastPage && data.products.lastPage > 1 && (
-                  <ProductPagination
-                    total={data.products.lastPage}
-                    currentPage={currentPage}
-                    onChange={(page) => {
-                      setCurrentPage(page)
-                      const params = new URLSearchParams(searchParams as any)
-                      params.set("page", `${page}`)
-                      push(pathname + "?" + params.toString())
-                    }}
-                  />
-                )}
+                {allProductsQuery.data.products.lastPage &&
+                  allProductsQuery.data.products.lastPage > 1 && (
+                    <ProductPagination
+                      total={allProductsQuery.data.products.lastPage}
+                      currentPage={currentPage}
+                      onChange={(page) => {
+                        setCurrentPage(page)
+                        const params = new URLSearchParams(searchParams as any)
+                        params.set("page", `${page}`)
+                        push(pathname + "?" + params.toString())
+                      }}
+                    />
+                  )}
               </div>
             </>
           ) : (

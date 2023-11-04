@@ -1,22 +1,46 @@
 "use client"
 
-import { notFound } from "next/navigation"
+import { useState } from "react"
+import {
+  notFound,
+  usePathname,
+  useRouter,
+  useSearchParams
+} from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 
-import { GetAllSellersQuery, Seller } from "@/generated"
+import { GetAllSellersQuery, IndexSellerInput, Seller } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getAllSellersQueryFn } from "@core/queryFns/allSellersQueryFns"
-import SellerCard from "@/app/(public)/components/seller-card"
+import BrandOrSellerCard from "@/app/(public)/components/BrandOrSellerCard"
+import BrandsOrSellersContainer from "@/app/(public)/components/BrandsOrSellersContainer"
+import ProductPagination from "@/app/(public)/components/product-pagination"
 
 interface SellersPageProps {
   isMobileView: boolean
+  args: IndexSellerInput
 }
 
-const SellersPage = (_: SellersPageProps) => {
+const SellersPage = ({ args }: SellersPageProps) => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const { push } = useRouter()
+  const [currentPage, setCurrentPage] = useState<number>(args.page || 1)
+
   const { data } = useQuery<GetAllSellersQuery>(
-    ["sellers"],
-    () => getAllSellersQueryFn(),
+    [
+      "sellers",
+      {
+        ...args,
+        page: currentPage
+      }
+    ],
+    () =>
+      getAllSellersQueryFn({
+        ...args,
+        page: currentPage
+      }),
     {
       keepPreviousData: true
     }
@@ -35,12 +59,26 @@ const SellersPage = (_: SellersPageProps) => {
         />
       </div>
 
-      <div className="mt grid gap-y pb-5 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
+      <BrandsOrSellersContainer>
         {data.sellers.data.map(
           (seller) =>
-            seller && <SellerCard key={seller.id} seller={seller as Seller} />
+            seller && (
+              <BrandOrSellerCard key={seller.id} content={seller as Seller} />
+            )
         )}
-      </div>
+      </BrandsOrSellersContainer>
+      {data.sellers.lastPage && data.sellers.lastPage > 1 && (
+        <ProductPagination
+          total={data.sellers.lastPage}
+          currentPage={currentPage}
+          onChange={(page) => {
+            setCurrentPage(page)
+            const params = new URLSearchParams(searchParams as any)
+            params.set("page", `${page}`)
+            push(pathname + "?" + params.toString())
+          }}
+        />
+      )}
     </>
   )
 }

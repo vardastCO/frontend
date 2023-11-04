@@ -44,7 +44,9 @@ const SearchIndex = async ({
   const args: IndexProductInput = {}
   args["page"] =
     searchParams.page && +searchParams.page[0] > 0 ? +searchParams.page[0] : 1
+
   if (slug && slug.length) args["categoryIds"] = [+slug[0]]
+
   if (searchParams.query && searchParams.query.length)
     args["query"] = searchParams.query as string
 
@@ -53,6 +55,7 @@ const SearchIndex = async ({
   } else {
     args["orderBy"] = ProductSortablesEnum.Newest
   }
+
   args["attributes"] = []
 
   if (searchParams) {

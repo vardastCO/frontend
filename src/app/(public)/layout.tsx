@@ -18,7 +18,9 @@ export default function PublicLayout({
       {isMobileView ? (
         <>
           <PwaNotificationProvider isMobileView={isMobileView} />
-          <MobileScrollProvider>{children}</MobileScrollProvider>
+          <div className="container relative mx-auto flex h-full transform flex-col transition-all duration-200">
+            <MobileScrollProvider>{children}</MobileScrollProvider>
+          </div>
           <MobileNavigation />
         </>
       ) : (

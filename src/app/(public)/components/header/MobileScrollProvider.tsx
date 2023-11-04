@@ -50,33 +50,31 @@ const MobileScrollProvider: React.FC<PropsWithChildren> = ({ children }) => {
   }, [pathname])
 
   return (
-    <div className="container relative mx-auto flex h-full transform flex-col transition-all duration-200">
-      <motion.main
-        variants={variants}
-        initial="hidden"
-        animate="enter"
-        transition={{ type: "linear" }}
-        onScroll={(e: any) => {
-          var st = e.target?.scrollTop
-          const showNavbarFlag = st === 0 ? true : st < lastScrollTop
-          setShowNavbarScroll(showNavbarFlag)
-          setLastScrollTop(st <= 0 ? 0 : st)
-        }}
-        ref={ref}
-        style={{
-          paddingBottom: hasScrollbar.bottom,
-          paddingTop: hasScrollbar.top
-        }}
-        className={clsx(
-          // hasScrollbar
-          //   ? "pb-[calc(env(safe-area-inset-bottom)+5rem)]"
-          //   : "pb-[calc(env(safe-area-inset-bottom)+5rem)]",
-          "flex flex-1 flex-col overflow-y-auto bg-transparent"
-        )}
-      >
-        {children}
-      </motion.main>
-    </div>
+    <motion.div
+      variants={variants}
+      initial="hidden"
+      animate="enter"
+      transition={{ type: "linear" }}
+      onScroll={(e: any) => {
+        var st = e.target?.scrollTop
+        const showNavbarFlag = st === 0 ? true : st < lastScrollTop
+        setShowNavbarScroll(showNavbarFlag)
+        setLastScrollTop(st <= 0 ? 0 : st)
+      }}
+      ref={ref}
+      style={{
+        paddingBottom: hasScrollbar.bottom,
+        paddingTop: hasScrollbar.top
+      }}
+      className={clsx(
+        // hasScrollbar
+        //   ? "pb-[calc(env(safe-area-inset-bottom)+5rem)]"
+        //   : "pb-[calc(env(safe-area-inset-bottom)+5rem)]",
+        "flex flex-1 flex-col overflow-y-auto bg-transparent"
+      )}
+    >
+      {children}
+    </motion.div>
   )
 }
 

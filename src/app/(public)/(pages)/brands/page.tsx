@@ -1,6 +1,8 @@
 import { Metadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
 
+import { IndexBrandInput } from "@/generated"
+
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
@@ -18,17 +20,24 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-const BrandsIndex = async (_: BrandsIndexProps) => {
+const BrandsIndex = async ({ searchParams }: BrandsIndexProps) => {
   const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
 
-  await queryClient.prefetchQuery(["brands"], () => getAllBrandsQueryFn())
+  const args: IndexBrandInput = {}
+
+  args["page"] =
+    searchParams.page && +searchParams.page[0] > 0 ? +searchParams.page[0] : 1
+
+  await queryClient.prefetchQuery(["brands", args], () =>
+    getAllBrandsQueryFn(args)
+  )
 
   const dehydratedState = dehydrate(queryClient)
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <BrandsPage isMobileView={isMobileView} />
+      <BrandsPage args={args} isMobileView={isMobileView} />
     </ReactQueryHydrate>
   )
 }
