@@ -1,5 +1,5 @@
 # Use a Node.js base image with Yarn installed
-FROM node:20.9.0-alpine
+FROM node:18.15.0-alpine
 
   # Set the working directory
 WORKDIR /usr/src/app
@@ -9,11 +9,11 @@ RUN npm i -g pnpm ts-node
   # Copy package.json and yarn.lock files
 COPY ./package*.json  ./
 
-RUN pnpm install
-
 COPY ./ ./
 
 RUN cp .env.example .env
+
+RUN pnpm install
 
 RUN npx prettier --plugin-search-dir=. src/**/*.{ts,tsx,css} --write
 
