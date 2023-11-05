@@ -8,6 +8,7 @@ import { faIR } from "date-fns/locale"
 import useTranslation from "next-translate/useTranslation"
 import NextTopLoader from "nextjs-toploader"
 
+import FakeSplashScreenProvider from "@core/providers/FakeSplashScreenProvider"
 import NextAuthProvider from "@core/providers/NextAuthProvider"
 import NextThemeProvider from "@core/providers/NextThemeProvider"
 import RadixDirectionProvider from "@core/providers/RadixDirectionProvider"
@@ -254,40 +255,12 @@ export default function AdminLayout({
             `}
           </Script>
         </head>
-        {/* <Script id="firebase" strategy="afterInteractive">
-          {`// Import the functions you need from the SDKs you need 
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js"; 
-            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js"; 
-            // TODO: Add SDKs for Firebase products that you want to use 
-            // https://firebase.google.com/docs/web/setup#available-libraries 
-          
-            // Your web app's Firebase configuration 
-            // For Firebase JS SDK v7.20.0 and later, measurementId is optional 
-            const firebaseConfig = { 
-              apiKey: "AIzaSyByjn9OFXQWu18V84F-cjfXpLfGuIiXABU", 
-              authDomain: "vardast-59370.firebaseapp.com", 
-              projectId: "vardast-59370", 
-              storageBucket: "vardast-59370.appspot.com", 
-              messagingSenderId: "661444345202", 
-              appId: "1:661444345202:web:ce05c39dd09b08c861b1eb", 
-              measurementId: "G-HM6GN8W3D8" 
-            }; 
-          
-            // Initialize Firebase 
-            const app = initializeApp(firebaseConfig); 
-            const analytics = getAnalytics(app);
-          `}
-        </Script> */}
         <body>
-          <NextTopLoader
-            color={myColors.primary[600]}
-            showSpinner={false}
-            // shadow={`0 0 10px ${myColors.primary[50]},0 0 5px ${myColors.primary[50]}`}
-          />
+          <NextTopLoader color={myColors.primary[600]} showSpinner={false} />
           <NextAuthProvider>
             <ReactQueryProvider>
               <NextThemeProvider>
-                {children}
+                <FakeSplashScreenProvider>{children}</FakeSplashScreenProvider>
                 <Toaster />
               </NextThemeProvider>
             </ReactQueryProvider>

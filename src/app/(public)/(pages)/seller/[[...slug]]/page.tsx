@@ -99,5 +99,5 @@ const SellerIndex = async ({
 }
 
 export default withMobileHeader(SellerIndex, {
-  shareIcon: {}
+  hasFavorite: {}
 })

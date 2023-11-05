@@ -93,7 +93,7 @@ const MobileNavigation = (_: Props) => {
         id="mobile-navigation-bar"
         className={`${
           showNavbarScroll ? "bottom-0" : "-bottom-[5rem]"
-        } fixed left-0 z-50 w-full transform border-t border-alpha-200 bg-alpha-white bg-opacity-60 backdrop-blur-xl transition-all duration-300 dark:border-alpha-600 dark:bg-alpha-700`}
+        } fixed left-0 z-50 w-full transform border-t border-alpha-200 bg-alpha-white bg-opacity-100 backdrop-blur-xl transition-all duration-300 dark:border-alpha-600 dark:bg-alpha-700`}
       >
         <div>
           {!hideSearchBarFlag && (

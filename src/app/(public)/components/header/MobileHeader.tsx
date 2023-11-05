@@ -2,15 +2,18 @@
 
 import { useEffect, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
-import { BookmarkIcon } from "@heroicons/react/24/outline"
+import { BookmarkIcon, ShareIcon } from "@heroicons/react/24/outline"
 import { BookmarkIcon as SolidBookmarkIcon } from "@heroicons/react/24/solid"
+import copy from "copy-to-clipboard"
 import { ArrowRight } from "lucide-react"
 
 import { Button } from "@core/components/ui/button"
+import { toast } from "@core/hooks/use-toast"
 
 export interface IModalHeader {
   title?: string
-  shareIcon?: {}
+  hasFavorite?: {}
+  hasShare?: boolean
   hasBack?: {
     onClick?: (_?: any) => void
     hidden?: boolean
@@ -20,7 +23,8 @@ export interface IModalHeader {
 const MobileHeader: React.FC<IModalHeader> = ({
   title,
   hasBack,
-  shareIcon
+  hasFavorite,
+  hasShare
 }) => {
   const { back } = useRouter()
   const pathname = usePathname()
@@ -40,6 +44,31 @@ const MobileHeader: React.FC<IModalHeader> = ({
     setIsFavorite(!!checkIfFavorite())
   }, [pathname])
 
+  const handleOnClick = async () => {
+    if (navigator?.share) {
+      try {
+        await navigator.share({
+          url: window.location.href,
+          text: title,
+          title: "وردست"
+        })
+      } catch (err) {
+        toast({
+          description: `${err}`,
+          duration: 5000,
+          variant: "danger"
+        })
+      }
+    } else {
+      copy(window.location.href)
+      toast({
+        description: "کپی شد!",
+        duration: 5000,
+        variant: "success"
+      })
+    }
+  }
+
   return (
     <div
       id="mobile-header-navbar"
@@ -56,6 +85,11 @@ const MobileHeader: React.FC<IModalHeader> = ({
               iconOnly
             >
               <ArrowRight className="h-6 w-6" />
+            </Button>
+          )}
+          {hasShare && (
+            <Button variant={"ghost"} iconOnly onClick={handleOnClick}>
+              <ShareIcon className="h-6 w-6 text-alpha" />
             </Button>
           )}
         </div>
@@ -76,7 +110,7 @@ const MobileHeader: React.FC<IModalHeader> = ({
           }
         </div>
         <div className="col-span-2 mr-auto">
-          {shareIcon && (
+          {hasFavorite && (
             <Button
               id="header-back-button"
               variant={"ghost"}
