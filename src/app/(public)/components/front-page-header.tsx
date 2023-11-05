@@ -88,7 +88,7 @@ const FrontPageHeader = ({ session }: Props) => {
           </Link>
         ) : (
           !session?.user && (
-            <Link href="/profile/auth/signin" className="btn btn-ghost">
+            <Link href="/auth/signin" className="btn btn-ghost">
               ورود / ثبت‌نام
             </Link>
           )

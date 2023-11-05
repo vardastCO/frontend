@@ -4,7 +4,7 @@ import MobileBaseLayout from "@/app/(public)/components/MobileBaseLayout"
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <MobileBaseLayout limitWidth bgWhite>
+    <MobileBaseLayout fullHeight limitWidth bgWhite>
       {children}
     </MobileBaseLayout>
   )

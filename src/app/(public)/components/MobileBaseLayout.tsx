@@ -8,6 +8,7 @@ interface IMobileBaseLayout extends PropsWithChildren {
   limitWidth?: boolean
   bgWhite?: boolean
   spaceLess?: boolean
+  fullHeight?: boolean
 }
 
 const MobileBaseLayout: React.FC<IMobileBaseLayout> = ({
@@ -15,6 +16,7 @@ const MobileBaseLayout: React.FC<IMobileBaseLayout> = ({
   limitWidth,
   bgWhite,
   spaceLess,
+  fullHeight,
   children
 }) => {
   const isMobileView = CheckIsMobileView()
@@ -27,8 +29,10 @@ const MobileBaseLayout: React.FC<IMobileBaseLayout> = ({
             ? ""
             : clsx(
                 noStyle,
-                limitWidth && !isMobileView ? "max-w-sm" : "w-full",
+                limitWidth && !isMobileView ? "max-w-md" : "w-full",
                 bgWhite && "bg-alpha-white",
+                fullHeight &&
+                  "h-full pb-[calc(env(safe-area-inset-bottom)*0.5+10px)]",
                 spaceLess ? "" : "gap-y px-3.5 py",
                 "m-auto flex flex-1 flex-col"
               )
@@ -42,7 +46,7 @@ const MobileBaseLayout: React.FC<IMobileBaseLayout> = ({
   return (
     <div
       className={clsx(
-        limitWidth ? "max-w-sm" : "w-full",
+        limitWidth ? "max-w-md" : "w-full",
         "m-auto flex h-full w-full flex-1 flex-col gap bg-alpha-white p"
       )}
     >

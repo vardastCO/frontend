@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { redirect, useRouter, useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ClientError } from "graphql-request"
@@ -12,7 +13,7 @@ import { useForm } from "react-hook-form"
 import { TypeOf, z } from "zod"
 
 import {
-  usePasswordResetMutation,
+  useSignupMutation,
   useValidateCellphoneMutation,
   useValidateOtpMutation,
   ValidationTypes
@@ -38,7 +39,7 @@ import signLogo from "@/assets/sign.svg"
 
 type Props = {}
 
-const ResetForm = (_: Props) => {
+const SingupForm = (_: Props) => {
   const { t } = useTranslation()
   const session = useSession()
   const router = useRouter()
@@ -62,7 +63,7 @@ const ResetForm = (_: Props) => {
         setErrors(null)
 
         if (nextState === "LOGIN") {
-          router.push("/profile/auth/signin")
+          router.push("/auth/signin")
         }
 
         if (nextState === "VALIDATE_OTP") {
@@ -89,97 +90,98 @@ const ResetForm = (_: Props) => {
           setFormState(1)
         }
 
-        if (nextState === "PASSWORD_RESET") {
+        if (nextState === "SIGNUP") {
           setFormState(3)
         }
 
         if (nextState === "LOGIN") {
-          router.push("/profile/auth/signin")
+          router.push("/auth/signin")
         }
       }
     }
   )
-  const passwordResetMutation = usePasswordResetMutation(
-    graphqlRequestClientWithoutToken,
-    {
-      onError: (errors: ClientError) => {
-        setErrors(errors)
-      },
-      onSuccess: (data) => {
-        const { message, nextState } = data.passwordReset
-        setErrors(null)
+  const signupMutation = useSignupMutation(graphqlRequestClientWithoutToken, {
+    onError: (errors: ClientError) => {
+      setErrors(errors)
+    },
+    onSuccess: (data) => {
+      const { message, nextState } = data.signup
+      setErrors(null)
 
-        if (nextState === "VALIDATE_CELLPHONE") {
-          setFormState(1)
-        }
-
-        if (nextState === "LOGIN") {
-          router.push("/profile/auth/signin")
-        }
-
-        setMessage(message as string)
+      if (nextState === "VALIDATE_CELLPHONE") {
+        setFormState(1)
       }
-    }
-  )
 
-  const PasswordResetFormStepOneSchema = z.object({
+      if (nextState === "LOGIN") {
+        router.push("/auth/signin")
+      }
+
+      if (nextState === "LOGGED_IN") {
+        setFormState(4)
+      }
+
+      setMessage(message as string)
+    }
+  })
+
+  const SignupFormStepOneSchema = z.object({
     cellphone: cellphoneNumberSchema
   })
-  type PasswordResetFormStepOneType = TypeOf<
-    typeof PasswordResetFormStepOneSchema
-  >
+  type SignupFormStepOneType = TypeOf<typeof SignupFormStepOneSchema>
 
-  const formStepOne = useForm<PasswordResetFormStepOneType>({
-    resolver: zodResolver(PasswordResetFormStepOneSchema)
+  const formStepOne = useForm<SignupFormStepOneType>({
+    resolver: zodResolver(SignupFormStepOneSchema)
   })
 
-  const PasswordResetFormStepTwoSchema = z.object({
+  const SignupFormStepTwoSchema = z.object({
     otp: z.string()
   })
-  type PasswordResetFormStepTwoType = TypeOf<
-    typeof PasswordResetFormStepTwoSchema
-  >
+  type SignupFormStepTwoType = TypeOf<typeof SignupFormStepTwoSchema>
 
-  const formStepTwo = useForm<PasswordResetFormStepTwoType>({
-    resolver: zodResolver(PasswordResetFormStepTwoSchema)
+  const formStepTwo = useForm<SignupFormStepTwoType>({
+    resolver: zodResolver(SignupFormStepTwoSchema)
   })
 
-  const PasswordResetFormStepThreeSchema = z.object({
+  const SignupFormStepThreeSchema = z.object({
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string().email().optional().or(z.literal("")),
     password: z.string()
   })
-  type PasswordResetFormStepThreeType = TypeOf<
-    typeof PasswordResetFormStepThreeSchema
-  >
+  type SignupFormStepThreeType = TypeOf<typeof SignupFormStepThreeSchema>
 
-  const formStepThree = useForm<PasswordResetFormStepThreeType>({
-    resolver: zodResolver(PasswordResetFormStepThreeSchema)
+  const formStepThree = useForm<SignupFormStepThreeType>({
+    resolver: zodResolver(SignupFormStepThreeSchema)
   })
 
-  function onSubmitStepOne(data: PasswordResetFormStepOneType) {
+  function onSubmitStepOne(data: SignupFormStepOneType) {
     const { cellphone } = data
     validateCellphoneMutation.mutate({
       ValidateCellphoneInput: {
         countryId: 244,
         cellphone,
-        validationType: ValidationTypes.PasswordReset
+        validationType: ValidationTypes.Signup
       }
     })
   }
-  function onSubmitStepTwo(data: PasswordResetFormStepTwoType) {
+  function onSubmitStepTwo(data: SignupFormStepTwoType) {
     const { otp } = data
     validateOtpMutation.mutate({
       ValidateOtpInput: {
         token: otp,
         validationKey,
-        validationType: ValidationTypes.PasswordReset
+        validationType: ValidationTypes.Signup
       }
     })
   }
-  function onSubmitStepThree(data: PasswordResetFormStepThreeType) {
-    const { password } = data
-    passwordResetMutation.mutate({
+  function onSubmitStepThree(data: SignupFormStepThreeType) {
+    const { firstName, lastName, email, password } = data
+    signupMutation.mutate({
       SignupInput: {
         validationKey,
+        firstName,
+        lastName,
+        email,
         password
       }
     })
@@ -192,7 +194,7 @@ const ResetForm = (_: Props) => {
   })
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-alpha-50 p-4">
+    <div className="flex min-h-screen w-full items-center justify-center p-4">
       <div className="flex w-full max-w-xs flex-col justify-start gap-8 py-12">
         <Image
           src={signLogo}
@@ -200,7 +202,7 @@ const ResetForm = (_: Props) => {
           className="ml-auto h-12"
         />
         <h1 className="text-xl font-bold text-alpha-800">
-          {t("common:reset_password")}
+          {t("common:signup")}
         </h1>
 
         {errors && (
@@ -331,13 +333,64 @@ const ResetForm = (_: Props) => {
             >
               <FormField
                 control={formStepThree.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("common:first_name")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("common:first_name")}
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              ></FormField>
+              <FormField
+                control={formStepThree.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("common:last_name")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("common:last_name")}
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              ></FormField>
+              <FormField
+                control={formStepThree.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("common:email")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("common:email")}
+                        type="email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              ></FormField>
+              <FormField
+                control={formStepThree.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("common:new_password")}</FormLabel>
+                    <FormLabel>{t("common:password")}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder={t("common:new_password")}
+                        placeholder={t("common:password")}
                         type="password"
                         {...field}
                       />
@@ -350,22 +403,29 @@ const ResetForm = (_: Props) => {
                 type="submit"
                 block
                 disabled={
-                  passwordResetMutation.isLoading ||
+                  signupMutation.isLoading ||
                   formStepThree.formState.isSubmitting
                 }
                 loading={
-                  passwordResetMutation.isLoading ||
+                  signupMutation.isLoading ||
                   formStepThree.formState.isSubmitting
                 }
               >
-                تغییر کلمه عبور
+                تکمیل ثبت‌نام
               </Button>
             </form>
           </Form>
         )}
+
+        <Link
+          href="/auth/signin"
+          className="text-center text-alpha-500 hover:text-alpha-700"
+        >
+          {t("common:already_have_an_account_login")}
+        </Link>
       </div>
     </div>
   )
 }
 
-export default ResetForm
+export default SingupForm

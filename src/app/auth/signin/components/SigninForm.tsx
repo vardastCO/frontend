@@ -68,7 +68,7 @@ const SigninForm = (_: Props) => {
         setLoginErrors(null)
 
         if (nextState === "LOGIN") {
-          router.push("/profile/auth/signin")
+          router.push("/auth/signin")
         }
 
         if (nextState === "VALIDATE_OTP") {

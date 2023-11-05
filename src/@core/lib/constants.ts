@@ -148,7 +148,7 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   },
   {
     forceEqual: false,
-    path: "/profile/auth/signin"
+    path: "/auth/signin"
   },
   {
     forceEqual: false,

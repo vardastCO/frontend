@@ -2,34 +2,28 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { digitsEnToFa } from "@persian-tools/persian-tools"
-import { useQuery } from "@tanstack/react-query"
 
-import { GetAllBrandsCountQuery, GetAllSellersCountQuery } from "@/generated"
-
-import { getAllBrandsCountQueryFn } from "@core/queryFns/allBrandsCountQueryFns"
-import { getAllSellersCountQueryFn } from "@core/queryFns/allSellersCountQueryFns"
 import Search from "@/app/(public)/components/search"
 
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
 
 const HomeIndex = ({ isMobileView }: { isMobileView: boolean }) => {
-  const allBrandsCount = useQuery<GetAllBrandsCountQuery>(
-    ["brands-count"],
-    getAllBrandsCountQueryFn,
-    {
-      keepPreviousData: true,
-      staleTime: 999999999
-    }
-  )
-  const allSellersCount = useQuery<GetAllSellersCountQuery>(
-    ["sellers-count"],
-    getAllSellersCountQueryFn,
-    {
-      keepPreviousData: true,
-      staleTime: 999999999
-    }
-  )
+  // const allBrandsCount = useQuery<GetAllBrandsCountQuery>(
+  //   ["brands-count"],
+  //   getAllBrandsCountQueryFn,
+  //   {
+  //     keepPreviousData: true,
+  //     staleTime: 999999999
+  //   }
+  // )
+  // const allSellersCount = useQuery<GetAllSellersCountQuery>(
+  //   ["sellers-count"],
+  //   getAllSellersCountQueryFn,
+  //   {
+  //     keepPreviousData: true,
+  //     staleTime: 999999999
+  //   }
+  // )
   return (
     <>
       <div
@@ -49,7 +43,7 @@ const HomeIndex = ({ isMobileView }: { isMobileView: boolean }) => {
             <Search isMobileView={isMobileView} />
           </div>
         )}
-        <div className="flex w-full flex-col gap-y md:grid md:flex-1 md:grid-cols-2 md:items-center md:justify-center md:gap">
+        {/* <div className="flex w-full flex-col gap-y md:grid md:flex-1 md:grid-cols-2 md:items-center md:justify-center md:gap">
           <Link
             className="relative w-full overflow-hidden rounded-2xl"
             href="/brands"
@@ -82,7 +76,7 @@ const HomeIndex = ({ isMobileView }: { isMobileView: boolean }) => {
               {digitsEnToFa(allSellersCount.data?.sellers.total || 0)}
             </span>
           </Link>
-        </div>
+        </div> */}
       </div>
       {!isMobileView && (
         <div className="fixed inset-x-0 bottom-0 mx-auto mb-12 flex w-full justify-center gap-4 text-center text-sm text-alpha-500">

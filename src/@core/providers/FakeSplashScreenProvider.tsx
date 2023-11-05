@@ -17,9 +17,9 @@ const hide = {
   }
 }
 
-const FakeSplashScreenProvider: React.FC<PropsWithChildren> = ({
-  children
-}) => {
+const FakeSplashScreenProvider: React.FC<
+  PropsWithChildren<{ isMobileView: boolean }>
+> = ({ isMobileView, children }) => {
   const [mount, setMount] = useState(false)
 
   const onStartApp = () => {
@@ -32,7 +32,7 @@ const FakeSplashScreenProvider: React.FC<PropsWithChildren> = ({
     onStartApp()
   }, [])
 
-  if (mount) {
+  if (!isMobileView || mount) {
     return <>{children}</>
   }
 

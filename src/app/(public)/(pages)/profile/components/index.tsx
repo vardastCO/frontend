@@ -131,7 +131,7 @@ const ProfileIndex = () => {
           onClick={() => {
             setLoader(true)
             refresh()
-            push("/profile/auth/signin")
+            push("/auth/signin")
           }}
           loading={loader}
           disabled={loader}
@@ -156,10 +156,7 @@ const ProfileIndex = () => {
           </Link>
         ) : (
           !session.data && (
-            <Link
-              href="/profile/auth/signin"
-              className="btn btn-md btn-primary block"
-            >
+            <Link href="/auth/signin" className="btn btn-md btn-primary block">
               ورود / ثبت‌نام
             </Link>
           )

@@ -1,16 +1,24 @@
+import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
+
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import { authOptions } from "@core/lib/authOptions"
 import PwaNotificationProvider from "@core/providers/PwaNotificationProvider"
 import MobileScrollProvider from "@/app/(public)/components/header/MobileScrollProvider"
 import MobileNavigation from "@/app/(public)/components/mobile-navigation"
 import PublicProvider from "@/app/(public)/components/public-provider"
 import { SearchActionModal } from "@/app/(public)/components/search"
 
-export default function PublicLayout({
+export default async function PublicLayout({
   children
 }: {
   children: React.ReactNode
 }) {
   const isMobileView = CheckIsMobileView()
+
+  const session = await getServerSession(authOptions)
+
+  if (!session) redirect("/auth/signin")
 
   return (
     <PublicProvider>
