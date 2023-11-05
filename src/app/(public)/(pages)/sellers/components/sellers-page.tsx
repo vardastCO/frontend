@@ -63,7 +63,10 @@ const SellersPage = ({ args }: SellersPageProps) => {
         {data.sellers.data.map(
           (seller) =>
             seller && (
-              <BrandOrSellerCard key={seller.id} content={seller as Seller} />
+              <BrandOrSellerCard
+                key={seller.id}
+                content={{ ...(seller as Seller), __typename: "Seller" }}
+              />
             )
         )}
       </BrandsOrSellersContainer>

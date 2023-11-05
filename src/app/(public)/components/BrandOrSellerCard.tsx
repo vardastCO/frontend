@@ -20,7 +20,7 @@ const BrandOrSellerCard = <T extends Seller | Brand>({
 
   return (
     <Link
-      href={`/content/${content?.id}?title=${content?.name}`}
+      href={`/${content.__typename?.toLowerCase()}/${content?.id}?title=${content?.name}`}
       prefetch={false}
       className="relative overflow-hidden rounded bg-alpha-white transition hover:z-10 md:h-auto md:rounded-none md:hover:shadow-lg"
     >

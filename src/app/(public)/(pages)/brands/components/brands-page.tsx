@@ -68,7 +68,10 @@ const BrandsPage = ({ args }: BrandsPageProps) => {
         {data.brands.data.map(
           (brand) =>
             brand && (
-              <BrandOrSellerCard key={brand.id} content={brand as Brand} />
+              <BrandOrSellerCard
+                key={brand.id}
+                content={{ ...(brand as Brand), __typename: "Brand" }}
+              />
             )
         )}
       </BrandsOrSellersContainer>
