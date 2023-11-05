@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline"
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import clsx from "clsx"
@@ -17,14 +17,14 @@ import { _profile_items } from "@core/lib/constants"
 import ProfileItem from "./ProfileItem"
 
 const ProfileIndex = () => {
-  const { push, refresh } = useRouter()
   const pathname = usePathname()
-  const [loader, setLoader] = useState(false)
+  // eslint-disable-next-line no-unused-vars
+  const [_, setLoader] = useState(false)
   const session = useSession()
 
   useEffect(() => {
     session.update()
-  }, [pathname])
+  }, [pathname, session])
 
   return (
     <div className="flex flex-1 flex-col bg-alpha-100 pt">
