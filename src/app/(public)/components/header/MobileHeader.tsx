@@ -53,11 +53,11 @@ const MobileHeader: React.FC<IModalHeader> = ({
           title: "وردست"
         })
       } catch (err) {
-        toast({
-          description: `${err}`,
-          duration: 5000,
-          variant: "danger"
-        })
+        // toast({
+        //   description: `${err}`,
+        //   duration: 5000,
+        //   variant: "danger"
+        // })
       }
     } else {
       copy(window.location.href)

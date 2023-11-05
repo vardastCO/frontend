@@ -27,7 +27,7 @@ const HomeIndex = ({ isMobileView }: { isMobileView: boolean }) => {
   return (
     <>
       <div
-        className="flex h-full flex-col items-center justify-start 
+        className="flex h-full flex-col items-center justify-center 
       md:justify-center"
       >
         <div className="relative my-8 h-20">
