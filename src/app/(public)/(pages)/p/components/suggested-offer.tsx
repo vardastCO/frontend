@@ -64,12 +64,14 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
       />
 
       <ProductSectionContainer title="برترین فروشنده">
-        <div className="flex w-full flex-col items-start gap-y-4 rounded-2xl border bg-alpha-100 p">
-          {offer.seller.rating && offer.seller.rating > 0 ? (
-            <Rating rating={offer.seller.rating} />
-          ) : (
-            ""
-          )}
+        <div className="flex w-full flex-col gap-y-4 rounded-2xl border bg-alpha-100 p">
+          <div className="flex">
+            {offer.seller.rating && offer.seller.rating > 0 ? (
+              <Rating rating={offer.seller.rating} />
+            ) : (
+              ""
+            )}
+          </div>
           <div className="flex items-center gap-x-3">
             <div className="flex flex-1 items-center gap-3">
               <div className="relative">
@@ -89,26 +91,31 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
                   className="rounded-xl bg-white object-contain shadow-md"
                 />
               </div>
-              <div className="flex flex-col gap-y-3">
+              <div className="flex flex-col">
                 <Link
-                  className="text-info underline"
+                  className="h-8 text-info"
                   href={`/seller/${offer?.seller.id}/${offer?.seller.name}?title=${offer?.seller.name}`}
                 >
                   {offer?.seller.name}
                 </Link>
-                {offer?.seller?.addresses &&
-                  offer?.seller?.addresses.length > 0 && (
-                    <p className="flex items-center gap-x-2 text-alpha-600">
-                      <MapPinIcon className="h-4 w-4 text-alpha-600" />
-                      {offer?.seller?.addresses[0].province.name}
-                    </p>
-                  )}
+                <p className="flex h-8 items-center gap-x-2 text-alpha-600">
+                  {offer?.seller?.addresses &&
+                    offer?.seller?.addresses.length > 0 && (
+                      <>
+                        <MapPinIcon className="h-4 w-4 text-alpha-600" />
+                        {offer?.seller?.addresses[0].province.name}
+                      </>
+                    )}
+                </p>
               </div>
             </div>
-            <h2 className="font-bold">
-              {digitsEnToFa(addCommas(offer?.amount))}{" "}
-              <span className="text-sm font-medium">تومان</span>
-            </h2>
+            <div className="flex flex-col">
+              <h2 className="h-8 font-bold"></h2>
+              <h2 className="h-8 font-bold">
+                {digitsEnToFa(addCommas(offer?.amount))}{" "}
+                <span className="text-sm font-medium">تومان</span>
+              </h2>
+            </div>
           </div>
           <br className="h-1 w-full bg-alpha" />
           <Button

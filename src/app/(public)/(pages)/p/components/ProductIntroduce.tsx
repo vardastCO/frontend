@@ -14,7 +14,8 @@ interface IProductIntroduce {
 
 const ProductIntroduce = ({ product }: IProductIntroduce) => {
   return (
-    <ProductSectionContainer title={product.name}>
+    <ProductSectionContainer>
+      <h3 className="font-semibold">{product.name}</h3>
       <Link
         className=""
         href={`/brand/${product.brand.id}/${slugify(
@@ -23,7 +24,7 @@ const ProductIntroduce = ({ product }: IProductIntroduce) => {
         prefetch={false}
       >
         <span className="text-alpha-500">تولید کننده:</span>
-        <span className="px-2 text-info underline">{product.brand.name}</span>
+        <span className="px-2 text-info">{product.brand.name}</span>
       </Link>
       <div className="flex">
         {product.rating && product.rating > 0 ? (

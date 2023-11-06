@@ -259,11 +259,7 @@ export default function AdminLayout({
           </Script>
         </head>
         <body>
-          <NextTopLoader
-            showAtBottom
-            color={myColors.secondary[100]}
-            showSpinner={false}
-          />
+          <NextTopLoader color={myColors.secondary[50]} showSpinner={false} />
           <NextAuthProvider>
             <ReactQueryProvider>
               <NextThemeProvider>

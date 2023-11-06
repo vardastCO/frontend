@@ -181,16 +181,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
       <div className="bg-alpha-white">
         <Breadcrumb dynamic={false} items={breadcrumb} />
       </div>
-      {session?.abilities.includes("gql.products.product.moderated_update") && (
-        <div>
-          <Link
-            className="btn btn-secondary btn-sm"
-            href={`/admin/products/${product.id}`}
-          >
-            ویرایش
-          </Link>
-        </div>
-      )}
+
       <div className="grid grid-cols-1 gap-1 lg:grid-cols-[5fr_7fr]">
         <div className="flex flex-col bg-alpha-white">
           <div className="md:max-w-[200px]">
@@ -209,7 +200,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           <ProductAttributes
             attributes={
               groupedAttributes.filter(
-                (item) => !item.isRequired
+                (item) => !!item.isRequired
               ) as GroupedAttributes[]
             }
           />
@@ -232,17 +223,24 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
             attributes={groupedAttributes as GroupedAttributes[]}
           />
         )}
-        {product.publicOffers.length > 0 && (
+        {product.offers.length > 0 && (
           <ProductOffers
             uom={product.uom as Uom}
-            offers={product.publicOffers as Offer[]}
+            offers={product.offers as Offer[]}
           />
         )}
         {isMobileView && product.sameCategory.length > 0 && (
           <SameProducts sameCategories={product.sameCategory as Product[]} />
         )}
       </div>
-
+      {session?.abilities.includes("gql.products.product.moderated_update") && (
+        <Link
+          className="btn btn-secondary btn-lg m block"
+          href={`/admin/products/${product.id}`}
+        >
+          ویرایش
+        </Link>
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

@@ -51,7 +51,7 @@ const SameProducts = ({ sameCategories }: SameProductsProps) => {
                     loading="eager"
                   />
                 </div>
-                <h4 className="line-clamp-2 font-semibold">{product.name}</h4>
+                <h5 className="line-clamp-2 font-semibold">{product.name}</h5>
                 <div className="flex">
                   {product.rating && product.rating > 0 ? (
                     <Rating rating={product.rating} />
@@ -60,10 +60,10 @@ const SameProducts = ({ sameCategories }: SameProductsProps) => {
                   )}
                 </div>
                 {product.lowestPrice && (
-                  <h2 className="text-left font-bold">
+                  <h3 className="text-left font-bold">
                     {digitsEnToFa(addCommas(product.lowestPrice?.amount))}{" "}
-                    <span className="text-sm font-medium">تومان</span>
-                  </h2>
+                    <span className="text-xs font-medium">تومان</span>
+                  </h3>
                 )}
               </Link>
             </SwiperSlide>

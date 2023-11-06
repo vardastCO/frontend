@@ -20,7 +20,7 @@ const CategoryListContainer: React.FC<
             ))}
           </div>
           <span
-            className="text-left text-primary underline"
+            className="text-left text-primary"
             onClick={() => {
               setMore(!more)
             }}

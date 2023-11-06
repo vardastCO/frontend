@@ -12,7 +12,7 @@ const ProductDetails = ({ attributes }: ProductDetailsProps) => {
         <tbody>
           {attributes.map((attribute, idx) => (
             <tr className="grid grid-cols-5" key={idx}>
-              <td className="col-span-2 flex border-spacing-half items-center border bg-alpha-100 p text-justify">
+              <td className="col-span-2 flex border-spacing-half items-center border bg-alpha-100 p text-secondary">
                 {attribute.name}
               </td>
 

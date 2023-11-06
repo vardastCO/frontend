@@ -50,10 +50,10 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
   return (
     <div role="presentation">
       <ol
-        className="hide-scrollbar flex items-end overflow-y-auto whitespace-nowrap py-4 align-middle text-sm leading-none"
+        className="hide-scrollbar flex items-end overflow-y-auto whitespace-nowrap py-6 pr align-middle text-sm leading-none"
         aria-label="breadcrumb"
       >
-        <li className="flex items-end pr align-middle leading-none">
+        {/* <li className="flex items-end pr align-middle leading-none">
           <Link
             href="/home"
             aria-current={pathname === "/home" ? "page" : "false"}
@@ -63,11 +63,11 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
               وردست
             </a>
           </Link>
-        </li>
+        </li> */}
         {breadcrumbs &&
           breadcrumbs.map((crumb, idx) => (
             <li key={idx} className="flex items-end align-middle leading-none">
-              {idx !== breadcrumbs.length && (
+              {idx !== breadcrumbs.length && idx > 0 && (
                 <span className="mx-1 text-alpha-400">/</span>
               )}
               <Link href={crumb.path} passHref legacyBehavior prefetch={false}>

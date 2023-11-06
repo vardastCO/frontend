@@ -127,8 +127,8 @@ const MobileNavigation = (_: Props) => {
                 >
                   <ShowedIcon
                     className={mergeClasses(
-                      "h-7 w-7",
-                      showNavbarScroll ? "my-2" : "my-2",
+                      "h-7 w-7 transform transition-all",
+                      showNavbarScroll ? "" : "my-2",
                       getActiveClassName(href)
                     )}
                   />

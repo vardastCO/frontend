@@ -21,6 +21,7 @@ const variants = {
 
 const MobileScrollProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { showNavbar } = useContext(PublicContext)
+  const [realScrollbarHeight, setRealScrollbarHeight] = useState(0)
   const setShowNavbarScroll = useSetAtom(showNavbar)
   const [hasScrollbar, setHasScrollbar] = useState({
     top: 0,
@@ -41,6 +42,13 @@ const MobileScrollProvider: React.FC<PropsWithChildren> = ({ children }) => {
             ?.clientHeight ?? 0
       })
     }
+    if (window.document.getElementById("scroll-container")) {
+      const sh =
+        window.document.getElementById("scroll-container")?.scrollHeight
+      const ch =
+        window.document.getElementById("scroll-container")?.clientHeight
+      setRealScrollbarHeight((sh || 0) - (ch || 0))
+    }
     if (ref?.current) {
       ref.current.scrollTo({
         top: 0,
@@ -51,13 +59,15 @@ const MobileScrollProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <motion.div
+      id="scroll-container"
       variants={variants}
       initial="hidden"
       animate="enter"
       transition={{ type: "linear" }}
       onScroll={(e: any) => {
         var st = e.target?.scrollTop
-        const showNavbarFlag = st === 0 ? true : st < lastScrollTop
+        const showNavbarFlag =
+          st === 0 || st >= realScrollbarHeight ? true : st < lastScrollTop
         setShowNavbarScroll(showNavbarFlag)
         setLastScrollTop(st <= 0 ? 0 : st)
       }}

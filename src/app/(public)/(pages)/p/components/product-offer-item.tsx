@@ -65,25 +65,21 @@ const ProductOfferItem = ({ offer }: Props) => {
         ) : (
           ""
         )}
-        <div className="flex items-center gap-x-3">
+        <div className="flex w-full items-center gap-x-3">
           <div className="flex flex-1 items-center gap-3">
             <div className="relative">
               <Image
-                src={
-                  !!offer?.seller.logoFile?.presignedUrl.url
-                    ? `${offer?.seller.logoFile?.presignedUrl.url}`
-                    : ""
-                }
+                src={offer?.seller.logoFile?.presignedUrl.url as string}
                 // src="/images/frame.png"
                 width={100}
                 height={100}
                 alt={offer?.seller.name}
-                className="object-contain"
+                className="rounded-xl bg-white object-contain shadow-md"
               />
             </div>
-            <div className="flex flex-col gap-y-3">
+            <div className="flex flex-1 flex-col gap-y-3">
               <Link
-                className="text-info underline"
+                className="text-info"
                 href={`/seller/${offer?.seller.id}/${offer?.seller.name}?title=${offer?.seller.name}`}
               >
                 {offer?.seller.name}
@@ -96,23 +92,22 @@ const ProductOfferItem = ({ offer }: Props) => {
                   </p>
                 )}
               {offer.lastPublicConsumerPrice && (
-                <div className="flex gap-x">
-                  <h2 className="font-bold">
-                    {digitsEnToFa(
-                      addCommas(offer.lastPublicConsumerPrice.amount)
-                    )}
-                    <span className="text-sm font-medium">تومان</span>
-                  </h2>
+                <div className="flex justify-between gap-x">
                   <Button
                     size="small"
                     variant="secondary"
-                    block
                     onClick={() => showSellerContact()}
                     disabled={createEventTrackerMutation.isLoading}
                     loading={createEventTrackerMutation.isLoading}
                   >
                     اطلاعات تماس
                   </Button>
+                  <h2 className="font-bold">
+                    {digitsEnToFa(
+                      addCommas(offer.lastPublicConsumerPrice.amount)
+                    )}
+                    <span className="pr-1 text-xs font-medium">تومان</span>
+                  </h2>
                 </div>
               )}
             </div>
