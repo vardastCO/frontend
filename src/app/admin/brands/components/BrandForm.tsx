@@ -100,7 +100,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
     resolver: zodResolver(CreateBrandSchema),
     defaultValues: {
       name: brand?.name,
-      slug: brand?.slug,
+      slug: brand?.slug || undefined,
       logoFileUuid: brand?.logoFile?.uuid
     }
   })
