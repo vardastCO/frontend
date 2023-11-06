@@ -92,8 +92,8 @@ const MobileNavigation = (_: Props) => {
         ref={ref}
         id="mobile-navigation-bar"
         className={`${
-          showNavbarScroll ? "bottom-0" : "-bottom-[5rem]"
-        } fixed left-0 z-50 w-full transform border-t border-alpha-200 bg-alpha-white bg-opacity-100 backdrop-blur-xl transition-all duration-300 dark:border-alpha-600 dark:bg-alpha-700`}
+          showNavbarScroll ? "" : "translate-y-[5rem]"
+        } fixed bottom-0 left-0 z-50 w-full transform border-t border-alpha-200 bg-alpha-white transition-all duration-300 dark:border-alpha-600 dark:bg-alpha-700`}
       >
         <div>
           {!hideSearchBarFlag && (
@@ -128,7 +128,7 @@ const MobileNavigation = (_: Props) => {
                   <ShowedIcon
                     className={mergeClasses(
                       "h-7 w-7",
-                      showNavbarScroll ? "mb-1 " : "my-2",
+                      showNavbarScroll ? "my-2.5" : "my-2.5",
                       getActiveClassName(href)
                     )}
                   />

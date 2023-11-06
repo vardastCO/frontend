@@ -12,7 +12,7 @@ type ProductOffersProps = {
 const ProductOffers = ({ offers, uom }: ProductOffersProps) => {
   return (
     <div id="attributes" className="flex flex-col gap-y bg-alpha-white p">
-      <h4 className="py">فروشندگان</h4>
+      <h4 className="py">سایر فروشندگان</h4>
       <div className="flex flex-col gap-3 even:[&>div]:bg-alpha-100">
         {offers.map((offer) => (
           <ProductOfferItem key={offer.id} offer={offer} uom={uom} />

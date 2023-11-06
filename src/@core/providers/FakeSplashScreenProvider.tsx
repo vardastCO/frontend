@@ -25,7 +25,7 @@ const FakeSplashScreenProvider: React.FC<
   const onStartApp = () => {
     setTimeout(() => {
       setMount(true)
-    }, 2000)
+    }, 1500)
   }
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const FakeSplashScreenProvider: React.FC<
     <>
       <motion.div
         animate={mount ? show : hide}
-        className="absolute left-0 top-0 flex h-screen w-screen flex-col items-center justify-center overflow-hidden"
+        className="absolute left-0 top-0 flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-alpha-white"
       >
         <Image
           src={logoHorizontal}

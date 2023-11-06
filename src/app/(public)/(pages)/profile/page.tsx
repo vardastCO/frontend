@@ -1,5 +1,7 @@
 import { Metadata } from "next"
+import { getServerSession } from "next-auth"
 
+import { authOptions } from "@core/lib/authOptions"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 
 import ProfileIndex from "./components"
@@ -12,7 +14,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const ProfilePage = async () => {
-  return <ProfileIndex />
+  const session = await getServerSession(authOptions)
+
+  return <ProfileIndex session={session} />
 }
 
 export default withMobileHeader(ProfilePage, { title: "حساب کاربری" })

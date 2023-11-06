@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { HomeIcon } from "@heroicons/react/24/solid"
 
 // import useTranslation from "next-translate/useTranslation"
 
@@ -60,8 +59,8 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
             aria-current={pathname === "/home" ? "page" : "false"}
             legacyBehavior
           >
-            <a title={process.env.NEXT_PUBLIC_TITLE}>
-              <HomeIcon className="h-5 w-5" />
+            <a title={process.env.NEXT_PUBLIC_TITLE} className="text-alpha-600">
+              وردست
             </a>
           </Link>
         </li>
@@ -78,7 +77,7 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
                   className={
                     idx < breadcrumbs.length - 1
                       ? "text-alpha-600"
-                      : "font-semibold"
+                      : "text-primary"
                   }
                 >
                   {crumb.label}

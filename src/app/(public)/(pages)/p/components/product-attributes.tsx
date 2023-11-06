@@ -7,23 +7,18 @@ type ProductAttributesProps = {
 const ProductAttributes = ({ attributes }: ProductAttributesProps) => {
   return (
     <div id="attributes" className="flex flex-col gap-y bg-alpha-white p">
-      <h4 className="py">ویژگی محصول</h4>
-      <table className="border-collapse rounded border">
-        <tbody>
-          {attributes.map((attribute, idx) => (
-            <tr className="grid grid-cols-5" key={idx}>
-              <td className="col-span-2 flex border-spacing-half items-center border bg-alpha-100 p">
-                {attribute.name}
-              </td>
-
-              <td className="col-span-3 flex border-spacing-half items-center border p">
-                {attribute.values.join(", ")}{" "}
-                {attribute.uom && attribute.uom.name}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h4 className="py">ویژگی‌ها</h4>
+      <ul className="flex list-disc flex-col gap-y">
+        {attributes.map((attribute, idx) => (
+          <li className="flex gap-x" key={idx}>
+            <p className="text-alpha">{attribute.name}:</p>
+            <p className="">
+              {attribute.values.join(", ")}{" "}
+              {attribute.uom && attribute.uom.name}
+            </p>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

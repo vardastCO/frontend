@@ -82,8 +82,8 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
                 )}
                 <Image
                   src={
-                    !!offer?.seller.logoFile?.presignedUrl
-                      ? `${offer?.seller.logoFile?.presignedUrl}`
+                    !!offer?.seller.logoFile?.presignedUrl.url
+                      ? `${offer?.seller.logoFile?.presignedUrl.url}`
                       : ""
                   }
                   // src="/images/frame.png"
@@ -111,7 +111,7 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
             </div>
             <h2 className="font-bold">
               {digitsEnToFa(addCommas(offer?.amount))}{" "}
-              <span className="text-sm font-medium">ریال</span>
+              <span className="text-sm font-medium">تومان</span>
             </h2>
           </div>
           <br className="h-1 w-full bg-alpha" />

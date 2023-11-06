@@ -26,6 +26,8 @@ import {
 import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
 import ProductAttributes from "@/app/(public)/(pages)/p/components/product-attributes"
+import ProductDescription from "@/app/(public)/(pages)/p/components/product-description"
+import ProductDetails from "@/app/(public)/(pages)/p/components/product-details"
 import ProductImages from "@/app/(public)/(pages)/p/components/product-images"
 import ProductOffers from "@/app/(public)/(pages)/p/components/product-offers"
 import ProductIntroduce from "@/app/(public)/(pages)/p/components/ProductIntroduce"
@@ -36,6 +38,7 @@ export type GroupedAttributes = {
   name: string
   values: string[]
   uom: Uom
+  isRequired: boolean
 }
 
 type ProductPageProps = {
@@ -67,7 +70,8 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
       groupedAttributes[attributeId] = {
         name: attributeName,
         values: [attributeValueValue],
-        uom: attributeValue.attribute.uom as Uom
+        uom: attributeValue.attribute.uom as Uom,
+        isRequired: attributeValue.attribute.isRequired
       }
     }
   })
@@ -187,17 +191,29 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           </Link>
         </div>
       )}
-      <div className="mb-12 grid grid-cols-1 gap-2 lg:grid-cols-[5fr_7fr]">
-        <div className="bg-alpha-white md:max-w-[200px]">
-          {product.images.length > 0 && (
-            <ProductImages
-              isMobileView={isMobileView}
-              images={product.images as ProductImage[]}
-            />
-          )}
+      <div className="mb-12 grid grid-cols-1 gap-1 lg:grid-cols-[5fr_7fr]">
+        <div className="flex flex-col bg-alpha-white">
+          <div className="md:max-w-[200px]">
+            {product.images.length > 0 && (
+              <ProductImages
+                isMobileView={isMobileView}
+                images={product.images as ProductImage[]}
+              />
+            )}
+          </div>
+
+          <ProductIntroduce product={product as Product} />
         </div>
 
-        <ProductIntroduce product={product as Product} />
+        {groupedAttributes.filter((item) => !!item.isRequired).length > 0 && (
+          <ProductAttributes
+            attributes={
+              groupedAttributes.filter(
+                (item) => !item.isRequired
+              ) as GroupedAttributes[]
+            }
+          />
+        )}
 
         {product.lowestPrice && (
           <SuggestedOffer
@@ -206,8 +222,13 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
             uom={product.uom as Uom}
           />
         )}
+
+        {product.description && (
+          <ProductDescription description={product.description} />
+        )}
+
         {product.attributeValues.length > 0 && (
-          <ProductAttributes
+          <ProductDetails
             attributes={groupedAttributes as GroupedAttributes[]}
           />
         )}

@@ -316,6 +316,11 @@ query GetProduct($id: Int!) {
         name
         createdAt
         updatedAt
+        logoFile {
+          presignedUrl {
+            url
+          }
+        }
         contacts {
           id
           relatedType

@@ -72,10 +72,26 @@ const MobileHeader: React.FC<IModalHeader> = ({
   return (
     <div
       id="mobile-header-navbar"
-      className="fixed left-0 right-0 top-0 z-40 w-full border-b border-alpha-200 bg-alpha-white"
+      className="fixed left-0 right-0 top-0 z-40 w-full border-b border-alpha-200 bg-alpha-white px"
     >
       <div className="grid h-14 grid-cols-12 items-center">
-        <div className="col-span-2 ml-auto">
+        <div className="col-span-10">
+          {
+            title && (
+              <h3 className="text-center font-bold text-alpha-800">{title}</h3>
+            )
+            // : (
+            //   <Image
+            //     src={"/images/logo.png"}
+            //     alt={"vardast"}
+            //     width={24}
+            //     height={24}
+            //     className="mx-auto"
+            //   />
+            // )
+          }
+        </div>
+        <div className="ml-auto">
           {hasBack && (
             <Button
               className={hasBack && hasBack.hidden ? "hidden" : ""}
@@ -93,23 +109,7 @@ const MobileHeader: React.FC<IModalHeader> = ({
             </Button>
           )}
         </div>
-        <div className="col-span-8">
-          {
-            title && (
-              <h3 className="text-center font-bold text-alpha-800">{title}</h3>
-            )
-            // : (
-            //   <Image
-            //     src={"/images/logo.png"}
-            //     alt={"vardast"}
-            //     width={24}
-            //     height={24}
-            //     className="mx-auto"
-            //   />
-            // )
-          }
-        </div>
-        <div className="col-span-2 mr-auto">
+        <div className="mr-auto">
           {hasFavorite && (
             <Button
               id="header-back-button"

@@ -73,8 +73,8 @@ const ProductOfferItem = ({ offer }: Props) => {
             <div className="relative">
               <Image
                 src={
-                  !!offer?.seller.logoFile?.presignedUrl
-                    ? `${offer?.seller.logoFile?.presignedUrl}`
+                  !!offer?.seller.logoFile?.presignedUrl.url
+                    ? `${offer?.seller.logoFile?.presignedUrl.url}`
                     : ""
                 }
                 // src="/images/frame.png"
@@ -104,7 +104,7 @@ const ProductOfferItem = ({ offer }: Props) => {
                     {digitsEnToFa(
                       addCommas(offer.lastPublicConsumerPrice.amount)
                     )}
-                    <span className="text-sm font-medium">ریال</span>
+                    <span className="text-sm font-medium">تومان</span>
                   </h2>
                   <Button
                     size="small"

@@ -14,8 +14,9 @@ interface IProductIntroduce {
 
 const ProductIntroduce = ({ product }: IProductIntroduce) => {
   return (
-    <div className="flex flex-col gap-y bg-alpha-white p">
+    <div className="flex flex-col gap-y p">
       <div className="flex flex-col gap-y-3">
+        <h4 className="font-semibold">{product.name}</h4>
         <Link
           className=""
           href={`/brand/${product.brand.id}/${slugify(
@@ -23,9 +24,9 @@ const ProductIntroduce = ({ product }: IProductIntroduce) => {
           )}?title=${product.brand.name}`}
           prefetch={false}
         >
-          {product.brand.name}
+          <span className="text-alpha-500">تولید کننده:</span>
+          <span className="px-2 text-info underline">{product.brand.name}</span>
         </Link>
-        <h2>{product.name}</h2>
         <p className="flex items-center gap-x-0.5 text-alpha-600">
           {product.rating !== undefined &&
             product.rating !== null &&
@@ -43,9 +44,6 @@ const ProductIntroduce = ({ product }: IProductIntroduce) => {
           ))}
         </p>
       </div>
-      {product.description && (
-        <p className="text-justify text-alpha-500">{product.description}</p>
-      )}
     </div>
   )
 }

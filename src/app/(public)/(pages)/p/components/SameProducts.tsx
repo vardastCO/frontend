@@ -17,19 +17,23 @@ type SameProductsProps = {
 
 const SameProducts = ({ sameCategories }: SameProductsProps) => {
   return (
-    <div id="attributes" className="flex flex-col gap-y bg-alpha-white p">
-      <h4 className="py">کالاهای مشابه</h4>
+    <div className="flex flex-col gap-y bg-alpha-white py">
+      <h4 className="p">کالاهای مشابه</h4>
       <div className="overflow-hidden">
         <Swiper
           dir="rtl"
-          spaceBetween={50}
           slidesPerView={1.9}
           loop={false}
           pagination={false}
           modules={[Pagination, Thumbs]}
         >
-          {sameCategories.map((product) => (
-            <SwiperSlide key={product.id}>
+          {sameCategories.map((product, index) => (
+            <SwiperSlide
+              className={`${
+                index + 1 < sameCategories.length ? "border-l" : ""
+              } px`}
+              key={product.id}
+            >
               <Link
                 href={`/p/${product.id}/${slugify(product.name)}${
                   product.title ? `?title=${product.title}` : ""
@@ -47,8 +51,8 @@ const SameProducts = ({ sameCategories }: SameProductsProps) => {
                     loading="eager"
                   />
                 </div>
-                <h3>{product.name}</h3>
-                <p className="flex items-center gap-x-0.5 text-alpha-600">
+                <h4 className="font-semibold">{product.name}</h4>
+                <p className="line-clamp-2 flex items-center gap-x-0.5 text-alpha-600">
                   {product.rating !== undefined &&
                     product.rating !== null &&
                     +product.rating > 0 &&
@@ -67,7 +71,7 @@ const SameProducts = ({ sameCategories }: SameProductsProps) => {
                 {product.lowestPrice && (
                   <h2 className="text-left font-bold">
                     {digitsEnToFa(addCommas(product.lowestPrice?.amount))}{" "}
-                    <span className="text-sm font-medium">ریال</span>
+                    <span className="text-sm font-medium">تومان</span>
                   </h2>
                 )}
               </Link>

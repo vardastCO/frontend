@@ -1,13 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline"
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import clsx from "clsx"
 import { LucideInfo } from "lucide-react"
-import { signOut, useSession } from "next-auth/react"
+import { Session } from "next-auth"
+import { signOut } from "next-auth/react"
 
 import { ThreeStateSupervisionStatuses, UserStatusesEnum } from "@/generated"
 
@@ -16,32 +16,24 @@ import { _profile_items } from "@core/lib/constants"
 
 import ProfileItem from "./ProfileItem"
 
-const ProfileIndex = () => {
-  const pathname = usePathname()
+const ProfileIndex = ({ session }: { session: Session | null }) => {
   // eslint-disable-next-line no-unused-vars
   const [_, setLoader] = useState(false)
-  const session = useSession()
-
-  useEffect(() => {
-    session.update()
-  }, [pathname, session])
 
   return (
-    <div className="flex flex-1 flex-col bg-alpha-100 pt">
+    <>
       <div className="flex flex-1 flex-col gap-y">
-        {session.data && (
+        {session && (
           <div className="mt flex flex-col gap-y bg-alpha-white px py">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-x-2">
                 <UserCircleIcon className="h-11 w-11 text-primary" />
                 <span className="truncate font-medium text-alpha-800">
-                  {session.data?.profile.fullName
-                    ? session.data?.profile.fullName
-                    : ""}
-                  {session.data?.profile.cellphone && (
+                  {session?.profile.fullName ? session?.profile.fullName : ""}
+                  {session?.profile.cellphone && (
                     <span className="truncate font-medium text-alpha-800">
                       {" - "}
-                      {session.data?.profile.cellphone}
+                      {session?.profile.cellphone}
                     </span>
                   )}
                 </span>
@@ -49,19 +41,18 @@ const ProfileIndex = () => {
               <div
                 className={clsx("bg-success-100", "rounded-2xl", "px-2 py-1")}
               >
-                {session?.data?.profile.status ===
-                  UserStatusesEnum.NotActivated && (
+                {session?.profile.status === UserStatusesEnum.NotActivated && (
                   <p className="text-error">غیر فعال</p>
                 )}
-                {session?.data?.profile.status === UserStatusesEnum.Active && (
+                {session?.profile.status === UserStatusesEnum.Active && (
                   <p className="text-success">فعال</p>
                 )}
               </div>
             </div>
 
-            {!session?.data?.profile.seller &&
-              session?.data?.profile.status === UserStatusesEnum.Active &&
-              !session?.data?.profile.roles.some(
+            {!session?.profile.seller &&
+              session?.profile.status === UserStatusesEnum.Active &&
+              !session?.profile.roles.some(
                 (role) => role?.name === "admin" || role?.name === "seller"
               ) && (
                 <div className="flex justify-center">
@@ -74,8 +65,8 @@ const ProfileIndex = () => {
                 </div>
               )}
 
-            {session?.data?.profile.seller &&
-              session?.data?.profile.seller.status ===
+            {session?.profile.seller &&
+              session?.profile.seller.status ===
                 ThreeStateSupervisionStatuses.Pending && (
                 <Alert variant="warning">
                   <LucideInfo />
@@ -91,8 +82,8 @@ const ProfileIndex = () => {
                 </Alert>
               )}
 
-            {session?.data?.profile.seller &&
-              session?.data?.profile.seller.status ===
+            {session?.profile.seller &&
+              session?.profile.seller.status ===
                 ThreeStateSupervisionStatuses.Rejected && (
                 <Alert variant="danger">
                   <LucideInfo />
@@ -108,18 +99,18 @@ const ProfileIndex = () => {
               )}
           </div>
         )}
-        <ul className="flex flex-1 flex-col bg-alpha-white">
+        <ul className="flex flex-1 flex-col divide-y divide-alpha-100 bg-alpha-white">
           {_profile_items.map((props) => (
             <ProfileItem key={props.id} {...props} />
           ))}
-          {session.data && (
+          {session && (
             <Link
               href={""}
               onClick={() => {
                 setLoader(true)
                 signOut()
               }}
-              className="flex items-center gap-x p-6 text-error"
+              className="flex items-center gap-x px-6 py-5 text-error"
             >
               <ArrowRightOnRectangleIcon className="h-6 w-6" />
               خروج از حساب کاربری
@@ -137,8 +128,8 @@ const ProfileIndex = () => {
           disabled={loader}
           block
           >
-          {session?.data
-            ? session?.data?.profile.roles.some(
+          {session
+            ? session?.profile.roles.some(
               (role) => role?.name === "admin"
               )
               ? "ورود به پنل ادمین"
@@ -146,23 +137,23 @@ const ProfileIndex = () => {
               : "ورود / ثبت نام"}
             </Button> */}
       <div className="p">
-        {session.data?.profile.roles.some(
+        {session?.profile.roles.some(
           (role) => role?.name === "admin" || role?.name === "seller"
         ) ? (
           <Link href="/admin" className="btn btn-md btn-primary block">
-            {session.data.profile.roles.some((role) => role?.name === "admin")
+            {session.profile.roles.some((role) => role?.name === "admin")
               ? "ورود به پنل ادمین"
               : "ورود به پنل فروشنده"}
           </Link>
         ) : (
-          !session.data && (
+          !session && (
             <Link href="/auth/signin" className="btn btn-md btn-primary block">
               ورود / ثبت‌نام
             </Link>
           )
         )}
       </div>
-    </div>
+    </>
   )
 }
 
