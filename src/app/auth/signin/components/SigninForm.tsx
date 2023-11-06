@@ -350,13 +350,13 @@ const SigninForm = (_: Props) => {
           >
             ورود با نام کاربری و رمز عبور
           </Button>
-          <Link
+          {/* <Link
             type="button"
             className="btn btn-secondary btn-md"
             href={"/profile"}
           >
             {t("common:back")}
-          </Link>
+          </Link> */}
           <Button
             type="submit"
             block
@@ -435,13 +435,13 @@ const SigninForm = (_: Props) => {
           >
             ارسال مجدد رمز یکبار مصرف
           </Button>
-          {/* <Link
+          <Link
             type="button"
             className="btn btn-secondary btn-md"
             href={"/profile"}
           >
             {t("common:back")}
-          </Link> */}
+          </Link>
           <Button
             type="submit"
             form="verify-otp-form"

@@ -103,6 +103,4 @@ const BrandIndex = async ({
   )
 }
 
-export default withMobileHeader(BrandIndex, {
-  hasFavorite: {}
-})
+export default withMobileHeader(BrandIndex, {})

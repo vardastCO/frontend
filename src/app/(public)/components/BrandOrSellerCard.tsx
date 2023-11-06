@@ -1,10 +1,11 @@
 import Image from "next/image"
 import Link from "next/link"
 import { MapPinIcon } from "@heroicons/react/24/outline"
-import { StarIcon } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { Brand, Seller } from "@/generated"
+
+import Rating from "@/app/(public)/components/Rating"
 
 const BrandOrSellerCard = <T extends Seller | Brand>({
   content
@@ -77,10 +78,7 @@ const BrandOrSellerCard = <T extends Seller | Brand>({
                   : (content as Seller).offers.length
               )} کالا`}</p>
               {content.rating && content.rating > 0 ? (
-                <div className="flex items-center gap-x-0.5 bg-warning-50 p-0.5 py-1 text-xs">
-                  <span>{digitsEnToFa(+`${content.rating}`)}</span>
-                  <StarIcon className="h-4 w-4 text-warning-500" />
-                </div>
+                <Rating rating={content.rating} />
               ) : (
                 ""
               )}

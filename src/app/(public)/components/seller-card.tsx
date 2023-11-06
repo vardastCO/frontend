@@ -1,10 +1,11 @@
 import Image from "next/image"
 import Link from "next/link"
 import { MapPinIcon } from "@heroicons/react/24/outline"
-import { StarIcon } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { Seller } from "@/generated"
+
+import Rating from "@/app/(public)/components/Rating"
 
 interface SellerCardProps {
   seller: Seller
@@ -54,7 +55,7 @@ const SellerCard = ({ seller }: SellerCardProps) => {
               />
             )}
           </div>
-          <div className="lg:col-span1 col-span-2 flex flex-1 flex-col gap-2 border-r p-2 sm:border-r-0 md:gap-0">
+          <div className="lg:col-span1 col-span-2 flex flex-1 flex-col items-start gap-2 border-r p-2 sm:border-r-0 md:gap-0">
             <h4 title={seller.name} className="font-bold text-alpha-800">
               {seller.name}
             </h4>
@@ -66,10 +67,7 @@ const SellerCard = ({ seller }: SellerCardProps) => {
               {seller.addresses.length > 0 && seller.addresses[0].province.name}
             </p>
             {seller.rating && seller?.rating > 0 ? (
-              <p className="flex items-center gap-x-0.5 text-alpha-600">
-                {digitsEnToFa(+`${seller.rating}`)}
-                <StarIcon className="h-5 w-5 text-warning" />
-              </p>
+              <Rating rating={seller.rating} />
             ) : (
               ""
             )}

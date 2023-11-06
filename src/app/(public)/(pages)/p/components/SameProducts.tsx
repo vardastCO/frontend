@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { StarIcon } from "@heroicons/react/24/solid"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { Pagination, Thumbs } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -10,6 +9,8 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { Product } from "@/generated"
 
 import slugify from "@core/utils/persian-slugify"
+import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
+import Rating from "@/app/(public)/components/Rating"
 
 type SameProductsProps = {
   sameCategories: Array<Product>
@@ -17,8 +18,7 @@ type SameProductsProps = {
 
 const SameProducts = ({ sameCategories }: SameProductsProps) => {
   return (
-    <div className="flex flex-col gap-y bg-alpha-white py">
-      <h4 className="p">کالاهای مشابه</h4>
+    <ProductSectionContainer title="کالاهای مشابه">
       <div className="overflow-hidden">
         <Swiper
           dir="rtl"
@@ -51,23 +51,14 @@ const SameProducts = ({ sameCategories }: SameProductsProps) => {
                     loading="eager"
                   />
                 </div>
-                <h4 className="font-semibold">{product.name}</h4>
-                <p className="line-clamp-2 flex items-center gap-x-0.5 text-alpha-600">
-                  {product.rating !== undefined &&
-                    product.rating !== null &&
-                    +product.rating > 0 &&
-                    digitsEnToFa(+`${product.rating}`)}
-                  {[...Array(5)].map((item, index) => (
-                    <StarIcon
-                      key={item}
-                      className={`h-5 w-5 ${
-                        index + 1 <= (product.rating || 0)
-                          ? "text-warning-600"
-                          : "text-gray-300"
-                      }`}
-                    />
-                  ))}
-                </p>
+                <h4 className="line-clamp-2 font-semibold">{product.name}</h4>
+                <div className="flex">
+                  {product.rating && product.rating > 0 ? (
+                    <Rating rating={product.rating} />
+                  ) : (
+                    ""
+                  )}
+                </div>
                 {product.lowestPrice && (
                   <h2 className="text-left font-bold">
                     {digitsEnToFa(addCommas(product.lowestPrice?.amount))}{" "}
@@ -79,7 +70,7 @@ const SameProducts = ({ sameCategories }: SameProductsProps) => {
           ))}
         </Swiper>
       </div>
-    </div>
+    </ProductSectionContainer>
   )
 }
 

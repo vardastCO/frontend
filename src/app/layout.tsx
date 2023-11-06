@@ -200,7 +200,7 @@ export const metadata: Metadata = {
     ]
   },
   manifest: "/manifest.json",
-  themeColor: "#ffffff",
+  themeColor: myColors.primary[600],
   formatDetection: {
     email: false,
     address: false,
@@ -259,7 +259,11 @@ export default function AdminLayout({
           </Script>
         </head>
         <body>
-          <NextTopLoader color={myColors.primary[600]} showSpinner={false} />
+          <NextTopLoader
+            showAtBottom
+            color={myColors.secondary[100]}
+            showSpinner={false}
+          />
           <NextAuthProvider>
             <ReactQueryProvider>
               <NextThemeProvider>

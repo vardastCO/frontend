@@ -4,7 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { MapPinIcon } from "@heroicons/react/24/outline"
-import { CheckBadgeIcon, StarIcon } from "@heroicons/react/24/solid"
+import { CheckBadgeIcon } from "@heroicons/react/24/solid"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
@@ -19,7 +19,9 @@ import {
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
+import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
 import SellerContactModal from "@/app/(public)/(pages)/p/components/seller-contact-modal"
+import Rating from "@/app/(public)/components/Rating"
 
 type SuggestedOfferProps = {
   offersCount: number
@@ -53,8 +55,6 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
     })
   }
 
-  const isBLueTick = false
-
   return (
     <>
       <SellerContactModal
@@ -63,21 +63,17 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
         onOpenChange={setContactModalOpen}
       />
 
-      <div className="flex flex-col gap-y bg-alpha-white p">
-        <h4 className="py">برترین فروشنده</h4>
-        <div className="flex flex-col rounded-2xl border bg-alpha-100 p">
+      <ProductSectionContainer title="برترین فروشنده">
+        <div className="flex w-full flex-col items-start gap-y-4 rounded-2xl border bg-alpha-100 p">
           {offer.seller.rating && offer.seller.rating > 0 ? (
-            <div className="flex gap-x-2 pb">
-              {digitsEnToFa(+`${offer.seller.rating}`)}
-              <StarIcon className="h-5 w-5 text-warning-500" />
-            </div>
+            <Rating rating={offer.seller.rating} />
           ) : (
             ""
           )}
           <div className="flex items-center gap-x-3">
             <div className="flex flex-1 items-center gap-3">
               <div className="relative">
-                {isBLueTick && (
+                {offer.seller?.isBlueTik && (
                   <CheckBadgeIcon className="absolute right-0 top-0 h-6 w-6 -translate-y-1 translate-x-1 text-info" />
                 )}
                 <Image
@@ -90,7 +86,7 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
                   width={100}
                   height={100}
                   alt={offer?.seller.name}
-                  className="object-contain"
+                  className="rounded-xl bg-white object-contain shadow-md"
                 />
               </div>
               <div className="flex flex-col gap-y-3">
@@ -125,7 +121,7 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
             اطلاعات تماس
           </Button>
         </div>
-      </div>
+      </ProductSectionContainer>
     </>
   )
 }

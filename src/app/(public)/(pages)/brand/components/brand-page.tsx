@@ -1,7 +1,9 @@
 "use client"
 
+import Image from "next/image"
 import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
+import { LucideWarehouse } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 import { GetBrandQuery, IndexProductInput } from "@/generated"
@@ -48,6 +50,24 @@ const BrandPage = ({ isMobileView, args, slug }: BrandPageProps) => {
             }
           ]}
         />
+      </div>
+
+      <div className="flex flex-col items-center justify-center md:mb-12 md:flex-row md:items-end md:justify-start md:gap-6">
+        <div className="relative flex h-16 w-full items-center justify-center rounded-md border border-alpha-200 bg-alpha-50 md:h-28 md:w-28">
+          {data.brand.logoFile ? (
+            <Image
+              src={data.brand.logoFile.presignedUrl.url}
+              fill
+              alt={data.brand.name}
+              className="object-contain p-3"
+            />
+          ) : (
+            <LucideWarehouse
+              className="h-8 w-8 text-alpha-400 md:h-10 md:w-10"
+              strokeWidth={1.5}
+            />
+          )}
+        </div>
       </div>
       <ProductList
         args={args}

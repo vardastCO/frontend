@@ -1,9 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
-import { StarIcon } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { Brand } from "@/generated"
+
+import Rating from "@/app/(public)/components/Rating"
 
 interface BrandCardProps {
   brand: Brand
@@ -65,10 +66,7 @@ const BrandCard = ({ brand }: BrandCardProps) => {
                 brand?.products?.length
               )} کالا`}</p>
               {brand.rating && brand.rating > 0 ? (
-                <div className="flex items-center gap-x-0.5 bg-warning-50 p-0.5 py-1 text-xs">
-                  <span>{digitsEnToFa(+`${brand.rating}`)}</span>
-                  <StarIcon className="h-4 w-4 text-warning-500" />
-                </div>
+                <Rating rating={brand.rating} />
               ) : (
                 ""
               )}

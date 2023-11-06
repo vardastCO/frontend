@@ -25,7 +25,7 @@ const FakeSplashScreenProvider: React.FC<
   const onStartApp = () => {
     setTimeout(() => {
       setMount(true)
-    }, 1500)
+    }, 0)
   }
 
   useEffect(() => {

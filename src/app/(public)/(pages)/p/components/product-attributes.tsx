@@ -1,4 +1,5 @@
 import { GroupedAttributes } from "@/app/(public)/(pages)/p/components/product-page"
+import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
 
 type ProductAttributesProps = {
   attributes: GroupedAttributes[]
@@ -6,8 +7,7 @@ type ProductAttributesProps = {
 
 const ProductAttributes = ({ attributes }: ProductAttributesProps) => {
   return (
-    <div id="attributes" className="flex flex-col gap-y bg-alpha-white p">
-      <h4 className="py">ویژگی‌ها</h4>
+    <ProductSectionContainer title="ویژگی‌ها">
       <ul className="flex list-disc flex-col gap-y">
         {attributes.map((attribute, idx) => (
           <li className="flex gap-x" key={idx}>
@@ -19,7 +19,7 @@ const ProductAttributes = ({ attributes }: ProductAttributesProps) => {
           </li>
         ))}
       </ul>
-    </div>
+    </ProductSectionContainer>
   )
 }
 

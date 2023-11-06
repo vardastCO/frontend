@@ -142,7 +142,7 @@ const ContactInfoForm = ({
     resolver: zodResolver(CreateContactInfoSchema),
     defaultValues: {
       title: passedContactInfo?.title,
-      code: passedContactInfo?.code,
+      code: passedContactInfo?.code || undefined,
       number: passedContactInfo?.number,
       type: passedContactInfo?.type,
       sort: passedContactInfo?.sort,

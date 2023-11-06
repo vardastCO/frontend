@@ -1,4 +1,5 @@
 import { GroupedAttributes } from "@/app/(public)/(pages)/p/components/product-page"
+import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
 
 type ProductDetailsProps = {
   attributes: GroupedAttributes[]
@@ -6,9 +7,8 @@ type ProductDetailsProps = {
 
 const ProductDetails = ({ attributes }: ProductDetailsProps) => {
   return (
-    <div id="attributes" className="flex flex-col gap-y bg-alpha-white p">
-      <h4 className="py">مشخصات</h4>
-      <table className="border-collapse rounded border">
+    <ProductSectionContainer title="مشخصات">
+      <table className="w-full border-collapse rounded border">
         <tbody>
           {attributes.map((attribute, idx) => (
             <tr className="grid grid-cols-5" key={idx}>
@@ -24,7 +24,7 @@ const ProductDetails = ({ attributes }: ProductDetailsProps) => {
           ))}
         </tbody>
       </table>
-    </div>
+    </ProductSectionContainer>
   )
 }
 

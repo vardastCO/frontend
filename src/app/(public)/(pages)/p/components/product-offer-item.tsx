@@ -4,7 +4,6 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { MapPinIcon } from "@heroicons/react/24/outline"
-import { StarIcon } from "@heroicons/react/24/solid"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
@@ -20,6 +19,7 @@ import {
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
 import SellerContactModal from "@/app/(public)/(pages)/p/components/seller-contact-modal"
+import Rating from "@/app/(public)/components/Rating"
 
 type Props = {
   offer: Offer
@@ -59,12 +59,9 @@ const ProductOfferItem = ({ offer }: Props) => {
         open={contactModalOpen}
         onOpenChange={setContactModalOpen}
       />
-      <div className="flex flex-col p">
+      <div className="flex flex-col items-start p">
         {offer.seller.rating && offer.seller.rating > 0 ? (
-          <div className="flex gap-x-2 pb">
-            {digitsEnToFa(+`${offer.seller.rating}`)}
-            <StarIcon className="h-5 w-5 text-warning-500" />
-          </div>
+          <Rating rating={offer.seller.rating} />
         ) : (
           ""
         )}

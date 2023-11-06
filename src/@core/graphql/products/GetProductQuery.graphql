@@ -123,6 +123,7 @@ query GetProduct($id: Int!) {
       isPublic
       createdAt
       seller {
+        rating
         id
         name
         createdAt

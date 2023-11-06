@@ -2,6 +2,8 @@
 
 import { Offer, Uom } from "@/generated"
 
+import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
+
 import ProductOfferItem from "./product-offer-item"
 
 type ProductOffersProps = {
@@ -11,14 +13,13 @@ type ProductOffersProps = {
 
 const ProductOffers = ({ offers, uom }: ProductOffersProps) => {
   return (
-    <div id="attributes" className="flex flex-col gap-y bg-alpha-white p">
-      <h4 className="py">سایر فروشندگان</h4>
-      <div className="flex flex-col gap-3 even:[&>div]:bg-alpha-100">
+    <ProductSectionContainer title="سایر فروشندگان">
+      <div className="flex w-full flex-col gap-3">
         {offers.map((offer) => (
           <ProductOfferItem key={offer.id} offer={offer} uom={uom} />
         ))}
       </div>
-    </div>
+    </ProductSectionContainer>
   )
 }
 

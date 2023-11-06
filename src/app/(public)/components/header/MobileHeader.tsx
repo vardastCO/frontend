@@ -1,19 +1,22 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { usePathname, useRouter } from "next/navigation"
+import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { BookmarkIcon, ShareIcon } from "@heroicons/react/24/outline"
 import { BookmarkIcon as SolidBookmarkIcon } from "@heroicons/react/24/solid"
 import copy from "copy-to-clipboard"
-import { ArrowRight } from "lucide-react"
 
 import { Button } from "@core/components/ui/button"
 import { toast } from "@core/hooks/use-toast"
+
+import logo from "@/assets/logo-horizontal-v2-persian-dark-bg-white.svg"
 
 export interface IModalHeader {
   title?: string
   hasFavorite?: {}
   hasShare?: boolean
+  hasLogo?: boolean
   hasBack?: {
     onClick?: (_?: any) => void
     hidden?: boolean
@@ -24,9 +27,10 @@ const MobileHeader: React.FC<IModalHeader> = ({
   title,
   hasBack,
   hasFavorite,
-  hasShare
+  hasShare,
+  hasLogo
 }) => {
-  const { back } = useRouter()
+  // const { back } = useRouter()
   const pathname = usePathname()
   const [isFavorite, setIsFavorite] = useState(false)
 
@@ -72,85 +76,101 @@ const MobileHeader: React.FC<IModalHeader> = ({
   return (
     <div
       id="mobile-header-navbar"
-      className="fixed left-0 right-0 top-0 z-40 w-full border-b border-alpha-200 bg-alpha-white px"
+      className="fixed left-0 right-0 top-0 z-40 w-full border-b border-alpha-200 bg-primary px"
     >
       <div className="grid h-14 grid-cols-12 items-center">
-        <div className="col-span-10">
-          {
-            title && (
-              <h3 className="text-center font-bold text-alpha-800">{title}</h3>
-            )
-            // : (
-            //   <Image
-            //     src={"/images/logo.png"}
-            //     alt={"vardast"}
-            //     width={24}
-            //     height={24}
-            //     className="mx-auto"
-            //   />
-            // )
-          }
-        </div>
-        <div className="ml-auto">
-          {hasBack && (
-            <Button
-              className={hasBack && hasBack.hidden ? "hidden" : ""}
-              id="header-back-button"
-              variant={"ghost"}
-              onClick={() => (hasBack.onClick ? hasBack.onClick() : back())}
-              iconOnly
-            >
-              <ArrowRight className="h-6 w-6" />
-            </Button>
-          )}
-          {hasShare && (
-            <Button variant={"ghost"} iconOnly onClick={handleOnClick}>
-              <ShareIcon className="h-6 w-6 text-alpha" />
-            </Button>
+        <div className="col-span-3">
+          {hasLogo && (
+            <Image
+              src={logo}
+              alt={"vardast"}
+              width={24}
+              height={24}
+              className="mx-auto h-full w-full"
+            />
           )}
         </div>
-        <div className="mr-auto">
-          {hasFavorite && (
-            <Button
-              id="header-back-button"
-              variant={"ghost"}
-              iconOnly
-              onClick={() => {
-                const prevItems = localStorage.getItem("favorites")
-                const product = pathname.split("/")[2]
+        <div className="col-span-6">
+          {title && (
+            <h3 className="text-center font-bold text-alpha-white">{title}</h3>
+          )}
+        </div>
+        <div className="col-span-3 grid grid-cols-2">
+          {(hasBack || hasShare || hasFavorite) && (
+            <>
+              {/* <div className="ml-auto"> */}
+              {/* {hasBack && (
+                <Button
+                  className={hasBack && hasBack.hidden ? "hidden" : ""}
+                  id="header-back-button"
+                  variant={"ghost"}
+                  onClick={() => (hasBack.onClick ? hasBack.onClick() : back())}
+                  iconOnly
+                >
+                  <ArrowRight className="h-6 w-6" />
+                </Button>
+              )} */}
+              <div className="mr-auto">
+                {hasShare && (
+                  <Button variant={"ghost"} iconOnly onClick={handleOnClick}>
+                    <ShareIcon className="h-6 w-6 text-alpha-white" />
+                  </Button>
+                )}
+              </div>
+              {/* </div> */}
+              {/* <div className="mr-auto"> */}
+              <div className="mr-auto">
+                {hasFavorite && (
+                  <Button
+                    id="header-back-button"
+                    variant={"ghost"}
+                    iconOnly
+                    onClick={() => {
+                      const prevItems = localStorage.getItem("favorites")
+                      const product = pathname.split("/")[2]
 
-                if (prevItems) {
-                  if (
-                    JSON.parse(prevItems).find(
-                      (prev: string) => prev === product
-                    )
-                  ) {
-                    const newItems = JSON.parse(prevItems).filter(
-                      (prev: string) => prev !== product
-                    )
-                    localStorage.setItem("favorites", JSON.stringify(newItems))
-                    setIsFavorite(false)
-                  } else {
-                    const newItems = [...JSON.parse(prevItems)]
-                    newItems.push(pathname.split("/")[2])
-                    localStorage.setItem("favorites", JSON.stringify(newItems))
-                    setIsFavorite(true)
-                  }
-                } else {
-                  localStorage.setItem(
-                    "favorites",
-                    JSON.stringify([pathname.split("/")[2]])
-                  )
-                  setIsFavorite(true)
-                }
-              }}
-            >
-              {isFavorite ? (
-                <SolidBookmarkIcon className="h-6 w-6" />
-              ) : (
-                <BookmarkIcon className="h-6 w-6 text-alpha" />
-              )}
-            </Button>
+                      if (prevItems) {
+                        if (
+                          JSON.parse(prevItems).find(
+                            (prev: string) => prev === product
+                          )
+                        ) {
+                          const newItems = JSON.parse(prevItems).filter(
+                            (prev: string) => prev !== product
+                          )
+                          localStorage.setItem(
+                            "favorites",
+                            JSON.stringify(newItems)
+                          )
+                          setIsFavorite(false)
+                        } else {
+                          const newItems = [...JSON.parse(prevItems)]
+                          newItems.push(pathname.split("/")[2])
+                          localStorage.setItem(
+                            "favorites",
+                            JSON.stringify(newItems)
+                          )
+                          setIsFavorite(true)
+                        }
+                      } else {
+                        localStorage.setItem(
+                          "favorites",
+                          JSON.stringify([pathname.split("/")[2]])
+                        )
+                        setIsFavorite(true)
+                      }
+                    }}
+                  >
+                    {isFavorite ? (
+                      <SolidBookmarkIcon className="h-6 w-6" />
+                    ) : (
+                      <BookmarkIcon className="h-6 w-6 text-alpha-white" />
+                    )}
+                  </Button>
+                )}
+              </div>
+              {/* </div> */}
+            </>
           )}
         </div>
       </div>

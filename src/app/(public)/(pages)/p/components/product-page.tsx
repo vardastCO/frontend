@@ -191,7 +191,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           </Link>
         </div>
       )}
-      <div className="mb-12 grid grid-cols-1 gap-1 lg:grid-cols-[5fr_7fr]">
+      <div className="grid grid-cols-1 gap-1 lg:grid-cols-[5fr_7fr]">
         <div className="flex flex-col bg-alpha-white">
           <div className="md:max-w-[200px]">
             {product.images.length > 0 && (
