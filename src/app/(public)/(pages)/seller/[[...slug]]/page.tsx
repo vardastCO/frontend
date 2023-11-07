@@ -98,6 +98,4 @@ const SellerIndex = async ({
   )
 }
 
-export default withMobileHeader(SellerIndex, {
-  hasFavorite: {}
-})
+export default withMobileHeader(SellerIndex, {})

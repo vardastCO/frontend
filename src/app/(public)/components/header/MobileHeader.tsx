@@ -92,10 +92,6 @@ const MobileHeader: React.FC<IModalHeader> = ({
     hasLogo
   })
 
-  console.log("====================================")
-  console.log(middleBoxColsCount)
-  console.log("====================================")
-
   return (
     <div
       id="mobile-header-navbar"
@@ -121,18 +117,21 @@ const MobileHeader: React.FC<IModalHeader> = ({
         {(hasBack || hasShare || hasFavorite) && (
           <div className="col-span-3 grid grid-cols-2">
             <>
-              {/* <div className="ml-auto"> */}
-              {/* {hasBack && (
-                <Button
-                  className={hasBack && hasBack.hidden ? "hidden" : ""}
-                  id="header-back-button"
-                  variant={"ghost"}
-                  onClick={() => (hasBack.onClick ? hasBack.onClick() : back())}
-                  iconOnly
-                >
-                  <ArrowRight className="h-6 w-6" />
-                </Button>
-              )} */}
+              {/* <div className="mr-auto">
+                {hasBack && (
+                  <Button
+                    className={hasBack && hasBack.hidden ? "hidden" : ""}
+                    id="header-back-button"
+                    variant={"ghost"}
+                    onClick={() =>
+                      hasBack.onClick ? hasBack.onClick() : back()
+                    }
+                    iconOnly
+                  >
+                    <ArrowLeftIcon className="h-6 w-6" />
+                  </Button>
+                )}
+              </div> */}
               <div className="mr-auto">
                 {hasShare && (
                   <Button variant={"ghost"} iconOnly onClick={handleOnClick}>
@@ -140,8 +139,6 @@ const MobileHeader: React.FC<IModalHeader> = ({
                   </Button>
                 )}
               </div>
-              {/* </div> */}
-              {/* <div className="mr-auto"> */}
               <div className="mr-auto">
                 {hasFavorite && (
                   <Button
@@ -185,7 +182,7 @@ const MobileHeader: React.FC<IModalHeader> = ({
                     }}
                   >
                     {isFavorite ? (
-                      <SolidBookmarkIcon className="h-6 w-6" />
+                      <SolidBookmarkIcon className="h-6 w-6 text-white" />
                     ) : (
                       <BookmarkIcon className="h-6 w-6 text-alpha-white" />
                     )}

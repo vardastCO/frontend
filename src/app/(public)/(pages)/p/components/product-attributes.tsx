@@ -8,7 +8,7 @@ type ProductAttributesProps = {
 const ProductAttributes = ({ attributes }: ProductAttributesProps) => {
   return (
     <ProductSectionContainer title="ویژگی‌ها">
-      <ul className="flex list-disc flex-col gap-y pr decoration-primary">
+      <ul className="flex list-disc flex-col gap-y pr-6 decoration-primary">
         {attributes.map((attribute, idx) => (
           <li className="" key={idx}>
             <div className="grid grid-cols-5">

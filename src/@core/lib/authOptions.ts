@@ -143,7 +143,7 @@ export const authOptions: AuthOptions = {
           if (error?.response) {
             throw new Error(
               // @ts-ignore
-              error.response?.errors[0]?.extensions?.displayMessage
+              error?.response?.errors[0]?.extensions?.displayMessage
             )
           }
           throw new Error("خطای ورود")
@@ -200,6 +200,11 @@ export const authOptions: AuthOptions = {
         session.error = token.error as string
         return session
       } catch (error) {
+        console.log(
+          "====================================ddddddddddddddddddddddddddddd"
+        )
+        console.log(error)
+
         // @ts-ignore
         throw new Error(error.response.errors[0].extensions.displayMessage)
       }

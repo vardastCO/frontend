@@ -21,25 +21,27 @@ const BrandOrSellerCard = <T extends Seller | Brand>({
 
   return (
     <Link
-      href={`/${content.__typename?.toLowerCase()}/${content?.id}?title=${content?.name}`}
+      href={`/${content.__typename?.toLowerCase()}/${content?.id}?title=${
+        content.name
+      }`}
       prefetch={false}
       className="relative overflow-hidden rounded bg-alpha-white transition hover:z-10 md:h-auto md:rounded-none md:hover:shadow-lg"
     >
       <div className="flex h-full w-full flex-col lg:px-4">
-        <div className="grid flex-1 grid-rows-7 gap-2 lg:flex lg:flex-col">
+        <div className="grid flex-1 grid-rows-7 lg:flex lg:flex-col">
           <div
             id={`content-image-${content?.id}`}
-            className={`relative row-span-4 flex-shrink-0 bg-[url('/images/blank.png')] bg-[length:2em] bg-center bg-no-repeat align-middle duration-1000 ease-out lg:h-48 lg:w-full ${
+            className={`relative row-span-4 flex-shrink-0 bg-center bg-no-repeat align-middle duration-1000 ease-out lg:h-48 lg:w-full ${
               content?.logoFile?.presignedUrl.url ? "opacity-0" : ""
             }`}
           >
             {content?.logoFile?.presignedUrl.url ? (
               <Image
-                src={content?.logoFile?.presignedUrl.url as string}
-                alt={content?.name}
+                src={content.logoFile.presignedUrl.url as string}
+                alt={content.name}
                 fill
                 sizes="(max-width: 640px) 33vw, 10vw"
-                className="object-contain"
+                className=""
                 loading="eager"
                 onLoadingComplete={onLoadingCompletedImage}
                 onError={onLoadingCompletedImage}
@@ -47,7 +49,7 @@ const BrandOrSellerCard = <T extends Seller | Brand>({
             ) : (
               <Image
                 src={"/images/blank.png"}
-                alt={content?.name}
+                alt={content.name}
                 fill
                 sizes="(max-width: 640px) 33vw, 10vw"
                 className="object-contain"
@@ -55,24 +57,25 @@ const BrandOrSellerCard = <T extends Seller | Brand>({
               />
             )}
           </div>
-          <div className="row-span-3 grid grid-rows-1 gap-1 p-2">
-            <h5
-              title={content?.name}
-              className="line-clamp-2 h-10 font-semibold text-alpha-800"
+          <div className="row-span-3 grid grid-rows-1 gap-y-1 p-2">
+            <h6
+              title={content.name}
+              className="line-clamp-2 h-8 font-semibold text-alpha-800"
             >
-              {content?.name}
-            </h5>
-            <p className="flex h-5 items-center gap-x-2 text-alpha-600">
+              {content.name}
+              {content.name}
+            </h6>
+            <p className="flex h-4 items-center gap-x-1 py-1 text-xs text-alpha-600">
               {content?.addresses?.length > 0 &&
                 content.addresses[0].province.name && (
                   <>
-                    <MapPinIcon className="h-4 w-4 text-alpha-600" />
+                    <MapPinIcon className="h-3 w-3 text-alpha-600" />
                     <>{content.addresses[0].province.name}</>
                   </>
                 )}
             </p>
             <div className="flex items-center justify-between">
-              <p className="text-sm text-primary-500">{`${digitsEnToFa(
+              <p className="text-xs text-primary-500">{`${digitsEnToFa(
                 (content as Brand).products
                   ? (content as Brand).products?.length
                   : (content as Seller).offers.length

@@ -69,6 +69,7 @@ query GetWhoAmI {
       isPublic
       createdAt
       updatedAt
+      isBlueTik
     }
     sessions {
       id
