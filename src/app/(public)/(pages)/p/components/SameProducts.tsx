@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { Pagination, Thumbs } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
@@ -10,6 +9,7 @@ import { Product } from "@/generated"
 
 import slugify from "@core/utils/persian-slugify"
 import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
+import PriceTitle from "@/app/(public)/components/PriceTitle"
 import Rating from "@/app/(public)/components/Rating"
 
 type SameProductsProps = {
@@ -22,7 +22,7 @@ const SameProducts = ({ sameCategories }: SameProductsProps) => {
       <div className="overflow-hidden">
         <Swiper
           dir="rtl"
-          slidesPerView={1.9}
+          slidesPerView={1.4}
           loop={false}
           pagination={false}
           modules={[Pagination, Thumbs]}
@@ -60,10 +60,7 @@ const SameProducts = ({ sameCategories }: SameProductsProps) => {
                   )}
                 </div>
                 {product.lowestPrice && (
-                  <h3 className="text-left font-bold">
-                    {digitsEnToFa(addCommas(product.lowestPrice?.amount))}{" "}
-                    <span className="text-xs font-medium">تومان</span>
-                  </h3>
+                  <PriceTitle size="xs" price={product.lowestPrice?.amount} />
                 )}
               </Link>
             </SwiperSlide>

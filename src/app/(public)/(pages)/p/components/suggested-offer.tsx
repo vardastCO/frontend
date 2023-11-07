@@ -5,7 +5,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { MapPinIcon } from "@heroicons/react/24/outline"
 import { CheckBadgeIcon } from "@heroicons/react/24/solid"
-import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 
@@ -21,6 +20,7 @@ import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
 import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
 import SellerContactModal from "@/app/(public)/(pages)/p/components/seller-contact-modal"
+import PriceTitle from "@/app/(public)/components/PriceTitle"
 import Rating from "@/app/(public)/components/Rating"
 
 type SuggestedOfferProps = {
@@ -111,10 +111,7 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
             </div>
             <div className="flex flex-col">
               <h2 className="h-8 font-bold"></h2>
-              <h2 className="h-8 font-bold">
-                {digitsEnToFa(addCommas(offer?.amount))}{" "}
-                <span className="text-sm font-medium">تومان</span>
-              </h2>
+              <PriceTitle price={offer?.amount} />
             </div>
           </div>
           <br className="h-1 w-full bg-alpha" />

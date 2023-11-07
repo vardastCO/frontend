@@ -185,7 +185,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                     <li key={idx}>
                       <a
                         className="inline-flex rounded-lg border border-alpha-200 px-3 py-2 text-sm text-alpha-600 shadow-sm hover:bg-alpha-100 hover:text-alpha-700"
-                        href={item.uri}
+                        href={`${item.uri}${`&title=${item.query}`}`}
                       >
                         {item.query}
                       </a>
@@ -217,7 +217,9 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                             noStyle
                             onClick={() =>
                               navigateToProduct(
-                                `/p/${suggestedProduct.id}/${suggestedProduct.name}`
+                                `/p/${suggestedProduct.id}/${
+                                  suggestedProduct.name
+                                }${`&title=${suggestedProduct.title}`}`
                               )
                             }
                             key={suggestedProduct.id}
@@ -254,7 +256,9 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                             onClick={() =>
                               navigateToSearch(
                                 query,
-                                `/search/${suggestedCategory.id}/${suggestedCategory.title}?query=${query}`
+                                `/search/${suggestedCategory.id}/${
+                                  suggestedCategory.title
+                                }?query=${query}${`&title=${suggestedCategory.title}`}`
                               )
                             }
                             key={suggestedCategory.id}
@@ -279,7 +283,9 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                             onClick={() =>
                               navigateToSearch(
                                 query,
-                                `/brand/${suggestedCategory.id}/${suggestedCategory.name}?query=${query}`
+                                `/brand/${suggestedCategory.id}/${
+                                  suggestedCategory.name
+                                }?query=${query}${`&title=${suggestedCategory.name}`}`
                               )
                             }
                             key={suggestedCategory.id}
@@ -304,7 +310,9 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                             onClick={() =>
                               navigateToSearch(
                                 query,
-                                `/seller/${suggestedCategory.id}/${suggestedCategory.name}?query=${query}`
+                                `/seller/${suggestedCategory.id}/${
+                                  suggestedCategory.name
+                                }?query=${query}${`&title=${suggestedCategory.name}`}`
                               )
                             }
                             key={suggestedCategory.id}
@@ -323,7 +331,10 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                     noStyle
                     className="flex w-full items-center gap-2 rounded px-3 py-2 text-start text-alpha-700 hover:bg-alpha-50"
                     onClick={() =>
-                      navigateToSearch(query, `/search?query=${query}`)
+                      navigateToSearch(
+                        query,
+                        `/search?query=${query}${`&title=${query}`}`
+                      )
                     }
                   >
                     <LucideSearch className="h-5 w-5" />

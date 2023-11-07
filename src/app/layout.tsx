@@ -8,8 +8,6 @@ import { faIR } from "date-fns/locale"
 import useTranslation from "next-translate/useTranslation"
 import NextTopLoader from "nextjs-toploader"
 
-import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
-import FakeSplashScreenProvider from "@core/providers/FakeSplashScreenProvider"
 import NextAuthProvider from "@core/providers/NextAuthProvider"
 import NextThemeProvider from "@core/providers/NextThemeProvider"
 import RadixDirectionProvider from "@core/providers/RadixDirectionProvider"
@@ -219,7 +217,7 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
-  const isMobileView = CheckIsMobileView()
+  // const isMobileView = CheckIsMobileView()
 
   const { lang } = useTranslation()
 
@@ -263,9 +261,9 @@ export default function AdminLayout({
           <NextAuthProvider>
             <ReactQueryProvider>
               <NextThemeProvider>
-                <FakeSplashScreenProvider isMobileView={isMobileView}>
-                  {children}
-                </FakeSplashScreenProvider>
+                {/* <FakeSplashScreenProvider isMobileView={isMobileView}> */}
+                {children}
+                {/* </FakeSplashScreenProvider> */}
                 <Toaster />
               </NextThemeProvider>
             </ReactQueryProvider>

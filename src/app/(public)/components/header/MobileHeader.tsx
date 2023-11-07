@@ -5,6 +5,7 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { BookmarkIcon, ShareIcon } from "@heroicons/react/24/outline"
 import { BookmarkIcon as SolidBookmarkIcon } from "@heroicons/react/24/solid"
+import clsx from "clsx"
 import copy from "copy-to-clipboard"
 
 import { Button } from "@core/components/ui/button"
@@ -73,14 +74,36 @@ const MobileHeader: React.FC<IModalHeader> = ({
     }
   }
 
+  const computeMiddleBoxCols = (props: IModalHeader) => {
+    const exceptMiddle = { ...props }
+    delete exceptMiddle.title
+
+    const lengthOfColors = Object.values(exceptMiddle).filter(
+      (item) => !!item
+    ).length
+
+    return `col-span-${12 - lengthOfColors - (props.hasLogo ? 3 : 0)}`
+  }
+
+  const middleBoxColsCount = computeMiddleBoxCols({
+    hasBack,
+    hasFavorite,
+    hasShare,
+    hasLogo
+  })
+
+  console.log("====================================")
+  console.log(middleBoxColsCount)
+  console.log("====================================")
+
   return (
     <div
       id="mobile-header-navbar"
       className="fixed left-0 right-0 top-0 z-40 w-full border-b border-alpha-200 bg-primary px"
     >
       <div className="grid h-14 grid-cols-12 items-center">
-        <div className="col-span-3">
-          {hasLogo && (
+        {hasLogo && (
+          <div className="col-span-3">
             <Image
               src={logo}
               alt={"vardast"}
@@ -88,15 +111,15 @@ const MobileHeader: React.FC<IModalHeader> = ({
               height={24}
               className="mx-auto h-full w-full"
             />
-          )}
-        </div>
-        <div className="col-span-6">
+          </div>
+        )}
+        <div className={clsx(middleBoxColsCount)}>
           {title && (
             <h3 className="text-center font-bold text-alpha-white">{title}</h3>
           )}
         </div>
-        <div className="col-span-3 grid grid-cols-2">
-          {(hasBack || hasShare || hasFavorite) && (
+        {(hasBack || hasShare || hasFavorite) && (
+          <div className="col-span-3 grid grid-cols-2">
             <>
               {/* <div className="ml-auto"> */}
               {/* {hasBack && (
@@ -171,8 +194,8 @@ const MobileHeader: React.FC<IModalHeader> = ({
               </div>
               {/* </div> */}
             </>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   )

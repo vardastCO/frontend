@@ -4,7 +4,6 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { MapPinIcon } from "@heroicons/react/24/outline"
-import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 
@@ -19,6 +18,7 @@ import {
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
 import SellerContactModal from "@/app/(public)/(pages)/p/components/seller-contact-modal"
+import PriceTitle from "@/app/(public)/components/PriceTitle"
 import Rating from "@/app/(public)/components/Rating"
 
 type Props = {
@@ -102,12 +102,7 @@ const ProductOfferItem = ({ offer }: Props) => {
                   >
                     اطلاعات تماس
                   </Button>
-                  <h2 className="font-bold">
-                    {digitsEnToFa(
-                      addCommas(offer.lastPublicConsumerPrice.amount)
-                    )}
-                    <span className="pr-1 text-xs font-medium">تومان</span>
-                  </h2>
+                  <PriceTitle price={offer.lastPublicConsumerPrice.amount} />
                 </div>
               )}
             </div>
