@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 
 import {
@@ -12,6 +11,7 @@ import {
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import Link from "@core/components/shared/Link"
 
 const AdminInsight = () => {
   const users = useGetAllUsersQuery(graphqlRequestClient)

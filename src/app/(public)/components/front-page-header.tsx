@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { PopoverArrow } from "@radix-ui/react-popover"
 import { LucideChevronDown } from "lucide-react"
 import { Session } from "next-auth"
@@ -10,6 +9,7 @@ import { useGetVocabularyQuery } from "@/generated"
 
 import graphqlRequestClientWithoutToken from "@core/clients/graphqlRequestClientWithoutToken"
 import slugify from "@core/utils/persian-slugify"
+import Link from "@core/components/shared/Link"
 import { Button } from "@core/components/ui/button"
 import {
   Popover,

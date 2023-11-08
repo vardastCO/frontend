@@ -6,12 +6,12 @@ import Script from "next/script"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 import useTranslation from "next-translate/useTranslation"
-import NextTopLoader from "nextjs-toploader"
 
 import NextAuthProvider from "@core/providers/NextAuthProvider"
 import NextThemeProvider from "@core/providers/NextThemeProvider"
 import RadixDirectionProvider from "@core/providers/RadixDirectionProvider"
 import ReactQueryProvider from "@core/providers/ReactQueryProvider"
+import { RouteChangeProvider } from "@core/providers/RouteChangeProvider"
 import { Toaster } from "@core/providers/ToasterProvider"
 import { myColors } from "@/app/theme"
 
@@ -257,13 +257,15 @@ export default function AdminLayout({
           </Script>
         </head>
         <body>
-          <NextTopLoader color={myColors.secondary[50]} showSpinner={false} />
+          {/* <NextTopLoader color={myColors.secondary[50]} showSpinner={false} /> */}
           <NextAuthProvider>
             <ReactQueryProvider>
               <NextThemeProvider>
-                {/* <FakeSplashScreenProvider isMobileView={isMobileView}> */}
-                {children}
-                {/* </FakeSplashScreenProvider> */}
+                <RouteChangeProvider>
+                  {/* <FakeSplashScreenProvider isMobileView={isMobileView}> */}
+                  {children}
+                  {/* </FakeSplashScreenProvider> */}
+                </RouteChangeProvider>
                 <Toaster />
               </NextThemeProvider>
             </ReactQueryProvider>

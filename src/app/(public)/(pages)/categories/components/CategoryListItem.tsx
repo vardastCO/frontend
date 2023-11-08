@@ -1,8 +1,8 @@
 import Image from "next/image"
-import Link from "next/link"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
 
+import Link from "@core/components/shared/Link"
 import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
 
 interface IVocabularyItem {

@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import clsx from "clsx"
 import parsePhoneNumber from "libphonenumber-js"
@@ -11,6 +10,7 @@ import useTranslation from "next-translate/useTranslation"
 import { useGetAllUsersQuery, UserStatusesEnum } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import Link from "@core/components/shared/Link"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"

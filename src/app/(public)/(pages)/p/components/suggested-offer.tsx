@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { MapPinIcon } from "@heroicons/react/24/outline"
 import { CheckBadgeIcon } from "@heroicons/react/24/solid"
 import { setDefaultOptions } from "date-fns"
@@ -17,6 +16,7 @@ import {
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import Link from "@core/components/shared/Link"
 import { Button } from "@core/components/ui/button"
 import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
 import SellerContactModal from "@/app/(public)/(pages)/p/components/seller-contact-modal"

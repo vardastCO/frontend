@@ -1,9 +1,10 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
 import { usePathname } from "next/navigation"
 import clsx from "clsx"
+
+import Link from "@core/components/shared/Link"
 
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
 import logoSign from "@/assets/sign.svg"

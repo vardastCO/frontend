@@ -1,9 +1,9 @@
 import Image from "next/image"
-import Link from "next/link"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { Brand } from "@/generated"
 
+import Link from "@core/components/shared/Link"
 import Rating from "@/app/(public)/components/Rating"
 
 interface BrandCardProps {

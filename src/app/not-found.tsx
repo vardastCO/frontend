@@ -1,5 +1,6 @@
 import Image from "next/image"
-import Link from "next/link"
+
+import Link from "@core/components/shared/Link"
 
 import image404 from "@/assets/404.svg"
 

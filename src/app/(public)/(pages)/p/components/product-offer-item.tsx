@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { MapPinIcon } from "@heroicons/react/24/outline"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
@@ -16,6 +15,7 @@ import {
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import Link from "@core/components/shared/Link"
 import { Button } from "@core/components/ui/button"
 import SellerContactModal from "@/app/(public)/(pages)/p/components/seller-contact-modal"
 import PriceTitle from "@/app/(public)/components/PriceTitle"

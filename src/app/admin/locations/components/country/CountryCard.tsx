@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
 import { LucideEdit, LucideMoreVertical, LucideTrash } from "lucide-react"
@@ -12,6 +11,7 @@ import { Country, useUpdateCountryMutation } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { getFlagEmoji } from "@core/utils/getFlagEmoji"
+import Link from "@core/components/shared/Link"
 import { Button } from "@core/components/ui/button"
 import {
   DropdownMenu,

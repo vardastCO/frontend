@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { redirect, useRouter, useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ClientError } from "graphql-request"
@@ -30,6 +29,7 @@ import {
   FormLabel,
   FormMessage
 } from "@core/components/react-hook-form/form"
+import Link from "@core/components/shared/Link"
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Button } from "@core/components/ui/button"
 import { Input } from "@core/components/ui/input"

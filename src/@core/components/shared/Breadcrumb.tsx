@@ -1,8 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Link from "next/link"
 import { usePathname } from "next/navigation"
+
+import Link from "@core/components/shared/Link"
 
 // import useTranslation from "next-translate/useTranslation"
 
@@ -50,11 +51,11 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
   return (
     <div role="presentation">
       <ol
-        className="hide-scrollbar flex items-end overflow-y-auto whitespace-nowrap py-6 pr align-middle text-sm leading-none"
+        className="hide-scrollbar flex items-end overflow-y-auto whitespace-nowrap px py-6 pr align-middle text-sm leading-none"
         aria-label="breadcrumb"
       >
         {/* {pathname.split("/")[1] === "admin" && ( */}
-        <li className="flex items-end pr align-middle leading-none">
+        <li className="flex items-end align-middle leading-none">
           <Link
             href="/home"
             aria-current={pathname === "/home" ? "page" : "false"}

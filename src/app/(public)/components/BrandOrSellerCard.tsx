@@ -1,10 +1,10 @@
 import Image from "next/image"
-import Link from "next/link"
 import { MapPinIcon } from "@heroicons/react/24/outline"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { Brand, Seller } from "@/generated"
 
+import Link from "@core/components/shared/Link"
 import Rating from "@/app/(public)/components/Rating"
 
 const BrandOrSellerCard = <T extends Seller | Brand>({
@@ -62,7 +62,6 @@ const BrandOrSellerCard = <T extends Seller | Brand>({
               title={content.name}
               className="line-clamp-2 h-8 font-semibold text-alpha-800"
             >
-              {content.name}
               {content.name}
             </h6>
             <p className="flex h-4 items-center gap-x-1 py-1 text-xs text-alpha-600">

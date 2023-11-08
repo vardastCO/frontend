@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
 
+import Link from "@core/components/shared/Link"
 import Search from "@/app/(public)/components/search"
 
 import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"

@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { addDays, format } from "date-fns"
@@ -24,6 +23,7 @@ import {
 } from "@/generated"
 
 import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
+import Link from "@core/components/shared/Link"
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
 import ProductAttributes from "@/app/(public)/(pages)/p/components/product-attributes"
 import ProductDescription from "@/app/(public)/(pages)/p/components/product-description"

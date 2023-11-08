@@ -1,10 +1,10 @@
 import Image from "next/image"
-import Link from "next/link"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { Product } from "@/generated"
 
 import slugify from "@core/utils/persian-slugify"
+import Link from "@core/components/shared/Link"
 
 interface ProductCardProps {
   product: Product

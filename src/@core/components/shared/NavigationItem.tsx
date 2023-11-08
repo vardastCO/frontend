@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { usePathname } from "next/navigation"
 import clsx from "clsx"
 import { LucideChevronDown } from "lucide-react"
 
+import Link from "@core/components/shared/Link"
 import { Button } from "@core/components/ui/button"
 import { NavigationItemType } from "@core/types/Navigation"
 

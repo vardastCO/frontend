@@ -1,13 +1,13 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
 import { Pagination, Thumbs } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
 import { Product } from "@/generated"
 
 import slugify from "@core/utils/persian-slugify"
+import Link from "@core/components/shared/Link"
 import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
 import PriceTitle from "@/app/(public)/components/PriceTitle"
 import Rating from "@/app/(public)/components/Rating"

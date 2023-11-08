@@ -1,5 +1,6 @@
-import Link from "next/link"
 import { LucideIcon } from "lucide-react"
+
+import Link from "@core/components/shared/Link"
 
 interface IProfileItem {
   href: string

@@ -1,9 +1,10 @@
 import Image from "next/image"
-import Link from "next/link"
 import { LucideWarehouse } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 import { Brand } from "@/generated"
+
+import Link from "@core/components/shared/Link"
 
 type BrandHeaderProps = {
   brand: Brand

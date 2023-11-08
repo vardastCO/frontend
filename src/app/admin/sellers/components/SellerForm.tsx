@@ -2,7 +2,6 @@
 
 import { ChangeEvent, useRef, useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ClientError } from "graphql-request"
@@ -31,6 +30,7 @@ import {
   FormMessage
 } from "@core/components/react-hook-form/form"
 import Card from "@core/components/shared/Card"
+import Link from "@core/components/shared/Link"
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from "@core/components/ui/avatar"
 import { Button } from "@core/components/ui/button"

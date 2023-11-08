@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { notFound, useRouter } from "next/navigation"
 import { LucideCheck, LucideX } from "lucide-react"
 import { useSession } from "next-auth/react"
@@ -10,6 +9,7 @@ import useTranslation from "next-translate/useTranslation"
 import { useGetAllAttributesQuery } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import Link from "@core/components/shared/Link"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import NoResult from "@core/components/shared/NoResult"

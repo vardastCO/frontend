@@ -1,8 +1,8 @@
 "use client"
 
-import Link from "next/link"
-
 import { Category } from "@/generated"
+
+import Link from "@core/components/shared/Link"
 
 interface CategoryFilterItemProps {
   category: Category

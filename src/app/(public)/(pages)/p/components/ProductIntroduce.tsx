@@ -1,10 +1,9 @@
 "use client"
 
-import Link from "next/link"
-
 import { Product } from "@/generated"
 
 import slugify from "@core/utils/persian-slugify"
+import Link from "@core/components/shared/Link"
 import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
 import Rating from "@/app/(public)/components/Rating"
 

@@ -1,7 +1,6 @@
 "use client"
 
 import { Dispatch, SetStateAction, useState } from "react"
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ClientError } from "graphql-request"
@@ -26,6 +25,7 @@ import {
   FormLabel,
   FormMessage
 } from "@core/components/react-hook-form/form"
+import Link from "@core/components/shared/Link"
 import Loading from "@core/components/shared/Loading"
 import LoadingFailed from "@core/components/shared/LoadingFailed"
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"

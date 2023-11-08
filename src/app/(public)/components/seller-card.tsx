@@ -1,10 +1,10 @@
 import Image from "next/image"
-import Link from "next/link"
 import { MapPinIcon } from "@heroicons/react/24/outline"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { Seller } from "@/generated"
 
+import Link from "@core/components/shared/Link"
 import Rating from "@/app/(public)/components/Rating"
 
 interface SellerCardProps {

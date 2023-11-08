@@ -1,12 +1,13 @@
 "use client"
 
 import { useContext, useEffect, useRef } from "react"
-import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useAtom, useSetAtom } from "jotai"
 import { ArrowRight } from "lucide-react"
 
 import { mergeClasses } from "@core/utils/mergeClasses"
+import Link from "@core/components/shared/Link"
+import Progress from "@core/components/shared/Progress"
 import { Button } from "@core/components/ui/button"
 import useIsCurrentPath from "@core/hooks/useIsCurrentPath"
 import { _navbar_items, _withNavigationRoutes } from "@core/lib/constants"
@@ -95,6 +96,7 @@ const MobileNavigation = (_: Props) => {
           showNavbarScroll ? "" : "translate-y-[5rem]"
         } fixed bottom-0 left-0 z-50 w-full transform border-t border-alpha-200 bg-alpha-white transition-all duration-300 dark:border-alpha-600 dark:bg-alpha-700`}
       >
+        <Progress />
         <div>
           {!hideSearchBarFlag && (
             <div className="flex gap-x px-8 pt-2.5">

@@ -1,7 +1,6 @@
 "use client"
 
 import { Dispatch } from "react"
-import Link from "next/link"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { SetStateAction } from "jotai"
 import { parsePhoneNumber } from "libphonenumber-js"
@@ -9,6 +8,7 @@ import { LucideMapPin, LucidePhone, LucideWarehouse } from "lucide-react"
 
 import { Seller } from "@/generated"
 
+import Link from "@core/components/shared/Link"
 import {
   Dialog,
   DialogContent,

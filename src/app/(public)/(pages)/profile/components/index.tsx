@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline"
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import clsx from "clsx"
@@ -11,6 +10,7 @@ import { signOut } from "next-auth/react"
 
 import { ThreeStateSupervisionStatuses, UserStatusesEnum } from "@/generated"
 
+import Link from "@core/components/shared/Link"
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 import { _profile_items } from "@core/lib/constants"
 

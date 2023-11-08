@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { LucideFolderClosed } from "lucide-react"
 
 // import { useSession } from "next-auth/react"
@@ -8,6 +7,8 @@ import { LucideFolderClosed } from "lucide-react"
 // import useTranslation from "next-translate/useTranslation"
 
 import { Vocabulary } from "@/generated"
+
+import Link from "@core/components/shared/Link"
 
 type VocabularyCardProps = {
   vocabulary: Vocabulary
