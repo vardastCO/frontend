@@ -48,9 +48,9 @@ export default function Progress() {
   })
 
   return (
-    <div className="fixed left-0 top-0 z-[999999] h-1  w-full">
+    <div className="fixed bottom-0.5 left-0 z-[999999] h-0.5 w-full rounded-full">
       <div
-        className="absolute bottom-0 left-0 top-0 w-0 transform rounded-r-full bg-primary transition-all"
+        className="absolute bottom-0 left-0.5 top-0 w-0 transform rounded-full bg-primary transition-all"
         style={{
           width: hasFinished ? 0 : `${progress}%`,
           opacity: hasFinished ? 0 : 1

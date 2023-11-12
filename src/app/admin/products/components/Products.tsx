@@ -91,9 +91,9 @@ const Products = () => {
                         <span className="font-medium text-alpha-800">
                           {product.name}
                         </span>
-                        {product.sku && (
+                        {product.techNum && (
                           <span className="text-xs text-alpha-600">
-                            کد کالا: {product.sku}
+                            کد کالا: {product.techNum}
                           </span>
                         )}
                       </div>
