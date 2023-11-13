@@ -10,6 +10,7 @@ import { GetBrandQuery, IndexProductInput } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getBrandQueryFn } from "@core/queryFns/brandQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 // import BrandHeader from "@/app/(public)/(pages)/brand/components/primary-header"
 import ProductList from "@/app/(public)/components/product-list"
 
@@ -22,7 +23,7 @@ interface BrandPageProps {
 const BrandPage = ({ isMobileView, args, slug }: BrandPageProps) => {
   const { t } = useTranslation()
   const { data } = useQuery<GetBrandQuery>(
-    ["brand", { id: +slug[0] }],
+    [QUERY_FUNCTIONS_KEY.BRAND_QUERY_KEY, { id: +slug[0] }],
     () => getBrandQueryFn(+slug[0]),
     {
       keepPreviousData: true

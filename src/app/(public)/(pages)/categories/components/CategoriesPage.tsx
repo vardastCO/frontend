@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query"
 import { GetCategoryQuery } from "@/generated"
 
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import CategoryListContainer from "@/app/(public)/(pages)/categories/components/CategoryListContainer"
 import CategoryListItem from "@/app/(public)/(pages)/categories/components/CategoryListItem"
 import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
@@ -21,7 +22,7 @@ const CategoriesPage = ({ categoryId }: CategoriesListProps) => {
     useState<ICategoryListLoader>(null)
 
   const getCategoryQueryFnQuery = useQuery<GetCategoryQuery>({
-    queryKey: ["category", { id: categoryId }],
+    queryKey: [QUERY_FUNCTIONS_KEY.CATEGORY_QUERY_KEY, { id: categoryId }],
     queryFn: () => getCategoryQueryFn(+categoryId)
   })
 

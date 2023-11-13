@@ -4,6 +4,7 @@ import { LucideChevronDown } from "lucide-react"
 
 import { GetVocabularyQuery } from "@/generated"
 
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 
 // const nav = [
@@ -15,7 +16,10 @@ import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 // ]
 const Navigation = () => {
   const { data } = useQuery<GetVocabularyQuery>({
-    queryKey: ["vocabulary", { slug: "product_categories" }],
+    queryKey: [
+      QUERY_FUNCTIONS_KEY.VOCABULARY_QUERY_KEY,
+      { slug: "product_categories" }
+    ],
     queryFn: () => getVocabularyQueryFn("product_categories")
   })
 

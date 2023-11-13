@@ -9,6 +9,7 @@ import { GetCategoryQuery } from "@/generated"
 
 import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 
 interface SearchHeaderProps {
   selectedCategoryId: number
@@ -16,7 +17,10 @@ interface SearchHeaderProps {
 
 const SearchHeader = ({ selectedCategoryId }: SearchHeaderProps) => {
   const { data } = useQuery<GetCategoryQuery>({
-    queryKey: ["category", { id: selectedCategoryId }],
+    queryKey: [
+      QUERY_FUNCTIONS_KEY.CATEGORY_QUERY_KEY,
+      { id: selectedCategoryId }
+    ],
     queryFn: () => getCategoryQueryFn(selectedCategoryId)
   })
 

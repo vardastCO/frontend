@@ -14,6 +14,7 @@ import { Brand, GetAllBrandsQuery, IndexBrandInput } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getAllBrandsQueryFn } from "@core/queryFns/allBrandsQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import BrandOrSellerCard from "@/app/(public)/components/BrandOrSellerCard"
 import BrandsOrSellersContainer from "@/app/(public)/components/BrandsOrSellersContainer"
 import ProductPagination from "@/app/(public)/components/product-pagination"
@@ -31,7 +32,7 @@ const BrandsPage = ({ args }: BrandsPageProps) => {
   const { t } = useTranslation()
   const { data } = useQuery<GetAllBrandsQuery>(
     [
-      "brands",
+      QUERY_FUNCTIONS_KEY.GET_ALL_BRANDS_QUERY_KEY,
       {
         ...args,
         page: currentPage

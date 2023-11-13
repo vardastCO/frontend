@@ -10,6 +10,7 @@ import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllCategoriesQueryFn } from "@core/queryFns/allCategoriesQueryFns"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getBrandQueryFn } from "@core/queryFns/brandQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import BrandPage from "@/app/(public)/(pages)/brand/components/brand-page"
 
 interface BrandIndexProps {
@@ -82,16 +83,19 @@ const BrandIndex = async ({
     }
   }
 
-  await queryClient.prefetchQuery(["categories", { brandId: +slug[0] }], () =>
-    getAllCategoriesQueryFn({ brandId: +slug[0] })
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.ALL_CATEGORIES_QUERY_KEY, { brandId: +slug[0] }],
+    () => getAllCategoriesQueryFn({ brandId: +slug[0] })
   )
 
-  await queryClient.prefetchQuery(["brand", { id: +slug[0] }], () =>
-    getBrandQueryFn(+slug[0])
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.BRAND_QUERY_KEY, { id: +slug[0] }],
+    () => getBrandQueryFn(+slug[0])
   )
 
-  await queryClient.prefetchQuery(["products", args], () =>
-    getAllProductsQueryFn(args)
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY, args],
+    () => getAllProductsQueryFn(args)
   )
 
   const dehydratedState = dehydrate(queryClient)

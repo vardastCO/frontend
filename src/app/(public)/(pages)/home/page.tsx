@@ -8,6 +8,7 @@ import { authOptions } from "@core/lib/authOptions"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllBrandsCountQueryFn } from "@core/queryFns/allBrandsCountQueryFns"
 import { getAllSellersCountQueryFn } from "@core/queryFns/allSellersCountQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import HomeIndex from "@/app/(public)/(pages)/home/components/HomeIndex"
 import FrontPageHeader from "@/app/(public)/components/front-page-header"
 
@@ -21,8 +22,14 @@ const Index = async () => {
   const session = await getServerSession(authOptions)
   const queryClient = getQueryClient()
 
-  await queryClient.prefetchQuery(["brands-count"], getAllBrandsCountQueryFn)
-  await queryClient.prefetchQuery(["sellers-count"], getAllSellersCountQueryFn)
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.GET_ALL_BRANDS_COUNT_QUERY_KEY],
+    getAllBrandsCountQueryFn
+  )
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.ALL_SELLERS_COUNT_QUERY_KEY],
+    getAllSellersCountQueryFn
+  )
 
   const dehydratedState = dehydrate(queryClient)
   return (

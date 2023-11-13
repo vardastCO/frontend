@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query"
 import { GetSellerQuery, IndexProductInput, Seller } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getSellerQueryFn } from "@core/queryFns/sellerQueryFns"
 import SellerHeader from "@/app/(public)/(pages)/seller/components/seller-header"
 import ProductList from "@/app/(public)/components/product-list"
@@ -18,7 +19,7 @@ interface SellerPageProps {
 
 const SellerPage = ({ isMobileView, args, slug }: SellerPageProps) => {
   const { data } = useQuery<GetSellerQuery>(
-    ["seller", { id: +slug[0] }],
+    [QUERY_FUNCTIONS_KEY.SELLER_QUERY_KEY, { id: +slug[0] }],
     () => getSellerQueryFn(+slug[0]),
     {
       keepPreviousData: true

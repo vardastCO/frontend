@@ -9,6 +9,7 @@ import {
 } from "@/generated"
 
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import FilterBlock from "@/app/(public)/components/filter-block"
 
 import CategoryFilterItem from "./category-filter-item"
@@ -21,7 +22,7 @@ const CategoryFilter = ({ selectedCategoryId }: CategoryFilterProps) => {
   const args: GetCategoryQueryVariables = {}
   args["id"] = selectedCategoryId
   const { data } = useQuery<GetCategoryQuery>({
-    queryKey: ["category", args],
+    queryKey: [QUERY_FUNCTIONS_KEY.CATEGORY_QUERY_KEY, args],
     queryFn: () => getCategoryQueryFn(selectedCategoryId)
   })
 

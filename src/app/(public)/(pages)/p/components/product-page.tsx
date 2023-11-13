@@ -25,6 +25,7 @@ import {
 import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import Link from "@core/components/shared/Link"
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import ProductAttributes from "@/app/(public)/(pages)/p/components/product-attributes"
 import ProductDescription from "@/app/(public)/(pages)/p/components/product-description"
 import ProductDetails from "@/app/(public)/(pages)/p/components/product-details"
@@ -49,7 +50,7 @@ type ProductPageProps = {
 const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
   const { data: session } = useSession()
   const { data } = useQuery<GetProductQuery>({
-    queryKey: ["product", { id: +id }],
+    queryKey: [QUERY_FUNCTIONS_KEY.PRODUCT_QUERY_KEY, { id: +id }],
     queryFn: () => getProductQueryFn(id)
   })
 

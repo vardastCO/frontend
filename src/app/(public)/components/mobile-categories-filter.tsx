@@ -21,6 +21,7 @@ import {
 import { Button } from "@core/components/ui/button"
 import { getAllCategoriesQueryFn } from "@core/queryFns/allCategoriesQueryFns"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 import { RequireAtLeastOne } from "@core/types/RequireAtLeastOne"
 import { PublicContext } from "@/app/(public)/components/public-provider"
@@ -31,7 +32,10 @@ interface VocabulariesListProps {
 
 const VocabulariesList = ({ onCategoryChanged }: VocabulariesListProps) => {
   const vocabularies = useQuery<GetVocabularyQuery>({
-    queryKey: ["vocabulary", { slug: "product_categories" }],
+    queryKey: [
+      QUERY_FUNCTIONS_KEY.VOCABULARY_QUERY_KEY,
+      { slug: "product_categories" }
+    ],
     queryFn: () => getVocabularyQueryFn("product_categories")
   })
 
@@ -78,7 +82,7 @@ const CategoriesList = ({
   categoryId
 }: CategoriesListProps) => {
   const categoriesQuery = useQuery<GetCategoryQuery>({
-    queryKey: ["category", { id: categoryId }],
+    queryKey: [QUERY_FUNCTIONS_KEY.CATEGORY_QUERY_KEY, { id: categoryId }],
     queryFn: () => getCategoryQueryFn(categoryId)
   })
 
@@ -152,7 +156,7 @@ const BrandOrSellerCategories = ({
   if (brandId) args["brandId"] = brandId
   if (sellerId) args["sellerId"] = sellerId
   const { data } = useQuery<GetAllCategoriesQuery>({
-    queryKey: ["categories", args],
+    queryKey: [QUERY_FUNCTIONS_KEY.ALL_CATEGORIES_QUERY_KEY, args],
     queryFn: () => getAllCategoriesQueryFn(args)
   })
 

@@ -8,6 +8,7 @@ import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 import VocabulariesPage from "@/app/(public)/(pages)/categories/components/VocabulariesPage"
 
@@ -21,7 +22,10 @@ const CategoriesPage = async () => {
   const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery<GetVocabularyQuery>({
-    queryKey: ["vocabulary", { slug: "product_categories" }],
+    queryKey: [
+      QUERY_FUNCTIONS_KEY.VOCABULARY_QUERY_KEY,
+      { slug: "product_categories" }
+    ],
     queryFn: () => getVocabularyQueryFn("product_categories")
   })
   const dehydratedState = dehydrate(queryClient)

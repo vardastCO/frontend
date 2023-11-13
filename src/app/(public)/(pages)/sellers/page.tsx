@@ -8,6 +8,7 @@ import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllSellersQueryFn } from "@core/queryFns/allSellersQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import SellersPage from "@/app/(public)/(pages)/sellers/components/sellers-page"
 
 interface SellersIndexProps {
@@ -29,8 +30,9 @@ const SellersIndex = async ({ searchParams }: SellersIndexProps) => {
   args["page"] =
     searchParams.page && +searchParams.page[0] > 0 ? +searchParams.page[0] : 1
 
-  await queryClient.prefetchQuery(["sellers", args], () =>
-    getAllSellersQueryFn(args)
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.ALL_SELLERS_QUERY_KEY, args],
+    () => getAllSellersQueryFn(args)
   )
 
   const dehydratedState = dehydrate(queryClient)

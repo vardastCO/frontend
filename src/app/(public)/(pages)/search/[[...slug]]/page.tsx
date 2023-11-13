@@ -9,6 +9,7 @@ import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 import SearchPage from "@/app/(public)/(pages)/search/components/search-page"
 
@@ -78,17 +79,22 @@ const SearchIndex = async ({
     }
   }
 
-  await queryClient.prefetchQuery(["products", args], () =>
-    getAllProductsQueryFn(args)
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY, args],
+    () => getAllProductsQueryFn(args)
   )
 
   if (slug && slug.length) {
-    await queryClient.prefetchQuery(["category", { id: +slug[0] }], () =>
-      getCategoryQueryFn(+slug[0])
+    await queryClient.prefetchQuery(
+      [QUERY_FUNCTIONS_KEY.CATEGORY_QUERY_KEY, { id: +slug[0] }],
+      () => getCategoryQueryFn(+slug[0])
     )
   } else {
     await queryClient.prefetchQuery(
-      ["vocabulary", { slug: "product_categories" }],
+      [
+        QUERY_FUNCTIONS_KEY.VOCABULARY_QUERY_KEY,
+        { slug: "product_categories" }
+      ],
       () => getVocabularyQueryFn("product_categories")
     )
   }

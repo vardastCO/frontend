@@ -8,6 +8,7 @@ import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getSellerQueryFn } from "@core/queryFns/sellerQueryFns"
 import SellerPage from "@/app/(public)/(pages)/seller/components/seller-page"
 
@@ -81,12 +82,14 @@ const SellerIndex = async ({
     }
   }
 
-  await queryClient.prefetchQuery(["seller", { id: +slug[0] }], () =>
-    getSellerQueryFn(+slug[0])
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.SELLER_QUERY_KEY, { id: +slug[0] }],
+    () => getSellerQueryFn(+slug[0])
   )
 
-  await queryClient.prefetchQuery(["products", args], () =>
-    getAllProductsQueryFn(args)
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY, args],
+    () => getAllProductsQueryFn(args)
   )
 
   const dehydratedState = dehydrate(queryClient)

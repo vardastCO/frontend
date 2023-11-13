@@ -7,6 +7,7 @@ import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import CategoriesPage from "@/app/(public)/(pages)/categories/components/CategoriesPage"
 
 interface CategoryIdPageIndexProps {
@@ -32,8 +33,9 @@ const CategoryIdPage: React.FC<CategoryIdPageIndexProps> = async ({
 }) => {
   const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
-  await queryClient.prefetchQuery(["category", { id: categoryId[0] }], () =>
-    getCategoryQueryFn(+categoryId[0])
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.CATEGORY_QUERY_KEY, { id: categoryId[0] }],
+    () => getCategoryQueryFn(+categoryId[0])
   )
   const dehydratedState = dehydrate(queryClient)
 

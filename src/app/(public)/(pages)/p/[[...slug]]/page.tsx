@@ -6,6 +6,7 @@ import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import ProductPage from "@/app/(public)/(pages)/p/components/product-page"
 
 interface ProductIndexProps {
@@ -39,8 +40,9 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
   // const pSlug = slug[1] as string
 
   const queryClient = getQueryClient()
-  await queryClient.prefetchQuery(["product", { id: +id }], () =>
-    getProductQueryFn(id)
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.PRODUCT_QUERY_KEY, { id: +id }],
+    () => getProductQueryFn(id)
   )
   const dehydratedState = dehydrate(queryClient)
 

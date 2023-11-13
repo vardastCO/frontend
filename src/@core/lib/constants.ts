@@ -10,6 +10,7 @@ import {
   Squares2X2Icon as SolidSquares2X2Icon,
   UserCircleIcon as SolidUserCircleIcon
 } from "@heroicons/react/24/solid"
+import { QueryClientConfig } from "@tanstack/react-query"
 import {
   // LucideBookmark,
   LucideGlobe,
@@ -121,10 +122,14 @@ export type WithNavigationRouteItem = {
   dynamicRouteAllow?: boolean
 }
 
-export const queryClientOptions = {
+export const queryClientOptions: QueryClientConfig = {
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      retry: false,
+      staleTime: Infinity
     }
   }
 }

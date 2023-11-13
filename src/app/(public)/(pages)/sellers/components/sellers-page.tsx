@@ -13,6 +13,7 @@ import { GetAllSellersQuery, IndexSellerInput, Seller } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getAllSellersQueryFn } from "@core/queryFns/allSellersQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import BrandOrSellerCard from "@/app/(public)/components/BrandOrSellerCard"
 import BrandsOrSellersContainer from "@/app/(public)/components/BrandsOrSellersContainer"
 import ProductPagination from "@/app/(public)/components/product-pagination"
@@ -30,7 +31,7 @@ const SellersPage = ({ args }: SellersPageProps) => {
 
   const { data } = useQuery<GetAllSellersQuery>(
     [
-      "sellers",
+      QUERY_FUNCTIONS_KEY.ALL_SELLERS_QUERY_KEY,
       {
         ...args,
         page: currentPage

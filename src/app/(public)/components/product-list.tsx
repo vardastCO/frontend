@@ -30,6 +30,7 @@ import {
 import graphqlRequestClientWithoutToken from "@core/clients/graphqlRequestClientWithoutToken"
 import { Button } from "@core/components/ui/button"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import BrandOrSellerCategoryFilter from "@/app/(public)/components/brand-or-seller-category-filter"
 import CategoryFilter from "@/app/(public)/components/category-filter"
 import FiltersContainer from "@/app/(public)/components/filters-container"
@@ -100,7 +101,7 @@ const ProductList = ({
 
   const allProductsQuery = useQuery<GetAllProductsQuery>(
     [
-      "products",
+      QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY,
       {
         ...args,
         page: currentPage,

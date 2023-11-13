@@ -8,6 +8,7 @@ import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllBrandsQueryFn } from "@core/queryFns/allBrandsQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import BrandsPage from "@/app/(public)/(pages)/brands/components/brands-page"
 
 interface BrandsIndexProps {
@@ -29,8 +30,9 @@ const BrandsIndex = async ({ searchParams }: BrandsIndexProps) => {
   args["page"] =
     searchParams.page && +searchParams.page[0] > 0 ? +searchParams.page[0] : 1
 
-  await queryClient.prefetchQuery(["brands", args], () =>
-    getAllBrandsQueryFn(args)
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.GET_ALL_BRANDS_QUERY_KEY, args],
+    () => getAllBrandsQueryFn(args)
   )
 
   const dehydratedState = dehydrate(queryClient)

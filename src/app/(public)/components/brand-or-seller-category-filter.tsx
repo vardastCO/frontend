@@ -12,6 +12,7 @@ import {
 } from "@/generated"
 
 import { getAllCategoriesQueryFn } from "@core/queryFns/allCategoriesQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { RequireAtLeastOne } from "@core/types/RequireAtLeastOne"
 import FilterBlock from "@/app/(public)/components/filter-block"
 
@@ -41,7 +42,7 @@ const BrandOrSellerCategoryFilter = ({
   if (brandId) args["brandId"] = brandId
   if (sellerId) args["sellerId"] = sellerId
   const { data } = useQuery<GetAllCategoriesQuery>({
-    queryKey: ["categories", args],
+    queryKey: [QUERY_FUNCTIONS_KEY.ALL_CATEGORIES_QUERY_KEY, args],
     queryFn: () => getAllCategoriesQueryFn(args)
   })
 
