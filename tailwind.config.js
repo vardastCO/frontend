@@ -66,7 +66,7 @@ const tailwind = {
           DEFAULT: tailwindColors.green[600]
         },
         warning: {
-          ...tailwindColors.yellow,
+          ...tailwindColors.amber,
           DEFAULT: tailwindColors.yellow[600]
         },
         info: {
@@ -75,7 +75,7 @@ const tailwind = {
         },
         alpha: {
           white: tailwindColors.white,
-          ...tailwindColors.gray,
+          ...myColors.alpha,
           DEFAULT: tailwindColors.gray[600],
           black: tailwindColors.black
         }
@@ -85,14 +85,29 @@ const tailwind = {
   plugins: [
     plugin(function ({ addBase, theme }) {
       addBase({
-        html: { fontSize: theme("fontSize.sm") },
-        h1: { fontSize: theme("fontSize.2xl") },
-        h2: { fontSize: theme("fontSize.xl") },
-        h3: { fontSize: theme("fontSize.lg") },
-        h4: { fontSize: theme("fontSize.base") },
-        h5: { fontSize: theme("fontSize.sm") },
-        h6: { fontSize: theme("fontSize.xs") },
-        p: { fontSize: theme("fontSize.base") }
+        html: {
+          fontSize: theme("fontSize.sm"),
+          color: theme("colors.alpha.800"),
+          fontFamily: theme("fontWeight.normal")
+        },
+        h1: {
+          fontSize: theme("fontSize.2xl")
+        },
+        h2: {
+          fontSize: theme("fontSize.xl")
+        },
+        h3: {
+          fontSize: theme("fontSize.lg")
+        },
+        h4: {
+          fontSize: theme("fontSize.base")
+        },
+        h5: {
+          fontSize: theme("fontSize.sm")
+        },
+        h6: {
+          fontSize: theme("fontSize.xs")
+        }
       })
     }),
     require("tailwindcss-animate")

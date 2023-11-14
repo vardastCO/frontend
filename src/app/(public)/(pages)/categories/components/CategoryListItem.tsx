@@ -53,7 +53,7 @@ const CategoryListItem = ({
         id={`category-image-${id}`}
         className={`${
           isSubCategory ? "row-span-4" : "row-span-3"
-        } w-full flex-1 flex-shrink-0  bg-center bg-no-repeat align-middle  duration-1000 ease-out`}
+        } w-full flex-1 flex-shrink-0  transform bg-center bg-no-repeat align-middle opacity-0 transition-all duration-1000 ease-out`}
       >
         <Image
           src={src}

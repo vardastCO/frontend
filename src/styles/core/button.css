@@ -16,7 +16,6 @@
     text-center
     align-baseline
     text-base
-    font-medium
     leading-none
     transition-all
     duration-200
@@ -60,29 +59,30 @@
   }
 
   &.btn-primary {
-    @apply bg-primary-600
+    @apply /*
+        */
+        bg-primary-600
         text-white
         ring-0
-        ring-primary-300/40
-        hover:bg-primary-700
-        focus:bg-primary-700
-        focus:ring-4
-        focus-visible:bg-primary-700
-        focus-visible:ring-4
-        dark:ring-primary-600/40;
+        dark:ring-primary-600/40 
+        md:ring-primary-300/40
+        md:hover:bg-primary-700
+        md:focus:bg-primary-700
+        md:focus:ring-4 md:focus-visible:bg-primary-700
+        md:focus-visible:ring-4;
   }
 
   &.btn-danger {
-    @apply bg-red-600
+    @apply /*
+        */
+        bg-red-600
         text-white
         ring-0
-        ring-red-300/40
-        hover:bg-red-700
-        focus:bg-red-700
+        ring-red-300/40 focus:bg-red-700
         focus:ring-4
         focus-visible:bg-red-700
-        focus-visible:ring-4
-        dark:ring-red-600/30;
+        focus-visible:ring-4 dark:ring-red-600/30
+        md:hover:bg-red-700;
   }
 
   &.btn-secondary {
@@ -94,12 +94,12 @@
         text-alpha
         ring-0
         ring-alpha-700/5
-        hover:bg-alpha-50
         focus:ring-4
         focus-visible:bg-alpha-50
         focus-visible:ring-4
         active:bg-alpha-50
-        dark:ring-alpha-300/30;
+        dark:ring-alpha-300/30
+        md:hover:bg-alpha-50;
 
     &:where(:hover, :focus, :focus-visible) {
       --border-opacity: 0.2;
@@ -110,12 +110,12 @@
     @apply bg-transparent
         text-primary
         ring-0
-        hover:bg-alpha-100
         focus-visible:bg-alpha-100
         active:bg-alpha-100
         dark:text-alpha-300
-        dark:hover:bg-alpha-800/70
-        dark:focus-visible:bg-alpha-800/70;
+        dark:focus-visible:bg-alpha-800/70
+        md:hover:bg-alpha-100
+        dark:md:hover:bg-alpha-800/70;
   }
 
   &.btn-link {

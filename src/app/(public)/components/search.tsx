@@ -64,7 +64,7 @@ const Search: React.FC<ISearch> = ({ isMobileView }) => {
           px-4
           py-3"
         >
-          <LucideSearch className="h-6 w-6 text-alpha-400" />
+          <LucideSearch className="h-6 w-6 text-primary" />
           <span className="text-alpha-800">جستجو در وردست...</span>
           <Progress />
         </Button>

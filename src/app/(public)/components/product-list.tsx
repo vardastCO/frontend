@@ -254,7 +254,7 @@ const ProductList = ({
                       {filterAttributes.length > 0 && (
                         <span className="absolute -right-1 -top-1 block h-2.5 w-2.5 rounded-full bg-primary-500"></span>
                       )}
-                      <LucideSlidersHorizontal className="icon text-alpha-400" />
+                      <LucideSlidersHorizontal className="icon text-alpha" />
                       فیلترها
                     </Button>
                     <MobileFilterableAttributes
@@ -278,7 +278,7 @@ const ProductList = ({
                   variant="secondary"
                   className="rounded-full border border-alpha-200"
                 >
-                  <LucideLayoutGrid className="icon text-alpha-400" />
+                  <LucideLayoutGrid className="icon text-alpha" />
                   دسته‌بندی‌ها
                 </Button>
               )}
@@ -288,7 +288,7 @@ const ProductList = ({
                 variant="secondary"
                 className="rounded-full border border-alpha-200"
               >
-                <LucideSortDesc className="icon text-alpha-400" />
+                <LucideSortDesc className="icon text-alpha" />
                 مرتب‌سازی
               </Button>
             </div>
@@ -300,7 +300,7 @@ const ProductList = ({
         className={clsx([
           "",
           isMobileView
-            ? "pt"
+            ? "bg-alpha-white"
             : "grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]"
         ])}
       >
@@ -378,7 +378,7 @@ const ProductList = ({
                 </div>
               )}
               <div>
-                <div className="grid gap-y pb-5 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
+                <div className="grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
                   {allProductsQuery.data.products.data.map((product, idx) => (
                     <ProductCard key={idx} product={product as Product} />
                   ))}
