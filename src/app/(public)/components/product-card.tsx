@@ -20,7 +20,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     }
   }
 
-  const hasDiscount = true
+  const hasDiscount = false
 
   return (
     <div className="relative px transition hover:z-10 md:py md:hover:shadow-lg">
@@ -33,7 +33,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       >
         <div
           id={`product-image-${product.id}`}
-          className={`relative flex w-32 flex-shrink-0 flex-col items-center justify-center bg-center bg-no-repeat align-middle duration-1000 ease-out lg:h-48 lg:w-full ${
+          className={`relative flex flex-shrink-0 flex-col items-center justify-center bg-center bg-no-repeat align-middle duration-1000 ease-out ${
             product.images.at(0)?.file.presignedUrl.url ? "opacity-0" : ""
           }`}
         >
