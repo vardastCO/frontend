@@ -66,8 +66,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className="lg:col-span1 col-span-2 flex flex-1 flex-col gap-y-12">
           <h5 title={product.name} className="line-clamp-2 h-11 font-semibold">
             {product.name}
-            {product.name}
-            {product.name}
           </h5>
           <div className="flex h-8 w-full">
             {product.rating && product.rating > 0 ? (
