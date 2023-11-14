@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, useEffect, useRef } from "react"
+import { useContext, useEffect, useLayoutEffect, useRef } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { AnimatePresence, motion } from "framer-motion"
 import { useAtom, useSetAtom } from "jotai"
@@ -98,9 +98,13 @@ const MobileNavigation = (_: Props) => {
     )
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setNavigationHeight(ref?.current?.clientHeight)
   }, [setNavigationHeight])
+
+  useEffect(() => {
+    ref?.current?.focus()
+  }, [pathname])
 
   if (isShowNavigation()) {
     return (

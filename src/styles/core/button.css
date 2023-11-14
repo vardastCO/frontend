@@ -59,29 +59,28 @@
   }
 
   &.btn-primary {
-    @apply /*
-        */
-        bg-primary-600
+    @apply bg-primary-600
         text-white
         ring-0
-        dark:ring-primary-600/40 
-        md:ring-primary-300/40
-        md:hover:bg-primary-700
-        md:focus:bg-primary-700
-        md:focus:ring-4 md:focus-visible:bg-primary-700
-        md:focus-visible:ring-4;
+        ring-primary-300/40
+        focus:bg-primary-700
+        focus:ring-4
+        focus-visible:bg-primary-700
+        focus-visible:ring-4
+        dark:ring-primary-600/40
+        md:hover:bg-primary-700;
   }
 
   &.btn-danger {
-    @apply /*
-        */
-        bg-red-600
+    @apply bg-red-600
         text-white
         ring-0
-        ring-red-300/40 focus:bg-red-700
+        ring-red-300/40
+        focus:bg-red-700
         focus:ring-4
         focus-visible:bg-red-700
-        focus-visible:ring-4 dark:ring-red-600/30
+        focus-visible:ring-4
+        dark:ring-red-600/30
         md:hover:bg-red-700;
   }
 
@@ -125,10 +124,10 @@
         text-alpha-700
         underline-offset-4
         ring-0
-        hover:underline
         focus:outline-none
         focus-visible:outline-none
-        dark:text-alpha-300;
+        dark:text-alpha-300
+        md:hover:underline;
   }
 
   &.btn-disabled,
@@ -137,12 +136,12 @@
         opacity-50
         shadow-none
         ring-0
-        hover:shadow-none
-        hover:ring-0
         focus:shadow-none
         focus:ring-0
         focus-visible:shadow-none
-        focus-visible:ring-0;
+        focus-visible:ring-0
+        md:hover:shadow-none
+        md:hover:ring-0;
   }
 
   &.btn-loading,

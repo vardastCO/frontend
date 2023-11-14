@@ -23,7 +23,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const hasDiscount = false
 
   return (
-    <div className="relative px transition hover:z-10 md:py md:hover:shadow-lg">
+    <div className="relative px-6 transition hover:z-10 md:py md:hover:shadow-lg">
       <Link
         href={`/p/${product.id}/${slugify(product.name)}${
           product.title ? `?title=${product.title}` : ""
@@ -63,7 +63,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             />
           )}
         </div>
-        <div className="lg:col-span1 col-span-2 flex flex-1 flex-col gap-y-12">
+        <div className="lg:col-span1 col-span-2 flex flex-1 flex-col">
           <h5 title={product.name} className="line-clamp-2 h-11 font-semibold">
             {product.name}
           </h5>

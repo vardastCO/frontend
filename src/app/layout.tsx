@@ -6,7 +6,9 @@ import Script from "next/script"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 import useTranslation from "next-translate/useTranslation"
+import NextTopLoader from "nextjs-toploader"
 
+import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import NextAuthProvider from "@core/providers/NextAuthProvider"
 import NextThemeProvider from "@core/providers/NextThemeProvider"
 import RadixDirectionProvider from "@core/providers/RadixDirectionProvider"
@@ -217,7 +219,7 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
-  // const isMobileView = CheckIsMobileView()
+  const isMobileView = CheckIsMobileView()
 
   const { lang } = useTranslation()
 
@@ -230,12 +232,27 @@ export default function AdminLayout({
     <RadixDirectionProvider>
       <html lang={lang} suppressHydrationWarning>
         <head>
-          <Script
+          {/* <Script
             async
             strategy="beforeInteractive"
             src="https://www.googletagmanager.com/gtag/js?id=G-LT14MTLPRV"
-          ></Script>
-          <Script strategy="beforeInteractive" id="google-tag-manager">
+          ></Script> */}
+          <Script
+            async
+            id="google-tag-manager"
+            strategy="beforeInteractive"
+            src="https://www.googletagmanager.com/gtag/js?id=G-LT14MTLPRV"
+          >
+            {`<!-- Google Tag Manager -->
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-MHFGSPC9');
+              <!-- End Google Tag Manager -->
+            `}
+          </Script>
+          {/* <Script strategy="beforeInteractive" id="google-tag-manager">
             {`window.dataLayer = window.dataLayer || []; 
             function gtag(){dataLayer.push(arguments);} 
             gtag('js', new Date()); 
@@ -254,10 +271,12 @@ export default function AdminLayout({
               s.src = "https://cdn.yektanet.com/rg_woebegone/scripts_v3/TeCkgDUD/rg.complete.js?v=" + r, c.parentNode.insertBefore(s, c) 
               }(window, document, "yektanet");
             `}
-          </Script>
+          </Script> */}
         </head>
         <body>
-          {/* <NextTopLoader color={myColors.secondary[50]} showSpinner={false} /> */}
+          {!isMobileView && (
+            <NextTopLoader color={myColors.secondary[50]} showSpinner={false} />
+          )}
           <NextAuthProvider>
             <ReactQueryProvider>
               <NextThemeProvider>
@@ -270,6 +289,14 @@ export default function AdminLayout({
               </NextThemeProvider>
             </ReactQueryProvider>
           </NextAuthProvider>
+          <noscript>
+            <iframe
+              src="https://www.googletagmanager.com/ns.html?id=GTM-MHFGSPC9"
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            ></iframe>
+          </noscript>
         </body>
       </html>
     </RadixDirectionProvider>

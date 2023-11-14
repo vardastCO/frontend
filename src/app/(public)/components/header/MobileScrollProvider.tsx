@@ -70,6 +70,13 @@ const MobileScrollProvider: React.FC<PropsWithChildren> = ({ children }) => {
           st === 0 || st >= realScrollbarHeight ? true : st < lastScrollTop
         setShowNavbarScroll(showNavbarFlag)
         setLastScrollTop(st <= 0 ? 0 : st)
+
+        //         const showNavbarFlag =
+        //   st <= 10 || st >= realScrollbarHeight - 10 || lastScrollTop - st > 2
+        // // ? true
+        // // : st > realScrollbarHeight || st - realScrollbarHeight > 2
+        // setShowNavbarScroll(showNavbarFlag)
+        // setLastScrollTop(st <= 0 ? 0 : st)
       }}
       ref={ref}
       style={{
