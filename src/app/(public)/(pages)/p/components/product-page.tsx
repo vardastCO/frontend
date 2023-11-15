@@ -224,10 +224,10 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
             attributes={groupedAttributes as GroupedAttributes[]}
           />
         )}
-        {product.offers.length > 0 && (
+        {product.publicOffers.length > 0 && (
           <ProductOffers
             uom={product.uom as Uom}
-            offers={product.offers as Offer[]}
+            offers={product.publicOffers as Offer[]}
           />
         )}
         {isMobileView && product.sameCategory.length > 0 && (
