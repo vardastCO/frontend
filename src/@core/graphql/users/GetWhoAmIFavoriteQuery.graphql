@@ -4,58 +4,6 @@ query GetWhoAmIFavorite {
     favorites {
       id
       type
-      brand {
-        products {
-          total
-          perPage
-          currentPage
-          lastPage
-          to
-          from
-          data {
-            rating
-            id
-            slug
-            name
-            sku
-            isActive
-            status
-            techNum
-            updatedAt
-            category {
-              id
-              title
-              slug
-            }
-            images {
-              id
-              sort
-              isPublic
-              file {
-                id
-                presignedUrl {
-                  url
-                }
-              }
-            }
-            lowestPrice {
-              id
-              type
-              amount
-              isPublic
-            }
-            uom {
-              id
-              name
-              slug
-              symbol
-              isActive
-            }
-          }
-        }
-      }
-      seller
-      product
     }
   }
 }
