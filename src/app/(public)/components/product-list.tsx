@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import {
   notFound,
   usePathname,
@@ -8,7 +8,7 @@ import {
   useSearchParams
 } from "next/navigation"
 import { CheckedState } from "@radix-ui/react-checkbox"
-import { useQuery } from "@tanstack/react-query"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import {
@@ -16,6 +16,7 @@ import {
   LucideSlidersHorizontal,
   LucideSortDesc
 } from "lucide-react"
+import { useInView } from "react-intersection-observer"
 
 import {
   FilterAttribute,
@@ -38,12 +39,11 @@ import MobileCategoriesFilter from "@/app/(public)/components/mobile-categories-
 import MobileFilterableAttributes from "@/app/(public)/components/mobile-filterable-attributes"
 import MobileSortFilter from "@/app/(public)/components/mobile-sort-filter"
 import NoProductFound from "@/app/(public)/components/no-product-found"
-import ProductPagination from "@/app/(public)/components/product-pagination"
 import ProductSort from "@/app/(public)/components/product-sort"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 import VocabularyFilter from "@/app/(public)/components/vocabulary-filter"
 
-import ProductCard from "./product-card"
+import ProductCard, { ProductCardLoader } from "./product-card"
 
 interface ProductListProps {
   isMobileView: boolean
@@ -63,6 +63,10 @@ const ProductList = ({
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const { push } = useRouter()
+  // eslint-disable-next-line no-unused-vars
+  const [limit, setLimit] = useState(5)
+  const { ref, inView } = useInView({ threshold: 0.4 })
+  // eslint-disable-next-line no-unused-vars
   const [currentPage, setCurrentPage] = useState<number>(args.page || 1)
   const [sort, setSort] = useState<ProductSortablesEnum>(
     args.orderBy || ProductSortablesEnum.Newest
@@ -99,7 +103,7 @@ const ProductList = ({
     }
   )
 
-  const allProductsQuery = useQuery<GetAllProductsQuery>(
+  const allProductsQuery = useInfiniteQuery<GetAllProductsQuery>(
     [
       QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY,
       {
@@ -109,15 +113,20 @@ const ProductList = ({
         orderBy: sort
       }
     ],
-    () =>
+    ({ pageParam = 1 }) =>
       getAllProductsQueryFn({
         ...args,
-        page: currentPage,
+        page: pageParam,
         attributes: filterAttributes,
         orderBy: sort
       }),
     {
-      keepPreviousData: true
+      keepPreviousData: true,
+      getNextPageParam(lastPage, allPages) {
+        return lastPage.products.data.length > 0
+          ? allPages.length + 1
+          : undefined
+      }
     }
   )
 
@@ -210,6 +219,14 @@ const ProductList = ({
 
     push(pathname + "?" + params.toString())
   }
+
+  useEffect(() => {
+    if (inView) {
+      allProductsQuery.fetchNextPage()
+      setLimit((limit) => limit + 5)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView])
 
   if (!allProductsQuery.data) notFound()
 
@@ -361,46 +378,68 @@ const ProductList = ({
           </div>
         )}
         <div>
-          {allProductsQuery.data.products.data.length > 0 ? (
+          {!isMobileView && (
+            <div className="flex items-center py-1 md:py-3">
+              <ProductSort
+                sort={sort}
+                onSortChanged={(sort) => {
+                  setSort(sort)
+                  const params = new URLSearchParams(searchParams as any)
+                  params.set("orderBy", `${sort}`)
+                  push(pathname + "?" + params.toString())
+                }}
+              />
+              {/* <ProductCount count={data.products.total || 0} /> */}
+            </div>
+          )}
+          {allProductsQuery?.data?.pages.length > 0 ? (
             <>
-              {!isMobileView && (
-                <div className="flex items-center py-1 md:py-3">
-                  <ProductSort
-                    sort={sort}
-                    onSortChanged={(sort) => {
-                      setSort(sort)
-                      const params = new URLSearchParams(searchParams as any)
-                      params.set("orderBy", `${sort}`)
-                      push(pathname + "?" + params.toString())
-                    }}
-                  />
-                  {/* <ProductCount count={data.products.total || 0} /> */}
-                </div>
-              )}
-              <div>
+              {allProductsQuery?.data?.pages.map((productPage) => (
+                <>
+                  <div>
+                    <div className="grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
+                      {productPage.products.data.map((product, idx) => (
+                        <ProductCard key={idx} product={product as Product} />
+                      ))}
+                    </div>
+                  </div>
+                  {/* {isMobileView ? ( */}
+                  {/* ) : (
+                    productPage.products.lastPage &&
+                    productPage.products.lastPage > 1 && (
+                      <ProductPagination
+                      total={productPage.products.lastPage}
+                        currentPage={currentPage}
+                        onChange={(page) => {
+                          setCurrentPage(page)
+                          const params = new URLSearchParams(
+                            searchParams as any
+                          )
+                          params.set("page", `${page}`)
+                          push(pathname + "?" + params.toString())
+                        }}
+                      />
+                    )
+                  )} */}
+                </>
+              ))}
+              <div ref={ref} className="">
                 <div className="grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
-                  {allProductsQuery.data.products.data.map((product, idx) => (
-                    <ProductCard key={idx} product={product as Product} />
+                  {[...Array(3)].map((loader) => (
+                    <ProductCardLoader key={loader} />
                   ))}
                 </div>
-                {allProductsQuery.data.products.lastPage &&
-                  allProductsQuery.data.products.lastPage > 1 && (
-                    <ProductPagination
-                      total={allProductsQuery.data.products.lastPage}
-                      currentPage={currentPage}
-                      onChange={(page) => {
-                        setCurrentPage(page)
-                        const params = new URLSearchParams(searchParams as any)
-                        params.set("page", `${page}`)
-                        push(pathname + "?" + params.toString())
-                      }}
-                    />
-                  )}
               </div>
             </>
           ) : (
             <NoProductFound />
           )}
+          {/* <button
+            disabled={allProductsQuery.isFetchingNextPage}
+            onClick={() => allProductsQuery.fetchNextPage()}
+          >
+            Load More
+          </button> */}
         </div>
       </div>
     </>

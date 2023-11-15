@@ -6,3 +6,7 @@
     dark:bg-alpha-950
     dark:bg-opacity-20;
 }
+
+.animated-card {
+  @apply animate-pulse rounded bg-alpha-400;
+}

@@ -237,12 +237,7 @@ export default function AdminLayout({
             strategy="beforeInteractive"
             src="https://www.googletagmanager.com/gtag/js?id=G-LT14MTLPRV"
           ></Script> */}
-          <Script
-            async
-            id="google-tag-manager"
-            strategy="beforeInteractive"
-            src="https://www.googletagmanager.com/gtag/js?id=G-LT14MTLPRV"
-          >
+          <Script async id="google-tag-manager" strategy="beforeInteractive">
             {`<!-- Google Tag Manager -->
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
