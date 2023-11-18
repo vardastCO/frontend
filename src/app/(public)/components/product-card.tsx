@@ -73,7 +73,7 @@ const ProductCard = forwardRef(
         href={`/p/${product.id}/${slugify(product.name)}${
           product.title ? `?title=${product.title}` : ""
         }`}
-        className="md:h-none relative grid h-[calc((100vw-1.5rem)/2)] max-h-[calc((100vw-1.5rem)/2)] min-h-[calc((100vw-1.5rem)/2)] w-full flex-1 grid-cols-3 gap-2 border-b bg-alpha-white transition hover:z-10 md:max-h-none md:border-none md:py md:hover:shadow-lg lg:flex lg:flex-col lg:px-4"
+        className="md:h-none relative grid h-[calc((100vw-1.5rem)/2)] max-h-[calc((100vw-1.5rem)/2)] min-h-[calc((100vw-1.5rem)/2)] w-full flex-1 grid-cols-3 gap-2 border-b bg-alpha-white transition hover:z-10 md:h-full md:max-h-full md:min-h-full md:border-none md:py md:hover:shadow-lg lg:flex lg:flex-col lg:px-4"
         prefetch={false}
       >
         <div

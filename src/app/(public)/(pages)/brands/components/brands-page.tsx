@@ -30,10 +30,10 @@ const BrandsPage = ({ args }: BrandsPageProps) => {
         page: args.page || 1
       }
     ],
-    () =>
+    ({ pageParam = 1 }) =>
       getAllBrandsQueryFn({
         ...args,
-        page: args.page || 1
+        page: pageParam
       }),
     {
       keepPreviousData: true,
