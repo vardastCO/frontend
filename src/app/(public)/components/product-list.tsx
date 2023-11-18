@@ -9,7 +9,6 @@ import {
 } from "next/navigation"
 import { CheckedState } from "@radix-ui/react-checkbox"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import clsx from "clsx"
 import { useSetAtom } from "jotai"
 import {
   LucideLayoutGrid,
@@ -33,6 +32,7 @@ import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import BrandOrSellerCategoryFilter from "@/app/(public)/components/brand-or-seller-category-filter"
 import CategoryFilter from "@/app/(public)/components/category-filter"
+import DesktopMobileViewOrganizer from "@/app/(public)/components/DesktopMobileViewOrganizer"
 import FiltersContainer from "@/app/(public)/components/filters-container"
 import InfiniteScrollPagination from "@/app/(public)/components/InfiniteScrollPagination"
 import MobileCategoriesFilter from "@/app/(public)/components/mobile-categories-filter"
@@ -42,6 +42,7 @@ import ProductCard, {
   ProductCardSkeleton
 } from "@/app/(public)/components/product-card"
 import ProductSort from "@/app/(public)/components/product-sort"
+import ProductListContainer from "@/app/(public)/components/ProductListContainer"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 import VocabularyFilter from "@/app/(public)/components/vocabulary-filter"
 
@@ -218,188 +219,178 @@ const ProductList = ({
 
   if (!allProductsQuery.data) notFound()
 
-  return (
-    <>
-      {isMobileView && (
-        <>
-          <div className="sticky top-0 z-50 border-b bg-alpha-white p">
-            <div className="flex items-start gap-3">
-              <MobileCategoriesFilter
-                categoryId={selectedCategoryIds}
-                brandId={brandId}
-                sellerId={sellerId}
-                categoryIdsFilter={categoryIdsFilter}
-                onCategoryFilterChanged={({ status, value }) => {
-                  onCategoryIdsFilterChanged({ status, value })
-                  setCategoriesFilterVisibility(false)
-                }}
-              />
-              <MobileSortFilter
-                sort={sort}
-                onSortChanged={(sort) => {
-                  setSortFilterVisibility(false)
-                  setSort(sort)
-                  const params = new URLSearchParams(searchParams as any)
-                  params.set("orderBy", `${sort}`)
-                  push(pathname + "?" + params.toString())
-                }}
-              />
-              {selectedCategoryIds &&
-                selectedCategoryIds.length > 0 &&
-                getFilterableAttributesQuery.data &&
-                getFilterableAttributesQuery.data.filterableAttributes.filters
-                  .length > 0 && (
-                  <>
-                    <Button
-                      onClick={() => setFiltersVisibility(true)}
-                      size="small"
-                      variant="secondary"
-                      className="rounded-full border border-alpha-200"
-                    >
-                      {filterAttributes.length > 0 && (
-                        <span className="absolute -right-1 -top-1 block h-2.5 w-2.5 rounded-full bg-primary-500"></span>
-                      )}
-                      <LucideSlidersHorizontal className="icon text-alpha" />
-                      فیلترها
-                    </Button>
-                    <MobileFilterableAttributes
-                      filterAttributes={filterAttributes}
-                      selectedCategoryId={selectedCategoryIds}
-                      onFilterAttributesChanged={({ status, id, value }) => {
-                        onFilterAttributesChanged({ status, id, value })
-                        setFiltersVisibility(false)
-                      }}
-                      onRemoveAllFilters={() => {
-                        removeAllFilters()
-                        setFiltersVisibility(false)
-                      }}
-                    />
-                  </>
-                )}
-              {!isMobileView && (
-                <Button
-                  onClick={() => setCategoriesFilterVisibility(true)}
-                  size="small"
-                  variant="secondary"
-                  className="rounded-full border border-alpha-200"
-                >
-                  <LucideLayoutGrid className="icon text-alpha" />
-                  دسته‌بندی‌ها
-                </Button>
-              )}
+  const DesktopSidebar = () => (
+    <div className="rounded-md px-4">
+      <div className="-mx-4 flex items-center p-4">
+        <strong>فیلترها</strong>
+        {filterAttributes.length > 0 && (
+          <Button
+            size="small"
+            noStyle
+            className="ms-auto text-sm text-red-500"
+            onClick={() => removeAllFilters()}
+          >
+            حذف همه فیلترها
+          </Button>
+        )}
+      </div>
+      {selectedCategoryIds &&
+        selectedCategoryIds.length === 1 &&
+        !brandId &&
+        !sellerId && (
+          <CategoryFilter selectedCategoryId={selectedCategoryIds[0]} />
+        )}
+
+      {brandId && (
+        <BrandOrSellerCategoryFilter
+          categoryIdsFilter={categoryIdsFilter}
+          onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
+          brandId={brandId}
+        />
+      )}
+
+      {sellerId && (
+        <BrandOrSellerCategoryFilter
+          categoryIdsFilter={categoryIdsFilter}
+          onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
+          sellerId={sellerId}
+        />
+      )}
+
+      {selectedCategoryIds &&
+        selectedCategoryIds.length === 1 &&
+        selectedCategoryIds[0] !== 0 && (
+          <FiltersContainer
+            selectedCategoryId={selectedCategoryIds[0]}
+            filterAttributes={filterAttributes}
+            onFilterAttributesChanged={onFilterAttributesChanged}
+          />
+        )}
+
+      {!selectedCategoryIds && !brandId && !sellerId && <VocabularyFilter />}
+    </div>
+  )
+
+  const DesktopHeader = () => (
+    <div className="flex items-center py-1 md:py-3">
+      <ProductSort
+        sort={sort}
+        onSortChanged={(sort) => {
+          setSort(sort)
+          const params = new URLSearchParams(searchParams as any)
+          params.set("orderBy", `${sort}`)
+          push(pathname + "?" + params.toString())
+        }}
+      />
+    </div>
+  )
+
+  const MobileHeader = () => (
+    <div className="sticky top-0 z-50 border-b bg-alpha-white p">
+      <div className="flex items-start gap-3">
+        <MobileCategoriesFilter
+          categoryId={selectedCategoryIds}
+          brandId={brandId}
+          sellerId={sellerId}
+          categoryIdsFilter={categoryIdsFilter}
+          onCategoryFilterChanged={({ status, value }) => {
+            onCategoryIdsFilterChanged({ status, value })
+            setCategoriesFilterVisibility(false)
+          }}
+        />
+        <MobileSortFilter
+          sort={sort}
+          onSortChanged={(sort) => {
+            setSortFilterVisibility(false)
+            setSort(sort)
+            const params = new URLSearchParams(searchParams as any)
+            params.set("orderBy", `${sort}`)
+            push(pathname + "?" + params.toString())
+          }}
+        />
+        {selectedCategoryIds &&
+          selectedCategoryIds.length > 0 &&
+          getFilterableAttributesQuery.data &&
+          getFilterableAttributesQuery.data.filterableAttributes.filters
+            .length > 0 && (
+            <>
               <Button
-                onClick={() => setSortFilterVisibility(true)}
+                onClick={() => setFiltersVisibility(true)}
                 size="small"
                 variant="secondary"
                 className="rounded-full border border-alpha-200"
               >
-                <LucideSortDesc className="icon text-alpha" />
-                مرتب‌سازی
-              </Button>
-            </div>
-          </div>
-        </>
-      )}
-
-      <div
-        className={clsx([
-          "",
-          isMobileView
-            ? "bg-alpha-white"
-            : "grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]"
-        ])}
-      >
-        {!isMobileView && (
-          <div>
-            <div className="rounded-md px-4">
-              <div className="-mx-4 flex items-center p-4">
-                <strong>فیلترها</strong>
                 {filterAttributes.length > 0 && (
-                  <Button
-                    size="small"
-                    noStyle
-                    className="ms-auto text-sm text-red-500"
-                    onClick={() => removeAllFilters()}
-                  >
-                    حذف همه فیلترها
-                  </Button>
+                  <span className="absolute -right-1 -top-1 block h-2.5 w-2.5 rounded-full bg-primary-500"></span>
                 )}
-              </div>
-
-              {selectedCategoryIds &&
-                selectedCategoryIds.length === 1 &&
-                !brandId &&
-                !sellerId && (
-                  <CategoryFilter selectedCategoryId={selectedCategoryIds[0]} />
-                )}
-
-              {brandId && (
-                <BrandOrSellerCategoryFilter
-                  categoryIdsFilter={categoryIdsFilter}
-                  onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
-                  brandId={brandId}
-                />
-              )}
-
-              {sellerId && (
-                <BrandOrSellerCategoryFilter
-                  categoryIdsFilter={categoryIdsFilter}
-                  onCategoryIdsFilterChanged={onCategoryIdsFilterChanged}
-                  sellerId={sellerId}
-                />
-              )}
-
-              {selectedCategoryIds &&
-                selectedCategoryIds.length === 1 &&
-                selectedCategoryIds[0] !== 0 && (
-                  <FiltersContainer
-                    selectedCategoryId={selectedCategoryIds[0]}
-                    filterAttributes={filterAttributes}
-                    onFilterAttributesChanged={onFilterAttributesChanged}
-                  />
-                )}
-
-              {!selectedCategoryIds && !brandId && !sellerId && (
-                <VocabularyFilter />
-              )}
-            </div>
-          </div>
-        )}
-        <div>
-          {!isMobileView && (
-            <div className="flex items-center py-1 md:py-3">
-              <ProductSort
-                sort={sort}
-                onSortChanged={(sort) => {
-                  setSort(sort)
-                  const params = new URLSearchParams(searchParams as any)
-                  params.set("orderBy", `${sort}`)
-                  push(pathname + "?" + params.toString())
+                <LucideSlidersHorizontal className="icon text-alpha" />
+                فیلترها
+              </Button>
+              <MobileFilterableAttributes
+                filterAttributes={filterAttributes}
+                selectedCategoryId={selectedCategoryIds}
+                onFilterAttributesChanged={({ status, id, value }) => {
+                  onFilterAttributesChanged({ status, id, value })
+                  setFiltersVisibility(false)
+                }}
+                onRemoveAllFilters={() => {
+                  removeAllFilters()
+                  setFiltersVisibility(false)
                 }}
               />
-            </div>
+            </>
           )}
-          <InfiniteScrollPagination
-            CardLoader={ProductCardSkeleton}
-            infiniteQuery={allProductsQuery}
-          >
-            {(page, ref) => (
-              <>
-                {page.products.data.map((product, index) => (
-                  <ProductCard
-                    ref={
-                      page.products.data.length - 1 === index ? ref : undefined
-                    }
-                    key={product?.id}
-                    product={product as Product}
-                  />
-                ))}
-              </>
-            )}
-          </InfiniteScrollPagination>
-        </div>
+        <Button
+          onClick={() => setCategoriesFilterVisibility(true)}
+          size="small"
+          variant="secondary"
+          className="rounded-full border border-alpha-200"
+        >
+          <LucideLayoutGrid className="icon text-alpha" />
+          دسته‌بندی‌ها
+        </Button>
+        <Button
+          onClick={() => setSortFilterVisibility(true)}
+          size="small"
+          variant="secondary"
+          className="rounded-full border border-alpha-200"
+        >
+          <LucideSortDesc className="icon text-alpha" />
+          مرتب‌سازی
+        </Button>
       </div>
-    </>
+    </div>
+  )
+
+  const Content = () => (
+    <ProductListContainer>
+      <InfiniteScrollPagination
+        CardLoader={ProductCardSkeleton}
+        infiniteQuery={allProductsQuery}
+      >
+        {(page, ref) => (
+          <>
+            {page.products.data.map((product, index) => (
+              <ProductCard
+                ref={page.products.data.length - 1 === index ? ref : undefined}
+                key={product?.id}
+                product={product as Product}
+              />
+            ))}
+          </>
+        )}
+      </InfiniteScrollPagination>
+    </ProductListContainer>
+  )
+
+  return (
+    <DesktopMobileViewOrganizer
+      isMobileView={isMobileView}
+      DesktopSidebar={DesktopSidebar}
+      DesktopHeader={DesktopHeader}
+      MobileHeader={MobileHeader}
+      Content={Content}
+    />
   )
 }
 

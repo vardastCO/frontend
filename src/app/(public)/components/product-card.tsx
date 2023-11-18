@@ -57,7 +57,7 @@ export const ProductCardSkeleton = () => {
 }
 
 const ProductCard = forwardRef(
-  ({ product }: ProductCardProps, ref: Ref<HTMLDivElement> | undefined) => {
+  ({ product }: ProductCardProps, ref: Ref<HTMLAnchorElement> | undefined) => {
     const onLoadingCompletedImage = () => {
       const div = document.getElementById(`product-image-${product.id}`)
       if (div) {
@@ -65,95 +65,89 @@ const ProductCard = forwardRef(
       }
     }
 
-    const hasDiscount = false
+    const hasDiscount = true
 
     return (
-      <div
+      <Link
         ref={ref}
-        className="relative px-6 transition hover:z-10 md:py md:hover:shadow-lg"
+        href={`/p/${product.id}/${slugify(product.name)}${
+          product.title ? `?title=${product.title}` : ""
+        }`}
+        className="md:h-none relative grid h-[calc((100vw-1.5rem)/2)] max-h-[calc((100vw-1.5rem)/2)] min-h-[calc((100vw-1.5rem)/2)] w-full flex-1 grid-cols-3 gap-2 border-b bg-alpha-white transition hover:z-10 md:max-h-none md:border-none md:py md:hover:shadow-lg lg:flex lg:flex-col lg:px-4"
+        prefetch={false}
       >
-        <Link
-          href={`/p/${product.id}/${slugify(product.name)}${
-            product.title ? `?title=${product.title}` : ""
+        <div
+          id={`product-image-${product.id}`}
+          className={`relative flex flex-shrink-0 transform flex-col items-center justify-center bg-center bg-no-repeat align-middle transition-all duration-1000 ease-out ${
+            product.images.at(0)?.file.presignedUrl.url ? "opacity-0" : ""
           }`}
-          className="grid h-full w-full flex-1 grid-cols-3 gap-2 border-b bg-alpha-white py md:border-none lg:flex lg:flex-col lg:px-4"
-          prefetch={false}
         >
           <div
-            id={`product-image-${product.id}`}
-            className={`relative flex flex-shrink-0 transform flex-col items-center justify-center bg-center bg-no-repeat align-middle transition-all duration-1000 ease-out ${
-              product.images.at(0)?.file.presignedUrl.url ? "opacity-0" : ""
-            }`}
+            id={`product-image-container-${product.id}`}
+            className="w-full"
+            style={{
+              height: document.getElementById(
+                `product-image-container-${product.id}`
+              )?.clientWidth
+            }}
           >
-            <div className="w-full">
-              {product.images.at(0)?.file.presignedUrl.url ? (
-                <Image
-                  src={product.images.at(0)?.file.presignedUrl.url as string}
-                  alt={product.name}
-                  sizes="100vw"
-                  style={{
-                    width: "100%",
-                    height: "auto"
-                  }}
-                  width={125}
-                  height={125}
-                  onLoadingComplete={onLoadingCompletedImage}
-                />
-              ) : (
-                <Image
-                  src={"/images/blank.png"}
-                  alt={product.name}
-                  sizes="100vw"
-                  style={{
-                    width: "100%",
-                    height: "auto"
-                  }}
-                  width={125}
-                  height={125}
-                />
-              )}
-            </div>
+            {product.images.at(0)?.file.presignedUrl.url ? (
+              <Image
+                src={product.images.at(0)?.file.presignedUrl.url as string}
+                alt={product.name}
+                layout="fill"
+                objectFit="contain"
+                onLoadingComplete={onLoadingCompletedImage}
+              />
+            ) : (
+              <Image
+                src={"/images/blank.png"}
+                alt={product.name}
+                layout="fill"
+                objectFit="contain"
+              />
+            )}
           </div>
-          <div className="lg:col-span1 col-span-2 flex flex-1 flex-col py">
+        </div>
+        <div className="lg:col-span1 col-span-2 grid h-full grid-rows-7">
+          <div></div>
+          <div className="row-span-2">
             <h5
               title={product.name}
-              className="line-clamp-2 h-11 font-semibold"
+              className="my-auto line-clamp-2 max-h-10 overflow-hidden whitespace-pre-wrap font-semibold"
             >
               {product.name}
             </h5>
-            <div className="flex h-8 w-full">
-              {product.rating && product.rating > 0 ? (
-                <Rating rating={product.rating} />
-              ) : (
-                ""
-              )}
-            </div>
-            <div className="flex h-14  w-full flex-col items-end">
-              {product.lowestPrice && (
-                <>
-                  <div className="flex h-1/2 w-full items-center justify-end gap-x">
-                    {hasDiscount && (
-                      <span className="rounded-full bg-error p-1 px-1.5 text-center text-sm font-semibold leading-none text-white">
-                        {digitsEnToFa(15)}%
-                      </span>
-                    )}
-                    {hasDiscount && (
-                      <span className="text-sm text-alpha-500 line-through">
-                        {digitsEnToFa(
-                          addCommas(`${product.lowestPrice.amount}`)
-                        )}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex h-1/2 w-full items-center justify-end gap-x">
-                    <PriceTitle size="xs" price={product.lowestPrice.amount} />
-                  </div>
-                </>
-              )}
-            </div>
           </div>
-        </Link>
-      </div>
+          <div className="flex w-full">
+            {product.rating && product.rating > 0 ? (
+              <Rating rating={product.rating} />
+            ) : (
+              ""
+            )}
+          </div>
+          {product.lowestPrice && (
+            <>
+              <div className="flex w-full items-center justify-end gap-x">
+                {hasDiscount && (
+                  <span className="rounded-full bg-error p-1 px-1.5 text-center text-sm font-semibold leading-none text-white">
+                    {digitsEnToFa(15)}%
+                  </span>
+                )}
+                {hasDiscount && (
+                  <span className="text-sm text-alpha-500 line-through">
+                    {digitsEnToFa(addCommas(`${product.lowestPrice.amount}`))}
+                  </span>
+                )}
+              </div>
+              <div className="flex w-full items-center justify-end">
+                <PriceTitle size="xs" price={product.lowestPrice.amount} />
+              </div>
+            </>
+          )}
+          <div></div>
+        </div>
+      </Link>
     )
   }
 )

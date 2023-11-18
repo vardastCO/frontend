@@ -12,6 +12,7 @@ interface IInfiniteScrollPagination<T> {
   // eslint-disable-next-line no-unused-vars
   children(
     _: T,
+    // eslint-disable-next-line no-unused-vars
     ref: ((node?: Element | null | undefined) => void) | undefined
   ): ReactElement
 }
