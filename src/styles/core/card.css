@@ -8,5 +8,5 @@
 }
 
 .animated-card {
-  @apply animate-pulse rounded bg-alpha-400;
+  @apply animate-pulse rounded bg-alpha-200;
 }

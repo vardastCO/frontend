@@ -30,7 +30,7 @@ const BrandsIndex = async ({ searchParams }: BrandsIndexProps) => {
   args["page"] =
     searchParams.page && +searchParams.page[0] > 0 ? +searchParams.page[0] : 1
 
-  await queryClient.prefetchQuery(
+  await queryClient.prefetchInfiniteQuery(
     [QUERY_FUNCTIONS_KEY.GET_ALL_BRANDS_QUERY_KEY, args],
     () => getAllBrandsQueryFn(args)
   )

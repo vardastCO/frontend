@@ -1,22 +1,18 @@
 "use client"
 
-import { useState } from "react"
-import {
-  notFound,
-  usePathname,
-  useRouter,
-  useSearchParams
-} from "next/navigation"
-import { useQuery } from "@tanstack/react-query"
+import { notFound } from "next/navigation"
+import { useInfiniteQuery } from "@tanstack/react-query"
 
 import { GetAllSellersQuery, IndexSellerInput, Seller } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getAllSellersQueryFn } from "@core/queryFns/allSellersQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-import BrandOrSellerCard from "@/app/(public)/components/BrandOrSellerCard"
+import BrandOrSellerCard, {
+  BrandOrSellerCardSkeleton
+} from "@/app/(public)/components/BrandOrSellerCard"
 import BrandsOrSellersContainer from "@/app/(public)/components/BrandsOrSellersContainer"
-import ProductPagination from "@/app/(public)/components/product-pagination"
+import InfiniteScrollPagination from "@/app/(public)/components/InfiniteScrollPagination"
 
 interface SellersPageProps {
   isMobileView: boolean
@@ -24,30 +20,30 @@ interface SellersPageProps {
 }
 
 const SellersPage = ({ args }: SellersPageProps) => {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const { push } = useRouter()
-  const [currentPage, setCurrentPage] = useState<number>(args.page || 1)
-
-  const { data } = useQuery<GetAllSellersQuery>(
+  const allSellersQuery = useInfiniteQuery<GetAllSellersQuery>(
     [
       QUERY_FUNCTIONS_KEY.ALL_SELLERS_QUERY_KEY,
       {
         ...args,
-        page: currentPage
+        page: args.page || 1
       }
     ],
     () =>
       getAllSellersQueryFn({
         ...args,
-        page: currentPage
+        page: args.page || 1
       }),
     {
-      keepPreviousData: true
+      keepPreviousData: true,
+      getNextPageParam(lastPage, allPages) {
+        return lastPage.sellers.currentPage < lastPage.sellers.lastPage
+          ? allPages.length + 1
+          : undefined
+      }
     }
   )
 
-  if (!data) notFound()
+  if (!allSellersQuery.data) notFound()
 
   return (
     <>
@@ -61,28 +57,28 @@ const SellersPage = ({ args }: SellersPageProps) => {
       </div>
 
       <BrandsOrSellersContainer>
-        {data.sellers.data.map(
-          (seller) =>
-            seller && (
-              <BrandOrSellerCard
-                key={seller.id}
-                content={{ ...(seller as Seller), __typename: "Seller" }}
-              />
-            )
-        )}
+        <InfiniteScrollPagination
+          CardLoader={BrandOrSellerCardSkeleton}
+          infiniteQuery={allSellersQuery}
+        >
+          {(page, ref) => (
+            <>
+              {page.sellers.data.map(
+                (seller, index) =>
+                  seller && (
+                    <BrandOrSellerCard
+                      ref={
+                        page.sellers.data.length - 1 === index ? ref : undefined
+                      }
+                      key={seller.id}
+                      content={{ ...(seller as Seller), __typename: "Seller" }}
+                    />
+                  )
+              )}
+            </>
+          )}
+        </InfiniteScrollPagination>
       </BrandsOrSellersContainer>
-      {data.sellers.lastPage && data.sellers.lastPage > 1 && (
-        <ProductPagination
-          total={data.sellers.lastPage}
-          currentPage={currentPage}
-          onChange={(page) => {
-            setCurrentPage(page)
-            const params = new URLSearchParams(searchParams as any)
-            params.set("page", `${page}`)
-            push(pathname + "?" + params.toString())
-          }}
-        />
-      )}
     </>
   )
 }

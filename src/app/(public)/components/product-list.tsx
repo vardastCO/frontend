@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import {
   notFound,
   usePathname,
@@ -16,7 +16,6 @@ import {
   LucideSlidersHorizontal,
   LucideSortDesc
 } from "lucide-react"
-import { useInView } from "react-intersection-observer"
 
 import {
   FilterAttribute,
@@ -35,15 +34,16 @@ import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import BrandOrSellerCategoryFilter from "@/app/(public)/components/brand-or-seller-category-filter"
 import CategoryFilter from "@/app/(public)/components/category-filter"
 import FiltersContainer from "@/app/(public)/components/filters-container"
+import InfiniteScrollPagination from "@/app/(public)/components/InfiniteScrollPagination"
 import MobileCategoriesFilter from "@/app/(public)/components/mobile-categories-filter"
 import MobileFilterableAttributes from "@/app/(public)/components/mobile-filterable-attributes"
 import MobileSortFilter from "@/app/(public)/components/mobile-sort-filter"
-import NoProductFound from "@/app/(public)/components/no-product-found"
+import ProductCard, {
+  ProductCardSkeleton
+} from "@/app/(public)/components/product-card"
 import ProductSort from "@/app/(public)/components/product-sort"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 import VocabularyFilter from "@/app/(public)/components/vocabulary-filter"
-
-import ProductCard, { ProductCardLoader } from "./product-card"
 
 interface ProductListProps {
   isMobileView: boolean
@@ -63,15 +63,11 @@ const ProductList = ({
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const { push } = useRouter()
-  // eslint-disable-next-line no-unused-vars
-  const [limit, setLimit] = useState(5)
-  const { ref, inView } = useInView({ threshold: 0.4 })
-  // eslint-disable-next-line no-unused-vars
-  const [currentPage, setCurrentPage] = useState<number>(args.page || 1)
+
   const [sort, setSort] = useState<ProductSortablesEnum>(
     args.orderBy || ProductSortablesEnum.Newest
   )
-  const [filterAttributes, setFilterAtrributes] = useState<FilterAttribute[]>(
+  const [filterAttributes, setFilterAttributes] = useState<FilterAttribute[]>(
     args["attributes"] || []
   )
   const [categoryIdsFilter, setCategoryIdsFilter] = useState<
@@ -108,7 +104,7 @@ const ProductList = ({
       QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY,
       {
         ...args,
-        page: currentPage,
+        page: args.page || 1,
         attributes: filterAttributes,
         orderBy: sort
       }
@@ -123,7 +119,7 @@ const ProductList = ({
     {
       keepPreviousData: true,
       getNextPageParam(lastPage, allPages) {
-        return lastPage.products.data.length > 0
+        return lastPage.products.currentPage < lastPage.products.lastPage
           ? allPages.length + 1
           : undefined
       }
@@ -135,7 +131,7 @@ const ProductList = ({
     id,
     value
   }: FilterAttribute & { status: CheckedState }) => {
-    setFilterAtrributes((values) => {
+    setFilterAttributes((values) => {
       let tmp = values
       if (status === true) {
         tmp = [
@@ -189,7 +185,7 @@ const ProductList = ({
         }
       }
 
-      setFilterAtrributes([])
+      setFilterAttributes([])
 
       tmp &&
         tmp
@@ -214,19 +210,11 @@ const ProductList = ({
       }
     }
 
-    setFilterAtrributes([])
+    setFilterAttributes([])
     setCategoryIdsFilter(null)
 
     push(pathname + "?" + params.toString())
   }
-
-  useEffect(() => {
-    if (inView) {
-      allProductsQuery.fetchNextPage()
-      setLimit((limit) => limit + 5)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView])
 
   if (!allProductsQuery.data) notFound()
 
@@ -389,57 +377,26 @@ const ProductList = ({
                   push(pathname + "?" + params.toString())
                 }}
               />
-              {/* <ProductCount count={data.products.total || 0} /> */}
             </div>
           )}
-          {allProductsQuery?.data?.pages.length > 0 ? (
-            <>
-              {allProductsQuery?.data?.pages.map((productPage) => (
-                <>
-                  <div>
-                    <div className="grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
-                      {productPage.products.data.map((product, idx) => (
-                        <ProductCard key={idx} product={product as Product} />
-                      ))}
-                    </div>
-                  </div>
-                  {/* {isMobileView ? ( */}
-                  {/* ) : (
-                    productPage.products.lastPage &&
-                    productPage.products.lastPage > 1 && (
-                      <ProductPagination
-                      total={productPage.products.lastPage}
-                        currentPage={currentPage}
-                        onChange={(page) => {
-                          setCurrentPage(page)
-                          const params = new URLSearchParams(
-                            searchParams as any
-                          )
-                          params.set("page", `${page}`)
-                          push(pathname + "?" + params.toString())
-                        }}
-                      />
-                    )
-                  )} */}
-                </>
-              ))}
-              <div ref={ref} className="">
-                <div className="grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
-                  {[...Array(3)].map((loader) => (
-                    <ProductCardLoader key={loader} />
-                  ))}
-                </div>
-              </div>
-            </>
-          ) : (
-            <NoProductFound />
-          )}
-          {/* <button
-            disabled={allProductsQuery.isFetchingNextPage}
-            onClick={() => allProductsQuery.fetchNextPage()}
+          <InfiniteScrollPagination
+            CardLoader={ProductCardSkeleton}
+            infiniteQuery={allProductsQuery}
           >
-            Load More
-          </button> */}
+            {(page, ref) => (
+              <>
+                {page.products.data.map((product, index) => (
+                  <ProductCard
+                    ref={
+                      page.products.data.length - 1 === index ? ref : undefined
+                    }
+                    key={product?.id}
+                    product={product as Product}
+                  />
+                ))}
+              </>
+            )}
+          </InfiniteScrollPagination>
         </div>
       </div>
     </>

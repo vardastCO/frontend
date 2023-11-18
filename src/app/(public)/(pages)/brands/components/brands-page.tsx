@@ -1,13 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import {
-  notFound,
-  usePathname,
-  useRouter,
-  useSearchParams
-} from "next/navigation"
-import { useQuery } from "@tanstack/react-query"
+import { notFound } from "next/navigation"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import useTranslation from "next-translate/useTranslation"
 
 import { Brand, GetAllBrandsQuery, IndexBrandInput } from "@/generated"
@@ -15,9 +9,11 @@ import { Brand, GetAllBrandsQuery, IndexBrandInput } from "@/generated"
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getAllBrandsQueryFn } from "@core/queryFns/allBrandsQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-import BrandOrSellerCard from "@/app/(public)/components/BrandOrSellerCard"
+import BrandOrSellerCard, {
+  BrandOrSellerCardSkeleton
+} from "@/app/(public)/components/BrandOrSellerCard"
 import BrandsOrSellersContainer from "@/app/(public)/components/BrandsOrSellersContainer"
-import ProductPagination from "@/app/(public)/components/product-pagination"
+import InfiniteScrollPagination from "@/app/(public)/components/InfiniteScrollPagination"
 
 interface BrandsPageProps {
   isMobileView: boolean
@@ -25,30 +21,31 @@ interface BrandsPageProps {
 }
 
 const BrandsPage = ({ args }: BrandsPageProps) => {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const { push } = useRouter()
-  const [currentPage, setCurrentPage] = useState<number>(args.page || 1)
   const { t } = useTranslation()
-  const { data } = useQuery<GetAllBrandsQuery>(
+  const allBrandsQuery = useInfiniteQuery<GetAllBrandsQuery>(
     [
       QUERY_FUNCTIONS_KEY.GET_ALL_BRANDS_QUERY_KEY,
       {
         ...args,
-        page: currentPage
+        page: args.page || 1
       }
     ],
     () =>
       getAllBrandsQueryFn({
         ...args,
-        page: currentPage
+        page: args.page || 1
       }),
     {
-      keepPreviousData: true
+      keepPreviousData: true,
+      getNextPageParam(lastPage, allPages) {
+        return lastPage.brands.currentPage < lastPage.brands.lastPage
+          ? allPages.length + 1
+          : undefined
+      }
     }
   )
 
-  if (!data) notFound()
+  if (!allBrandsQuery.data) notFound()
 
   return (
     <>
@@ -66,28 +63,28 @@ const BrandsPage = ({ args }: BrandsPageProps) => {
       </div>
 
       <BrandsOrSellersContainer>
-        {data.brands.data.map(
-          (brand) =>
-            brand && (
-              <BrandOrSellerCard
-                key={brand.id}
-                content={{ ...(brand as Brand), __typename: "Brand" }}
-              />
-            )
-        )}
+        <InfiniteScrollPagination
+          CardLoader={BrandOrSellerCardSkeleton}
+          infiniteQuery={allBrandsQuery}
+        >
+          {(page, ref) => (
+            <>
+              {page.brands.data.map(
+                (brand, index) =>
+                  brand && (
+                    <BrandOrSellerCard
+                      ref={
+                        page.brands.data.length - 1 === index ? ref : undefined
+                      }
+                      key={brand.id}
+                      content={{ ...(brand as Brand), __typename: "Brand" }}
+                    />
+                  )
+              )}
+            </>
+          )}
+        </InfiniteScrollPagination>
       </BrandsOrSellersContainer>
-      {data.brands.lastPage && data.brands.lastPage > 1 && (
-        <ProductPagination
-          total={data.brands.lastPage}
-          currentPage={currentPage}
-          onChange={(page) => {
-            setCurrentPage(page)
-            const params = new URLSearchParams(searchParams as any)
-            params.set("page", `${page}`)
-            push(pathname + "?" + params.toString())
-          }}
-        />
-      )}
     </>
   )
 }

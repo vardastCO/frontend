@@ -30,7 +30,7 @@ const SellersIndex = async ({ searchParams }: SellersIndexProps) => {
   args["page"] =
     searchParams.page && +searchParams.page[0] > 0 ? +searchParams.page[0] : 1
 
-  await queryClient.prefetchQuery(
+  await queryClient.prefetchInfiniteQuery(
     [QUERY_FUNCTIONS_KEY.ALL_SELLERS_QUERY_KEY, args],
     () => getAllSellersQueryFn(args)
   )

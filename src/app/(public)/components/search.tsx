@@ -294,7 +294,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                                   query,
                                   uri: `/search/${suggestedCategory.id}/${
                                     suggestedCategory.title
-                                  }?query=${query}${`&title=${suggestedCategory.title}`}`
+                                  }?${`title=${suggestedCategory.title}`}`
                                 })
                               }
                               key={suggestedCategory.id}
@@ -322,7 +322,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                                   query,
                                   uri: `/brand/${suggestedCategory.id}/${
                                     suggestedCategory.name
-                                  }?query=${query}${`&title=${suggestedCategory.name}`}`
+                                  }?${`title=${suggestedCategory.name}`}`
                                 })
                               }
                               key={suggestedCategory.id}
@@ -350,7 +350,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                                   query,
                                   uri: `/seller/${suggestedCategory.id}/${
                                     suggestedCategory.name
-                                  }?query=${query}${`&title=${suggestedCategory.name}`}`
+                                  }?${`title=${suggestedCategory.name}`}`
                                 })
                               }
                               key={suggestedCategory.id}
@@ -372,7 +372,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                       onClick={() =>
                         navigateTo({
                           query,
-                          uri: `/search?query=${query}${`&title=${query}`}`
+                          uri: `/search?${`title=${query}`}`
                         })
                       }
                     >
