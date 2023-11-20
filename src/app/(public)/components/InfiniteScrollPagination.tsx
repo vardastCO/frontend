@@ -31,8 +31,6 @@ const InfiniteScrollPagination = <T extends unknown>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
-  console.log(infiniteQuery.hasNextPage)
-
   return (
     <>
       {infiniteQuery.data?.pages && infiniteQuery.data?.pages.length > 0 ? (

@@ -65,7 +65,7 @@ const ProductCard = forwardRef(
       }
     }
 
-    const hasDiscount = true
+    const hasDiscount = false
 
     return (
       <Link

@@ -14,7 +14,7 @@ const DesktopMobileViewOrganizer: React.FC<IDesktopMobileViewOrganizer> = ({
   Content
 }) => {
   return (
-    <div className="grid grid-cols-1 gap-5 pb md:grid-cols-[4fr_8fr] lg:grid-cols-[3fr_9fr]">
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-[4fr_8fr] md:pb lg:grid-cols-[3fr_9fr]">
       {!isMobileView && <DesktopSidebar />}
       <div className="flex flex-col">
         {isMobileView ? <MobileHeader /> : <DesktopHeader />}

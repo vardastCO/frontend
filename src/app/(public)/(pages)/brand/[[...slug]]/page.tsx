@@ -93,7 +93,7 @@ const BrandIndex = async ({
     () => getBrandQueryFn(+slug[0])
   )
 
-  await queryClient.prefetchQuery(
+  await queryClient.prefetchInfiniteQuery(
     [QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY, args],
     () => getAllProductsQueryFn(args)
   )

@@ -10,11 +10,7 @@ import {
 import { CheckedState } from "@radix-ui/react-checkbox"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useSetAtom } from "jotai"
-import {
-  LucideLayoutGrid,
-  LucideSlidersHorizontal,
-  LucideSortDesc
-} from "lucide-react"
+import { LucideSlidersHorizontal, LucideSortDesc } from "lucide-react"
 
 import {
   FilterAttribute,
@@ -340,6 +336,8 @@ const ProductList = ({
               />
             </>
           )}
+        {/* 
+        dont use this part of code
         <Button
           onClick={() => setCategoriesFilterVisibility(true)}
           size="small"
@@ -348,7 +346,7 @@ const ProductList = ({
         >
           <LucideLayoutGrid className="icon text-alpha" />
           دسته‌بندی‌ها
-        </Button>
+        </Button> */}
         <Button
           onClick={() => setSortFilterVisibility(true)}
           size="small"

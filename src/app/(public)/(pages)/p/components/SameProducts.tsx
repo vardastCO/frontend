@@ -1,16 +1,12 @@
 "use client"
 
-import Image from "next/image"
 import { Pagination, Thumbs } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
 import { Product } from "@/generated"
 
-import slugify from "@core/utils/persian-slugify"
-import Link from "@core/components/shared/Link"
 import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
-import PriceTitle from "@/app/(public)/components/PriceTitle"
-import Rating from "@/app/(public)/components/Rating"
+import ProductVerticalCard from "@/app/(public)/components/ProductVerticalCard"
 
 type SameProductsProps = {
   sameCategories: Array<Product>
@@ -18,12 +14,13 @@ type SameProductsProps = {
 
 const SameProducts = ({ sameCategories }: SameProductsProps) => {
   return (
-    <ProductSectionContainer title="کالاهای مشابه">
+    <ProductSectionContainer spaceless title="کالاهای مشابه">
       <div className="overflow-hidden">
         <Swiper
           dir="rtl"
-          slidesPerView={1.4}
+          slidesPerView={2.5}
           loop={false}
+          autoHeight
           pagination={false}
           modules={[Pagination, Thumbs]}
         >
@@ -31,10 +28,11 @@ const SameProducts = ({ sameCategories }: SameProductsProps) => {
             <SwiperSlide
               className={`${
                 index + 1 < sameCategories.length ? "border-l" : ""
-              } px`}
+              }`}
               key={product.id}
             >
-              <Link
+              <ProductVerticalCard product={product} />
+              {/* <Link
                 href={`/p/${product.id}/${slugify(product.name)}${
                   product.title ? `?title=${product.title}` : ""
                 }`}
@@ -62,7 +60,7 @@ const SameProducts = ({ sameCategories }: SameProductsProps) => {
                 {product.lowestPrice && (
                   <PriceTitle size="xs" price={product.lowestPrice?.amount} />
                 )}
-              </Link>
+              </Link> */}
             </SwiperSlide>
           ))}
         </Swiper>
