@@ -18,9 +18,11 @@ const nextConfig = {
       "api.dicebear.com",
       "localhost",
       "static.vardast.com",
+      "stage.vardast.com",
       "vardast.com",
       "storage"
-    ]
+    ],
+    path: process.env.NEXT_PUBLIC_IMAGE_DOMAIN
   },
   async redirects() {
     return [

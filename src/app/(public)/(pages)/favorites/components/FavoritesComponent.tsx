@@ -7,6 +7,7 @@ import { Product } from "@/generated"
 
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
 import ProductCard from "@/app/(public)/components/product-card"
+import ProductListContainer from "@/app/(public)/components/ProductListContainer"
 
 const FavoritesComponent = () => {
   const [favoritesList, setFavoritesList] = useState<Product[]>([])
@@ -34,11 +35,11 @@ const FavoritesComponent = () => {
           <LucideLoader2 className="animate-spin text-alpha-400" />
         </div>
       ) : favoritesList.length > 0 ? (
-        <div className="grid gap-y sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
+        <ProductListContainer>
           {favoritesList.map((product) => (
             <ProductCard key={product.id} product={product as Product} />
           ))}
-        </div>
+        </ProductListContainer>
       ) : (
         <div className="mx-auto flex max-w-xs flex-col items-center py-8">
           <LucidePackageX className="mb-4 h-10 w-10 text-alpha-400" />

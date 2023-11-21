@@ -64,6 +64,15 @@ const ProductVerticalCard = forwardRef(
   ) => {
     const hasDiscount = false
 
+    const onLoadingCompletedImage = () => {
+      const div = document.getElementById(
+        `product-vertical-image-container-${product?.id}`
+      )
+      if (div) {
+        div.className = div.className + " opacity-100"
+      }
+    }
+
     return (
       <Link
         ref={ref}
@@ -74,16 +83,33 @@ const ProductVerticalCard = forwardRef(
       >
         <div
           id={`product-vertical-image-container-${product.id}`}
+          style={{
+            height:
+              document.getElementById(
+                `product-vertical-image-container-${product.id}`
+              )?.clientWidth || 0
+          }}
           className="relative row-span-5 w-full"
         >
-          <Image
-            src={product.images.at(0)?.file.presignedUrl.url as string}
-            alt={product.name}
-            width={125}
-            height={125}
-            objectFit="contain"
-            loading="eager"
-          />
+          {product?.images?.at(0)?.file.presignedUrl.url ? (
+            <Image
+              src={product.images.at(0)?.file.presignedUrl.url as string}
+              alt={product.name}
+              fill
+              objectFit="contain"
+              loading="eager"
+              onLoadingComplete={onLoadingCompletedImage}
+            />
+          ) : (
+            <Image
+              src={"/images/blank.png"}
+              alt={product.name}
+              fill
+              objectFit="contain"
+              loading="eager"
+              onLoadingComplete={onLoadingCompletedImage}
+            />
+          )}
         </div>
         <div></div>
         <div className="row-span-2">

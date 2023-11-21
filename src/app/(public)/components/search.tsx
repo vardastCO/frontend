@@ -372,7 +372,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                       onClick={() =>
                         navigateTo({
                           query,
-                          uri: `/search?${`title=${query}`}`
+                          uri: `/search?query=${query}${`&title=${query}`}`
                         })
                       }
                     >

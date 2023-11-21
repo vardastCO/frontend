@@ -20,7 +20,7 @@ const SameProducts = ({ sameCategories }: SameProductsProps) => {
           dir="rtl"
           slidesPerView={2.5}
           loop={false}
-          autoHeight
+          // autoHeight
           pagination={false}
           modules={[Pagination, Thumbs]}
         >
@@ -28,7 +28,7 @@ const SameProducts = ({ sameCategories }: SameProductsProps) => {
             <SwiperSlide
               className={`${
                 index + 1 < sameCategories.length ? "border-l" : ""
-              }`}
+              } h-full`}
               key={product.id}
             >
               <ProductVerticalCard product={product} />

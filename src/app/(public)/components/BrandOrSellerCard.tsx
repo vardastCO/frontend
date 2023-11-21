@@ -76,34 +76,32 @@ const BrandOrSellerCard = forwardRef(
           <div className="grid flex-1 grid-rows-7 items-start lg:flex lg:flex-col">
             <div
               id={`content-image-${content?.id}`}
-              className={`relative row-span-4 flex-shrink-0 bg-center bg-no-repeat align-middle duration-1000 ease-out lg:h-48 lg:w-full ${
+              className={`relative row-span-4 w-full flex-shrink-0 bg-center bg-no-repeat align-middle duration-1000 ease-out lg:h-48 lg:w-full ${
                 content?.logoFile?.presignedUrl.url ? "opacity-0" : ""
               }`}
+              style={{
+                height:
+                  document.getElementById(`content-image-${content?.id}`)
+                    ?.clientWidth || 0
+              }}
             >
               {content?.logoFile?.presignedUrl.url ? (
                 <Image
                   src={content.logoFile.presignedUrl.url as string}
                   alt={content.name}
-                  sizes="100vw"
-                  style={{
-                    width: "100%",
-                    height: "auto"
-                  }}
-                  width={125}
-                  height={125}
+                  fill
+                  objectFit="contain"
+                  loading="eager"
                   onLoadingComplete={onLoadingCompletedImage}
                 />
               ) : (
                 <Image
                   src={"/images/blank.png"}
                   alt={content.name}
-                  sizes="100vw"
-                  style={{
-                    width: "100%",
-                    height: "auto"
-                  }}
-                  width={125}
-                  height={125}
+                  fill
+                  objectFit="contain"
+                  loading="eager"
+                  onLoadingComplete={onLoadingCompletedImage}
                 />
               )}
             </div>
