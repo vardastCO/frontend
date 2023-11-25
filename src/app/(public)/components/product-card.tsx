@@ -1,4 +1,4 @@
-import { forwardRef, Ref, useState } from "react"
+import { forwardRef, Ref, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 
@@ -58,12 +58,21 @@ export const ProductCardSkeleton = () => {
 
 const ProductCard = forwardRef(
   ({ product }: ProductCardProps, ref: Ref<HTMLAnchorElement> | undefined) => {
+    const productContainerRef = useRef<HTMLDivElement>(null)
+    const [imageContainerHeight, setImageContainerHeight] = useState(146)
     const onLoadingCompletedImage = () => {
-      const div = document.getElementById(`product-image-${product.id}`)
+      const div = productContainerRef.current
       if (div) {
         div.className = div.className + " opacity-100"
       }
     }
+
+    useEffect(() => {
+      const div = productContainerRef.current
+      if (div) {
+        setImageContainerHeight(div.children[0].clientWidth)
+      }
+    }, [])
 
     const hasDiscount = false
 
@@ -77,34 +86,30 @@ const ProductCard = forwardRef(
         prefetch={false}
       >
         <div
-          id={`product-image-${product.id}`}
-          className={`relative flex flex-shrink-0 transform flex-col items-center justify-center bg-center bg-no-repeat align-middle transition-all duration-1000 ease-out ${
-            product.images.at(0)?.file.presignedUrl.url ? "opacity-0" : ""
-          }`}
+          ref={productContainerRef}
+          className={`relative flex flex-shrink-0 transform flex-col items-center justify-center bg-center bg-no-repeat align-middle opacity-0 transition-all duration-1000 ease-out`}
         >
           <div
-            id={`product-image-container-${product.id}`}
-            className="w-full"
             style={{
-              height: document.getElementById(
-                `product-image-container-${product.id}`
-              )?.clientWidth
+              height: imageContainerHeight
             }}
+            className="w-full"
           >
             {product.images.at(0)?.file.presignedUrl.url ? (
               <Image
                 src={product.images.at(0)?.file.presignedUrl.url as string}
                 alt={product.name}
-                layout="fill"
-                objectFit="contain"
+                fill
+                className="object-contain"
                 onLoadingComplete={onLoadingCompletedImage}
               />
             ) : (
               <Image
                 src={"/images/blank.png"}
                 alt={product.name}
-                layout="fill"
-                objectFit="contain"
+                fill
+                className="object-contain"
+                onLoadingComplete={onLoadingCompletedImage}
               />
             )}
           </div>
@@ -145,7 +150,11 @@ const ProductCard = forwardRef(
               </div>
             </>
           )}
-          <div></div>
+          {product?.uom?.name && (
+            <div className="flex justify-end text-xs text-alpha-500">
+              هر {product.uom.name}
+            </div>
+          )}
         </div>
       </Link>
     )

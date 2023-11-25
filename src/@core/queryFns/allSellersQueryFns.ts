@@ -25,7 +25,7 @@ export const getAllSellersQueryFn = async ({
     process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT as string,
     GetAllSellersDocument,
     {
-      IndexBrandInput: {
+      indexSellerInput: {
         page
       }
     }

@@ -215,7 +215,7 @@ const ProductList = ({
 
   if (!allProductsQuery.data) notFound()
 
-  const DesktopSidebar = () => (
+  const DesktopSidebar = (
     <div className="rounded-md px-4">
       <div className="-mx-4 flex items-center p-4">
         <strong>فیلترها</strong>
@@ -267,7 +267,7 @@ const ProductList = ({
     </div>
   )
 
-  const DesktopHeader = () => (
+  const DesktopHeader = (
     <div className="flex items-center py-1 md:py-3">
       <ProductSort
         sort={sort}
@@ -281,7 +281,7 @@ const ProductList = ({
     </div>
   )
 
-  const MobileHeader = () => (
+  const MobileHeader = (
     <div className="sticky top-0 z-50 border-b bg-alpha-white p">
       <div className="flex items-start gap-3">
         <MobileCategoriesFilter
@@ -360,7 +360,7 @@ const ProductList = ({
     </div>
   )
 
-  const Content = () => (
+  const Content = (
     <ProductListContainer>
       <InfiniteScrollPagination
         CardLoader={ProductCardSkeleton}

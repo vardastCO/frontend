@@ -14,7 +14,16 @@ interface IProductIntroduce {
 const ProductIntroduce = ({ product }: IProductIntroduce) => {
   return (
     <ProductSectionContainer>
-      <h3 className="font-semibold">{product.name}</h3>
+      <h3 className="font-semibold">
+        {product.name}
+        {product?.uom?.name && (
+          <span className="text-xs text-alpha-500">
+            {" "}
+            (هر {product.uom.name})
+          </span>
+        )}
+      </h3>
+
       <Link
         className=""
         href={`/brand/${product.brand.id}/${slugify(

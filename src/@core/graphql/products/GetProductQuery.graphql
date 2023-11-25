@@ -412,6 +412,13 @@ query GetProduct($id: Int!) {
       id
       name
       rating
+      uom {
+        id
+        name
+        slug
+        symbol
+        isActive
+      }
       images {
         file {
           presignedUrl {

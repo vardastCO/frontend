@@ -1,4 +1,4 @@
-import { forwardRef, Ref, useState } from "react"
+import { forwardRef, Ref, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
@@ -62,16 +62,23 @@ const ProductVerticalCard = forwardRef(
     { product }: ProductVerticalCardProps,
     ref: Ref<HTMLAnchorElement> | undefined
   ) => {
-    const hasDiscount = false
-
+    const productContainerRef = useRef<HTMLDivElement>(null)
+    const [imageContainerHeight, setImageContainerHeight] = useState(146)
     const onLoadingCompletedImage = () => {
-      const div = document.getElementById(
-        `product-vertical-image-container-${product?.id}`
-      )
+      const div = productContainerRef.current
       if (div) {
         div.className = div.className + " opacity-100"
       }
     }
+
+    useEffect(() => {
+      const div = productContainerRef.current
+      if (div) {
+        setImageContainerHeight(div.children[0].clientWidth)
+      }
+    }, [])
+
+    const hasDiscount = false
 
     return (
       <Link
@@ -82,34 +89,33 @@ const ProductVerticalCard = forwardRef(
         className={clsx("grid h-full px", "grid-rows-12")}
       >
         <div
-          id={`product-vertical-image-container-${product.id}`}
-          style={{
-            height:
-              document.getElementById(
-                `product-vertical-image-container-${product.id}`
-              )?.clientWidth || 0
-          }}
-          className="relative row-span-5 w-full"
+          ref={productContainerRef}
+          className={`relative row-span-5 flex w-full flex-shrink-0 transform flex-col items-center justify-center bg-center bg-no-repeat align-middle opacity-0 transition-all duration-1000 ease-out`}
         >
-          {product?.images?.at(0)?.file.presignedUrl.url ? (
-            <Image
-              src={product.images.at(0)?.file.presignedUrl.url as string}
-              alt={product.name}
-              fill
-              objectFit="contain"
-              loading="eager"
-              onLoadingComplete={onLoadingCompletedImage}
-            />
-          ) : (
-            <Image
-              src={"/images/blank.png"}
-              alt={product.name}
-              fill
-              objectFit="contain"
-              loading="eager"
-              onLoadingComplete={onLoadingCompletedImage}
-            />
-          )}
+          <div
+            style={{
+              height: imageContainerHeight
+            }}
+            className="w-full"
+          >
+            {product?.images?.at(0)?.file.presignedUrl.url ? (
+              <Image
+                src={product.images.at(0)?.file.presignedUrl.url as string}
+                alt={product.name}
+                fill
+                className="object-contain"
+                onLoadingComplete={onLoadingCompletedImage}
+              />
+            ) : (
+              <Image
+                src={"/images/blank.png"}
+                alt={product.name}
+                fill
+                className="object-contain"
+                onLoadingComplete={onLoadingCompletedImage}
+              />
+            )}
+          </div>
         </div>
         <div></div>
         <div className="row-span-2">
@@ -145,8 +151,11 @@ const ProductVerticalCard = forwardRef(
             <PriceTitle size="2xs" price={product.lowestPrice.amount} />
           )}
         </div>
-
-        <div></div>
+        {product?.uom?.name && (
+          <div className="flex justify-end text-xs text-alpha-500">
+            هر {product.uom.name}
+          </div>
+        )}
       </Link>
     )
   }

@@ -22,7 +22,7 @@ const InfiniteScrollPagination = <T extends unknown>({
   CardLoader,
   children
 }: IInfiniteScrollPagination<T>) => {
-  const { ref, inView } = useInView({ threshold: 0.4 })
+  const { ref, inView } = useInView({ threshold: 0.1 })
 
   useEffect(() => {
     if (inView) {
