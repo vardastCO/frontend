@@ -32,7 +32,7 @@ import ProductDetails from "@/app/(public)/(pages)/p/components/product-details"
 import ProductImages from "@/app/(public)/(pages)/p/components/product-images"
 import ProductOffers from "@/app/(public)/(pages)/p/components/product-offers"
 import ProductIntroduce from "@/app/(public)/(pages)/p/components/ProductIntroduce"
-import SameProducts from "@/app/(public)/(pages)/p/components/SameProducts"
+import SameCategories from "@/app/(public)/(pages)/p/components/SameCategories"
 import SuggestedOffer from "@/app/(public)/(pages)/p/components/suggested-offer"
 
 export type GroupedAttributes = {
@@ -231,7 +231,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           />
         )}
         {isMobileView && product.sameCategory.length > 0 && (
-          <SameProducts sameCategories={product.sameCategory as Product[]} />
+          <SameCategories products={product.sameCategory as Product[]} />
         )}
       </div>
       {session?.abilities.includes("gql.products.product.moderated_update") && (

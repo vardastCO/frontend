@@ -7,10 +7,12 @@ import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { authOptions } from "@core/lib/authOptions"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllBrandsCountQueryFn } from "@core/queryFns/allBrandsCountQueryFns"
+import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getAllSellersCountQueryFn } from "@core/queryFns/allSellersCountQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-import HomeIndex from "@/app/(public)/(pages)/home/components/HomeIndex"
-import FrontPageHeader from "@/app/(public)/components/front-page-header"
+import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
+import DesktopHomeIndex from "@/app/(public)/(pages)/home/components/DesktopHomeIndex"
+import MobileHomeIndex from "@/app/(public)/(pages)/home/components/MobileHomeIndex"
 
 export const metadata: Metadata = {
   title: "بازار آنلاین مصالح ساختمانی",
@@ -20,6 +22,7 @@ export const metadata: Metadata = {
 const Index = async () => {
   const isMobileView = CheckIsMobileView()
   const session = await getServerSession(authOptions)
+  // const token = session?.accessToken || null
   const queryClient = getQueryClient()
 
   await queryClient.prefetchQuery(
@@ -31,11 +34,32 @@ const Index = async () => {
     getAllSellersCountQueryFn
   )
 
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY, { page: 1 }],
+    () => getAllProductsQueryFn({ page: 1 })
+  )
+
+  // await queryClient.prefetchQuery(
+  //   [QUERY_FUNCTIONS_KEY.HOME_SERVICE_GET_FILES],
+  //   () => Services.Home.getFiles(`Bearer ${token}`)
+  // )
+
+  await queryClient.prefetchQuery({
+    queryKey: [
+      QUERY_FUNCTIONS_KEY.VOCABULARY_QUERY_KEY,
+      { slug: "product_categories" }
+    ],
+    queryFn: () => getVocabularyQueryFn("product_categories")
+  })
+
   const dehydratedState = dehydrate(queryClient)
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      {!isMobileView && <FrontPageHeader session={session} />}
-      <HomeIndex isMobileView={isMobileView} />
+      {isMobileView ? (
+        <MobileHomeIndex />
+      ) : (
+        <DesktopHomeIndex session={session} isMobileView={false} />
+      )}
     </ReactQueryHydrate>
   )
 }

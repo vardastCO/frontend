@@ -1,8 +1,9 @@
-import { PropsWithChildren } from "react"
-
-import MobileBaseLayout from "@/app/(public)/components/MobileBaseLayout"
-
-const AuthLayout: React.FC<PropsWithChildren> = ({ children }) => (
-  <MobileBaseLayout bgWhite>{children}</MobileBaseLayout>
-)
-export default AuthLayout
+export default async function Layout({
+  children
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <div className="flex flex-col gap-y-8 bg-alpha-white pt">{children}</div>
+  )
+}

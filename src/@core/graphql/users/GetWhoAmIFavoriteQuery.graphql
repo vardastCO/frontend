@@ -1,9 +1,0 @@
-query GetWhoAmIFavorite {
-  whoAmI {
-    id
-    favorites {
-      id
-      type
-    }
-  }
-}
