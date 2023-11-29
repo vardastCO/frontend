@@ -5,39 +5,13 @@ import { UseQueryResult } from "@tanstack/react-query"
 import { Autoplay, Pagination } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
-import { IHomeGetResponse } from "@core/Services/Home/model"
-
-// const _images = [
-//   {
-//     url: "/images/2.1.png",
-//     id: 0
-//   },
-//   {
-//     url: "/images/2.1.png",
-//     id: 1
-//   },
-//   {
-//     url: "/images/2.1.png",
-//     id: 2
-//   },
-//   {
-//     url: "/images/2.1.png",
-//     id: 3
-//   },
-//   {
-//     url: "/images/2.1.png",
-//     id: 4
-//   }
-// ]
+import { GetBannerHomePageQuery } from "@/generated"
 
 const MobileHomeSlider = ({
   homeSlidersQuery
 }: {
-  homeSlidersQuery: UseQueryResult<IHomeGetResponse, unknown>
+  homeSlidersQuery: UseQueryResult<GetBannerHomePageQuery, unknown>
 }) => {
-  // console.log("====================================")
-  // console.log({ homeSlidersQuery: homeSlidersQuery.data?.data })
-  // console.log("====================================")
   return (
     <Swiper
       pagination={{
@@ -54,10 +28,10 @@ const MobileHomeSlider = ({
       className="h-[43vw] w-full"
       spaceBetween={16}
     >
-      {homeSlidersQuery.data?.data.bannerData.map(({ url, id }) => (
+      {homeSlidersQuery.data?.getBannerHomePage.map(({ id, presignedUrl }) => (
         <SwiperSlide key={id}>
           <Image
-            src={url}
+            src={presignedUrl.url}
             alt="slider"
             fill
             className="rounded-xl object-cover"

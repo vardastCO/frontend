@@ -9,6 +9,7 @@ import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllBrandsCountQueryFn } from "@core/queryFns/allBrandsCountQueryFns"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getAllSellersCountQueryFn } from "@core/queryFns/allSellersCountQueryFns"
+import { bannerHomePageQueryFns } from "@core/queryFns/bannerHomePageQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 import DesktopHomeIndex from "@/app/(public)/(pages)/home/components/DesktopHomeIndex"
@@ -34,15 +35,28 @@ const Index = async () => {
     getAllSellersCountQueryFn
   )
 
-  await queryClient.prefetchQuery(
-    [QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY, { page: 1 }],
-    () => getAllProductsQueryFn({ page: 1 })
+  await queryClient.prefetchInfiniteQuery(
+    [
+      QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY,
+      {
+        page: 1
+      }
+    ],
+    () =>
+      getAllProductsQueryFn({
+        page: 1
+      })
   )
 
-  // await queryClient.prefetchQuery(
-  //   [QUERY_FUNCTIONS_KEY.HOME_SERVICE_GET_FILES],
-  //   () => Services.Home.getFiles(`Bearer ${token}`)
-  // )
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, "slider"],
+    () => bannerHomePageQueryFns({ type: "slider" })
+  )
+
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, "shortBanner"],
+    () => bannerHomePageQueryFns({ type: "shortBanner" })
+  )
 
   await queryClient.prefetchQuery({
     queryKey: [

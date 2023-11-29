@@ -1,0 +1,9 @@
+query GetBannerHomePage($indexBannerInput: IndexBannerInput!) {
+  getBannerHomePage(indexBannerInput: $indexBannerInput) {
+    id
+    presignedUrl {
+      url
+      expiresAt
+    }
+  }
+}
