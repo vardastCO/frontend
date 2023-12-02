@@ -1,0 +1,171 @@
+query GetUserFavorite($type: String!) {
+  favoriteUser(type: $type) {
+    id
+    brand {
+      total
+      perPage
+      currentPage
+      lastPage
+      from
+      to
+      data {
+        id
+        name
+        slug
+        rating
+        products {
+          id
+        }
+        createdAt
+        updatedAt
+        logoFile {
+          id
+          uuid
+          modelType
+          modelId
+          name
+          originalName
+          size
+          mimeType
+          disk
+          bucketName
+          orderColumn
+          createdAt
+          updatedAt
+          presignedUrl {
+            url
+            expiresAt
+          }
+        }
+      }
+    }
+    product {
+      total
+      perPage
+      currentPage
+      lastPage
+      to
+      from
+      data {
+        rating
+        id
+        slug
+        name
+        sku
+        isActive
+        status
+        techNum
+        updatedAt
+        category {
+          id
+          title
+          slug
+        }
+        images {
+          id
+          sort
+          isPublic
+          file {
+            id
+            presignedUrl {
+              url
+            }
+          }
+        }
+        lowestPrice {
+          id
+          type
+          amount
+          isPublic
+        }
+        uom {
+          id
+          name
+          slug
+          symbol
+          isActive
+        }
+      }
+    }
+    seller {
+      total
+      perPage
+      currentPage
+      lastPage
+      from
+      to
+      data {
+        rating
+        offers {
+          id
+        }
+        id
+        name
+        bio
+        createdAt
+        updatedAt
+        status
+        isPublic
+        logoFile {
+          id
+          uuid
+          modelType
+          modelId
+          name
+          originalName
+          size
+          mimeType
+          disk
+          bucketName
+          orderColumn
+          createdAt
+          updatedAt
+          presignedUrl {
+            url
+            expiresAt
+          }
+        }
+        addresses {
+          id
+          relatedType
+          relatedId
+          title
+          address
+          postalCode
+          latitude
+          longitude
+          sort
+          isPublic
+          status
+          rejectionReason
+          createdAt
+          updatedAt
+          city {
+            id
+            name
+            nameEn
+            slug
+            type
+            sort
+            isActive
+            latitude
+            longitude
+            areasCount
+          }
+          province {
+            id
+            name
+            nameEn
+            slug
+            path
+            sort
+            isActive
+            latitude
+            longitude
+            citiesCount
+          }
+        }
+      }
+    }
+  }
+}

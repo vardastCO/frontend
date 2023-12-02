@@ -232,11 +232,6 @@ export default function AdminLayout({
     <RadixDirectionProvider>
       <html lang={lang} suppressHydrationWarning>
         <head>
-          {/* <Script
-            async
-            strategy="beforeInteractive"
-            src="https://www.googletagmanager.com/gtag/js?id=G-LT14MTLPRV"
-          ></Script> */}
           <Script async id="google-tag-manager" strategy="beforeInteractive">
             {`<!-- Google Tag Manager -->
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -247,26 +242,6 @@ export default function AdminLayout({
               <!-- End Google Tag Manager -->
             `}
           </Script>
-          {/* <Script strategy="beforeInteractive" id="google-tag-manager">
-            {`window.dataLayer = window.dataLayer || []; 
-            function gtag(){dataLayer.push(arguments);} 
-            gtag('js', new Date()); 
-            gtag('config', 'G-LT14MTLPRV');
-            `}
-          </Script>
-          <Script strategy="beforeInteractive" id="yektanet-analytics">
-            {`!function (t, e, n) { 
-              t.yektanetAnalyticsObject = n, t[n] = t[n] || function () { 
-                  t[n].q.push(arguments) 
-              }, t[n].q = t[n].q || []; 
-              var a = new Date, r = a.getFullYear().toString() + "0" + a.getMonth() + "0" + a.getDate() + "0" + a.getHours(), 
-                  c = e.getElementsByTagName("script")[0], s = e.createElement("script"); 
-              s.id = "ua-script-TeCkgDUD"; s.dataset.analyticsobject = n; 
-              s.async = 1; s.type = "text/javascript"; 
-              s.src = "https://cdn.yektanet.com/rg_woebegone/scripts_v3/TeCkgDUD/rg.complete.js?v=" + r, c.parentNode.insertBefore(s, c) 
-              }(window, document, "yektanet");
-            `}
-          </Script> */}
         </head>
         <body>
           {!isMobileView && (
