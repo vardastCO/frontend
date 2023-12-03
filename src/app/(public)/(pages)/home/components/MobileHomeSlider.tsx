@@ -8,9 +8,9 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { GetBannerHomePageQuery } from "@/generated"
 
 const MobileHomeSlider = ({
-  homeSlidersQuery
+  query
 }: {
-  homeSlidersQuery: UseQueryResult<GetBannerHomePageQuery, unknown>
+  query: UseQueryResult<GetBannerHomePageQuery, unknown>
 }) => {
   return (
     <Swiper
@@ -28,7 +28,7 @@ const MobileHomeSlider = ({
       className="h-[43vw] w-full"
       spaceBetween={16}
     >
-      {homeSlidersQuery.data?.getBannerHomePage.map(({ id, presignedUrl }) => (
+      {query.data?.getBannerHomePage.map(({ id, presignedUrl }) => (
         <SwiperSlide key={id}>
           <Image
             src={presignedUrl.url}

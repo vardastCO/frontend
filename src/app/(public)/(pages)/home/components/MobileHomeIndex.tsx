@@ -4,8 +4,10 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 
 import {
   Category,
+  FileModelTypeEnum,
   GetAllBrandsCountQuery,
   GetAllProductsQuery,
+  GetAllSellersCountQuery,
   GetBannerHomePageQuery,
   GetVocabularyQuery,
   Product
@@ -13,11 +15,13 @@ import {
 
 import { getAllBrandsCountQueryFn } from "@core/queryFns/allBrandsCountQueryFns"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
+import { getAllSellersCountQueryFn } from "@core/queryFns/allSellersCountQueryFns"
 import { bannerHomePageQueryFns } from "@core/queryFns/bannerHomePageQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
-import MobileHomeBannerFirst from "@/app/(public)/(pages)/home/components/MobileHomeBannerFirst"
+import MobileHomeBanner from "@/app/(public)/(pages)/home/components/MobileHomeBanner"
 import MobileHomeCategory from "@/app/(public)/(pages)/home/components/MobileHomeCategory"
+import MobileHomeCounts from "@/app/(public)/(pages)/home/components/MobileHomeCounts"
 import MobileHomeMostSellProducts from "@/app/(public)/(pages)/home/components/MobileHomeMostSellProducts"
 import MobileHomeNewestProducts from "@/app/(public)/(pages)/home/components/MobileHomeNewestProducts"
 import MobileHomeSlider from "@/app/(public)/(pages)/home/components/MobileHomeSlider"
@@ -61,9 +65,17 @@ const MobileHomeIndex = () => {
     }
   )
 
+  const allSellersCount = useQuery<GetAllSellersCountQuery>(
+    [QUERY_FUNCTIONS_KEY.ALL_SELLERS_COUNT_QUERY_KEY],
+    getAllSellersCountQueryFn,
+    {
+      keepPreviousData: true
+    }
+  )
+
   const homeSlidersQuery = useQuery<GetBannerHomePageQuery>(
-    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, "slider"],
-    () => bannerHomePageQueryFns({ type: "slider" }),
+    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, FileModelTypeEnum.Slider],
+    () => bannerHomePageQueryFns({ type: FileModelTypeEnum.Slider }),
     {
       keepPreviousData: true,
       staleTime: 999999999
@@ -71,8 +83,17 @@ const MobileHomeIndex = () => {
   )
 
   const homeShortBannerQuery = useQuery<GetBannerHomePageQuery>(
-    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, "shortBanner"],
-    () => bannerHomePageQueryFns({ type: "shortBanner" }),
+    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, FileModelTypeEnum.ShortBanner],
+    () => bannerHomePageQueryFns({ type: FileModelTypeEnum.ShortBanner }),
+    {
+      keepPreviousData: true,
+      staleTime: 999999999
+    }
+  )
+
+  const homeLongBannerQuery = useQuery<GetBannerHomePageQuery>(
+    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, FileModelTypeEnum.LongBanner],
+    () => bannerHomePageQueryFns({ type: FileModelTypeEnum.LongBanner }),
     {
       keepPreviousData: true,
       staleTime: 999999999
@@ -81,8 +102,14 @@ const MobileHomeIndex = () => {
 
   return (
     <>
-      <MobileHomeSlider homeSlidersQuery={homeSlidersQuery} />
-      {/* <MobileHomeBanner /> */}
+      <MobileHomeSlider query={homeSlidersQuery} />
+      <MobileHomeCounts
+        counts={{
+          sellers: allSellersCount.data?.sellers.total,
+          brands: allBrandsCount.data?.brands.total
+        }}
+        query={homeShortBannerQuery}
+      />
       <MobileHomeCategory
         categories={
           getVocabularyQueryFcQuery.data?.vocabulary.categories as Category[]
@@ -91,19 +118,10 @@ const MobileHomeIndex = () => {
       <MobileHomeMostSellProducts
         products={allProductsQuery.data?.pages[0].products.data as Product[]}
       />
-      <MobileHomeBannerFirst
-        turn={0}
-        homeShortBannerQuery={homeShortBannerQuery}
-      />
+      <MobileHomeBanner turn={0} query={homeLongBannerQuery} />
       <MobileHomeTopBrands allBrandsCount={allBrandsCount} />
-      <MobileHomeBannerFirst
-        turn={1}
-        homeShortBannerQuery={homeShortBannerQuery}
-      />
-      <MobileHomeBannerFirst
-        turn={2}
-        homeShortBannerQuery={homeShortBannerQuery}
-      />
+      <MobileHomeBanner turn={1} query={homeLongBannerQuery} />
+      <MobileHomeBanner turn={2} query={homeLongBannerQuery} />
       {/* <MobileHomeTopCategoryFirst />
       <MobileHomeTopCategorySecond /> */}
       {/* <MobileHomeBannerSecond />

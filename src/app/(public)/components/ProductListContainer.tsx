@@ -1,8 +1,30 @@
+/* eslint-disable no-unused-vars */
 import { PropsWithChildren } from "react"
+import clsx from "clsx"
 
-const ProductListContainer: React.FC<PropsWithChildren> = ({ children }) => {
+export enum ProductContainerType {
+  PHOTO = "photo",
+  LARGE_LIST = "large-list",
+  SMALL_LIST = "small-list"
+}
+
+interface IProductListContainer extends PropsWithChildren {
+  type?: ProductContainerType
+}
+
+const ProductListContainer: React.FC<IProductListContainer> = ({
+  type = ProductContainerType.LARGE_LIST,
+  children
+}) => {
   return (
-    <div className="grid grid-cols-1 bg-alpha-white px-6 md:grid-cols-3 lg:grid-cols-4">
+    <div
+      className={clsx(
+        "grid bg-alpha-white",
+        type === ProductContainerType.LARGE_LIST
+          ? "grid-cols-1  px-6 md:grid-cols-3 lg:grid-cols-4"
+          : "grid-cols-2 gap-0.5"
+      )}
+    >
       {children}
     </div>
   )

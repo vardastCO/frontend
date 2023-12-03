@@ -10,7 +10,7 @@ import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getSellerQueryFn } from "@core/queryFns/sellerQueryFns"
-import SellerPage from "@/app/(public)/(pages)/seller/components/seller-page"
+import SellerProfile from "@/app/(public)/(pages)/seller/components/SellerProfile"
 
 interface SellerIndexProps {
   params: {
@@ -96,7 +96,7 @@ const SellerIndex = async ({
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <SellerPage isMobileView={isMobileView} args={args} slug={slug} />
+      <SellerProfile isMobileView={isMobileView} args={args} slug={slug} />
     </ReactQueryHydrate>
   )
 }

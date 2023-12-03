@@ -13,7 +13,7 @@
 
 .tab-list {
   --border-color: transparent;
-  @apply mb-4 flex;
+  @apply flex;
 
   &[aria-orientation="horizontal"] {
     .tab {
@@ -44,7 +44,7 @@
 
   &[aria-selected="true"] {
     --border-color: var(--highlight-color);
-    @apply text-alpha-800;
+    @apply text-primary;
   }
 
   &[aria-disabled] {

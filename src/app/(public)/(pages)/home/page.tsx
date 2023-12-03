@@ -2,6 +2,8 @@ import { Metadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
 import { getServerSession } from "next-auth"
 
+import { FileModelTypeEnum } from "@/generated"
+
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { authOptions } from "@core/lib/authOptions"
@@ -49,13 +51,18 @@ const Index = async () => {
   )
 
   await queryClient.prefetchQuery(
-    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, "slider"],
-    () => bannerHomePageQueryFns({ type: "slider" })
+    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, FileModelTypeEnum.Slider],
+    () => bannerHomePageQueryFns({ type: FileModelTypeEnum.Slider })
   )
 
   await queryClient.prefetchQuery(
-    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, "shortBanner"],
-    () => bannerHomePageQueryFns({ type: "shortBanner" })
+    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, FileModelTypeEnum.ShortBanner],
+    () => bannerHomePageQueryFns({ type: FileModelTypeEnum.ShortBanner })
+  )
+
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, FileModelTypeEnum.LongBanner],
+    () => bannerHomePageQueryFns({ type: FileModelTypeEnum.LongBanner })
   )
 
   await queryClient.prefetchQuery({

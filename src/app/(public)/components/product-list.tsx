@@ -38,7 +38,9 @@ import ProductCard, {
   ProductCardSkeleton
 } from "@/app/(public)/components/product-card"
 import ProductSort from "@/app/(public)/components/product-sort"
-import ProductListContainer from "@/app/(public)/components/ProductListContainer"
+import ProductListContainer, {
+  ProductContainerType
+} from "@/app/(public)/components/ProductListContainer"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 import VocabularyFilter from "@/app/(public)/components/vocabulary-filter"
 
@@ -48,6 +50,8 @@ interface ProductListProps {
   selectedCategoryIds: InputMaybe<number[]> | undefined
   brandId?: number
   sellerId?: number
+  hasFilter?: boolean
+  containerType?: ProductContainerType
 }
 
 const ProductList = ({
@@ -55,7 +59,9 @@ const ProductList = ({
   args,
   selectedCategoryIds,
   brandId,
-  sellerId
+  sellerId,
+  hasFilter = true,
+  containerType = ProductContainerType.LARGE_LIST
 }: ProductListProps) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -361,7 +367,7 @@ const ProductList = ({
   )
 
   const Content = (
-    <ProductListContainer>
+    <ProductListContainer type={containerType}>
       <InfiniteScrollPagination
         CardLoader={ProductCardSkeleton}
         infiniteQuery={allProductsQuery}
@@ -370,6 +376,7 @@ const ProductList = ({
           <>
             {page.products.data.map((product, index) => (
               <ProductCard
+                containerType={containerType}
                 ref={page.products.data.length - 1 === index ? ref : undefined}
                 key={product?.id}
                 product={product as Product}
@@ -386,7 +393,7 @@ const ProductList = ({
       isMobileView={isMobileView}
       DesktopSidebar={DesktopSidebar}
       DesktopHeader={DesktopHeader}
-      MobileHeader={MobileHeader}
+      MobileHeader={hasFilter ? MobileHeader : <></>}
       Content={Content}
     />
   )

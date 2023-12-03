@@ -1,16 +1,19 @@
 import { forwardRef, Ref, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
+import clsx from "clsx"
 
 import { Product } from "@/generated"
 
 import slugify from "@core/utils/persian-slugify"
 import Link from "@core/components/shared/Link"
 import PriceTitle from "@/app/(public)/components/PriceTitle"
+import { ProductContainerType } from "@/app/(public)/components/ProductListContainer"
 import Rating from "@/app/(public)/components/Rating"
 
 interface ProductCardProps {
   product: Product
+  containerType?: ProductContainerType
 }
 
 export const ProductCardSkeleton = () => {
@@ -57,7 +60,13 @@ export const ProductCardSkeleton = () => {
 }
 
 const ProductCard = forwardRef(
-  ({ product }: ProductCardProps, ref: Ref<HTMLAnchorElement> | undefined) => {
+  (
+    {
+      product,
+      containerType = ProductContainerType.LARGE_LIST
+    }: ProductCardProps,
+    ref: Ref<HTMLAnchorElement> | undefined
+  ) => {
     const productContainerRef = useRef<HTMLDivElement>(null)
     const [imageContainerHeight, setImageContainerHeight] = useState(146)
     const onLoadingCompletedImage = () => {
@@ -82,7 +91,12 @@ const ProductCard = forwardRef(
         href={`/p/${product.id}/${slugify(product.name)}${
           product.title ? `?title=${product.title}` : ""
         }`}
-        className="md:h-none relative grid h-[calc((100vw-1.5rem)/2)] max-h-[calc((100vw-1.5rem)/2)] min-h-[calc((100vw-1.5rem)/2)] w-full flex-1 grid-cols-3 gap-2 border-b bg-alpha-white transition hover:z-10 md:h-full md:max-h-full md:min-h-full md:border-none md:py md:hover:shadow-lg lg:flex lg:flex-col lg:px-4"
+        className={clsx(
+          "md:h-none relative grid h-[calc((100vw-1.5rem)/2)] max-h-[calc((100vw-1.5rem)/2)] min-h-[calc((100vw-1.5rem)/2)] w-full flex-1  gap-2 bg-alpha-white transition hover:z-10 md:h-full md:max-h-full md:min-h-full md:border-none md:py md:hover:shadow-lg lg:flex lg:flex-col lg:px-4",
+          containerType === ProductContainerType.LARGE_LIST
+            ? "grid-cols-3 border-b"
+            : "overflow-hidden"
+        )}
         prefetch={false}
       >
         <div
@@ -114,48 +128,50 @@ const ProductCard = forwardRef(
             )}
           </div>
         </div>
-        <div className="lg:col-span1 col-span-2 grid h-full grid-rows-7">
-          <div></div>
-          <div className="row-span-2">
-            <h5
-              title={product.name}
-              className="my-auto line-clamp-2 max-h-10 overflow-hidden whitespace-pre-wrap font-semibold"
-            >
-              {product.name}
-            </h5>
-          </div>
-          <div className="flex w-full">
-            {product.rating && product.rating > 0 ? (
-              <Rating rating={product.rating} />
-            ) : (
-              ""
+        {containerType !== ProductContainerType.PHOTO && (
+          <div className="lg:col-span1 col-span-2 grid h-full grid-rows-7">
+            <div></div>
+            <div className="row-span-2">
+              <h5
+                title={product.name}
+                className="my-auto line-clamp-2 max-h-10 overflow-hidden whitespace-pre-wrap font-semibold"
+              >
+                {product.name}
+              </h5>
+            </div>
+            <div className="flex w-full">
+              {product.rating && product.rating > 0 ? (
+                <Rating rating={product.rating} />
+              ) : (
+                ""
+              )}
+            </div>
+            {product.lowestPrice && (
+              <>
+                <div className="flex w-full items-center justify-end gap-x">
+                  {hasDiscount && (
+                    <span className="rounded-full bg-error p-1 px-1.5 text-center text-sm font-semibold leading-none text-white">
+                      {digitsEnToFa(15)}%
+                    </span>
+                  )}
+                  {hasDiscount && (
+                    <span className="text-sm text-alpha-500 line-through">
+                      {digitsEnToFa(addCommas(`${product.lowestPrice.amount}`))}
+                    </span>
+                  )}
+                </div>
+                <div className="flex w-full items-center justify-end">
+                  <PriceTitle size="xs" price={product.lowestPrice.amount} />
+                </div>
+              </>
+            )}
+            {product?.uom?.name && (
+              <div className="flex justify-end text-xs text-alpha-500">
+                هر {product.uom.name}
+              </div>
             )}
           </div>
-          {product.lowestPrice && (
-            <>
-              <div className="flex w-full items-center justify-end gap-x">
-                {hasDiscount && (
-                  <span className="rounded-full bg-error p-1 px-1.5 text-center text-sm font-semibold leading-none text-white">
-                    {digitsEnToFa(15)}%
-                  </span>
-                )}
-                {hasDiscount && (
-                  <span className="text-sm text-alpha-500 line-through">
-                    {digitsEnToFa(addCommas(`${product.lowestPrice.amount}`))}
-                  </span>
-                )}
-              </div>
-              <div className="flex w-full items-center justify-end">
-                <PriceTitle size="xs" price={product.lowestPrice.amount} />
-              </div>
-            </>
-          )}
-          {product?.uom?.name && (
-            <div className="flex justify-end text-xs text-alpha-500">
-              هر {product.uom.name}
-            </div>
-          )}
-        </div>
+        )}
       </Link>
     )
   }

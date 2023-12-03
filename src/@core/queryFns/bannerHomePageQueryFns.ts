@@ -6,18 +6,16 @@ import {
   IndexBannerInput
 } from "@/generated"
 
-interface GetBannerHomePageQueryFnArgs extends IndexBannerInput {
-  type: "slider" | "shortBanner"
-}
+interface GetBannerHomePageQueryFnArgs extends IndexBannerInput {}
 
-export const bannerHomePageQueryFns = async (
-  { type }: GetBannerHomePageQueryFnArgs = { type: "slider" }
-): Promise<GetBannerHomePageQuery> => {
+export const bannerHomePageQueryFns = async ({
+  type
+}: GetBannerHomePageQueryFnArgs): Promise<GetBannerHomePageQuery> => {
   return await request(
     process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT as string,
     GetBannerHomePageDocument,
     {
-      indexBannerInput: {
+      IndexBannerInput: {
         type
       }
     }
