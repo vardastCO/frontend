@@ -2,7 +2,7 @@ import { RefreshCcw } from "lucide-react"
 import useTranslation from "next-translate/useTranslation"
 
 type Props = {
-  message: string
+  message?: string
 }
 
 const Loading = ({ message }: Props) => {
