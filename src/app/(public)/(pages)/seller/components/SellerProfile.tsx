@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { CheckBadgeIcon } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
@@ -25,10 +26,11 @@ interface SellerProfile {
 
 const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
   const [imageContainerHeight, setImageContainerHeight] = useState(80)
+  const [categoriesCount, setCategoriesCount] = useState(0)
   const [imageSellerContainerHeight, setImageSellerContainerHeight] =
     useState(80)
   const productContainerRef = useRef<HTMLDivElement>(null)
-  const sellerContainerRef = useRef<HTMLDivElement>(null)
+  const sellerContainerRef = useRef<HTMLAnchorElement>(null)
 
   const { data } = useQuery<GetSellerQuery>(
     [QUERY_FUNCTIONS_KEY.SELLER_QUERY_KEY, { id: +slug[0] }],
@@ -56,8 +58,12 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
       <div className="flex flex-col gap-y bg-alpha-white p">
         <div className="grid grid-cols-4 items-center">
           <div className="relative rounded-full border-2 border-primary p-0.5 shadow-lg">
-            <CheckBadgeIcon className="w-h-7 absolute right-1 top-0 z-20 h-7 -translate-y-1 translate-x-1 text-info" />
-            <span className="absolute right-2 top-1 h-3 w-3 rounded-full bg-alpha-white"></span>
+            {data.seller.isBlueTik && (
+              <>
+                <CheckBadgeIcon className="w-h-7 absolute right-1 top-0 z-20 h-7 -translate-y-1 translate-x-1 text-info" />
+                <span className="absolute right-2 top-1 h-3 w-3 rounded-full bg-alpha-white"></span>
+              </>
+            )}
             <div
               ref={productContainerRef}
               style={{
@@ -82,67 +88,68 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
               )}
             </div>
           </div>
-          <div className="flex flex-col items-center gap-y-2">
-            <h4 className="font-semibold">{digitsEnToFa(250)}</h4>
-            <p className="text-xs text-alpha-400">محصولات</p>
+          <div className="col-span-3 grid grid-cols-2">
+            <div className="flex flex-col items-center gap-y-2">
+              <h4 className="font-semibold">{digitsEnToFa(categoriesCount)}</h4>
+              <p className="text-xs text-alpha-400">محصولات</p>
+            </div>
+            <div className="flex flex-col items-center gap-y-2 border-r border-alpha-200">
+              <h4 className="font-semibold">{digitsEnToFa(10)}</h4>
+              <p className="text-xs text-alpha-400">دسته‌بندی ها</p>
+            </div>
           </div>
-          <div className="flex flex-col items-center gap-y-2 border-x border-alpha-200">
-            <h4 className="font-semibold">{digitsEnToFa(10)}</h4>
-            <p className="text-xs text-alpha-400">دسته‌بندی ها</p>
-          </div>
-          <div className="flex flex-col items-center gap-y-2">
+          {/* <div className="flex flex-col items-center gap-y-2">
             <h4 className="font-semibold">{digitsEnToFa(250)}</h4>
             <p className="text-xs text-alpha-400">دنبال شوندگان</p>
-          </div>
+          </div> */}
         </div>
         <div>
-          <p className="text-justify">
-            این یک متن توضیحی برای این محصول است این یک متن توضیحی برای این
-            محصول است این یک متن توضیحی برای این محصول است این یک متن توضیحی
-            برای این محصول است این یک متن توضیحی برای این محصول است این یک متن
-            توضیحی برای این محصول است
-          </p>
+          <p className="text-justify">{data.seller.bio}</p>
         </div>
       </div>
       <div className="grid grid-cols-5 items-center bg-alpha-white p">
         <ul className="col-span-4 flex list-disc flex-col gap-y">
           <li className="flex">
             <span className="text-sm text-alpha-500">آدرس:</span>
-            <span className="pr text-sm">محمد شهر، خیابان احمدی، پلاک 12</span>
+            <span className="pr text-sm">
+              {data.seller.addresses[0].address}
+            </span>
           </li>
           <li className="flex">
-            <span className="text-sm text-alpha-500">تلفن::</span>
+            <span className="text-sm text-alpha-500">تلفن:</span>
             <span className="pr text-sm">
-              {digitsEnToFa("02123555656")} - {digitsEnToFa("02122334455")}
+              {data.seller.contacts.map(({ number, code }, index) =>
+                index === 0
+                  ? digitsEnToFa(code || "") + digitsEnToFa(number)
+                  : " - " + digitsEnToFa(code || "") + digitsEnToFa(number)
+              )}
             </span>
           </li>
         </ul>
-        <div
+        <Link
+          href={`https://www.google.com/maps/search/?api=1&query=${data.seller.addresses.at(
+            0
+          )?.latitude},${data.seller.addresses.at(0)?.longitude}`}
           ref={sellerContainerRef}
           style={{
             height: imageSellerContainerHeight
           }}
+          target="_blank"
+          prefetch={false}
           className="relative w-full overflow-hidden rounded-xl"
         >
-          <iframe
-            src={`https://www.google.com/maps?q=${data.seller.addresses.at(0)
-              ?.latitude},${data.seller.addresses.at(0)
-              ?.longitude}&hl=es&z=14&amp;output=embed`}
-            className="inline-block h-full w-full border-none"
-            allowFullScreen={false}
-          ></iframe>
           <Image
-            src={"/images/blank.png"}
+            src={"/images/map.png"}
             alt={"seller"}
             fill
             className="object-contain"
           />
-        </div>
+        </Link>
       </div>
       <div className="grid grid-cols-3 items-center gap-y bg-alpha-white p">
         <div className="flex flex-col items-center gap-y-2">
           <h4 className="font-semibold">
-            <Rating rating={4.6} size="xs" />
+            <Rating rating={data.seller.rating ?? 0} size="xs" />
           </h4>
           <p className="text-xs text-alpha-500">{digitsEnToFa(250)} نظر</p>
         </div>
@@ -166,6 +173,7 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
         </TabsList>
         <TabsContent value="products">
           <ProductList
+            setCategoriesCount={setCategoriesCount}
             containerType={ProductContainerType.PHOTO}
             args={args}
             hasFilter={false}

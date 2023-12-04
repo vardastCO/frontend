@@ -3,7 +3,9 @@ query GetSeller($id: Int!) {
     id
     name
     createdAt
+    isBlueTik
     updatedAt
+    rating
     logoFile {
       id
       uuid

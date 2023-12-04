@@ -1,0 +1,45 @@
+query GetUserFavoriteProduct($type: String!) {
+  favoriteUser(type: $type) {
+    id
+    product {
+      rating
+      id
+      slug
+      name
+      sku
+      isActive
+      status
+      techNum
+      updatedAt
+      category {
+        id
+        title
+        slug
+      }
+      images {
+        id
+        sort
+        isPublic
+        file {
+          id
+          presignedUrl {
+            url
+          }
+        }
+      }
+      lowestPrice {
+        id
+        type
+        amount
+        isPublic
+      }
+      uom {
+        id
+        name
+        slug
+        symbol
+        isActive
+      }
+    }
+  }
+}

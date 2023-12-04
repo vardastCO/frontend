@@ -1,0 +1,35 @@
+query GetUserFavoriteBrand($type: String!) {
+  favoriteUser(type: $type) {
+    id
+    brand {
+      id
+      name
+      slug
+      rating
+      products {
+        id
+      }
+      createdAt
+      updatedAt
+      logoFile {
+        id
+        uuid
+        modelType
+        modelId
+        name
+        originalName
+        size
+        mimeType
+        disk
+        bucketName
+        orderColumn
+        createdAt
+        updatedAt
+        presignedUrl {
+          url
+          expiresAt
+        }
+      }
+    }
+  }
+}

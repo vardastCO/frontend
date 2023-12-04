@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import {
   notFound,
   usePathname,
@@ -51,6 +51,7 @@ interface ProductListProps {
   brandId?: number
   sellerId?: number
   hasFilter?: boolean
+  setCategoriesCount?: (_?: any) => void
   containerType?: ProductContainerType
 }
 
@@ -60,6 +61,7 @@ const ProductList = ({
   selectedCategoryIds,
   brandId,
   sellerId,
+  setCategoriesCount,
   hasFilter = true,
   containerType = ProductContainerType.LARGE_LIST
 }: ProductListProps) => {
@@ -112,13 +114,14 @@ const ProductList = ({
         orderBy: sort
       }
     ],
-    ({ pageParam = 1 }) =>
-      getAllProductsQueryFn({
+    ({ pageParam = 1 }) => {
+      return getAllProductsQueryFn({
         ...args,
         page: pageParam,
         attributes: filterAttributes,
         orderBy: sort
-      }),
+      })
+    },
     {
       keepPreviousData: true,
       getNextPageParam(lastPage, allPages) {
@@ -128,6 +131,13 @@ const ProductList = ({
       }
     }
   )
+
+  useEffect(() => {
+    if (setCategoriesCount) {
+      setCategoriesCount &&
+        setCategoriesCount(allProductsQuery.data?.pages[0].products.total)
+    }
+  }, [allProductsQuery.data?.pages, setCategoriesCount])
 
   const onFilterAttributesChanged = ({
     status,
