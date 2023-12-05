@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 "use client"
 
+import { useEffect, useRef, useState } from "react"
+import Image from "next/image"
 import {
   ArrowLeftOnRectangleIcon,
   ArrowRightOnRectangleIcon,
@@ -15,16 +17,14 @@ import {
   WalletIcon
 } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
-import { useInfiniteQuery } from "@tanstack/react-query"
 import clsx from "clsx"
-import { MapIcon, ShareIcon, UserIcon } from "lucide-react"
+import { LucideInfo, MapIcon, ShareIcon, UserIcon } from "lucide-react"
 import { Session } from "next-auth"
 
-import { GetAllProductsQuery, UserStatusesEnum } from "@/generated"
+import { ThreeStateSupervisionStatuses, UserStatusesEnum } from "@/generated"
 
 import Link from "@core/components/shared/Link"
-import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
-import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
+import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
 
 enum ColorEnum {
   ERROR = "ERROR",
@@ -234,27 +234,30 @@ const UserStatusItem = ({
 
 const ProfileIndex = ({ session }: { session: Session | null }) => {
   // eslint-disable-next-line no-unused-vars
-  const allProductsQuery = useInfiniteQuery<GetAllProductsQuery>(
-    [
-      QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY,
-      {
-        page: 1
-      }
-    ],
-    ({ pageParam = 1 }) =>
-      getAllProductsQueryFn({
-        page: pageParam
-      }),
-    {
-      enabled: !!session,
-      keepPreviousData: true,
-      getNextPageParam(lastPage, allPages) {
-        return lastPage.products.currentPage < lastPage.products.lastPage
-          ? allPages.length + 1
-          : undefined
-      }
-    }
-  )
+  // const allProductsQuery = useInfiniteQuery<GetAllProductsQuery>(
+  //   [
+  //     QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY,
+  //     {
+  //       page: 1
+  //     }
+  //   ],
+  //   ({ pageParam = 1 }) =>
+  //     getAllProductsQueryFn({
+  //       page: pageParam
+  //     }),
+  //   {
+  //     enabled: !!session,
+  //     keepPreviousData: true,
+  //     getNextPageParam(lastPage, allPages) {
+  //       return lastPage.products.currentPage < lastPage.products.lastPage
+  //         ? allPages.length + 1
+  //         : undefined
+  //     }
+  //   }
+  // )
+
+  const productContainerRef = useRef<HTMLAnchorElement>(null)
+  const [imageContainerHeight, setImageContainerHeight] = useState(146)
 
   const _small_logout_icons: BigSmallIconProps[] = [
     {
@@ -287,6 +290,13 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
     [UserStatusesEnum.Banned]: { color: ColorEnum.ALPHA, text: "مسدود شده" }
   }
 
+  useEffect(() => {
+    const div = productContainerRef.current
+    if (div) {
+      setImageContainerHeight(div.children[0].clientWidth / 3)
+    }
+  }, [])
+
   return (
     <>
       {session?.profile.status && (
@@ -312,6 +322,69 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
             />
           </div>
         </div>
+      )}
+
+      {session?.profile.seller ? (
+        <>
+          {session?.profile.seller.status ===
+            ThreeStateSupervisionStatuses.Pending && (
+            <div className="bg-alpha-white p">
+              <Alert variant="warning">
+                <LucideInfo />
+                <AlertTitle>اطلاعیه</AlertTitle>
+                <AlertDescription>
+                  <div className="flex flex-col items-start gap-2">
+                    <p>
+                      درخواست تبدیل حساب کاربری شما به فروشنده در حال بررسی است
+                    </p>
+                  </div>
+                </AlertDescription>
+              </Alert>
+            </div>
+          )}
+
+          {session?.profile.seller.status ===
+            ThreeStateSupervisionStatuses.Rejected && (
+            <div className="bg-alpha-white p">
+              <Alert variant="danger">
+                <LucideInfo />
+                <AlertTitle>اطلاعیه</AlertTitle>
+                <AlertDescription>
+                  <div className="flex flex-col items-start gap-2">
+                    <p>درخواست شما برای تبدیل حساب کاربریان به فروشنده رد شد</p>
+                  </div>
+                </AlertDescription>
+              </Alert>
+            </div>
+          )}
+        </>
+      ) : (
+        session?.profile.status === UserStatusesEnum.Active &&
+        !session?.profile.roles.some(
+          (role) => role?.name === "admin" || role?.name === "seller"
+        ) && (
+          <div className="bg-alpha-white p">
+            <Link
+              href={"/profile/request-seller"}
+              ref={productContainerRef}
+              className={`relative flex flex-shrink-0 transform flex-col items-center justify-center bg-center bg-no-repeat align-middle transition-all duration-1000 ease-out`}
+            >
+              <div
+                style={{
+                  height: imageContainerHeight
+                }}
+                className="w-full"
+              >
+                <Image
+                  src={"/images/be-seller.png"}
+                  alt={"be-seller"}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            </Link>
+          </div>
+        )
       )}
       <div className="grid grid-cols-4 bg-alpha-white px py">
         {_big_icons.map(({ id, status, ...props }) => (

@@ -379,7 +379,7 @@ const ProductList = ({
   const Content = (
     <ProductListContainer type={containerType}>
       <InfiniteScrollPagination
-        CardLoader={ProductCardSkeleton}
+        CardLoader={() => <ProductCardSkeleton containerType={containerType} />}
         infiniteQuery={allProductsQuery}
       >
         {(page, ref) => (

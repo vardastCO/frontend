@@ -1,6 +1,6 @@
 "use client"
 
-import { PropsWithChildren, ReactElement, useEffect } from "react"
+import { ReactElement, useEffect } from "react"
 import { UseInfiniteQueryResult } from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
 
@@ -8,7 +8,7 @@ import NoProductFound from "@/app/(public)/components/no-product-found"
 
 interface IInfiniteScrollPagination<T> {
   infiniteQuery: UseInfiniteQueryResult<T, unknown>
-  CardLoader: React.FC<PropsWithChildren>
+  CardLoader: React.FC
   // eslint-disable-next-line no-unused-vars
   children(
     _: T,

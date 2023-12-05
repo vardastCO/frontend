@@ -34,7 +34,7 @@ const DesktopHomeIndex = ({
   // )
   return (
     <>
-      <FrontPageHeader session={session} />
+      {!isMobileView && <FrontPageHeader session={session} />}
       <div className="flex flex-1 flex-col items-center justify-center">
         <div className="relative my-8 h-20">
           <Image
@@ -44,9 +44,11 @@ const DesktopHomeIndex = ({
             priority
           />
         </div>
-        <div className="w-full px">
-          <Search isMobileView={isMobileView} />
-        </div>
+        {!isMobileView && (
+          <div className="w-full px">
+            <Search isMobileView={isMobileView} />
+          </div>
+        )}
       </div>
       <div className="fixed inset-x-0 bottom-0 mx-auto mb-12 flex w-full justify-center gap-4 text-center text-sm text-alpha-500">
         <Link href="/about">درباره وردست</Link>

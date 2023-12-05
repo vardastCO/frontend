@@ -1,3 +1,5 @@
+"use client"
+
 import { forwardRef, Ref, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
@@ -16,13 +18,26 @@ interface ProductCardProps {
   containerType?: ProductContainerType
 }
 
-export const ProductCardSkeleton = () => {
+export const ProductCardSkeleton = ({
+  containerType = ProductContainerType.LARGE_LIST
+}: {
+  containerType?: ProductContainerType
+}) => {
   const [ratio, setRatio] = useState(1 / 1)
   return (
     <div className="relative px-6 hover:z-10 md:py md:hover:shadow-lg">
-      <div className="grid h-full w-full flex-1 grid-cols-3 gap-2 border-b bg-alpha-white py md:border-none lg:flex lg:flex-col lg:px-4">
+      <div
+        className={clsx(
+          "grid h-full w-full flex-1 gap-2 bg-alpha-white py md:border-none lg:flex lg:flex-col lg:px-4",
+          containerType === ProductContainerType.LARGE_LIST
+            ? "grid-cols-3 border-b"
+            : "overflow-hidden"
+        )}
+      >
         <div
-          className={`relative flex flex-shrink-0 transform flex-col items-center justify-center bg-center bg-no-repeat align-middle transition-all duration-1000 ease-out`}
+          className={clsx(
+            "relative flex flex-shrink-0 transform flex-col items-center justify-center bg-center bg-no-repeat align-middle transition-all duration-1000 ease-out"
+          )}
         >
           <div className="w-full">
             <Image
@@ -39,21 +54,23 @@ export const ProductCardSkeleton = () => {
             />
           </div>
         </div>
-        <div className="lg:col-span1 col-span-2 flex flex-1 flex-col">
-          <h5 className="animated-card line-clamp-2 h-11 font-semibold"></h5>
-          <div className="flex h-8 w-full py-2">
-            <div className="animated-card h-full w-8"></div>
-          </div>
-          <div className="flex h-14  w-full flex-col items-end">
-            <div className="flex h-1/2 w-full items-center justify-end gap-x">
-              <span className="animated-card h-1/2 w-8 rounded-full p-1 px-1.5 text-center text-sm font-semibold leading-none"></span>
-              <span className="animated-card h-1/2 w-8 text-sm line-through"></span>
+        {containerType !== ProductContainerType.PHOTO && (
+          <div className="lg:col-span1 col-span-2 flex flex-1 flex-col">
+            <h5 className="animated-card line-clamp-2 h-11 font-semibold"></h5>
+            <div className="flex h-8 w-full py-2">
+              <div className="animated-card h-full w-8"></div>
             </div>
-            <div className="flex h-1/2 w-full items-center justify-end">
-              <div className="animated-card h-full w-20"></div>
+            <div className="flex h-14  w-full flex-col items-end">
+              <div className="flex h-1/2 w-full items-center justify-end gap-x">
+                <span className="animated-card h-1/2 w-8 rounded-full p-1 px-1.5 text-center text-sm font-semibold leading-none"></span>
+                <span className="animated-card h-1/2 w-8 text-sm line-through"></span>
+              </div>
+              <div className="flex h-1/2 w-full items-center justify-end">
+                <div className="animated-card h-full w-20"></div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )
