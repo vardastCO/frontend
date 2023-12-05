@@ -1,11 +1,11 @@
 import { Metadata } from "next"
-import { dehydrate } from "@tanstack/react-query"
+// import { dehydrate } from "@tanstack/react-query"
 import { getServerSession } from "next-auth"
 
-import getQueryClient from "@core/clients/getQueryClient"
+// import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { authOptions } from "@core/lib/authOptions"
-import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
+// import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import DesktopHomeIndex from "@/app/(public)/(pages)/home/components/DesktopHomeIndex"
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ const Index = async () => {
   const isMobileView = CheckIsMobileView()
   const session = await getServerSession(authOptions)
   // // const token = session?.accessToken || null
-  const queryClient = getQueryClient()
+  // const queryClient = getQueryClient()
 
   // await queryClient.prefetchQuery(
   //   [QUERY_FUNCTIONS_KEY.GET_ALL_BRANDS_COUNT_QUERY_KEY],
@@ -64,15 +64,15 @@ const Index = async () => {
   //   queryFn: () => getVocabularyQueryFn("product_categories")
   // })
 
-  const dehydratedState = dehydrate(queryClient)
+  // const dehydratedState = dehydrate(queryClient)
   return (
-    <ReactQueryHydrate state={dehydratedState}>
-      {/* {isMobileView ? (
-        <MobileHomeIndex />
-      ) : ( */}
-      <DesktopHomeIndex session={session} isMobileView={isMobileView} />
-      {/* )} */}
-    </ReactQueryHydrate>
+    <DesktopHomeIndex session={session} isMobileView={isMobileView} />
+    // <ReactQueryHydrate state={dehydratedState}>
+    //   {/* {isMobileView ? (
+    //     <MobileHomeIndex />
+    //   ) : ( */}
+    //   {/* )} */}
+    // // </ReactQueryHydrate>
   )
 }
 
