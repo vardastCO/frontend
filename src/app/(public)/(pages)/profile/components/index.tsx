@@ -412,23 +412,17 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
             />
           ))}
       </div>
-      <div className="flex flex-1 flex-col justify-end bg-alpha-white p">
-        {session?.profile.roles.some(
-          (role) => role?.name === "admin" || role?.name === "seller"
-        ) ? (
+      {session?.profile.roles.some(
+        (role) => role?.name === "admin" || role?.name === "seller"
+      ) && (
+        <div className="flex flex-1 flex-col justify-end bg-alpha-white p">
           <Link href="/admin" className="btn btn-md btn-primary block">
             {session.profile.roles.some((role) => role?.name === "admin")
               ? "ورود به پنل ادمین"
               : "ورود به پنل فروشنده"}
           </Link>
-        ) : (
-          !session && (
-            <Link href="/auth/signin" className="btn btn-md btn-primary block">
-              ورود / ثبت‌نام
-            </Link>
-          )
-        )}
-      </div>
+        </div>
+      )}
       {/* {session && (
         <div className="bg-alpha-white py">
           <MobileHomeSection block={false} title="آخرین خرید های شما">
