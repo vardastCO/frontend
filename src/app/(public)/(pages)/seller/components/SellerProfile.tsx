@@ -112,7 +112,7 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
           <li className="flex">
             <span className="text-sm text-alpha-500">آدرس:</span>
             <span className="pr text-sm">
-              {data.seller.addresses[0].address}
+              {data.seller.addresses.at(0)?.address}
             </span>
           </li>
           <li className="flex">

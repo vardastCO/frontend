@@ -94,7 +94,7 @@ const _big_icons: BigSmallIconProps[] = [
     text: "حمل ونقل",
     href: "",
     Icon: TruckIcon,
-    color: ColorEnum.SUCCESS,
+    color: ColorEnum.RED,
     status: ProfileIconVariantStatusEnum.ACTIVE_WHITE,
     disabled: true
   },
@@ -103,7 +103,7 @@ const _big_icons: BigSmallIconProps[] = [
     text: "تماس با ما",
     href: "/profile/contact",
     Icon: PhoneIcon,
-    color: ColorEnum.RED,
+    color: ColorEnum.SUCCESS,
     status: ProfileIconVariantStatusEnum.ACTIVE_WHITE
   }
 ]
@@ -185,7 +185,7 @@ const ProfileIconItem = ({
               } p-5`
             : `bg-${ColorEnum[color].toLocaleLowerCase()}-${
                 disabled ? "200" : "100"
-              } p`
+              } p-4`
         )}
       >
         <Icon
@@ -194,7 +194,7 @@ const ProfileIconItem = ({
               ? "h-7 w-7 text-alpha-white"
               : `text-${ColorEnum[variant.status].toLocaleLowerCase()}-${
                   disabled ? "400" : "600"
-                } h-6 w-6`
+                } h-7 w-7`
           )}
         />
       </div>
@@ -338,6 +338,23 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
               {...props}
             />
           ))}
+      </div>
+      <div className="flex flex-1 flex-col justify-end bg-alpha-white p">
+        {session?.profile.roles.some(
+          (role) => role?.name === "admin" || role?.name === "seller"
+        ) ? (
+          <Link href="/admin" className="btn btn-md btn-primary block">
+            {session.profile.roles.some((role) => role?.name === "admin")
+              ? "ورود به پنل ادمین"
+              : "ورود به پنل فروشنده"}
+          </Link>
+        ) : (
+          !session && (
+            <Link href="/auth/signin" className="btn btn-md btn-primary block">
+              ورود / ثبت‌نام
+            </Link>
+          )
+        )}
       </div>
       {/* {session && (
         <div className="bg-alpha-white py">

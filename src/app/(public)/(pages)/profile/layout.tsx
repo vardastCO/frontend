@@ -3,5 +3,5 @@ export default async function Layout({
 }: {
   children: React.ReactNode
 }) {
-  return <div className="flex flex-col gap-2">{children}</div>
+  return <div className="flex h-full flex-col gap-2">{children}</div>
 }
