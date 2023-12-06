@@ -73,7 +73,7 @@ const SuggestedOffer = ({ offer, uom }: SuggestedOfferProps) => {
             )}
           </div>
           <div className="grid grid-cols-3 items-center">
-            <div className="relative">
+            <div className="relative flex h-full flex-col justify-start">
               {offer.seller?.isBlueTik && (
                 <CheckBadgeIcon className="absolute right-0 top-0 h-6 w-6 -translate-y-1 translate-x-1 text-info" />
               )}
@@ -90,9 +90,9 @@ const SuggestedOffer = ({ offer, uom }: SuggestedOfferProps) => {
                 className="rounded-xl bg-white object-contain shadow-md"
               />
             </div>
-            <div className="col-span-2 flex flex-col gap-3">
+            <div className="col-span-2 flex flex-col">
               <Link
-                className="h-8 text-info"
+                className="h-8 truncate text-info"
                 href={`/seller/${offer?.seller.id}/${offer?.seller.name}?title=${offer?.seller.name}`}
               >
                 {offer?.seller.name}
