@@ -16,7 +16,7 @@ const ProfileSellerPage = async () => {
   const session = await getServerSession(authOptions)
 
   if (!session?.profile.roles.some((role) => role?.name === "user")) {
-    redirect("/home")
+    redirect("/")
   }
 
   return <ProfileSellerForm />

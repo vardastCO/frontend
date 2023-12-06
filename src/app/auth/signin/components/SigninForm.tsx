@@ -106,7 +106,7 @@ const SigninForm = (_: Props) => {
             setLoginErrors(null)
             setMessage(message as string)
             session.update()
-            router.push("/home")
+            router.push("/")
           }
         })
       }
@@ -189,14 +189,14 @@ const SigninForm = (_: Props) => {
         setLoginErrors(null)
         setMessage(message as string)
         session.update()
-        router.push("/home")
+        router.push("/")
       }
     })
   }
 
   // useEffect(() => {
   //   if (session?.status === "authenticated") {
-  //     redirect(searchParams.get("callbackUrl") || "/home")
+  //     redirect(searchParams.get("callbackUrl") || "/")
   //   }
   // }, [searchParams, session?.status])
 

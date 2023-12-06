@@ -19,7 +19,7 @@ export default function NotFound() {
         <h2 className="font-bold text-alpha-800">همم!</h2>
         <p className="text-alpha-700">صفحه مورد نظر شما پیدا نشد</p>
         <div className="mt-8 flex flex-col gap-6">
-          <Link href="/home" className="inline-block text-sm text-primary-500">
+          <Link href="/" className="inline-block text-sm text-primary-500">
             برگشت به خانه
           </Link>
         </div>

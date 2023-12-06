@@ -22,7 +22,7 @@ const AdminIndex = async () => {
       (role) => role?.name === "admin" || role?.name === "seller"
     )
   ) {
-    redirect("/home")
+    redirect("/")
   }
 
   return (

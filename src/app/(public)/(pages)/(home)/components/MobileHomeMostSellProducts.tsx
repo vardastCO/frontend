@@ -1,6 +1,6 @@
 import { Product } from "@/generated"
 
-import MobileHomeSection from "@/app/(public)/(pages)/home/components/MobileHomeSection"
+import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
 import ProductSlider from "@/app/(public)/components/ProductSlider"
 
 const MobileHomeMostSellProducts = ({ products }: { products: Product[] }) => {

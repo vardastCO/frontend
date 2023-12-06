@@ -2,8 +2,8 @@ import { UseQueryResult } from "@tanstack/react-query"
 
 import { GetBannerHomePageQuery } from "@/generated"
 
-import MobileHomeImage from "@/app/(public)/(pages)/home/components/MobileHomeImage"
-import MobileHomeSection from "@/app/(public)/(pages)/home/components/MobileHomeSection"
+import MobileHomeImage from "@/app/(public)/(pages)/(home)/components/MobileHomeImage"
+import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
 
 const MobileHomeBanner = ({
   query,

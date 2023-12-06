@@ -19,13 +19,13 @@ import { getAllSellersCountQueryFn } from "@core/queryFns/allSellersCountQueryFn
 import { bannerHomePageQueryFns } from "@core/queryFns/bannerHomePageQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
-import MobileHomeBanner from "@/app/(public)/(pages)/home/components/MobileHomeBanner"
-import MobileHomeCategory from "@/app/(public)/(pages)/home/components/MobileHomeCategory"
-import MobileHomeCounts from "@/app/(public)/(pages)/home/components/MobileHomeCounts"
-import MobileHomeMostSellProducts from "@/app/(public)/(pages)/home/components/MobileHomeMostSellProducts"
-import MobileHomeNewestProducts from "@/app/(public)/(pages)/home/components/MobileHomeNewestProducts"
-import MobileHomeSlider from "@/app/(public)/(pages)/home/components/MobileHomeSlider"
-import MobileHomeTopBrands from "@/app/(public)/(pages)/home/components/MobileHomeTopBrands"
+import MobileHomeBanner from "@/app/(public)/(pages)/(home)/components/MobileHomeBanner"
+import MobileHomeCategory from "@/app/(public)/(pages)/(home)/components/MobileHomeCategory"
+import MobileHomeCounts from "@/app/(public)/(pages)/(home)/components/MobileHomeCounts"
+import MobileHomeMostSellProducts from "@/app/(public)/(pages)/(home)/components/MobileHomeMostSellProducts"
+import MobileHomeNewestProducts from "@/app/(public)/(pages)/(home)/components/MobileHomeNewestProducts"
+import MobileHomeSlider from "@/app/(public)/(pages)/(home)/components/MobileHomeSlider"
+import MobileHomeTopBrands from "@/app/(public)/(pages)/(home)/components/MobileHomeTopBrands"
 
 const MobileHomeIndex = () => {
   const allProductsQuery = useInfiniteQuery<GetAllProductsQuery>(

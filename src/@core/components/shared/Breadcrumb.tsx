@@ -57,8 +57,8 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
         {/* {pathname.split("/")[1] === "admin" && ( */}
         <li className="flex items-end align-middle leading-none">
           <Link
-            href="/home"
-            aria-current={pathname === "/home" ? "page" : "false"}
+            href="/"
+            aria-current={pathname === "/" ? "page" : "false"}
             legacyBehavior
           >
             <a title={process.env.NEXT_PUBLIC_TITLE} className="text-alpha-600">

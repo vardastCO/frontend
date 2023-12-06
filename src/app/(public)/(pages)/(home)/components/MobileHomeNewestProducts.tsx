@@ -2,7 +2,7 @@ import { UseInfiniteQueryResult } from "@tanstack/react-query"
 
 import { GetAllProductsQuery, Product } from "@/generated"
 
-import MobileHomeSection from "@/app/(public)/(pages)/home/components/MobileHomeSection"
+import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
 import InfiniteScrollPagination from "@/app/(public)/components/InfiniteScrollPagination"
 import ProductCard, {
   ProductCardSkeleton

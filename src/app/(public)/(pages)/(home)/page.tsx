@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { authOptions } from "@core/lib/authOptions"
 // import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
-import DesktopHomeIndex from "@/app/(public)/(pages)/home/components/DesktopHomeIndex"
+import DesktopHomeIndex from "@/app/(public)/(pages)/(home)/components/DesktopHomeIndex"
 
 export const metadata: Metadata = {
   title: "بازار آنلاین مصالح ساختمانی",

@@ -4,8 +4,8 @@ import { UseQueryResult } from "@tanstack/react-query"
 
 import { GetAllBrandsCountQuery } from "@/generated"
 
-import MobileHomeImage from "@/app/(public)/(pages)/home/components/MobileHomeImage"
-import MobileHomeSection from "@/app/(public)/(pages)/home/components/MobileHomeSection"
+import MobileHomeImage from "@/app/(public)/(pages)/(home)/components/MobileHomeImage"
+import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
 
 type Props = {
   allBrandsCount: UseQueryResult<GetAllBrandsCountQuery, unknown>

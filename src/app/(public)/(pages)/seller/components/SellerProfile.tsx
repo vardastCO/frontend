@@ -80,7 +80,7 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
                 />
               ) : (
                 <Image
-                  src={"/images/blank.png"}
+                  src={"/images/seller-user.png"}
                   alt="seller"
                   fill
                   className="rounded-full object-contain"

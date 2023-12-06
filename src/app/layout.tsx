@@ -232,6 +232,7 @@ export default function AdminLayout({
     <RadixDirectionProvider>
       <html lang={lang} suppressHydrationWarning>
         <head>
+          <link rel="canonical" href="https://www.vardast.com/" />
           <Script async id="google-tag-manager" strategy="beforeInteractive">
             {`<!-- Google Tag Manager -->
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

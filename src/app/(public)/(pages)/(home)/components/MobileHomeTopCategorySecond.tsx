@@ -1,7 +1,7 @@
 "use client"
 
-import MobileHomeImage from "@/app/(public)/(pages)/home/components/MobileHomeImage"
-import MobileHomeSection from "@/app/(public)/(pages)/home/components/MobileHomeSection"
+import MobileHomeImage from "@/app/(public)/(pages)/(home)/components/MobileHomeImage"
+import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
 
 type Props = {}
 
@@ -24,16 +24,16 @@ const _images = [
   }
 ]
 
-const MobileHomeTopCategoryFirst = (_: Props) => {
+const MobileHomeTopCategorySecond = (_: Props) => {
   return (
     <MobileHomeSection
       height="EIGHTY_EIGHT"
       itemsCount="TWO"
-      title="ابزار آلات"
+      title="درب، پنجره و نما"
     >
       <MobileHomeImage images={_images} />
     </MobileHomeSection>
   )
 }
 
-export default MobileHomeTopCategoryFirst
+export default MobileHomeTopCategorySecond

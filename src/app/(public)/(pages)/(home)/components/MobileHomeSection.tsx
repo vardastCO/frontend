@@ -4,7 +4,7 @@
 import { PropsWithChildren } from "react"
 import clsx from "clsx"
 
-import MobileHomeSectionContainer from "@/app/(public)/(pages)/home/components/MobileHomeSectionContainer"
+import MobileHomeSectionContainer from "@/app/(public)/(pages)/(home)/components/MobileHomeSectionContainer"
 
 enum HEIGHT {
   EIGHTY_EIGHT = "h-[88vw]",

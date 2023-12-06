@@ -3,7 +3,7 @@
 import { Category } from "@/generated"
 
 import Segment from "@core/components/ui/segment"
-import MobileHomeSection from "@/app/(public)/(pages)/home/components/MobileHomeSection"
+import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
 
 const MobileHomeCategory = ({ categories }: { categories: Category[] }) => {
   return (
