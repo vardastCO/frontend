@@ -29,7 +29,7 @@ type SuggestedOfferProps = {
   uom: Uom
 }
 
-const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
+const SuggestedOffer = ({ offer, uom }: SuggestedOfferProps) => {
   const [contactModalOpen, setContactModalOpen] = useState<boolean>(false)
   const createEventTrackerMutation = useCreateEventTrackerMutation(
     graphqlRequestClient,
@@ -64,7 +64,7 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
       />
 
       <ProductSectionContainer title="برترین فروشنده">
-        <div className="flex w-full flex-col gap-y-4 rounded-2xl border bg-alpha-100 p">
+        <div className="flex w-full flex-col gap-y-4 rounded-2xl border bg-alpha-50 p">
           <div className="flex">
             {offer.seller.rating && offer.seller.rating > 0 ? (
               <Rating rating={offer.seller.rating} />
@@ -72,32 +72,32 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
               ""
             )}
           </div>
-          <div className="flex items-center gap-x-3">
-            <div className="flex flex-1 items-center gap-3">
-              <div className="relative">
-                {offer.seller?.isBlueTik && (
-                  <CheckBadgeIcon className="absolute right-0 top-0 h-6 w-6 -translate-y-1 translate-x-1 text-info" />
-                )}
-                <Image
-                  src={
-                    !!offer?.seller.logoFile?.presignedUrl.url
-                      ? `${offer?.seller.logoFile?.presignedUrl.url}`
-                      : ""
-                  }
-                  // src="/images/frame.png"
-                  width={100}
-                  height={100}
-                  alt={offer?.seller.name}
-                  className="rounded-xl bg-white object-contain shadow-md"
-                />
-              </div>
-              <div className="flex flex-col">
-                <Link
-                  className="h-8 text-info"
-                  href={`/seller/${offer?.seller.id}/${offer?.seller.name}?title=${offer?.seller.name}`}
-                >
-                  {offer?.seller.name}
-                </Link>
+          <div className="grid grid-cols-3 items-center">
+            <div className="relative">
+              {offer.seller?.isBlueTik && (
+                <CheckBadgeIcon className="absolute right-0 top-0 h-6 w-6 -translate-y-1 translate-x-1 text-info" />
+              )}
+              <Image
+                src={
+                  !!offer?.seller.logoFile?.presignedUrl.url
+                    ? `${offer?.seller.logoFile?.presignedUrl.url}`
+                    : ""
+                }
+                // src="/images/frame.png"
+                width={100}
+                height={100}
+                alt={offer?.seller.name}
+                className="rounded-xl bg-white object-contain shadow-md"
+              />
+            </div>
+            <div className="col-span-2 flex flex-col gap-3">
+              <Link
+                className="h-8 text-info"
+                href={`/seller/${offer?.seller.id}/${offer?.seller.name}?title=${offer?.seller.name}`}
+              >
+                {offer?.seller.name}
+              </Link>
+              <div className="flex justify-between">
                 <p className="flex h-8 items-center gap-x-2 text-alpha-600">
                   {offer?.seller?.addresses &&
                     offer?.seller?.addresses.length > 0 && (
@@ -107,14 +107,20 @@ const SuggestedOffer = ({ offer }: SuggestedOfferProps) => {
                       </>
                     )}
                 </p>
+                <h2 className="h-8 font-bold"></h2>
               </div>
-            </div>
-            <div className="flex flex-col">
-              <h2 className="h-8 font-bold"></h2>
-              <PriceTitle price={offer?.amount} />
+              <div className="flex justify-between">
+                <h2 className="h-8 font-bold"></h2>
+                <PriceTitle price={offer?.amount} />
+              </div>
+              {uom.name && (
+                <div className="flex justify-end text-xs text-alpha-500">
+                  هر {uom.name}
+                </div>
+              )}
             </div>
           </div>
-          <br className="h-1 w-full bg-alpha" />
+          <hr className="h-px w-full rounded-full bg-alpha-200" />
           <Button
             size="large"
             block

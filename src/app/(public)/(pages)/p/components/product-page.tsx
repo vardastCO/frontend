@@ -177,6 +177,10 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
     offers: offersJsonLd as AggregateOffer
   }
 
+  console.log("====================================")
+  console.log({ product })
+  console.log("====================================")
+
   return (
     <>
       <div className="bg-alpha-white">

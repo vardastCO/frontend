@@ -211,46 +211,32 @@ const ProductForm = ({ product }: ProductFormProps) => {
   // })
 
   const onSubmit = (data: CreateProductType) => {
-    const {
-      name,
-      slug,
-      status,
-      sku,
-      type,
-      categoryId,
-      brandId,
-      uomId,
-      isActive
-    } = data
+    let queryInput: CreateProductType = {
+      name: data.name,
+      type: data.type,
+      slug: data.slug,
+      sku: data.sku,
+      categoryId: data.categoryId,
+      brandId: data.brandId,
+      uomId: data.uomId,
+      status: data.status,
+      isActive: data.isActive
+    }
+
+    if (data.description) {
+      queryInput = { ...queryInput, description: data.description }
+    }
 
     if (product) {
       updateProductMutation.mutate({
         updateProductInput: {
-          id: product.id,
-          name,
-          type,
-          slug,
-          sku,
-          categoryId,
-          brandId,
-          uomId,
-          status,
-          isActive
+          ...queryInput,
+          id: product.id
         }
       })
     } else {
       createProductMutation.mutate({
-        createProductInput: {
-          name,
-          type,
-          slug,
-          sku,
-          categoryId,
-          brandId,
-          uomId,
-          status,
-          isActive
-        }
+        createProductInput: queryInput
       })
     }
   }
@@ -815,7 +801,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                         </FormItem>
                       )}
                     />
-                    <FormField
+                    {/* <FormField
                       control={form.control}
                       name="metaDescription"
                       render={({ field }) => (
@@ -827,7 +813,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
                           <FormMessage />
                         </FormItem>
                       )}
-                    />
+                    /> */}
                     <FormField
                       control={form.control}
                       name="slug"

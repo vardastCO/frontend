@@ -26,7 +26,7 @@ type Props = {
   uom: Uom
 }
 
-const ProductOfferItem = ({ offer }: Props) => {
+const ProductOfferItem = ({ offer, uom }: Props) => {
   const [contactModalOpen, setContactModalOpen] = useState<boolean>(false)
   setDefaultOptions({
     locale: faIR,
@@ -103,6 +103,11 @@ const ProductOfferItem = ({ offer }: Props) => {
                     اطلاعات تماس
                   </Button>
                   <PriceTitle price={offer.lastPublicConsumerPrice.amount} />
+                </div>
+              )}
+              {uom.name && (
+                <div className="flex justify-end text-xs text-alpha-500">
+                  هر {uom.name}
                 </div>
               )}
             </div>
