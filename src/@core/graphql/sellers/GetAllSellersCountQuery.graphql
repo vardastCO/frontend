@@ -1,5 +1,13 @@
 query GetAllSellersCount($indexSellerInput: IndexSellerInput) {
   sellers(indexSellerInput: $indexSellerInput) {
     total
+    data {
+      bannerFile {
+        id
+        presignedUrl {
+          url
+        }
+      }
+    }
   }
 }

@@ -8,6 +8,12 @@ query GetAllBrandsCount($indexBrandInput: IndexBrandInput) {
           url
         }
       }
+      bannerFile {
+        id
+        presignedUrl {
+          url
+        }
+      }
     }
   }
 }

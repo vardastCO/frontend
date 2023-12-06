@@ -23,8 +23,8 @@ const MobileHomeTopBrands = ({ allBrandsCount }: Props) => {
           allBrandsCount.data?.brands.data
             .filter((_, index) => index <= 8)
             .map((brand) => ({
-              url: brand?.logoFile?.presignedUrl.url || "/images/1.1.png",
-              id: brand?.logoFile?.id ? String(brand?.logoFile?.id) : "8"
+              url: brand?.bannerFile?.presignedUrl.url || "/images/1.1.png",
+              id: brand?.bannerFile?.id ? String(brand?.bannerFile?.id) : "8"
             })) || []
         }
       />
