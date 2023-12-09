@@ -1,11 +1,36 @@
 import { PropsWithChildren } from "react"
+import { ChevronLeftIcon } from "@heroicons/react/24/outline"
+import clsx from "clsx"
+
+import Link from "@core/components/shared/Link"
+
+export interface IMobileHomeSectionContainer {
+  title?: string
+  viewAllHref?: string
+  bgWhite?: boolean
+}
 
 const MobileHomeSectionContainer: React.FC<
-  PropsWithChildren<{ title?: string }>
-> = ({ title = "", children }) => {
+  PropsWithChildren<IMobileHomeSectionContainer>
+> = ({ title = "", viewAllHref, bgWhite = false, children }) => {
   return (
-    <div className={`flex flex-col gap-y-2`}>
-      {title && <h4 className={`p pt-0 font-medium`}>{title}</h4>}
+    <div
+      className={clsx("flex flex-col gap-y-2 py", bgWhite && "bg-alpha-white")}
+    >
+      {title && (
+        <div className="flex items-center justify-between p">
+          <h4 className={`font-medium`}>{title}</h4>
+          {viewAllHref && (
+            <Link
+              href={viewAllHref}
+              className="flex items-center gap-x-2 text-primary"
+            >
+              مشاهده همه
+              <ChevronLeftIcon className="h-5 w-5 text-primary" />
+            </Link>
+          )}
+        </div>
+      )}
       {children}
     </div>
   )

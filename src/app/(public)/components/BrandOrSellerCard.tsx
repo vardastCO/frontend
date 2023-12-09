@@ -66,9 +66,10 @@ const BrandOrSellerCard = forwardRef(
     return (
       <Link
         ref={ref}
-        href={`/${content.__typename?.toLowerCase()}/${content?.id}?title=${
-          content.name
-        }`}
+        href={`/${content.__typename?.toLowerCase()}/${content?.id}`}
+        // href={`/${content.__typename?.toLowerCase()}/${content?.id}?title=${
+        //   content.name
+        // }`}
         prefetch={false}
         className="relative overflow-hidden rounded bg-alpha-white transition hover:z-10 md:h-auto md:rounded-none md:hover:shadow-lg"
       >

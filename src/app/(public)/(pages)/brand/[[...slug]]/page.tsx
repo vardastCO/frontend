@@ -11,7 +11,7 @@ import { getAllCategoriesQueryFn } from "@core/queryFns/allCategoriesQueryFns"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getBrandQueryFn } from "@core/queryFns/brandQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-import BrandPage from "@/app/(public)/(pages)/brand/components/brand-page"
+import BrandProfile from "@/app/(public)/(pages)/brand/components/BrandProfile"
 
 interface BrandIndexProps {
   params: {
@@ -102,9 +102,13 @@ const BrandIndex = async ({
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <BrandPage isMobileView={isMobileView} args={args} slug={slug} />
+      <BrandProfile isMobileView={isMobileView} args={args} slug={slug} />
     </ReactQueryHydrate>
   )
 }
 
-export default withMobileHeader(BrandIndex, {})
+export default withMobileHeader(BrandIndex, {
+  hasFavorite: {},
+  hasShare: true,
+  hasLogo: true
+})

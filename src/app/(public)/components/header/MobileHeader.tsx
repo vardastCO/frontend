@@ -82,7 +82,7 @@ const MobileHeader: React.FC<IModalHeader> = ({
       (item) => !!item
     ).length
 
-    return `col-span-${12 - lengthOfColors - (props.hasLogo ? 3 : 0)}`
+    return `col-span-${12 - lengthOfColors - (props.hasLogo ? 3 : 1)}`
   }
 
   const middleBoxColsCount = computeMiddleBoxCols({

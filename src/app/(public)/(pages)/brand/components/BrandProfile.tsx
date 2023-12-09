@@ -2,39 +2,36 @@
 
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { notFound } from "next/navigation"
-import { CheckBadgeIcon } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { TabsContent } from "@radix-ui/react-tabs"
 import { useQuery } from "@tanstack/react-query"
 
-import { GetSellerQuery, IndexProductInput } from "@/generated"
+import { GetBrandQuery, IndexProductInput } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { Tabs, TabsList, TabsTrigger } from "@core/components/ui/tabs"
+import { getBrandQueryFn } from "@core/queryFns/brandQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-import { getSellerQueryFn } from "@core/queryFns/sellerQueryFns"
 import ProductList from "@/app/(public)/components/product-list"
 import Rating from "@/app/(public)/components/Rating"
 
-interface SellerProfile {
+interface BrandProfile {
   isMobileView: boolean
   slug: Array<string | number>
   args: IndexProductInput
 }
 
-const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
+const BrandProfile = ({ isMobileView, args, slug }: BrandProfile) => {
   const [imageContainerHeight, setImageContainerHeight] = useState(80)
   const [categoriesCount, setCategoriesCount] = useState(0)
-  const [imageSellerContainerHeight, setImageSellerContainerHeight] =
-    useState(80)
+  // const [imageBrandContainerHeight, setImageBrandContainerHeight] = useState(80)
   const productContainerRef = useRef<HTMLDivElement>(null)
-  const sellerContainerRef = useRef<HTMLAnchorElement>(null)
+  // const brandContainerRef = useRef<HTMLAnchorElement>(null)
 
-  const { data } = useQuery<GetSellerQuery>(
-    [QUERY_FUNCTIONS_KEY.SELLER_QUERY_KEY, { id: +slug[0] }],
-    () => getSellerQueryFn(+slug[0]),
+  const { data } = useQuery<GetBrandQuery>(
+    [QUERY_FUNCTIONS_KEY.BRAND_QUERY_KEY, { id: +slug[0] }],
+    () => getBrandQueryFn(+slug[0]),
     {
       keepPreviousData: true
     }
@@ -45,10 +42,10 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
     if (div) {
       setImageContainerHeight(div.clientWidth)
     }
-    const sellerDiv = sellerContainerRef.current
-    if (sellerDiv) {
-      setImageSellerContainerHeight(sellerDiv.clientWidth)
-    }
+    // const brandDiv = brandContainerRef.current
+    // if (brandDiv) {
+    //   setImageBrandContainerHeight(brandDiv.clientWidth)
+    // }
   }, [])
 
   if (!data) notFound()
@@ -59,10 +56,10 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
         <Breadcrumb
           dynamic={false}
           items={[
-            { label: "فروشندگان", path: "/sellers", isCurrent: false },
+            { label: "فروشندگان", path: "/brands", isCurrent: false },
             {
-              label: data.seller.name,
-              path: `/seller/${data.seller.id}/${data.seller.name}`,
+              label: data.brand.name,
+              path: `/brand/${data.brand.id}/${data.brand.name}`,
               isCurrent: true
             }
           ]}
@@ -73,12 +70,12 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
         <div className="flex flex-col gap-y bg-alpha-white p">
           <div className="grid grid-cols-4 items-center">
             <div className="relative rounded-full border-2 border-alpha-400 p-0.5 shadow-lg">
-              {data.seller.isBlueTik && (
+              {/* {data.brand.isBlueTik && (
                 <>
                   <CheckBadgeIcon className="w-h-7 absolute right-1 top-0 z-20 h-7 -translate-y-1 translate-x-1 text-info" />
                   <span className="absolute right-2 top-1 h-3 w-3 rounded-full bg-alpha-white"></span>
                 </>
-              )}
+              )} */}
               <div
                 ref={productContainerRef}
                 style={{
@@ -86,17 +83,17 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
                 }}
                 className="relative z-10 h-full"
               >
-                {data.seller?.logoFile?.presignedUrl.url ? (
+                {data.brand?.logoFile?.presignedUrl.url ? (
                   <Image
-                    src={data.seller?.logoFile?.presignedUrl.url as string}
-                    alt="seller"
+                    src={data.brand?.logoFile?.presignedUrl.url as string}
+                    alt="brand"
                     fill
                     className="rounded-full object-contain"
                   />
                 ) : (
                   <Image
-                    src={"/images/seller-user.png"}
-                    alt="seller"
+                    src={"/images/brand-user.png"}
+                    alt="brand"
                     fill
                     className="rounded-full object-contain"
                   />
@@ -120,22 +117,22 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
             <p className="text-xs text-alpha-400">دنبال شوندگان</p>
           </div> */}
           </div>
-          <div>
-            <p className="text-justify">{data.seller.bio}</p>
-          </div>
+          {/* <div>
+            <p className="text-justify">{data.brand.}</p>
+          </div> */}
         </div>
-        <div className="grid grid-cols-5 items-center bg-alpha-white p">
+        {/* <div className="grid grid-cols-5 items-center bg-alpha-white p">
           <ul className="col-span-4 flex list-disc flex-col gap-y">
             <li className="flex">
               <span className="text-sm text-alpha-500">آدرس:</span>
               <span className="pr text-sm">
-                {data.seller.addresses.at(0)?.address}
+                {data.brand.addresses.at(0)?.address}
               </span>
             </li>
             <li className="flex">
               <span className="text-sm text-alpha-500">تلفن:</span>
               <span className="pr text-sm">
-                {data.seller.contacts.map(({ number, code }, index) =>
+                {data.brand.contacts.map(({ number, code }, index) =>
                   index === 0
                     ? digitsEnToFa(code || "") + digitsEnToFa(number)
                     : " - " + digitsEnToFa(code || "") + digitsEnToFa(number)
@@ -144,12 +141,12 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
             </li>
           </ul>
           <Link
-            href={`https://www.google.com/maps/search/?api=1&query=${data.seller.addresses.at(
+            href={`https://www.google.com/maps/search/?api=1&query=${data.brand.addresses.at(
               0
-            )?.latitude},${data.seller.addresses.at(0)?.longitude}`}
-            ref={sellerContainerRef}
+            )?.latitude},${data.brand.addresses.at(0)?.longitude}`}
+            ref={brandContainerRef}
             style={{
-              height: imageSellerContainerHeight
+              height: imageBrandContainerHeight
             }}
             target="_blank"
             prefetch={false}
@@ -157,16 +154,16 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
           >
             <Image
               src={"/images/map.png"}
-              alt={"seller"}
+              alt={"brand"}
               fill
               className="object-contain"
             />
           </Link>
-        </div>
+        </div> */}
         <div className="grid grid-cols-3 items-center gap-y bg-alpha-white p">
           <div className="flex flex-col items-center gap-y-2">
             <h4 className="font-semibold">
-              <Rating rating={data.seller.rating ?? 0} size="xs" />
+              <Rating rating={data.brand.rating ?? 0} size="xs" />
             </h4>
             <p className="text-xs text-alpha-500">{digitsEnToFa(250)} نظر</p>
           </div>
@@ -196,7 +193,7 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
               hasFilter={false}
               isMobileView={isMobileView}
               selectedCategoryIds={args["categoryIds"] || undefined}
-              sellerId={+slug[0]}
+              brandId={+slug[0]}
             />
           </TabsContent>
           {/* <TabsContent value="comments">
@@ -206,7 +203,7 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
             hasFilter={false}
             isMobileView={isMobileView}
             selectedCategoryIds={args["categoryIds"] || undefined}
-            sellerId={+slug[0]}
+            brandId={+slug[0]}
           />
         </TabsContent> */}
         </Tabs>
@@ -215,4 +212,4 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
   )
 }
 
-export default SellerProfile
+export default BrandProfile

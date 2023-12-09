@@ -5,6 +5,7 @@ query GetBrand($id: Int!) {
     slug
     createdAt
     updatedAt
+    rating
     logoFile {
       id
       uuid

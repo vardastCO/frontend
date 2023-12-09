@@ -1,8 +1,9 @@
 "use client"
 
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 
 import {
+  Brand,
   Category,
   FileModelTypeEnum,
   GetAllBrandsCountQuery,
@@ -10,7 +11,7 @@ import {
   GetAllSellersCountQuery,
   GetBannerHomePageQuery,
   GetVocabularyQuery,
-  Product
+  Seller
 } from "@/generated"
 
 import { getAllBrandsCountQueryFn } from "@core/queryFns/allBrandsCountQueryFns"
@@ -19,33 +20,25 @@ import { getAllSellersCountQueryFn } from "@core/queryFns/allSellersCountQueryFn
 import { bannerHomePageQueryFns } from "@core/queryFns/bannerHomePageQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
-import MobileHomeBanner from "@/app/(public)/(pages)/(home)/components/MobileHomeBanner"
 import MobileHomeCategory from "@/app/(public)/(pages)/(home)/components/MobileHomeCategory"
-import MobileHomeCounts from "@/app/(public)/(pages)/(home)/components/MobileHomeCounts"
-import MobileHomeMostSellProducts from "@/app/(public)/(pages)/(home)/components/MobileHomeMostSellProducts"
 import MobileHomeNewestProducts from "@/app/(public)/(pages)/(home)/components/MobileHomeNewestProducts"
 import MobileHomeSlider from "@/app/(public)/(pages)/(home)/components/MobileHomeSlider"
-import MobileHomeTopBrands from "@/app/(public)/(pages)/(home)/components/MobileHomeTopBrands"
+import MobileHomeTopEntities from "@/app/(public)/(pages)/(home)/components/MobileHomeTopEntities"
 
 const MobileHomeIndex = () => {
-  const allProductsQuery = useInfiniteQuery<GetAllProductsQuery>(
+  const allProductsQuery = useQuery<GetAllProductsQuery>(
     [
       QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY,
       {
         page: 1
       }
     ],
-    ({ pageParam = 1 }) =>
+    () =>
       getAllProductsQueryFn({
-        page: pageParam
+        page: 1
       }),
     {
-      keepPreviousData: true,
-      getNextPageParam(lastPage, allPages) {
-        return lastPage.products.currentPage < lastPage.products.lastPage
-          ? allPages.length + 1
-          : undefined
-      }
+      keepPreviousData: true
     }
   )
 
@@ -82,50 +75,24 @@ const MobileHomeIndex = () => {
     }
   )
 
-  const homeShortBannerQuery = useQuery<GetBannerHomePageQuery>(
-    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, FileModelTypeEnum.ShortBanner],
-    () => bannerHomePageQueryFns({ type: FileModelTypeEnum.ShortBanner }),
-    {
-      keepPreviousData: true,
-      staleTime: 999999999
-    }
-  )
-
-  const homeLongBannerQuery = useQuery<GetBannerHomePageQuery>(
-    [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, FileModelTypeEnum.LongBanner],
-    () => bannerHomePageQueryFns({ type: FileModelTypeEnum.LongBanner }),
-    {
-      keepPreviousData: true,
-      staleTime: 999999999
-    }
-  )
-
   return (
     <>
       <MobileHomeSlider query={homeSlidersQuery} />
-      <MobileHomeCounts
-        counts={{
-          sellers: allSellersCount.data?.sellers.total,
-          brands: allBrandsCount.data?.brands.total
-        }}
-        query={homeShortBannerQuery}
-      />
       <MobileHomeCategory
         categories={
           getVocabularyQueryFcQuery.data?.vocabulary.categories as Category[]
         }
       />
-      <MobileHomeMostSellProducts
-        products={allProductsQuery.data?.pages[0].products.data as Product[]}
+      <MobileHomeTopEntities
+        __typename="Seller"
+        title="جدیدترین فروشنده‌ها"
+        query={allSellersCount.data?.sellers.data.slice(0, 7) as Seller[]}
       />
-      <MobileHomeBanner turn={0} query={homeLongBannerQuery} />
-      <MobileHomeTopBrands allBrandsCount={allBrandsCount} />
-      <MobileHomeBanner turn={1} query={homeLongBannerQuery} />
-      <MobileHomeBanner turn={2} query={homeLongBannerQuery} />
-      {/* <MobileHomeTopCategoryFirst />
-      <MobileHomeTopCategorySecond /> */}
-      {/* <MobileHomeBannerSecond />
-      <MobileHomeBannerThird /> */}
+      <MobileHomeTopEntities
+        __typename="Brand"
+        title="جدیدترین برندها"
+        query={allBrandsCount.data?.brands.data.slice(0, 7) as Brand[]}
+      />
       <MobileHomeNewestProducts allProductsQuery={allProductsQuery} />
     </>
   )
