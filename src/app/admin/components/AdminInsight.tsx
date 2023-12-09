@@ -43,7 +43,7 @@ const AdminInsight = () => {
       </Link>
       <Link href="/admin">
         <div className="card flex flex-col gap-2 rounded p-4">
-          <div className="font-bold text-alpha-400">تولید کننده ها</div>
+          <div className="font-bold text-alpha-400">برندها</div>
           {brands.isLoading ? (
             <div className="animate-pulse">
               <div className="h-5 w-full rounded-md bg-alpha-200"></div>
@@ -85,7 +85,7 @@ const AdminInsight = () => {
       </Link>
       <Link href="/admin/vocabularies">
         <div className="card flex flex-col gap-2 rounded p-4">
-          <div className="font-bold text-alpha-400">دسته بندی ها</div>
+          <div className="font-bold text-alpha-400">دسته‌بندی‌ها</div>
           {allCategoriesQuery.isLoading ? (
             <div className="animate-pulse">
               <div className="h-5 w-full rounded-md bg-alpha-200"></div>

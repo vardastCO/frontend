@@ -75,6 +75,10 @@ const MobileHomeIndex = () => {
     }
   )
 
+  // console.log("====================================")
+  // console.log(allSellersCount)
+  // console.log("====================================")
+
   return (
     <>
       <MobileHomeSlider query={homeSlidersQuery} />
@@ -84,14 +88,14 @@ const MobileHomeIndex = () => {
         }
       />
       <MobileHomeTopEntities
-        __typename="Seller"
-        title="جدیدترین فروشنده‌ها"
-        query={allSellersCount.data?.sellers.data.slice(0, 7) as Seller[]}
-      />
-      <MobileHomeTopEntities
         __typename="Brand"
         title="جدیدترین برندها"
         query={allBrandsCount.data?.brands.data.slice(0, 7) as Brand[]}
+      />
+      <MobileHomeTopEntities
+        __typename="Seller"
+        title="جدیدترین فروشنده‌ها"
+        query={allSellersCount.data?.sellers.data.slice(0, 7) as Seller[]}
       />
       <MobileHomeNewestProducts allProductsQuery={allProductsQuery} />
     </>

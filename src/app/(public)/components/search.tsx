@@ -341,7 +341,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                               }
                               key={suggestedCategory.id}
                             >
-                              جستجوی {query} در تولید کننده{" "}
+                              جستجوی {query} در برند{" "}
                               <strong className="text-primary-500">
                                 {suggestedCategory.name}
                               </strong>

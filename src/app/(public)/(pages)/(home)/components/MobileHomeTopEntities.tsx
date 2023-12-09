@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
-import { Autoplay } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
 import { Brand, Seller } from "@/generated"
@@ -14,7 +13,7 @@ import Rating from "@/app/(public)/components/Rating"
 type QueryTypes = Seller[] | Brand[]
 
 type Props<T extends QueryTypes> = {
-  query: T
+  query?: T
   title: string
   __typename: "Seller" | "Brand"
 }
@@ -35,19 +34,28 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
       <div className="overflow-hidden">
         <Swiper
           loop
+          centeredSlides
           slidesPerView={1.2}
-          modules={[Autoplay]}
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false
-          }}
+          // modules={[Autoplay]}
+          // autoplay={{
+          //   delay: 5000,
+          //   disableOnInteraction: false
+          // }}
+          // modules={[FreeMode]}
+          // mousewheel={{
+          //   releaseOnEdges: true
+          // }}
+          // freeMode={{
+          //   enabled: true
+          //   // momentumVelocityRatio: 0.8
+          // }}
           spaceBetween={16}
           className="h-full w-full pb-8 pr"
         >
-          {query.map(({ id, bannerFile, name, rating, ...props }) => (
+          {query?.map(({ id, bannerFile, name, rating, ...props }) => (
             <SwiperSlide
               key={id}
-              className="rounded-xl bg-alpha-white shadow-lg"
+              className="overflow-hidden rounded-xl bg-alpha-white shadow-lg"
             >
               <Link href={`/${__typename?.toLowerCase()}/${id}`}>
                 <div className="relative h-[85%]">
@@ -55,15 +63,15 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
                     src={bannerFile?.presignedUrl.url as string}
                     alt="category"
                     fill
-                    className="h-full rounded-xl object-cover"
+                    className="h-full rounded-xl object-fill"
                   />
                 </div>
                 <div className="relative z-20 flex h-[15%] flex-col bg-opacity-60 px py-3 text-center font-semibold">
-                  <h4 className="text-right">{name}</h4>
+                  <h5 className="text-right">{name}</h5>
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-primary">
                       {`${
-                        (query as Brand[])
+                        __typename === "Brand"
                           ? digitsEnToFa((props as Brand).products?.length ?? 0)
                           : digitsEnToFa((props as Seller).offers?.length) ?? 0
                       } کالا`}

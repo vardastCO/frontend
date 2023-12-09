@@ -17,7 +17,7 @@ interface BrandsIndexProps {
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "تولید کننده‌ها"
+    title: "برندها"
   }
 }
 
@@ -45,5 +45,5 @@ const BrandsIndex = async ({ searchParams }: BrandsIndexProps) => {
 }
 
 export default withMobileHeader(BrandsIndex, {
-  title: "تولید کننده‌ها"
+  title: "برندها"
 })

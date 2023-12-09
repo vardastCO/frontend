@@ -69,7 +69,7 @@ export const _sidebarMenu: NavigationType[] = [
             abilities: "gql.products.attribute.index"
           },
           {
-            title: "تولید کنندگان",
+            title: "برندها",
             path: "/admin/brands",
             icon: "fingerprint",
             abilities: "gql.products.brand.index"

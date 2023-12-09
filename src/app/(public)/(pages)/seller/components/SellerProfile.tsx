@@ -112,7 +112,7 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
               </div>
               <div className="flex flex-col items-center gap-y-2 border-r border-alpha-200">
                 <h4 className="font-semibold">{digitsEnToFa(10)}</h4>
-                <p className="text-xs text-alpha-400">دسته‌بندی ها</p>
+                <p className="text-xs text-alpha-400">دسته‌بندی‌ها</p>
               </div>
             </div>
             {/* <div className="flex flex-col items-center gap-y-2">

@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { Autoplay } from "swiper/modules"
+import { FreeMode } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
 import { Category } from "@/generated"
@@ -9,29 +9,41 @@ import { Category } from "@/generated"
 import Link from "@core/components/shared/Link"
 import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
 
-const MobileHomeCategory = ({ categories }: { categories: Category[] }) => {
+const MobileHomeCategory = ({ categories }: { categories?: Category[] }) => {
   return (
     <MobileHomeSection
       bgWhite
       block
-      title="دسته بندی ها"
+      title="دسته‌بندی‌ها"
       height={"FORTY_THREE"}
     >
-      <div className="overflow-hidden">
+      <div className="overflow-hidden ">
         <Swiper
-          loop
           slidesPerView={3.5}
-          modules={[Autoplay]}
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false
+          modules={[FreeMode]}
+          // mousewheel={{
+          //   releaseOnEdges: true
+          // }}
+          freeMode={{
+            enabled: true,
+            momentumBounce: false
+            // momentumVelocityRatio: 0.8
           }}
-          className="h-[43vw] w-full"
+          // modules={[Autoplay]}
+          // autoplay={{
+          //   delay: 5000,
+          //   disableOnInteraction: false
+          // }}
+          spaceBetween={8}
+          className="h-full w-full"
         >
-          {categories.map(({ title, id, imageCategory }) => (
-            <SwiperSlide className="px" key={id}>
-              <Link href={`/categories/${id}/?title=${title}`}>
-                <div className="relative rounded-full bg-alpha-100">
+          {categories?.map(({ title, id, imageCategory }) => (
+            <SwiperSlide key={id}>
+              <Link
+                href={`/categories/${id}/?title=${title}`}
+                className="flex flex-col justify-start gap-y-2 px-1"
+              >
+                <div className="relative rounded-full bg-alpha-50">
                   <Image
                     src={
                       (imageCategory &&
@@ -46,9 +58,9 @@ const MobileHomeCategory = ({ categories }: { categories: Category[] }) => {
                     className="rounded-xl object-cover"
                   />
                 </div>
-                <h4 className="relative z-20 bg-opacity-60 py-3 text-center font-semibold">
+                <h5 className="relative z-20 bg-opacity-60 py-3 text-center font-semibold">
                   {title}
-                </h4>
+                </h5>
               </Link>
             </SwiperSlide>
           ))}

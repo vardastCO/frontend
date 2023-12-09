@@ -76,7 +76,7 @@ const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
           فروشندگان
         </TabsTrigger>
         <TabsTrigger className="w-1/2 bg-alpha-white" value="brand">
-          تولیدکنندگان
+          برندها
         </TabsTrigger>
       </TabsList>
       <TabsContent value="product">
@@ -122,7 +122,7 @@ const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
             )}
           </BrandsOrSellersContainer>
         ) : (
-          <NotFoundItems text="تولید کننده‌ای" />
+          <NotFoundItems text="برندی" />
         )}
       </TabsContent>
     </Tabs>

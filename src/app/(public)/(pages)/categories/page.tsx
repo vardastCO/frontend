@@ -14,7 +14,7 @@ import VocabulariesPage from "@/app/(public)/(pages)/categories/components/Vocab
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "دسته بندی ها"
+    title: "دسته‌بندی‌ها"
   }
 }
 
@@ -41,5 +41,5 @@ const CategoriesPage = async () => {
   )
 }
 export default withMobileHeader(CategoriesPage, {
-  title: "دسته بندی ها"
+  title: "دسته‌بندی‌ها"
 })

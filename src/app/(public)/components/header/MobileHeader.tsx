@@ -82,7 +82,7 @@ const MobileHeader: React.FC<IModalHeader> = ({
       (item) => !!item
     ).length
 
-    return `col-span-${12 - lengthOfColors - (props.hasLogo ? 3 : 1)}`
+    return `col-span-${12 - lengthOfColors - (props.hasLogo ? 3 : 0)}`
   }
 
   const middleBoxColsCount = computeMiddleBoxCols({
@@ -95,11 +95,17 @@ const MobileHeader: React.FC<IModalHeader> = ({
   return (
     <div
       id="mobile-header-navbar"
-      className="fixed left-0 right-0 top-0 z-40 w-full border-b border-alpha-200 bg-primary px"
+      className="fixed left-0 right-0 top-0 z-40 w-full border-b border-primary bg-primary px"
     >
       <div className="grid h-14 grid-cols-12 items-center">
         {hasLogo && (
-          <div className="col-span-3">
+          <div
+            className={
+              hasLogo && !hasBack && !hasShare && !hasFavorite
+                ? "col-span-12 mx-auto max-w-[35%]"
+                : "col-span-3"
+            }
+          >
             <Image
               src={logo}
               alt={"vardast"}
@@ -109,11 +115,15 @@ const MobileHeader: React.FC<IModalHeader> = ({
             />
           </div>
         )}
-        <div className={clsx(middleBoxColsCount)}>
-          {title && (
-            <h3 className="text-center font-bold text-alpha-white">{title}</h3>
-          )}
-        </div>
+        {!(hasLogo && !hasBack && !hasShare && !hasFavorite) && (
+          <div className={clsx(middleBoxColsCount)}>
+            {title && (
+              <h3 className="text-center font-bold text-alpha-white">
+                {title}
+              </h3>
+            )}
+          </div>
+        )}
         {(hasBack || hasShare || hasFavorite) && (
           <div className="col-span-3 grid grid-cols-2">
             <>

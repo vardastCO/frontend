@@ -46,7 +46,7 @@ const MobileHomeCounts = ({
                     </>
                   ) : (
                     <>
-                      <h4>تولید کنندگان:</h4>
+                      <h4>برندها:</h4>
                       <h4>
                         {counts?.brands ? digitsEnToFa(counts.brands) : ""}
                       </h4>

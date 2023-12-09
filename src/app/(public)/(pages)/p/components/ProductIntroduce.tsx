@@ -23,7 +23,7 @@ const ProductIntroduce = ({ product }: IProductIntroduce) => {
         )}?title=${product.brand.name}`}
         prefetch={false}
       >
-        <span className="text-alpha-500">تولید کننده:</span>
+        <span className="text-alpha-500">برند:</span>
         <span className="px-2 text-info">{product.brand.name}</span>
       </Link>
       <div className="flex">
