@@ -1,22 +1,12 @@
 query GetAllBrandsCount($indexBrandInput: IndexBrandInput) {
   brands(indexBrandInput: $indexBrandInput) {
-    total
     data {
       id
-      logoFile {
-        id
-        presignedUrl {
-          url
-        }
-      }
       bannerFile {
         id
         presignedUrl {
           url
         }
-      }
-      products {
-        id
       }
       name
       rating

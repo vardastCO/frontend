@@ -1,6 +1,5 @@
 query GetAllSellersCount($indexSellerInput: IndexSellerInput) {
   sellers(indexSellerInput: $indexSellerInput) {
-    total
     data {
       id
       bannerFile {
@@ -11,9 +10,6 @@ query GetAllSellersCount($indexSellerInput: IndexSellerInput) {
       }
       name
       rating
-      offers {
-        id
-      }
     }
   }
 }
