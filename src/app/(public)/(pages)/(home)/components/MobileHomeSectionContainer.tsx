@@ -26,7 +26,7 @@ const MobileHomeSectionContainer: React.FC<
           {viewAllHref && (
             <Link
               href={viewAllHref}
-              className="flex items-center gap-x-0.5 text-sm text-primary"
+              className="flex items-center gap-x-0.5 text-sm font-semibold text-primary"
             >
               مشاهده همه
               <ChevronLeftIcon className="h-4 w-4 text-primary" />

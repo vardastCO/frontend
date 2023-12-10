@@ -35,6 +35,17 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
           // loop
           centeredSlides
           slidesPerView={1.2}
+          // modules={[FreeMode]}
+          // mousewheel={{
+          //   releaseOnEdges: true
+          // }}
+          // freeMode={{
+          //   enabled: true,
+          //   // momentumBounce: false,
+          //   // sticky: true,
+          //   minimumVelocity: 1
+          //   // momentumVelocityRatio: 0.8
+          // }}
           // modules={[Autoplay]}
           // autoplay={{
           //   delay: 5000,
@@ -46,7 +57,7 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
           // }}
           // freeMode
           spaceBetween={16}
-          className="h-full w-full pb-8"
+          className="h-full w-full pb-8 pr"
         >
           {query?.map(
             ({
@@ -66,10 +77,10 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
                       src={bannerFile?.presignedUrl.url as string}
                       alt="category"
                       fill
-                      className="h-full rounded-xl object-fill"
+                      className="h-full object-fill"
                     />
                   </div>
-                  <div className="relative z-20 flex h-[15%] flex-col bg-opacity-60 px py-3 text-center font-semibold">
+                  <div className="relative z-20 flex h-[15%] flex-col bg-alpha-50 bg-opacity-60 px py-3 text-center font-semibold">
                     <h5 className="text-right">{name}</h5>
                     <div className="flex items-center justify-between">
                       <p className="text-xs text-primary">

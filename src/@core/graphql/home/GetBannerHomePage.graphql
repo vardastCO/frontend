@@ -1,6 +1,7 @@
 query GetBannerHomePage($IndexBannerInput: IndexBannerInput!) {
   getBannerHomePage(IndexBannerInput: $IndexBannerInput) {
     id
+    url
     originalName
     presignedUrl {
       url

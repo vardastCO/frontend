@@ -1,12 +1,14 @@
 "use client"
 
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { UseQueryResult } from "@tanstack/react-query"
 import { Autoplay } from "swiper/modules"
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react"
 
 import { GetBannerHomePageQuery } from "@/generated"
+
+import Link from "@core/components/shared/Link"
 
 const MobileHomeSlider = ({
   query
@@ -26,18 +28,33 @@ const MobileHomeSlider = ({
     sliderRef.current?.swiper.slideTo(index)
   }, [])
 
+  useEffect(() => {
+    if (sliderRef.current) {
+      setActiveSlide(sliderRef.current?.swiper.realIndex)
+    }
+  }, [])
+
   return (
     <div className="bg-alpha-white pt-6">
       <Swiper
         ref={sliderRef}
         loop
         centeredSlides
+        coverflowEffect={{
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true
+        }}
+        effect="coverflow"
+        grabCursor={true}
         slidesPerView={1.2}
         onSlideChange={(swiper) => {
-          setActiveSlide(swiper.activeIndex)
+          setActiveSlide(swiper.realIndex)
         }}
         onAutoplay={(swiper) => {
-          setActiveSlide(swiper.activeIndex)
+          setActiveSlide(swiper.realIndex)
         }}
         modules={[Autoplay]}
         autoplay={{
@@ -47,14 +64,16 @@ const MobileHomeSlider = ({
         className="h-[43vw] w-full"
         spaceBetween={16}
       >
-        {query.data?.getBannerHomePage.map(({ id, presignedUrl }) => (
+        {query.data?.getBannerHomePage.map(({ id, presignedUrl, url }) => (
           <SwiperSlide key={id}>
-            <Image
-              src={presignedUrl.url}
-              alt="slider"
-              fill
-              className="rounded-xl object-cover"
-            />
+            <Link href={url as string}>
+              <Image
+                src={presignedUrl.url}
+                alt="slider"
+                fill
+                className="rounded-xl object-cover"
+              />
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

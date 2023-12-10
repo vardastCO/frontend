@@ -6,13 +6,11 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { CheckBadgeIcon } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
-import { TabsContent } from "@radix-ui/react-tabs"
 import { useQuery } from "@tanstack/react-query"
 
 import { GetSellerQuery, IndexProductInput } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
-import { Tabs, TabsList, TabsTrigger } from "@core/components/ui/tabs"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getSellerQueryFn } from "@core/queryFns/sellerQueryFns"
 import ProductList from "@/app/(public)/components/product-list"
@@ -108,11 +106,11 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
                 <h4 className="font-semibold">
                   {digitsEnToFa(categoriesCount)}
                 </h4>
-                <p className="text-xs text-alpha-400">محصولات</p>
+                <p className="text-xs text-alpha-500">محصولات</p>
               </div>
               <div className="flex flex-col items-center gap-y-2 border-r border-alpha-200">
                 <h4 className="font-semibold">{digitsEnToFa(10)}</h4>
-                <p className="text-xs text-alpha-400">دسته‌بندی‌ها</p>
+                <p className="text-xs text-alpha-500">دسته‌بندی‌ها</p>
               </div>
             </div>
             {/* <div className="flex flex-col items-center gap-y-2">
@@ -179,14 +177,14 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
             <p className="text-xs text-alpha-500">عملکرد</p>
           </div>
         </div>
-        <Tabs defaultValue="products" className="bg-alpha-white">
+        {/* <Tabs defaultValue="products" className="bg-alpha-white">
           <TabsList className="w-full">
             <TabsTrigger className="w-1/2 bg-alpha-white" value="products">
               محصولات
             </TabsTrigger>
-            {/* <TabsTrigger className="w-1/2 bg-alpha-white" value="comments">
+            <TabsTrigger className="w-1/2 bg-alpha-white" value="comments">
             نظرات
-          </TabsTrigger> */}
+          </TabsTrigger>
           </TabsList>
           <TabsContent value="products">
             <ProductList
@@ -198,18 +196,20 @@ const SellerProfile = ({ isMobileView, args, slug }: SellerProfile) => {
               selectedCategoryIds={args["categoryIds"] || undefined}
               sellerId={+slug[0]}
             />
-          </TabsContent>
-          {/* <TabsContent value="comments">
-          <ProductList
-            containerType={ProductContainerType.PHOTO}
-            args={args}
-            hasFilter={false}
-            isMobileView={isMobileView}
-            selectedCategoryIds={args["categoryIds"] || undefined}
-            sellerId={+slug[0]}
-          />
-        </TabsContent> */}
-        </Tabs>
+          </TabsContent> 
+           <TabsContent value="comments">
+        </TabsContent> 
+          </Tabs>
+        */}
+        <ProductList
+          setCategoriesCount={setCategoriesCount}
+          // containerType={ProductContainerType.PHOTO}
+          args={args}
+          hasFilter={false}
+          isMobileView={isMobileView}
+          selectedCategoryIds={args["categoryIds"] || undefined}
+          sellerId={+slug[0]}
+        />
       </div>
     </>
   )

@@ -22,7 +22,8 @@ const MobileHomeCategory = ({ categories }: { categories?: Category[] }) => {
           freeMode={{
             enabled: true,
             momentumBounce: false,
-            sticky: true
+            sticky: true,
+            minimumVelocity: 1
             // momentumVelocityRatio: 0.8
           }}
           // modules={[Autoplay]}
