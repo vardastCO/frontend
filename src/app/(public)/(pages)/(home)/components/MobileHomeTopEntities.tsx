@@ -26,13 +26,13 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
     <MobileHomeSection
       viewAllHref={`/${__typename?.toLowerCase()}s`}
       bgWhite
-      height="ONE_FORTY_SEVEN"
+      height="ONE_TWENTY_FIFE"
       title={title}
       block
     >
       <div className="overflow-hidden">
         <Swiper
-          loop
+          // loop
           centeredSlides
           slidesPerView={1.2}
           // modules={[Autoplay]}
@@ -44,12 +44,9 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
           // mousewheel={{
           //   releaseOnEdges: true
           // }}
-          // freeMode={{
-          //   enabled: true
-          //   // momentumVelocityRatio: 0.8
-          // }}
+          // freeMode
           spaceBetween={16}
-          className="h-full w-full pb-8 pr"
+          className="h-full w-full pb-8"
         >
           {query?.map(
             ({
@@ -64,7 +61,7 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
                 className="overflow-hidden rounded-xl bg-alpha-white shadow-lg"
               >
                 <Link href={`/${__typename?.toLowerCase()}/${id}`}>
-                  <div className="relative h-[85%]">
+                  <div className="relative h-[85%] ">
                     <Image
                       src={bannerFile?.presignedUrl.url as string}
                       alt="category"

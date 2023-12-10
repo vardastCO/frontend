@@ -84,7 +84,9 @@ const MobileHomeIndex = () => {
       <MobileHomeSlider query={homeSlidersQuery} />
       <MobileHomeCategory
         categories={
-          getVocabularyQueryFcQuery.data?.vocabulary.categories as Category[]
+          getVocabularyQueryFcQuery.data?.vocabulary.categories.filter(
+            (item) => item?.title !== "سایر"
+          ) as Category[]
         }
       />
       <MobileHomeTopEntities

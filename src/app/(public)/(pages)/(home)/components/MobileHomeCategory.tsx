@@ -11,22 +11,18 @@ import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHo
 
 const MobileHomeCategory = ({ categories }: { categories?: Category[] }) => {
   return (
-    <MobileHomeSection
-      bgWhite
-      block
-      title="دسته‌بندی‌ها"
-      height={"FORTY_THREE"}
-    >
+    <MobileHomeSection bgWhite block title="دسته‌بندی‌ها" height={"FORTY_SIX"}>
       <div className="overflow-hidden ">
         <Swiper
-          slidesPerView={3.5}
+          slidesPerView={3.2}
           modules={[FreeMode]}
           // mousewheel={{
           //   releaseOnEdges: true
           // }}
           freeMode={{
             enabled: true,
-            momentumBounce: false
+            momentumBounce: false,
+            sticky: true
             // momentumVelocityRatio: 0.8
           }}
           // modules={[Autoplay]}
@@ -34,16 +30,16 @@ const MobileHomeCategory = ({ categories }: { categories?: Category[] }) => {
           //   delay: 5000,
           //   disableOnInteraction: false
           // }}
-          spaceBetween={8}
-          className="h-full w-full"
+          spaceBetween={12}
+          className="h-full w-full px-2"
         >
           {categories?.map(({ title, id, imageCategory }) => (
             <SwiperSlide key={id}>
               <Link
                 href={`/categories/${id}/?title=${title}`}
-                className="flex flex-col justify-start gap-y-2 px-1"
+                className="flex h-full flex-col justify-start gap-y-2"
               >
-                <div className="relative rounded-full bg-alpha-50">
+                <div className="relative h-[66%] w-full rounded-full bg-alpha-50">
                   <Image
                     src={
                       (imageCategory &&
@@ -52,13 +48,13 @@ const MobileHomeCategory = ({ categories }: { categories?: Category[] }) => {
                       `/images/categories/${id}.png`
                     }
                     alt="category"
-                    // fill
-                    width={200}
-                    height={200}
+                    fill
+                    // width={90}
+                    // height={90}
                     className="rounded-xl object-cover"
                   />
                 </div>
-                <h5 className="relative z-20 bg-opacity-60 py-3 text-center font-semibold">
+                <h5 className="relative z-20 h-[34%] bg-opacity-60 text-center font-semibold">
                   {title}
                 </h5>
               </Link>

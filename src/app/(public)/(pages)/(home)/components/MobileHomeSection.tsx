@@ -10,7 +10,7 @@ import MobileHomeSectionContainer, {
 
 enum HEIGHT {
   EIGHTY_EIGHT = "h-[88vw]",
-  FORTY_THREE = "h-[43vw]",
+  FORTY_SIX = "h-[46vw]",
   THIRTY_FOUR = "h-[34vw]",
   ONE_TWENTY_FIFE = "h-[125vw]",
   ONE_FORTY_SEVEN = "h-[147vw]"
@@ -23,7 +23,7 @@ enum ITEMS_COUNT {
 
 type IHeight =
   | "EIGHTY_EIGHT"
-  | "FORTY_THREE"
+  | "FORTY_SIX"
   | "THIRTY_FOUR"
   | "ONE_TWENTY_FIFE"
   | "ONE_FORTY_SEVEN"

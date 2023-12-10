@@ -15,10 +15,13 @@ const MobileHomeSectionContainer: React.FC<
 > = ({ title = "", viewAllHref, bgWhite = false, children }) => {
   return (
     <div
-      className={clsx("flex flex-col gap-y-2 py", bgWhite && "bg-alpha-white")}
+      className={clsx(
+        "flex flex-col gap-y-2 py-2",
+        bgWhite && "bg-alpha-white"
+      )}
     >
       {title && (
-        <div className="flex items-center justify-between p">
+        <div className="flex items-center justify-between p py-6">
           <h4 className={`font-medium`}>{title}</h4>
           {viewAllHref && (
             <Link

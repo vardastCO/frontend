@@ -155,8 +155,8 @@ const zodI18nMap: z.ZodErrorMap = (issue, ctx) => {
           issue.exact
             ? "exact"
             : issue.inclusive
-            ? "inclusive"
-            : "not_inclusive"
+              ? "inclusive"
+              : "not_inclusive"
         }`,
         {
           minimum,
@@ -176,8 +176,8 @@ const zodI18nMap: z.ZodErrorMap = (issue, ctx) => {
           issue.exact
             ? "exact"
             : issue.inclusive
-            ? "inclusive"
-            : "not_inclusive"
+              ? "inclusive"
+              : "not_inclusive"
         }`,
         {
           maximum,

@@ -28,7 +28,7 @@ const MobileHomeCounts = ({
   }
 }) => {
   return (
-    <MobileHomeSection height="FORTY_THREE" itemsCount="TWO">
+    <MobileHomeSection height="FORTY_SIX" itemsCount="TWO">
       <MobileHomeImage
         images={
           query.data?.getBannerHomePage.map(

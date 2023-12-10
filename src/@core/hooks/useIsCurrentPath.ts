@@ -26,8 +26,8 @@ const useIsCurrentPath = (pathnames: WithNavigationRouteItem[]) => {
       return forceEqual
         ? checkPathTemp.includes(path)
         : dynamicRouteAllow
-        ? path === checkPathTemp && pathname.split("/").length > 2
-        : path === checkPathTemp
+          ? path === checkPathTemp && pathname.split("/").length > 2
+          : path === checkPathTemp
     })
   }
 
