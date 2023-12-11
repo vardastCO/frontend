@@ -102,15 +102,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
     }
   )
 
-  const navigateTo = ({
-    query,
-    uri,
-    title
-  }: {
-    query?: string
-    uri: string
-    title?: string
-  }) => {
+  const navigateTo = ({ query, uri }: { query?: string; uri: string }) => {
     if (query) {
       SetLatestSearch((values) => {
         const newSearch = {
@@ -127,15 +119,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
       })
     }
     setLoader(true)
-    let redirectPath = uri
-    if (!pathname.includes("title")) {
-      if (pathname.includes("?") || pathname.includes("%3F")) {
-        redirectPath = `${uri}&title=${title}`
-      } else {
-        redirectPath = `${uri}?title=${title}`
-      }
-    }
-    router.push(redirectPath)
+    router.push(uri)
   }
 
   const onCloseModal = useCallback(() => {
@@ -233,8 +217,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                           className="inline-flex rounded-lg border border-alpha-200 px-3 py-2 text-sm text-alpha-600 shadow-sm hover:bg-alpha-100 hover:text-alpha-700"
                           onClick={() => {
                             navigateTo({
-                              uri: `${item.uri}`,
-                              title: item.query ?? ""
+                              uri: `${item.uri}`
                             })
                           }}
                         >
@@ -269,8 +252,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                               noStyle
                               onClick={() =>
                                 navigateTo({
-                                  uri: `/p/${suggestedProduct.id}/${suggestedProduct.name}`,
-                                  title: suggestedProduct.title ?? ""
+                                  uri: `/p/${suggestedProduct.id}/${suggestedProduct.name}`
                                 })
                               }
                               key={suggestedProduct.id}
@@ -308,8 +290,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                               onClick={() =>
                                 navigateTo({
                                   query,
-                                  uri: `/search/${suggestedCategory.id}/${suggestedCategory.title}`,
-                                  title: suggestedCategory.title ?? ""
+                                  uri: `/search/${suggestedCategory.id}/${suggestedCategory.title}`
                                 })
                               }
                               key={suggestedCategory.id}
@@ -335,8 +316,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                               onClick={() =>
                                 navigateTo({
                                   query,
-                                  uri: `/brand/${suggestedCategory.id}/${suggestedCategory.name}`,
-                                  title: suggestedCategory.name ?? ""
+                                  uri: `/brand/${suggestedCategory.id}/${suggestedCategory.name}`
                                 })
                               }
                               key={suggestedCategory.id}
@@ -362,8 +342,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                               onClick={() =>
                                 navigateTo({
                                   query,
-                                  uri: `/seller/${suggestedCategory.id}/${suggestedCategory.name}`,
-                                  title: suggestedCategory.name ?? ""
+                                  uri: `/seller/${suggestedCategory.id}/${suggestedCategory.name}`
                                 })
                               }
                               key={suggestedCategory.id}
@@ -385,8 +364,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                       onClick={() =>
                         navigateTo({
                           query,
-                          uri: `/search?query=${query}`,
-                          title: query ?? ""
+                          uri: `/search?query=${query}`
                         })
                       }
                     >

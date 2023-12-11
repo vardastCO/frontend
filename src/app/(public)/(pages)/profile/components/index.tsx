@@ -359,7 +359,7 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
           )}
         </>
       ) : (
-        session?.profile.status === UserStatusesEnum.Active &&
+        // session?.profile.status === UserStatusesEnum.Active &&
         !session?.profile.roles.some(
           (role) => role?.name === "admin" || role?.name === "seller"
         ) && (

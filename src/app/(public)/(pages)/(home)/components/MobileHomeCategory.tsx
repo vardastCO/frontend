@@ -29,7 +29,7 @@ const MobileHomeCategory = ({ categories }: { categories?: Category[] }) => {
     <MobileHomeSection bgWhite block title="دسته‌بندی‌ها">
       <div className="overflow-hidden ">
         <Swiper
-          slidesPerView={3.2}
+          slidesPerView={3.3}
           modules={[FreeMode]}
           ref={sliderRef}
           freeMode={{
@@ -39,7 +39,7 @@ const MobileHomeCategory = ({ categories }: { categories?: Category[] }) => {
             minimumVelocity: 1
           }}
           spaceBetween={16}
-          className="h-full w-full px-2 py"
+          className="h-full w-full pb-7 pr-7"
         >
           {categories?.map(({ title, id, imageCategory }) => (
             <SwiperSlide key={id}>

@@ -50,13 +50,13 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
           centeredSlides
           slidesPerView={1.2}
           spaceBetween={16}
-          className="h-full w-full pb-8"
+          className="h-full w-full pb-10"
         >
           {query?.map(({ id, bannerFile, name, rating }) => (
             <SwiperSlide
               key={id}
               className={clsx(
-                "overflow-hidden rounded-xl bg-alpha-white shadow-lg",
+                "overflow-hidden rounded-2xl bg-alpha-white shadow-lg",
                 selectedItemId === id ? "border-2 border-primary" : ""
               )}
             >

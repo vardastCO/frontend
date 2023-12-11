@@ -60,26 +60,33 @@ const MobileHeader: React.FC<IModalHeader> = ({
       className="fixed left-0 right-0 top-0 z-40 w-full bg-primary px-2"
     >
       <div className="grid h-14 grid-cols-9 items-center">
-        <div className="flex h-full flex-col items-center justify-center py"></div>
-        <div className="col-span-7 h-full py">
-          {(hasLogo || title) && (
-            <div className="h-full">
-              {hasLogo ? (
-                <div className="relative mx-auto h-full">
-                  <Image
-                    src={logo}
-                    alt={"vardast"}
-                    fill
-                    className="mx-auto h-full w-full object-fill"
-                  />
-                </div>
-              ) : (
-                <h3 className="line-clamp-1 text-center font-bold text-alpha-white">
-                  {title && title.split("-").join(" ")}
-                </h3>
-              )}
-            </div>
-          )}
+        <div className="flex h-full flex-col items-center justify-center py-4"></div>
+        <div className="col-span-7 h-full py-4">
+          <div className="h-full">
+            {hasLogo ? (
+              <div className="relative mx-auto h-full">
+                <Image
+                  src={logo}
+                  alt={"vardast"}
+                  fill
+                  className="mx-auto h-full w-full object-fill"
+                />
+              </div>
+            ) : title ? (
+              <h3 className="line-clamp-1 text-center font-bold text-alpha-white">
+                {title.split("-").join(" ")}
+              </h3>
+            ) : (
+              <div className="relative mx-auto h-full">
+                <Image
+                  src={logo}
+                  alt={"vardast"}
+                  fill
+                  className="mx-auto h-full w-full object-fill"
+                />
+              </div>
+            )}
+          </div>
         </div>
         <div className="flex h-full flex-col items-center justify-center py-2">
           {(hasShare || hasFavorite) && (

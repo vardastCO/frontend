@@ -16,15 +16,22 @@ import { getSellerQueryFn } from "@core/queryFns/sellerQueryFns"
 import ProductList from "@/app/(public)/components/product-list"
 import Rating from "@/app/(public)/components/Rating"
 
+export enum BrandOrSellerEnum {
+  SELLER = "SELLER",
+  BRAND = "BRAND"
+}
+
 interface BrandOrSellerProfile {
   isMobileView: boolean
   slug: Array<string | number>
+  type: BrandOrSellerEnum
   args: IndexProductInput
 }
 
 const BrandOrSellerProfile = ({
   isMobileView,
   args,
+  type,
   slug
 }: BrandOrSellerProfile) => {
   const [imageContainerHeight, setImageContainerHeight] = useState(80)
