@@ -9,8 +9,7 @@ query GetUserFavoriteSeller($type: String!) {
       id
       name
       bio
-      createdAt
-      updatedAt
+
       status
       isPublic
       logoFile {
@@ -25,8 +24,7 @@ query GetUserFavoriteSeller($type: String!) {
         disk
         bucketName
         orderColumn
-        createdAt
-        updatedAt
+
         presignedUrl {
           url
           expiresAt
@@ -45,8 +43,7 @@ query GetUserFavoriteSeller($type: String!) {
         isPublic
         status
         rejectionReason
-        createdAt
-        updatedAt
+
         city {
           id
           name

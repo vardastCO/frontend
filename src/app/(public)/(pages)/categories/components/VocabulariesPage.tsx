@@ -47,8 +47,8 @@ const VocabulariesPage = () => {
               }}
               href={
                 category.childrenCount > 0
-                  ? `/categories/${category.id}?title=${category.title}`
-                  : `/search/${category.id}/${category.title}?title=${category.title}`
+                  ? `/categories/${category.id}/${category.title}`
+                  : `/search/${category.id}/${category.title}`
               }
               selectedItemId={selectedItemId}
               key={category.id}

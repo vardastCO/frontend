@@ -4,7 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { notFound } from "next/navigation"
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
-import { formatDistanceToNow, setDefaultOptions } from "date-fns"
+import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
@@ -111,14 +111,15 @@ const Products = () => {
                     </td>
                     <td>
                       <span>
-                        {digitsEnToFa(
+                        {/* {digitsEnToFa(
                           formatDistanceToNow(
                             new Date(product.updatedAt).getTime(),
                             {
                               addSuffix: true
                             }
                           )
-                        )}
+                        )} */}
+                        -
                       </span>
                     </td>
                     <td>

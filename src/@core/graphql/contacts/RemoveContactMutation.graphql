@@ -12,8 +12,7 @@ mutation RemoveContactInfoMutation($id: Int!) {
     isPublic
     status
     rejectionReason
-    createdAt
-    updatedAt
+
     country {
       id
       name

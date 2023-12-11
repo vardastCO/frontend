@@ -37,8 +37,7 @@ query GetAllUsers($indexUserInput: IndexUserInput) {
       failedLoginAttempts
       isLockedOut
       lockedOutAt
-      createdAt
-      updatedAt
+
       fullName
       avatarFile {
         id
@@ -52,8 +51,7 @@ query GetAllUsers($indexUserInput: IndexUserInput) {
         disk
         bucketName
         orderColumn
-        createdAt
-        updatedAt
+
         presignedUrl {
           url
           expiresAt

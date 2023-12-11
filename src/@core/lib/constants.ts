@@ -182,7 +182,7 @@ export const _navbar_items: NavbarItem[] = [
     id: 0
   },
   {
-    href: "/categories",
+    href: "/categories/vocabularies",
     Icon: Squares2X2Icon,
     ActiveIcon: SolidSquares2X2Icon,
     title: "دسته‌بندی",

@@ -12,8 +12,6 @@ query GetAllVocabularies($indexVocabularyInput: IndexVocabularyInput) {
       titleEn
       slug
       sort
-      createdAt
-      updatedAt
     }
   }
 }

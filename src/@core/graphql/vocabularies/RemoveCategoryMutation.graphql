@@ -7,7 +7,5 @@ mutation RemoveCategoryMutation($id: Int!) {
     icon
     sort
     isActive
-    createdAt
-    updatedAt
   }
 }

@@ -5,8 +5,7 @@ query GetVocabulary($id: Int, $slug: String) {
     titleEn
     slug
     sort
-    createdAt
-    updatedAt
+
     categories {
       id
       title
@@ -15,8 +14,7 @@ query GetVocabulary($id: Int, $slug: String) {
       icon
       sort
       isActive
-      createdAt
-      updatedAt
+
       childrenCount
       productsCount
       imageCategory {
@@ -37,8 +35,7 @@ query GetVocabulary($id: Int, $slug: String) {
         icon
         sort
         isActive
-        createdAt
-        updatedAt
+
         childrenCount
       }
     }

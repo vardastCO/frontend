@@ -3,7 +3,5 @@ mutation CreateBrandMutation($createBrandInput: CreateBrandInput!) {
     id
     name
     slug
-    createdAt
-    updatedAt
   }
 }

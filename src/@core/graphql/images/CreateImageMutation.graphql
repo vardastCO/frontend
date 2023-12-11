@@ -15,8 +15,6 @@ mutation CreateImageMutation($createImageInput: CreateImageInput!) {
       disk
       bucketName
       orderColumn
-      createdAt
-      updatedAt
     }
   }
 }

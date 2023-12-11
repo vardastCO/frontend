@@ -25,7 +25,5 @@ mutation CreateUser($createUserInput: CreateUserInput!) {
     failedLoginAttempts
     isLockedOut
     lockedOutAt
-    createdAt
-    updatedAt
   }
 }

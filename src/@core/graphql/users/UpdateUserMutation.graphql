@@ -25,8 +25,7 @@ mutation UpdateUserMutation($updateUserInput: UpdateUserInput!) {
     failedLoginAttempts
     isLockedOut
     lockedOutAt
-    createdAt
-    updatedAt
+
     fullName
   }
 }

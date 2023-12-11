@@ -3,7 +3,5 @@ mutation RemoveSellerMutation($id: Int!) {
     id
     name
     bio
-    createdAt
-    updatedAt
   }
 }

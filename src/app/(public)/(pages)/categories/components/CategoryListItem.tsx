@@ -57,7 +57,7 @@ const CategoryListItem = ({
       >
         <Image
           src={src}
-          // src={`/images/categories/${id}.png`}
+          // src={`/images/all-categories/${id}.png`}
           alt={title}
           width={isSubCategory ? 1600 : 1600}
           height={isSubCategory ? 900 : 1600}

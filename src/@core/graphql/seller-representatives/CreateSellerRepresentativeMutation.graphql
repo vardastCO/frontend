@@ -8,16 +8,13 @@ mutation CreateSellerRepresentativeMutation(
     role
     title
     isActive
-    createdAt
-    updatedAt
+
     seller {
       id
       name
       bio
       status
       isPublic
-      createdAt
-      updatedAt
     }
     user {
       id
@@ -45,8 +42,7 @@ mutation CreateSellerRepresentativeMutation(
       failedLoginAttempts
       isLockedOut
       lockedOutAt
-      createdAt
-      updatedAt
+
       fullName
     }
   }

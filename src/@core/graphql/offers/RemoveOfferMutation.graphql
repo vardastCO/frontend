@@ -4,7 +4,5 @@ mutation RemoveOffer($id: Int!) {
     status
     isPublic
     isAvailable
-    createdAt
-    updatedAt
   }
 }

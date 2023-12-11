@@ -11,11 +11,6 @@ query GetAllBrands($indexBrandInput: IndexBrandInput) {
       name
       slug
       rating
-      products {
-        id
-      }
-      createdAt
-      updatedAt
       logoFile {
         id
         uuid
@@ -28,8 +23,6 @@ query GetAllBrands($indexBrandInput: IndexBrandInput) {
         disk
         bucketName
         orderColumn
-        createdAt
-        updatedAt
         presignedUrl {
           url
           expiresAt

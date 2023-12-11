@@ -10,7 +10,7 @@ query GetUserFavoriteProduct($type: String!) {
       isActive
       status
       techNum
-      updatedAt
+
       category {
         id
         title

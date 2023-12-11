@@ -7,7 +7,5 @@ mutation UpdateVocabularyMutation(
     titleEn
     slug
     sort
-    createdAt
-    updatedAt
   }
 }

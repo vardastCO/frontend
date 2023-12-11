@@ -3,7 +3,7 @@ mutation CreatePriceMutation($createPriceInput: CreatePriceInput!) {
     id
     type
     isPublic
-    createdAt
+
     amount
     seller {
       id
@@ -11,8 +11,6 @@ mutation CreatePriceMutation($createPriceInput: CreatePriceInput!) {
       bio
       status
       isPublic
-      createdAt
-      updatedAt
     }
   }
 }

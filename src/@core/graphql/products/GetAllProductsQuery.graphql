@@ -15,7 +15,7 @@ query GetAllProducts($indexProductInput: IndexProductInput) {
       isActive
       status
       techNum
-      updatedAt
+
       category {
         id
         title

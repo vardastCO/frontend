@@ -17,6 +17,7 @@ const MobileHomeSlider = ({
 }) => {
   const [activeSlide, setActiveSlide] = useState(0)
   const sliderRef = useRef<SwiperRef>(null)
+  const [slideWidth, setSlideWidth] = useState(0)
 
   // const handleNext = useCallback(() => {
   //   if (!sliderRef.current) return
@@ -29,54 +30,56 @@ const MobileHomeSlider = ({
   }, [])
 
   useEffect(() => {
+    const slide = sliderRef.current?.swiper.slides[0]
     if (sliderRef.current) {
+      setSlideWidth((slide as any)?.swiperSlideSize)
       setActiveSlide(sliderRef.current?.swiper.realIndex)
     }
   }, [])
 
   return (
     <div className="bg-alpha-white pt-6">
-      <Swiper
-        ref={sliderRef}
-        loop
-        centeredSlides
-        coverflowEffect={{
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: true
-        }}
-        effect="coverflow"
-        grabCursor={true}
-        slidesPerView={1.2}
-        onSlideChange={(swiper) => {
-          setActiveSlide(swiper.realIndex)
-        }}
-        onAutoplay={(swiper) => {
-          setActiveSlide(swiper.realIndex)
-        }}
-        modules={[Autoplay]}
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false
-        }}
-        className="h-[43vw] w-full"
-        spaceBetween={16}
-      >
-        {query.data?.getBannerHomePage.map(({ id, presignedUrl, url }) => (
-          <SwiperSlide key={id}>
-            <Link href={url as string}>
-              <Image
-                src={presignedUrl.url}
-                alt="slider"
-                fill
-                className="rounded-xl object-cover"
-              />
-            </Link>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <div className="overflow-hidden">
+        <Swiper
+          ref={sliderRef}
+          loop
+          centeredSlides
+          slidesPerView={1.2}
+          onSlideChange={(swiper) => {
+            setActiveSlide(swiper.realIndex)
+          }}
+          onAutoplay={(swiper) => {
+            setActiveSlide(swiper.realIndex)
+          }}
+          modules={[Autoplay]}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false
+          }}
+          className="h-full w-full"
+          spaceBetween={16}
+        >
+          {query.data?.getBannerHomePage.map(({ id, presignedUrl, url }) => (
+            <SwiperSlide
+              style={{
+                width: slideWidth,
+                height: slideWidth / 2
+              }}
+              key={id}
+            >
+              <Link href={url as string}>
+                <Image
+                  src={presignedUrl.url}
+                  alt="slider"
+                  fill
+                  className="rounded-xl object-cover"
+                />
+              </Link>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
       <div className="flex w-full items-center justify-center gap-x-1.5 py-6">
         {query.data?.getBannerHomePage?.map((_, index) => (
           <span

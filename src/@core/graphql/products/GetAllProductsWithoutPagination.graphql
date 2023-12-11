@@ -5,8 +5,7 @@ query GetAllProductsWithoutPagination {
     name
     sku
     isActive
-    createdAt
-    updatedAt
+
     status
     category {
       id
@@ -35,8 +34,7 @@ query GetAllProductsWithoutPagination {
         disk
         bucketName
         orderColumn
-        createdAt
-        updatedAt
+
         presignedUrl {
           url
           expiresAt
@@ -48,7 +46,6 @@ query GetAllProductsWithoutPagination {
       type
       amount
       isPublic
-      createdAt
     }
     uom {
       id

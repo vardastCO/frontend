@@ -10,8 +10,7 @@ query GetSuggestQuery($suggestInput: SuggestInput!) {
       description
       title
       metaDescription
-      createdAt
-      updatedAt
+
       images {
         id
         sort
@@ -28,8 +27,7 @@ query GetSuggestQuery($suggestInput: SuggestInput!) {
           disk
           bucketName
           orderColumn
-          createdAt
-          updatedAt
+
           presignedUrl {
             url
             expiresAt
@@ -45,8 +43,7 @@ query GetSuggestQuery($suggestInput: SuggestInput!) {
       icon
       sort
       isActive
-      createdAt
-      updatedAt
+
       childrenCount
     }
     brand {

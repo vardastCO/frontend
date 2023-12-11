@@ -4,8 +4,7 @@ mutation UpdateAttributeMutation($updateAttributeInput: UpdateAttributeInput!) {
     name
     slug
     type
-    createdAt
-    updatedAt
+
     values {
       options
       defaults

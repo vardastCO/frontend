@@ -9,8 +9,7 @@ mutation UpdateProductMutation($updateProductInput: UpdateProductInput!) {
     description
     title
     metaDescription
-    createdAt
-    updatedAt
+
     status
     uom {
       id
@@ -27,16 +26,13 @@ mutation UpdateProductMutation($updateProductInput: UpdateProductInput!) {
       icon
       sort
       isActive
-      createdAt
-      updatedAt
+
       childrenCount
     }
     brand {
       id
       name
       slug
-      createdAt
-      updatedAt
     }
   }
 }

@@ -9,14 +9,14 @@ function withMobileHeader<T>(
 ) {
   return (props: any) => {
     const isMobileView = CheckIsMobileView()
+    const title =
+      headerProps.title ||
+      ((Object.values(props.params)?.at(0) as any)?.at(1) &&
+        decodeURI((Object.values(props.params)?.at(0) as any)?.at(1)))
+
     return (
       <>
-        {isMobileView && (
-          <MobileHeader
-            {...headerProps}
-            title={props?.searchParams?.title || headerProps.title}
-          />
-        )}
+        {isMobileView && <MobileHeader {...{ ...headerProps, title }} />}
         <Component {...props} />
       </>
     )

@@ -15,8 +15,7 @@ query SellerRepresentatives(
       role
       title
       isActive
-      createdAt
-      updatedAt
+
       user {
         id
         uuid
@@ -43,8 +42,7 @@ query SellerRepresentatives(
         failedLoginAttempts
         isLockedOut
         lockedOutAt
-        createdAt
-        updatedAt
+
         fullName
       }
       seller {
@@ -53,8 +51,6 @@ query SellerRepresentatives(
         bio
         status
         isPublic
-        createdAt
-        updatedAt
       }
     }
   }

@@ -4,16 +4,13 @@ query GetOffer($id: Int!) {
     status
     isPublic
     isAvailable
-    createdAt
-    updatedAt
+
     seller {
       id
       name
       bio
       status
       isPublic
-      createdAt
-      updatedAt
     }
     product {
       id
@@ -26,15 +23,12 @@ query GetOffer($id: Int!) {
       description
       title
       metaDescription
-      createdAt
-      updatedAt
     }
     lastPublicConsumerPrice {
       id
       type
       amount
       isPublic
-      createdAt
     }
   }
 }

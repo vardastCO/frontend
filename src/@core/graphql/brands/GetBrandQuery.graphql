@@ -3,8 +3,7 @@ query GetBrand($id: Int!) {
     id
     name
     slug
-    createdAt
-    updatedAt
+
     rating
     logoFile {
       id
@@ -18,8 +17,7 @@ query GetBrand($id: Int!) {
       disk
       bucketName
       orderColumn
-      createdAt
-      updatedAt
+
       presignedUrl {
         url
         expiresAt
@@ -38,8 +36,7 @@ query GetBrand($id: Int!) {
       isPublic
       status
       rejectionReason
-      createdAt
-      updatedAt
+
       country {
         id
         name
@@ -69,8 +66,7 @@ query GetBrand($id: Int!) {
       isPublic
       status
       rejectionReason
-      createdAt
-      updatedAt
+
       province {
         id
         name

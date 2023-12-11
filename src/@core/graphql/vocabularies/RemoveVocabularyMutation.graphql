@@ -5,7 +5,5 @@ mutation RemoveVocabularyMutation($id: Int!) {
     titleEn
     slug
     sort
-    createdAt
-    updatedAt
   }
 }

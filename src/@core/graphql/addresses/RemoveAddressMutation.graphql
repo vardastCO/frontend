@@ -12,8 +12,7 @@ mutation RemoveAddressMutation($id: Int!) {
     isPublic
     status
     rejectionReason
-    createdAt
-    updatedAt
+
     city {
       id
       name

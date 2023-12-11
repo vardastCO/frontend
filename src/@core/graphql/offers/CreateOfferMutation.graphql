@@ -4,7 +4,5 @@ mutation CreateOfferMutation($createOfferInput: CreateOfferInput!) {
     status
     isPublic
     isAvailable
-    createdAt
-    updatedAt
   }
 }

@@ -9,8 +9,7 @@ query GetProductBasics($id: Int!) {
     description
     title
     metaDescription
-    createdAt
-    updatedAt
+
     status
   }
 }

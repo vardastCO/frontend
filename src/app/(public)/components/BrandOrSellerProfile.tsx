@@ -2,35 +2,41 @@
 
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { notFound } from "next/navigation"
+import { CheckBadgeIcon } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { useQuery } from "@tanstack/react-query"
 
-import { GetBrandQuery, IndexProductInput } from "@/generated"
+import { GetSellerQuery, IndexProductInput } from "@/generated"
 
 import Breadcrumb from "@core/components/shared/Breadcrumb"
-import { Button } from "@core/components/ui/button"
-import { getBrandQueryFn } from "@core/queryFns/brandQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
+import { getSellerQueryFn } from "@core/queryFns/sellerQueryFns"
 import ProductList from "@/app/(public)/components/product-list"
 import Rating from "@/app/(public)/components/Rating"
 
-interface BrandProfile {
+interface BrandOrSellerProfile {
   isMobileView: boolean
   slug: Array<string | number>
   args: IndexProductInput
 }
 
-const BrandProfile = ({ isMobileView, args, slug }: BrandProfile) => {
+const BrandOrSellerProfile = ({
+  isMobileView,
+  args,
+  slug
+}: BrandOrSellerProfile) => {
   const [imageContainerHeight, setImageContainerHeight] = useState(80)
   const [categoriesCount, setCategoriesCount] = useState(0)
-  // const [imageBrandContainerHeight, setImageBrandContainerHeight] = useState(80)
+  const [imageSellerContainerHeight, setImageSellerContainerHeight] =
+    useState(80)
   const productContainerRef = useRef<HTMLDivElement>(null)
-  // const brandContainerRef = useRef<HTMLAnchorElement>(null)
+  const sellerContainerRef = useRef<HTMLAnchorElement>(null)
 
-  const { data } = useQuery<GetBrandQuery>(
-    [QUERY_FUNCTIONS_KEY.BRAND_QUERY_KEY, { id: +slug[0] }],
-    () => getBrandQueryFn(+slug[0]),
+  const { data } = useQuery<GetSellerQuery>(
+    [QUERY_FUNCTIONS_KEY.SELLER_QUERY_KEY, { id: +slug[0] }],
+    () => getSellerQueryFn(+slug[0]),
     {
       keepPreviousData: true
     }
@@ -41,10 +47,10 @@ const BrandProfile = ({ isMobileView, args, slug }: BrandProfile) => {
     if (div) {
       setImageContainerHeight(div.clientWidth)
     }
-    // const brandDiv = brandContainerRef.current
-    // if (brandDiv) {
-    //   setImageBrandContainerHeight(brandDiv.clientWidth)
-    // }
+    const sellerDiv = sellerContainerRef.current
+    if (sellerDiv) {
+      setImageSellerContainerHeight(sellerDiv.clientWidth)
+    }
   }, [])
 
   if (!data) notFound()
@@ -55,10 +61,10 @@ const BrandProfile = ({ isMobileView, args, slug }: BrandProfile) => {
         <Breadcrumb
           dynamic={false}
           items={[
-            { label: "برندها", path: "/brands", isCurrent: false },
+            { label: "فروشندگان", path: "/sellers", isCurrent: false },
             {
-              label: data.brand.name,
-              path: `/brand/${data.brand.id}/${data.brand.name}`,
+              label: data.seller.name,
+              path: `/seller/${data.seller.id}/${data.seller.name}`,
               isCurrent: true
             }
           ]}
@@ -69,12 +75,12 @@ const BrandProfile = ({ isMobileView, args, slug }: BrandProfile) => {
         <div className="flex flex-col gap-y bg-alpha-white p">
           <div className="grid grid-cols-4 items-center">
             <div className="relative rounded-full border-2 border-alpha-400 p-0.5 shadow-lg">
-              {/* {data.brand.isBlueTik && (
+              {data.seller.isBlueTik && (
                 <>
                   <CheckBadgeIcon className="w-h-7 absolute right-1 top-0 z-20 h-7 -translate-y-1 translate-x-1 text-info" />
                   <span className="absolute right-2 top-1 h-3 w-3 rounded-full bg-alpha-white"></span>
                 </>
-              )} */}
+              )}
               <div
                 ref={productContainerRef}
                 style={{
@@ -82,17 +88,17 @@ const BrandProfile = ({ isMobileView, args, slug }: BrandProfile) => {
                 }}
                 className="relative z-10 h-full"
               >
-                {data.brand?.logoFile?.presignedUrl.url ? (
+                {data.seller?.logoFile?.presignedUrl.url ? (
                   <Image
-                    src={data.brand?.logoFile?.presignedUrl.url as string}
-                    alt="brand"
+                    src={data.seller?.logoFile?.presignedUrl.url as string}
+                    alt="seller"
                     fill
                     className="rounded-full object-contain"
                   />
                 ) : (
                   <Image
-                    src={"/images/brand-user.png"}
-                    alt="brand"
+                    src={"/images/seller-user.png"}
+                    alt="seller"
                     fill
                     className="rounded-full object-contain"
                   />
@@ -116,22 +122,22 @@ const BrandProfile = ({ isMobileView, args, slug }: BrandProfile) => {
             <p className="text-xs text-alpha-400">دنبال شوندگان</p>
           </div> */}
           </div>
-          {/* <div>
-            <p className="text-justify">{data.brand.}</p>
-          </div> */}
+          <div>
+            <p className="text-justify">{data.seller.bio}</p>
+          </div>
         </div>
-        {/* <div className="grid grid-cols-5 items-center bg-alpha-white p">
+        <div className="grid grid-cols-5 items-center bg-alpha-white p">
           <ul className="col-span-4 flex list-disc flex-col gap-y">
             <li className="flex">
               <span className="text-sm text-alpha-500">آدرس:</span>
               <span className="pr text-sm">
-                {data.brand.addresses.at(0)?.address}
+                {data.seller.addresses.at(0)?.address}
               </span>
             </li>
             <li className="flex">
               <span className="text-sm text-alpha-500">تلفن:</span>
               <span className="pr text-sm">
-                {data.brand.contacts.map(({ number, code }, index) =>
+                {data.seller.contacts.map(({ number, code }, index) =>
                   index === 0
                     ? digitsEnToFa(code || "") + digitsEnToFa(number)
                     : " - " + digitsEnToFa(code || "") + digitsEnToFa(number)
@@ -140,12 +146,12 @@ const BrandProfile = ({ isMobileView, args, slug }: BrandProfile) => {
             </li>
           </ul>
           <Link
-            href={`https://www.google.com/maps/search/?api=1&query=${data.brand.addresses.at(
+            href={`https://www.google.com/maps/search/?api=1&query=${data.seller.addresses.at(
               0
-            )?.latitude},${data.brand.addresses.at(0)?.longitude}`}
-            ref={brandContainerRef}
+            )?.latitude},${data.seller.addresses.at(0)?.longitude}`}
+            ref={sellerContainerRef}
             style={{
-              height: imageBrandContainerHeight
+              height: imageSellerContainerHeight
             }}
             target="_blank"
             prefetch={false}
@@ -153,16 +159,16 @@ const BrandProfile = ({ isMobileView, args, slug }: BrandProfile) => {
           >
             <Image
               src={"/images/map.png"}
-              alt={"brand"}
+              alt={"seller"}
               fill
               className="object-contain"
             />
           </Link>
-        </div> */}
+        </div>
         <div className="grid grid-cols-3 items-center gap-y bg-alpha-white p">
           <div className="flex flex-col items-center gap-y-2">
             <h4 className="font-semibold">
-              <Rating rating={data.brand.rating ?? 0} size="xs" />
+              <Rating rating={data.seller.rating ?? 0} size="xs" />
             </h4>
             <p className="text-xs text-alpha-500">{digitsEnToFa(250)} نظر</p>
           </div>
@@ -174,20 +180,6 @@ const BrandProfile = ({ isMobileView, args, slug }: BrandProfile) => {
             <h4 className="text-success">عالی</h4>
             <p className="text-xs text-alpha-500">عملکرد</p>
           </div>
-        </div>
-        <div className="grid grid-cols-2 items-center gap-y bg-alpha-white">
-          <Button
-            variant="link"
-            className="!rounded-none !border-l !bg-primary-50 !py"
-          >
-            کاتالوگ
-          </Button>
-          <Button
-            variant="link"
-            className="!rounded-none !border-r !bg-secondary-50 !py"
-          >
-            لیست قیمت
-          </Button>
         </div>
         {/* <Tabs defaultValue="products" className="bg-alpha-white">
           <TabsList className="w-full">
@@ -206,20 +198,13 @@ const BrandProfile = ({ isMobileView, args, slug }: BrandProfile) => {
               hasFilter={false}
               isMobileView={isMobileView}
               selectedCategoryIds={args["categoryIds"] || undefined}
-              brandId={+slug[0]}
+              sellerId={+slug[0]}
             />
-          </TabsContent>
-          <TabsContent value="comments">
-          <ProductList
-            containerType={ProductContainerType.PHOTO}
-            args={args}
-            hasFilter={false}
-            isMobileView={isMobileView}
-            selectedCategoryIds={args["categoryIds"] || undefined}
-            brandId={+slug[0]}
-          />
-        </TabsContent>
-        </Tabs> */}
+          </TabsContent> 
+           <TabsContent value="comments">
+        </TabsContent> 
+          </Tabs>
+        */}
         <ProductList
           setCategoriesCount={setCategoriesCount}
           // containerType={ProductContainerType.PHOTO}
@@ -227,11 +212,11 @@ const BrandProfile = ({ isMobileView, args, slug }: BrandProfile) => {
           hasFilter={false}
           isMobileView={isMobileView}
           selectedCategoryIds={args["categoryIds"] || undefined}
-          brandId={+slug[0]}
+          sellerId={+slug[0]}
         />
       </div>
     </>
   )
 }
 
-export default BrandProfile
+export default BrandOrSellerProfile

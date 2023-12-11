@@ -14,8 +14,7 @@ mutation UpdateContactInfoMutation(
     isPublic
     status
     rejectionReason
-    createdAt
-    updatedAt
+
     country {
       id
       name

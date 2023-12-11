@@ -82,9 +82,20 @@ const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
       <TabsContent value="product">
         {false ? (
           <ProductListContainer>
-            {productQuery.data?.favoriteUser.map(
-              ({ product, id }) =>
-                product && <ProductCard key={id} product={product as Product} />
+            {({ selectedItemId, setSelectedItemId }) => (
+              <>
+                {productQuery.data?.favoriteUser.map(
+                  ({ product, id }) =>
+                    product && (
+                      <ProductCard
+                        selectedItemId={selectedItemId}
+                        setSelectedItemId={setSelectedItemId}
+                        key={id}
+                        product={product as Product}
+                      />
+                    )
+                )}
+              </>
             )}
           </ProductListContainer>
         ) : (

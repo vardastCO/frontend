@@ -7,8 +7,7 @@ mutation UpdateCategoryMutation($updateCategoryInput: UpdateCategoryInput!) {
     icon
     sort
     isActive
-    createdAt
-    updatedAt
+
     childrenCount
   }
 }

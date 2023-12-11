@@ -36,9 +36,18 @@ const FavoritesComponent = () => {
         </div>
       ) : favoritesList.length > 0 ? (
         <ProductListContainer>
-          {favoritesList.map((product) => (
-            <ProductCard key={product.id} product={product as Product} />
-          ))}
+          {({ selectedItemId, setSelectedItemId }) => (
+            <>
+              {favoritesList.map((product) => (
+                <ProductCard
+                  selectedItemId={selectedItemId}
+                  setSelectedItemId={setSelectedItemId}
+                  key={product.id}
+                  product={product as Product}
+                />
+              ))}
+            </>
+          )}
         </ProductListContainer>
       ) : (
         <div className="mx-auto flex max-w-xs flex-col items-center py-8">

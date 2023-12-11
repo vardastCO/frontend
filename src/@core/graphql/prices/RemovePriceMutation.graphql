@@ -3,6 +3,5 @@ mutation RemovePriceMutation($id: Int!) {
     id
     type
     isPublic
-    createdAt
   }
 }

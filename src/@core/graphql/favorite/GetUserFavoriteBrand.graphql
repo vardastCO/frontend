@@ -9,8 +9,7 @@ query GetUserFavoriteBrand($type: String!) {
       products {
         id
       }
-      createdAt
-      updatedAt
+
       logoFile {
         id
         uuid
@@ -23,8 +22,7 @@ query GetUserFavoriteBrand($type: String!) {
         disk
         bucketName
         orderColumn
-        createdAt
-        updatedAt
+
         presignedUrl {
           url
           expiresAt

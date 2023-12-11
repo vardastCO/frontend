@@ -5,7 +5,5 @@ query GetSellersWithoutPagination($indexSellerInput: IndexSellerInput) {
     bio
     status
     isPublic
-    createdAt
-    updatedAt
   }
 }

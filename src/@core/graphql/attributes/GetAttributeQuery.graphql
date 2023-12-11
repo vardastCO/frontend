@@ -4,8 +4,7 @@ query GetAttribute($id: Int!, $slug: String) {
     name
     slug
     type
-    createdAt
-    updatedAt
+
     values {
       options
       defaults
@@ -28,8 +27,7 @@ query GetAttribute($id: Int!, $slug: String) {
       icon
       sort
       isActive
-      createdAt
-      updatedAt
+
       childrenCount
     }
   }

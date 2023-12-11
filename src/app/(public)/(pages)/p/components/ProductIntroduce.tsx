@@ -18,9 +18,7 @@ const ProductIntroduce = ({ product }: IProductIntroduce) => {
 
       <Link
         className=""
-        href={`/brand/${product.brand.id}/${slugify(
-          product.brand.name
-        )}?title=${product.brand.name}`}
+        href={`/brand/${product.brand.id}/${slugify(product.brand.name)}`}
         prefetch={false}
       >
         <span className="text-alpha-500">برند:</span>

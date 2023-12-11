@@ -25,8 +25,7 @@ query GetUser($id: Int, $uuid: String) {
     failedLoginAttempts
     isLockedOut
     lockedOutAt
-    createdAt
-    updatedAt
+
     fullName
     country {
       id
@@ -40,8 +39,6 @@ query GetUser($id: Int, $uuid: String) {
       displayName
       description
       isActive
-      createdAt
-      updatedAt
     }
     permissions {
       id
@@ -58,8 +55,6 @@ query GetUser($id: Int, $uuid: String) {
       displayName
       description
       isActive
-      createdAt
-      updatedAt
     }
     seller {
       id
@@ -67,8 +62,6 @@ query GetUser($id: Int, $uuid: String) {
       bio
       status
       isPublic
-      createdAt
-      updatedAt
     }
     sessions {
       id
@@ -77,7 +70,7 @@ query GetUser($id: Int, $uuid: String) {
       lastActiveIp
       lastActivityAt
       deletionReason
-      createdAt
+
       deletedAt
     }
     avatarFile {
@@ -92,8 +85,7 @@ query GetUser($id: Int, $uuid: String) {
       disk
       bucketName
       orderColumn
-      createdAt
-      updatedAt
+
       presignedUrl {
         url
         expiresAt

@@ -80,7 +80,7 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
             <div className="flex flex-1 flex-col gap-y-3">
               <Link
                 className="text-info"
-                href={`/seller/${offer?.seller.id}/${offer?.seller.name}?title=${offer?.seller.name}`}
+                href={`/seller/${offer?.seller.id}/${offer?.seller.name}`}
               >
                 {offer?.seller.name}
               </Link>

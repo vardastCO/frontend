@@ -4,8 +4,7 @@ mutation CreateAttributeMutation($createAttributeInput: CreateAttributeInput!) {
     name
     slug
     type
-    createdAt
-    updatedAt
+
     isPublic
     isRequired
     isFilterable

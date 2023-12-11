@@ -5,8 +5,7 @@ mutation CreateProductMutation($createProductInput: CreateProductInput!) {
     name
     sku
     isActive
-    createdAt
-    updatedAt
+
     status
     images {
       id
@@ -24,8 +23,6 @@ mutation CreateProductMutation($createProductInput: CreateProductInput!) {
         disk
         bucketName
         orderColumn
-        createdAt
-        updatedAt
       }
     }
     createdBy {
@@ -54,15 +51,13 @@ mutation CreateProductMutation($createProductInput: CreateProductInput!) {
       failedLoginAttempts
       isLockedOut
       lockedOutAt
-      createdAt
-      updatedAt
+
       fullName
     }
     prices {
       id
       type
       isPublic
-      createdAt
     }
     attributeValues {
       id
@@ -78,16 +73,13 @@ mutation CreateProductMutation($createProductInput: CreateProductInput!) {
       icon
       sort
       isActive
-      createdAt
-      updatedAt
+
       childrenCount
     }
     brand {
       id
       name
       slug
-      createdAt
-      updatedAt
     }
     uom {
       id

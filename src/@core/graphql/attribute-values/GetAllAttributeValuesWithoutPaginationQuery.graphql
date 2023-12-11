@@ -14,8 +14,6 @@ query GetAllAttributeValuesWithoutPagination(
       isPublic
       isRequired
       isFilterable
-      createdAt
-      updatedAt
     }
   }
 }

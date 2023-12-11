@@ -3,8 +3,7 @@ mutation CreateSellerMutation($createSellerInput: CreateSellerInput!) {
     id
     name
     bio
-    createdAt
-    updatedAt
+
     logoFile {
       id
       uuid
@@ -17,8 +16,7 @@ mutation CreateSellerMutation($createSellerInput: CreateSellerInput!) {
       disk
       bucketName
       orderColumn
-      createdAt
-      updatedAt
+
       presignedUrl {
         url
         expiresAt
@@ -37,8 +35,6 @@ mutation CreateSellerMutation($createSellerInput: CreateSellerInput!) {
       isPublic
       status
       rejectionReason
-      createdAt
-      updatedAt
     }
     addresses {
       id
@@ -53,8 +49,7 @@ mutation CreateSellerMutation($createSellerInput: CreateSellerInput!) {
       isPublic
       status
       rejectionReason
-      createdAt
-      updatedAt
+
       province {
         id
         name

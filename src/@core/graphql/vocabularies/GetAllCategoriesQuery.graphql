@@ -6,8 +6,7 @@ query GetAllCategories($indexCategoryInput: IndexCategoryInput!) {
     icon
     sort
     isActive
-    createdAt
-    updatedAt
+
     childrenCount
     id
     children {
@@ -18,8 +17,7 @@ query GetAllCategories($indexCategoryInput: IndexCategoryInput!) {
       icon
       sort
       isActive
-      createdAt
-      updatedAt
+
       childrenCount
     }
     parentCategory {
@@ -30,8 +28,7 @@ query GetAllCategories($indexCategoryInput: IndexCategoryInput!) {
       icon
       sort
       isActive
-      createdAt
-      updatedAt
+
       childrenCount
     }
     parentsChain {
@@ -42,8 +39,7 @@ query GetAllCategories($indexCategoryInput: IndexCategoryInput!) {
       icon
       sort
       isActive
-      createdAt
-      updatedAt
+
       childrenCount
     }
   }

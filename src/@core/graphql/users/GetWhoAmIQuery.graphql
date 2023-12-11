@@ -25,8 +25,7 @@ query GetWhoAmI {
     failedLoginAttempts
     isLockedOut
     lockedOutAt
-    createdAt
-    updatedAt
+
     fullName
     country {
       id
@@ -40,8 +39,6 @@ query GetWhoAmI {
       displayName
       description
       isActive
-      createdAt
-      updatedAt
     }
     permissions {
       id
@@ -58,8 +55,6 @@ query GetWhoAmI {
       displayName
       description
       isActive
-      createdAt
-      updatedAt
     }
     seller {
       id
@@ -67,8 +62,7 @@ query GetWhoAmI {
       bio
       status
       isPublic
-      createdAt
-      updatedAt
+
       isBlueTik
     }
     sessions {
@@ -78,7 +72,7 @@ query GetWhoAmI {
       lastActiveIp
       lastActivityAt
       deletionReason
-      createdAt
+
       deletedAt
     }
     avatarFile {
@@ -93,8 +87,7 @@ query GetWhoAmI {
       disk
       bucketName
       orderColumn
-      createdAt
-      updatedAt
+
       presignedUrl {
         url
         expiresAt

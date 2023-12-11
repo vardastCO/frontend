@@ -3,7 +3,5 @@ mutation RemoveBrandMutation($id: Int!) {
     id
     name
     slug
-    createdAt
-    updatedAt
   }
 }

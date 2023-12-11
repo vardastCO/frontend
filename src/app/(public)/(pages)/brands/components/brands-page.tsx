@@ -45,7 +45,7 @@ const BrandsPage = ({ args }: BrandsPageProps) => {
     }
   )
 
-  if (!allBrandsQuery.data) notFound()
+  if (!allBrandsQuery?.data) notFound()
 
   return (
     <>

@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
-import { PropsWithChildren } from "react"
+import { ReactElement, useState } from "react"
 import clsx from "clsx"
+
+import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
 
 export enum ProductContainerType {
   PHOTO = "photo",
@@ -8,24 +10,30 @@ export enum ProductContainerType {
   SMALL_LIST = "small-list"
 }
 
-interface IProductListContainer extends PropsWithChildren {
+interface IProductListContainer {
   type?: ProductContainerType
+  children(_: {
+    selectedItemId: ICategoryListLoader
+    setSelectedItemId: (_?: any) => void
+  }): ReactElement
 }
 
 const ProductListContainer: React.FC<IProductListContainer> = ({
   type = ProductContainerType.LARGE_LIST,
   children
 }) => {
+  const [selectedItemId, setSelectedItemId] =
+    useState<ICategoryListLoader>(null)
   return (
     <div
       className={clsx(
         "grid bg-alpha-white",
         type === ProductContainerType.LARGE_LIST
-          ? "grid-cols-1  px-6 md:grid-cols-3 lg:grid-cols-4"
+          ? "grid-cols-1  divide-y px-6 md:grid-cols-3 lg:grid-cols-4"
           : "grid-cols-2 gap-0.5"
       )}
     >
-      {children}
+      {children({ selectedItemId, setSelectedItemId })}
     </div>
   )
 }

@@ -109,6 +109,5 @@ const BrandIndex = async ({
 
 export default withMobileHeader(BrandIndex, {
   hasFavorite: {},
-  hasShare: true,
-  hasLogo: true
+  hasShare: true
 })

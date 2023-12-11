@@ -1,7 +1,6 @@
 import { forwardRef, Ref, useState } from "react"
 import Image from "next/image"
 import { MapPinIcon } from "@heroicons/react/24/outline"
-import { digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { Brand, Seller } from "@/generated"
 
@@ -66,10 +65,9 @@ const BrandOrSellerCard = forwardRef(
     return (
       <Link
         ref={ref}
-        href={`/${content.__typename?.toLowerCase()}/${content?.id}`}
-        // href={`/${content.__typename?.toLowerCase()}/${content?.id}?title=${
-        //   content.name
-        // }`}
+        href={`/${content.__typename?.toLowerCase()}/${content?.id}/${
+          content.name
+        }`}
         prefetch={false}
         className="relative overflow-hidden rounded bg-alpha-white transition hover:z-10 md:h-auto md:rounded-none md:hover:shadow-lg"
       >
@@ -123,11 +121,13 @@ const BrandOrSellerCard = forwardRef(
                   )}
               </p>
               <div className="flex items-center justify-between">
-                <p className="text-xs text-primary-500">{`${digitsEnToFa(
+                <p className="text-xs text-primary-500">
+                  {/* {`${digitsEnToFa(
                   (content as Brand).products
                     ? (content as Brand).products?.length
                     : (content as Seller).offers.length
-                )} کالا`}</p>
+                )} کالا`} */}
+                </p>
                 {content.rating && content.rating > 0 ? (
                   <Rating rating={content.rating} />
                 ) : (

@@ -3,8 +3,7 @@ mutation UpdateBrandMutation($updateBrandInput: UpdateBrandInput!) {
     id
     name
     slug
-    createdAt
-    updatedAt
+
     logoFile {
       id
       uuid
@@ -17,8 +16,7 @@ mutation UpdateBrandMutation($updateBrandInput: UpdateBrandInput!) {
       disk
       bucketName
       orderColumn
-      createdAt
-      updatedAt
+
       presignedUrl {
         url
         expiresAt

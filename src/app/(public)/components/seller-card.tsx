@@ -22,7 +22,7 @@ const SellerCard = ({ seller }: SellerCardProps) => {
   return (
     <div className="relative px transition hover:z-10 md:h-auto md:hover:shadow-lg">
       <Link
-        href={`/seller/${seller.id}?title=${seller.name}`}
+        href={`/seller/${seller.id}/${seller.name}`}
         prefetch={false}
         className="flex h-full w-full rounded-xl bg-alpha-white lg:px-4"
       >

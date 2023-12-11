@@ -19,8 +19,7 @@ query GetAllContactInfos($indexContactInfoInput: IndexContactInfoInput!) {
       isPublic
       status
       rejectionReason
-      createdAt
-      updatedAt
+
       country {
         id
         name

@@ -2,9 +2,9 @@ query GetSeller($id: Int!) {
   seller(id: $id) {
     id
     name
-    createdAt
+
     isBlueTik
-    updatedAt
+
     rating
     logoFile {
       id
@@ -18,8 +18,7 @@ query GetSeller($id: Int!) {
       disk
       bucketName
       orderColumn
-      createdAt
-      updatedAt
+
       presignedUrl {
         url
         expiresAt
@@ -38,8 +37,7 @@ query GetSeller($id: Int!) {
       isPublic
       status
       rejectionReason
-      createdAt
-      updatedAt
+
       country {
         id
         name
@@ -69,8 +67,7 @@ query GetSeller($id: Int!) {
       isPublic
       status
       rejectionReason
-      createdAt
-      updatedAt
+
       province {
         id
         name
@@ -104,8 +101,7 @@ query GetSeller($id: Int!) {
       role
       title
       isActive
-      createdAt
-      updatedAt
+
       user {
         id
         uuid
@@ -132,8 +128,7 @@ query GetSeller($id: Int!) {
         failedLoginAttempts
         isLockedOut
         lockedOutAt
-        createdAt
-        updatedAt
+
         fullName
         avatarFile {
           id
@@ -147,8 +142,7 @@ query GetSeller($id: Int!) {
           disk
           bucketName
           orderColumn
-          createdAt
-          updatedAt
+
           presignedUrl {
             url
             expiresAt

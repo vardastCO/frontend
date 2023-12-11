@@ -1,5 +1,5 @@
 import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
-import { formatDistanceToNow, setDefaultOptions } from "date-fns"
+import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 import useTranslation from "next-translate/useTranslation"
 
@@ -51,14 +51,15 @@ const PriceSection = ({ onOpenCreateModal, prices }: PriceSectionProps) => {
                           {t("common:toman")}
                         </td>
                         <td>
-                          {digitsEnToFa(
+                          {/* {digitsEnToFa(
                             formatDistanceToNow(
                               new Date(price.createdAt).getTime(),
                               {
                                 addSuffix: true
                               }
                             )
-                          )}
+                          )} */}
+                          -
                         </td>
                         <td>{price.seller.name}</td>
                         <td>

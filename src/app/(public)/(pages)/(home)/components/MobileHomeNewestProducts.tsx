@@ -14,9 +14,18 @@ const MobileHomeNewestProducts = ({
   return (
     <MobileHomeSection bgWhite block title="جدیدترین کالاها">
       <ProductListContainer>
-        {allProductsQuery.data?.products.data.map((product) => (
-          <ProductCard key={product?.id} product={product as Product} />
-        ))}
+        {({ selectedItemId, setSelectedItemId }) => (
+          <>
+            {allProductsQuery.data?.products.data.map((product) => (
+              <ProductCard
+                selectedItemId={selectedItemId}
+                setSelectedItemId={setSelectedItemId}
+                key={product?.id}
+                product={product as Product}
+              />
+            ))}
+          </>
+        )}
       </ProductListContainer>
     </MobileHomeSection>
   )

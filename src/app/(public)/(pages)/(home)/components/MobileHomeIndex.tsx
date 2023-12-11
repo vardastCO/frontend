@@ -75,10 +75,6 @@ const MobileHomeIndex = () => {
     }
   )
 
-  // console.log("====================================")
-  // console.log(allSellersCount)
-  // console.log("====================================")
-
   return (
     <>
       <MobileHomeSlider query={homeSlidersQuery} />
@@ -97,7 +93,7 @@ const MobileHomeIndex = () => {
       <MobileHomeTopEntities
         __typename="Seller"
         title="جدیدترین فروشنده‌ها"
-        query={allSellersCount.data?.sellers.data.slice(0, 7) as Seller[]}
+        query={allSellersCount.data?.sellers.data.slice(0, 5) as Seller[]}
       />
       <MobileHomeNewestProducts allProductsQuery={allProductsQuery} />
     </>

@@ -33,8 +33,8 @@ export interface User {
       failedLoginAttempts: string
       isLockedOut: string
       lockedOutAt: string
-      createdAt: string
-      updatedAt: string
+      // createdAt: string
+      // updatedAt: string
       fullName: string
     }
   }

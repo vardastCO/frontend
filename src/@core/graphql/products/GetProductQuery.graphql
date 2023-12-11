@@ -9,8 +9,7 @@ query GetProduct($id: Int!) {
     description
     title
     metaDescription
-    createdAt
-    updatedAt
+
     rating
     tag
     status
@@ -30,8 +29,7 @@ query GetProduct($id: Int!) {
         disk
         bucketName
         orderColumn
-        createdAt
-        updatedAt
+
         presignedUrl {
           url
           expiresAt
@@ -51,8 +49,7 @@ query GetProduct($id: Int!) {
         isPublic
         isRequired
         isFilterable
-        createdAt
-        updatedAt
+
         uom {
           id
           name
@@ -74,8 +71,7 @@ query GetProduct($id: Int!) {
       icon
       sort
       isActive
-      createdAt
-      updatedAt
+
       childrenCount
       parentCategory {
         id
@@ -85,8 +81,7 @@ query GetProduct($id: Int!) {
         icon
         sort
         isActive
-        createdAt
-        updatedAt
+
         childrenCount
       }
       parentsChain {
@@ -97,8 +92,7 @@ query GetProduct($id: Int!) {
         icon
         sort
         isActive
-        createdAt
-        updatedAt
+
         childrenCount
       }
     }
@@ -106,8 +100,6 @@ query GetProduct($id: Int!) {
       id
       name
       slug
-      createdAt
-      updatedAt
     }
     uom {
       id
@@ -121,13 +113,12 @@ query GetProduct($id: Int!) {
       type
       amount
       isPublic
-      createdAt
+
       seller {
         rating
         id
         name
-        createdAt
-        updatedAt
+
         logoFile {
           presignedUrl {
             url
@@ -146,8 +137,7 @@ query GetProduct($id: Int!) {
           isPublic
           status
           rejectionReason
-          createdAt
-          updatedAt
+
           country {
             id
             name
@@ -177,8 +167,7 @@ query GetProduct($id: Int!) {
           isPublic
           status
           rejectionReason
-          createdAt
-          updatedAt
+
           city {
             id
             name
@@ -211,20 +200,17 @@ query GetProduct($id: Int!) {
       type
       amount
       isPublic
-      createdAt
     }
     publicOffers {
       id
       status
       isPublic
       isAvailable
-      createdAt
-      updatedAt
+
       seller {
         id
         name
-        createdAt
-        updatedAt
+
         logoFile {
           presignedUrl {
             url
@@ -243,8 +229,7 @@ query GetProduct($id: Int!) {
           isPublic
           status
           rejectionReason
-          createdAt
-          updatedAt
+
           country {
             id
             name
@@ -274,8 +259,7 @@ query GetProduct($id: Int!) {
           isPublic
           status
           rejectionReason
-          createdAt
-          updatedAt
+
           city {
             id
             name
@@ -307,7 +291,6 @@ query GetProduct($id: Int!) {
         type
         amount
         isPublic
-        createdAt
       }
     }
     offers {
@@ -315,13 +298,11 @@ query GetProduct($id: Int!) {
       status
       isPublic
       isAvailable
-      createdAt
-      updatedAt
+
       seller {
         id
         name
-        createdAt
-        updatedAt
+
         logoFile {
           presignedUrl {
             url
@@ -340,8 +321,7 @@ query GetProduct($id: Int!) {
           isPublic
           status
           rejectionReason
-          createdAt
-          updatedAt
+
           country {
             id
             name
@@ -371,8 +351,7 @@ query GetProduct($id: Int!) {
           isPublic
           status
           rejectionReason
-          createdAt
-          updatedAt
+
           city {
             id
             name
@@ -404,7 +383,6 @@ query GetProduct($id: Int!) {
         type
         amount
         isPublic
-        createdAt
       }
     }
     sameCategory {
@@ -435,13 +413,11 @@ query GetProduct($id: Int!) {
       type
       amount
       isPublic
-      createdAt
+
       seller {
         id
         name
         bio
-        createdAt
-        updatedAt
       }
     }
   }

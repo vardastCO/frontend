@@ -19,8 +19,7 @@ query GetAllAddresses($indexAddressInput: IndexAddressInput!) {
       isPublic
       status
       rejectionReason
-      createdAt
-      updatedAt
+
       country {
         id
         name

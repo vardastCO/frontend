@@ -1,14 +1,17 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import Image from "next/image"
-import { usePathname } from "next/navigation"
-import { BookmarkIcon, ShareIcon } from "@heroicons/react/24/outline"
-import { BookmarkIcon as SolidBookmarkIcon } from "@heroicons/react/24/solid"
-import clsx from "clsx"
+import { BookmarkIcon } from "@heroicons/react/24/outline"
+import { EllipsisVerticalIcon, ShareIcon } from "@heroicons/react/24/solid"
 import copy from "copy-to-clipboard"
 
 import { Button } from "@core/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@core/components/ui/dropdown-menu"
 import { toast } from "@core/hooks/use-toast"
 
 import logo from "@/assets/logo-horizontal-v2-persian-dark-bg-white.svg"
@@ -18,37 +21,14 @@ export interface IModalHeader {
   hasFavorite?: {}
   hasShare?: boolean
   hasLogo?: boolean
-  hasBack?: {
-    onClick?: (_?: any) => void
-    hidden?: boolean
-  }
 }
 
 const MobileHeader: React.FC<IModalHeader> = ({
   title,
-  hasBack,
   hasFavorite,
   hasShare,
   hasLogo
 }) => {
-  // const { back } = useRouter()
-  const pathname = usePathname()
-  const [isFavorite, setIsFavorite] = useState(false)
-
-  useEffect(() => {
-    const checkIfFavorite = () => {
-      const prevItems = localStorage.getItem("favorites")
-      const product = pathname.split("/")[2]
-
-      if (prevItems) {
-        if (JSON.parse(prevItems).find((prev: string) => prev === product)) {
-          return true
-        }
-      }
-    }
-    setIsFavorite(!!checkIfFavorite())
-  }, [pathname])
-
   const handleOnClick = async () => {
     if (navigator?.share) {
       try {
@@ -74,135 +54,77 @@ const MobileHeader: React.FC<IModalHeader> = ({
     }
   }
 
-  const computeMiddleBoxCols = (props: IModalHeader) => {
-    const exceptMiddle = { ...props }
-    delete exceptMiddle.title
-
-    const lengthOfColors = Object.values(exceptMiddle).filter(
-      (item) => !!item
-    ).length
-
-    return `col-span-${12 - lengthOfColors - (props.hasLogo ? 3 : 0)}`
-  }
-
-  const middleBoxColsCount = computeMiddleBoxCols({
-    hasBack,
-    hasFavorite,
-    hasShare,
-    hasLogo
-  })
-
   return (
     <div
       id="mobile-header-navbar"
-      className="fixed left-0 right-0 top-0 z-40 w-full border-b border-primary bg-primary px"
+      className="fixed left-0 right-0 top-0 z-40 w-full bg-primary px-2"
     >
-      <div className="grid h-14 grid-cols-12 items-center">
-        {hasLogo && (
-          <div
-            className={
-              hasLogo && !hasBack && !hasShare && !hasFavorite
-                ? "col-span-12 mx-auto max-w-[35%]"
-                : "col-span-3"
-            }
-          >
-            <Image
-              src={logo}
-              alt={"vardast"}
-              width={24}
-              height={24}
-              className="mx-auto h-full w-full"
-            />
-          </div>
-        )}
-        {!(hasLogo && !hasBack && !hasShare && !hasFavorite) && (
-          <div className={clsx(middleBoxColsCount)}>
-            {title && (
-              <h3 className="text-center font-bold text-alpha-white">
-                {title}
-              </h3>
-            )}
-          </div>
-        )}
-        {(hasBack || hasShare || hasFavorite) && (
-          <div className="col-span-3 grid grid-cols-2">
-            <>
-              {/* <div className="mr-auto">
-                {hasBack && (
-                  <Button
-                    className={hasBack && hasBack.hidden ? "hidden" : ""}
-                    id="header-back-button"
-                    variant={"ghost"}
-                    onClick={() =>
-                      hasBack.onClick ? hasBack.onClick() : back()
-                    }
-                    iconOnly
-                  >
-                    <ArrowLeftIcon className="h-6 w-6" />
-                  </Button>
-                )}
-              </div> */}
-              <div className="mr-auto">
-                {hasShare && (
-                  <Button variant={"ghost"} iconOnly onClick={handleOnClick}>
-                    <ShareIcon className="h-6 w-6 text-alpha-white" />
-                  </Button>
-                )}
-              </div>
-              <div className="mr-auto">
-                {hasFavorite && (
-                  <Button
-                    id="header-back-button"
-                    variant={"ghost"}
-                    iconOnly
-                    onClick={() => {
-                      const prevItems = localStorage.getItem("favorites")
-                      const product = pathname.split("/")[2]
-
-                      if (prevItems) {
-                        if (
-                          JSON.parse(prevItems).find(
-                            (prev: string) => prev === product
-                          )
-                        ) {
-                          const newItems = JSON.parse(prevItems).filter(
-                            (prev: string) => prev !== product
-                          )
-                          localStorage.setItem(
-                            "favorites",
-                            JSON.stringify(newItems)
-                          )
-                          setIsFavorite(false)
-                        } else {
-                          const newItems = [...JSON.parse(prevItems)]
-                          newItems.push(pathname.split("/")[2])
-                          localStorage.setItem(
-                            "favorites",
-                            JSON.stringify(newItems)
-                          )
-                          setIsFavorite(true)
-                        }
-                      } else {
-                        localStorage.setItem(
-                          "favorites",
-                          JSON.stringify([pathname.split("/")[2]])
-                        )
-                        setIsFavorite(true)
-                      }
-                    }}
-                  >
-                    {isFavorite ? (
-                      <SolidBookmarkIcon className="h-6 w-6 text-white" />
-                    ) : (
-                      <BookmarkIcon className="h-6 w-6 text-alpha-white" />
+      <div className="grid h-14 grid-cols-9 items-center">
+        <div className="flex h-full flex-col items-center justify-center py"></div>
+        <div className="col-span-7 h-full py">
+          {(hasLogo || title) && (
+            <div className="h-full">
+              {hasLogo ? (
+                <div className="relative mx-auto h-full">
+                  <Image
+                    src={logo}
+                    alt={"vardast"}
+                    fill
+                    className="mx-auto h-full w-full object-fill"
+                  />
+                </div>
+              ) : (
+                <h3 className="line-clamp-1 text-center font-bold text-alpha-white">
+                  {title && title.split("-").join(" ")}
+                </h3>
+              )}
+            </div>
+          )}
+        </div>
+        <div className="flex h-full flex-col items-center justify-center py-2">
+          {(hasShare || hasFavorite) && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant={"ghost"}
+                  iconOnly
+                  block
+                  className="!m-0 !h-full !p-0"
+                >
+                  <EllipsisVerticalIcon className="h-7 w-7 text-alpha-white" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="!min-w-[10px]">
+                <DropdownMenuItem
+                  onSelect={(event) => {
+                    event.preventDefault
+                  }}
+                >
+                  <div className="flex flex-col gap-y">
+                    {hasFavorite && (
+                      <Button
+                        id="header-back-button"
+                        variant={"ghost"}
+                        iconOnly
+                      >
+                        <BookmarkIcon className="h-6 w-6 text-alpha" />
+                      </Button>
                     )}
-                  </Button>
-                )}
-              </div>
-              {/* </div> */}
-            </>
-          </div>
-        )}
+                    {hasShare && (
+                      <Button
+                        variant={"ghost"}
+                        iconOnly
+                        onClick={handleOnClick}
+                      >
+                        <ShareIcon className="h-6 w-6 text-alpha" />
+                      </Button>
+                    )}
+                  </div>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
       </div>
     </div>
   )

@@ -3,7 +3,5 @@ query GetAllBrandsWithoutPagination {
     id
     name
     slug
-    createdAt
-    updatedAt
   }
 }

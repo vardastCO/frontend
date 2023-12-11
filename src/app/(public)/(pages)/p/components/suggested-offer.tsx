@@ -93,7 +93,7 @@ const SuggestedOffer = ({ offer, uom }: SuggestedOfferProps) => {
             <div className="col-span-2 flex flex-col">
               <Link
                 className="h-8 truncate text-info"
-                href={`/seller/${offer?.seller.id}/${offer?.seller.name}?title=${offer?.seller.name}`}
+                href={`/seller/${offer?.seller.id}/${offer?.seller.name}`}
               >
                 {offer?.seller.name}
               </Link>

@@ -8,8 +8,7 @@ query GetAttributesOfACategory($id: Int, $slug: String) {
       isPublic
       isRequired
       isFilterable
-      createdAt
-      updatedAt
+
       values {
         options
         defaults

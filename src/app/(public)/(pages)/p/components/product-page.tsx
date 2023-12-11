@@ -177,13 +177,9 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
     offers: offersJsonLd as AggregateOffer
   }
 
-  console.log("====================================")
-  console.log({ product })
-  console.log("====================================")
-
   return (
     <>
-      <div className="bg-alpha-white">
+      <div className="border-b bg-alpha-white">
         <Breadcrumb dynamic={false} items={breadcrumb} />
       </div>
 

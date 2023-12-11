@@ -7,8 +7,8 @@ import clsx from "clsx"
 
 import { Product } from "@/generated"
 
-import slugify from "@core/utils/persian-slugify"
 import Link from "@core/components/shared/Link"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
 import PriceTitle from "@/app/(public)/components/PriceTitle"
 import { ProductContainerType } from "@/app/(public)/components/ProductListContainer"
 import Rating from "@/app/(public)/components/Rating"
@@ -16,6 +16,8 @@ import Rating from "@/app/(public)/components/Rating"
 interface ProductCardProps {
   product: Product
   containerType?: ProductContainerType
+  selectedItemId?: ICategoryListLoader
+  setSelectedItemId?: (_?: ICategoryListLoader) => void
 }
 
 export const ProductCardSkeleton = ({
@@ -80,7 +82,9 @@ const ProductCard = forwardRef(
   (
     {
       product,
-      containerType = ProductContainerType.LARGE_LIST
+      containerType = ProductContainerType.LARGE_LIST,
+      selectedItemId,
+      setSelectedItemId
     }: ProductCardProps,
     ref: Ref<HTMLAnchorElement> | undefined
   ) => {
@@ -105,17 +109,24 @@ const ProductCard = forwardRef(
     return (
       <Link
         ref={ref}
-        href={`/p/${product.id}/${slugify(product.name)}${
-          product.title ? `?title=${product.title}` : ""
-        }`}
+        href={`/p/${product.id}/${product.name}`}
+        onClick={() => {
+          setSelectedItemId && setSelectedItemId(product.id)
+        }}
         className={clsx(
           "md:h-none relative grid h-[calc((100vw-1.5rem)/2)] max-h-[calc((100vw-1.5rem)/2)] min-h-[calc((100vw-1.5rem)/2)] w-full flex-1  gap-2 bg-alpha-white transition hover:z-10 md:h-full md:max-h-full md:min-h-full md:border-none md:py md:hover:shadow-lg lg:flex lg:flex-col lg:px-4",
           containerType === ProductContainerType.LARGE_LIST
-            ? "grid-cols-3 border-b"
-            : "overflow-hidden"
+            ? "grid-cols-3"
+            : "overflow-hidden",
+          product.id === selectedItemId && "!border-y border-primary"
         )}
         prefetch={false}
       >
+        {product.id === selectedItemId && (
+          <div className="absolute left-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-alpha-white bg-opacity-50">
+            {/* <Loader2Icon className="h-10 w-10 animate-spin text-primary" /> */}
+          </div>
+        )}
         <div
           ref={productContainerRef}
           className={`relative flex flex-shrink-0 transform flex-col items-center justify-center bg-center bg-no-repeat align-middle opacity-0 transition-all duration-1000 ease-out`}

@@ -14,8 +14,7 @@ query GetAllSellers($indexSellerInput: IndexSellerInput) {
       id
       name
       bio
-      createdAt
-      updatedAt
+
       status
       isPublic
       logoFile {
@@ -30,8 +29,7 @@ query GetAllSellers($indexSellerInput: IndexSellerInput) {
         disk
         bucketName
         orderColumn
-        createdAt
-        updatedAt
+
         presignedUrl {
           url
           expiresAt
@@ -50,8 +48,7 @@ query GetAllSellers($indexSellerInput: IndexSellerInput) {
         isPublic
         status
         rejectionReason
-        createdAt
-        updatedAt
+
         city {
           id
           name

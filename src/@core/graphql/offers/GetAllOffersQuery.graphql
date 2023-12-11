@@ -11,13 +11,10 @@ query GetAllOffers($indexOfferInput: IndexOfferInput) {
       status
       isPublic
       isAvailable
-      createdAt
-      updatedAt
+
       seller {
         id
         name
-        createdAt
-        updatedAt
       }
       product {
         id
@@ -30,15 +27,12 @@ query GetAllOffers($indexOfferInput: IndexOfferInput) {
         description
         title
         metaDescription
-        createdAt
-        updatedAt
       }
       lastPublicConsumerPrice {
         id
         type
         amount
         isPublic
-        createdAt
       }
     }
   }

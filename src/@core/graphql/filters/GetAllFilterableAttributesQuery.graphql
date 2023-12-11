@@ -10,8 +10,7 @@ query GetAllFilterableAttributes(
       isPublic
       isRequired
       isFilterable
-      createdAt
-      updatedAt
+
       values {
         options
         defaults

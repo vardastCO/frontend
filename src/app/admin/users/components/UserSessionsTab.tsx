@@ -49,14 +49,15 @@ const UserSessionsTab = ({ sessions }: UserSessionsTabProps) => {
                       <code className="text-sm">{session.agent}</code>
                     </td>
                     <td className="whitespace-nowrap">
-                      {digitsEnToFa(
+                      {/* {digitsEnToFa(
                         formatDistanceToNow(
                           new Date(session.createdAt).getTime(),
                           {
                             addSuffix: true
                           }
                         )
-                      )}
+                      )} */}
+                      -
                     </td>
                   </tr>
                 )
