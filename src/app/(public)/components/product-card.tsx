@@ -27,7 +27,7 @@ export const ProductCardSkeleton = ({
 }) => {
   const [ratio, setRatio] = useState(1 / 1)
   return (
-    <div className="relative px-6 hover:z-10 md:py md:hover:shadow-lg">
+    <div className="relative bg-alpha-white px-6 hover:z-10 md:py md:hover:shadow-lg">
       <div
         className={clsx(
           "grid h-full w-full flex-1 gap-2 bg-alpha-white py md:border-none lg:flex lg:flex-col lg:px-4",
@@ -109,7 +109,7 @@ const ProductCard = forwardRef(
     return (
       <Link
         ref={ref}
-        href={`/p/${product.id}/${product.name}`}
+        href={`/product/${product.id}/${product.name}`}
         onClick={() => {
           setSelectedItemId && setSelectedItemId(product.id)
         }}

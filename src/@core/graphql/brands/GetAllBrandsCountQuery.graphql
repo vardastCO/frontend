@@ -8,6 +8,12 @@ query GetAllBrandsCount($indexBrandInput: IndexBrandInput) {
           url
         }
       }
+      logoFile {
+        id
+        presignedUrl {
+          url
+        }
+      }
       name
       rating
     }

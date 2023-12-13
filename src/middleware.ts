@@ -9,7 +9,7 @@ export default async function middleware(request: NextRequest) {
   request.nextUrl.searchParams.set("lang", locale)
   request.nextUrl.href = request.nextUrl.href.replace(`/${locale}`, "")
 
-  const productPathRegexp = pathToRegexp("/p/:slug1/:slug2?")
+  const productPathRegexp = pathToRegexp("/product/:slug1/:slug2?")
   const productPathRegexpText = productPathRegexp.exec(request.nextUrl.pathname)
   if (productPathRegexpText) {
     const id = productPathRegexpText[1]
@@ -22,7 +22,7 @@ export default async function middleware(request: NextRequest) {
       if (!name || name !== encodeURI(slugify(res.product.name))) {
         return NextResponse.redirect(
           new URL(
-            `/p/${res.product.id}/${slugify(res.product.name)}`,
+            `/product/${res.product.id}/${slugify(res.product.name)}`,
             request.url
           ),
           301
@@ -31,7 +31,7 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
-  const searchPathRegexp = pathToRegexp("/search/:slug1/:slug2?")
+  const searchPathRegexp = pathToRegexp("/products/:slug1/:slug2?")
   const searchPathRegexpText = searchPathRegexp.exec(request.nextUrl.pathname)
   if (searchPathRegexpText) {
     const id = searchPathRegexpText[1]
@@ -45,7 +45,7 @@ export default async function middleware(request: NextRequest) {
         request.nextUrl.searchParams.delete("lang")
         return NextResponse.redirect(
           new URL(
-            `/search/${res.category.id}/${slugify(res.category.title)}?${
+            `/products/${res.category.id}/${slugify(res.category.title)}?${
               request.nextUrl.searchParams
             }`,
             request.url
@@ -110,5 +110,10 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/p/:path*", "/search/:path*", "/brand/:path*", "/seller/:path*"]
+  matcher: [
+    "/product/:path*",
+    "/products/:path*",
+    "/brand/:path*",
+    "/seller/:path*"
+  ]
 }

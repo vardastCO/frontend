@@ -1,6 +1,6 @@
 "use client"
 
-import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
+import ProductSectionContainer from "@/app/(public)/(pages)/product/components/ProductSectionContainer"
 
 type ProductDescriptionProps = {
   description: string

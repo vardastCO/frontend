@@ -149,7 +149,7 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   },
   {
     forceEqual: true,
-    path: "/search"
+    path: "/products"
   },
   {
     forceEqual: false,

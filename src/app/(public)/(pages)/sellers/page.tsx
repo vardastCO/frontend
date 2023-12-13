@@ -39,7 +39,7 @@ const SellersIndex = async ({ searchParams }: SellersIndexProps) => {
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <SellersPage args={args} isMobileView={isMobileView} />
+      <SellersPage limitPage={5} args={args} isMobileView={isMobileView} />
     </ReactQueryHydrate>
   )
 }

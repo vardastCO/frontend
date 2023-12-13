@@ -51,9 +51,13 @@ interface ProductListProps {
   brandId?: number
   sellerId?: number
   hasFilter?: boolean
+  limitPage?: number
   setCategoriesCount?: (_?: any) => void
   containerType?: ProductContainerType
 }
+
+export const checkLimitPageByCondition = (condition: boolean, result: any[]) =>
+  condition ? result.length + 1 : undefined
 
 const ProductList = ({
   isMobileView,
@@ -62,6 +66,7 @@ const ProductList = ({
   brandId,
   sellerId,
   setCategoriesCount,
+  limitPage,
   hasFilter = true,
   containerType = ProductContainerType.LARGE_LIST
 }: ProductListProps) => {
@@ -125,9 +130,17 @@ const ProductList = ({
     {
       keepPreviousData: true,
       getNextPageParam(lastPage, allPages) {
-        return lastPage.products.currentPage < lastPage.products.lastPage
-          ? allPages.length + 1
-          : undefined
+        console.log({ lastPage, allPages, limitPage })
+
+        return limitPage
+          ? checkLimitPageByCondition(
+              lastPage.products.currentPage <= limitPage,
+              allPages
+            )
+          : checkLimitPageByCondition(
+              lastPage.products.currentPage < lastPage.products.lastPage,
+              allPages
+            )
       }
     }
   )

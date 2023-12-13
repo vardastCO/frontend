@@ -56,7 +56,7 @@ const CategoriesPage = ({ categoryId }: CategoriesListProps) => {
               href={
                 category.childrenCount > 0
                   ? `/categories/${category.id}/${category.title}`
-                  : `/search/${category.id}/${category.title}`
+                  : `/products/${category.id}/${category.title}`
               }
               selectedItemId={selectedItemId}
               key={category.id}

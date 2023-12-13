@@ -10,7 +10,6 @@ import { Brand, Seller } from "@/generated"
 import Link from "@core/components/shared/Link"
 import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
 import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
-import Rating from "@/app/(public)/components/Rating"
 
 type QueryTypes = Seller[] | Brand[]
 
@@ -50,14 +49,16 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
           centeredSlides
           slidesPerView={1.2}
           spaceBetween={16}
-          className="h-full w-full pb-10"
+          className="h-full w-full pb-12"
         >
-          {query?.map(({ id, bannerFile, name, rating }) => (
+          {query?.map(({ id, bannerFile, logoFile, name }) => (
             <SwiperSlide
               key={id}
               className={clsx(
-                "overflow-hidden rounded-2xl bg-alpha-white shadow-lg",
-                selectedItemId === id ? "border-2 border-primary" : ""
+                "overflow-hidden rounded-2xl border bg-alpha-white shadow-lg",
+                selectedItemId === id
+                  ? "border-2 border-primary"
+                  : "border-alpha-50"
               )}
             >
               <Link
@@ -83,19 +84,39 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
                     className="h-full object-fill"
                   />
                 </div>
-                <div className="relative z-20 flex flex-col bg-alpha-50 bg-opacity-60 px py-3 text-center font-semibold">
+                <div className="relative z-20 flex items-center justify-between bg-alpha-50 bg-opacity-60 px py-6 text-center font-semibold">
+                  <div className="flex items-center justify-between gap-x-2">
+                    <div className="relative h-11 w-11 overflow-hidden rounded-full border border-alpha-400">
+                      <Image
+                        src={logoFile?.presignedUrl.url as string}
+                        alt="category"
+                        fill
+                        className="h-full w-full rounded-full object-fill"
+                      />
+                    </div>
+                    <h5 className="text-right">{name}</h5>
+                  </div>
+                  {/* <h5 className="text-primary">
+                    {`${
+                      __typename === "Brand"
+                        ? digitsEnToFa((query as Brand).products?.length ?? 0)
+                        : digitsEnToFa((query as Seller).offers?.length) ?? 0
+                    } کالا`}
+                  </h5> */}
+                </div>
+                {/* <div className="relative z-20 flex flex-col bg-alpha-50 bg-opacity-60 px py-3 text-center font-semibold">
                   <h5 className="text-right">{name}</h5>
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-primary">
-                      {/* {`${
+                      {`${
                         __typename === "Brand"
                           ? digitsEnToFa((props as Brand).products?.length ?? 0)
                           : digitsEnToFa((props as Seller).offers?.length) ?? 0
-                      } کالا`} */}
+                      } کالا`}
                     </p>
                     <Rating rating={rating ?? 0} size="xs" />
                   </div>
-                </div>
+                </div> */}
               </Link>
             </SwiperSlide>
           ))}

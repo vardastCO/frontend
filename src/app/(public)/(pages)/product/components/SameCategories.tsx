@@ -2,7 +2,6 @@
 
 import { Product } from "@/generated"
 
-import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
 import ProductSlider from "@/app/(public)/components/ProductSlider"
 
 type SameCategoriesProps = {
@@ -11,9 +10,16 @@ type SameCategoriesProps = {
 
 const SameCategories = ({ products }: SameCategoriesProps) => {
   return (
-    <ProductSectionContainer spaceless title="کالاهای مشابه">
-      <ProductSlider products={products} />
-    </ProductSectionContainer>
+    // <ProductSectionContainer spaceless title="کالاهای مشابه">
+    <div className="py-6">
+      <ProductSlider
+        hasExtraItem={{
+          title: "کالاهای مشابه"
+        }}
+        products={products}
+      />
+    </div>
+    // </ProductSectionContainer>
   )
 }
 

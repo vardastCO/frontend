@@ -317,7 +317,7 @@ const MobileCategoriesFilter = ({
                       ? (setPreviousCategory(selectedCategory),
                         setSelectedCategory(category))
                       : (setCategoriesFilterVisibility(false),
-                        push(`/search/${category.id}/${category.title}`))
+                        push(`/products/${category.id}/${category.title}`))
                   }}
                   categoryId={selectedCategory.id}
                 />
@@ -332,7 +332,7 @@ const MobileCategoriesFilter = ({
                     category.childrenCount > 0
                       ? setSelectedCategory(category)
                       : (setCategoriesFilterVisibility(false),
-                        push(`/search/${category.id}/${category.title}`))
+                        push(`/products/${category.id}/${category.title}`))
                   }}
                 />
               )}

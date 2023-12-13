@@ -12,7 +12,12 @@ const MobileHomeNewestProducts = ({
   allProductsQuery: UseQueryResult<GetAllProductsQuery, unknown>
 }) => {
   return (
-    <MobileHomeSection bgWhite block title="جدیدترین کالاها">
+    <MobileHomeSection
+      viewAllHref="/products"
+      bgWhite
+      block
+      title="جدیدترین کالاها"
+    >
       <ProductListContainer>
         {({ selectedItemId, setSelectedItemId }) => (
           <>

@@ -8,6 +8,12 @@ query GetAllSellersCount($indexSellerInput: IndexSellerInput) {
           url
         }
       }
+      logoFile {
+        id
+        presignedUrl {
+          url
+        }
+      }
       name
       rating
     }

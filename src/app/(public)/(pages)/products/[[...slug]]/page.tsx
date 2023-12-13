@@ -11,7 +11,7 @@ import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
-import SearchPage from "@/app/(public)/(pages)/search/components/search-page"
+import ProductsPage from "@/app/(public)/(pages)/products/components/products-page"
 
 type SearchIndexProps = {
   params: { slug: Array<string | number> }
@@ -103,7 +103,7 @@ const SearchIndex = async ({
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <SearchPage slug={slug} args={args} isMobileView={isMobileView} />
+      <ProductsPage slug={slug} args={args} isMobileView={isMobileView} />
     </ReactQueryHydrate>
   )
 }

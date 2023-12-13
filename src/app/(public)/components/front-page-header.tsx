@@ -36,7 +36,7 @@ const FrontPageHeader = ({ session }: Props) => {
                 <li key={category.id}>
                   <Link
                     className="whitespace-nowrap"
-                    href={`/search/${category.id}/${slugify(category.title)}`}
+                    href={`/products/${category.id}/${slugify(category.title)}`}
                   >
                     {category.title}
                   </Link>
@@ -61,7 +61,7 @@ const FrontPageHeader = ({ session }: Props) => {
                           <li key={category.id}>
                             <Link
                               className="inline-block whitespace-nowrap py-3"
-                              href={`/search/${category.id}/${slugify(
+                              href={`/products/${category.id}/${slugify(
                                 category.title
                               )}`}
                             >

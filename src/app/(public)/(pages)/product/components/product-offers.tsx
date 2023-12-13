@@ -2,7 +2,7 @@
 
 import { Offer, Uom } from "@/generated"
 
-import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
+import ProductSectionContainer from "@/app/(public)/(pages)/product/components/ProductSectionContainer"
 
 import ProductOfferItem from "./product-offer-item"
 

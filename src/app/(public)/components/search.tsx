@@ -252,7 +252,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                               noStyle
                               onClick={() =>
                                 navigateTo({
-                                  uri: `/p/${suggestedProduct.id}/${suggestedProduct.name}`
+                                  uri: `/product/${suggestedProduct.id}/${suggestedProduct.name}`
                                 })
                               }
                               key={suggestedProduct.id}
@@ -290,7 +290,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                               onClick={() =>
                                 navigateTo({
                                   query,
-                                  uri: `/search/${suggestedCategory.id}/${suggestedCategory.title}`
+                                  uri: `/product/${suggestedCategory.id}/${suggestedCategory.title}`
                                 })
                               }
                               key={suggestedCategory.id}

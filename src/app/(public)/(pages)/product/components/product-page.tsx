@@ -26,14 +26,14 @@ import Breadcrumb, { CrumbItemProps } from "@core/components/shared/Breadcrumb"
 import Link from "@core/components/shared/Link"
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-import ProductAttributes from "@/app/(public)/(pages)/p/components/product-attributes"
-import ProductDescription from "@/app/(public)/(pages)/p/components/product-description"
-import ProductDetails from "@/app/(public)/(pages)/p/components/product-details"
-import ProductImages from "@/app/(public)/(pages)/p/components/product-images"
-import ProductOffers from "@/app/(public)/(pages)/p/components/product-offers"
-import ProductIntroduce from "@/app/(public)/(pages)/p/components/ProductIntroduce"
-import SameCategories from "@/app/(public)/(pages)/p/components/SameCategories"
-import SuggestedOffer from "@/app/(public)/(pages)/p/components/suggested-offer"
+import ProductAttributes from "@/app/(public)/(pages)/product/components/product-attributes"
+import ProductDescription from "@/app/(public)/(pages)/product/components/product-description"
+import ProductDetails from "@/app/(public)/(pages)/product/components/product-details"
+import ProductImages from "@/app/(public)/(pages)/product/components/product-images"
+import ProductOffers from "@/app/(public)/(pages)/product/components/product-offers"
+import ProductIntroduce from "@/app/(public)/(pages)/product/components/ProductIntroduce"
+import SameCategories from "@/app/(public)/(pages)/product/components/SameCategories"
+import SuggestedOffer from "@/app/(public)/(pages)/product/components/suggested-offer"
 
 export type GroupedAttributes = {
   name: string
@@ -85,7 +85,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
       position: idx + 2,
       item: {
         "@id": encodeURI(
-          `${process.env.NEXT_PUBLIC_URL}/search/${parent.id}/${parent.title}`
+          `${process.env.NEXT_PUBLIC_URL}/product/${parent.id}/${parent.title}`
         ),
         name: parent.title
       }
@@ -97,7 +97,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
     position: product.category.parentsChain.length + 2,
     item: {
       "@id": encodeURI(
-        `${process.env.NEXT_PUBLIC_URL}/search/${product.category.id}/${product.category.title}`
+        `${process.env.NEXT_PUBLIC_URL}/product/${product.category.id}/${product.category.title}`
       ),
       name: product.category.title
     }
@@ -121,7 +121,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
         position: breadcrumbJsonLdArray.length + 2,
         item: {
           "@id": encodeURI(
-            `${process.env.NEXT_PUBLIC_URL}/p/${product.id}/${product.name}`
+            `${process.env.NEXT_PUBLIC_URL}/product/${product.id}/${product.name}`
           ),
           name: product.name
         }
@@ -133,14 +133,14 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
   product.category.parentsChain.forEach((parent) => {
     breadcrumb.push({
       label: parent.title,
-      path: `/search/${parent.id}/${parent.title}`,
+      path: `/product/${parent.id}/${parent.title}`,
       isCurrent: false
     })
   })
 
   breadcrumb.push({
     label: product.category.title,
-    path: `/search/${product.category.id}/${product.category.title}`,
+    path: `/product/${product.category.id}/${product.category.title}`,
     isCurrent: false
   })
 
@@ -173,7 +173,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
     name: product.name,
     image: product.images.at(0)?.file.presignedUrl.url,
     sku: product.sku,
-    url: `${process.env.NEXT_PUBLIC_URL}/p/${product.id}/${product.name}`,
+    url: `${process.env.NEXT_PUBLIC_URL}/product/${product.id}/${product.name}`,
     offers: offersJsonLd as AggregateOffer
   }
 

@@ -14,10 +14,10 @@ const MobileHomeSectionContainer: React.FC<
   PropsWithChildren<IMobileHomeSectionContainer>
 > = ({ title = "", viewAllHref, bgWhite = false, children }) => {
   return (
-    <div className={clsx("flex flex-col pt-7", bgWhite && "bg-alpha-white")}>
+    <div className={clsx("flex flex-col pt-8", bgWhite && "bg-alpha-white")}>
       {title && (
-        <div className="flex items-center justify-between p-7 pt-0">
-          <h4 className={`font-medium`}>{title}</h4>
+        <div className="flex items-center justify-between p-8 pt-0">
+          <h3 className={`font-medium`}>{title}</h3>
           {viewAllHref && (
             <Link
               href={viewAllHref}

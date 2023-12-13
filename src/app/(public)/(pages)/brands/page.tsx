@@ -39,7 +39,7 @@ const BrandsIndex = async ({ searchParams }: BrandsIndexProps) => {
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <BrandsPage args={args} isMobileView={isMobileView} />
+      <BrandsPage limitPage={5} args={args} isMobileView={isMobileView} />
     </ReactQueryHydrate>
   )
 }

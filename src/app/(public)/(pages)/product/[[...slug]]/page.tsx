@@ -7,7 +7,7 @@ import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getProductQueryFn } from "@core/queryFns/productQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-import ProductPage from "@/app/(public)/(pages)/p/components/product-page"
+import ProductPage from "@/app/(public)/(pages)/product/components/product-page"
 
 interface ProductIndexProps {
   params: {
@@ -28,7 +28,7 @@ export async function generateMetadata(
     description: data.product.metaDescription,
     alternates: {
       canonical: encodeURI(
-        `${process.env.NEXT_PUBLIC_URL}/p/${data.product.id}/${data.product.name}`
+        `${process.env.NEXT_PUBLIC_URL}/product/${data.product.id}/${data.product.name}`
       )
     }
   }

@@ -3,18 +3,22 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { UseQueryResult } from "@tanstack/react-query"
+import clsx from "clsx"
 import { Autoplay } from "swiper/modules"
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react"
 
 import { GetBannerHomePageQuery } from "@/generated"
 
 import Link from "@core/components/shared/Link"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
 
 const MobileHomeSlider = ({
   query
 }: {
   query: UseQueryResult<GetBannerHomePageQuery, unknown>
 }) => {
+  const [selectedItemId, setSelectedItemId] =
+    useState<ICategoryListLoader>(null)
   const [activeSlide, setActiveSlide] = useState(0)
   const sliderRef = useRef<SwiperRef>(null)
   const [slideWidth, setSlideWidth] = useState(0)
@@ -53,7 +57,7 @@ const MobileHomeSlider = ({
           }}
           modules={[Autoplay]}
           autoplay={{
-            delay: 5000,
+            delay: 7000,
             disableOnInteraction: false
           }}
           className="h-full w-full"
@@ -67,12 +71,20 @@ const MobileHomeSlider = ({
               }}
               key={id}
             >
-              <Link href={url as string}>
+              <Link
+                onClick={() => {
+                  url && setSelectedItemId(id)
+                }}
+                href={url as string}
+              >
                 <Image
                   src={presignedUrl.url}
                   alt="slider"
                   fill
-                  className="rounded-xl object-cover"
+                  className={clsx(
+                    "rounded-xl border-2 object-cover",
+                    selectedItemId === id ? "border-primary" : "border-alpha-50"
+                  )}
                 />
               </Link>
             </SwiperSlide>

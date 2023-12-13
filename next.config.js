@@ -33,7 +33,7 @@ const nextConfig = {
       },
       {
         source: "/p",
-        destination: "/search",
+        destination: "/products",
         permanent: true
       },
       // {

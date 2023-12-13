@@ -33,7 +33,7 @@ const SearchHeader = ({ selectedCategoryId }: SearchHeaderProps) => {
       position: idx + 2,
       item: {
         "@id": encodeURI(
-          `${process.env.NEXT_PUBLIC_URL}/search/${parent.id}/${parent.title}`
+          `${process.env.NEXT_PUBLIC_URL}/products/${parent.id}/${parent.title}`
         ),
         name: parent.title
       }
@@ -45,7 +45,7 @@ const SearchHeader = ({ selectedCategoryId }: SearchHeaderProps) => {
     position: data.category.parentsChain.length + 2,
     item: {
       "@id": encodeURI(
-        `${process.env.NEXT_PUBLIC_URL}/search/${data.category.id}/${data.category.title}`
+        `${process.env.NEXT_PUBLIC_URL}/products/${data.category.id}/${data.category.title}`
       ),
       name: data.category.title
     }
@@ -72,13 +72,13 @@ const SearchHeader = ({ selectedCategoryId }: SearchHeaderProps) => {
   data.category.parentsChain.forEach((parent) => {
     breadcrumb.push({
       label: parent.title,
-      path: `/search/${parent.id}/${parent.title}`,
+      path: `/products/${parent.id}/${parent.title}`,
       isCurrent: false
     })
   })
 
   breadcrumb.push({
-    path: encodeURI(`/search/${data.category.id}/${data.category.title}`),
+    path: encodeURI(`/products/${data.category.id}/${data.category.title}`),
     label: `${data.category.title} (${digitsEnToFa(
       addCommas(data.category.productsCount)
     )} کالا)`,

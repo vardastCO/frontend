@@ -61,7 +61,7 @@ const MobileHeader: React.FC<IModalHeader> = ({
     >
       <div className="grid h-14 grid-cols-9 items-center">
         <div className="flex h-full flex-col items-center justify-center py-4"></div>
-        <div className="col-span-7 h-full py-4">
+        <div className="col-span-7 h-full py-3.5">
           <div className="h-full">
             {hasLogo ? (
               <div className="relative mx-auto h-full">

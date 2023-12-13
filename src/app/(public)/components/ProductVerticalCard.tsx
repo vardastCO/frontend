@@ -83,7 +83,7 @@ const ProductVerticalCard = forwardRef(
     return (
       <Link
         ref={ref}
-        href={`/p/${product.id}/${slugify(product.name)}`}
+        href={`/product/${product.id}/${slugify(product.name)}`}
         className={clsx("grid h-full px", "grid-rows-12")}
       >
         <div

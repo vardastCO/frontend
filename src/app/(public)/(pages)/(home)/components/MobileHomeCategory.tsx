@@ -48,7 +48,7 @@ const MobileHomeCategory = ({ categories }: { categories?: Category[] }) => {
                   setSelectedItemId(id)
                 }}
                 href={`/categories/${id}/${title}`}
-                className={clsx("flex h-full flex-col justify-start gap-y-2")}
+                className={clsx("flex h-full flex-col justify-start gap-y-4")}
                 style={{
                   width: slideWidth
                 }}
@@ -58,7 +58,7 @@ const MobileHomeCategory = ({ categories }: { categories?: Category[] }) => {
                     height: slideWidth
                   }}
                   className={clsx(
-                    "relative  w-full rounded-full bg-alpha-50 p-1",
+                    "relative  w-full rounded-full border border-alpha-400 bg-alpha-50 p-1",
                     selectedItemId === id ? "border-2 border-primary" : ""
                   )}
                 >

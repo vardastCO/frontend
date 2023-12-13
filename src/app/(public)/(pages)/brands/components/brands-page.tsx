@@ -14,13 +14,15 @@ import BrandOrSellerCard, {
 } from "@/app/(public)/components/BrandOrSellerCard"
 import BrandsOrSellersContainer from "@/app/(public)/components/BrandsOrSellersContainer"
 import InfiniteScrollPagination from "@/app/(public)/components/InfiniteScrollPagination"
+import { checkLimitPageByCondition } from "@/app/(public)/components/product-list"
 
 interface BrandsPageProps {
   isMobileView: boolean
   args: IndexBrandInput
+  limitPage?: number
 }
 
-const BrandsPage = ({ args }: BrandsPageProps) => {
+const BrandsPage = ({ args, limitPage }: BrandsPageProps) => {
   const { t } = useTranslation()
   const allBrandsQuery = useInfiniteQuery<GetAllBrandsQuery>(
     [
@@ -38,9 +40,15 @@ const BrandsPage = ({ args }: BrandsPageProps) => {
     {
       keepPreviousData: true,
       getNextPageParam(lastPage, allPages) {
-        return lastPage.brands.currentPage < lastPage.brands.lastPage
-          ? allPages.length + 1
-          : undefined
+        return limitPage
+          ? checkLimitPageByCondition(
+              lastPage.brands.currentPage <= limitPage,
+              allPages
+            )
+          : checkLimitPageByCondition(
+              lastPage.brands.currentPage < lastPage.brands.lastPage,
+              allPages
+            )
       }
     }
   )
@@ -54,7 +62,7 @@ const BrandsPage = ({ args }: BrandsPageProps) => {
           dynamic={false}
           items={[
             {
-              label: t("common:producer_vardast"),
+              label: t("common:brands_vardast"),
               path: "/brands",
               isCurrent: true
             }

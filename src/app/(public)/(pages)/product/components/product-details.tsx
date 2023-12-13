@@ -1,5 +1,5 @@
-import { GroupedAttributes } from "@/app/(public)/(pages)/p/components/product-page"
-import ProductSectionContainer from "@/app/(public)/(pages)/p/components/ProductSectionContainer"
+import { GroupedAttributes } from "@/app/(public)/(pages)/product/components/product-page"
+import ProductSectionContainer from "@/app/(public)/(pages)/product/components/ProductSectionContainer"
 
 type ProductDetailsProps = {
   attributes: GroupedAttributes[]

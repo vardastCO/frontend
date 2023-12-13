@@ -13,13 +13,15 @@ import BrandOrSellerCard, {
 } from "@/app/(public)/components/BrandOrSellerCard"
 import BrandsOrSellersContainer from "@/app/(public)/components/BrandsOrSellersContainer"
 import InfiniteScrollPagination from "@/app/(public)/components/InfiniteScrollPagination"
+import { checkLimitPageByCondition } from "@/app/(public)/components/product-list"
 
 interface SellersPageProps {
   isMobileView: boolean
   args: IndexSellerInput
+  limitPage?: number
 }
 
-const SellersPage = ({ args }: SellersPageProps) => {
+const SellersPage = ({ limitPage, args }: SellersPageProps) => {
   const allSellersQuery = useInfiniteQuery<GetAllSellersQuery>(
     [
       QUERY_FUNCTIONS_KEY.ALL_SELLERS_QUERY_KEY,
@@ -36,9 +38,15 @@ const SellersPage = ({ args }: SellersPageProps) => {
     {
       keepPreviousData: true,
       getNextPageParam(lastPage, allPages) {
-        return lastPage.sellers.currentPage < lastPage.sellers.lastPage
-          ? allPages.length + 1
-          : undefined
+        return limitPage
+          ? checkLimitPageByCondition(
+              lastPage.sellers.currentPage <= limitPage,
+              allPages
+            )
+          : checkLimitPageByCondition(
+              lastPage.sellers.currentPage < lastPage.sellers.lastPage,
+              allPages
+            )
       }
     }
   )
