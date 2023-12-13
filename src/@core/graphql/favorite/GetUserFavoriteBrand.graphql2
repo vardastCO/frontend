@@ -1,7 +1,7 @@
 query GetUserFavoriteBrand($type: String!) {
   favoriteUser(type: $type) {
     id
-    brand {
+    data {
       id
       name
       slug

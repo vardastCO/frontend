@@ -1,18 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
+// import { useQuery } from "@tanstack/react-query"
 import { LucidePackageX } from "lucide-react"
 import { Session } from "next-auth"
 
-import {
-  Brand,
-  GetUserFavoriteBrandQuery,
-  GetUserFavoriteProductQuery,
-  GetUserFavoriteSellerQuery,
-  Product,
-  Seller
-} from "@/generated"
+// import {
+//   Brand,
+//   GetUserFavoriteBrandQuery,
+//   GetUserFavoriteProductQuery,
+//   GetUserFavoriteSellerQuery,
+//   Product,
+//   Seller
+// } from "@/generated"
 
 import {
   Tabs,
@@ -20,14 +20,13 @@ import {
   TabsList,
   TabsTrigger
 } from "@core/components/ui/tabs"
-import { allUserFavoriteBrandQueryFns } from "@core/queryFns/allUserFavoriteBrandQueryFns"
-import { allUserFavoriteProductQueryFns } from "@core/queryFns/allUserFavoriteProductQueryFns"
-import { allUserFavoriteSellerQueryFns } from "@core/queryFns/allUserFavoriteSellerQueryFns"
-import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-import BrandOrSellerCard from "@/app/(public)/components/BrandOrSellerCard"
+// import { allUserFavoriteBrandQueryFns } from "@core/queryFns/allUserFavoriteBrandQueryFns"
+// import { allUserFavoriteProductQueryFns } from "@core/queryFns/allUserFavoriteProductQueryFns"
+// import { allUserFavoriteSellerQueryFns } from "@core/queryFns/allUserFavoriteSellerQueryFns"
+// import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
+// import BrandOrSellerCard from "@/app/(public)/components/BrandOrSellerCard"
+// import ProductCard from "@/app/(public)/components/product-card"
 import BrandsOrSellersContainer from "@/app/(public)/components/BrandsOrSellersContainer"
-import ProductCard from "@/app/(public)/components/product-card"
-import ProductListContainer from "@/app/(public)/components/ProductListContainer"
 
 type TabType = "brand" | "seller" | "product"
 
@@ -43,23 +42,23 @@ const NotFoundItems = ({ text = "" }) => {
 const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
   const [type, setType] = useState<TabType>("product")
 
-  const productQuery = useQuery<GetUserFavoriteProductQuery>({
-    queryKey: [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_PRODUCT],
-    queryFn: () => allUserFavoriteProductQueryFns(session?.accessToken),
-    enabled: type === "product"
-  })
+  // const productQuery = useQuery<GetUserFavoriteProductQuery>({
+  //   queryKey: [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_PRODUCT],
+  //   queryFn: () => allUserFavoriteProductQueryFns(session?.accessToken),
+  //   enabled: type === "product"
+  // })
 
-  const brandQuery = useQuery<GetUserFavoriteBrandQuery>({
-    queryKey: [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_BRAND],
-    queryFn: () => allUserFavoriteBrandQueryFns(session?.accessToken),
-    enabled: type === "brand"
-  })
+  // const brandQuery = useQuery<GetUserFavoriteBrandQuery>({
+  //   queryKey: [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_BRAND],
+  //   queryFn: () => allUserFavoriteBrandQueryFns(session?.accessToken),
+  //   enabled: type === "brand"
+  // })
 
-  const sellerQuery = useQuery<GetUserFavoriteSellerQuery>({
-    queryKey: [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_SELLER],
-    queryFn: () => allUserFavoriteSellerQueryFns(session?.accessToken),
-    enabled: type === "seller"
-  })
+  // const sellerQuery = useQuery<GetUserFavoriteSellerQuery>({
+  //   queryKey: [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_SELLER],
+  //   queryFn: () => allUserFavoriteSellerQueryFns(session?.accessToken),
+  //   enabled: type === "seller"
+  // })
 
   return (
     <Tabs
@@ -81,31 +80,32 @@ const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
       </TabsList>
       <TabsContent value="product">
         {false ? (
-          <ProductListContainer>
-            {({ selectedItemId, setSelectedItemId }) => (
-              <>
-                {productQuery.data?.favoriteUser.map(
-                  ({ product, id }) =>
-                    product && (
-                      <ProductCard
-                        selectedItemId={selectedItemId}
-                        setSelectedItemId={setSelectedItemId}
-                        key={id}
-                        product={product as Product}
-                      />
-                    )
-                )}
-              </>
-            )}
-          </ProductListContainer>
+          <></>
         ) : (
+          // <ProductListContainer>
+          //   {({ selectedItemId, setSelectedItemId }) => (
+          //     <>
+          //       {productQuery.data?.favoriteUser.map(
+          //         ({ product, id }) =>
+          //           product && (
+          //             <ProductCard
+          //               selectedItemId={selectedItemId}
+          //               setSelectedItemId={setSelectedItemId}
+          //               key={id}
+          //               product={product as Product}
+          //             />
+          //           )
+          //       )}
+          //     </>
+          //   )}
+          // </ProductListContainer>
           <NotFoundItems text="محصولی" />
         )}
       </TabsContent>
       <TabsContent value="seller">
         {false ? (
           <BrandsOrSellersContainer>
-            {sellerQuery.data?.favoriteUser.map(
+            {/* {sellerQuery.data?.favoriteUser.map(
               ({ seller, id }) =>
                 seller && (
                   <BrandOrSellerCard
@@ -113,7 +113,7 @@ const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
                     content={{ ...(seller as Seller), __typename: "Seller" }}
                   />
                 )
-            )}
+            )} */}
           </BrandsOrSellersContainer>
         ) : (
           <NotFoundItems text="فروشنده‌ای" />
@@ -122,7 +122,7 @@ const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
       <TabsContent value="brand">
         {false ? (
           <BrandsOrSellersContainer>
-            {brandQuery.data?.favoriteUser.map(
+            {/* {brandQuery.data?.favoriteUser.map(
               ({ brand, id }) =>
                 brand && (
                   <BrandOrSellerCard
@@ -130,7 +130,7 @@ const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
                     content={{ ...(brand as Brand), __typename: "Brand" }}
                   />
                 )
-            )}
+            )} */}
           </BrandsOrSellersContainer>
         ) : (
           <NotFoundItems text="برندی" />

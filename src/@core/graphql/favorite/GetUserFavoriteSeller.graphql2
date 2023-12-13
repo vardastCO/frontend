@@ -1,7 +1,7 @@
 query GetUserFavoriteSeller($type: String!) {
   favoriteUser(type: $type) {
     id
-    seller {
+    data {
       rating
       offers {
         id
