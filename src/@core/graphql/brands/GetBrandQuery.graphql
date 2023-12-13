@@ -3,7 +3,7 @@ query GetBrand($id: Int!) {
     id
     name
     slug
-
+    bio
     rating
     logoFile {
       id
