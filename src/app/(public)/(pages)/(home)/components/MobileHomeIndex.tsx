@@ -23,6 +23,7 @@ import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 import MobileHomeCategory from "@/app/(public)/(pages)/(home)/components/MobileHomeCategory"
 import MobileHomeNewestProducts from "@/app/(public)/(pages)/(home)/components/MobileHomeNewestProducts"
 import MobileHomeSlider from "@/app/(public)/(pages)/(home)/components/MobileHomeSlider"
+import MobileHomeTopBlogs from "@/app/(public)/(pages)/(home)/components/MobileHomeTopBlogs"
 import MobileHomeTopEntities from "@/app/(public)/(pages)/(home)/components/MobileHomeTopEntities"
 
 const MobileHomeIndex = () => {
@@ -96,6 +97,7 @@ const MobileHomeIndex = () => {
         query={allSellersCount.data?.sellers.data.slice(0, 5) as Seller[]}
       />
       <MobileHomeNewestProducts allProductsQuery={allProductsQuery} />
+      <MobileHomeTopBlogs />
     </>
   )
 }

@@ -94,7 +94,7 @@
         ring-0
         ring-alpha-700/5
         focus:ring-4
-        focus-visible:bg-alpha-50
+        /* focus-visible:bg-alpha-50 */
         focus-visible:ring-4
         active:bg-alpha-50
         dark:ring-alpha-300/30
@@ -109,10 +109,10 @@
     @apply bg-transparent
         text-primary
         ring-0
-        focus-visible:bg-alpha-100
+        /* focus-visible:bg-alpha-100 */
         active:bg-alpha-100
         dark:text-alpha-300
-        dark:focus-visible:bg-alpha-800/70
+        /* dark:focus-visible:bg-alpha-800/70 */
         md:hover:bg-alpha-100
         dark:md:hover:bg-alpha-800/70;
   }
