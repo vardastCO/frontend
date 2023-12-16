@@ -39,7 +39,8 @@ const MobileHomeIndex = () => {
         page: 1
       }),
     {
-      keepPreviousData: true
+      keepPreviousData: true,
+      staleTime: 999999999
     }
   )
 
@@ -48,14 +49,17 @@ const MobileHomeIndex = () => {
       QUERY_FUNCTIONS_KEY.VOCABULARY_QUERY_KEY,
       { slug: "product_categories" }
     ],
-    queryFn: () => getVocabularyQueryFn("product_categories")
+    queryFn: () => getVocabularyQueryFn("product_categories"),
+    keepPreviousData: true,
+    staleTime: 999999999
   })
 
   const allBrandsCount = useQuery<GetAllBrandsCountQuery>(
     [QUERY_FUNCTIONS_KEY.GET_ALL_BRANDS_COUNT_QUERY_KEY],
     getAllBrandsCountQueryFn,
     {
-      keepPreviousData: true
+      keepPreviousData: true,
+      staleTime: 999999999
     }
   )
 
@@ -63,7 +67,8 @@ const MobileHomeIndex = () => {
     [QUERY_FUNCTIONS_KEY.ALL_SELLERS_COUNT_QUERY_KEY],
     getAllSellersCountQueryFn,
     {
-      keepPreviousData: true
+      keepPreviousData: true,
+      staleTime: 999999999
     }
   )
 
@@ -87,14 +92,14 @@ const MobileHomeIndex = () => {
         }
       />
       <MobileHomeTopEntities
-        __typename="Brand"
-        title="جدیدترین برندها"
-        query={allBrandsCount.data?.brands.data.slice(0, 5) as Brand[]}
-      />
-      <MobileHomeTopEntities
         __typename="Seller"
         title="جدیدترین فروشنده‌ها"
         query={allSellersCount.data?.sellers.data.slice(0, 5) as Seller[]}
+      />
+      <MobileHomeTopEntities
+        __typename="Brand"
+        title="جدیدترین برندها"
+        query={allBrandsCount.data?.brands.data.slice(0, 5) as Brand[]}
       />
       <MobileHomeNewestProducts allProductsQuery={allProductsQuery} />
       <MobileHomeTopBlogs />
