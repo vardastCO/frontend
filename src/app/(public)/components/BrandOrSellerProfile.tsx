@@ -54,7 +54,7 @@ const BrandOrSellerProfile = ({
   if (!data) notFound()
 
   const [imageContainerHeight, setImageContainerHeight] = useState(80)
-  const [categoriesCount, setCategoriesCount] = useState(0)
+  // const [categoriesCount, setCategoriesCount] = useState(0)
   const [imageSellerContainerHeight, setImageSellerContainerHeight] =
     useState(80)
   const productContainerRef = useRef<HTMLDivElement>(null)
@@ -317,7 +317,7 @@ const BrandOrSellerProfile = ({
           </TabsList>
           <TabsContent value="products">
             <ProductList
-              setCategoriesCount={setCategoriesCount}
+              // setCategoriesCount={setCategoriesCount}
               args={args}
               hasFilter={false}
               isMobileView={isMobileView}
