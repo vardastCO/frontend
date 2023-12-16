@@ -130,8 +130,6 @@ const ProductList = ({
     {
       keepPreviousData: true,
       getNextPageParam(lastPage, allPages) {
-        console.log({ lastPage, allPages, limitPage })
-
         return limitPage
           ? checkLimitPageByCondition(
               lastPage.products.currentPage <= limitPage,

@@ -17,7 +17,7 @@
 
   &[aria-orientation="horizontal"] {
     .tab {
-      @apply border-b-2 border-[var(--border-color)];
+      @apply border-b-0.5 border-[var(--border-color)];
     }
   }
 
@@ -45,6 +45,10 @@
   &[aria-selected="true"] {
     --border-color: var(--highlight-color);
     @apply text-primary;
+  }
+
+  &[aria-selected="false"] {
+    --border-color: theme(colors.alpha.200);
   }
 
   &[aria-disabled] {

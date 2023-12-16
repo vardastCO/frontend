@@ -73,6 +73,10 @@ const tailwind = {
       fontWeight: {
         extrablack: "950"
       },
+      borderWidth: {
+        0.5: "0.125rem",
+        1: "0.25rem"
+      },
       colors: {
         primary: {
           ...myColors.primary,
