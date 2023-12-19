@@ -55,7 +55,7 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
   return (
     <>
       <SellerContactModal
-        seller={offer.seller}
+        data={offer.seller}
         open={contactModalOpen}
         onOpenChange={setContactModalOpen}
       />

@@ -11,7 +11,7 @@ type SameCategoriesProps = {
 const SameCategories = ({ products }: SameCategoriesProps) => {
   return (
     // <ProductSectionContainer spaceless title="کالاهای مشابه">
-    <div className="py-6">
+    <div className="bg-secondary py-6">
       <ProductSlider
         hasExtraItem={{
           title: "کالاهای مشابه"

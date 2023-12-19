@@ -16,6 +16,7 @@ query GetAllBrandsCount($indexBrandInput: IndexBrandInput) {
       }
       name
       rating
+      total
     }
   }
 }

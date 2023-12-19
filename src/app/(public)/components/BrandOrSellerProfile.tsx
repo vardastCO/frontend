@@ -2,16 +2,24 @@
 
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import { BookmarkIcon, ShareIcon } from "@heroicons/react/24/outline"
 import { CheckBadgeIcon } from "@heroicons/react/24/solid"
-import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
 import copy from "copy-to-clipboard"
+import { setDefaultOptions } from "date-fns"
+import { faIR } from "date-fns/locale"
 
-import { GetBrandQuery, GetSellerQuery, IndexProductInput } from "@/generated"
+import {
+  EventTrackerSubjectTypes,
+  EventTrackerTypes,
+  GetBrandQuery,
+  GetSellerQuery,
+  IndexProductInput,
+  useCreateEventTrackerMutation
+} from "@/generated"
 
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { Button } from "@core/components/ui/button"
 import {
   Tabs,
@@ -20,6 +28,8 @@ import {
   TabsTrigger
 } from "@core/components/ui/tabs"
 import { toast } from "@core/hooks/use-toast"
+import SellerContactModal from "@/app/(public)/(pages)/product/components/seller-contact-modal"
+import BuyBoxNavigation from "@/app/(public)/components/BuyBoxNavigation"
 import ProductList from "@/app/(public)/components/product-list"
 
 export enum BrandOrSellerEnum {
@@ -44,6 +54,77 @@ interface BrandOrSellerProfile {
 //   return data instanceof Object
 // }
 
+type ContentComponent<T> = React.FC<T>
+
+const _tabs: Record<
+  BrandOrSellerEnum,
+  Array<{
+    value: string
+    title: string
+    Content: ContentComponent<{
+      args: IndexProductInput
+      isMobileView: boolean
+      slug: (string | number)[]
+    }>
+  }>
+> = {
+  [BrandOrSellerEnum.SELLER]: [
+    {
+      value: "product",
+      title: "کالا‌ها",
+      Content: ({ args, isMobileView, slug }) => (
+        <ProductList
+          args={args}
+          hasFilter={false}
+          isMobileView={isMobileView}
+          selectedCategoryIds={args["categoryIds"] || undefined}
+          sellerId={+slug[0]}
+        />
+      )
+    },
+    {
+      value: "category",
+      title: "دسته‌بندی‌ها",
+      Content: () => <></>
+    },
+    {
+      value: "brand",
+      title: "برند‌ها",
+      Content: () => <></>
+    }
+  ],
+  [BrandOrSellerEnum.BRAND]: [
+    {
+      value: "product",
+      title: "کالاها",
+      Content: ({ args, isMobileView, slug }) => (
+        <ProductList
+          args={args}
+          hasFilter={false}
+          isMobileView={isMobileView}
+          selectedCategoryIds={args["categoryIds"] || undefined}
+          sellerId={+slug[0]}
+        />
+      )
+    },
+    {
+      value: "category",
+      title: "دسته‌بندی‌ها",
+      Content: () => <></>
+    },
+    {
+      value: "price-list",
+      title: "لیست قیمت",
+      Content: () => <></>
+    },
+    {
+      value: "catalog",
+      title: "کاتالوگ",
+      Content: () => <></>
+    }
+  ]
+}
+
 const BrandOrSellerProfile = ({
   isMobileView,
   args,
@@ -52,21 +133,22 @@ const BrandOrSellerProfile = ({
   slug
 }: BrandOrSellerProfile) => {
   if (!data) notFound()
+  const [contactModalOpen, setContactModalOpen] = useState<boolean>(false)
 
   const [imageContainerHeight, setImageContainerHeight] = useState(80)
   // const [categoriesCount, setCategoriesCount] = useState(0)
-  const [imageSellerContainerHeight, setImageSellerContainerHeight] =
-    useState(80)
+  // const [imageSellerContainerHeight, setImageSellerContainerHeight] =
+  //   useState(80)
   const productContainerRef = useRef<HTMLDivElement>(null)
-  const sellerContainerRef = useRef<HTMLAnchorElement>(null)
+  // const sellerContainerRef = useRef<HTMLAnchorElement>(null)
 
-  const phoneNumbers = data.contacts.map(
-    ({ number, code }, index) =>
-      number &&
-      (index === 0
-        ? (code ? digitsEnToFa(code) : "") + digitsEnToFa(number)
-        : " - " + (code ? digitsEnToFa(code) : "") + digitsEnToFa(number))
-  )
+  // const phoneNumbers = data.contacts.map(
+  //   ({ number, code }, index) =>
+  //     number &&
+  //     (index === 0
+  //       ? (code ? digitsEnToFa(code) : "") + digitsEnToFa(number)
+  //       : " - " + (code ? digitsEnToFa(code) : "") + digitsEnToFa(number))
+  // )
 
   const handleOnClick = async () => {
     if (navigator?.share) {
@@ -93,21 +175,61 @@ const BrandOrSellerProfile = ({
     }
   }
 
+  const showSellerContact = () => {
+    createEventTrackerMutation.mutate({
+      createEventTrackerInput: {
+        type: EventTrackerTypes.ViewBuyBox,
+        subjectType: EventTrackerSubjectTypes.ContactInfo,
+        subjectId: data.contacts?.at(0)?.id || 0,
+        url: window.location.href
+      }
+    })
+  }
+
+  const buyBoxVariants = {
+    [BrandOrSellerEnum.BRAND]: {
+      onClick: showSellerContact,
+      title: "اطلاعات تماس برترین فروشنده"
+    },
+    [BrandOrSellerEnum.SELLER]: {
+      onClick: showSellerContact,
+      title: "اطلاعات تماس"
+    }
+  }
+
+  const createEventTrackerMutation = useCreateEventTrackerMutation(
+    graphqlRequestClient,
+    {
+      onSuccess: () => {
+        setContactModalOpen(true)
+      }
+    }
+  )
+  setDefaultOptions({
+    locale: faIR,
+    weekStartsOn: 6
+  })
+
   useEffect(() => {
     const div = productContainerRef.current
     if (div) {
       setImageContainerHeight(div.clientWidth)
     }
-    const sellerDiv = sellerContainerRef.current
-    if (sellerDiv) {
-      setImageSellerContainerHeight(sellerDiv.clientWidth)
-    }
+    // const sellerDiv = sellerContainerRef.current
+    // if (sellerDiv) {
+    //   setImageSellerContainerHeight(sellerDiv.clientWidth)
+    // }
   }, [])
 
   const isSellerQuery = () => type === BrandOrSellerEnum.SELLER
 
   return (
     <>
+      <SellerContactModal
+        data={data}
+        open={contactModalOpen}
+        onOpenChange={setContactModalOpen}
+      />
       {/* <div className="flex flex-col bg-alpha-white">
         <Breadcrumb
           dynamic={false}
@@ -126,7 +248,14 @@ const BrandOrSellerProfile = ({
         />
         <hr className="h-px w-full bg-alpha-200" />
       </div> */}
-      <div className="flex flex-col gap-y-0.5">
+      <div
+        className="flex flex-col gap-y-0.5"
+        style={{
+          paddingBottom:
+            document.getElementById("bottom-navigation-buy-box")
+              ?.clientHeight ?? 0
+        }}
+      >
         <div className="flex flex-col gap-y bg-alpha-white px py-5">
           <div className="grid grid-cols-9 items-center justify-center">
             <div></div>
@@ -228,7 +357,7 @@ const BrandOrSellerProfile = ({
             <h4 className="">عالی</h4>
           </div>
         </div> */}
-        {isSellerQuery() && (
+        {/* {isSellerQuery() && (
           <div className="grid grid-cols-5 items-center bg-alpha-white px-6 py">
             <ul className="col-span-4 flex list-disc flex-col gap-y">
               <li className="flex">
@@ -264,7 +393,7 @@ const BrandOrSellerProfile = ({
               />
             </Link>
           </div>
-        )}
+        )} */}
 
         {data.bio && (
           <div className="flex flex-col items-start bg-alpha-white p-6">
@@ -272,68 +401,37 @@ const BrandOrSellerProfile = ({
             {<p className="pt-6 text-justify">{data.bio}</p>}
           </div>
         )}
-        <Tabs defaultValue="products" className="bg-alpha-white">
+        <Tabs defaultValue={_tabs[type][0].value} className="bg-alpha-white">
           <TabsList className="w-full">
-            <TabsTrigger
-              className={clsx(
-                "bg-alpha-white !py-4 font-semibold",
-                isSellerQuery() ? "w-1/2" : "w-1/4"
-              )}
-              value="products"
-            >
-              کالاها
-            </TabsTrigger>
-            <TabsTrigger
-              className={clsx(
-                "bg-alpha-white !py-4 font-semibold",
-                isSellerQuery() ? "w-1/2" : "w-1/4"
-              )}
-              value="categories"
-            >
-              دسته بندی
-            </TabsTrigger>
-            {!isSellerQuery() && (
-              <>
-                <TabsTrigger
-                  className={clsx(
-                    "bg-alpha-white !py-4 font-semibold",
-                    "w-1/4"
-                  )}
-                  value="prices"
-                >
-                  لیست قیمت
-                </TabsTrigger>
-                <TabsTrigger
-                  className={clsx(
-                    "bg-alpha-white !py-4 font-semibold",
-                    "w-1/4"
-                  )}
-                  value="catalog"
-                >
-                  کاتالوگ
-                </TabsTrigger>
-              </>
-            )}
+            {_tabs[type].map(({ title, value }) => (
+              <TabsTrigger
+                key={value}
+                className={clsx("bg-alpha-white !py-4 font-semibold")}
+                style={{
+                  width: `${100 / _tabs[type].length}%`
+                }}
+                value={value}
+              >
+                {title}
+              </TabsTrigger>
+            ))}
           </TabsList>
-          <TabsContent value="products">
-            <ProductList
-              // setCategoriesCount={setCategoriesCount}
-              args={args}
-              hasFilter={false}
-              isMobileView={isMobileView}
-              selectedCategoryIds={args["categoryIds"] || undefined}
-              sellerId={+slug[0]}
-            />
-          </TabsContent>
-          <TabsContent value="categories"></TabsContent>
-          {!isSellerQuery() && (
-            <>
-              <TabsContent value="prices"></TabsContent>
-              <TabsContent value="catalog"></TabsContent>
-            </>
-          )}
+          {_tabs[type].map(({ Content, value }) => (
+            <TabsContent key={value} value={value}>
+              <Content args={args} isMobileView={isMobileView} slug={slug} />
+            </TabsContent>
+          ))}
         </Tabs>
       </div>
+
+      <BuyBoxNavigation
+        title={buyBoxVariants[type].title}
+        actionButtonProps={{
+          onClick: buyBoxVariants[type].onClick,
+          disabled: createEventTrackerMutation.isLoading,
+          loading: createEventTrackerMutation.isLoading
+        }}
+      />
     </>
   )
 }

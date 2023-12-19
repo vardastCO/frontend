@@ -1,10 +1,11 @@
 "use client"
 
 import { useState } from "react"
+import clsx from "clsx"
 
 import useRouteChange from "@core/hooks/useRouteChange"
 
-export default function Progress() {
+export default function Progress({ reverseBg = false }) {
   const [progress, setProgress] = useState(0)
   const [hasFinished, setHasFinished] = useState(true)
 
@@ -48,9 +49,12 @@ export default function Progress() {
   })
 
   return (
-    <div className="fixed bottom-0.5 left-0 z-[999999] h-0.5 w-full rounded-full">
+    <div className="absolute bottom-0.5 left-0 z-[999999] h-0.5 w-full rounded-full">
       <div
-        className="absolute bottom-0 left-0.5 top-0 w-0 transform rounded-full bg-primary transition-all"
+        className={clsx(
+          "absolute bottom-0 left-0.5 top-0 w-0 transform rounded-full transition-all",
+          reverseBg ? "bg-alpha-white" : "bg-primary"
+        )}
         style={{
           width: hasFinished ? 0 : `${progress}%`,
           opacity: hasFinished ? 0 : 1

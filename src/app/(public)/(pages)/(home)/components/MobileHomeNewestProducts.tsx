@@ -21,7 +21,7 @@ const MobileHomeNewestProducts = ({
       <ProductListContainer>
         {({ selectedItemId, setSelectedItemId }) => (
           <>
-            {allProductsQuery.data?.products.data.map((product) => (
+            {allProductsQuery.data?.products?.data.map((product) => (
               <ProductCard
                 selectedItemId={selectedItemId}
                 setSelectedItemId={setSelectedItemId}

@@ -16,6 +16,7 @@ query GetAllSellersCount($indexSellerInput: IndexSellerInput) {
       }
       name
       rating
+      total
     }
   }
 }

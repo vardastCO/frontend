@@ -47,7 +47,7 @@ const Search: React.FC<ISearch> = ({ isMobileView }) => {
 
       <div
         className={clsx([
-          "relative mx-auto w-full transform transition-all md:max-w-md lg:max-w-lg",
+          "relative mx-auto h-full w-full transform transition-all md:max-w-md lg:max-w-lg",
           open && " opacity-0"
         ])}
       >
@@ -290,7 +290,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                               onClick={() =>
                                 navigateTo({
                                   query,
-                                  uri: `/product/${suggestedCategory.id}/${suggestedCategory.title}`
+                                  uri: `/products/${suggestedCategory.id}/${suggestedCategory.title}`
                                 })
                               }
                               key={suggestedCategory.id}
@@ -364,7 +364,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
                       onClick={() =>
                         navigateTo({
                           query,
-                          uri: `/search?query=${query}`
+                          uri: `/products?query=${query}`
                         })
                       }
                     >

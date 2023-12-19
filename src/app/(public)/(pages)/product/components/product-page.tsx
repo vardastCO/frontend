@@ -183,7 +183,14 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
         <Breadcrumb dynamic={false} items={breadcrumb} />
       </div>
 
-      <div className="grid grid-cols-1 gap-1 lg:grid-cols-[5fr_7fr]">
+      <div
+        className="grid grid-cols-1 gap-1 lg:grid-cols-[5fr_7fr]"
+        style={{
+          paddingBottom:
+            document.getElementById("bottom-navigation-buy-box")
+              ?.clientHeight ?? 0
+        }}
+      >
         <div className="flex flex-col bg-alpha-white">
           <div className="md:max-w-[200px]">
             {product.images.length > 0 && (
@@ -242,6 +249,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           ویرایش
         </Link>
       )}
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

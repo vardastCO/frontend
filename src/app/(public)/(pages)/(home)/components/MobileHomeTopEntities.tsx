@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
+import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react"
 
@@ -51,7 +52,7 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
           spaceBetween={16}
           className="h-full w-full pb-12"
         >
-          {query?.map(({ id, bannerFile, logoFile, name }) => (
+          {query?.map(({ id, bannerFile, logoFile, name, total }) => (
             <SwiperSlide
               key={id}
               className={clsx(
@@ -96,13 +97,9 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
                     </div>
                     <h5 className="text-right">{name}</h5>
                   </div>
-                  {/* <h5 className="text-primary">
-                    {`${
-                      __typename === "Brand"
-                        ? digitsEnToFa((query as Brand).products?.length ?? 0)
-                        : digitsEnToFa((query as Seller).offers?.length) ?? 0
-                    } کالا`}
-                  </h5> */}
+                  <h5 className="text-primary">
+                    {total ? `${digitsEnToFa(total)} کالا` : ""}
+                  </h5>
                 </div>
                 {/* <div className="relative z-20 flex flex-col bg-alpha-50 bg-opacity-60 px py-3 text-center font-semibold">
                   <h5 className="text-right">{name}</h5>

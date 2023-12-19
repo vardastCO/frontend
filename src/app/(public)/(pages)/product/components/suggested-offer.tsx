@@ -1,9 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
-import { MapPinIcon } from "@heroicons/react/24/outline"
-import { CheckBadgeIcon } from "@heroicons/react/24/solid"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 
@@ -16,12 +13,8 @@ import {
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import Link from "@core/components/shared/Link"
-import { Button } from "@core/components/ui/button"
-import ProductSectionContainer from "@/app/(public)/(pages)/product/components/ProductSectionContainer"
 import SellerContactModal from "@/app/(public)/(pages)/product/components/seller-contact-modal"
-import PriceTitle from "@/app/(public)/components/PriceTitle"
-import Rating from "@/app/(public)/components/Rating"
+import BuyBoxNavigation from "@/app/(public)/components/BuyBoxNavigation"
 
 type SuggestedOfferProps = {
   offersCount: number
@@ -29,6 +22,7 @@ type SuggestedOfferProps = {
   uom: Uom
 }
 
+// eslint-disable-next-line no-unused-vars
 const SuggestedOffer = ({ offer, uom }: SuggestedOfferProps) => {
   const [contactModalOpen, setContactModalOpen] = useState<boolean>(false)
   const createEventTrackerMutation = useCreateEventTrackerMutation(
@@ -58,12 +52,19 @@ const SuggestedOffer = ({ offer, uom }: SuggestedOfferProps) => {
   return (
     <>
       <SellerContactModal
-        seller={offer.seller}
+        data={offer.seller}
         open={contactModalOpen}
         onOpenChange={setContactModalOpen}
       />
-
-      <ProductSectionContainer title="برترین فروشنده">
+      <BuyBoxNavigation
+        title="اطلاعات تماس برترین فروشنده"
+        actionButtonProps={{
+          onClick: showSellerContact,
+          disabled: createEventTrackerMutation.isLoading,
+          loading: createEventTrackerMutation.isLoading
+        }}
+      />
+      {/* <ProductSectionContainer title="برترین فروشنده">
         <div className="flex w-full flex-col gap-y-4 rounded-2xl border bg-alpha-50 p">
           <div className="flex">
             {offer.seller.rating && offer.seller.rating > 0 ? (
@@ -131,7 +132,7 @@ const SuggestedOffer = ({ offer, uom }: SuggestedOfferProps) => {
             اطلاعات تماس
           </Button>
         </div>
-      </ProductSectionContainer>
+      </ProductSectionContainer> */}
     </>
   )
 }

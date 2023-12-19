@@ -32,7 +32,9 @@ const ProductSlider = ({ products, hasExtraItem }: ProductSliderProps) => {
         {hasExtraItem && (
           <SwiperSlide className="h-full">
             <div className="flex h-full flex-col items-center justify-center gap-y-8">
-              <h3 className="font-semibold">{hasExtraItem.title}</h3>
+              <h3 className="font-semibold text-alpha-white">
+                {hasExtraItem.title}
+              </h3>
               <Image
                 src={"/images/same-product.png"}
                 alt={"same-product"}

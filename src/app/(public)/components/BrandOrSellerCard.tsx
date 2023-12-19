@@ -1,6 +1,7 @@
 import { forwardRef, Ref, useState } from "react"
 import Image from "next/image"
 import { MapPinIcon } from "@heroicons/react/24/outline"
+import { digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { Brand, Seller } from "@/generated"
 
@@ -122,11 +123,14 @@ const BrandOrSellerCard = forwardRef(
               </p>
               <div className="flex items-center justify-between">
                 <p className="text-xs text-primary-500">
-                  {/* {`${digitsEnToFa(
-                  (content as Brand).products
-                    ? (content as Brand).products?.length
-                    : (content as Seller).offers.length
-                )} کالا`} */}
+                  {(content as Brand).products && (content as Brand)?.total
+                    ? `${digitsEnToFa((content as Brand).total as number)} کالا`
+                    : ""}
+                  {!(content as Brand).products && (content as Seller)?.total
+                    ? `${digitsEnToFa(
+                        (content as Seller).total as number
+                      )} کالا`
+                    : ""}
                 </p>
                 {content.rating && content.rating > 0 ? (
                   <Rating rating={content.rating} />

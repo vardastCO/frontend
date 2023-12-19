@@ -2,11 +2,9 @@
 
 import { notFound } from "next/navigation"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import useTranslation from "next-translate/useTranslation"
 
 import { Brand, GetAllBrandsQuery, IndexBrandInput } from "@/generated"
 
-import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getAllBrandsQueryFn } from "@core/queryFns/allBrandsQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import BrandOrSellerCard, {
@@ -23,7 +21,7 @@ interface BrandsPageProps {
 }
 
 const BrandsPage = ({ args, limitPage }: BrandsPageProps) => {
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   const allBrandsQuery = useInfiniteQuery<GetAllBrandsQuery>(
     [
       QUERY_FUNCTIONS_KEY.GET_ALL_BRANDS_QUERY_KEY,
@@ -57,7 +55,7 @@ const BrandsPage = ({ args, limitPage }: BrandsPageProps) => {
 
   return (
     <>
-      <div className="border-b bg-alpha-white">
+      {/* <div className="border-b bg-alpha-white">
         <Breadcrumb
           dynamic={false}
           items={[
@@ -68,7 +66,7 @@ const BrandsPage = ({ args, limitPage }: BrandsPageProps) => {
             }
           ]}
         />
-      </div>
+      </div> */}
 
       <BrandsOrSellersContainer>
         <InfiniteScrollPagination

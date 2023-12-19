@@ -161,16 +161,24 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   },
   {
     forceEqual: true,
-    path: "/p"
+    path: "/brands"
   },
   {
     forceEqual: true,
-    path: "/brand"
-  },
-  {
-    forceEqual: true,
-    path: "/seller"
+    path: "/sellers"
   }
+  // {
+  //   forceEqual: true,
+  //   path: "/product"
+  // }
+  // {
+  //   forceEqual: true,
+  //   path: "/brand"
+  // },
+  // {
+  //   forceEqual: true,
+  //   path: "/seller"
+  // }
 ]
 
 export const _navbar_items: NavbarItem[] = [

@@ -5,7 +5,6 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 
 import { GetAllSellersQuery, IndexSellerInput, Seller } from "@/generated"
 
-import Breadcrumb from "@core/components/shared/Breadcrumb"
 import { getAllSellersQueryFn } from "@core/queryFns/allSellersQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import BrandOrSellerCard, {
@@ -55,14 +54,14 @@ const SellersPage = ({ limitPage, args }: SellersPageProps) => {
 
   return (
     <>
-      <div className="bg-alpha-white">
+      {/* <div className="bg-alpha-white">
         <Breadcrumb
           dynamic={false}
           items={[
             { label: "فروشندگان وردست", path: "/sellers", isCurrent: true }
           ]}
         />
-      </div>
+      </div> */}
 
       <BrandsOrSellersContainer>
         <InfiniteScrollPagination

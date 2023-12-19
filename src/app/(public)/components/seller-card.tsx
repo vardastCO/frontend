@@ -59,9 +59,9 @@ const SellerCard = ({ seller }: SellerCardProps) => {
             <h4 title={seller.name} className="font-bold text-alpha-800">
               {seller.name}
             </h4>
-            <p className="text-primary-500">{`${digitsEnToFa(
-              seller.offers.length
-            )} محصول`}</p>
+            <p className="text-primary-500">
+              {seller?.total ? `${digitsEnToFa(seller?.total)} محصول` : ""}
+            </p>
             <p className="flex items-center gap-x-2 text-alpha-600">
               <MapPinIcon className="h-4 w-4 text-alpha-600" />
               {seller.addresses.length > 0 && seller.addresses[0].province.name}
