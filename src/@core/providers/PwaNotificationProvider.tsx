@@ -46,9 +46,9 @@ export default function PwaNotificationProvider({ isMobileView }: Props) {
                 alt={process.env.NEXT_PUBLIC_TITLE as string}
                 className="mx-auto h-44 w-44"
               />
-              <h1 className="text-lg leading-8">
+              <h2 className="text-lg leading-8">
                 نسخه وب اپلیکیشن (PWA) وردست را به صفحه اصلی اضافه کنید
-              </h1>
+              </h2>
               <p className="">
                 با این کار می توانید برای همیشه و بدون نیاز به به روز رسانی از
                 خدمات وردست استفاده کنید

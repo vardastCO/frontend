@@ -43,7 +43,8 @@ module.exports = {
         "merge",
         "docs",
         "revert",
-        "lint"
+        "lint",
+        "seo"
       ]
     ]
   }

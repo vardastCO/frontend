@@ -20,7 +20,7 @@ import MobileHomeIndex from "@/app/(public)/(pages)/(home)/components/MobileHome
 
 export const metadata: Metadata = {
   title: "بازار آنلاین مصالح ساختمانی",
-  description: "وردست - بازار آنلاین مصالح ساختمانی"
+  description: process.env.NEXT_PUBLIC_SLOGAN
 }
 
 const Index = async () => {
@@ -66,6 +66,7 @@ const Index = async () => {
   const dehydratedState = dehydrate(queryClient)
   return (
     <ReactQueryHydrate state={dehydratedState}>
+      <h1 className="hidden">{process.env.NEXT_PUBLIC_SLOGAN}</h1>
       {isMobileView ? (
         <MobileHomeIndex />
       ) : (

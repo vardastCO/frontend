@@ -25,11 +25,11 @@ export default async function PublicLayout({
       <SearchActionModal isMobileView={isMobileView} />
       {isMobileView ? (
         <>
-          <PwaNotificationProvider isMobileView={isMobileView} />
           <div className="container relative mx-auto flex h-full transform flex-col transition-all duration-200">
             <MobileScrollProvider>{children}</MobileScrollProvider>
           </div>
           <MobileNavigation />
+          <PwaNotificationProvider isMobileView={isMobileView} />
         </>
       ) : (
         <div className="container mx-auto h-full bg-alpha-white p">
