@@ -73,9 +73,9 @@ const MobileHeader: React.FC<IModalHeader> = ({
                 />
               </div>
             ) : title ? (
-              <h3 className="line-clamp-1 text-center font-bold text-alpha-white">
+              <h1 className="line-clamp-1 text-center font-bold text-alpha-white">
                 {title.split("-").join(" ")}
-              </h3>
+              </h1>
             ) : (
               <div className="relative mx-auto h-full">
                 <Image

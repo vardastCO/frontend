@@ -97,7 +97,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
     position: product.category.parentsChain.length + 2,
     item: {
       "@id": encodeURI(
-        `${process.env.NEXT_PUBLIC_URL}/product/${product.category.id}/${product.category.title}`
+        `${process.env.NEXT_PUBLIC_URL}/products/${product.category.id}/${product.category.title}`
       ),
       name: product.category.title
     }
@@ -121,7 +121,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
         position: breadcrumbJsonLdArray.length + 2,
         item: {
           "@id": encodeURI(
-            `${process.env.NEXT_PUBLIC_URL}/product/${product.id}/${product.name}`
+            `${process.env.NEXT_PUBLIC_URL}/products/${product.id}/${product.name}`
           ),
           name: product.name
         }
@@ -133,14 +133,14 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
   product.category.parentsChain.forEach((parent) => {
     breadcrumb.push({
       label: parent.title,
-      path: `/product/${parent.id}/${parent.title}`,
+      path: `/products/${parent.id}/${parent.title}`,
       isCurrent: false
     })
   })
 
   breadcrumb.push({
     label: product.category.title,
-    path: `/product/${product.category.id}/${product.category.title}`,
+    path: `/products/${product.category.id}/${product.category.title}`,
     isCurrent: false
   })
 

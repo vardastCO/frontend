@@ -5,6 +5,40 @@ query GetBrand($id: Int!) {
     slug
     bio
     rating
+    catalog {
+      id
+      uuid
+      modelType
+      modelId
+      name
+      originalName
+      size
+      mimeType
+      disk
+      bucketName
+      orderColumn
+      presignedUrl {
+        url
+        expiresAt
+      }
+    }
+    priceList {
+      id
+      uuid
+      modelType
+      modelId
+      name
+      originalName
+      size
+      mimeType
+      disk
+      bucketName
+      orderColumn
+      presignedUrl {
+        url
+        expiresAt
+      }
+    }
     logoFile {
       id
       uuid

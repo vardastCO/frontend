@@ -30,6 +30,7 @@ import {
 import { toast } from "@core/hooks/use-toast"
 import SellerContactModal from "@/app/(public)/(pages)/product/components/seller-contact-modal"
 import BuyBoxNavigation from "@/app/(public)/components/BuyBoxNavigation"
+import PdfViewer from "@/app/(public)/components/PdfViewer"
 import ProductList from "@/app/(public)/components/product-list"
 
 export enum BrandOrSellerEnum {
@@ -54,76 +55,7 @@ interface BrandOrSellerProfile {
 //   return data instanceof Object
 // }
 
-type ContentComponent<T> = React.FC<T>
-
-const _tabs: Record<
-  BrandOrSellerEnum,
-  Array<{
-    value: string
-    title: string
-    Content: ContentComponent<{
-      args: IndexProductInput
-      isMobileView: boolean
-      slug: (string | number)[]
-    }>
-  }>
-> = {
-  [BrandOrSellerEnum.SELLER]: [
-    {
-      value: "product",
-      title: "کالا‌ها",
-      Content: ({ args, isMobileView, slug }) => (
-        <ProductList
-          args={args}
-          hasFilter={false}
-          isMobileView={isMobileView}
-          selectedCategoryIds={args["categoryIds"] || undefined}
-          sellerId={+slug[0]}
-        />
-      )
-    },
-    {
-      value: "category",
-      title: "دسته‌بندی‌ها",
-      Content: () => <></>
-    },
-    {
-      value: "brand",
-      title: "برند‌ها",
-      Content: () => <></>
-    }
-  ],
-  [BrandOrSellerEnum.BRAND]: [
-    {
-      value: "product",
-      title: "کالاها",
-      Content: ({ args, isMobileView, slug }) => (
-        <ProductList
-          args={args}
-          hasFilter={false}
-          isMobileView={isMobileView}
-          selectedCategoryIds={args["categoryIds"] || undefined}
-          sellerId={+slug[0]}
-        />
-      )
-    },
-    {
-      value: "category",
-      title: "دسته‌بندی‌ها",
-      Content: () => <></>
-    },
-    {
-      value: "price-list",
-      title: "لیست قیمت",
-      Content: () => <></>
-    },
-    {
-      value: "catalog",
-      title: "کاتالوگ",
-      Content: () => <></>
-    }
-  ]
-}
+// type ContentComponent<T> = React.FC<T>
 
 const BrandOrSellerProfile = ({
   isMobileView,
@@ -223,6 +155,86 @@ const BrandOrSellerProfile = ({
 
   const isSellerQuery = () => type === BrandOrSellerEnum.SELLER
 
+  console.log(data)
+
+  const _tabs: Record<
+    BrandOrSellerEnum,
+    Array<{
+      value: string
+      title: string
+      Content: React.FC
+    }>
+  > = {
+    [BrandOrSellerEnum.SELLER]: [
+      {
+        value: "product",
+        title: "کالا‌ها",
+        Content: () => (
+          <ProductList
+            args={args}
+            hasFilter={false}
+            isMobileView={isMobileView}
+            selectedCategoryIds={args["categoryIds"] || undefined}
+            sellerId={+slug[0]}
+          />
+        )
+      },
+      {
+        value: "category",
+        title: "دسته‌بندی‌ها",
+        Content: () => <></>
+      },
+      {
+        value: "brand",
+        title: "برند‌ها",
+        Content: () => <></>
+      }
+    ],
+    [BrandOrSellerEnum.BRAND]: [
+      {
+        value: "product",
+        title: "کالاها",
+        Content: () => (
+          <ProductList
+            args={args}
+            hasFilter={false}
+            isMobileView={isMobileView}
+            selectedCategoryIds={args["categoryIds"] || undefined}
+            sellerId={+slug[0]}
+          />
+        )
+      },
+      {
+        value: "category",
+        title: "دسته‌بندی‌ها",
+        Content: () => <></>
+      },
+      {
+        value: "price-list",
+        title: "لیست قیمت",
+        Content: () => (
+          <div className="h-full w-full">
+            <PdfViewer url={(data as BrandQuery).priceList?.presignedUrl.url} />
+          </div>
+        )
+      },
+      {
+        value: "catalog",
+        title: "کاتالوگ",
+        Content: () => (
+          <div className="h-full w-full">
+            <PdfViewer
+              url={
+                (data as BrandQuery).catalog?.presignedUrl.url
+                // "/pdf.pdf"
+              }
+            />
+          </div>
+        )
+      }
+    ]
+  }
+
   return (
     <>
       <SellerContactModal
@@ -249,11 +261,13 @@ const BrandOrSellerProfile = ({
         <hr className="h-px w-full bg-alpha-200" />
       </div> */}
       <div
-        className="flex flex-col gap-y-0.5"
+        className="flex h-full flex-col gap-y-0.5"
         style={{
           paddingBottom:
             document.getElementById("bottom-navigation-buy-box")
-              ?.clientHeight ?? 0
+              ?.clientHeight ?? 0,
+          paddingTop:
+            document.getElementById("mobile-header-navbar")?.clientHeight ?? 0
         }}
       >
         <div className="flex flex-col gap-y bg-alpha-white px py-5">
@@ -416,9 +430,9 @@ const BrandOrSellerProfile = ({
               </TabsTrigger>
             ))}
           </TabsList>
-          {_tabs[type].map(({ Content, value }) => (
-            <TabsContent key={value} value={value}>
-              <Content args={args} isMobileView={isMobileView} slug={slug} />
+          {_tabs[type].map(({ Content, ...props }) => (
+            <TabsContent key={props.value} value={props.value}>
+              <Content />
             </TabsContent>
           ))}
         </Tabs>

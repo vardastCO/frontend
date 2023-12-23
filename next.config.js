@@ -8,6 +8,11 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 const nextConfig = {
   reactStrictMode: true,
+  webpack: (config) => {
+    config.resolve.alias.canvas = false
+
+    return config
+  },
   productionBrowserSourceMaps: true,
   experimental: {
     serverActions: true
