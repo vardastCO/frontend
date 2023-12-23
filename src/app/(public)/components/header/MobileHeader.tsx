@@ -73,8 +73,9 @@ const MobileHeader: React.FC<IModalHeader> = ({
                 />
               </div>
             ) : title ? (
-              <h1 className="line-clamp-1 text-center font-bold text-alpha-white">
-                {title.split("-").join(" ")}
+              <h1 className="line-clamp-1 text-center !text-lg font-bold text-alpha-white">
+                {/* {title.split("-").join(" ")} */}
+                {title}
               </h1>
             ) : (
               <div className="relative mx-auto h-full">

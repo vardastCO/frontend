@@ -3,23 +3,31 @@
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { notFound } from "next/navigation"
-import { BookmarkIcon, ShareIcon } from "@heroicons/react/24/outline"
+import {
+  ArrowDownOnSquareIcon,
+  BookmarkIcon,
+  ShareIcon
+} from "@heroicons/react/24/outline"
 import { CheckBadgeIcon } from "@heroicons/react/24/solid"
+import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
 import copy from "copy-to-clipboard"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 
 import {
+  Brand,
   EventTrackerSubjectTypes,
   EventTrackerTypes,
   GetBrandQuery,
   GetSellerQuery,
   IndexProductInput,
+  Seller,
   useCreateEventTrackerMutation
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import Link from "@core/components/shared/Link"
 import { Button } from "@core/components/ui/button"
 import {
   Tabs,
@@ -30,7 +38,6 @@ import {
 import { toast } from "@core/hooks/use-toast"
 import SellerContactModal from "@/app/(public)/(pages)/product/components/seller-contact-modal"
 import BuyBoxNavigation from "@/app/(public)/components/BuyBoxNavigation"
-import PdfViewer from "@/app/(public)/components/PdfViewer"
 import ProductList from "@/app/(public)/components/product-list"
 
 export enum BrandOrSellerEnum {
@@ -155,8 +162,6 @@ const BrandOrSellerProfile = ({
 
   const isSellerQuery = () => type === BrandOrSellerEnum.SELLER
 
-  console.log(data)
-
   const _tabs: Record<
     BrandOrSellerEnum,
     Array<{
@@ -168,7 +173,11 @@ const BrandOrSellerProfile = ({
     [BrandOrSellerEnum.SELLER]: [
       {
         value: "product",
-        title: "کالا‌ها",
+        title: `کالا‌ها${
+          (data as Brand)?.total
+            ? ` (${digitsEnToFa((data as Brand).total as number)})`
+            : ""
+        }`,
         Content: () => (
           <ProductList
             args={args}
@@ -193,7 +202,11 @@ const BrandOrSellerProfile = ({
     [BrandOrSellerEnum.BRAND]: [
       {
         value: "product",
-        title: "کالاها",
+        title: `کالا‌ها${
+          (data as Seller)?.total
+            ? ` (${digitsEnToFa((data as Seller).total as number)})`
+            : ""
+        }`,
         Content: () => (
           <ProductList
             args={args}
@@ -213,8 +226,22 @@ const BrandOrSellerProfile = ({
         value: "price-list",
         title: "لیست قیمت",
         Content: () => (
-          <div className="h-full w-full">
-            <PdfViewer url={(data as BrandQuery).priceList?.presignedUrl.url} />
+          <div className="flex h-full w-full flex-col items-center justify-center gap-y bg-alpha-white py">
+            {/* <PdfViewer
+              url={
+                // (data as BrandQuery).priceList?.presignedUrl.url
+                "/pdf.pdf"
+              }
+            /> */}
+            <Link
+              className="btn btn-primary flex items-center justify-center rounded-2xl"
+              href="/pdf.pdf"
+              target="_blank"
+              referrerPolicy="no-referrer"
+            >
+              <span>مشاهده قیمت</span>
+              <ArrowDownOnSquareIcon className="h-4 w-4 text-alpha-white" />{" "}
+            </Link>
           </div>
         )
       },
@@ -222,13 +249,23 @@ const BrandOrSellerProfile = ({
         value: "catalog",
         title: "کاتالوگ",
         Content: () => (
-          <div className="h-full w-full">
-            <PdfViewer
+          <div className="flex h-full w-full flex-col items-center justify-center gap-y bg-alpha-white py">
+            {/* <p>برای مشاهده کاتالوگ این محصول دکمه زیر را لمس کنید</p> */}
+            {/* <PdfViewer
               url={
-                (data as BrandQuery).catalog?.presignedUrl.url
-                // "/pdf.pdf"
+                // (data as BrandQuery).catalog?.presignedUrl.url
+                "/pdf.pdf"
               }
-            />
+            /> */}
+            <Link
+              className="btn btn-primary flex items-center justify-center rounded-2xl"
+              href={(data as BrandQuery).catalog?.presignedUrl.url ?? ""}
+              target="_blank"
+              referrerPolicy="no-referrer"
+            >
+              <span>مشاهده کاتالوگ</span>
+              <ArrowDownOnSquareIcon className="h-4 w-4 text-alpha-white" />
+            </Link>
           </div>
         )
       }
@@ -408,7 +445,7 @@ const BrandOrSellerProfile = ({
         )}
         <Tabs
           defaultValue={_tabs[type][0].value}
-          className="bg-alpha-white"
+          className=""
           style={{
             paddingBottom:
               document.getElementById("bottom-navigation-buy-box")
@@ -417,7 +454,7 @@ const BrandOrSellerProfile = ({
             //   document.getElementById("mobile-header-navbar")?.clientHeight ?? 0
           }}
         >
-          <TabsList className="w-full">
+          <TabsList className="w-full bg-alpha-white">
             {_tabs[type].map(({ title, value }) => (
               <TabsTrigger
                 key={value}

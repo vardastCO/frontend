@@ -8,10 +8,8 @@ import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { authOptions } from "@core/lib/authOptions"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
-// import { allUserFavoriteBrandQueryFns } from "@core/queryFns/allUserFavoriteBrandQueryFns"
-// import { allUserFavoriteProductQueryFns } from "@core/queryFns/allUserFavoriteProductQueryFns"
-// import { allUserFavoriteSellerQueryFns } from "@core/queryFns/allUserFavoriteSellerQueryFns"
-// import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
+import { allUserFavoriteProductsQueryFns } from "@core/queryFns/allUserFavoriteProductsQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import FavoritesPageIndex from "@/app/(public)/(pages)/favorites/components/FavoritesPageIndex"
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,20 +23,13 @@ const FavoritePage = async () => {
   const queryClient = getQueryClient()
   const session = await getServerSession(authOptions)
 
-  // await queryClient.prefetchQuery(
-  //   [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_PRODUCT],
-  //   () => allUserFavoriteProductQueryFns(session?.accessToken)
-  // )
-
-  // await queryClient.prefetchQuery(
-  //   [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_SELLER],
-  //   () => allUserFavoriteSellerQueryFns(session?.accessToken)
-  // )
-
-  // await queryClient.prefetchQuery(
-  //   [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_BRAND],
-  //   () => allUserFavoriteBrandQueryFns(session?.accessToken)
-  // )
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_PRODUCT],
+    () =>
+      allUserFavoriteProductsQueryFns({
+        accessToken: session?.accessToken
+      })
+  )
 
   if (!isMobileView) {
     redirect("/")

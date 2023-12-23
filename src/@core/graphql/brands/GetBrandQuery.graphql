@@ -4,6 +4,7 @@ query GetBrand($id: Int!) {
     name
     slug
     bio
+    total
     rating
     catalog {
       id
