@@ -10,7 +10,7 @@ const renderError = (error: LoadError) => {
       message = "فایل قابل نمایش نیست"
       break
     case "MissingPDFException":
-      message = "از دست رفته است"
+      message = "خطا در نمایش"
       break
     case "UnexpectedResponseException":
       message = "خطای غیر منتظره ای رخ داده است"

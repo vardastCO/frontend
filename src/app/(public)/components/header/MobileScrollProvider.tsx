@@ -42,6 +42,18 @@ const MobileScrollProvider: React.FC<PropsWithChildren> = ({ children }) => {
             ?.clientHeight ?? 0
       })
     }
+    if (
+      window.document.getElementById("bottom-navigation-buy-box")?.clientHeight
+    ) {
+      setHasScrollbar({
+        bottom:
+          window.document.getElementById("bottom-navigation-buy-box")
+            ?.clientHeight ?? 0,
+        top:
+          window.document.getElementById("mobile-header-navbar")
+            ?.clientHeight ?? 0
+      })
+    }
     if (window.document.getElementById("scroll-container")) {
       const sh =
         window.document.getElementById("scroll-container")?.scrollHeight

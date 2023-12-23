@@ -260,16 +260,7 @@ const BrandOrSellerProfile = ({
         />
         <hr className="h-px w-full bg-alpha-200" />
       </div> */}
-      <div
-        className="flex h-full flex-col gap-y-0.5"
-        style={{
-          paddingBottom:
-            document.getElementById("bottom-navigation-buy-box")
-              ?.clientHeight ?? 0,
-          paddingTop:
-            document.getElementById("mobile-header-navbar")?.clientHeight ?? 0
-        }}
-      >
+      <div className="flex h-full flex-col gap-y-0.5">
         <div className="flex flex-col gap-y bg-alpha-white px py-5">
           <div className="grid grid-cols-9 items-center justify-center">
             <div></div>
@@ -415,7 +406,17 @@ const BrandOrSellerProfile = ({
             {<p className="pt-6 text-justify">{data.bio}</p>}
           </div>
         )}
-        <Tabs defaultValue={_tabs[type][0].value} className="bg-alpha-white">
+        <Tabs
+          defaultValue={_tabs[type][0].value}
+          className="bg-alpha-white"
+          style={{
+            paddingBottom:
+              document.getElementById("bottom-navigation-buy-box")
+                ?.clientHeight ?? 0
+            // paddingTop:
+            //   document.getElementById("mobile-header-navbar")?.clientHeight ?? 0
+          }}
+        >
           <TabsList className="w-full">
             {_tabs[type].map(({ title, value }) => (
               <TabsTrigger

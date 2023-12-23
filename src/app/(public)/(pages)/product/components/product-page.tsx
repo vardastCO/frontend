@@ -214,14 +214,6 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           />
         )}
 
-        {product.lowestPrice && (
-          <SuggestedOffer
-            offersCount={product.publicOffers.length}
-            offer={product.lowestPrice as Price}
-            uom={product.uom as Uom}
-          />
-        )}
-
         {product.description && (
           <ProductDescription description={product.description} />
         )}
@@ -241,6 +233,13 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           <SameCategories products={product.sameCategory as Product[]} />
         )}
       </div>
+      {product.lowestPrice && (
+        <SuggestedOffer
+          offersCount={product.publicOffers.length}
+          offer={product.lowestPrice as Price}
+          uom={product.uom as Uom}
+        />
+      )}
       {session?.abilities.includes("gql.products.product.moderated_update") && (
         <Link
           className="btn btn-secondary btn-lg m block"
@@ -249,7 +248,6 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           ویرایش
         </Link>
       )}
-
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
