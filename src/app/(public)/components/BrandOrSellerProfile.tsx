@@ -1,25 +1,23 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
 import { notFound } from "next/navigation"
-import {
-  ArrowDownOnSquareIcon,
-  BookmarkIcon,
-  ShareIcon
-} from "@heroicons/react/24/outline"
+import { ArrowDownOnSquareIcon } from "@heroicons/react/24/outline"
 import { CheckBadgeIcon } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
+import { UseQueryResult } from "@tanstack/react-query"
 import clsx from "clsx"
-import copy from "copy-to-clipboard"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 
 import {
   Brand,
+  EntityTypeEnum,
   EventTrackerSubjectTypes,
   EventTrackerTypes,
   GetBrandQuery,
+  GetIsFavoriteQuery,
   GetSellerQuery,
   IndexProductInput,
   Seller,
@@ -28,34 +26,28 @@ import {
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Link from "@core/components/shared/Link"
-import { Button } from "@core/components/ui/button"
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger
 } from "@core/components/ui/tabs"
-import { toast } from "@core/hooks/use-toast"
 import SellerContactModal from "@/app/(public)/(pages)/product/components/seller-contact-modal"
 import BuyBoxNavigation from "@/app/(public)/components/BuyBoxNavigation"
+import FavoriteIcon from "@/app/(public)/components/FavoriteIcon"
 import ProductList from "@/app/(public)/components/product-list"
-
-export enum BrandOrSellerEnum {
-  // eslint-disable-next-line no-unused-vars
-  SELLER = "seller",
-  // eslint-disable-next-line no-unused-vars
-  BRAND = "brand"
-}
+import ShareIcon from "@/app/(public)/components/ShareIcon"
 
 export type SellerQuery = GetSellerQuery["seller"]
 export type BrandQuery = GetBrandQuery["brand"]
 
-interface BrandOrSellerProfile {
+interface IBrandOrSellerProfile {
   isMobileView: boolean
   slug: Array<string | number>
-  type: BrandOrSellerEnum
+  type: EntityTypeEnum.Brand | EntityTypeEnum.Seller
   args: IndexProductInput
   data?: SellerQuery | BrandQuery
+  isFavoriteQuery: UseQueryResult<GetIsFavoriteQuery, unknown>
 }
 
 // function isTypeSellerQuery(data: any): data is SellerQuery {
@@ -69,8 +61,9 @@ const BrandOrSellerProfile = ({
   args,
   type,
   data,
-  slug
-}: BrandOrSellerProfile) => {
+  slug,
+  isFavoriteQuery
+}: IBrandOrSellerProfile) => {
   if (!data) notFound()
   const [contactModalOpen, setContactModalOpen] = useState<boolean>(false)
 
@@ -78,6 +71,7 @@ const BrandOrSellerProfile = ({
   // const [categoriesCount, setCategoriesCount] = useState(0)
   // const [imageSellerContainerHeight, setImageSellerContainerHeight] =
   //   useState(80)
+
   const productContainerRef = useRef<HTMLDivElement>(null)
   // const sellerContainerRef = useRef<HTMLAnchorElement>(null)
 
@@ -88,31 +82,6 @@ const BrandOrSellerProfile = ({
   //       ? (code ? digitsEnToFa(code) : "") + digitsEnToFa(number)
   //       : " - " + (code ? digitsEnToFa(code) : "") + digitsEnToFa(number))
   // )
-
-  const handleOnClick = async () => {
-    if (navigator?.share) {
-      try {
-        await navigator.share({
-          url: window.location.href,
-          text: data.name,
-          title: "وردست"
-        })
-      } catch (err) {
-        // toast({
-        //   description: `${err}`,
-        //   duration: 5000,
-        //   variant: "danger"
-        // })
-      }
-    } else {
-      copy(window.location.href)
-      toast({
-        description: "کپی شد!",
-        duration: 5000,
-        variant: "success"
-      })
-    }
-  }
 
   const showSellerContact = () => {
     createEventTrackerMutation.mutate({
@@ -126,11 +95,11 @@ const BrandOrSellerProfile = ({
   }
 
   const buyBoxVariants = {
-    [BrandOrSellerEnum.BRAND]: {
+    [EntityTypeEnum.Brand]: {
       onClick: showSellerContact,
       title: "اطلاعات تماس برترین فروشنده"
     },
-    [BrandOrSellerEnum.SELLER]: {
+    [EntityTypeEnum.Seller]: {
       onClick: showSellerContact,
       title: "اطلاعات تماس"
     }
@@ -160,117 +129,121 @@ const BrandOrSellerProfile = ({
     // }
   }, [])
 
-  const isSellerQuery = () => type === BrandOrSellerEnum.SELLER
+  const isSellerQuery = () => type === EntityTypeEnum.Seller
 
-  const _tabs: Record<
-    BrandOrSellerEnum,
-    Array<{
-      value: string
-      title: string
-      Content: React.FC
-    }>
-  > = {
-    [BrandOrSellerEnum.SELLER]: [
-      {
-        value: "product",
-        title: `کالا‌ها${
-          (data as Brand)?.total
-            ? ` (${digitsEnToFa((data as Brand).total as number)})`
-            : ""
-        }`,
-        Content: () => (
-          <ProductList
-            args={args}
-            hasFilter={false}
-            isMobileView={isMobileView}
-            selectedCategoryIds={args["categoryIds"] || undefined}
-            sellerId={+slug[0]}
-          />
-        )
-      },
-      {
-        value: "category",
-        title: "دسته‌بندی‌ها",
-        Content: () => <></>
-      },
-      {
-        value: "brand",
-        title: "برند‌ها",
-        Content: () => <></>
-      }
-    ],
-    [BrandOrSellerEnum.BRAND]: [
-      {
-        value: "product",
-        title: `کالا‌ها${
-          (data as Seller)?.total
-            ? ` (${digitsEnToFa((data as Seller).total as number)})`
-            : ""
-        }`,
-        Content: () => (
-          <ProductList
-            args={args}
-            hasFilter={false}
-            isMobileView={isMobileView}
-            selectedCategoryIds={args["categoryIds"] || undefined}
-            sellerId={+slug[0]}
-          />
-        )
-      },
-      {
-        value: "category",
-        title: "دسته‌بندی‌ها",
-        Content: () => <></>
-      },
-      {
-        value: "price-list",
-        title: "لیست قیمت",
-        Content: () => (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-y bg-alpha-white py">
-            {/* <PdfViewer
+  const _tabs = useMemo(() => {
+    // Your object creation logic here
+    const _tabs: Record<
+      EntityTypeEnum.Seller | EntityTypeEnum.Brand,
+      Array<{
+        value: string
+        title: string
+        Content: React.FC
+      }>
+    > = {
+      [EntityTypeEnum.Seller]: [
+        {
+          value: "product",
+          title: `کالا‌ها${
+            (data as Brand)?.total
+              ? ` (${digitsEnToFa((data as Brand).total as number)})`
+              : ""
+          }`,
+          Content: () => (
+            <ProductList
+              args={args}
+              hasFilter={false}
+              isMobileView={isMobileView}
+              selectedCategoryIds={args["categoryIds"] || undefined}
+              sellerId={+slug[0]}
+            />
+          )
+        },
+        {
+          value: "category",
+          title: "دسته‌بندی‌ها",
+          Content: () => <></>
+        },
+        {
+          value: "brand",
+          title: "برند‌ها",
+          Content: () => <></>
+        }
+      ],
+      [EntityTypeEnum.Brand]: [
+        {
+          value: "product",
+          title: `کالا‌ها${
+            (data as Seller)?.total
+              ? ` (${digitsEnToFa((data as Seller).total as number)})`
+              : ""
+          }`,
+          Content: () => (
+            <ProductList
+              args={args}
+              hasFilter={false}
+              isMobileView={isMobileView}
+              selectedCategoryIds={args["categoryIds"] || undefined}
+              sellerId={+slug[0]}
+            />
+          )
+        },
+        {
+          value: "category",
+          title: "دسته‌بندی‌ها",
+          Content: () => <></>
+        },
+        {
+          value: "price-list",
+          title: "لیست قیمت",
+          Content: () => (
+            <div className="flex h-full w-full flex-col items-center justify-center gap-y bg-alpha-white py">
+              {/* <PdfViewer
               url={
                 // (data as BrandQuery).priceList?.presignedUrl.url
                 "/pdf.pdf"
               }
             /> */}
-            <Link
-              className="btn btn-primary flex items-center justify-center rounded-2xl"
-              href="/pdf.pdf"
-              target="_blank"
-              referrerPolicy="no-referrer"
-            >
-              <span>مشاهده قیمت</span>
-              <ArrowDownOnSquareIcon className="h-4 w-4 text-alpha-white" />{" "}
-            </Link>
-          </div>
-        )
-      },
-      {
-        value: "catalog",
-        title: "کاتالوگ",
-        Content: () => (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-y bg-alpha-white py">
-            {/* <p>برای مشاهده کاتالوگ این محصول دکمه زیر را لمس کنید</p> */}
-            {/* <PdfViewer
+              <Link
+                className="btn btn-primary flex items-center justify-center rounded-2xl"
+                href="/pdf.pdf"
+                target="_blank"
+                referrerPolicy="no-referrer"
+              >
+                <span>مشاهده قیمت</span>
+                <ArrowDownOnSquareIcon className="h-4 w-4 text-alpha-white" />{" "}
+              </Link>
+            </div>
+          )
+        },
+        {
+          value: "catalog",
+          title: "کاتالوگ",
+          Content: () => (
+            <div className="flex h-full w-full flex-col items-center justify-center gap-y bg-alpha-white py">
+              {/* <p>برای مشاهده کاتالوگ این محصول دکمه زیر را لمس کنید</p> */}
+              {/* <PdfViewer
               url={
                 // (data as BrandQuery).catalog?.presignedUrl.url
                 "/pdf.pdf"
               }
             /> */}
-            <Link
-              className="btn btn-primary flex items-center justify-center rounded-2xl"
-              href={(data as BrandQuery).catalog?.presignedUrl.url ?? ""}
-              target="_blank"
-              referrerPolicy="no-referrer"
-            >
-              <span>مشاهده کاتالوگ</span>
-              <ArrowDownOnSquareIcon className="h-4 w-4 text-alpha-white" />
-            </Link>
-          </div>
-        )
-      }
-    ]
-  }
+              <Link
+                className="btn btn-primary flex items-center justify-center rounded-2xl"
+                href={(data as BrandQuery).catalog?.presignedUrl.url ?? ""}
+                target="_blank"
+                referrerPolicy="no-referrer"
+              >
+                <span>مشاهده کاتالوگ</span>
+                <ArrowDownOnSquareIcon className="h-4 w-4 text-alpha-white" />
+              </Link>
+            </div>
+          )
+        }
+      ]
+    }
+    return _tabs
+  }, [args, data, isMobileView, slug])
 
   return (
     <>
@@ -335,12 +308,12 @@ const BrandOrSellerProfile = ({
               </div>
             </div>
             <div className="flex h-full flex-col justify-start">
-              <Button id="header-back-button" variant={"ghost"} iconOnly>
-                <BookmarkIcon className="h-6 w-6 text-alpha" />
-              </Button>
-              <Button variant={"ghost"} iconOnly onClick={handleOnClick}>
-                <ShareIcon className="h-6 w-6 text-alpha" />
-              </Button>
+              <FavoriteIcon
+                entityId={+slug[0]}
+                isFavoriteQuery={isFavoriteQuery}
+                type={type}
+              />
+              <ShareIcon name={data.name} />
             </div>
             {/* {!isSellerQuery() && (
               <div className="grid w-3/4 grid-rows-2 gap-x">

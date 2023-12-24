@@ -1,15 +1,22 @@
 import { Metadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
+import { getServerSession } from "next-auth"
 
-import { IndexProductInput, ProductSortablesEnum } from "@/generated"
+import {
+  EntityTypeEnum,
+  IndexProductInput,
+  ProductSortablesEnum
+} from "@/generated"
 
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import { authOptions } from "@core/lib/authOptions"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllCategoriesQueryFn } from "@core/queryFns/allCategoriesQueryFns"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getBrandQueryFn } from "@core/queryFns/brandQueryFns"
+import { getIsFavoriteQueryFns } from "@core/queryFns/getIsFavoriteQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import BrandProfile from "@/app/(public)/(pages)/brand/components/BrandProfile"
 
@@ -43,6 +50,7 @@ const BrandIndex = async ({
 }: BrandIndexProps) => {
   const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
+  const session = await getServerSession(authOptions)
 
   const args: IndexProductInput = {}
   args["page"] =
@@ -98,11 +106,33 @@ const BrandIndex = async ({
     () => getAllProductsQueryFn(args)
   )
 
+  await queryClient.prefetchQuery(
+    [
+      QUERY_FUNCTIONS_KEY.GET_IS_FAVORITE,
+      {
+        accessToken: session?.accessToken,
+        entityId: +slug[0],
+        type: EntityTypeEnum.Brand
+      }
+    ],
+    () =>
+      getIsFavoriteQueryFns({
+        accessToken: session?.accessToken,
+        entityId: +slug[0],
+        type: EntityTypeEnum.Brand
+      })
+  )
+
   const dehydratedState = dehydrate(queryClient)
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <BrandProfile isMobileView={isMobileView} args={args} slug={slug} />
+      <BrandProfile
+        session={session}
+        isMobileView={isMobileView}
+        args={args}
+        slug={slug}
+      />
     </ReactQueryHydrate>
   )
 }

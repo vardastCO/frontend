@@ -56,14 +56,13 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
       >
         {/* {pathname.split("/")[1] === "admin" && ( */}
         <li className="flex items-end align-middle leading-none">
-          <Link
-            href="/"
-            aria-current={pathname === "/" ? "page" : "false"}
-            legacyBehavior
-          >
-            <a title={process.env.NEXT_PUBLIC_TITLE} className="text-alpha-600">
+          <Link href="/" aria-current={pathname === "/" ? "page" : "false"}>
+            <div
+              title={process.env.NEXT_PUBLIC_TITLE}
+              className="text-alpha-600"
+            >
               وردست
-            </a>
+            </div>
           </Link>
         </li>
         {/* )} */}
@@ -75,8 +74,8 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
               {idx !== breadcrumbs.length && (
                 <span className="mx-1 text-alpha-400">/</span>
               )}
-              <Link href={crumb.path} passHref legacyBehavior prefetch={false}>
-                <a
+              <Link href={crumb.path} passHref prefetch={false}>
+                <div
                   title={crumb.label}
                   aria-current={crumb.isCurrent ? "page" : "false"}
                   className={
@@ -86,7 +85,7 @@ const Breadcrumb = ({ items, dynamic = true }: BreadcrumbProps) => {
                   }
                 >
                   {crumb.label}
-                </a>
+                </div>
               </Link>
             </li>
           ))}

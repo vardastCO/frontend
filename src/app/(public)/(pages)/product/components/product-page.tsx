@@ -201,7 +201,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
             )}
           </div>
 
-          <ProductIntroduce product={product as Product} />
+          <ProductIntroduce session={session} product={product as Product} />
         </div>
 
         {groupedAttributes.filter((item) => !!item.isRequired).length > 0 && (

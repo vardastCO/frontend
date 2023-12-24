@@ -1,13 +1,20 @@
 import { Metadata } from "next"
 import { dehydrate } from "@tanstack/react-query"
+import { getServerSession } from "next-auth"
 
-import { IndexProductInput, ProductSortablesEnum } from "@/generated"
+import {
+  EntityTypeEnum,
+  IndexProductInput,
+  ProductSortablesEnum
+} from "@/generated"
 
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import { authOptions } from "@core/lib/authOptions"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
+import { getIsFavoriteQueryFns } from "@core/queryFns/getIsFavoriteQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getSellerQueryFn } from "@core/queryFns/sellerQueryFns"
 import SellerProfile from "@/app/(public)/(pages)/seller/components/SellerProfile"
@@ -42,6 +49,7 @@ const SellerIndex = async ({
 }: SellerIndexProps) => {
   const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
+  const session = await getServerSession(authOptions)
 
   const args: IndexProductInput = {}
   args["page"] =
@@ -87,6 +95,22 @@ const SellerIndex = async ({
     () => getSellerQueryFn(+slug[0])
   )
 
+  await queryClient.prefetchQuery(
+    [
+      QUERY_FUNCTIONS_KEY.GET_IS_FAVORITE,
+      {
+        entityId: +slug[0],
+        type: EntityTypeEnum.Seller
+      }
+    ],
+    () =>
+      getIsFavoriteQueryFns({
+        accessToken: session?.accessToken,
+        entityId: +slug[0],
+        type: EntityTypeEnum.Seller
+      })
+  )
+
   await queryClient.prefetchInfiniteQuery(
     [QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY, args],
     () => getAllProductsQueryFn(args)
@@ -96,7 +120,12 @@ const SellerIndex = async ({
 
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <SellerProfile isMobileView={isMobileView} args={args} slug={slug} />
+      <SellerProfile
+        isMobileView={isMobileView}
+        args={args}
+        slug={slug}
+        session={session}
+      />
     </ReactQueryHydrate>
   )
 }

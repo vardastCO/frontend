@@ -13,7 +13,7 @@ type ProductOffersProps = {
 
 const ProductOffers = ({ offers, uom }: ProductOffersProps) => {
   return (
-    <ProductSectionContainer title="سایر فروشندگان">
+    <ProductSectionContainer title="فروشندگان">
       <div className="flex w-full flex-col gap-3">
         {offers.map((offer) => (
           <ProductOfferItem key={offer.id} offer={offer} uom={uom} />
