@@ -144,11 +144,15 @@ const BrandOrSellerProfile = ({
           type: "application/pdf"
         })
         const pdfUrl = URL.createObjectURL(pdfBlob)
-        window.open(pdfUrl, "_blank")
+        if (isMobileView) {
+          window.location.href = pdfUrl
+        } else {
+          window.open(pdfUrl, "_blank")
+        }
         URL.revokeObjectURL(pdfUrl)
       }
     },
-    [session?.accessToken]
+    [isMobileView, session?.accessToken]
   )
 
   const isSellerQuery = () => type === EntityTypeEnum.Seller
@@ -476,8 +480,11 @@ const BrandOrSellerProfile = ({
           className=""
           style={{
             paddingBottom:
-              document.getElementById("bottom-navigation-buy-box")
-                ?.clientHeight ?? 0
+              typeof window !== "undefined" &&
+              document.getElementById("bottom-navigation-buy-box")?.clientHeight
+                ? document.getElementById("bottom-navigation-buy-box")
+                    ?.clientHeight
+                : 0
             // paddingTop:
             //   document.getElementById("mobile-header-navbar")?.clientHeight ?? 0
           }}
