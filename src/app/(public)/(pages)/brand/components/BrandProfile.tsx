@@ -53,6 +53,7 @@ const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
 
   return (
     <BrandOrSellerProfile
+      session={session}
       isFavoriteQuery={isFavoriteQuery}
       type={EntityTypeEnum.Brand}
       isMobileView={isMobileView}

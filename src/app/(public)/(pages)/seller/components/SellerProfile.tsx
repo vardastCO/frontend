@@ -54,6 +54,7 @@ const SellerProfile = ({
 
   return (
     <BrandOrSellerProfile
+      session={session}
       isFavoriteQuery={isFavoriteQuery}
       type={EntityTypeEnum.Seller}
       isMobileView={isMobileView}

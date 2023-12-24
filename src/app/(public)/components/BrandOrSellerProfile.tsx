@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
 import { notFound } from "next/navigation"
 import { ArrowDownOnSquareIcon } from "@heroicons/react/24/outline"
@@ -10,6 +10,7 @@ import { UseQueryResult } from "@tanstack/react-query"
 import clsx from "clsx"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
+import { Session } from "next-auth"
 
 import {
   Brand,
@@ -24,8 +25,9 @@ import {
   useCreateEventTrackerMutation
 } from "@/generated"
 
+import axiosApis from "@core/clients/axiosApis"
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
-import Link from "@core/components/shared/Link"
+import { Button } from "@core/components/ui/button"
 import {
   Tabs,
   TabsContent,
@@ -48,6 +50,7 @@ interface IBrandOrSellerProfile {
   args: IndexProductInput
   data?: SellerQuery | BrandQuery
   isFavoriteQuery: UseQueryResult<GetIsFavoriteQuery, unknown>
+  session: Session | null
 }
 
 // function isTypeSellerQuery(data: any): data is SellerQuery {
@@ -62,7 +65,8 @@ const BrandOrSellerProfile = ({
   type,
   data,
   slug,
-  isFavoriteQuery
+  isFavoriteQuery,
+  session
 }: IBrandOrSellerProfile) => {
   if (!data) notFound()
   const [contactModalOpen, setContactModalOpen] = useState<boolean>(false)
@@ -128,6 +132,24 @@ const BrandOrSellerProfile = ({
     //   setImageSellerContainerHeight(sellerDiv.clientWidth)
     // }
   }, [])
+
+  const showPdfInNewTab = useCallback(
+    async ({ uuid = "" }: { uuid: string }) => {
+      const response = await axiosApis.servePdf({
+        access_token: session?.accessToken,
+        uuid
+      })
+      if (response.data) {
+        const pdfBlob = new Blob([response.data], {
+          type: "application/pdf"
+        })
+        const pdfUrl = URL.createObjectURL(pdfBlob)
+        window.open(pdfUrl, "_blank")
+        URL.revokeObjectURL(pdfUrl)
+      }
+    },
+    [session?.accessToken]
+  )
 
   const isSellerQuery = () => type === EntityTypeEnum.Seller
 
@@ -198,21 +220,30 @@ const BrandOrSellerProfile = ({
           title: "لیست قیمت",
           Content: () => (
             <div className="flex h-full w-full flex-col items-center justify-center gap-y bg-alpha-white py">
-              {/* <PdfViewer
-              url={
-                // (data as BrandQuery).priceList?.presignedUrl.url
-                "/pdf.pdf"
-              }
-            /> */}
-              <Link
-                className="btn btn-primary flex items-center justify-center rounded-2xl"
-                href="/pdf.pdf"
-                target="_blank"
-                referrerPolicy="no-referrer"
-              >
-                <span>مشاهده قیمت</span>
-                <ArrowDownOnSquareIcon className="h-4 w-4 text-alpha-white" />{" "}
-              </Link>
+              {session?.accessToken ? (
+                <>
+                  {(data as BrandQuery).catalog?.uuid ? (
+                    <Button
+                      className="btn btn-primary flex items-center justify-center rounded-2xl"
+                      onClick={() => {
+                        const uuid = (data as BrandQuery).priceList?.uuid
+                        if (!!uuid) {
+                          showPdfInNewTab({ uuid })
+                        }
+                      }}
+                    >
+                      <span>مشاهده قیمت</span>
+                      <ArrowDownOnSquareIcon className="h-4 w-4 text-alpha-white" />{" "}
+                    </Button>
+                  ) : (
+                    <h5>لیست قیمت برای این برند ثبت نشده است</h5>
+                  )}
+                </>
+              ) : (
+                <h5>
+                  برای مشاهده لیست قیمت لطفا ابتدا وارد حساب کاربری خود شوید
+                </h5>
+              )}
             </div>
           )
         },
@@ -228,7 +259,7 @@ const BrandOrSellerProfile = ({
                 "/pdf.pdf"
               }
             /> */}
-              <Link
+              {/* <Link
                 className="btn btn-primary flex items-center justify-center rounded-2xl"
                 href={(data as BrandQuery).catalog?.presignedUrl.url ?? ""}
                 target="_blank"
@@ -236,14 +267,38 @@ const BrandOrSellerProfile = ({
               >
                 <span>مشاهده کاتالوگ</span>
                 <ArrowDownOnSquareIcon className="h-4 w-4 text-alpha-white" />
-              </Link>
+              </Link> */}
+              {session?.accessToken ? (
+                <>
+                  {(data as BrandQuery).catalog?.uuid ? (
+                    <Button
+                      className="btn btn-primary flex items-center justify-center rounded-2xl"
+                      onClick={() => {
+                        const uuid = (data as BrandQuery).catalog?.uuid
+                        if (!!uuid) {
+                          showPdfInNewTab({ uuid })
+                        }
+                      }}
+                    >
+                      <span>مشاهده کاتالوگ</span>
+                      <ArrowDownOnSquareIcon className="h-4 w-4 text-alpha-white" />{" "}
+                    </Button>
+                  ) : (
+                    <h5>کاتالوگ برای این برند ثبت نشده است</h5>
+                  )}
+                </>
+              ) : (
+                <h5>
+                  برای مشاهده کاتالوگ لطفا ابتدا وارد حساب کاربری خود شوید
+                </h5>
+              )}
             </div>
           )
         }
       ]
     }
     return _tabs
-  }, [args, data, isMobileView, slug])
+  }, [args, data, isMobileView, session?.accessToken, showPdfInNewTab, slug])
 
   return (
     <>
