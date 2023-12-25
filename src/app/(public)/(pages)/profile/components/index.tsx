@@ -8,17 +8,12 @@ import {
   ArrowRightOnRectangleIcon,
   InformationCircleIcon,
   NewspaperIcon,
-  ScaleIcon
+  PhoneIcon as PhoneIconOutline
 } from "@heroicons/react/24/outline"
-import {
-  PhoneIcon,
-  TruckIcon,
-  UserCircleIcon,
-  WalletIcon
-} from "@heroicons/react/24/solid"
+import { UserCircleIcon } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
-import { LucideInfo, MapIcon, ShareIcon, UserIcon } from "lucide-react"
+import { LucideInfo } from "lucide-react"
 import { Session } from "next-auth"
 
 import { ThreeStateSupervisionStatuses, UserStatusesEnum } from "@/generated"
@@ -70,72 +65,45 @@ interface BigSmallIconProps extends IconProps {
   status: ProfileIconVariantStatusEnum
 }
 
-const _big_icons: BigSmallIconProps[] = [
-  {
-    id: 0,
-    text: "احراز هویت",
-    href: "",
-    Icon: ScaleIcon,
-    color: ColorEnum.WARNING,
-    status: ProfileIconVariantStatusEnum.ACTIVE_WHITE,
-    disabled: true
-  },
-  {
-    id: 1,
-    text: "مدیریت کیف پول",
-    href: "",
-    Icon: WalletIcon,
-    color: ColorEnum.BLUE,
-    status: ProfileIconVariantStatusEnum.ACTIVE_WHITE,
-    disabled: true
-  },
-  {
-    id: 2,
-    text: "حمل ونقل",
-    href: "",
-    Icon: TruckIcon,
-    color: ColorEnum.RED,
-    status: ProfileIconVariantStatusEnum.ACTIVE_WHITE,
-    disabled: true
-  },
-  {
-    id: 3,
-    text: "تماس با ما",
-    href: "/profile/contact",
-    Icon: PhoneIcon,
-    color: ColorEnum.SUCCESS,
-    status: ProfileIconVariantStatusEnum.ACTIVE_WHITE
-  }
-]
+// const _big_icons: BigSmallIconProps[] = [
+//   {
+//     id: 0,
+//     text: "احراز هویت",
+//     href: "",
+//     Icon: ScaleIcon,
+//     color: ColorEnum.WARNING,
+//     status: ProfileIconVariantStatusEnum.ACTIVE_WHITE,
+//     disabled: true
+//   },
+//   {
+//     id: 1,
+//     text: "مدیریت کیف پول",
+//     href: "",
+//     Icon: WalletIcon,
+//     color: ColorEnum.BLUE,
+//     status: ProfileIconVariantStatusEnum.ACTIVE_WHITE,
+//     disabled: true
+//   },
+//   {
+//     id: 2,
+//     text: "حمل ونقل",
+//     href: "",
+//     Icon: TruckIcon,
+//     color: ColorEnum.RED,
+//     status: ProfileIconVariantStatusEnum.ACTIVE_WHITE,
+//     disabled: true
+//   },
+//   {
+//     id: 3,
+//     text: "تماس با ما",
+//     href: "/profile/contact",
+//     Icon: PhoneIcon,
+//     color: ColorEnum.SUCCESS,
+//     status: ProfileIconVariantStatusEnum.ACTIVE_WHITE
+//   }
+// ]
 
 const _small_icons: BigSmallIconProps[] = [
-  {
-    id: 2,
-    text: "دعوت از دوستان",
-    href: "",
-    Icon: ShareIcon,
-    color: ColorEnum.ALPHA,
-    status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA,
-    disabled: true
-  },
-  {
-    id: 3,
-    text: "آدرس ها",
-    href: "",
-    Icon: MapIcon,
-    color: ColorEnum.ALPHA,
-    status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA,
-    disabled: true
-  },
-  {
-    id: 4,
-    text: "اطلاعات حساب کاربری",
-    href: "",
-    Icon: UserIcon,
-    color: ColorEnum.ALPHA,
-    status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA,
-    disabled: true
-  },
   {
     id: 0,
     text: "قوانین و مقررات",
@@ -151,7 +119,42 @@ const _small_icons: BigSmallIconProps[] = [
     Icon: InformationCircleIcon,
     color: ColorEnum.ALPHA,
     status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA
+  },
+  {
+    id: 5,
+    text: "تماس با ما",
+    href: "/profile/contact",
+    Icon: PhoneIconOutline,
+    color: ColorEnum.ALPHA,
+    status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA
   }
+  // {
+  //   id: 2,
+  //   text: "دعوت از دوستان",
+  //   href: "",
+  //   Icon: ShareIcon,
+  //   color: ColorEnum.ALPHA,
+  //   status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA,
+  //   disabled: true
+  // },
+  // {
+  //   id: 3,
+  //   text: "آدرس ها",
+  //   href: "",
+  //   Icon: MapIcon,
+  //   color: ColorEnum.ALPHA,
+  //   status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA,
+  //   disabled: true
+  // },
+  // {
+  //   id: 4,
+  //   text: "اطلاعات حساب کاربری",
+  //   href: "",
+  //   Icon: UserIcon,
+  //   color: ColorEnum.ALPHA,
+  //   status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA,
+  //   disabled: true
+  // }
 ]
 
 interface IProfileIconItem extends IconProps {
@@ -200,7 +203,7 @@ const ProfileIconItem = ({
       </div>
       <p
         className={clsx(
-          "text-xs",
+          "text-center text-xs",
           `text-${ColorEnum[variant.status].toLocaleLowerCase()}-${
             disabled ? "400" : "600"
           }`
@@ -300,7 +303,7 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
   return (
     <>
       {session?.profile.status && (
-        <div className="flex flex-col gap-y bg-alpha-white px py">
+        <div className="flex flex-col gap-y bg-alpha-white px-6 py">
           <div className="flex items-center">
             <div className="flex flex-1 items-center gap-x-2">
               <UserCircleIcon className="h-16 w-16 text-primary" />
@@ -363,7 +366,7 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
         !session?.profile.roles.some(
           (role) => role?.name === "admin" || role?.name === "seller"
         ) && (
-          <div className="bg-alpha-white p">
+          <div className="bg-alpha-white">
             <Link
               href={"/profile/request-seller"}
               ref={productContainerRef}
@@ -386,7 +389,7 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
           </div>
         )
       )}
-      <div className="grid grid-cols-4 bg-alpha-white px py">
+      {/* <div className="grid grid-cols-4 bg-alpha-white px py">
         {_big_icons.map(({ id, status, ...props }) => (
           <ProfileIconItem
             key={id}
@@ -397,8 +400,8 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
             {...props}
           />
         ))}
-      </div>
-      <div className="grid grid-cols-3 gap gap-y-6 bg-alpha-white px py">
+      </div> */}
+      <div className="grid grid-cols-4 gap gap-y-6 bg-alpha-white px-6 py">
         {_small_icons
           .concat(session ? _small_logout_icons : _small_signin_icons)
           .map(({ id, status, ...props }) => (

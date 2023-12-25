@@ -1,18 +1,14 @@
 "use client"
 
 import { Dispatch } from "react"
+import { MapIcon, PhoneIcon } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { SetStateAction } from "jotai"
 import { parsePhoneNumber } from "libphonenumber-js"
-import { LucideMapPin, LucidePhone, LucideWarehouse } from "lucide-react"
 
+import CardAvatar from "@core/components/shared/CardAvatar"
 import Link from "@core/components/shared/Link"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle
-} from "@core/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader } from "@core/components/ui/dialog"
 import {
   BrandQuery,
   SellerQuery
@@ -33,9 +29,12 @@ const SellerContactModal = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>اطلاعات تماس {data?.name}</DialogTitle>
+          <CardAvatar
+            url={data?.logoFile?.presignedUrl.url as string}
+            name={data?.name || ""}
+          />
         </DialogHeader>
-        <div className="flex items-center gap-2.5 rounded-md bg-alpha-50 p-4">
+        {/* <div className="flex items-center gap-2.5 rounded-md bg-alpha-50 p-4">
           <LucideWarehouse
             className="hidden h-8 w-8 text-alpha-400 md:block"
             strokeWidth={1.5}
@@ -52,64 +51,68 @@ const SellerContactModal = ({
                   {data?.addresses.at(0)?.city.name}
                 </div>
               )}
-              {/* TODO */}
-              {/* <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1">
               <span className="text-alpha-500">عملکرد</span>
               <span className="font-bold text-emerald-500">عالی</span>
-            </div> */}
+            </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="flex flex-col divide-y divide-alpha-200">
           {data?.contacts && data?.contacts.length > 0 && (
-            <div className="flex items-stretch gap-2 py-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-md bg-green-500 text-white">
-                <LucidePhone className="h-6 w-6" strokeWidth={1.5} />
+            <div className="flex items-center gap-2 py-4">
+              <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
+                <PhoneIcon className="h-6 w-6 text-primary" />
               </div>
-              <div className="flex flex-col gap-4">
-                <span className="text-sm font-medium leading-none text-alpha-500">
-                  تلفن تماس
-                </span>
-                <Link
-                  href="tel:+989124204964"
-                  dir="ltr"
-                  className="text-right text-xl font-bold leading-none text-blue-500"
-                >
-                  {digitsEnToFa(
-                    parsePhoneNumber(
-                      `+${data?.contacts.at(0)?.country
-                        .phonePrefix}${data?.contacts.at(0)?.number}`
-                    )?.formatNational()
-                  )}
-                </Link>
+              <div className="flex divide-x divide-alpha-200">
+                {data?.contacts.map((contact) => (
+                  <Link
+                    key={contact.number}
+                    href="tel:+989124204964"
+                    dir="ltr"
+                    className="font-semibold"
+                    // className="text-right text-xl font-bold leading-none text-blue-500"
+                  >
+                    {digitsEnToFa(
+                      parsePhoneNumber(
+                        `+${contact?.country.phonePrefix}${contact?.number}`
+                      )?.formatNational()
+                    )}
+                  </Link>
+                ))}
               </div>
             </div>
           )}
 
           {data?.addresses &&
             data?.addresses.length > 0 &&
-            data?.addresses.at(0)?.latitude &&
-            data?.addresses.at(0)?.longitude && (
-              <div className="flex items-stretch gap-2 py-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-md bg-cyan-500 text-white">
-                  <LucideMapPin className="h-6 w-6" strokeWidth={1.5} />
-                </div>
-                <div className="flex flex-col gap-4">
-                  <span className="text-sm font-medium leading-none text-alpha-500">
-                    موقعیت مکانی
-                  </span>
-                  <Link
-                    href={`https://www.google.com/maps/search/?api=1&query=${data?.addresses.at(
-                      0
-                    )?.latitude},${data?.addresses.at(0)?.longitude}`}
-                    target="_blank"
-                    className="font-bold leading-none text-blue-500"
-                    prefetch={false}
-                  >
-                    موقعیت مکانی روی نقشه گوگل
-                  </Link>
-                </div>
-              </div>
+            data?.addresses.map(
+              (address) =>
+                address?.latitude &&
+                address?.longitude && (
+                  <div key={address.id} className="flex flex-col">
+                    <div className="flex items-center gap-2 py-4">
+                      <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
+                        <MapIcon className="h-6 w-6 text-primary" />
+                      </div>
+                      <p className="text-justify font-semibold">
+                        {address.address}
+                      </p>
+                    </div>
+                    <div className="flex justify-end">
+                      <Link
+                        href={`https://www.google.com/maps/search/?api=1&query=${data?.addresses.at(
+                          0
+                        )?.latitude},${address?.longitude}`}
+                        target="_blank"
+                        className="text-left text-lg font-semibold text-info"
+                        prefetch={false}
+                      >
+                        نمایش روی نقشه
+                      </Link>
+                    </div>
+                  </div>
+                )
             )}
         </div>
       </DialogContent>

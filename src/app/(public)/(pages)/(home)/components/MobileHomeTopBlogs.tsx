@@ -64,15 +64,16 @@ const MobileHomeTopBlogs = () => {
     <MobileHomeSection
       viewAllHref={`https://blog.vardast.com/`}
       bgWhite
-      title="آخرین مطالب"
+      title="جدیدترین مطالب"
       block
     >
       <div className="overflow-hidden">
         <Swiper
           ref={sliderRef}
-          slidesPerView={1.2}
-          spaceBetween={16}
-          className="h-full w-full px-7 pb-12"
+          slidesPerView={1.1}
+          spaceBetween={8}
+          centeredSlides
+          className="h-full w-full pb-12"
         >
           {_sliders?.map(({ id, url, image, title }) => (
             <SwiperSlide

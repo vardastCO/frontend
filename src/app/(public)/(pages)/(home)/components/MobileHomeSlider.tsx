@@ -48,7 +48,7 @@ const MobileHomeSlider = ({
           ref={sliderRef}
           loop
           centeredSlides
-          slidesPerView={1.2}
+          slidesPerView={1.11}
           onSlideChange={(swiper) => {
             setActiveSlide(swiper.realIndex)
           }}
@@ -61,13 +61,13 @@ const MobileHomeSlider = ({
             disableOnInteraction: false
           }}
           className="h-full w-full"
-          spaceBetween={16}
+          spaceBetween={7}
         >
           {query.data?.getBannerHomePage.map(({ id, presignedUrl, url }) => (
             <SwiperSlide
               style={{
                 width: slideWidth,
-                height: slideWidth / 2
+                height: (slideWidth * 9) / 16
               }}
               key={id}
             >

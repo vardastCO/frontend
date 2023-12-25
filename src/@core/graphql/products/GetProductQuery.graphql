@@ -206,7 +206,7 @@ query GetProduct($id: Int!) {
       status
       isPublic
       isAvailable
-
+      createdAt
       seller {
         id
         name

@@ -4,7 +4,7 @@ import Link from "@core/components/shared/Link"
 
 import image404 from "@/assets/404.svg"
 
-export default function NotFound() {
+function NotFound() {
   return (
     <div
       dir="rtl"
@@ -27,3 +27,5 @@ export default function NotFound() {
     </div>
   )
 }
+
+export default NotFound

@@ -8,6 +8,7 @@ import { Swiper, SwiperRef, SwiperSlide } from "swiper/react"
 
 import { Brand, Seller } from "@/generated"
 
+import CardAvatar from "@core/components/shared/CardAvatar"
 import Link from "@core/components/shared/Link"
 import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
 import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
@@ -17,12 +18,14 @@ type QueryTypes = Seller[] | Brand[]
 type Props<T extends QueryTypes> = {
   query?: T
   title: string
+  square?: boolean
   __typename: "Seller" | "Brand"
 }
 
 const MobileHomeTopEntities = <T extends QueryTypes>({
   query,
   title,
+  square,
   __typename
 }: Props<T>) => {
   const [selectedItemId, setSelectedItemId] =
@@ -48,8 +51,8 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
         <Swiper
           ref={sliderRef}
           centeredSlides
-          slidesPerView={1.2}
-          spaceBetween={16}
+          slidesPerView={1.1}
+          spaceBetween={8}
           className="h-full w-full pb-12"
         >
           {query?.map(({ id, bannerFile, logoFile, name, total }) => (
@@ -74,7 +77,7 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
               >
                 <div
                   style={{
-                    height: (slideWidth * 5) / 4
+                    height: square ? slideWidth : (slideWidth * 4) / 3
                   }}
                   className="relative"
                 >
@@ -85,18 +88,11 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
                     className="h-full object-fill"
                   />
                 </div>
-                <div className="relative z-20 flex items-center justify-between bg-alpha-50 bg-opacity-60 px py-6 text-center font-semibold">
-                  <div className="flex items-center justify-between gap-x-2">
-                    <div className="relative h-11 w-11 overflow-hidden rounded-full border border-alpha-400">
-                      <Image
-                        src={logoFile?.presignedUrl.url as string}
-                        alt="category"
-                        fill
-                        className="h-full w-full rounded-full object-fill"
-                      />
-                    </div>
-                    <h5 className="text-right">{name}</h5>
-                  </div>
+                <div className="relative z-20 flex items-center justify-between bg-alpha-50 bg-opacity-60 px py-4 text-center font-semibold">
+                  <CardAvatar
+                    url={logoFile?.presignedUrl.url as string}
+                    name={name}
+                  />
                   <h5 className="text-primary">
                     {total ? `${digitsEnToFa(total)} کالا` : ""}
                   </h5>

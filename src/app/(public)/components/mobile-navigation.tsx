@@ -153,7 +153,7 @@ const MobileNavigation = (_: Props) => {
                 <Link
                   key={id}
                   href={href}
-                  className={`group inline-flex h-full flex-col items-center justify-center pb-[calc(env(safe-area-inset-bottom)*0.5+10px)] pt`}
+                  className={`group inline-flex h-full flex-col items-center justify-center gap-y-0.5 pb-[calc(env(safe-area-inset-bottom)*0.5+6px)] pt`}
                   prefetch={false}
                 >
                   <ShowedIcon

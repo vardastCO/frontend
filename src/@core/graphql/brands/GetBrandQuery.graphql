@@ -16,6 +16,7 @@ query GetBrand($id: Int!) {
       size
       mimeType
       disk
+      createdAt
       bucketName
       orderColumn
       presignedUrl {
@@ -33,6 +34,7 @@ query GetBrand($id: Int!) {
       size
       mimeType
       disk
+      createdAt
       bucketName
       orderColumn
       presignedUrl {

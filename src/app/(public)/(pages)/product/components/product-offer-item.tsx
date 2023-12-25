@@ -3,7 +3,8 @@
 import { useState } from "react"
 import Image from "next/image"
 import { MapPinIcon } from "@heroicons/react/24/outline"
-import { setDefaultOptions } from "date-fns"
+import { digitsEnToFa } from "@persian-tools/persian-tools"
+import { formatDistanceToNow, setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
 
 import {
@@ -51,6 +52,8 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
       }
     })
   }
+
+  console.log({ offer })
 
   return (
     <>
@@ -106,8 +109,15 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
                 </div>
               )}
               {uom.name && (
-                <div className="flex justify-end text-xs text-alpha-500">
-                  هر {uom.name}
+                <div className="flex justify-between text-xs text-alpha-500">
+                  <span>
+                    {digitsEnToFa(
+                      formatDistanceToNow(new Date(offer.createdAt).getTime(), {
+                        addSuffix: true
+                      })
+                    )}
+                  </span>
+                  <span>هر {uom.name}</span>
                 </div>
               )}
             </div>

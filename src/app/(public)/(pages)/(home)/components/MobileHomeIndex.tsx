@@ -97,6 +97,7 @@ const MobileHomeIndex = () => {
         query={allSellersCount.data?.sellers.data.slice(0, 5) as Seller[]}
       />
       <MobileHomeTopEntities
+        // square
         __typename="Brand"
         title="جدیدترین برندها"
         query={allBrandsCount.data?.brands.data.slice(0, 5) as Brand[]}

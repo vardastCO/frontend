@@ -145,6 +145,18 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   },
   {
     forceEqual: true,
+    path: "profile/privacy"
+  },
+  {
+    forceEqual: true,
+    path: "profile/contact"
+  },
+  {
+    forceEqual: true,
+    path: "profile/about"
+  },
+  {
+    forceEqual: true,
     path: "/categories"
   },
   {
