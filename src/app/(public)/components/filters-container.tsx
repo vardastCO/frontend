@@ -67,7 +67,7 @@ const FiltersContainer = ({
                 )}
               >
                 <div className="flex flex-col gap-3">
-                  {filter.values?.options.map(
+                  {filter.values?.options?.map(
                     (value: string, idx: number) =>
                       value && (
                         <Label.Root

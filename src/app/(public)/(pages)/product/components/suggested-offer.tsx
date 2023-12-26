@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
+import { ClientError } from "graphql-request"
 
 import {
   EventTrackerSubjectTypes,
@@ -13,6 +14,7 @@ import {
 } from "@/generated"
 
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
+import { toast } from "@core/hooks/use-toast"
 import SellerContactModal from "@/app/(public)/(pages)/product/components/seller-contact-modal"
 import BuyBoxNavigation from "@/app/(public)/components/BuyBoxNavigation"
 
@@ -30,6 +32,29 @@ const SuggestedOffer = ({ offer, uom }: SuggestedOfferProps) => {
     {
       onSuccess: () => {
         setContactModalOpen(true)
+      },
+      onError: (errors: ClientError) => {
+        if (
+          errors.response.errors?.find(
+            (error) => error.extensions?.code === "FORBIDDEN"
+          )
+        ) {
+          toast({
+            description:
+              "لطفا برای مشاهده اطلاعات تماس، ابتدا وارد حساب کاربری خود شوید.",
+            duration: 8000,
+            variant: "default"
+          })
+        } else {
+          toast({
+            description: (
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => error),
+            duration: 8000,
+            variant: "default"
+          })
+        }
       }
     }
   )

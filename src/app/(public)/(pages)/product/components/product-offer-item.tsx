@@ -6,6 +6,7 @@ import { MapPinIcon } from "@heroicons/react/24/outline"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { formatDistanceToNow, setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
+import { ClientError } from "graphql-request"
 
 import {
   EventTrackerSubjectTypes,
@@ -18,6 +19,7 @@ import {
 import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Link from "@core/components/shared/Link"
 import { Button } from "@core/components/ui/button"
+import { toast } from "@core/hooks/use-toast"
 import SellerContactModal from "@/app/(public)/(pages)/product/components/seller-contact-modal"
 import PriceTitle from "@/app/(public)/components/PriceTitle"
 import Rating from "@/app/(public)/components/Rating"
@@ -38,6 +40,29 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
     {
       onSuccess: () => {
         setContactModalOpen(true)
+      },
+      onError: (errors: ClientError) => {
+        if (
+          errors.response.errors?.find(
+            (error) => error.extensions?.code === "FORBIDDEN"
+          )
+        ) {
+          toast({
+            description:
+              "لطفا برای مشاهده اطلاعات تماس، ابتدا وارد حساب کاربری خود شوید.",
+            duration: 8000,
+            variant: "default"
+          })
+        } else {
+          toast({
+            description: (
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => error),
+            duration: 8000,
+            variant: "default"
+          })
+        }
       }
     }
   )
@@ -52,8 +77,6 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
       }
     })
   }
-
-  console.log({ offer })
 
   return (
     <>

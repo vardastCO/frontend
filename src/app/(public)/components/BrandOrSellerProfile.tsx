@@ -16,6 +16,7 @@ import { UseQueryResult } from "@tanstack/react-query"
 import clsx from "clsx"
 import { setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
+import { ClientError } from "graphql-request"
 import { Session } from "next-auth"
 
 import {
@@ -40,6 +41,7 @@ import {
   TabsList,
   TabsTrigger
 } from "@core/components/ui/tabs"
+import { toast } from "@core/hooks/use-toast"
 import SellerContactModal from "@/app/(public)/(pages)/product/components/seller-contact-modal"
 import BuyBoxNavigation from "@/app/(public)/components/BuyBoxNavigation"
 import FavoriteIcon from "@/app/(public)/components/FavoriteIcon"
@@ -96,6 +98,7 @@ const BrandOrSellerProfile = ({
   if (!data) notFound()
   const [contactModalOpen, setContactModalOpen] = useState<boolean>(false)
   const [imageContainerHeight, setImageContainerHeight] = useState(80)
+  const [pdfViewLoading, setPdfViewLoading] = useState(false)
   const productContainerRef = useRef<HTMLDivElement>(null)
 
   const showSellerContact = () => {
@@ -125,6 +128,29 @@ const BrandOrSellerProfile = ({
     {
       onSuccess: () => {
         setContactModalOpen(true)
+      },
+      onError: (errors: ClientError) => {
+        if (
+          errors.response.errors?.find(
+            (error) => error.extensions?.code === "FORBIDDEN"
+          )
+        ) {
+          toast({
+            description:
+              "لطفا برای مشاهده اطلاعات تماس، ابتدا وارد حساب کاربری خود شوید.",
+            duration: 8000,
+            variant: "default"
+          })
+        } else {
+          toast({
+            description: (
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => error),
+            duration: 8000,
+            variant: "default"
+          })
+        }
       }
     }
   )
@@ -142,11 +168,13 @@ const BrandOrSellerProfile = ({
 
   const showPdfInNewTab = useCallback(
     async ({ uuid = "" }: { uuid: string }) => {
+      setPdfViewLoading(true)
       const response = await axiosApis.servePdf({
         access_token: session?.accessToken,
         uuid
       })
       if (response.data) {
+        setPdfViewLoading(false)
         const pdfBlob = new Blob([response.data], {
           type: "application/pdf"
         })
@@ -248,6 +276,7 @@ const BrandOrSellerProfile = ({
                         نمایید.
                       </h4>
                       <Button
+                        loading={pdfViewLoading}
                         className="btn btn-primary flex items-center justify-center"
                         onClick={() => {
                           const uuid = (data as BrandQuery).priceList?.uuid
@@ -299,10 +328,11 @@ const BrandOrSellerProfile = ({
                   {session?.accessToken ? (
                     <>
                       <h4 className="px-6 text-center">
-                        فایل PDF لیست قیمت را می توانید از گزینه زیر مشاهده
+                        فایل PDF کاتالوگ را می توانید از گزینه زیر مشاهده
                         نمایید.
                       </h4>
                       <Button
+                        loading={pdfViewLoading}
                         className="btn btn-primary flex items-center justify-center"
                         onClick={() => {
                           const uuid = (data as BrandQuery).catalog?.uuid
@@ -340,7 +370,15 @@ const BrandOrSellerProfile = ({
       ]
     }
     return _tabs
-  }, [args, data, isMobileView, session?.accessToken, showPdfInNewTab, slug])
+  }, [
+    args,
+    data,
+    isMobileView,
+    pdfViewLoading,
+    session?.accessToken,
+    showPdfInNewTab,
+    slug
+  ])
 
   return (
     <>
