@@ -75,8 +75,8 @@ const MobileHomeTopBlogs = () => {
       <div className="overflow-hidden">
         <Swiper
           ref={sliderRef}
-          slidesPerView={1.1}
-          spaceBetween={8}
+          slidesPerView={1.2}
+          spaceBetween={16}
           centeredSlides
           className="h-full w-full pb-12"
         >

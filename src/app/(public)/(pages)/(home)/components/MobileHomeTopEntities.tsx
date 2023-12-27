@@ -51,8 +51,8 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
         <Swiper
           ref={sliderRef}
           centeredSlides
-          slidesPerView={1.1}
-          spaceBetween={8}
+          slidesPerView={1.2}
+          spaceBetween={16}
           className="h-full w-full pb-12"
         >
           {query?.map(({ id, bannerFile, logoFile, name, total }) => (
@@ -77,7 +77,7 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
               >
                 <div
                   style={{
-                    height: square ? slideWidth : (slideWidth * 4) / 3
+                    height: square ? slideWidth : (slideWidth * 6) / 5
                   }}
                   className="relative"
                 >

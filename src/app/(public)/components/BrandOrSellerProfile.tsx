@@ -40,6 +40,7 @@ export type BrandOrSellerProfileTab = {
   value: string
   title: JSX.Element
   Content: () => JSX.Element
+  className?: string | undefined
 }
 export type SellerQuery = GetSellerQuery["seller"]
 export type BrandQuery = GetBrandQuery["brand"]
@@ -219,7 +220,6 @@ const BrandOrSellerProfile = ({
           </div>
         )}
         <Tabs
-          // defaultValue={defaultTabValue}
           value={activeTab}
           onValueChange={(value) => {
             if (value === tabs[0].value) {
@@ -245,9 +245,9 @@ const BrandOrSellerProfile = ({
               </TabsTrigger>
             ))}
           </TabsList>
-          {tabs.map(({ Content, ...props }) => (
+          {tabs.map(({ Content, className, ...props }) => (
             <TabsContent
-              className="flex-1 bg-alpha-white"
+              className={clsx("flex-1", className)}
               key={props.value}
               value={props.value}
             >

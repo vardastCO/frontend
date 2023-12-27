@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
-// import { useQuery } from "@tanstack/react-query"
 import { Session } from "next-auth"
 
 import {
@@ -28,25 +27,10 @@ import { allUserFavoriteBrandsQueryFns } from "@core/queryFns/allUserFavoriteBra
 import { allUserFavoriteProductsQueryFns } from "@core/queryFns/allUserFavoriteProductsQueryFns"
 import { allUserFavoriteSellersQueryFns } from "@core/queryFns/allUserFavoriteSellersQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-// import {
-//   Brand,
-//   GetUserFavoriteBrandQuery,
-//   GetUserFavoriteProductQuery,
-//   GetUserFavoriteSellerQuery,
-//   Product,
-//   Seller
-// } from "@/generated"
-
 import BrandOrSellerCard, {
   BrandOrSellerCardSkeleton
 } from "@/app/(public)/components/BrandOrSellerCard"
 import { TabTitleWithExtraData } from "@/app/(public)/components/BrandOrSellerProfile"
-// import { allUserFavoriteBrandQueryFns } from "@core/queryFns/allUserFavoriteBrandQueryFns"
-// import { allUserFavoriteProductQueryFns } from "@core/queryFns/allUserFavoriteProductQueryFns"
-// import { allUserFavoriteSellerQueryFns } from "@core/queryFns/allUserFavoriteSellerQueryFns"
-// import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-// import BrandOrSellerCard from "@/app/(public)/components/BrandOrSellerCard"
-// import ProductCard from "@/app/(public)/components/product-card"
 import BrandsOrSellersContainer from "@/app/(public)/components/BrandsOrSellersContainer"
 import ProductCard, {
   ProductCardSkeleton
@@ -55,7 +39,7 @@ import ProductListContainer from "@/app/(public)/components/ProductListContainer
 
 const NotFoundItems = ({ text = "کالا" }) => {
   return (
-    <div className="flex flex-col gap-y-1">
+    <div className="flex flex-col justify-start gap-y-1">
       <NotFound text={text} />
       <NotFoundItemsHelp text={text} />
     </div>
@@ -75,7 +59,7 @@ const NotFound = ({ text = "کالا" }) => {
 
 const NotFoundItemsHelp = ({ text = "کالا" }) => {
   return (
-    <div className="grid h-full w-full grid-cols-6 items-center justify-center bg-alpha-white px-6 py-10">
+    <div className="grid w-full grid-cols-6 items-center justify-center bg-alpha-white px-6 py-10">
       <div className="col-span-5 flex flex-col justify-evenly gap-y-1">
         <p className="text-right">نشان کنید!</p>
         <p className="text-right text-sm text-alpha-500">

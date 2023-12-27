@@ -17,6 +17,7 @@ import { Button } from "@core/components/ui/button"
 import { getBrandQueryFn } from "@core/queryFns/brandQueryFns"
 import { getIsFavoriteQueryFns } from "@core/queryFns/getIsFavoriteQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
+import VocabulariesPage from "@/app/(public)/(pages)/categories/components/VocabulariesPage"
 import BrandOrSellerProfile, {
   BrandOrSellerProfileTab,
   TabTitleWithExtraData
@@ -174,7 +175,7 @@ const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
     {
       value: BrandProfileTabEnum.CATEGORY,
       title: <TabTitleWithExtraData title="دسته‌بندی‌ها" />,
-      Content: () => <></>
+      Content: () => <VocabulariesPage />
     },
     {
       value: BrandProfileTabEnum.PRICE_LIST,
@@ -189,7 +190,7 @@ const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
           access_token={session?.accessToken}
           isMobileView={isMobileView}
           title="لیست قیمت"
-          uuid={query.data?.brand.catalog?.uuid}
+          uuid={query.data?.brand.priceList?.uuid}
         />
       )
     },
