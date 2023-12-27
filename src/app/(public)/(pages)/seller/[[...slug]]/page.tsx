@@ -52,8 +52,6 @@ const SellerIndex = async ({
   const queryClient = getQueryClient()
   const session = await getServerSession(authOptions)
 
-  console.log({ searchParams })
-
   const args: IndexProductInput = {}
   args["page"] =
     searchParams.page && +searchParams.page[0] > 0 ? +searchParams.page[0] : 1

@@ -75,12 +75,12 @@ const SellerContactModal = ({
           </div>
         </div> */}
         <div className="flex flex-col">
-          {!!mobile && (
-            <div className="flex items-center gap-2 py-4">
-              <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
-                <DevicePhoneMobileIcon className="h-6 w-6 text-primary" />
-              </div>
-              <div className="flex divide-x divide-alpha-200">
+          <div className="flex items-center gap-2 py-4">
+            <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
+              <DevicePhoneMobileIcon className="h-6 w-6 text-primary" />
+            </div>
+            <div className="flex divide-x divide-alpha-200">
+              {mobile ? (
                 <Link
                   href="tel:+989124204964"
                   dir="ltr"
@@ -92,15 +92,17 @@ const SellerContactModal = ({
                     // mobile?.ext &&
                     digitsEnToFa(`${mobile.code}-${mobile.number}`)}
                 </Link>
-              </div>
+              ) : (
+                "-"
+              )}
             </div>
-          )}
-          {!!tel && (
-            <div className="flex items-center gap-2 py-4">
-              <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
-                <PhoneIcon className="h-6 w-6 text-primary" />
-              </div>
-              <div className="flex divide-x divide-alpha-200">
+          </div>
+          <div className="flex items-center gap-2 py-4">
+            <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
+              <PhoneIcon className="h-6 w-6 text-primary" />
+            </div>
+            <div className="flex divide-x divide-alpha-200">
+              {tel ? (
                 <Link
                   href="tel:+989124204964"
                   dir="ltr"
@@ -112,15 +114,17 @@ const SellerContactModal = ({
                     // tel?.ext &&
                     digitsEnToFa(`${tel.code}-${tel.number}`)}
                 </Link>
-              </div>
+              ) : (
+                "-"
+              )}
             </div>
-          )}
-          {!!fax && (
-            <div className="flex items-center gap-2 py-4">
-              <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
-                <EnvelopeIcon className="h-6 w-6 text-primary" />
-              </div>
-              <div className="flex divide-x divide-alpha-200">
+          </div>
+          <div className="flex items-center gap-2 py-4">
+            <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
+              <EnvelopeIcon className="h-6 w-6 text-primary" />
+            </div>
+            <div className="flex divide-x divide-alpha-200">
+              {fax ? (
                 <Link
                   href="tel:+989124204964"
                   dir="ltr"
@@ -132,9 +136,11 @@ const SellerContactModal = ({
                     // fax?.ext &&
                     digitsEnToFa(`${fax.code}-${fax.number}`)}
                 </Link>
-              </div>
+              ) : (
+                "-"
+              )}
             </div>
-          )}
+          </div>
 
           {data?.addresses &&
             data?.addresses.length > 0 &&
