@@ -80,6 +80,21 @@ const MobileNavigation = (_: Props) => {
       forceEqual: false,
       dynamicRouteAllow: true,
       path: "seller"
+    },
+    {
+      forceEqual: false,
+      dynamicRouteAllow: true,
+      path: "auth/signin"
+    },
+    {
+      forceEqual: false,
+      dynamicRouteAllow: true,
+      path: "auth/signup"
+    },
+    {
+      forceEqual: false,
+      dynamicRouteAllow: true,
+      path: "auth/reset"
     }
   ])
   const getIsActiveNav = (activePath: string) =>

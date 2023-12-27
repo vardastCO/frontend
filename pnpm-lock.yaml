@@ -179,6 +179,9 @@ dependencies:
   next-translate:
     specifier: 2.5.2
     version: 2.5.2(next@13.5.4)(react@18.2.0)
+  next-usequerystate:
+    specifier: ^1.13.2
+    version: 1.13.2(next@13.5.4)
   nextjs:
     specifier: ^0.0.3
     version: 0.0.3
@@ -8953,6 +8956,10 @@ packages:
     dev: false
     optional: true
 
+  /mitt@3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
+    dev: false
+
   /mkdirp-classic@0.5.3:
     resolution: {integrity: sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==}
     dev: false
@@ -9094,6 +9101,15 @@ packages:
     dependencies:
       next: 13.5.4(@babel/core@7.23.5)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
+
+  /next-usequerystate@1.13.2(next@13.5.4):
+    resolution: {integrity: sha512-Jg6pJy/ltevoVc/Qa8Dvgz9UY5UeKsKQfELj9dNxGx2TdxiPTa5w9bfo5y0n1TKeTcnFRHIyf6PqkjLsDFuo1A==}
+    peerDependencies:
+      next: '>=13.4 <14.0.2 || ^14.0.3'
+    dependencies:
+      mitt: 3.0.1
+      next: 13.5.4(@babel/core@7.23.5)(react-dom@18.2.0)(react@18.2.0)
+    dev: false
 
   /next@13.5.4(@babel/core@7.23.5)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-+93un5S779gho8y9ASQhb/bTkQF17FNQOtXLKAj3lsNgltEcF0C5PMLLncDmH+8X1EnJH1kbqAERa29nRXqhjA==}

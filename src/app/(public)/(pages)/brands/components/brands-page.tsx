@@ -69,27 +69,33 @@ const BrandsPage = ({ args, limitPage }: BrandsPageProps) => {
       </div> */}
 
       <BrandsOrSellersContainer>
-        <InfiniteScrollPagination
-          CardLoader={BrandOrSellerCardSkeleton}
-          infiniteQuery={allBrandsQuery}
-        >
-          {(page, ref) => (
-            <>
-              {page.brands.data.map(
-                (brand, index) =>
-                  brand && (
-                    <BrandOrSellerCard
-                      ref={
-                        page.brands.data.length - 1 === index ? ref : undefined
-                      }
-                      key={brand.id}
-                      content={{ ...(brand as Brand), __typename: "Brand" }}
-                    />
-                  )
-              )}
-            </>
-          )}
-        </InfiniteScrollPagination>
+        {({ selectedItemId, setSelectedItemId }) => (
+          <InfiniteScrollPagination
+            CardLoader={BrandOrSellerCardSkeleton}
+            infiniteQuery={allBrandsQuery}
+          >
+            {(page, ref) => (
+              <>
+                {page.brands.data.map(
+                  (brand, index) =>
+                    brand && (
+                      <BrandOrSellerCard
+                        selectedItemId={selectedItemId}
+                        setSelectedItemId={setSelectedItemId}
+                        ref={
+                          page.brands.data.length - 1 === index
+                            ? ref
+                            : undefined
+                        }
+                        key={brand.id}
+                        content={{ ...(brand as Brand), __typename: "Brand" }}
+                      />
+                    )
+                )}
+              </>
+            )}
+          </InfiniteScrollPagination>
+        )}
       </BrandsOrSellersContainer>
     </>
   )

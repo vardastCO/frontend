@@ -11,6 +11,7 @@ import { getIsFavoriteQueryFns } from "@core/queryFns/getIsFavoriteQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import ProductSectionContainer from "@/app/(public)/(pages)/product/components/ProductSectionContainer"
 import FavoriteIcon from "@/app/(public)/components/FavoriteIcon"
+import PriceTitle from "@/app/(public)/components/PriceTitle"
 import Rating from "@/app/(public)/components/Rating"
 import ShareIcon from "@/app/(public)/components/ShareIcon"
 
@@ -36,6 +37,8 @@ const ProductIntroduce = ({ product, session }: IProductIntroduce) => {
     }
   )
 
+  console.log({ product })
+
   return (
     <ProductSectionContainer>
       <div className="flex justify-end gap-x">
@@ -56,13 +59,23 @@ const ProductIntroduce = ({ product, session }: IProductIntroduce) => {
         <span className="text-alpha-500">برند:</span>
         <span className="px-2 text-info">{product.brand.name}</span>
       </Link>
-      <div className="flex">
+      <div className="flex justify-between">
         {product.rating && product.rating > 0 ? (
           <Rating rating={product.rating} />
         ) : (
           ""
         )}
+        {product.lowestPrice && (
+          <div className="flex justify-between gap-x">
+            <PriceTitle price={product.lowestPrice.amount} />
+          </div>
+        )}
       </div>
+      {product.uom.name && (
+        <div className="mr-auto flex justify-between text-xs text-alpha-500">
+          <span>هر {product.uom.name}</span>
+        </div>
+      )}
     </ProductSectionContainer>
   )
 }

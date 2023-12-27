@@ -93,12 +93,11 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
         )}
         <div className="flex w-full items-center gap-x-3">
           <div className="flex flex-1 items-center gap-3">
-            <div className="relative">
+            <div className="relative h-28 w-28">
               <Image
                 src={offer?.seller.logoFile?.presignedUrl.url as string}
                 // src="/images/frame.png"
-                width={100}
-                height={100}
+                fill
                 alt={offer?.seller.name}
                 className="rounded-xl bg-white object-contain shadow-md"
               />

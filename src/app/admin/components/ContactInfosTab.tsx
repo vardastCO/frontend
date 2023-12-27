@@ -1,6 +1,5 @@
 import { usePathname, useRouter } from "next/navigation"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
-import { parsePhoneNumber } from "libphonenumber-js"
 import { LucideCheck, LucideX } from "lucide-react"
 import { useSession } from "next-auth/react"
 import useTranslation from "next-translate/useTranslation"
@@ -77,11 +76,13 @@ const ContactInfosTab = ({
                       </td>
                       <td>{contactInfo.type}</td>
                       <td>
-                        {digitsEnToFa(
-                          parsePhoneNumber(
-                            `+${contactInfo.country.phonePrefix}${contactInfo.code}${contactInfo.number}${contactInfo.ext}`
-                          )?.formatNational()
-                        )}
+                        {contactInfo?.country?.phonePrefix &&
+                          contactInfo?.code &&
+                          contactInfo?.number &&
+                          // contactInfo?.ext &&
+                          digitsEnToFa(
+                            `${contactInfo?.code}-${contactInfo?.number}`
+                          )}
                       </td>
                       <td>
                         {contactInfo.status ===

@@ -1,10 +1,16 @@
 "use client"
 
 import { Dispatch } from "react"
-import { MapIcon, PhoneIcon } from "@heroicons/react/24/solid"
+import {
+  DevicePhoneMobileIcon,
+  EnvelopeIcon,
+  MapIcon,
+  PhoneIcon
+} from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { SetStateAction } from "jotai"
-import { parsePhoneNumber } from "libphonenumber-js"
+
+import { ContactInfoTypes } from "@/generated"
 
 import CardAvatar from "@core/components/shared/CardAvatar"
 import Link from "@core/components/shared/Link"
@@ -25,10 +31,20 @@ const SellerContactModal = ({
   onOpenChange,
   data
 }: SellerContactModalProps) => {
+  const tel = data?.contacts.find(
+    (phone) => phone.type === ContactInfoTypes.Tel
+  )
+  const mobile = data?.contacts.find(
+    (phone) => phone.type === ContactInfoTypes.Mobile
+  )
+  const fax = data?.contacts.find(
+    (phone) => phone.type === ContactInfoTypes.Fax
+  )
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader className="border-b pb">
           <CardAvatar
             url={data?.logoFile?.presignedUrl.url as string}
             name={data?.name || ""}
@@ -58,62 +74,96 @@ const SellerContactModal = ({
             </div>
           </div>
         </div> */}
-        <div className="flex flex-col divide-y divide-alpha-200">
-          {data?.contacts && data?.contacts.length > 0 && (
+        <div className="flex flex-col">
+          {!!mobile && (
+            <div className="flex items-center gap-2 py-4">
+              <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
+                <DevicePhoneMobileIcon className="h-6 w-6 text-primary" />
+              </div>
+              <div className="flex divide-x divide-alpha-200">
+                <Link
+                  href="tel:+989124204964"
+                  dir="ltr"
+                  className="font-semibold"
+                >
+                  {mobile?.country?.phonePrefix &&
+                    mobile?.code &&
+                    mobile?.number &&
+                    // mobile?.ext &&
+                    digitsEnToFa(`${mobile.code}-${mobile.number}`)}
+                </Link>
+              </div>
+            </div>
+          )}
+          {!!tel && (
             <div className="flex items-center gap-2 py-4">
               <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
                 <PhoneIcon className="h-6 w-6 text-primary" />
               </div>
               <div className="flex divide-x divide-alpha-200">
-                {data?.contacts.map((contact) => (
-                  <Link
-                    key={contact.number}
-                    href="tel:+989124204964"
-                    dir="ltr"
-                    className="font-semibold"
-                    // className="text-right text-xl font-bold leading-none text-blue-500"
-                  >
-                    {digitsEnToFa(
-                      parsePhoneNumber(
-                        `+${contact?.country.phonePrefix}${contact?.number}`
-                      )?.formatNational()
-                    )}
-                  </Link>
-                ))}
+                <Link
+                  href="tel:+989124204964"
+                  dir="ltr"
+                  className="font-semibold"
+                >
+                  {tel?.country?.phonePrefix &&
+                    tel?.code &&
+                    tel?.number &&
+                    // tel?.ext &&
+                    digitsEnToFa(`${tel.code}-${tel.number}`)}
+                </Link>
+              </div>
+            </div>
+          )}
+          {!!fax && (
+            <div className="flex items-center gap-2 py-4">
+              <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
+                <EnvelopeIcon className="h-6 w-6 text-primary" />
+              </div>
+              <div className="flex divide-x divide-alpha-200">
+                <Link
+                  href="tel:+989124204964"
+                  dir="ltr"
+                  className="font-semibold"
+                >
+                  {fax?.country?.phonePrefix &&
+                    fax?.code &&
+                    fax?.number &&
+                    // fax?.ext &&
+                    digitsEnToFa(`${fax.code}-${fax.number}`)}
+                </Link>
               </div>
             </div>
           )}
 
           {data?.addresses &&
             data?.addresses.length > 0 &&
-            data?.addresses.map(
-              (address) =>
-                address?.latitude &&
-                address?.longitude && (
-                  <div key={address.id} className="flex flex-col">
-                    <div className="flex items-center gap-2 py-4">
-                      <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
-                        <MapIcon className="h-6 w-6 text-primary" />
-                      </div>
-                      <p className="text-justify font-semibold">
-                        {address.address}
-                      </p>
-                    </div>
-                    <div className="flex justify-end">
-                      <Link
-                        href={`https://www.google.com/maps/search/?api=1&query=${data?.addresses.at(
-                          0
-                        )?.latitude},${address?.longitude}`}
-                        target="_blank"
-                        className="text-left text-lg font-semibold text-info"
-                        prefetch={false}
-                      >
-                        نمایش روی نقشه
-                      </Link>
-                    </div>
+            data?.addresses.map((address) => (
+              <div key={address.id} className="flex flex-col">
+                <div className="flex items-center gap-2 py-4">
+                  <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
+                    <MapIcon className="h-6 w-6 text-primary" />
                   </div>
-                )
-            )}
+                  <p className="text-justify font-semibold">
+                    {address.address}
+                  </p>
+                </div>
+                {address?.latitude && address?.longitude && (
+                  <div className="flex justify-end">
+                    <Link
+                      href={`https://www.google.com/maps/search/?api=1&query=${data?.addresses.at(
+                        0
+                      )?.latitude},${address?.longitude}`}
+                      target="_blank"
+                      className="text-left text-lg font-semibold text-info"
+                      prefetch={false}
+                    >
+                      نمایش روی نقشه
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ))}
         </div>
       </DialogContent>
     </Dialog>

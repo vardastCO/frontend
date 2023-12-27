@@ -105,23 +105,24 @@ const BrandIndex = async ({
     [QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY, args],
     () => getAllProductsQueryFn(args)
   )
-
-  await queryClient.prefetchQuery(
-    [
-      QUERY_FUNCTIONS_KEY.GET_IS_FAVORITE,
-      {
-        accessToken: session?.accessToken,
-        entityId: +slug[0],
-        type: EntityTypeEnum.Brand
-      }
-    ],
-    () =>
-      getIsFavoriteQueryFns({
-        accessToken: session?.accessToken,
-        entityId: +slug[0],
-        type: EntityTypeEnum.Brand
-      })
-  )
+  if (session) {
+    await queryClient.prefetchQuery(
+      [
+        QUERY_FUNCTIONS_KEY.GET_IS_FAVORITE,
+        {
+          accessToken: session?.accessToken,
+          entityId: +slug[0],
+          type: EntityTypeEnum.Brand
+        }
+      ],
+      () =>
+        getIsFavoriteQueryFns({
+          accessToken: session?.accessToken,
+          entityId: +slug[0],
+          type: EntityTypeEnum.Brand
+        })
+    )
+  }
 
   const dehydratedState = dehydrate(queryClient)
 

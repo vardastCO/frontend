@@ -77,7 +77,7 @@ const ProductIndex = async ({ params: { slug } }: ProductIndexProps) => {
 }
 
 export default withMobileHeader(ProductIndex, {
-  hasFavorite: {},
-  hasShare: true,
+  // hasFavorite: {},
+  // hasShare: true,
   hasLogo: true
 })

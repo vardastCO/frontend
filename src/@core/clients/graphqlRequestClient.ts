@@ -6,9 +6,13 @@ const requestMiddleware: RequestMiddleware = async (request) => {
   const session = await getSession()
   const token = session?.accessToken || null
 
-  return {
-    ...request,
-    headers: { ...request.headers, authorization: `Bearer ${token}` }
+  try {
+    return {
+      ...request,
+      headers: { ...request.headers, authorization: `Bearer ${token}` }
+    }
+  } catch (error) {
+    throw new Error(`${error}`)
   }
 }
 

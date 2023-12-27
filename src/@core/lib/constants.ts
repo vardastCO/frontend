@@ -144,16 +144,16 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
     path: "/profile"
   },
   {
-    forceEqual: true,
-    path: "profile/privacy"
+    forceEqual: false,
+    path: "/profile/privacy"
   },
   {
-    forceEqual: true,
-    path: "profile/contact"
+    forceEqual: false,
+    path: "/profile/contact"
   },
   {
-    forceEqual: true,
-    path: "profile/about"
+    forceEqual: false,
+    path: "/profile/about"
   },
   {
     forceEqual: true,
@@ -178,6 +178,18 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   {
     forceEqual: true,
     path: "/sellers"
+  },
+  {
+    forceEqual: false,
+    path: "/auth/signin"
+  },
+  {
+    forceEqual: false,
+    path: "/auth/signup"
+  },
+  {
+    forceEqual: false,
+    path: "/auth/reset"
   }
   // {
   //   forceEqual: true,

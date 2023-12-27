@@ -3,12 +3,16 @@ import { redirect } from "next/navigation"
 import { dehydrate } from "@tanstack/react-query"
 import { getServerSession } from "next-auth"
 
+import { EntityTypeEnum } from "@/generated"
+
 import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { authOptions } from "@core/lib/authOptions"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
+import { allUserFavoriteBrandsQueryFns } from "@core/queryFns/allUserFavoriteBrandsQueryFns"
 import { allUserFavoriteProductsQueryFns } from "@core/queryFns/allUserFavoriteProductsQueryFns"
+import { allUserFavoriteSellersQueryFns } from "@core/queryFns/allUserFavoriteSellersQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import FavoritesPageIndex from "@/app/(public)/(pages)/favorites/components/FavoritesPageIndex"
 
@@ -24,9 +28,25 @@ const FavoritePage = async () => {
   const session = await getServerSession(authOptions)
 
   await queryClient.prefetchQuery(
-    [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_PRODUCT],
+    [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_PRODUCT, EntityTypeEnum.Product],
     () =>
       allUserFavoriteProductsQueryFns({
+        accessToken: session?.accessToken
+      })
+  )
+
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_SELLER, EntityTypeEnum.Seller],
+    () =>
+      allUserFavoriteSellersQueryFns({
+        accessToken: session?.accessToken
+      })
+  )
+
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.GET_ALL_USER_FAVORITE_BRAND, EntityTypeEnum.Brand],
+    () =>
+      allUserFavoriteBrandsQueryFns({
         accessToken: session?.accessToken
       })
   )

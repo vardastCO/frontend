@@ -1,4 +1,4 @@
-import { forwardRef, Ref, useState } from "react"
+import { forwardRef, Ref, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { MapPinIcon } from "@heroicons/react/24/outline"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
@@ -6,11 +6,10 @@ import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { Brand, Seller } from "@/generated"
 
 import Link from "@core/components/shared/Link"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
 import Rating, { RatingSkeleton } from "@/app/(public)/components/Rating"
 
 export const BrandOrSellerCardSkeleton = () => {
-  const [ratio, setRatio] = useState(1 / 1)
-
   return (
     <div className="relative overflow-hidden rounded bg-alpha-white transition hover:z-10 md:h-auto md:rounded-none md:hover:shadow-lg">
       <div className="flex h-full w-full flex-col lg:px-4">
@@ -18,18 +17,12 @@ export const BrandOrSellerCardSkeleton = () => {
           <div
             className={`relative row-span-4 flex flex-shrink-0 transform flex-col items-center justify-center bg-center bg-no-repeat align-middle transition-all duration-1000 ease-out`}
           >
-            <div className="w-full">
+            <div className="relative w-full">
               <Image
                 src={"/images/frameLess.png"}
                 alt="skeleton"
-                width={400}
-                height={400 / ratio}
-                layout="fixed"
-                onLoadingComplete={({ naturalWidth, naturalHeight }) => {
-                  setRatio(naturalWidth / naturalHeight)
-                }}
-                objectFit="contain"
-                className="animated-card"
+                fill
+                className="animated-card object-contain"
               />
             </div>
           </div>
@@ -50,18 +43,26 @@ export const BrandOrSellerCardSkeleton = () => {
 const BrandOrSellerCard = forwardRef(
   <T extends Seller | Brand>(
     {
-      content
+      content,
+      selectedItemId,
+      setSelectedItemId
     }: {
       content: T
+      selectedItemId?: ICategoryListLoader
+      setSelectedItemId?: (_?: ICategoryListLoader) => void
     },
     ref: Ref<HTMLAnchorElement> | undefined
   ) => {
-    const onLoadingCompletedImage = () => {
-      const div = document.getElementById(`content-image-${content?.id}`)
-      if (div) {
-        div.className = div.className + " opacity-100"
+    const containerRef = useRef<HTMLDivElement>(null)
+    const [containerWidth, setContainerWidth] = useState(0)
+
+    useEffect(() => {
+      const container = containerRef.current
+
+      if (container?.clientWidth) {
+        setContainerWidth(container?.clientWidth)
       }
-    }
+    }, [])
 
     return (
       <Link
@@ -69,20 +70,23 @@ const BrandOrSellerCard = forwardRef(
         href={`/${content.__typename?.toLowerCase()}/${content?.id}/${
           content.name
         }`}
+        onClick={() => {
+          setSelectedItemId && setSelectedItemId(content.id)
+        }}
         prefetch={false}
         className="relative overflow-hidden rounded bg-alpha-white transition hover:z-10 md:h-auto md:rounded-none md:hover:shadow-lg"
       >
-        <div className="flex h-full w-full flex-col lg:px-4">
+        {content.id === selectedItemId && (
+          <div className="absolute left-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-alpha-white bg-opacity-50">
+            {/* <Loader2Icon className="h-10 w-10 animate-spin text-primary" /> */}
+          </div>
+        )}
+        <div ref={containerRef} className="flex h-full w-full flex-col lg:px-4">
           <div className="grid flex-1 grid-rows-7 items-start lg:flex lg:flex-col">
             <div
-              id={`content-image-${content?.id}`}
-              className={`relative row-span-4 w-full flex-shrink-0 bg-center bg-no-repeat align-middle duration-1000 ease-out lg:h-48 lg:w-full ${
-                content?.logoFile?.presignedUrl.url ? "opacity-0" : ""
-              }`}
+              className={`relative row-span-4 w-full transform transition-all lg:w-full`}
               style={{
-                height:
-                  document.getElementById(`content-image-${content?.id}`)
-                    ?.clientWidth || 0
+                height: containerWidth
               }}
             >
               {content?.logoFile?.presignedUrl.url ? (
@@ -90,18 +94,14 @@ const BrandOrSellerCard = forwardRef(
                   src={content.logoFile.presignedUrl.url as string}
                   alt={content.name}
                   fill
-                  objectFit="contain"
-                  loading="eager"
-                  onLoadingComplete={onLoadingCompletedImage}
+                  className="object-contain"
                 />
               ) : (
                 <Image
                   src={"/images/blank.png"}
                   alt={content.name}
                   fill
-                  objectFit="contain"
-                  loading="eager"
-                  onLoadingComplete={onLoadingCompletedImage}
+                  className="object-contain"
                 />
               )}
             </div>

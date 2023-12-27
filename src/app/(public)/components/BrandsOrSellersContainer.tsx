@@ -1,10 +1,24 @@
-import { PropsWithChildren } from "react"
+import { ReactElement, useState } from "react"
+import clsx from "clsx"
 
-const BrandsOrSellersContainer: React.FC<PropsWithChildren> = ({
+import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
+
+interface IBrandsOrSellersContainer {
+  children(_: {
+    selectedItemId: ICategoryListLoader
+    setSelectedItemId: (_?: any) => void
+  }): ReactElement
+}
+
+const BrandsOrSellersContainer: React.FC<IBrandsOrSellersContainer> = ({
   children
 }) => {
+  const [selectedItemId, setSelectedItemId] =
+    useState<ICategoryListLoader>(null)
   return (
-    <div className="grid grid-cols-3 gap p pb-5 xl:grid-cols-5">{children}</div>
+    <div className={clsx("grid grid-cols-3 gap p pb-5 xl:grid-cols-5")}>
+      {children({ selectedItemId, setSelectedItemId })}
+    </div>
   )
 }
 

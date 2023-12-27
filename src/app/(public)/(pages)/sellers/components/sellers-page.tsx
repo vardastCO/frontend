@@ -63,29 +63,38 @@ const SellersPage = ({ limitPage, args }: SellersPageProps) => {
         />
       </div> */}
 
-      <BrandsOrSellersContainer>
-        <InfiniteScrollPagination
-          CardLoader={BrandOrSellerCardSkeleton}
-          infiniteQuery={allSellersQuery}
-        >
-          {(page, ref) => (
-            <>
-              {page.sellers.data.map(
-                (seller, index) =>
-                  seller && (
-                    <BrandOrSellerCard
-                      ref={
-                        page.sellers.data.length - 1 === index ? ref : undefined
-                      }
-                      key={seller.id}
-                      content={{ ...(seller as Seller), __typename: "Seller" }}
-                    />
-                  )
-              )}
-            </>
-          )}
-        </InfiniteScrollPagination>
-      </BrandsOrSellersContainer>
+      <InfiniteScrollPagination
+        CardLoader={BrandOrSellerCardSkeleton}
+        infiniteQuery={allSellersQuery}
+      >
+        {(page, ref) => (
+          <BrandsOrSellersContainer>
+            {({ selectedItemId, setSelectedItemId }) => (
+              <>
+                {page.sellers.data.map(
+                  (seller, index) =>
+                    seller && (
+                      <BrandOrSellerCard
+                        ref={
+                          page.sellers.data.length - 1 === index
+                            ? ref
+                            : undefined
+                        }
+                        key={seller.id}
+                        selectedItemId={selectedItemId}
+                        setSelectedItemId={setSelectedItemId}
+                        content={{
+                          ...(seller as Seller),
+                          __typename: "Seller"
+                        }}
+                      />
+                    )
+                )}
+              </>
+            )}
+          </BrandsOrSellersContainer>
+        )}
+      </InfiniteScrollPagination>
     </>
   )
 }

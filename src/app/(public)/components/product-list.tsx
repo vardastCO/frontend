@@ -393,26 +393,24 @@ const ProductList = ({
       infiniteQuery={allProductsQuery}
     >
       {(page, ref) => (
-        <>
-          <ProductListContainer type={containerType}>
-            {({ selectedItemId, setSelectedItemId }) => (
-              <>
-                {page.products.data.map((product, index) => (
-                  <ProductCard
-                    selectedItemId={selectedItemId}
-                    setSelectedItemId={setSelectedItemId}
-                    containerType={containerType}
-                    ref={
-                      page.products.data.length - 1 === index ? ref : undefined
-                    }
-                    key={product?.id}
-                    product={product as Product}
-                  />
-                ))}
-              </>
-            )}
-          </ProductListContainer>
-        </>
+        <ProductListContainer type={containerType}>
+          {({ selectedItemId, setSelectedItemId }) => (
+            <>
+              {page.products.data.map((product, index) => (
+                <ProductCard
+                  selectedItemId={selectedItemId}
+                  setSelectedItemId={setSelectedItemId}
+                  containerType={containerType}
+                  ref={
+                    page.products.data.length - 1 === index ? ref : undefined
+                  }
+                  key={product?.id}
+                  product={product as Product}
+                />
+              ))}
+            </>
+          )}
+        </ProductListContainer>
       )}
     </InfiniteScrollPagination>
   )

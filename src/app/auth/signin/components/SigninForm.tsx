@@ -285,6 +285,7 @@ const SigninForm = (_: Props) => {
           <Button
             type="button"
             variant="link"
+            className="!py"
             onClick={() => {
               setFormState(1)
             }}
@@ -346,6 +347,7 @@ const SigninForm = (_: Props) => {
           <Button
             type="button"
             variant="link"
+            className="!py"
             onClick={() => {
               setFormState(0)
             }}

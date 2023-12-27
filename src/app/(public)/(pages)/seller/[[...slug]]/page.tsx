@@ -14,6 +14,7 @@ import { authOptions } from "@core/lib/authOptions"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
+import { brandsOfSellerQueryFns } from "@core/queryFns/brandsOfSellerQueryFns"
 import { getIsFavoriteQueryFns } from "@core/queryFns/getIsFavoriteQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getSellerQueryFn } from "@core/queryFns/sellerQueryFns"
@@ -50,6 +51,8 @@ const SellerIndex = async ({
   const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
   const session = await getServerSession(authOptions)
+
+  console.log({ searchParams })
 
   const args: IndexProductInput = {}
   args["page"] =
@@ -95,25 +98,42 @@ const SellerIndex = async ({
     () => getSellerQueryFn(+slug[0])
   )
 
-  await queryClient.prefetchQuery(
-    [
-      QUERY_FUNCTIONS_KEY.GET_IS_FAVORITE,
-      {
-        entityId: +slug[0],
-        type: EntityTypeEnum.Seller
-      }
-    ],
-    () =>
-      getIsFavoriteQueryFns({
-        accessToken: session?.accessToken,
-        entityId: +slug[0],
-        type: EntityTypeEnum.Seller
-      })
-  )
+  if (session) {
+    await queryClient.prefetchQuery(
+      [
+        QUERY_FUNCTIONS_KEY.GET_IS_FAVORITE,
+        {
+          entityId: +slug[0],
+          type: EntityTypeEnum.Seller
+        }
+      ],
+      () =>
+        getIsFavoriteQueryFns({
+          accessToken: session?.accessToken,
+          entityId: +slug[0],
+          type: EntityTypeEnum.Seller
+        })
+    )
+  }
 
   await queryClient.prefetchInfiniteQuery(
     [QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY, args],
     () => getAllProductsQueryFn(args)
+  )
+
+  await queryClient.prefetchInfiniteQuery(
+    [
+      QUERY_FUNCTIONS_KEY.GET_BRANDS_OF_SELLER,
+      {
+        sellerId: +slug[0],
+        page: 1
+      }
+    ],
+    () =>
+      brandsOfSellerQueryFns({
+        sellerId: +slug[0],
+        page: 1
+      })
   )
 
   const dehydratedState = dehydrate(queryClient)

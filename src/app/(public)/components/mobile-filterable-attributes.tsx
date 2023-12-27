@@ -72,7 +72,7 @@ const MobileFilterableAttributePage = ({
 }: MobileFilterableAttributePageProps) => {
   return (
     <div className="flex flex-col gap-3">
-      {attribute.values?.options.map(
+      {attribute?.values?.options?.map(
         (value: string, idx: number) =>
           value && (
             <Label.Root key={idx} className="flex items-center gap-2">
