@@ -41,9 +41,86 @@ export enum BrandProfileTabEnum {
   CATALOG = "CATALOG"
 }
 
-const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
+type PdfTabItemProps = {
+  uuid?: string
+  access_token?: string
+  isMobileView?: boolean
+  title: string
+}
+
+const PdfTabItem = ({
+  uuid,
+  access_token,
+  isMobileView,
+  title
+}: PdfTabItemProps) => {
   const [pdfViewLoading, setPdfViewLoading] = useState(false)
 
+  const showPdfInNewTab = useCallback(
+    async ({ uuid = "" }: { uuid: string }) => {
+      setPdfViewLoading(true)
+      const response = await axiosApis.servePdf({
+        access_token,
+        uuid
+      })
+      if (response.data) {
+        setPdfViewLoading(false)
+        const pdfBlob = new Blob([response.data], {
+          type: "application/pdf"
+        })
+        const pdfUrl = URL.createObjectURL(pdfBlob)
+        if (isMobileView) {
+          window.location.href = pdfUrl
+        } else {
+          window.open(pdfUrl, "_blank")
+        }
+        URL.revokeObjectURL(pdfUrl)
+      }
+    },
+    [isMobileView, access_token]
+  )
+
+  return (
+    <div className="flex h-full w-full flex-col items-center justify-start gap-y-7 px pt-14">
+      {uuid ? (
+        access_token ? (
+          <>
+            <h4 className="px-6 text-center">
+              فایل PDF {title} را می توانید از گزینه زیر مشاهده نمایید.
+            </h4>
+            <Button
+              loading={pdfViewLoading}
+              className="btn btn-primary flex items-center justify-center"
+              onClick={() => {
+                showPdfInNewTab({ uuid })
+              }}
+            >
+              <span>مشاهده {title}</span>
+            </Button>
+          </>
+        ) : (
+          <>
+            <h4 className="px-6 text-center">
+              برای مشاهده {title}، لطفا ابتدا وارد حساب کاربری خود شوید.
+            </h4>
+            <Link
+              href="/auth/signin"
+              className="btn btn-md btn-secondary block px"
+            >
+              ورود به حساب کاربری
+            </Link>
+          </>
+        )
+      ) : (
+        <h4 className="px-6 text-center">
+          در حال حاضر، {title}ی آپلود نشده است.
+        </h4>
+      )}
+    </div>
+  )
+}
+
+const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
   const query = useQuery<GetBrandQuery>(
     [QUERY_FUNCTIONS_KEY.BRAND_QUERY_KEY, { id: +slug[0] }],
     () => getBrandQueryFn(+slug[0]),
@@ -71,30 +148,6 @@ const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
       keepPreviousData: true,
       enabled: !!session
     }
-  )
-
-  const showPdfInNewTab = useCallback(
-    async ({ uuid = "" }: { uuid: string }) => {
-      setPdfViewLoading(true)
-      const response = await axiosApis.servePdf({
-        access_token: session?.accessToken,
-        uuid
-      })
-      if (response.data) {
-        setPdfViewLoading(false)
-        const pdfBlob = new Blob([response.data], {
-          type: "application/pdf"
-        })
-        const pdfUrl = URL.createObjectURL(pdfBlob)
-        if (isMobileView) {
-          window.location.href = pdfUrl
-        } else {
-          window.open(pdfUrl, "_blank")
-        }
-        URL.revokeObjectURL(pdfUrl)
-      }
-    },
-    [isMobileView, session?.accessToken]
   )
 
   const tabs: BrandOrSellerProfileTab[] = [
@@ -132,49 +185,12 @@ const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
         />
       ),
       Content: () => (
-        <div className="flex h-full w-full flex-col items-center justify-start gap-y-7 px pt-14">
-          {query.data?.brand.priceList?.uuid ? (
-            <>
-              {session?.accessToken ? (
-                <>
-                  <h4 className="px-6 text-center">
-                    فایل PDF لیست قیمت را می توانید از گزینه زیر مشاهده نمایید.
-                  </h4>
-                  <Button
-                    loading={pdfViewLoading}
-                    className="btn btn-primary flex items-center justify-center"
-                    onClick={() => {
-                      const uuid = query.data?.brand.priceList?.uuid
-                      if (!!uuid) {
-                        showPdfInNewTab({ uuid })
-                      }
-                    }}
-                  >
-                    <span>مشاهده لیست قیمت</span>
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <h4 className="px-6 text-center">
-                    برای مشاهده لیست قیمت، لطفا ابتدا وارد حساب کاربری خود شوید.
-                  </h4>
-                  <Link
-                    href="/auth/signin"
-                    className="btn btn-md btn-secondary block px"
-                  >
-                    ورود به حساب کاربری
-                  </Link>
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              <h4 className="px-6 text-center">
-                در حال حاضر برای این برند، لیست قیمتی آپلود نشده است.
-              </h4>
-            </>
-          )}
-        </div>
+        <PdfTabItem
+          access_token={session?.accessToken}
+          isMobileView={isMobileView}
+          title="لیست قیمت"
+          uuid={query.data?.brand.catalog?.uuid}
+        />
       )
     },
     {
@@ -186,47 +202,12 @@ const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
         />
       ),
       Content: () => (
-        <div className="flex h-full w-full flex-col items-center justify-start gap-y-7 px pt-14">
-          {query.data?.brand.catalog?.uuid ? (
-            <>
-              {session?.accessToken ? (
-                <>
-                  <h4 className="px-6 text-center">
-                    فایل PDF کاتالوگ را می توانید از گزینه زیر مشاهده نمایید.
-                  </h4>
-                  <Button
-                    loading={pdfViewLoading}
-                    className="btn btn-primary flex items-center justify-center"
-                    onClick={() => {
-                      const uuid = query?.data?.brand.catalog?.uuid
-                      if (!!uuid) {
-                        showPdfInNewTab({ uuid })
-                      }
-                    }}
-                  >
-                    <span>مشاهده کاتالوگ</span>
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <h4 className="px-6 text-center">
-                    برای مشاهده کاتالوگ، لطفا ابتدا وارد حساب کاربری خود شوید.
-                  </h4>
-                  <Link
-                    href="/auth/signin"
-                    className="btn btn-md btn-secondary block px"
-                  >
-                    ورود به حساب کاربری
-                  </Link>
-                </>
-              )}
-            </>
-          ) : (
-            <h4 className="px-6 text-center">
-              در حال حاضر برای این برند، کاتالوگی آپلود نشده است.
-            </h4>
-          )}
-        </div>
+        <PdfTabItem
+          access_token={session?.accessToken}
+          isMobileView={isMobileView}
+          title="کاتالوگ"
+          uuid={query.data?.brand.catalog?.uuid}
+        />
       )
     }
   ]
