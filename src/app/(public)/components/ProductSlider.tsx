@@ -1,11 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 
 import { Product } from "@/generated"
 
-import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
 import ProductVerticalCard from "@/app/(public)/components/ProductVerticalCard"
 
 type ProductSliderProps = {
@@ -16,25 +14,9 @@ type ProductSliderProps = {
 }
 
 const ProductSlider = ({ products, hasExtraItem }: ProductSliderProps) => {
-  const [selectedItemId, setSelectedItemId] =
-    useState<ICategoryListLoader>(null)
-  const sliderRef = useRef<HTMLDivElement>(null)
-  const [slideWidth, setSlideWidth] = useState(0)
-
-  useEffect(() => {
-    const slide = sliderRef.current?.children[0]
-
-    if (slide?.clientWidth) {
-      setSlideWidth(slide?.clientWidth)
-    }
-  }, [])
-
   return (
     <div className="h-full overflow-hidden">
-      <div
-        ref={sliderRef}
-        className="hide-scrollbar flex h-full w-full overflow-x-auto pr-5"
-      >
+      <div className="hide-scrollbar flex h-full w-full overflow-x-auto pr-5">
         {hasExtraItem && (
           <div className={`h-full w-[37vw] flex-shrink-0 cursor-pointer pl-5`}>
             <div className="flex h-full flex-col items-center justify-center gap-y-8">
