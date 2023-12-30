@@ -204,13 +204,13 @@ const SigninForm = (_: Props) => {
 
   return (
     <>
-      <Link href="/">
-        <Image
-          src={logoType}
-          alt={process.env.NEXT_PUBLIC_TITLE as string}
-          className="mx-auto w-3/5 py-20"
-        />
-      </Link>
+      {/* <Link href="/"> */}
+      <Image
+        src={logoType}
+        alt={process.env.NEXT_PUBLIC_TITLE as string}
+        className="mx-auto w-3/5 py-20"
+      />
+      {/* </Link> */}
 
       {errors && (
         <Alert variant="danger">
