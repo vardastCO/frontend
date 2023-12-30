@@ -1,12 +1,14 @@
 "use client"
 
-import { useMemo } from "react"
+import { useContext, useEffect, useMemo } from "react"
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
+import { useSetAtom } from "jotai"
 import { Session } from "next-auth"
 
 import {
   Brand,
   EntityTypeEnum,
+  EventTrackerTypes,
   GetBrandsOfSellerQuery,
   GetIsFavoriteQuery,
   GetSellerQuery,
@@ -29,6 +31,7 @@ import InfiniteScrollPagination from "@/app/(public)/components/InfiniteScrollPa
 import ProductList, {
   checkLimitPageByCondition
 } from "@/app/(public)/components/product-list"
+import { PublicContext } from "@/app/(public)/components/public-provider"
 
 export enum SellerProfileTabEnum {
   // eslint-disable-next-line no-unused-vars
@@ -52,6 +55,8 @@ const SellerProfile = ({
   slug,
   session
 }: SellerProfile) => {
+  const { contactModalDataAtom } = useContext(PublicContext)
+  const setContactModalData = useSetAtom(contactModalDataAtom)
   const query = useQuery<GetSellerQuery>(
     [QUERY_FUNCTIONS_KEY.SELLER_QUERY_KEY, { id: +slug[0] }],
     () => getSellerQueryFn(+slug[0]),
@@ -184,6 +189,14 @@ const SellerProfile = ({
       totalBrands
     ]
   )
+
+  useEffect(() => {
+    setContactModalData({
+      data: query.data?.seller,
+      type: EventTrackerTypes.ViewOffer,
+      title: "اطلاعات تماس"
+    })
+  }, [query.data?.seller, setContactModalData])
 
   return (
     <BrandOrSellerProfile

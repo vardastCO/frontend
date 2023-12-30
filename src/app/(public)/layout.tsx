@@ -4,6 +4,7 @@
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import PwaNotificationProvider from "@core/providers/PwaNotificationProvider"
 // import { authOptions } from "@core/lib/authOptions"
+import SellerContactModal from "@/app/(public)/(pages)/product/components/seller-contact-modal"
 import MobileScrollProvider from "@/app/(public)/components/header/MobileScrollProvider"
 import MobileNavigation from "@/app/(public)/components/mobile-navigation"
 import PublicProvider from "@/app/(public)/components/public-provider"
@@ -23,6 +24,7 @@ export default async function PublicLayout({
   return (
     <PublicProvider>
       <SearchActionModal isMobileView={isMobileView} />
+      <SellerContactModal />
       {isMobileView ? (
         <>
           <div className="container relative mx-auto flex h-full transform flex-col transition-all duration-200">

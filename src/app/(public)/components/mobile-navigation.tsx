@@ -3,12 +3,22 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { AnimatePresence, motion } from "framer-motion"
+import { ClientError } from "graphql-request"
 import { useAtom, useSetAtom } from "jotai"
 import { ArrowRight } from "lucide-react"
+import { useSession } from "next-auth/react"
 
+import {
+  EventTrackerSubjectTypes,
+  useCreateEventTrackerMutation
+} from "@/generated"
+
+import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import { mergeClasses } from "@core/utils/mergeClasses"
 import Link from "@core/components/shared/Link"
+import Progress from "@core/components/shared/Progress"
 import { Button } from "@core/components/ui/button"
+import { toast } from "@core/hooks/use-toast"
 import useIsCurrentPath from "@core/hooks/useIsCurrentPath"
 import { _navbar_items, _withNavigationRoutes } from "@core/lib/constants"
 import { PublicContext } from "@/app/(public)/components/public-provider"
@@ -18,10 +28,18 @@ import Search from "./search"
 type Props = {}
 
 const MobileNavigation = (_: Props) => {
+  const session = useSession()
   const router = useRouter()
   const pathname = usePathname()
-  const { showNavbar, navigationHeight } = useContext(PublicContext)
+  const {
+    showNavbar,
+    navigationHeight,
+    contactModalVisibilityAtom,
+    contactModalDataAtom
+  } = useContext(PublicContext)
   const [showNavbarScroll] = useAtom(showNavbar)
+  const setOpen = useSetAtom(contactModalVisibilityAtom)
+  const [{ data, type, title }] = useAtom(contactModalDataAtom)
   const ref = useRef<any>(null)
   const setNavigationHeight = useSetAtom(navigationHeight)
   const hideSearchBarFlag = useIsCurrentPath([
@@ -29,6 +47,16 @@ const MobileNavigation = (_: Props) => {
     //   forceEqual: false,
     //   path: "profile"
     // }
+  ])
+  const showBuyBoxFlag = useIsCurrentPath([
+    {
+      forceEqual: false,
+      path: "seller"
+    },
+    {
+      forceEqual: false,
+      path: "product"
+    }
   ])
   const ShowNavigationBackButton = useIsCurrentPath([
     {
@@ -113,6 +141,53 @@ const MobileNavigation = (_: Props) => {
     )
   }
 
+  const createEventTrackerMutation = useCreateEventTrackerMutation(
+    graphqlRequestClient,
+    {
+      onSuccess: () => {
+        setOpen(true)
+      },
+      onError: (errors: ClientError) => {
+        if (
+          errors.response.errors?.find(
+            (error) => error.extensions?.code === "FORBIDDEN"
+          )
+        ) {
+          toast({
+            description:
+              "لطفا برای مشاهده اطلاعات تماس، ابتدا وارد حساب کاربری خود شوید.",
+            duration: 8000,
+            variant: "default"
+          })
+        } else {
+          toast({
+            description: (
+              errors.response.errors?.at(0)?.extensions
+                .displayErrors as string[]
+            ).map((error) => error),
+            duration: 8000,
+            variant: "default"
+          })
+        }
+      }
+    }
+  )
+
+  const showSellerContact = () => {
+    if (!!session.data) {
+      createEventTrackerMutation.mutate({
+        createEventTrackerInput: {
+          type,
+          subjectType: EventTrackerSubjectTypes.ContactInfo,
+          subjectId: data?.contacts?.at(0)?.id || 0,
+          url: window.location.href
+        }
+      })
+      return
+    }
+    router.push("/auth/signin")
+  }
+
   useLayoutEffect(() => {
     setNavigationHeight(ref?.current?.clientHeight)
   }, [setNavigationHeight])
@@ -121,77 +196,114 @@ const MobileNavigation = (_: Props) => {
     ref?.current?.focus()
   }, [pathname])
 
+  console.log({ showNavbarScroll })
+
   if (isShowNavigation()) {
     return (
-      <div
-        ref={ref}
-        id="mobile-navigation-bar"
-        className={`${
-          showNavbarScroll ? "" : "translate-y-[5rem]"
-        } fixed bottom-0 left-0 z-50 w-full transform border-t border-alpha-200 bg-alpha-white transition-all duration-300 dark:border-alpha-600 dark:bg-alpha-700`}
-      >
-        {/* <Progress /> */}
-        <div>
-          {!hideSearchBarFlag && (
-            <div className="flex gap-x px-8 pt-2.5">
-              <AnimatePresence>
-                {ShowNavigationBackButton && (
+      <>
+        <div
+          ref={ref}
+          id="mobile-navigation-bar"
+          className={`${
+            showBuyBoxFlag || showNavbarScroll ? "" : "translate-y-[5rem]"
+          } fixed bottom-0 left-0 z-50 w-full transform border-t border-alpha-200 bg-alpha-white transition-all duration-300 dark:border-alpha-600 dark:bg-alpha-700`}
+        >
+          {/* <Progress /> */}
+          <div>
+            {(showBuyBoxFlag || !hideSearchBarFlag) && (
+              <div className="flex gap-x px-8 py-2.5">
+                <AnimatePresence>
+                  {ShowNavigationBackButton && (
+                    <motion.div
+                      key="modal"
+                      initial={{ opacity: 0, x: 100, display: "none" }}
+                      animate={{ opacity: 1, x: 0, display: "block" }}
+                      exit={{ opacity: 0, x: 100, display: "none" }}
+                      className="h-full"
+                    >
+                      <Button
+                        // variant="ghost"
+                        block
+                        onClick={() => {
+                          router.back()
+                        }}
+                        iconOnly
+                      >
+                        <ArrowRight className="" />
+                      </Button>
+                    </motion.div>
+                  )}
                   <motion.div
                     key="modal"
-                    initial={{ opacity: 0, x: 100, display: "none" }}
+                    initial={{ opacity: 0, x: 0, display: "none" }}
                     animate={{ opacity: 1, x: 0, display: "block" }}
-                    exit={{ opacity: 0, x: 100, display: "none" }}
-                    className="h-full"
+                    exit={{ opacity: 0, x: 0, display: "none" }}
+                    className="w-full transform transition-all delay-300 duration-300"
                   >
-                    <Button
-                      // variant="ghost"
-                      block
-                      onClick={() => {
-                        router.back()
-                      }}
-                      iconOnly
-                    >
-                      <ArrowRight className="" />
-                    </Button>
+                    {showBuyBoxFlag ? (
+                      <>
+                        <Button
+                          onClick={showSellerContact}
+                          loading={createEventTrackerMutation.isLoading}
+                          disabled={createEventTrackerMutation.isLoading}
+                          className="btn btn-md btn-primary
+                            flex
+                            h-full
+                            w-full
+                            items-center
+                            gap-2
+                            rounded-lg
+                            px-4
+                            py-3
+                            font-semibold"
+                        >
+                          <span className="relative flex flex-col items-center justify-center">
+                            {title}
+                          </span>
+                        </Button>
+                        <Progress reverseBg />
+                      </>
+                    ) : (
+                      <Search isMobileView={true} />
+                    )}
                   </motion.div>
-                )}
-              </AnimatePresence>
-              <div className="w-full transform transition-all delay-300 duration-300">
-                <Search isMobileView={true} />
+                </AnimatePresence>
               </div>
-            </div>
-          )}
-          <div className="grid w-full grid-cols-4 bg-alpha-white bg-opacity-5">
-            {_navbar_items.map(({ Icon, ActiveIcon, href, id, title }) => {
-              const ShowedIcon = getIsActiveNav(href) ? ActiveIcon : Icon
-              return (
-                <Link
-                  key={id}
-                  href={href}
-                  className={`group inline-flex h-full flex-col items-center justify-center gap-y-0.5 pb-[calc(env(safe-area-inset-bottom)*0.5+6px)] pt`}
-                  prefetch={false}
-                >
-                  <ShowedIcon
-                    className={mergeClasses(
-                      "h-7 w-7 transform transition-all",
-                      showNavbarScroll ? "" : "my-2",
-                      getActiveClassName(href)
-                    )}
-                  />
-                  <p
-                    className={mergeClasses(
-                      "text-xs font-bold",
-                      getActiveClassName(href)
-                    )}
-                  >
-                    {title}
-                  </p>
-                </Link>
-              )
-            })}
+            )}
+            {!showBuyBoxFlag && (
+              <div className="grid w-full grid-cols-4 bg-alpha-white bg-opacity-5">
+                {_navbar_items.map(({ Icon, ActiveIcon, href, id, title }) => {
+                  const ShowedIcon = getIsActiveNav(href) ? ActiveIcon : Icon
+                  return (
+                    <Link
+                      key={id}
+                      href={href}
+                      className={`group inline-flex h-full flex-col items-center justify-center gap-y-0.5 pb-[calc(env(safe-area-inset-bottom)*0.5+6px)] pt`}
+                      prefetch={false}
+                    >
+                      <ShowedIcon
+                        className={mergeClasses(
+                          "h-7 w-7 transform transition-all",
+                          showNavbarScroll ? "" : "my-2",
+                          getActiveClassName(href)
+                        )}
+                      />
+                      <p
+                        className={mergeClasses(
+                          "text-xs font-bold",
+                          getActiveClassName(href)
+                        )}
+                      >
+                        {title}
+                      </p>
+                    </Link>
+                  )
+                })}
+              </div>
+            )}
           </div>
         </div>
-      </div>
+      </>
     )
   }
   return null

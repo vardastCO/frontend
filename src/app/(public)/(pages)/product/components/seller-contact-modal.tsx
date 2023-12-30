@@ -1,6 +1,6 @@
 "use client"
 
-import { Dispatch } from "react"
+import { useContext } from "react"
 import {
   DevicePhoneMobileIcon,
   EnvelopeIcon,
@@ -8,29 +8,23 @@ import {
   PhoneIcon
 } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
-import { SetStateAction } from "jotai"
+import { useAtom } from "jotai"
 
 import { ContactInfoTypes } from "@/generated"
 
 import CardAvatar from "@core/components/shared/CardAvatar"
 import Link from "@core/components/shared/Link"
 import { Dialog, DialogContent, DialogHeader } from "@core/components/ui/dialog"
-import {
-  BrandQuery,
-  SellerQuery
-} from "@/app/(public)/components/BrandOrSellerProfile"
+import { PublicContext } from "@/app/(public)/components/public-provider"
 
-type SellerContactModalProps = {
-  open: boolean
-  onOpenChange: Dispatch<SetStateAction<boolean>>
-  data?: SellerQuery | BrandQuery
-}
+type SellerContactModalProps = {}
 
-const SellerContactModal = ({
-  open,
-  onOpenChange,
-  data
-}: SellerContactModalProps) => {
+const SellerContactModal = (_: SellerContactModalProps) => {
+  const { contactModalVisibilityAtom, contactModalDataAtom } =
+    useContext(PublicContext)
+  const [open, setOpen] = useAtom(contactModalVisibilityAtom)
+  const [{ data }] = useAtom(contactModalDataAtom)
+
   const tel = data?.contacts.find(
     (phone) => phone.type === ContactInfoTypes.Tel
   )
@@ -42,7 +36,7 @@ const SellerContactModal = ({
   )
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader className="border-b pb">
           <CardAvatar

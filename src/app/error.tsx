@@ -1,7 +1,5 @@
 "use client"
 
-import Script from "next/script"
-
 import { Button } from "@core/components/ui/button"
 
 const ErrorCardContainer = ({ style }: any) => {
@@ -109,7 +107,7 @@ export default function GlobalError({
           </div>
         </div>
       </body>
-      <Script src="/error.js" strategy="afterInteractive" />
+      {/* <Script src="/error.js" strategy="afterInteractive" /> */}
     </html>
   )
 }

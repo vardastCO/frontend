@@ -190,19 +190,19 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   {
     forceEqual: false,
     path: "/auth/reset"
+  },
+  {
+    forceEqual: true,
+    path: "/product"
+  },
+  {
+    forceEqual: true,
+    path: "/brand"
+  },
+  {
+    forceEqual: true,
+    path: "/seller"
   }
-  // {
-  //   forceEqual: true,
-  //   path: "/product"
-  // }
-  // {
-  //   forceEqual: true,
-  //   path: "/brand"
-  // },
-  // {
-  //   forceEqual: true,
-  //   path: "/seller"
-  // }
 ]
 
 export const _navbar_items: NavbarItem[] = [

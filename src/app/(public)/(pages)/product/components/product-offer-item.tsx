@@ -1,27 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useContext, useEffect } from "react"
 import Image from "next/image"
 import { MapPinIcon } from "@heroicons/react/24/outline"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { formatDistanceToNow, setDefaultOptions } from "date-fns"
 import { faIR } from "date-fns/locale"
-import { ClientError } from "graphql-request"
+import { useSetAtom } from "jotai"
 
-import {
-  EventTrackerSubjectTypes,
-  EventTrackerTypes,
-  Offer,
-  Uom,
-  useCreateEventTrackerMutation
-} from "@/generated"
+import { EventTrackerTypes, Offer, Uom } from "@/generated"
 
-import graphqlRequestClient from "@core/clients/graphqlRequestClient"
 import Link from "@core/components/shared/Link"
-import { Button } from "@core/components/ui/button"
-import { toast } from "@core/hooks/use-toast"
-import SellerContactModal from "@/app/(public)/(pages)/product/components/seller-contact-modal"
-import PriceTitle from "@/app/(public)/components/PriceTitle"
+import { PublicContext } from "@/app/(public)/components/public-provider"
 import Rating from "@/app/(public)/components/Rating"
 
 type Props = {
@@ -30,61 +20,23 @@ type Props = {
 }
 
 const ProductOfferItem = ({ offer, uom }: Props) => {
-  const [contactModalOpen, setContactModalOpen] = useState<boolean>(false)
+  const { contactModalDataAtom } = useContext(PublicContext)
+  const setContactModalData = useSetAtom(contactModalDataAtom)
   setDefaultOptions({
     locale: faIR,
     weekStartsOn: 6
   })
-  const createEventTrackerMutation = useCreateEventTrackerMutation(
-    graphqlRequestClient,
-    {
-      onSuccess: () => {
-        setContactModalOpen(true)
-      },
-      onError: (errors: ClientError) => {
-        if (
-          errors.response.errors?.find(
-            (error) => error.extensions?.code === "FORBIDDEN"
-          )
-        ) {
-          toast({
-            description:
-              "لطفا برای مشاهده اطلاعات تماس، ابتدا وارد حساب کاربری خود شوید.",
-            duration: 8000,
-            variant: "default"
-          })
-        } else {
-          toast({
-            description: (
-              errors.response.errors?.at(0)?.extensions
-                .displayErrors as string[]
-            ).map((error) => error),
-            duration: 8000,
-            variant: "default"
-          })
-        }
-      }
-    }
-  )
 
-  const showSellerContact = () => {
-    createEventTrackerMutation.mutate({
-      createEventTrackerInput: {
-        type: EventTrackerTypes.ViewOffer,
-        subjectType: EventTrackerSubjectTypes.ContactInfo,
-        subjectId: offer.seller.contacts?.at(0)?.id || 0,
-        url: window.location.href
-      }
+  useEffect(() => {
+    setContactModalData({
+      data: offer.seller,
+      type: EventTrackerTypes.ViewOffer,
+      title: "اطلاعات تماس"
     })
-  }
+  }, [offer.seller, setContactModalData])
 
   return (
     <>
-      <SellerContactModal
-        data={offer.seller}
-        open={contactModalOpen}
-        onOpenChange={setContactModalOpen}
-      />
       <div className="flex flex-col items-start p">
         {offer.seller.rating && offer.seller.rating > 0 ? (
           <Rating rating={offer.seller.rating} />
@@ -116,7 +68,7 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
                     {offer?.seller?.addresses[0].province.name}
                   </p>
                 )}
-              {offer.lastPublicConsumerPrice && (
+              {/* {offer.lastPublicConsumerPrice && (
                 <div className="flex justify-between gap-x">
                   <Button
                     size="small"
@@ -129,7 +81,7 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
                   </Button>
                   <PriceTitle price={offer.lastPublicConsumerPrice.amount} />
                 </div>
-              )}
+              )} */}
               {uom.name && (
                 <div className="flex justify-between text-xs text-alpha-500">
                   <span>
