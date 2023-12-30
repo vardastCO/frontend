@@ -106,7 +106,8 @@ const SigninForm = (_: Props) => {
             setLoginErrors(null)
             setMessage(message as string)
             session.update()
-            router.push("/")
+            // router.push("/")
+            router.back()
           }
         })
       }
@@ -189,7 +190,8 @@ const SigninForm = (_: Props) => {
         setLoginErrors(null)
         setMessage(message as string)
         session.update()
-        router.push("/")
+        // router.push("/")
+        router.back()
       }
     })
   }

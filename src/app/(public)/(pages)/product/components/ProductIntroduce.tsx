@@ -37,8 +37,6 @@ const ProductIntroduce = ({ product, session }: IProductIntroduce) => {
     }
   )
 
-  console.log({ product })
-
   return (
     <ProductSectionContainer>
       <div className="flex justify-end gap-x">

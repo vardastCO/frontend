@@ -196,8 +196,6 @@ const MobileNavigation = (_: Props) => {
     ref?.current?.focus()
   }, [pathname])
 
-  console.log({ showNavbarScroll })
-
   if (isShowNavigation()) {
     return (
       <>
