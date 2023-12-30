@@ -214,8 +214,11 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           />
         )}
 
-        {product.description && (
-          <ProductDescription description={product.description} />
+        {product.publicOffers.length > 0 && (
+          <ProductOffers
+            uom={product.uom as Uom}
+            offers={product.publicOffers as Offer[]}
+          />
         )}
 
         {product.attributeValues.length > 0 && (
@@ -223,11 +226,8 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
             attributes={groupedAttributes as GroupedAttributes[]}
           />
         )}
-        {product.publicOffers.length > 0 && (
-          <ProductOffers
-            uom={product.uom as Uom}
-            offers={product.publicOffers as Offer[]}
-          />
+        {product.description && (
+          <ProductDescription description={product.description} />
         )}
         {isMobileView && product.sameCategory.length > 0 && (
           <SameCategories products={product.sameCategory as Product[]} />

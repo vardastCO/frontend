@@ -3,7 +3,6 @@
 import { useContext } from "react"
 import {
   DevicePhoneMobileIcon,
-  EnvelopeIcon,
   MapIcon,
   PhoneIcon
 } from "@heroicons/react/24/solid"
@@ -31,9 +30,9 @@ const SellerContactModal = (_: SellerContactModalProps) => {
   const mobile = data?.contacts.find(
     (phone) => phone.type === ContactInfoTypes.Mobile
   )
-  const fax = data?.contacts.find(
-    (phone) => phone.type === ContactInfoTypes.Fax
-  )
+  // const fax = data?.contacts.find(
+  //   (phone) => phone.type === ContactInfoTypes.Fax
+  // )
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -76,7 +75,9 @@ const SellerContactModal = (_: SellerContactModalProps) => {
             <div className="flex divide-x divide-alpha-200">
               {mobile ? (
                 <Link
-                  href="tel:+989124204964"
+                  href={`tel:+98${mobile.code ? +mobile.code : ""}${
+                    mobile.number
+                  }`}
                   dir="ltr"
                   className="font-semibold"
                 >
@@ -98,7 +99,7 @@ const SellerContactModal = (_: SellerContactModalProps) => {
             <div className="flex divide-x divide-alpha-200">
               {tel ? (
                 <Link
-                  href="tel:+989124204964"
+                  href={`tel:+98${tel.code ? +tel.code : ""}${tel.number}`}
                   dir="ltr"
                   className="font-semibold"
                 >
@@ -113,7 +114,7 @@ const SellerContactModal = (_: SellerContactModalProps) => {
               )}
             </div>
           </div>
-          <div className="flex items-center gap-2 py-4">
+          {/* <div className="flex items-center gap-2 py-4">
             <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
               <EnvelopeIcon className="h-6 w-6 text-primary" />
             </div>
@@ -134,7 +135,7 @@ const SellerContactModal = (_: SellerContactModalProps) => {
                 "-"
               )}
             </div>
-          </div>
+          </div> */}
 
           {data?.addresses &&
             data?.addresses.length > 0 &&

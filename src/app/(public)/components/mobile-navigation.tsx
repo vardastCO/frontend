@@ -204,7 +204,7 @@ const MobileNavigation = (_: Props) => {
           id="mobile-navigation-bar"
           className={`${
             showBuyBoxFlag || showNavbarScroll ? "" : "translate-y-[5rem]"
-          } fixed bottom-0 left-0 z-50 w-full transform border-t border-alpha-200 bg-alpha-white transition-all duration-300 dark:border-alpha-600 dark:bg-alpha-700`}
+          } fixed bottom-0 left-0 z-50 w-full transform border-t border-alpha-200 bg-alpha-white pb-[calc(env(safe-area-inset-bottom)*0.5+6px)] transition-all duration-300 dark:border-alpha-600 dark:bg-alpha-700`}
         >
           {/* <Progress /> */}
           <div>
@@ -276,7 +276,7 @@ const MobileNavigation = (_: Props) => {
                     <Link
                       key={id}
                       href={href}
-                      className={`group inline-flex h-full flex-col items-center justify-center gap-y-0.5 pb-[calc(env(safe-area-inset-bottom)*0.5+6px)] pt`}
+                      className={`group inline-flex h-full flex-col items-center justify-center gap-y-0.5 pt`}
                       prefetch={false}
                     >
                       <ShowedIcon
