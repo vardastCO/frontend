@@ -162,19 +162,29 @@ const BrandOrSellerProfile = ({
           }
           setOpenTabName(value)
         }}
-        className="h-full bg-alpha-white"
+        className="sticky left-0 right-0 top-0 h-full bg-alpha-white"
       >
-        <SegmentsList className="border-b pb">
+        <SegmentsList className="border-b px pb">
           {tabs.map(({ title, value }) => (
             <SegmentsListItem
               key={value}
-              className={clsx("bg-alpha-white px-4 py-2.5 text-sm")}
+              noStyle
+              className={clsx("pl")}
               value={value}
               style={{
                 width: tabs.length > 3 ? "auto" : `${100 / tabs.length}%`
               }}
             >
-              {title}
+              <div
+                className={clsx(
+                  "cursor-pointer rounded-full border bg-alpha-white px-4 py-2.5 text-sm",
+                  value === activeTab
+                    ? "border-primary bg-primary text-alpha-white"
+                    : "border-alpha-300"
+                )}
+              >
+                {title}
+              </div>
             </SegmentsListItem>
           ))}
         </SegmentsList>

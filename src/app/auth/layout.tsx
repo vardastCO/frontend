@@ -15,8 +15,8 @@ export default async function AuthLayout({
         <>
           <div className="container relative mx-auto flex h-full transform flex-col transition-all duration-200">
             <MobileScrollProvider>{children}</MobileScrollProvider>
+            <MobileNavigation />
           </div>
-          <MobileNavigation />
         </>
       ) : (
         <div className="container mx-auto h-full bg-alpha-white p">

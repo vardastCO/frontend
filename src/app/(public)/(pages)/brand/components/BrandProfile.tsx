@@ -135,11 +135,11 @@ const CategoriesTab = ({
       }}
       className="h-full bg-alpha-white"
     >
-      <SegmentsList className="border-b py">
+      <SegmentsList className="border-b p">
         {query.data?.categories?.map(({ title, id, imageCategory }) => (
           <SegmentsListItem
             noStyle
-            className="mx-2 h-full"
+            className="h-full pl"
             key={id}
             value={String(id)}
           >

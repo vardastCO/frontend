@@ -9,6 +9,7 @@ interface IMobileBaseLayout extends PropsWithChildren {
   bgWhite?: boolean
   spaceLess?: boolean
   fullHeight?: boolean
+  gap?: boolean
 }
 
 const MobileBaseLayout: React.FC<IMobileBaseLayout> = ({
@@ -17,6 +18,7 @@ const MobileBaseLayout: React.FC<IMobileBaseLayout> = ({
   bgWhite,
   spaceLess,
   fullHeight,
+  gap,
   children
 }) => {
   const isMobileView = CheckIsMobileView()
@@ -34,7 +36,8 @@ const MobileBaseLayout: React.FC<IMobileBaseLayout> = ({
                 fullHeight &&
                   "h-full pb-[calc(env(safe-area-inset-bottom)*0.5+10px)]",
                 spaceLess ? "" : "gap-y px-3.5 py",
-                "m-auto flex flex-1 flex-col"
+                "m-auto flex flex-1 flex-col",
+                gap && "gap-y-1"
               )
         }
       >

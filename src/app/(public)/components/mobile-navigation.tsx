@@ -231,6 +231,7 @@ const MobileNavigation = (_: Props) => {
                       </Button>
                     </motion.div>
                   )}
+
                   <motion.div
                     key="modal"
                     initial={{ opacity: 0, x: 0, display: "none" }}
@@ -276,7 +277,7 @@ const MobileNavigation = (_: Props) => {
                     <Link
                       key={id}
                       href={href}
-                      className={`group inline-flex h-full flex-col items-center justify-center gap-y-0.5 pt`}
+                      className={`group inline-flex h-full flex-col items-center justify-center gap-y-0.5`}
                       prefetch={false}
                     >
                       <ShowedIcon
