@@ -20,11 +20,11 @@ import {
 
 import convertToPersianDate from "@core/utils/convertToPersianDate"
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger
-} from "@core/components/ui/tabs"
+  Segments,
+  SegmentsContent,
+  SegmentsList,
+  SegmentsListItem
+} from "@core/components/ui/segment"
 import FavoriteIcon from "@/app/(public)/components/FavoriteIcon"
 import ShareIcon from "@/app/(public)/components/ShareIcon"
 
@@ -55,7 +55,7 @@ export const TabTitleWithExtraData = ({
   title: string
 }) => {
   return (
-    <div className="flex flex-col items-center gap-y-2">
+    <div className="flex items-center justify-center gap-x-2">
       <span>{title}</span>
       {total ? (
         <span className="text-xs">({digitsEnToFa(total)})</span>
@@ -97,18 +97,12 @@ const BrandOrSellerProfile = ({
   }, [openTabName, tabs])
 
   const isSellerQuery = () => type === EntityTypeEnum.Seller
+
   return (
     <>
       <div className="flex flex-col gap-y bg-alpha-white px py-5">
         <div className="grid grid-cols-9 items-center justify-center">
-          <div className="flex h-full flex-col justify-start">
-            <FavoriteIcon
-              entityId={+slug[0]}
-              isFavoriteQuery={isFavoriteQuery}
-              type={type}
-            />
-            <ShareIcon name={data.name} />
-          </div>
+          <div></div>
           <div className="col-span-7 flex justify-center py-5">
             <div className="relative w-[35vw] rounded-full border-2 border-alpha-400 p-0.5 shadow-lg">
               {isSellerQuery() && (data as SellerQuery).isBlueTik && (
@@ -142,7 +136,14 @@ const BrandOrSellerProfile = ({
               </div>
             </div>
           </div>
-          <div></div>
+          <div className="flex h-full flex-col justify-start">
+            <FavoriteIcon
+              entityId={+slug[0]}
+              isFavoriteQuery={isFavoriteQuery}
+              type={type}
+            />
+            <ShareIcon name={data.name} />
+          </div>
         </div>
       </div>
       {data.bio && (
@@ -151,7 +152,7 @@ const BrandOrSellerProfile = ({
           {<p className="pt-6 text-justify">{data.bio}</p>}
         </div>
       )}
-      <Tabs
+      <Segments
         value={activeTab}
         onValueChange={(value) => {
           if (value === tabs[0].value) {
@@ -161,41 +162,32 @@ const BrandOrSellerProfile = ({
           }
           setOpenTabName(value)
         }}
-        className="h-full"
+        className="h-full bg-alpha-white"
       >
-        <TabsList className="w-full bg-alpha-white">
+        <SegmentsList className="border-b pb">
           {tabs.map(({ title, value }) => (
-            <TabsTrigger
+            <SegmentsListItem
               key={value}
-              className={clsx("bg-alpha-white !pb-2 !pt-4 font-semibold ")}
-              style={{
-                width: `${100 / tabs.length}%`
-              }}
+              className={clsx("bg-alpha-white px-4 py-2.5 text-sm")}
               value={value}
+              style={{
+                width: tabs.length > 3 ? "auto" : `${100 / tabs.length}%`
+              }}
             >
               {title}
-            </TabsTrigger>
+            </SegmentsListItem>
           ))}
-        </TabsList>
+        </SegmentsList>
         {tabs.map(({ Content, className, ...props }) => (
-          <TabsContent
+          <SegmentsContent
             className={clsx("flex-1", className)}
             key={props.value}
             value={props.value}
           >
             <Content />
-          </TabsContent>
+          </SegmentsContent>
         ))}
-      </Tabs>
-
-      {/* <BuyBoxNavigation
-        title={buyBoxVariants[type].title}
-        actionButtonProps={{
-          onClick: buyBoxVariants[type].onClick,
-          disabled: createEventTrackerMutation.isLoading,
-          loading: createEventTrackerMutation.isLoading
-        }}
-      /> */}
+      </Segments>
     </>
   )
 }

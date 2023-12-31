@@ -115,8 +115,18 @@ const SellerIndex = async ({
   }
 
   await queryClient.prefetchInfiniteQuery(
-    [QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY, args],
-    () => getAllProductsQueryFn(args)
+    [
+      QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY,
+      {
+        sellerId: +slug[0],
+        categoryIds: []
+      }
+    ],
+    () =>
+      getAllProductsQueryFn({
+        sellerId: +slug[0],
+        categoryIds: []
+      })
   )
 
   await queryClient.prefetchInfiniteQuery(

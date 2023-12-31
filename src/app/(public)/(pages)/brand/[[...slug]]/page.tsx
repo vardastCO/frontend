@@ -59,10 +59,10 @@ const BrandIndex = async ({
   if (searchParams.query && searchParams.query.length)
     args["query"] = searchParams.query as string
 
-  if (searchParams.categoryId && searchParams.categoryId.length)
-    args["categoryIds"] = Array.isArray(searchParams.categoryId)
-      ? searchParams.categoryId.map((item) => +item)
-      : [+searchParams.categoryId]
+  // if (searchParams.categoryId && searchParams.categoryId.length)
+  //   args["categoryIds"] = Array.isArray(searchParams.categoryId)
+  //     ? searchParams.categoryId.map((item) => +item)
+  //     : [+searchParams.categoryId]
 
   if (searchParams.orderBy) {
     args["orderBy"] = searchParams.orderBy as ProductSortablesEnum
@@ -102,9 +102,25 @@ const BrandIndex = async ({
   )
 
   await queryClient.prefetchInfiniteQuery(
-    [QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY, args],
-    () => getAllProductsQueryFn(args)
+    [
+      QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY,
+      {
+        brandId: +slug[0],
+        categoryIds: []
+      }
+    ],
+    () =>
+      getAllProductsQueryFn({
+        brandId: +slug[0],
+        categoryIds: []
+      })
   )
+
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.ALL_CATEGORIES_QUERY_KEY, { brandId: +slug[0] }],
+    () => getAllCategoriesQueryFn({ brandId: +slug[0] })
+  )
+
   if (session) {
     await queryClient.prefetchQuery(
       [

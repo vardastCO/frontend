@@ -6,7 +6,16 @@ query GetAllCategories($indexCategoryInput: IndexCategoryInput!) {
     icon
     sort
     isActive
-
+    imageCategory {
+      file {
+        id
+        size
+        name
+        presignedUrl {
+          url
+        }
+      }
+    }
     childrenCount
     id
     children {
