@@ -7,7 +7,7 @@ import { Brand, Seller } from "@/generated"
 
 import Link from "@core/components/shared/Link"
 import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
-import Rating, { RatingSkeleton } from "@/app/(public)/components/Rating"
+import { RatingSkeleton } from "@/app/(public)/components/Rating"
 
 export const BrandOrSellerCardSkeleton = () => {
   return (
@@ -55,6 +55,8 @@ const BrandOrSellerCard = forwardRef(
   ) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const [containerWidth, setContainerWidth] = useState(0)
+
+    console.log({ name: content.name, content })
 
     useEffect(() => {
       const container = containerRef.current
@@ -114,10 +116,10 @@ const BrandOrSellerCard = forwardRef(
               </h6>
               <p className="flex h-4 items-center gap-x-1 py-1 text-xs text-alpha-600">
                 {content?.addresses?.length > 0 &&
-                  content.addresses[0].province.name && (
+                  content.addresses[0].city.name && (
                     <>
                       <MapPinIcon className="h-3 w-3 text-alpha-600" />
-                      <>{content.addresses[0].province.name}</>
+                      <>{content.addresses[0].city.name}</>
                     </>
                   )}
               </p>
@@ -132,11 +134,11 @@ const BrandOrSellerCard = forwardRef(
                       )} کالا`
                     : ""}
                 </p>
-                {content.rating && content.rating > 0 ? (
+                {/* {content.rating && content.rating > 0 ? (
                   <Rating rating={content.rating} />
                 ) : (
                   ""
-                )}
+                )} */}
               </div>
             </div>
           </div>

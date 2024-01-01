@@ -13,10 +13,10 @@ export default async function AuthLayout({
     <>
       {isMobileView ? (
         <>
-          <div className="container relative mx-auto flex h-full transform flex-col transition-all duration-200">
+          <div className="container relative mx-auto flex h-full transform flex-col bg-alpha-white p transition-all duration-200">
             <MobileScrollProvider>{children}</MobileScrollProvider>
-            <MobileNavigation />
           </div>
+          <MobileNavigation />
         </>
       ) : (
         <div className="container mx-auto h-full bg-alpha-white p">

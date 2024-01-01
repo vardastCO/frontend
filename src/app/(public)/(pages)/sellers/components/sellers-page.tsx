@@ -63,13 +63,13 @@ const SellersPage = ({ limitPage, args }: SellersPageProps) => {
         />
       </div> */}
 
-      <InfiniteScrollPagination
-        CardLoader={BrandOrSellerCardSkeleton}
-        infiniteQuery={allSellersQuery}
-      >
-        {(page, ref) => (
-          <BrandsOrSellersContainer>
-            {({ selectedItemId, setSelectedItemId }) => (
+      <BrandsOrSellersContainer>
+        {({ selectedItemId, setSelectedItemId }) => (
+          <InfiniteScrollPagination
+            CardLoader={BrandOrSellerCardSkeleton}
+            infiniteQuery={allSellersQuery}
+          >
+            {(page, ref) => (
               <>
                 {page.sellers.data.map(
                   (seller, index) =>
@@ -92,9 +92,9 @@ const SellersPage = ({ limitPage, args }: SellersPageProps) => {
                 )}
               </>
             )}
-          </BrandsOrSellersContainer>
+          </InfiniteScrollPagination>
         )}
-      </InfiniteScrollPagination>
+      </BrandsOrSellersContainer>
     </>
   )
 }

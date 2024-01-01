@@ -169,7 +169,7 @@ const BrandOrSellerProfile = ({
             <SegmentsListItem
               key={value}
               noStyle
-              className={clsx("pl")}
+              className={clsx("no-select pl")}
               value={value}
               style={{
                 width: tabs.length > 3 ? "auto" : `${100 / tabs.length}%`

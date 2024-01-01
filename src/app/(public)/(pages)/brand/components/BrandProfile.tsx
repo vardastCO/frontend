@@ -2,8 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
+import { notFound } from "next/navigation"
 import {
   useInfiniteQuery,
+  UseInfiniteQueryResult,
   useQuery,
   UseQueryResult
 } from "@tanstack/react-query"
@@ -16,9 +18,11 @@ import {
   GetAllCategoriesQuery,
   GetAllProductsQuery,
   GetBrandQuery,
+  GetBrandToSellerQuery,
   GetIsFavoriteQuery,
   IndexProductInput,
-  Product
+  Product,
+  Seller
 } from "@/generated"
 
 import axiosApis from "@core/clients/axiosApis"
@@ -33,12 +37,17 @@ import {
 import { getAllCategoriesQueryFn } from "@core/queryFns/allCategoriesQueryFns"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getBrandQueryFn } from "@core/queryFns/brandQueryFns"
+import { getBrandToSellerQueryFns } from "@core/queryFns/getBrandToSellerQueryFns"
 import { getIsFavoriteQueryFns } from "@core/queryFns/getIsFavoriteQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
+import BrandOrSellerCard, {
+  BrandOrSellerCardSkeleton
+} from "@/app/(public)/components/BrandOrSellerCard"
 import BrandOrSellerProfile, {
   BrandOrSellerProfileTab,
   TabTitleWithExtraData
 } from "@/app/(public)/components/BrandOrSellerProfile"
+import BrandsOrSellersContainer from "@/app/(public)/components/BrandsOrSellersContainer"
 import InfiniteScrollPagination from "@/app/(public)/components/InfiniteScrollPagination"
 import ProductCard, {
   ProductCardSkeleton
@@ -59,6 +68,8 @@ export enum BrandProfileTabEnum {
   // eslint-disable-next-line no-unused-vars
   CATEGORY = "CATEGORY",
   // eslint-disable-next-line no-unused-vars
+  SELLERS = "SELLERS",
+  // eslint-disable-next-line no-unused-vars
   PRICE_LIST = "PRICE_LIST",
   // eslint-disable-next-line no-unused-vars
   CATALOG = "CATALOG"
@@ -69,6 +80,49 @@ type PdfTabItemProps = {
   access_token?: string
   isMobileView?: boolean
   title: string
+}
+
+const SellersTab = ({
+  brandToSellerQuery
+}: {
+  brandToSellerQuery: UseInfiniteQueryResult<GetBrandToSellerQuery, unknown>
+}) => {
+  if (!brandToSellerQuery.data) notFound()
+
+  return (
+    <BrandsOrSellersContainer>
+      {({ selectedItemId, setSelectedItemId }) => (
+        <InfiniteScrollPagination
+          CardLoader={BrandOrSellerCardSkeleton}
+          infiniteQuery={brandToSellerQuery}
+        >
+          {(page, ref) => (
+            <>
+              {page.takeBrandToSeller.data.map(
+                (seller, index) =>
+                  seller && (
+                    <BrandOrSellerCard
+                      ref={
+                        page.takeBrandToSeller.data.length - 1 === index
+                          ? ref
+                          : undefined
+                      }
+                      key={seller.id}
+                      selectedItemId={selectedItemId}
+                      setSelectedItemId={setSelectedItemId}
+                      content={{
+                        ...(seller as Seller),
+                        __typename: "Seller"
+                      }}
+                    />
+                  )
+              )}
+            </>
+          )}
+        </InfiniteScrollPagination>
+      )}
+    </BrandsOrSellersContainer>
+  )
 }
 
 const CategoriesTab = ({
@@ -345,7 +399,7 @@ const PdfTabItem = ({
             </h4>
             <Link
               href="/auth/signin"
-              className="btn btn-md btn-secondary block px"
+              className="btn btn-md btn-secondary block px !text-primary"
             >
               ورود به حساب کاربری
             </Link>
@@ -398,6 +452,31 @@ const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
     }
   )
 
+  const brandToSellerQuery = useInfiniteQuery<GetBrandToSellerQuery>(
+    [
+      QUERY_FUNCTIONS_KEY.TAKE_BRAND_TO_SELLER,
+      {
+        page: 1,
+        brandId: +slug[0]
+      }
+    ],
+    ({ pageParam = 1 }) =>
+      getBrandToSellerQueryFns({
+        page: pageParam,
+        brandId: +slug[0]
+      }),
+    {
+      keepPreviousData: true,
+      getNextPageParam(lastPage, allPages) {
+        return checkLimitPageByCondition(
+          lastPage.takeBrandToSeller.currentPage <
+            lastPage.takeBrandToSeller.lastPage,
+          allPages
+        )
+      }
+    }
+  )
+
   const tabs: BrandOrSellerProfileTab[] = useMemo(
     () => [
       {
@@ -442,6 +521,17 @@ const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
         )
       },
       {
+        value: BrandProfileTabEnum.SELLERS,
+        className: "!bg-alpha-50 h-full",
+        title: (
+          <TabTitleWithExtraData
+            title="فروشندگان"
+            total={brandToSellerQuery.data?.pages[0].takeBrandToSeller.total}
+          />
+        ),
+        Content: () => <SellersTab brandToSellerQuery={brandToSellerQuery} />
+      },
+      {
         value: BrandProfileTabEnum.PRICE_LIST,
         title: (
           <TabTitleWithExtraData
@@ -484,6 +574,7 @@ const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
       brandQuery.data?.brand.priceList?.createdAt,
       brandQuery.data?.brand.priceList?.uuid,
       brandQuery.data?.brand.total,
+      brandToSellerQuery,
       isMobileView,
       session,
       slug

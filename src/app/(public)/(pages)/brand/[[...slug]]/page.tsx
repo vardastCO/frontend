@@ -16,6 +16,7 @@ import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getAllCategoriesQueryFn } from "@core/queryFns/allCategoriesQueryFns"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getBrandQueryFn } from "@core/queryFns/brandQueryFns"
+import { getBrandToSellerQueryFns } from "@core/queryFns/getBrandToSellerQueryFns"
 import { getIsFavoriteQueryFns } from "@core/queryFns/getIsFavoriteQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import BrandProfile from "@/app/(public)/(pages)/brand/components/BrandProfile"
@@ -119,6 +120,13 @@ const BrandIndex = async ({
   await queryClient.prefetchQuery(
     [QUERY_FUNCTIONS_KEY.ALL_CATEGORIES_QUERY_KEY, { brandId: +slug[0] }],
     () => getAllCategoriesQueryFn({ brandId: +slug[0] })
+  )
+
+  console.log({ bib: +slug[0] })
+
+  await queryClient.prefetchInfiniteQuery(
+    [QUERY_FUNCTIONS_KEY.TAKE_BRAND_TO_SELLER, { page: 1, brandId: +slug[0] }],
+    () => getBrandToSellerQueryFns({ page: 1, brandId: +slug[0] })
   )
 
   if (session) {
