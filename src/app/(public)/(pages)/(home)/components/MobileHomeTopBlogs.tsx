@@ -52,7 +52,13 @@ const _sliders = [
   }
 ]
 
-const MobileHomeTopBlogs = () => {
+const MobileHomeTopBlogs = ({
+  slidesPerView,
+  centeredSlides
+}: {
+  slidesPerView?: number
+  centeredSlides?: boolean
+}) => {
   const [selectedItemId, setSelectedItemId] =
     useState<ICategoryListLoader>(null)
   const sliderRef = useRef<SwiperRef>(null)
@@ -75,9 +81,9 @@ const MobileHomeTopBlogs = () => {
       <div className="overflow-hidden">
         <Swiper
           ref={sliderRef}
-          slidesPerView={1.2}
+          slidesPerView={slidesPerView ?? 1.2}
           spaceBetween={16}
-          centeredSlides
+          centeredSlides={centeredSlides}
           className="h-full w-full pb-12"
         >
           {_sliders?.map(({ id, url, image, title, description }) => (

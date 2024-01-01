@@ -1,5 +1,4 @@
 import { Metadata } from "next"
-import { redirect } from "next/navigation"
 import { dehydrate } from "@tanstack/react-query"
 
 import { GetVocabularyQuery } from "@/generated"
@@ -30,9 +29,9 @@ const CategoriesPage = async () => {
   })
   const dehydratedState = dehydrate(queryClient)
 
-  if (!isMobileView) {
-    redirect("/")
-  }
+  // if (!isMobileView) {
+  //   redirect("/")
+  // }
 
   return (
     <ReactQueryHydrate state={dehydratedState}>

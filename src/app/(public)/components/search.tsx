@@ -47,7 +47,7 @@ const Search: React.FC<ISearch> = ({ isMobileView }) => {
 
       <div
         className={clsx([
-          "relative mx-auto h-full w-full transform transition-all md:max-w-md lg:max-w-lg",
+          "relative mx-auto h-full w-full transform transition-all",
           open && " opacity-0"
         ])}
       >

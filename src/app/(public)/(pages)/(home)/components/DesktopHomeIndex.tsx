@@ -1,58 +1,85 @@
 "use client"
 
 import Image from "next/image"
-import { Session } from "next-auth"
 
-import Link from "@core/components/shared/Link"
-import FrontPageHeader from "@/app/(public)/components/front-page-header"
-import Search from "@/app/(public)/components/search"
+import { Brand, Category, Seller } from "@/generated"
 
-import logoHorizontal from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
+import useWindowSize from "@core/hooks/use-window-size"
+import { IHomeProps } from "@/app/(public)/(pages)/(home)/components/HomeIndex"
+import MobileHomeNewestProducts from "@/app/(public)/(pages)/(home)/components/MobileHomeNewestProducts"
+import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
+import MobileHomeTopBlogs from "@/app/(public)/(pages)/(home)/components/MobileHomeTopBlogs"
+import MobileHomeTopEntities from "@/app/(public)/(pages)/(home)/components/MobileHomeTopEntities"
+import CategoryCircleItem from "@/app/(public)/(pages)/categories/components/CategoryCircleItem"
+import DesktopHeader from "@/app/(public)/components/desktop/DesktopHeader"
+
+import logoHorizontal from "@/assets/desktop-home-top-banner.svg"
 
 const DesktopHomeIndex = ({
-  isMobileView,
-  session
-}: {
-  session: Session | null
-  isMobileView: boolean
-}) => {
-  // const allBrandsCount = useQuery<GetAllBrandsCountQuery>(
-  //   ["brands-count"],
-  //   getAllBrandsCountQueryFn,
-  //   {
-  //     keepPreviousData: true,
-  //     staleTime: 999999999
-  //   }
-  // )
-  // const allSellersCount = useQuery<GetAllSellersCountQuery>(
-  //   ["sellers-count"],
-  //   getAllSellersCountQueryFn,
-  //   {
-  //     keepPreviousData: true,
-  //     staleTime: 999999999
-  //   }
-  // )
+  getVocabularyQueryFcQuery,
+  allSellersCount,
+  allBrandsCount,
+  allProductsQuery
+}: IHomeProps) => {
+  const { width } = useWindowSize()
+
   return (
     <>
-      {!isMobileView && <FrontPageHeader session={session} />}
-      <div className="flex flex-1 flex-col items-center justify-center">
-        <div className="relative my-8 h-20">
+      <DesktopHeader />
+      <div className="mx-auto w-[76vw]">
+        <div className="relative py-9">
           <Image
             src={logoHorizontal}
             alt={`${process.env.NEXT_PUBLIC_TITLE} - ${process.env.NEXT_PUBLIC_SLOGAN}`}
-            className="h-20 w-auto object-contain"
+            className="w-full object-contain"
             priority
           />
         </div>
-        {!isMobileView && (
-          <div className="w-full px">
-            <Search isMobileView={isMobileView} />
-          </div>
-        )}
-      </div>
-      <div className="fixed inset-x-0 bottom-0 mx-auto mb-12 flex w-full justify-center gap-4 text-center text-sm text-alpha-500">
-        <Link href="/about">درباره وردست</Link>
-        <Link href="/contact">تماس با ما</Link>
+        <div className="py-9">
+          <MobileHomeSection viewAllHref="/categories" title="دسته بندی‌ها">
+            <div className="grid grid-cols-7">
+              {(
+                getVocabularyQueryFcQuery.data?.vocabulary
+                  .categories as Category[]
+              )
+                .filter((item) => item?.title !== "سایر")
+                ?.map((props) => (
+                  <CategoryCircleItem
+                    key={props.id}
+                    width={width ? width * 0.07 : 100}
+                    data={props}
+                  />
+                ))}
+            </div>
+          </MobileHomeSection>
+        </div>
+        <div className="py-9">
+          <MobileHomeTopEntities
+            centeredSlides={false}
+            slidesPerView={3.4}
+            width={width * 0.22}
+            __typename="Seller"
+            title="جدیدترین فروشنده‌ها"
+            query={allSellersCount.data?.sellers.data.slice(0, 5) as Seller[]}
+          />
+        </div>
+        <div className="py-9">
+          <MobileHomeTopEntities
+            centeredSlides={false}
+            slidesPerView={3.4}
+            width={width * 0.22}
+            // square
+            __typename="Brand"
+            title="جدیدترین برندها"
+            query={allBrandsCount.data?.brands.data.slice(0, 5) as Brand[]}
+          />
+        </div>
+        <div className="py-9">
+          <MobileHomeNewestProducts allProductsQuery={allProductsQuery} />
+        </div>
+        <div className="py-9">
+          <MobileHomeTopBlogs slidesPerView={4.3} centeredSlides={false} />
+        </div>
       </div>
     </>
   )

@@ -51,9 +51,9 @@ const FavoritePage = async () => {
       })
   )
 
-  if (!isMobileView) {
-    redirect("/")
-  }
+  // if (!isMobileView) {
+  //   redirect("/")
+  // }
 
   if (!session) redirect("/auth/signin")
 

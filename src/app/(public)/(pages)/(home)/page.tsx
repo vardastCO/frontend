@@ -15,8 +15,7 @@ import { getAllSellersCountQueryFn } from "@core/queryFns/allSellersCountQueryFn
 import { bannerHomePageQueryFns } from "@core/queryFns/bannerHomePageQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
-import DesktopHomeIndex from "@/app/(public)/(pages)/(home)/components/DesktopHomeIndex"
-import MobileHomeIndex from "@/app/(public)/(pages)/(home)/components/MobileHomeIndex"
+import HomeIndex from "@/app/(public)/(pages)/(home)/components/HomeIndex"
 
 export const metadata: Metadata = {
   title: "بازار آنلاین مصالح ساختمانی",
@@ -67,11 +66,7 @@ const Index = async () => {
   return (
     <ReactQueryHydrate state={dehydratedState}>
       <h1 className="hidden">{process.env.NEXT_PUBLIC_SLOGAN}</h1>
-      {isMobileView ? (
-        <MobileHomeIndex />
-      ) : (
-        <DesktopHomeIndex session={session} isMobileView={isMobileView} />
-      )}
+      <HomeIndex isMobileView={isMobileView} session={session} />
     </ReactQueryHydrate>
   )
 }

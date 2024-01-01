@@ -30,8 +30,10 @@ const CategoryListContainer: React.FC<
         </div>
       )}
       <ul
-        className={`grid grid-cols-2 ${
-          isSubcategory ? "grid-rows-4" : "grid-rows-2"
+        className={`grid grid-cols-2 md:grid-cols-5 ${
+          isSubcategory
+            ? "grid-rows-4 md:grid-rows-1"
+            : "grid-rows-2 md:grid-rows-1"
         } mt-6 gap-4 divide-alpha-200 p-6 pt-0`}
       >
         {children}

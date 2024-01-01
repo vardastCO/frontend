@@ -71,38 +71,42 @@ const MobileScrollProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <motion.div
-      id="scroll-container"
       variants={variants}
       initial="hidden"
       animate="enter"
       transition={{ type: "linear" }}
-      onScroll={(e: any) => {
-        var st = e.target?.scrollTop
-        const showNavbarFlag =
-          st === 0 || st >= realScrollbarHeight ? true : st < lastScrollTop
-        setShowNavbarScroll(showNavbarFlag)
-        setLastScrollTop(st <= 0 ? 0 : st)
-
-        //         const showNavbarFlag =
-        //   st <= 10 || st >= realScrollbarHeight - 10 || lastScrollTop - st > 2
-        // // ? true
-        // // : st > realScrollbarHeight || st - realScrollbarHeight > 2
-        // setShowNavbarScroll(showNavbarFlag)
-        // setLastScrollTop(st <= 0 ? 0 : st)
-      }}
-      ref={ref}
-      style={{
-        paddingBottom: hasScrollbar.bottom,
-        paddingTop: hasScrollbar.top
-      }}
-      className={clsx(
-        // hasScrollbar
-        //   ? "pb-[calc(env(safe-area-inset-bottom)+5rem)]"
-        //   : "pb-[calc(env(safe-area-inset-bottom)+5rem)]",
-        "flex flex-1 flex-col overflow-y-auto bg-transparent"
-      )}
+      className="container relative mx-auto flex h-full transform flex-col transition-all duration-200"
     >
-      {children}
+      <div
+        id="scroll-container"
+        onScroll={(e: any) => {
+          var st = e.target?.scrollTop
+          const showNavbarFlag =
+            st === 0 || st >= realScrollbarHeight ? true : st < lastScrollTop
+          setShowNavbarScroll(showNavbarFlag)
+          setLastScrollTop(st <= 0 ? 0 : st)
+
+          //         const showNavbarFlag =
+          //   st <= 10 || st >= realScrollbarHeight - 10 || lastScrollTop - st > 2
+          // // ? true
+          // // : st > realScrollbarHeight || st - realScrollbarHeight > 2
+          // setShowNavbarScroll(showNavbarFlag)
+          // setLastScrollTop(st <= 0 ? 0 : st)
+        }}
+        ref={ref}
+        style={{
+          paddingBottom: hasScrollbar.bottom,
+          paddingTop: hasScrollbar.top
+        }}
+        className={clsx(
+          // hasScrollbar
+          //   ? "pb-[calc(env(safe-area-inset-bottom)+5rem)]"
+          //   : "pb-[calc(env(safe-area-inset-bottom)+5rem)]",
+          "flex flex-1 flex-col overflow-y-auto bg-transparent"
+        )}
+      >
+        {children}
+      </div>
     </motion.div>
   )
 }

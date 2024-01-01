@@ -5,6 +5,7 @@ import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import PwaNotificationProvider from "@core/providers/PwaNotificationProvider"
 // import { authOptions } from "@core/lib/authOptions"
 import SellerContactModal from "@/app/(public)/(pages)/product/components/seller-contact-modal"
+import DesktopFooter from "@/app/(public)/components/desktop/DesktopFooter"
 import MobileScrollProvider from "@/app/(public)/components/header/MobileScrollProvider"
 import MobileNavigation from "@/app/(public)/components/mobile-navigation"
 import PublicProvider from "@/app/(public)/components/public-provider"
@@ -27,15 +28,16 @@ export default async function PublicLayout({
       <SellerContactModal />
       {isMobileView ? (
         <>
-          <div className="container relative mx-auto flex h-full transform flex-col transition-all duration-200">
-            <MobileScrollProvider>{children}</MobileScrollProvider>
-          </div>
+          <MobileScrollProvider>{children}</MobileScrollProvider>
           <MobileNavigation />
           <PwaNotificationProvider isMobileView={isMobileView} />
         </>
       ) : (
-        <div className="container mx-auto h-full bg-alpha-white p">
-          {children}
+        <div className="flex flex-col">
+          <div className="container mx-auto h-full bg-alpha-white p">
+            {children}
+          </div>
+          <DesktopFooter />
         </div>
       )}
     </PublicProvider>

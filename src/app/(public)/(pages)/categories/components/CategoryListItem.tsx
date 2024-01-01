@@ -30,9 +30,11 @@ const CategoryListItem = ({
     <Link
       href={href}
       className={clsx(
-        isSubCategory ? "h-[calc(42vw)]" : "h-[calc(60vw)]",
+        isSubCategory
+          ? "h-[calc(42vw)] md:h-auto"
+          : "h-[calc(60vw)] md:h-auto md:hover:shadow-lg",
         isSubCategory ? "grid-rows-7 pb-2" : "grid-rows-4",
-        "relative grid transform gap-2 overflow-hidden rounded-2xl bg-alpha-white transition",
+        "relative grid transform gap-2 overflow-hidden rounded-2xl bg-alpha-white transition hover:z-10 md:grid-rows-none md:rounded-none md:py md:hover:shadow-lg",
         selectedItemId === id ? "outline outline-2 outline-primary" : ""
       )}
       onClick={onClick}

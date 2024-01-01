@@ -5,10 +5,16 @@ import { Category } from "@/generated"
 import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
 import CategorySegment from "@/app/(public)/(pages)/categories/components/CategorySegment"
 
-const MobileHomeCategory = ({ categories }: { categories?: Category[] }) => {
+const MobileHomeCategory = ({
+  categories,
+  width
+}: {
+  width: number
+  categories?: Category[]
+}) => {
   return (
     <MobileHomeSection bgWhite block title="دسته‌بندی‌ها">
-      <CategorySegment categories={categories} />
+      <CategorySegment categories={categories} width={width} />
     </MobileHomeSection>
   )
 }
