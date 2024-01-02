@@ -26,8 +26,8 @@ const nextConfig = {
       "stage.vardast.com",
       "vardast.com",
       "storage"
-    ]
-    // path: process.env.NEXT_PUBLIC_IMAGE_DOMAIN
+    ],
+    path: process.env.NEXT_PUBLIC_IMAGE_DOMAIN
   },
   async redirects() {
     return [

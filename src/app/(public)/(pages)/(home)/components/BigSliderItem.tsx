@@ -2,11 +2,11 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
 
 import CardAvatar from "@core/components/shared/CardAvatar"
+import Link from "@core/components/shared/Link"
 import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
 
 export type SliderItemProps = {

@@ -93,7 +93,7 @@ export default function PwaNotificationProvider({ isMobileView }: Props) {
                   localStorage.setItem("pwa", "true")
                 }}
               >
-                !متوجه شدم
+                متوجه شدم!{" "}
               </Button>
             </div>
           </div>

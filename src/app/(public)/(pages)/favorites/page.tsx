@@ -6,7 +6,6 @@ import { getServerSession } from "next-auth"
 import { EntityTypeEnum } from "@/generated"
 
 import getQueryClient from "@core/clients/getQueryClient"
-import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { authOptions } from "@core/lib/authOptions"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
@@ -23,7 +22,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const FavoritePage = async () => {
-  const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
   const session = await getServerSession(authOptions)
 
@@ -50,10 +48,6 @@ const FavoritePage = async () => {
         accessToken: session?.accessToken
       })
   )
-
-  // if (!isMobileView) {
-  //   redirect("/")
-  // }
 
   if (!session) redirect("/auth/signin")
 

@@ -102,7 +102,7 @@ const MobileScrollProvider: React.FC<PropsWithChildren> = ({ children }) => {
           // hasScrollbar
           //   ? "pb-[calc(env(safe-area-inset-bottom)+5rem)]"
           //   : "pb-[calc(env(safe-area-inset-bottom)+5rem)]",
-          "flex flex-1 flex-col overflow-y-auto bg-transparent"
+          "flex flex-1 flex-col overflow-y-auto overflow-x-hidden bg-transparent"
         )}
       >
         {children}

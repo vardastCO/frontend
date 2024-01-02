@@ -18,6 +18,39 @@ import { PublicContext } from "@/app/(public)/components/public-provider"
 
 type SellerContactModalProps = {}
 
+export const AddressItem = ({
+  address
+}: {
+  address: {
+    address: string
+    longitude: number | null | undefined
+    latitude: number | null | undefined
+  }
+}) => {
+  return (
+    <div className="flex flex-col">
+      <div className="flex items-center gap-2 py-4">
+        <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
+          <MapIcon className="h-6 w-6 text-primary" />
+        </div>
+        <p className="text-justify font-semibold">{address.address}</p>
+      </div>
+      {address?.latitude && address?.longitude && (
+        <div className="flex justify-end">
+          <Link
+            href={`https://www.google.com/maps/search/?api=1&query=${address?.latitude},${address?.longitude}`}
+            target="_blank"
+            className="text-left text-lg font-semibold text-info"
+            prefetch={false}
+          >
+            نمایش روی نقشه
+          </Link>
+        </div>
+      )}
+    </div>
+  )
+}
+
 const SellerContactModal = (_: SellerContactModalProps) => {
   const { contactModalVisibilityAtom, contactModalDataAtom } =
     useContext(PublicContext)
@@ -139,31 +172,15 @@ const SellerContactModal = (_: SellerContactModalProps) => {
 
           {data?.addresses &&
             data?.addresses.length > 0 &&
-            data?.addresses.map((address) => (
-              <div key={address.id} className="flex flex-col">
-                <div className="flex items-center gap-2 py-4">
-                  <div className="flex items-center justify-center rounded-lg bg-alpha-100 p">
-                    <MapIcon className="h-6 w-6 text-primary" />
-                  </div>
-                  <p className="text-justify font-semibold">
-                    {address.address}
-                  </p>
-                </div>
-                {address?.latitude && address?.longitude && (
-                  <div className="flex justify-end">
-                    <Link
-                      href={`https://www.google.com/maps/search/?api=1&query=${data?.addresses.at(
-                        0
-                      )?.latitude},${address?.longitude}`}
-                      target="_blank"
-                      className="text-left text-lg font-semibold text-info"
-                      prefetch={false}
-                    >
-                      نمایش روی نقشه
-                    </Link>
-                  </div>
-                )}
-              </div>
+            data?.addresses.map(({ address, latitude, longitude, id }) => (
+              <AddressItem
+                key={id}
+                address={{
+                  address,
+                  latitude,
+                  longitude
+                }}
+              />
             ))}
         </div>
       </DialogContent>

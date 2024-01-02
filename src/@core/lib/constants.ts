@@ -145,15 +145,15 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   },
   {
     forceEqual: false,
-    path: "/profile/privacy"
+    path: "/privacy"
   },
   {
     forceEqual: false,
-    path: "/profile/contact"
+    path: "/contact"
   },
   {
     forceEqual: false,
-    path: "/profile/about"
+    path: "/about"
   },
   {
     forceEqual: true,
@@ -248,25 +248,25 @@ export const _about_items = [
 
 export const _profile_items = [
   // {
-  //   href: "/profile/faq",
+  //   href: "/faq",
   //   Icon: LucideShieldQuestion,
   //   title: "سوالات متداول",
   //   id: 0
   // },
   {
-    href: "/profile/privacy",
+    href: "/privacy",
     Icon: LucideNewspaper,
     title: "قوانین و مقررات",
     id: 1
   },
   {
-    href: "/profile/contact",
+    href: "/contact",
     Icon: LucidePhone,
     title: "تماس با ما",
     id: 2
   },
   {
-    href: "/profile/about",
+    href: "/about",
     Icon: LucideInfo,
     title: "درباره ما",
     id: 3

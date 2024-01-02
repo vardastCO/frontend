@@ -38,9 +38,9 @@ enum TopicEnum {
 const formSchema = z.object({
   topic: persianInputSchema,
   username: persianInputSchema,
-  email: persianInputSchema,
+  // email: persianInputSchema,
   cellphone: persianInputSchema,
-  orderId: persianInputSchema,
+  // orderId: persianInputSchema,
   message: persianInputSchema
 })
 
@@ -48,7 +48,7 @@ const topicEnum = enumToKeyValueObject(TopicEnum)
 
 type FormType = TypeOf<typeof formSchema>
 
-const ContactForm = () => {
+const ContactForm = ({ isMobileView }: { isMobileView: boolean }) => {
   const { t } = useTranslation()
 
   const form = useForm<FormType>({
@@ -64,7 +64,7 @@ const ContactForm = () => {
       <form
         onSubmit={form.handleSubmit(onSubmitStepOne)}
         noValidate
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-6 md:grid md:grid-cols-2"
       >
         <FormField
           control={form.control}
@@ -108,7 +108,7 @@ const ContactForm = () => {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
@@ -120,7 +120,7 @@ const ContactForm = () => {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <FormField
           control={form.control}
           name="cellphone"
@@ -134,7 +134,7 @@ const ContactForm = () => {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="orderId"
           render={({ field }) => (
@@ -146,13 +146,13 @@ const ContactForm = () => {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         <FormField
           control={form.control}
           name="message"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="md:col-span-2">
               <FormLabel>{t("common:message")}</FormLabel>
               <FormControl>
                 <Textarea {...field} />
@@ -161,35 +161,39 @@ const ContactForm = () => {
             </FormItem>
           )}
         />
-        <Dropzone
-          existingImages={undefined}
-          uploadPath={""}
-          onAddition={function (_: FilesWithPreview): void {
-            throw new Error("Function not implemented.")
-          }}
-          onDelete={function (_: FilesWithPreview): void {
-            throw new Error("Function not implemented.")
-          }}
-          // existingImages={product && product.images}
-          // uploadPath={uploadPaths.productImages}
-          // onAddition={(file) => {
-          //   setImages((prevImages) => [
-          //     ...prevImages,
-          //     {
-          //       uuid: file.uuid as string,
-          //       expiresAt: file.expiresAt as string
-          //     }
-          //   ])
-          // }}
-          // onDelete={(file) => {
-          //   setImages((images) =>
-          //     images.filter((image) => image.uuid !== file.uuid)
-          //   )
-          // }}
-        />
-        <Button type="submit" block>
-          ثبت و ارسال
-        </Button>
+        <div className="md:col-span-2">
+          <Dropzone
+            existingImages={undefined}
+            uploadPath={""}
+            onAddition={function (_: FilesWithPreview): void {
+              throw new Error("Function not implemented.")
+            }}
+            onDelete={function (_: FilesWithPreview): void {
+              throw new Error("Function not implemented.")
+            }}
+            // existingImages={product && product.images}
+            // uploadPath={uploadPaths.productImages}
+            // onAddition={(file) => {
+            //   setImages((prevImages) => [
+            //     ...prevImages,
+            //     {
+            //       uuid: file.uuid as string,
+            //       expiresAt: file.expiresAt as string
+            //     }
+            //   ])
+            // }}
+            // onDelete={(file) => {
+            //   setImages((images) =>
+            //     images.filter((image) => image.uuid !== file.uuid)
+            //   )
+            // }}
+          />
+        </div>
+        <div className="md:col-span-2 md:mr-auto">
+          <Button type="submit" block={isMobileView}>
+            ثبت و ارسال
+          </Button>
+        </div>
       </form>
     </Form>
   )

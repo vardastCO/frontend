@@ -90,19 +90,19 @@ const MobileNavigation = (_: Props) => {
       path: "brand"
     },
     {
-      forceEqual: false,
+      forceEqual: true,
       dynamicRouteAllow: true,
-      path: "profile/privacy"
+      path: "privacy"
     },
     {
-      forceEqual: false,
+      forceEqual: true,
       dynamicRouteAllow: true,
-      path: "profile/contact"
+      path: "contact"
     },
     {
-      forceEqual: false,
+      forceEqual: true,
       dynamicRouteAllow: true,
-      path: "profile/about"
+      path: "about"
     },
     {
       forceEqual: false,
@@ -246,6 +246,7 @@ const MobileNavigation = (_: Props) => {
                           loading={createEventTrackerMutation.isLoading}
                           disabled={createEventTrackerMutation.isLoading}
                           className="btn btn-md btn-primary
+                            relative
                             flex
                             h-full
                             w-full
@@ -259,8 +260,8 @@ const MobileNavigation = (_: Props) => {
                           <span className="relative flex flex-col items-center justify-center">
                             {title}
                           </span>
+                          <Progress reverseBg />
                         </Button>
-                        <Progress reverseBg />
                       </>
                     ) : (
                       <Search isMobileView={true} />

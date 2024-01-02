@@ -57,7 +57,7 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
               ) && (
                 <div className="flex justify-center">
                   <Link
-                    href={"/profile/request-seller"}
+                    href={"/request-seller"}
                     className="rounded-3xl border px py-2 text-primary"
                   >
                     ثبت نام به عنوان فروشنده

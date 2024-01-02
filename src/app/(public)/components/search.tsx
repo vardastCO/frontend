@@ -155,7 +155,7 @@ export const SearchActionModal: React.FC<ISearch> = ({ isMobileView }) => {
             ref={ref}
             className={clsx([
               "card absolute w-full overscroll-contain px-4 pt-3",
-              isMobileView ? "top-0 h-full " : "top-[calc(100vh/2)] rounded-md"
+              isMobileView ? "top-0 h-full " : "top rounded-md"
             ])}
           >
             <div className="relative flex transform items-center rounded-lg border-alpha-200 bg-alpha-100 pr-2 transition-all">

@@ -9,6 +9,9 @@ interface IMobileBaseLayout extends PropsWithChildren {
   bgWhite?: boolean
   spaceLess?: boolean
   fullHeight?: boolean
+  extraPadding?: boolean
+  background?: boolean
+  container?: boolean
   gap?: boolean
 }
 
@@ -17,7 +20,10 @@ const MobileBaseLayout: React.FC<IMobileBaseLayout> = ({
   limitWidth,
   bgWhite,
   spaceLess,
+  container = true,
+  extraPadding,
   fullHeight,
+  background,
   gap,
   children
 }) => {
@@ -49,11 +55,13 @@ const MobileBaseLayout: React.FC<IMobileBaseLayout> = ({
   return (
     <div
       className={clsx(
+        "m-auto flex h-full w-full flex-1 flex-col gap p",
         limitWidth ? "max-w-md" : "w-full",
-        "m-auto flex h-full w-full flex-1 flex-col gap bg-alpha-white p"
+        background && "bg-[url('/images/background.svg')]",
+        extraPadding && "py-20"
       )}
     >
-      {children}
+      <div className={clsx(container && "container mx-auto")}>{children}</div>
     </div>
   )
 }

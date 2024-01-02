@@ -11,7 +11,7 @@ export default function DesktopFooter({}: Props) {
   return (
     <footer className="bg-secondary text-alpha-white">
       <div className="container mx-auto flex flex-col gap-y-11">
-        <div className="flex flex-col border-b py-11">
+        <div className="flex flex-col border-b-0.5 border-alpha-500 py-11">
           <div className="grid grid-cols-7 gap-x-11">
             <div className="col-span-3 flex flex-col items-center gap-y-9">
               <div className="w-[35%]">
@@ -34,16 +34,16 @@ export default function DesktopFooter({}: Props) {
               </p>
             </div>
             <div className="flex flex-col gap-y-2.5">
-              <h3 className="pb">
+              <div className="pb">
                 با
                 <h2 className="inline-block px-1 font-semibold text-primary">
                   وردست
                 </h2>
                 آشنا شوید
-              </h3>
-              <Link href="">تماس با وردست</Link>
-              <Link href="">درباره وردست</Link>
-              <Link href="">قوانین و مقررات</Link>
+              </div>
+              <Link href="/contact">تماس با وردست</Link>
+              <Link href="/about">درباره وردست</Link>
+              <Link href="/privacy">قوانین و مقررات</Link>
             </div>
             <div className="flex flex-col gap-y-2.5">
               <h3 className="pb">جدیدترین مطالب</h3>

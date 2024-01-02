@@ -1,4 +1,4 @@
-import ResetForm from "@/app/auth/reset/components/ResetForm"
+import ResetForm from "@/app/(public)/(pages)/auth/reset/components/ResetForm"
 
 const ResetPage = async () => {
   // const session = await getServerSession(authOptions)

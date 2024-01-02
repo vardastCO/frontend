@@ -51,7 +51,7 @@ const MobileHomeTopEntities = <T extends QueryTypes>({
                   imageUrl: bannerFile?.presignedUrl.url ?? "",
                   avatarUrl: logoFile?.presignedUrl.url ?? "",
                   total,
-                  href: "/"
+                  href: `/${__typename?.toLowerCase()}/${id}`
                 }}
               />
             </SwiperSlide>

@@ -169,8 +169,6 @@ const CategoriesTab = ({
     }
   )
 
-  console.log({ allProductsQuery })
-
   useEffect(() => {
     const slide = sliderRef.current?.children[0]
 

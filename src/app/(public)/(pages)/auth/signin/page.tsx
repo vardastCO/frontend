@@ -1,7 +1,10 @@
+import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+
 import SigninForm from "./components/SigninForm"
 
 const SigninPage = async () => {
   // const session = await getServerSession(authOptions)
+  const isMobileView = CheckIsMobileView()
 
   // if (
   //   session?.profile.roles.some(
@@ -11,7 +14,7 @@ const SigninPage = async () => {
   //   redirect("/admin")
   // }
 
-  return <SigninForm />
+  return <SigninForm isMobileView={isMobileView} />
 }
 
 export default SigninPage

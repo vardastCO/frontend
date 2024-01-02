@@ -246,7 +246,7 @@ export default function AdminLayout({
         </head>
         <body>
           {!isMobileView && (
-            <NextTopLoader color={myColors.secondary[50]} showSpinner={false} />
+            <NextTopLoader color={myColors.primary[600]} showSpinner={false} />
           )}
           <NextAuthProvider>
             <ReactQueryProvider>

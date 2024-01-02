@@ -149,7 +149,7 @@ const BrandOrSellerProfile = ({
       {data.bio && (
         <div className="flex flex-col items-start bg-alpha-white p-6">
           <h4>معرفی</h4>
-          {<p className="pt-6 text-justify">{data.bio}</p>}
+          <p className="pt-6 text-justify">{data.bio}</p>
         </div>
       )}
       <Segments

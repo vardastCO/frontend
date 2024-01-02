@@ -16,20 +16,15 @@ import clsx from "clsx"
 import { LucideInfo } from "lucide-react"
 import { Session } from "next-auth"
 
-import { ThreeStateSupervisionStatuses, UserStatusesEnum } from "@/generated"
+import { ThreeStateSupervisionStatuses } from "@/generated"
 
 import Link from "@core/components/shared/Link"
 import { Alert, AlertDescription, AlertTitle } from "@core/components/ui/alert"
-
-enum ColorEnum {
-  ERROR = "ERROR",
-  SUCCESS = "SUCCESS",
-  BLACK = "BLACK",
-  WARNING = "WARNING",
-  ALPHA = "ALPHA",
-  BLUE = "BLUE",
-  RED = "RED"
-}
+import {
+  ColorEnum,
+  StatusUserAlternatives,
+  UserStatusItem
+} from "@/app/(public)/components/desktop/DesktopHeader"
 
 enum ProfileIconVariantStatusEnum {
   ACTIVE_WHITE = ColorEnum.ALPHA,
@@ -96,7 +91,7 @@ interface BigSmallIconProps extends IconProps {
 //   {
 //     id: 3,
 //     text: "تماس با ما",
-//     href: "/profile/contact",
+//     href: "/contact",
 //     Icon: PhoneIcon,
 //     color: ColorEnum.SUCCESS,
 //     status: ProfileIconVariantStatusEnum.ACTIVE_WHITE
@@ -107,7 +102,7 @@ const _small_icons: BigSmallIconProps[] = [
   {
     id: 0,
     text: "قوانین و مقررات",
-    href: "/profile/privacy",
+    href: "/privacy",
     Icon: NewspaperIcon,
     color: ColorEnum.ALPHA,
     status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA
@@ -115,7 +110,7 @@ const _small_icons: BigSmallIconProps[] = [
   {
     id: 1,
     text: "درباره ما",
-    href: "/profile/about",
+    href: "/about",
     Icon: InformationCircleIcon,
     color: ColorEnum.ALPHA,
     status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA
@@ -123,7 +118,7 @@ const _small_icons: BigSmallIconProps[] = [
   {
     id: 5,
     text: "تماس با ما",
-    href: "/profile/contact",
+    href: "/contact",
     Icon: PhoneIconOutline,
     color: ColorEnum.ALPHA,
     status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA
@@ -215,26 +210,6 @@ const ProfileIconItem = ({
   )
 }
 
-const UserStatusItem = ({
-  color,
-  text
-}: {
-  text: string
-  color: ColorEnum
-}) => {
-  return (
-    <div
-      className={clsx(
-        `bg-${color.toLocaleLowerCase()}-100`,
-        "rounded-2xl",
-        "px-2 py-1"
-      )}
-    >
-      <p className={`text-${color.toLocaleLowerCase()}-600`}>{text}</p>
-    </div>
-  )
-}
-
 const ProfileIndex = ({ session }: { session: Session | null }) => {
   // eslint-disable-next-line no-unused-vars
   // const allProductsQuery = useInfiniteQuery<GetAllProductsQuery>(
@@ -283,15 +258,6 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
       status: ProfileIconVariantStatusEnum.SUCCESS
     }
   ]
-
-  const StatusUserAlternatives = {
-    [UserStatusesEnum.NotActivated]: {
-      color: ColorEnum.ERROR,
-      text: "غیر فعال"
-    },
-    [UserStatusesEnum.Active]: { color: ColorEnum.SUCCESS, text: "فعال" },
-    [UserStatusesEnum.Banned]: { color: ColorEnum.ALPHA, text: "مسدود شده" }
-  }
 
   useEffect(() => {
     const div = productContainerRef.current
@@ -368,7 +334,7 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
         ) && (
           <div className="bg-alpha-white">
             <Link
-              href={"/profile/request-seller"}
+              href={"/request-seller"}
               ref={productContainerRef}
               className={`relative flex flex-shrink-0 transform flex-col items-center justify-center bg-center bg-no-repeat align-middle transition-all duration-1000 ease-out`}
             >

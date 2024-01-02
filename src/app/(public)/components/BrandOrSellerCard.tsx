@@ -56,8 +56,6 @@ const BrandOrSellerCard = forwardRef(
     const containerRef = useRef<HTMLDivElement>(null)
     const [containerWidth, setContainerWidth] = useState(0)
 
-    console.log({ name: content.name, content })
-
     useEffect(() => {
       const container = containerRef.current
 

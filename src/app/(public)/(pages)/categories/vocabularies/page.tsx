@@ -4,7 +4,6 @@ import { dehydrate } from "@tanstack/react-query"
 import { GetVocabularyQuery } from "@/generated"
 
 import getQueryClient from "@core/clients/getQueryClient"
-import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
@@ -18,7 +17,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const CategoriesPage = async () => {
-  const isMobileView = CheckIsMobileView()
   const queryClient = getQueryClient()
   await queryClient.prefetchQuery<GetVocabularyQuery>({
     queryKey: [
@@ -28,10 +26,6 @@ const CategoriesPage = async () => {
     queryFn: () => getVocabularyQueryFn("product_categories")
   })
   const dehydratedState = dehydrate(queryClient)
-
-  // if (!isMobileView) {
-  //   redirect("/")
-  // }
 
   return (
     <ReactQueryHydrate state={dehydratedState}>

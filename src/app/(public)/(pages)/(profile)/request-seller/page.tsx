@@ -3,7 +3,8 @@ import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 
 import { authOptions } from "@core/lib/authOptions"
-import ProfileSellerForm from "@/app/(public)/(pages)/profile/request-seller/components/ProfileSellerForm"
+import withMobileHeader from "@core/middlewares/withMobileHeader"
+import ProfileSellerForm from "@/app/(public)/(pages)/(profile)/request-seller/components/ProfileSellerForm"
 
 // set dynamic metadata
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,4 +23,6 @@ const ProfileSellerPage = async () => {
   return <ProfileSellerForm />
 }
 
-export default ProfileSellerPage
+export default withMobileHeader(ProfileSellerPage, {
+  title: "درخواست تبدیل به فروشنده"
+})

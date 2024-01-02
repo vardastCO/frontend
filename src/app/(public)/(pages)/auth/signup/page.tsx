@@ -1,4 +1,4 @@
-import SingupForm from "@/app/auth/signup/components/SingupForm"
+import SingupForm from "@/app/(public)/(pages)/auth/signup/components/SingupForm"
 
 const SignupPage = async () => {
   // const session = await getServerSession(authOptions)

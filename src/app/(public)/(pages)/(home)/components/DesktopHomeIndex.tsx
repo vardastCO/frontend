@@ -11,7 +11,6 @@ import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHo
 import MobileHomeTopBlogs from "@/app/(public)/(pages)/(home)/components/MobileHomeTopBlogs"
 import MobileHomeTopEntities from "@/app/(public)/(pages)/(home)/components/MobileHomeTopEntities"
 import CategoryCircleItem from "@/app/(public)/(pages)/categories/components/CategoryCircleItem"
-import DesktopHeader from "@/app/(public)/components/desktop/DesktopHeader"
 
 import logoHorizontal from "@/assets/desktop-home-top-banner.svg"
 
@@ -25,7 +24,6 @@ const DesktopHomeIndex = ({
 
   return (
     <>
-      <DesktopHeader />
       <div className="mx-auto w-[76vw]">
         <div className="relative py-9">
           <Image
@@ -42,7 +40,7 @@ const DesktopHomeIndex = ({
                 getVocabularyQueryFcQuery.data?.vocabulary
                   .categories as Category[]
               )
-                .filter((item) => item?.title !== "سایر")
+                ?.filter((item) => item?.title !== "سایر")
                 ?.map((props) => (
                   <CategoryCircleItem
                     key={props.id}
@@ -56,8 +54,8 @@ const DesktopHomeIndex = ({
         <div className="py-9">
           <MobileHomeTopEntities
             centeredSlides={false}
-            slidesPerView={3.4}
-            width={width * 0.22}
+            slidesPerView={width > 1366 ? 4.4 : 3.4}
+            width={width * (width > 1366 ? 0.18 : 0.22)}
             __typename="Seller"
             title="جدیدترین فروشنده‌ها"
             query={allSellersCount.data?.sellers.data.slice(0, 5) as Seller[]}
@@ -66,8 +64,8 @@ const DesktopHomeIndex = ({
         <div className="py-9">
           <MobileHomeTopEntities
             centeredSlides={false}
-            slidesPerView={3.4}
-            width={width * 0.22}
+            slidesPerView={width > 1366 ? 4.4 : 3.4}
+            width={width * (width > 1366 ? 0.18 : 0.22)}
             // square
             __typename="Brand"
             title="جدیدترین برندها"

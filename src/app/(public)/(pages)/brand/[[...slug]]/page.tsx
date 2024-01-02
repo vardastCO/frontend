@@ -122,8 +122,6 @@ const BrandIndex = async ({
     () => getAllCategoriesQueryFn({ brandId: +slug[0] })
   )
 
-  console.log({ bib: +slug[0] })
-
   await queryClient.prefetchInfiniteQuery(
     [QUERY_FUNCTIONS_KEY.TAKE_BRAND_TO_SELLER, { page: 1, brandId: +slug[0] }],
     () => getBrandToSellerQueryFns({ page: 1, brandId: +slug[0] })
