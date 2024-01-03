@@ -129,7 +129,7 @@ const OfferForm = ({ offer }: OfferFormProps) => {
       productId: offer?.product.id,
       status: offer?.status,
       isPublic: offer?.isPublic || true,
-      isAvailable: offer?.isAvailable
+      isAvailable: offer?.isAvailable ?? undefined
     }
   })
 
