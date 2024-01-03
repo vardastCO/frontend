@@ -31,16 +31,24 @@ export async function generateMetadata(
   { params }: SellerIndexProps
   // parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const sellerId = params.slug[0] as number
-  const seller = await getSellerQueryFn(sellerId)
+  try {
+    const sellerId = params.slug[0] as number
+    const seller = await getSellerQueryFn(sellerId)
+
+    return {
+      title: seller.seller.name,
+      alternates: {
+        canonical: encodeURI(
+          `${process.env.NEXT_PUBLIC_URL}/seller/${seller.seller.id}/${seller.seller.name}`
+        )
+      }
+    }
+  } catch (error) {
+    console.log("generateMetadata seller")
+  }
 
   return {
-    title: seller.seller.name,
-    alternates: {
-      canonical: encodeURI(
-        `${process.env.NEXT_PUBLIC_URL}/seller/${seller.seller.id}/${seller.seller.name}`
-      )
-    }
+    title: "فروشنده یافت نشد"
   }
 }
 

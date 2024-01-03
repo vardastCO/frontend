@@ -15,7 +15,8 @@ const MobileHomeIndex = ({
   allProductsQuery,
   allSellersCount,
   getVocabularyQueryFcQuery,
-  homeSlidersQuery
+  homeSlidersQuery,
+  getAllBlogsQuery
 }: IHomeProps) => {
   const { width } = useWindowSize()
 
@@ -25,7 +26,7 @@ const MobileHomeIndex = ({
       <MobileHomeCategory
         width={width * 0.3}
         categories={
-          getVocabularyQueryFcQuery.data?.vocabulary.categories.filter(
+          getVocabularyQueryFcQuery?.data?.vocabulary.categories.filter(
             (item) => item?.title !== "سایر"
           ) as Category[]
         }
@@ -44,7 +45,10 @@ const MobileHomeIndex = ({
         query={allBrandsCount.data?.brands.data.slice(0, 5) as Brand[]}
       />
       <MobileHomeNewestProducts allProductsQuery={allProductsQuery} />
-      <MobileHomeTopBlogs slidesPerView={1.09} />
+      <MobileHomeTopBlogs
+        getAllBlogsQuery={getAllBlogsQuery}
+        slidesPerView={1.09}
+      />
     </>
   )
 }

@@ -1,9 +1,12 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
+import clsx from "clsx"
 
 import { Brand, Category, Seller } from "@/generated"
 
+import { Button } from "@core/components/ui/button"
 import useWindowSize from "@core/hooks/use-window-size"
 import { IHomeProps } from "@/app/(public)/(pages)/(home)/components/HomeIndex"
 import MobileHomeNewestProducts from "@/app/(public)/(pages)/(home)/components/MobileHomeNewestProducts"
@@ -18,9 +21,15 @@ const DesktopHomeIndex = ({
   getVocabularyQueryFcQuery,
   allSellersCount,
   allBrandsCount,
-  allProductsQuery
+  allProductsQuery,
+  getAllBlogsQuery
 }: IHomeProps) => {
   const { width } = useWindowSize()
+  const [blogFlag, setBlogFlag] = useState(false)
+
+  const onOpenCategories = () => {
+    setBlogFlag((prev) => !prev)
+  }
 
   return (
     <>
@@ -87,7 +96,36 @@ const DesktopHomeIndex = ({
         </div>
         <div className="border-t-2 border-alpha-100 bg-alpha-white">
           <div className="container mx-auto py-9">
-            <MobileHomeTopBlogs slidesPerView={4.3} centeredSlides={false} />
+            <MobileHomeTopBlogs
+              getAllBlogsQuery={getAllBlogsQuery}
+              slidesPerView={4.3}
+              centeredSlides={false}
+            />
+          </div>
+        </div>
+        <div className="border-t-2 border-alpha-100">
+          <div className="container relative mx-auto py-9">
+            <h2 className="py-7 font-semibold">دسته بندی‌های اصلی وردست</h2>
+            <div className={clsx("gap-y-6", !blogFlag && "line-clamp-6")}>
+              {getVocabularyQueryFcQuery.data?.vocabulary.categories.map(
+                (category) => (
+                  <div key={category?.id} className="">
+                    <h3 className="font-semibold">{category?.title}</h3>
+                    <p className="text-justify">{category?.description}</p>
+                  </div>
+                )
+              )}
+            </div>
+            {!blogFlag && (
+              <div className="absolute bottom-16 left-0 right-0 h-36 bg-opacity-30 bg-gradient-to-t from-alpha-white"></div>
+            )}
+            <Button
+              onClick={onOpenCategories}
+              variant="link"
+              className="!mt !text-primary"
+            >
+              {blogFlag ? "بستن" : "مشاهده بیشتر"}
+            </Button>
           </div>
         </div>
       </div>

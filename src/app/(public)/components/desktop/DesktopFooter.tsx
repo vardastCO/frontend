@@ -33,6 +33,7 @@ export default function DesktopFooter({}: Props) {
                 پلتفرم رقم خواهد زد.
               </p>
             </div>
+            <div></div>
             <div className="flex flex-col gap-y-2.5">
               <div className="pb">
                 با
@@ -45,23 +46,34 @@ export default function DesktopFooter({}: Props) {
               <Link href="/about">درباره وردست</Link>
               <Link href="/privacy">قوانین و مقررات</Link>
             </div>
-            <div className="flex flex-col gap-y-2.5">
+            {/* <div className="flex flex-col gap-y-2.5">
               <h3 className="pb">جدیدترین مطالب</h3>
               <Link href="">نام مطلب اول</Link>
               <Link href="">نام مطلب دوم</Link>
               <Link href="">نام مطلب سوم</Link>
-            </div>
+            </div> */}
             <div className="flex flex-col gap-y-2.5">
               <h3 className="pb">ویژگی های وردست</h3>
+              <Link href="https://blog.vardast.com" target="_blank">
+                بلاگ وردست
+              </Link>
               <Link href="">فروشنده شوید!</Link>
               <Link href="">تبلیغات</Link>
             </div>
             <div className="flex flex-col gap-y-2.5">
               <h3 className="pb">با ما همراه شوید</h3>
-              <Link href="">نام شبکه اجتماعی</Link>
-              <Link href="">نام شبکه اجتماعی</Link>
-              <Link href="">نام شبکه اجتماعی</Link>
-              <Link href="">نام شبکه اجتماعی</Link>
+              <Link
+                href="https://www.instagram.com/vardast.ir?igsh=aHViMmE3bWkxY3hk"
+                target="_blank"
+              >
+                Instagram
+              </Link>
+              <Link href="https://wa.me/+9890227272823" target="_blank">
+                Whatsapp
+              </Link>
+              <Link href="https://t.me/+9890227272823" target="_blank">
+                Telegram
+              </Link>
             </div>
           </div>
           <div className="flex items-center justify-between gap-x-7">
@@ -70,7 +82,7 @@ export default function DesktopFooter({}: Props) {
                 تمام حقوق اين وب‌سايت نیز برای شرکت خلق ارزش مهستان (وردست)
                 محفوظ است.
               </div>
-              <div>Vardast.com | 2020 - 2023</div>
+              <div>Vardast.com | 2022 - 2023</div>
             </div>
             <div className="h-24 w-24">
               <Image

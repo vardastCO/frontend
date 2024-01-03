@@ -22,16 +22,20 @@ export async function generateMetadata(
   { params }: SearchIndexProps
   // parent: ResolvingMetadata
 ): Promise<Metadata> {
-  if (params.slug && params.slug.length) {
-    const category = await getCategoryQueryFn(+params.slug[0])
+  try {
+    if (params.slug && params.slug.length) {
+      const category = await getCategoryQueryFn(+params.slug[0])
 
-    return {
-      title: category.category.title
+      return {
+        title: category.category.title
+      }
     }
+  } catch (error) {
+    console.log("generateMetadata category")
   }
 
   return {
-    title: "جستجو در وردست"
+    title: "دسته بندی یافت نشد"
   }
 }
 

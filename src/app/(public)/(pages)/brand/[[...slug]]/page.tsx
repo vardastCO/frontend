@@ -32,16 +32,23 @@ export async function generateMetadata(
   { params }: BrandIndexProps
   // parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const brandId = params.slug[0] as number
-  const brand = await getBrandQueryFn(brandId)
+  try {
+    const brandId = params.slug[0] as number
+    const brand = await getBrandQueryFn(brandId)
 
-  return {
-    title: brand.brand.name,
-    alternates: {
-      canonical: encodeURI(
-        `${process.env.NEXT_PUBLIC_URL}/brand/${brand.brand.id}/${brand.brand.name}`
-      )
+    return {
+      title: brand.brand.name,
+      alternates: {
+        canonical: encodeURI(
+          `${process.env.NEXT_PUBLIC_URL}/brand/${brand.brand.id}/${brand.brand.name}`
+        )
+      }
     }
+  } catch (error) {
+    console.log("generateMetadata product")
+  }
+  return {
+    title: "محصولی یافت نشد"
   }
 }
 

@@ -6,6 +6,7 @@ import { Session } from "next-auth"
 
 import {
   FileModelTypeEnum,
+  GetAllBlogsQuery,
   GetAllBrandsCountQuery,
   GetAllProductsQuery,
   GetAllSellersCountQuery,
@@ -17,6 +18,7 @@ import { getAllBrandsCountQueryFn } from "@core/queryFns/allBrandsCountQueryFns"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getAllSellersCountQueryFn } from "@core/queryFns/allSellersCountQueryFns"
 import { bannerHomePageQueryFns } from "@core/queryFns/bannerHomePageQueryFns"
+import { getAllBlogsQueryFn } from "@core/queryFns/getAllBlogsQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 import DesktopHomeIndex from "@/app/(public)/(pages)/(home)/components/DesktopHomeIndex"
@@ -28,6 +30,7 @@ export type IHomeProps = {
   allSellersCount: UseQueryResult<GetAllSellersCountQuery>
   allBrandsCount: UseQueryResult<GetAllBrandsCountQuery>
   getVocabularyQueryFcQuery: UseQueryResult<GetVocabularyQuery>
+  getAllBlogsQuery: UseQueryResult<GetAllBlogsQuery>
   session: Session | null
 }
 
@@ -91,6 +94,15 @@ const HomeIndex = ({ isMobileView, session }: HomeIndexProps) => {
     }
   )
 
+  const getAllBlogsQuery = useQuery<GetAllBlogsQuery>(
+    [QUERY_FUNCTIONS_KEY.GET_ALL_BLOGS, { page: 1 }],
+    () => getAllBlogsQueryFn({ page: 1 }),
+    {
+      keepPreviousData: true,
+      staleTime: 999999999
+    }
+  )
+
   const homeProps: IHomeProps = useMemo(
     () => ({
       session,
@@ -98,7 +110,8 @@ const HomeIndex = ({ isMobileView, session }: HomeIndexProps) => {
       homeSlidersQuery,
       allSellersCount,
       allBrandsCount,
-      getVocabularyQueryFcQuery
+      getVocabularyQueryFcQuery,
+      getAllBlogsQuery
     }),
     [
       allBrandsCount,
@@ -106,6 +119,7 @@ const HomeIndex = ({ isMobileView, session }: HomeIndexProps) => {
       allSellersCount,
       getVocabularyQueryFcQuery,
       homeSlidersQuery,
+      getAllBlogsQuery,
       session
     ]
   )

@@ -24,18 +24,26 @@ export async function generateMetadata(
   { params }: ProductIndexProps
   // parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const id = params.slug[0] as number
-  // const slug = params.slug[1] as string
-  const data = await getProductQueryFn(id)
+  try {
+    const id = params.slug[0] as number
+    // const slug = params.slug[1] as string
+    const data = await getProductQueryFn(id)
+
+    return {
+      title: data.product.title || data.product.name,
+      description: data.product.metaDescription,
+      alternates: {
+        canonical: encodeURI(
+          `${process.env.NEXT_PUBLIC_URL}/product/${data.product.id}/${data.product.name}`
+        )
+      }
+    }
+  } catch (error) {
+    console.log("generateMetadata product")
+  }
 
   return {
-    title: data.product.title || data.product.name,
-    description: data.product.metaDescription,
-    alternates: {
-      canonical: encodeURI(
-        `${process.env.NEXT_PUBLIC_URL}/product/${data.product.id}/${data.product.name}`
-      )
-    }
+    title: "محصولی یافت نشد"
   }
 }
 

@@ -13,6 +13,7 @@ import { getAllBrandsCountQueryFn } from "@core/queryFns/allBrandsCountQueryFns"
 import { getAllProductsQueryFn } from "@core/queryFns/allProductsQueryFns"
 import { getAllSellersCountQueryFn } from "@core/queryFns/allSellersCountQueryFns"
 import { bannerHomePageQueryFns } from "@core/queryFns/bannerHomePageQueryFns"
+import { getAllBlogsQueryFn } from "@core/queryFns/getAllBlogsQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
 import HomeIndex from "@/app/(public)/(pages)/(home)/components/HomeIndex"
@@ -52,6 +53,11 @@ const Index = async () => {
   await queryClient.prefetchQuery(
     [QUERY_FUNCTIONS_KEY.BANNER_HOME_PAGE_KEY, FileModelTypeEnum.Slider],
     () => bannerHomePageQueryFns({ type: FileModelTypeEnum.Slider })
+  )
+
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.GET_ALL_BLOGS, { page: 1 }],
+    () => getAllBlogsQueryFn({ page: 1 })
   )
 
   await queryClient.prefetchQuery({

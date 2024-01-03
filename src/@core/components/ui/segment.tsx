@@ -73,11 +73,12 @@ const SegmentsList: React.FC<
   return (
     <div
       className={clsx(
-        "hide-scrollbar flex w-full items-center overflow-x-scroll whitespace-nowrap",
+        "hide-scrollbar relative flex w-full items-center overflow-x-scroll whitespace-nowrap",
         className
       )}
       style={style}
     >
+      <div className="fixed bottom-0 left-0 z-20 h-5 w-36 bg-opacity-30 bg-gradient-to-r from-alpha-white"></div>
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
           if (child.type === SegmentsListItem) {

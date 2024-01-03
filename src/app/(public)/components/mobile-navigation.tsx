@@ -153,12 +153,15 @@ const MobileNavigation = (_: Props) => {
             (error) => error.extensions?.code === "FORBIDDEN"
           )
         ) {
-          toast({
-            description:
-              "لطفا برای مشاهده اطلاعات تماس، ابتدا وارد حساب کاربری خود شوید.",
-            duration: 8000,
-            variant: "default"
-          })
+          // toast({
+          //   description:
+          //     "لطفا برای مشاهده اطلاعات تماس، ابتدا وارد حساب کاربری خود شوید.",
+          //   duration: 8000,
+          //   variant: "default"
+          // })
+          console.log("redirect to login for FORBIDDEN contact visit")
+
+          router.push("/auth/signin")
         } else {
           toast({
             description: (
@@ -278,7 +281,7 @@ const MobileNavigation = (_: Props) => {
                     <Link
                       key={id}
                       href={href}
-                      className={`group inline-flex h-full flex-col items-center justify-center gap-y-0.5`}
+                      className={`group inline-flex h-full flex-col items-center justify-center gap-y-0.5 pt-3`}
                       prefetch={false}
                     >
                       <ShowedIcon

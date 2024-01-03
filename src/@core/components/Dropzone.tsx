@@ -18,6 +18,7 @@ interface DropzoneProps {
   onAddition: (_: FilesWithPreview) => void
   onDelete: (_: FilesWithPreview) => void
   withHeight?: boolean
+  withText?: boolean
 }
 export interface FilesWithPreview extends FileWithPath {
   preview: string

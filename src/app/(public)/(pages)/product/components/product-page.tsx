@@ -229,7 +229,7 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           //   attributes={groupedAttributes as GroupedAttributes[]}
           // />
           <ProductAttributes
-            title="ویژگی‌ها"
+            title="مشخصات"
             attributes={groupedAttributes as GroupedAttributes[]}
           />
         )}

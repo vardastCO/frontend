@@ -14,7 +14,7 @@ query GetVocabulary($id: Int, $slug: String) {
       icon
       sort
       isActive
-
+      description
       childrenCount
       productsCount
       imageCategory {

@@ -16,7 +16,12 @@ const ProductOffers = ({ offers, uom }: ProductOffersProps) => {
     <ProductSectionContainer title="فروشندگان">
       <div className="flex w-full flex-col gap-5 divide-y">
         {offers.map((offer) => (
-          <ProductOfferItem key={offer.id} offer={offer} uom={uom} />
+          <ProductOfferItem
+            key={offer.id}
+            offer={offer}
+            uom={uom}
+            // hasContactButton={offers.length > 1}
+          />
         ))}
       </div>
     </ProductSectionContainer>

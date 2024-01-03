@@ -2,6 +2,8 @@
 
 import React, { PropsWithChildren, useState } from "react"
 
+import Link from "@core/components/shared/Link"
+
 const CategoryListContainer: React.FC<
   PropsWithChildren<{ isSubcategory?: boolean; description?: string }>
 > = ({ isSubcategory, description, children }) => {
@@ -12,21 +14,22 @@ const CategoryListContainer: React.FC<
       {description && (
         <div className="flex flex-col gap-y bg-alpha-white p">
           <h4 className="text-alpha-500">معرفی</h4>
-          <div className={`${more ? "" : "line-clamp-3"}`}>
+          <div className={`${more ? "" : "line-clamp-2"}`}>
             {description.split("\n\n").map((paragraph, index) => (
               <p key={index} className="text-justify text-sm leading-6">
                 {paragraph}
               </p>
             ))}
           </div>
-          <span
+          <Link
             className="text-left text-primary"
             onClick={() => {
               setMore(!more)
             }}
+            href=""
           >
             {more ? "کمتر" : "بیشتر"}
-          </span>
+          </Link>
         </div>
       )}
       <ul

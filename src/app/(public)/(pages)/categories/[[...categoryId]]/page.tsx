@@ -18,11 +18,19 @@ export async function generateMetadata(
   { params }: CategoryIdPageIndexProps
   // parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const data = await getCategoryQueryFn(+params.categoryId)
+  try {
+    const data = await getCategoryQueryFn(+params.categoryId)
+
+    return {
+      title: data.category.title,
+      description: data.category.description
+    }
+  } catch (error) {
+    console.log("generateMetadata category")
+  }
 
   return {
-    title: data.category.title,
-    description: data.category.description
+    title: "دسته بندی یافت نشد"
   }
 }
 
