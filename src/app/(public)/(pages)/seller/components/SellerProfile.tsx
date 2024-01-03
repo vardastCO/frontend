@@ -404,6 +404,7 @@ const SellerProfile = ({
       {
         value: SellerProfileTabEnum.BRAND,
         title: <TabTitleWithExtraData title="برند‌ها" total={totalBrands} />,
+        className: "!bg-alpha-100 h-full",
         Content: () => {
           return (
             <InfiniteScrollPagination

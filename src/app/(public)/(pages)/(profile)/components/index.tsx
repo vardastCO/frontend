@@ -268,20 +268,20 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
 
   return (
     <>
-      {session?.profile.status && (
+      {session?.profile?.status && (
         <div className="flex flex-col gap-y bg-alpha-white px-6 py">
           <div className="flex items-center">
             <div className="flex flex-1 items-center gap-x-2">
               <UserCircleIcon className="h-16 w-16 text-primary" />
               <div className="flex flex-col gap-y-1">
                 <h4 className="font-semibold">
-                  {session?.profile.fullName
-                    ? session?.profile.fullName
+                  {session?.profile?.fullName
+                    ? session?.profile?.fullName
                     : "نام کاربری"}
                 </h4>
                 <p className="text-sm font-semibold text-alpha-400">
-                  {session?.profile.cellphone
-                    ? digitsEnToFa(session?.profile.cellphone)
+                  {session?.profile?.cellphone
+                    ? digitsEnToFa(session?.profile?.cellphone)
                     : digitsEnToFa("09123456789")}
                 </p>
               </div>

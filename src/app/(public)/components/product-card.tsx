@@ -115,6 +115,7 @@ const ProductCard = forwardRef(
         }}
         className={clsx(
           "md:h-none relative grid h-[calc((100vw-1.5rem)/2)] max-h-[calc((100vw-1.5rem)/2)] min-h-[calc((100vw-1.5rem)/2)] w-full flex-1  gap-2 bg-alpha-white transition hover:z-10 md:h-full md:max-h-full md:min-h-full md:border-none md:py md:hover:shadow-lg lg:flex lg:flex-col lg:px-4",
+          ref && "!border-b !border-alpha-200",
           containerType === ProductContainerType.LARGE_LIST
             ? "grid-cols-3"
             : "overflow-hidden"
@@ -191,12 +192,12 @@ const ProductCard = forwardRef(
                 <div className="flex w-full items-center justify-end">
                   <PriceTitle size="xs" price={product.lowestPrice.amount} />
                 </div>
+                {product?.uom?.name && (
+                  <div className="flex justify-end text-xs text-alpha-500">
+                    هر {product.uom.name}
+                  </div>
+                )}
               </>
-            )}
-            {product?.uom?.name && (
-              <div className="flex justify-end text-xs text-alpha-500">
-                هر {product.uom.name}
-              </div>
             )}
           </div>
         )}

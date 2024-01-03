@@ -11,6 +11,7 @@ import { useSetAtom } from "jotai"
 import { EventTrackerTypes, Offer, Uom } from "@/generated"
 
 import Link from "@core/components/shared/Link"
+import PriceTitle from "@/app/(public)/components/PriceTitle"
 import { PublicContext } from "@/app/(public)/components/public-provider"
 import Rating from "@/app/(public)/components/Rating"
 
@@ -68,21 +69,25 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
                     {offer?.seller?.addresses[0].province.name}
                   </p>
                 )}
-              {/* {offer.lastPublicConsumerPrice && (
-                <div className="flex justify-between gap-x">
-                  <Button
-                    size="small"
-                    variant="secondary"
-                    onClick={() => showSellerContact()}
-                    disabled={createEventTrackerMutation.isLoading}
-                    loading={createEventTrackerMutation.isLoading}
-                  >
-                    اطلاعات تماس
-                  </Button>
-                  <PriceTitle price={offer.lastPublicConsumerPrice.amount} />
+              <div className="flex justify-between gap-x">
+                <div>
+                  {/* {hasContactButton && (
+                        <Button
+                          onClick={showSellerContact}
+                          loading={createEventTrackerMutation.isLoading}
+                          disabled={createEventTrackerMutation.isLoading}
+                          size="small"
+                          variant="secondary"
+                        >
+                          اطلاعات تماس
+                        </Button>
+                      )} */}
                 </div>
-              )} */}
-              {uom.name && (
+                {offer.lastPublicConsumerPrice?.amount && (
+                  <PriceTitle price={offer.lastPublicConsumerPrice?.amount} />
+                )}
+              </div>
+              {offer.lastPublicConsumerPrice?.amount && uom.name && (
                 <div className="flex justify-between text-xs text-alpha-500">
                   <span>
                     {digitsEnToFa(

@@ -522,7 +522,7 @@ const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
       },
       {
         value: BrandProfileTabEnum.SELLERS,
-        className: "!bg-alpha-50 h-full",
+        className: "!bg-alpha-100 h-full",
         title: (
           <TabTitleWithExtraData
             title="فروشندگان"

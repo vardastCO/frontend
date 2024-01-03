@@ -56,7 +56,7 @@ export const TabTitleWithExtraData = ({
 }) => {
   return (
     <div className="flex items-center justify-center gap-x-2">
-      <span>{title}</span>
+      <span className="font-semibold">{title}</span>
       {total ? (
         <span className="text-xs">({digitsEnToFa(total)})</span>
       ) : createdDate ? (
@@ -169,7 +169,7 @@ const BrandOrSellerProfile = ({
             <SegmentsListItem
               key={value}
               noStyle
-              className={clsx("no-select pl")}
+              className={clsx("no-select")}
               value={value}
               style={{
                 width: tabs.length > 3 ? "auto" : `${100 / tabs.length}%`
@@ -177,7 +177,7 @@ const BrandOrSellerProfile = ({
             >
               <div
                 className={clsx(
-                  "cursor-pointer rounded-full border bg-alpha-white px-4 py-2.5 text-sm",
+                  "mx-1 cursor-pointer rounded-full border-2 bg-alpha-white px-4 py-2.5 text-sm",
                   value === activeTab
                     ? "border-primary bg-primary text-alpha-white"
                     : "border-alpha-300"

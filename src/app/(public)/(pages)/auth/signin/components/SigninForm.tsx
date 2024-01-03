@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
 import { ClientError } from "graphql-request"
 import { LucideAlertOctagon } from "lucide-react"
@@ -26,7 +26,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage
 } from "@core/components/react-hook-form/form"
 import Link from "@core/components/shared/Link"
@@ -35,16 +34,24 @@ import { Button } from "@core/components/ui/button"
 import { Input } from "@core/components/ui/input"
 import useCountdown from "@core/hooks/use-countdown"
 
-import logoType from "@/assets/logo-type.svg"
+// eslint-disable-next-line no-unused-vars
+enum LoginOptions {
+  // eslint-disable-next-line no-unused-vars
+  PASSWORD = "PASSWORD",
+  // eslint-disable-next-line no-unused-vars
+  OTP = "OTP",
+  // eslint-disable-next-line no-unused-vars
+  VERIFY_OTP = "VERIFY_OTP"
+}
 
 type Props = { isMobileView: boolean }
 
-const SigninForm = ({ isMobileView }: Props) => {
+const SigninForm = (_: Props) => {
   const { t } = useTranslation()
   // const session = useSession()
   const router = useRouter()
   // const searchParams = useSearchParams()
-  const [formState, setFormState] = useState<number>(1)
+  const [formState, setFormState] = useState<LoginOptions>(LoginOptions.OTP)
   const [validationKey, setValidationKey] = useState<string>("")
   const [errors, setErrors] = useState<ClientError | null>()
   const [loginErrors, setLoginErrors] = useState<string | null>()
@@ -75,7 +82,7 @@ const SigninForm = ({ isMobileView }: Props) => {
           setValidationKey(validationKey as string)
           startCountdown(remainingSeconds as number)
           setMessage(message as string)
-          setFormState(2)
+          setFormState(LoginOptions.VERIFY_OTP)
         }
       }
     }
@@ -205,13 +212,13 @@ const SigninForm = ({ isMobileView }: Props) => {
   return (
     <>
       {/* <Link href="/"> */}
-      {isMobileView && (
+      {/* {isMobileView && (
         <Image
           src={logoType}
           alt={process.env.NEXT_PUBLIC_TITLE as string}
           className="mx-auto w-3/5 py-20"
         />
-      )}
+      )} */}
       {/* </Link> */}
 
       {errors && (
@@ -242,241 +249,287 @@ const SigninForm = ({ isMobileView }: Props) => {
           <AlertDescription>{message}</AlertDescription>
         </Alert>
       )}
-      <div className="min-h-[calc(100vw/4)] md:mx-auto md:w-1/4">
-        {formState === 0 && (
-          <Form {...form}>
-            <form
-              id="login-username"
-              onSubmit={form.handleSubmit(onSubmitStepZero)}
-              noValidate
-              className="flex flex-1 flex-col gap-8"
-            >
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:username")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("common:username")}
-                        type="text"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:password")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("common:password")}
-                        type="password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-            </form>
-            <Button
-              type="button"
-              variant="link"
-              className="!py"
-              onClick={() => {
-                setFormState(1)
-              }}
-            >
-              ورود با رمز یکبار مصرف
-            </Button>
-            {/* <Link
-            type="button"
-            className="btn btn-secondary btn-md"
-            href={"/profile"}
-          >
-            {t("common:back")}
-          </Link> */}
-            <Button
-              type="submit"
-              block
-              form="login-username"
-              disabled={pageLoading || form.formState.isSubmitting}
-              loading={pageLoading || form.formState.isSubmitting}
-            >
-              {t("common:login")}
-            </Button>
-          </Form>
-        )}
-
-        {formState === 1 && (
-          <Form {...formStepOne}>
-            <form
-              id="login-cellphone"
-              onSubmit={formStepOne.handleSubmit(onSubmitStepOne)}
-              noValidate
-              className="flex flex-1 flex-col gap-8"
-            >
+      <div className="flex h-full flex-col justify-start gap-y-6 pt-[22vw] md:items-center md:pt">
+        {formState === LoginOptions.VERIFY_OTP ? (
+          <>
+            <h2 className="font-semibold">لطفا کد تایید را وارد کنید.</h2>
+            <p className="text-alpha-800">
+              کد تایید برای شماره {digitsEnToFa(formStepOne.watch("cellphone"))}
+              پیامک شد.
+            </p>
+          </>
+        ) : (
+          <>
+            <h1 className="font-semibold">ورود | ثبت‌نام</h1>
+            <div className="flex flex-col gap-y">
+              <p className="text-alpha-800">سلام!</p>
               <p className="text-alpha-800">
-                برای ثبت نام / ورود در
-                <span className="text-primary"> وردست</span>، شماره همراه خود را
-                وارد کنید.
+                لطفا شماره موبایل خود را وارد کنید.
               </p>
-              <FormField
-                control={formStepOne.control}
-                name="cellphone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:cellphone")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="tel"
-                        inputMode="numeric"
-                        dir="rtl"
-                        placeholder={t("common:cellphone")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-            </form>
-            <Button
-              type="button"
-              variant="link"
-              className="!py"
-              onClick={() => {
-                setFormState(0)
-              }}
-            >
-              ورود با نام کاربری و رمز عبور
-            </Button>
-            {/* <Link
-            type="button"
-            className="btn btn-secondary btn-md"
-            href={"/profile"}
-          >
-            {t("common:back")}
-          </Link> */}
-            <Button
-              type="submit"
-              block
-              form="login-cellphone"
-              disabled={
-                validateCellphoneMutation.isLoading ||
-                formStepOne.formState.isSubmitting
-              }
-              loading={
-                validateCellphoneMutation.isLoading ||
-                formStepOne.formState.isSubmitting
-              }
-            >
-              دریافت رمز یکبار مصرف
-            </Button>
-          </Form>
+            </div>
+          </>
         )}
+        <div className="flex min-h-[calc(100vw/4)] flex-col justify-center md:mx-auto md:w-1/4">
+          {formState === LoginOptions.PASSWORD && (
+            <Form {...form}>
+              <form
+                id="login-username"
+                onSubmit={form.handleSubmit(onSubmitStepZero)}
+                noValidate
+                className="flex flex-col gap-8"
+              >
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      {/* <FormLabel>{t("common:username")}</FormLabel> */}
+                      <FormControl>
+                        <Input
+                          placeholder={t("common:username")}
+                          type="text"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                ></FormField>
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      {/* <FormLabel>{t("common:password")}</FormLabel> */}
+                      <FormControl>
+                        <Input
+                          placeholder={t("common:password")}
+                          type="password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                ></FormField>
+              </form>
+            </Form>
+          )}
 
-        {formState === 2 && (
-          <Form {...formStepTwo}>
-            <form
-              id="verify-otp-form"
-              onSubmit={formStepTwo.handleSubmit(onSubmitStepTwo)}
-              noValidate
-              className="flex flex-1 flex-col gap-8"
-            >
-              <FormField
-                control={formStepTwo.control}
-                name="otp"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("common:otp")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="tel"
-                        inputMode="numeric"
-                        dir="rtl"
-                        placeholder={t("common:otp")}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                    {
-                      <div className="flex items-center justify-between">
-                        <Button
-                          onClick={() => {
-                            setFormState(1)
-                            formStepTwo.reset()
-                          }}
-                          size={"xsmall"}
-                          type="button"
-                          variant="ghost"
-                        >
-                          ویرایش شماره همراه
-                        </Button>
-                        <p
-                          className={clsx(
-                            "text-left",
-                            "text-sm",
-                            "text-succuss"
-                          )}
-                        >
-                          {secondsLeft && secondsLeft > 0 ? secondsLeft : 0}{" "}
-                          ثانیه
-                        </p>
-                      </div>
-                    }
-                  </FormItem>
-                )}
-              ></FormField>
-            </form>
-            <Button
-              onClick={() => {
-                onSubmitStepOne({ cellphone: formStepOne.watch("cellphone") })
-              }}
-              loading={validateCellphoneMutation.isLoading}
-              disabled={secondsLeft > 0}
-              variant="ghost"
-              type="button"
-              block
-            >
-              ارسال مجدد رمز یکبار مصرف
-            </Button>
-            <Link
-              type="button"
-              className="btn btn-secondary btn-md"
-              href={"/profile"}
-            >
-              {t("common:back")}
-            </Link>
-            <Button
-              type="submit"
-              form="verify-otp-form"
-              block
-              disabled={
-                validateOtpMutation.isLoading ||
-                validateCellphoneMutation.isLoading ||
-                formStepTwo.formState.isSubmitting
-              }
-              loading={
-                pageLoading ||
-                validateOtpMutation.isLoading ||
-                validateCellphoneMutation.isLoading ||
-                formStepTwo.formState.isSubmitting
-              }
-            >
-              تایید تلفن همراه
-            </Button>
-          </Form>
-        )}
+          {formState === LoginOptions.OTP && (
+            <Form {...formStepOne}>
+              <form
+                id="login-cellphone"
+                onSubmit={formStepOne.handleSubmit(onSubmitStepOne)}
+                noValidate
+                className="flex flex-1 flex-col gap-8"
+              >
+                <FormField
+                  control={formStepOne.control}
+                  name="cellphone"
+                  render={({ field }) => (
+                    <FormItem>
+                      {/* <FormLabel>{t("common:cellphone")}</FormLabel> */}
+                      <FormControl>
+                        <Input
+                          type="tel"
+                          inputMode="numeric"
+                          dir="rtl"
+                          placeholder={t("common:cellphone")}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                ></FormField>
+              </form>
+            </Form>
+          )}
+
+          {formState === LoginOptions.VERIFY_OTP && (
+            <Form {...formStepTwo}>
+              <form
+                id="verify-otp-form"
+                onSubmit={formStepTwo.handleSubmit(onSubmitStepTwo)}
+                noValidate
+                className="flex flex-1 flex-col gap-8"
+              >
+                <FormField
+                  control={formStepTwo.control}
+                  name="otp"
+                  render={({ field }) => (
+                    <FormItem>
+                      {/* <FormLabel>{t("common:otp")}</FormLabel> */}
+                      <FormControl>
+                        <Input
+                          type="tel"
+                          inputMode="numeric"
+                          dir="rtl"
+                          placeholder={t("common:otp")}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                      {
+                        <div className="flex items-center justify-between">
+                          <Button
+                            onClick={() => {
+                              setFormState(LoginOptions.OTP)
+                              formStepTwo.reset()
+                            }}
+                            size={"xsmall"}
+                            type="button"
+                            variant="ghost"
+                          >
+                            ویرایش شماره همراه
+                          </Button>
+                          <p
+                            className={clsx(
+                              "text-left",
+                              "text-sm",
+                              "text-succuss"
+                            )}
+                          >
+                            {secondsLeft && secondsLeft > 0 ? secondsLeft : 0}{" "}
+                            ثانیه
+                          </p>
+                        </div>
+                      }
+                    </FormItem>
+                  )}
+                ></FormField>
+              </form>
+            </Form>
+          )}
+          <div className="flex flex-col gap-y">
+            {formState !== LoginOptions.VERIFY_OTP && (
+              <div className="flex flex-col justify-center gap-y-7 py-7">
+                <div
+                  onClick={() => {
+                    setFormState(LoginOptions.OTP)
+                  }}
+                  className="flex cursor-pointer items-center gap-x-2"
+                >
+                  <Circle solid={formState === LoginOptions.OTP} />
+                  <span className="text-sm text-info">
+                    دریافت رمز یکبار مصرف
+                  </span>
+                </div>
+                <div
+                  onClick={() => {
+                    setFormState(LoginOptions.PASSWORD)
+                  }}
+                  className="flex cursor-pointer items-center gap-x-2"
+                >
+                  <Circle solid={formState === LoginOptions.PASSWORD} />
+                  <span className="text-sm text-info">ورود با رمز عبور</span>
+                </div>
+              </div>
+            )}
+            {formState === LoginOptions.PASSWORD && (
+              <Button
+                type="submit"
+                block
+                form="login-username"
+                disabled={pageLoading || form.formState.isSubmitting}
+                loading={pageLoading || form.formState.isSubmitting}
+              >
+                {t("common:login")}
+              </Button>
+            )}
+            {formState === LoginOptions.OTP && (
+              <Button
+                type="submit"
+                block
+                form="login-cellphone"
+                disabled={
+                  validateCellphoneMutation.isLoading ||
+                  formStepOne.formState.isSubmitting
+                }
+                loading={
+                  validateCellphoneMutation.isLoading ||
+                  formStepOne.formState.isSubmitting
+                }
+              >
+                دریافت رمز یکبار مصرف
+              </Button>
+            )}
+            {formState === LoginOptions.VERIFY_OTP && (
+              <>
+                <Button
+                  onClick={() => {
+                    onSubmitStepOne({
+                      cellphone: formStepOne.watch("cellphone")
+                    })
+                  }}
+                  loading={validateCellphoneMutation.isLoading}
+                  disabled={secondsLeft > 0}
+                  variant="ghost"
+                  type="button"
+                  block
+                >
+                  ارسال مجدد رمز یکبار مصرف
+                </Button>
+
+                {/* <Link
+                  type="button"
+                  className="btn btn-secondary btn-md"
+                  href={"/profile"}
+                >
+                  {t("common:back")}
+                </Link> */}
+                <Button
+                  type="submit"
+                  form="verify-otp-form"
+                  block
+                  disabled={
+                    validateOtpMutation.isLoading ||
+                    validateCellphoneMutation.isLoading ||
+                    formStepTwo.formState.isSubmitting
+                  }
+                  loading={
+                    pageLoading ||
+                    validateOtpMutation.isLoading ||
+                    validateCellphoneMutation.isLoading ||
+                    formStepTwo.formState.isSubmitting
+                  }
+                >
+                  تایید تلفن همراه
+                </Button>
+              </>
+            )}
+            {formState !== LoginOptions.VERIFY_OTP && (
+              <div>
+                ورود به معنای پذیرش
+                <Link href="/privacy" className="text-primary underline">
+                  {" "}
+                  شرایط و قوانین وردست{" "}
+                </Link>
+                می‌باشد
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </>
+  )
+}
+
+const Circle = ({ solid }: { solid?: boolean }) => {
+  return (
+    <span
+      className={clsx(
+        "relative flex h-5 w-5 flex-col items-center justify-center rounded-full border bg-alpha-50"
+      )}
+    >
+      <span
+        className={clsx(
+          "absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full",
+          solid && "bg-info"
+        )}
+      ></span>
+    </span>
   )
 }
 

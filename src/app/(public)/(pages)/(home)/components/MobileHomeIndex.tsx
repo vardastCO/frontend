@@ -31,20 +31,20 @@ const MobileHomeIndex = ({
         }
       />
       <MobileHomeTopEntities
-        width={width * 0.85}
+        width={width * 0.9}
         __typename="Seller"
         title="جدیدترین فروشنده‌ها"
         query={allSellersCount.data?.sellers.data.slice(0, 5) as Seller[]}
       />
       <MobileHomeTopEntities
-        width={width * 0.85}
+        width={width * 0.9}
         // square
         __typename="Brand"
         title="جدیدترین برندها"
         query={allBrandsCount.data?.brands.data.slice(0, 5) as Brand[]}
       />
       <MobileHomeNewestProducts allProductsQuery={allProductsQuery} />
-      <MobileHomeTopBlogs />
+      <MobileHomeTopBlogs slidesPerView={1.09} />
     </>
   )
 }

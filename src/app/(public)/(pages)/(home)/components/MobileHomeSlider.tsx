@@ -43,7 +43,7 @@ const MobileHomeSlider = ({
 
   return (
     <div className="bg-alpha-white pt-6">
-      <div className="overflow-hidden">
+      <div className="container overflow-hidden">
         <Swiper
           ref={sliderRef}
           loop

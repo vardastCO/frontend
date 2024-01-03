@@ -69,7 +69,7 @@ const ProductIntroduce = ({ product, session }: IProductIntroduce) => {
           </div>
         )}
       </div>
-      {product.uom.name && (
+      {product.lowestPrice && product.uom.name && (
         <div className="mr-auto flex justify-between text-xs text-alpha-500">
           <span>هر {product.uom.name}</span>
         </div>
