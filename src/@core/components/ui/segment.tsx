@@ -78,7 +78,7 @@ const SegmentsList: React.FC<
       )}
       style={style}
     >
-      <div className="fixed bottom-0 left-0 z-20 h-5 w-36 bg-opacity-30 bg-gradient-to-r from-alpha-white"></div>
+      {/* <div className="fixed bottom-0 left-0 z-20 h-5 w-36 bg-opacity-30 bg-gradient-to-r from-alpha-white"></div> */}
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
           if (child.type === SegmentsListItem) {

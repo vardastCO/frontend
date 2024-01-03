@@ -97,11 +97,16 @@ const ProductsTab = ({ productsProps }: { productsProps: SellerProfile }) => {
 
   return (allProductsQuery.isLoading || allProductsQuery.isFetching) &&
     !allProductsQuery.isFetchingNextPage ? (
-    <>
+    <div className="divide flex flex-col gap-y divide-alpha-200 md:grid md:grid-cols-3 lg:grid-cols-4">
       <ProductCardSkeleton />
       <ProductCardSkeleton />
       <ProductCardSkeleton />
-    </>
+      {productsProps.isMobileView && (
+        <>
+          <ProductCardSkeleton />
+        </>
+      )}
+    </div>
   ) : (
     <InfiniteScrollPagination
       CardLoader={() => <ProductCardSkeleton />}
@@ -465,6 +470,7 @@ const SellerProfile = ({
 
   return (
     <BrandOrSellerProfile
+      isMobileView={isMobileView}
       isFavoriteQuery={isFavoriteQuery}
       type={EntityTypeEnum.Seller}
       data={query.data?.seller}

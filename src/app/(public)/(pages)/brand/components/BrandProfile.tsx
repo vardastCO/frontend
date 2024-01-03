@@ -583,6 +583,7 @@ const BrandProfile = ({ isMobileView, args, slug, session }: BrandProfile) => {
 
   return (
     <BrandOrSellerProfile
+      isMobileView={isMobileView}
       isFavoriteQuery={isFavoriteQuery}
       type={EntityTypeEnum.Brand}
       data={brandQuery.data?.brand}

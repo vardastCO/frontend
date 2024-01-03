@@ -27,8 +27,8 @@ const nextConfig = {
       "vardast.com",
       "blog.vardast.com",
       "storage"
-    ],
-    path: process.env.NEXT_PUBLIC_IMAGE_DOMAIN
+    ]
+    // path: process.env.NEXT_PUBLIC_IMAGE_DOMAIN
   },
   async redirects() {
     return [
