@@ -72,7 +72,7 @@ const DesktopHomeIndex = ({
               width={width * (width > 1366 ? 0.18 : 0.22)}
               __typename="Seller"
               title="جدیدترین فروشنده‌ها"
-              query={allSellersCount.data?.sellers.data.slice(0, 5) as Seller[]}
+              query={allSellersCount.data?.sellers.data.slice(0, 8) as Seller[]}
             />
           </div>
         </div>
@@ -85,7 +85,7 @@ const DesktopHomeIndex = ({
               // square
               __typename="Brand"
               title="جدیدترین برندها"
-              query={allBrandsCount.data?.brands.data.slice(0, 5) as Brand[]}
+              query={allBrandsCount.data?.brands.data.slice(0, 8) as Brand[]}
             />
           </div>
         </div>
@@ -109,9 +109,11 @@ const DesktopHomeIndex = ({
             <div className={clsx("gap-y-6", !blogFlag && "line-clamp-6")}>
               {getVocabularyQueryFcQuery.data?.vocabulary.categories.map(
                 (category) => (
-                  <div key={category?.id} className="">
+                  <div key={category?.id} className="mt-7">
                     <h3 className="font-semibold">{category?.title}</h3>
-                    <p className="text-justify">{category?.description}</p>
+                    <p className="pt text-justify leading-7">
+                      {category?.description}
+                    </p>
                   </div>
                 )
               )}

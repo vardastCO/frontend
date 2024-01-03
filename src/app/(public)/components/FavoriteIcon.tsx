@@ -35,6 +35,8 @@ export default function FavoriteIcon({
         isFavoriteQuery.refetch()
       },
       onError: (errors: ClientError) => {
+        router.push("/auth/signin")
+
         if (
           errors.response.errors?.find(
             (error) => error.extensions?.code === "FORBIDDEN"

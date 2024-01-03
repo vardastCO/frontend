@@ -57,8 +57,8 @@ export default function DesktopFooter({}: Props) {
               <Link href="https://blog.vardast.com" target="_blank">
                 بلاگ وردست
               </Link>
-              <Link href="">فروشنده شوید!</Link>
-              <Link href="">تبلیغات</Link>
+              {/* <Link href="">فروشنده شوید!</Link> */}
+              {/* <Link href="">تبلیغات</Link> */}
             </div>
             <div className="flex flex-col gap-y-2.5">
               <h3 className="pb">با ما همراه شوید</h3>

@@ -54,6 +54,7 @@ const ProductOfferItem = ({ hasContactButton, offer, uom }: Props) => {
         setOpen(true)
       },
       onError: (errors: ClientError) => {
+        router.push("/auth/signin")
         if (
           errors.response.errors?.find(
             (error) => error.extensions?.code === "FORBIDDEN"

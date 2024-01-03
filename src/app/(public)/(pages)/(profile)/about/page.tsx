@@ -13,6 +13,7 @@ import {
   QuestionMarkCircleIcon,
   Squares2X2Icon
 } from "@heroicons/react/24/solid"
+import { digitsEnToFa } from "@persian-tools/persian-tools"
 
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { _about_items } from "@core/lib/constants"
@@ -85,28 +86,39 @@ const AboutPage = async () => {
                     <CubeIcon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">کالاها</h3>
-                  <p>توضیحاتی از دسته بندی ها اینجا نوشته می شود</p>
+                  <p>
+                    بیش از {digitsEnToFa(70000)} کالا در دسته‌بندی‌های متفاوت
+                    برای رفع نیاز شما.
+                  </p>
                 </div>
                 <div className="flex flex-col items-start gap-y rounded-xl bg-alpha-white p-7">
                   <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <Squares2X2Icon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">دسته بندی ها</h3>
-                  <p>توضیحاتی از دسته بندی ها اینجا نوشته می شود</p>
+                  <p>
+                    با {digitsEnToFa(1000)}+ دسته‌بندی، کالای خود را مرتب کنید
+                  </p>
                 </div>
                 <div className="flex flex-col items-start gap-y rounded-xl bg-alpha-white p-7">
                   <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <BuildingStorefrontIcon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">فروشندگان</h3>
-                  <p>توضیحاتی از دسته بندی ها اینجا نوشته می شود</p>
+                  <p>
+                    {digitsEnToFa(9000)}+ فروشنده معتبر و احراز شده در سراسر
+                    کشور
+                  </p>
                 </div>
                 <div className="flex flex-col items-start gap-y rounded-xl bg-alpha-white p-7">
                   <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <HomeModernIcon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">برندها</h3>
-                  <p>توضیحاتی از دسته بندی ها اینجا نوشته می شود</p>
+                  <p>
+                    بیش از {digitsEnToFa(3000)} برند معتبر همراه شما هستند تا
+                    کالای با کیفیت و با قیمت مناسب خریداری نمایید.
+                  </p>
                 </div>
               </div>
             </div>
@@ -138,7 +150,7 @@ const AboutPage = async () => {
                   <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <MapIcon className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold">کالاها</h3>
+                  <h3 className="font-semibold">نقشه</h3>
                 </div>
               </div>
             </div>
@@ -151,7 +163,9 @@ const AboutPage = async () => {
         </p>
         <p className="text-md mx-auto">
           <span className="text-alpha-500">نسخه</span>
-          <span className="px-2 text-primary">1.15.12</span>
+          <span className="px-2 text-primary">
+            {digitsEnToFa(1) + "." + digitsEnToFa(0) + "." + digitsEnToFa(1)}
+          </span>
         </p>
       </div>
     </>
