@@ -399,7 +399,7 @@ const PdfTabItem = ({
             </h4>
             <Link
               href="/auth/signin"
-              className="btn btn-md btn-secondary block px !text-primary"
+              className="btn btn-md btn-primary block px"
             >
               ورود به حساب کاربری
             </Link>

@@ -55,7 +55,8 @@ const MobileBaseLayout: React.FC<IMobileBaseLayout> = ({
   return (
     <div
       className={clsx(
-        "m-auto flex h-full w-full flex-1 flex-col gap p",
+        "m-auto flex h-full w-full flex-1 flex-col",
+        spaceLess ? "" : "gap p",
         limitWidth ? "max-w-md" : "w-full",
         background && "bg-[url('/images/background.svg')]",
         extraPadding && "py-20"

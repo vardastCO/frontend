@@ -1,4 +1,5 @@
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
+import withMobileHeader from "@core/middlewares/withMobileHeader"
 
 import SigninForm from "./components/SigninForm"
 
@@ -17,4 +18,4 @@ const SigninPage = async () => {
   return <SigninForm isMobileView={isMobileView} />
 }
 
-export default SigninPage
+export default withMobileHeader(SigninPage, { hasLogo: true })

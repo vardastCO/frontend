@@ -12,6 +12,39 @@ import { GetBannerHomePageQuery } from "@/generated"
 import Link from "@core/components/shared/Link"
 import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
 
+export const BulletSwiper = ({
+  contentSize = 0,
+  handleSlideTo = () => {},
+  activeSlide = 0,
+  className = "py-6"
+}: {
+  contentSize?: number
+  handleSlideTo: (_: number) => void
+  activeSlide: number
+  className?: string
+}) => {
+  return (
+    <div
+      className={clsx(
+        "flex w-full items-center justify-center gap-x-1.5",
+        className && className
+      )}
+    >
+      {[...Array(contentSize)]?.map((_, index) => (
+        <span
+          key={`dot-${index}`}
+          onClick={() => {
+            handleSlideTo(index)
+          }}
+          className={`h-2 w-2 cursor-pointer rounded-full ${
+            activeSlide === index ? "bg-primary" : "bg-alpha-400"
+          }`}
+        ></span>
+      ))}
+    </div>
+  )
+}
+
 const MobileHomeSlider = ({
   query
 }: {
@@ -92,19 +125,11 @@ const MobileHomeSlider = ({
         </Swiper>
       </div>
 
-      <div className="flex w-full items-center justify-center gap-x-1.5 py-6">
-        {query.data?.getBannerHomePage?.map((_, index) => (
-          <span
-            key={`dot-${index}`}
-            onClick={() => {
-              handleSlideTo(index)
-            }}
-            className={`h-2 w-2 cursor-pointer rounded-full ${
-              activeSlide === index ? "bg-primary" : "bg-alpha-400"
-            }`}
-          ></span>
-        ))}
-      </div>
+      <BulletSwiper
+        activeSlide={activeSlide}
+        contentSize={query.data?.getBannerHomePage.length}
+        handleSlideTo={handleSlideTo}
+      />
     </div>
   )
 }

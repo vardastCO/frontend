@@ -38,7 +38,7 @@ const ProductOfferItem = ({ offer, uom }: Props) => {
 
   return (
     <>
-      <div className="flex flex-col items-start p">
+      <div className="flex flex-col items-start py">
         {offer.seller.rating && offer.seller.rating > 0 ? (
           <Rating rating={offer.seller.rating} />
         ) : (

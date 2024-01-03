@@ -17,6 +17,7 @@ interface DropzoneProps {
   uploadPath: string
   onAddition: (_: FilesWithPreview) => void
   onDelete: (_: FilesWithPreview) => void
+  withHeight?: boolean
 }
 export interface FilesWithPreview extends FileWithPath {
   preview: string
@@ -29,6 +30,7 @@ const Dropzone = ({
   existingImages,
   uploadPath,
   onAddition,
+  withHeight = true,
   onDelete
 }: DropzoneProps) => {
   const { data: session } = useSession()
@@ -226,7 +228,12 @@ const Dropzone = ({
               </ul>
             </>
           ) : (
-            <div className="flex h-60 w-full flex-col items-center justify-center gap-1">
+            <div
+              className={clsx(
+                "flex w-full flex-col items-center justify-center gap-1",
+                withHeight && "h-60"
+              )}
+            >
               <ImagePlus className="h-12 w-12 text-alpha-400" />
               <span className="font-medium text-alpha-800">
                 {t("common:add_images_dropzone_title")}

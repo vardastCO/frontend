@@ -12,7 +12,9 @@ interface BrandCardProps {
 
 const BrandCard = ({ brand }: BrandCardProps) => {
   const onLoadingCompletedImage = () => {
-    const div = document.getElementById(`brand-image-${brand?.id}`)
+    const div =
+      typeof window !== "undefined" &&
+      document?.getElementById(`brand-image-${brand?.id}`)
     if (div) {
       div.className = div.className + " opacity-100"
     }

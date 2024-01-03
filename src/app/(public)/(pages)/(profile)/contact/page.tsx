@@ -25,10 +25,11 @@ const ContactPage = async () => {
   return (
     <>
       {isMobileView ? (
-        <div className="text-justify">
-          لطفا پیش از ارسال ایمیل یا تماس تلفنی، ابتدا
-          <span className="text-primary">پرسش های متداول</span> را مشاهده کنید.
-        </div>
+        // <div className="text-justify">
+        //   لطفا پیش از ارسال ایمیل یا تماس تلفنی، ابتدا
+        //   <span className="text-primary">پرسش های متداول</span> را مشاهده کنید.
+        // </div>
+        <></>
       ) : (
         <div className="my-7 flex items-center gap-x-4 py">
           <PhoneIconSolid className="h-10 w-10 text-primary" />

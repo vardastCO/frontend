@@ -66,7 +66,9 @@ const CategoryListItem = ({
           className="h-full w-full"
           loading="eager"
           onLoadingComplete={() => {
-            const div = document.getElementById(`category-image-${id}`)
+            const div =
+              typeof window !== "undefined" &&
+              document?.getElementById(`category-image-${id}`)
             if (div) {
               div.className = div.className + " opacity-100"
             }

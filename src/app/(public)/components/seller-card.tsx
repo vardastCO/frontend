@@ -13,7 +13,9 @@ interface SellerCardProps {
 
 const SellerCard = ({ seller }: SellerCardProps) => {
   const onLoadingCompletedImage = () => {
-    const div = document.getElementById(`seller-image-${seller.id}`)
+    const div =
+      typeof window !== "undefined" &&
+      document?.getElementById(`seller-image-${seller.id}`)
     if (div) {
       div.className = div.className + " opacity-100"
     }

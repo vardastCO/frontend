@@ -3,16 +3,22 @@ import ProductSectionContainer from "@/app/(public)/(pages)/product/components/P
 
 type ProductAttributesProps = {
   attributes: GroupedAttributes[]
+  title?: string
 }
 
-const ProductAttributes = ({ attributes }: ProductAttributesProps) => {
+const ProductAttributes = ({
+  attributes,
+  title = "ویژگی‌ها"
+}: ProductAttributesProps) => {
   return (
-    <ProductSectionContainer title="ویژگی‌ها">
+    <ProductSectionContainer title={title}>
       <ul className="flex list-disc flex-col gap-y pr-6 decoration-primary">
         {attributes.map((attribute, idx) => (
           <li className="" key={idx}>
             <div className="grid grid-cols-5">
-              <p className="col-span-2 pl text-secondary">{attribute.name}:</p>
+              <p className="col-span-2 pl-1 text-secondary">
+                {attribute.name}:
+              </p>
               <p className="col-span-3 text-justify">
                 {attribute.values.join(", ")}{" "}
                 {attribute.uom && attribute.uom.name}

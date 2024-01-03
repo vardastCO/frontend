@@ -64,7 +64,7 @@ const ContactForm = ({ isMobileView }: { isMobileView: boolean }) => {
       <form
         onSubmit={form.handleSubmit(onSubmitStepOne)}
         noValidate
-        className="flex flex-col gap-6 md:grid md:grid-cols-2"
+        className="flex flex-col gap-6 px pt md:grid md:grid-cols-2 md:px-0 md:pt-0"
       >
         <FormField
           control={form.control}
@@ -100,7 +100,7 @@ const ContactForm = ({ isMobileView }: { isMobileView: boolean }) => {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t("common:username")}</FormLabel>
+              <FormLabel>نام و نام خانوادگی</FormLabel>
               <FormControl>
                 <Input type="text" {...field} />
               </FormControl>
@@ -163,6 +163,7 @@ const ContactForm = ({ isMobileView }: { isMobileView: boolean }) => {
         />
         <div className="md:col-span-2">
           <Dropzone
+            withHeight={false}
             existingImages={undefined}
             uploadPath={""}
             onAddition={function (_: FilesWithPreview): void {

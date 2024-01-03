@@ -64,7 +64,7 @@ export const UserStatusItem = ({
 const DesktopHeader = ({ session }: DesktopHeaderProps) => {
   return (
     <header className="sticky right-0 top-0 z-30 border-b bg-alpha-white">
-      <div className="container mx-auto grid grid-cols-12 items-center gap-x-12 py">
+      <div className="container mx-auto grid grid-cols-12 items-center gap-x-12 py-7">
         <Link href="/" className="relative col-span-3 flex h-full items-center">
           <Image
             src={logoHorizontal}

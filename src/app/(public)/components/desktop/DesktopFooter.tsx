@@ -64,7 +64,14 @@ export default function DesktopFooter({}: Props) {
               <Link href="">نام شبکه اجتماعی</Link>
             </div>
           </div>
-          <div className="flex justify-end gap-x-7">
+          <div className="flex items-center justify-between gap-x-7">
+            <div className="flex flex-col items-start justify-center gap-x-9 gap-y">
+              <div>
+                تمام حقوق اين وب‌سايت نیز برای شرکت خلق ارزش مهستان (وردست)
+                محفوظ است.
+              </div>
+              <div>Vardast.com | 2020 - 2023</div>
+            </div>
             <div className="h-24 w-24">
               <Image
                 src={enamad}
@@ -73,13 +80,6 @@ export default function DesktopFooter({}: Props) {
                 priority
               />
             </div>
-          </div>
-        </div>
-        <div className="flex justify-center gap-x-9 divide-x-1 pb-11">
-          <div>Vardast.com | 2020 - 2023</div>
-          <div>
-            تمام حقوق اين وب‌سايت نیز برای شرکت خلق ارزش مهستان (وردست) محفوظ
-            است.
           </div>
         </div>
       </div>

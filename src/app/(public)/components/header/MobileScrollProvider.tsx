@@ -32,33 +32,41 @@ const MobileScrollProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname()
 
   useEffect(() => {
-    if (window.document.getElementById("mobile-navigation-bar")?.clientHeight) {
+    if (
+      typeof window !== "undefined" &&
+      window?.document?.getElementById("mobile-navigation-bar")?.clientHeight
+    ) {
       setHasScrollbar({
         bottom:
-          window.document.getElementById("mobile-navigation-bar")
+          window?.document?.getElementById("mobile-navigation-bar")
             ?.clientHeight ?? 0,
         top:
-          window.document.getElementById("mobile-header-navbar")
+          window?.document?.getElementById("mobile-header-navbar")
             ?.clientHeight ?? 0
       })
     }
     if (
-      window.document.getElementById("bottom-navigation-buy-box")?.clientHeight
+      typeof window !== "undefined" &&
+      window?.document?.getElementById("bottom-navigation-buy-box")
+        ?.clientHeight
     ) {
       setHasScrollbar({
         bottom:
-          window.document.getElementById("bottom-navigation-buy-box")
+          window?.document?.getElementById("bottom-navigation-buy-box")
             ?.clientHeight ?? 0,
         top:
-          window.document.getElementById("mobile-header-navbar")
+          window?.document?.getElementById("mobile-header-navbar")
             ?.clientHeight ?? 0
       })
     }
-    if (window.document.getElementById("scroll-container")) {
+    if (
+      typeof window !== "undefined" &&
+      window?.document?.getElementById("scroll-container")
+    ) {
       const sh =
-        window.document.getElementById("scroll-container")?.scrollHeight
+        window?.document?.getElementById("scroll-container")?.scrollHeight
       const ch =
-        window.document.getElementById("scroll-container")?.clientHeight
+        window?.document?.getElementById("scroll-container")?.clientHeight
       setRealScrollbarHeight((sh || 0) - (ch || 0))
     }
     if (ref?.current) {

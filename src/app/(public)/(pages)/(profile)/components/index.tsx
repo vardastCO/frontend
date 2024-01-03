@@ -172,7 +172,7 @@ const ProfileIconItem = ({
     <Link
       onClick={onClick}
       href={href}
-      className="flex flex-col items-center gap-y-2"
+      className="flex items-center justify-start gap-x-4"
     >
       <div
         className={clsx(
@@ -198,7 +198,7 @@ const ProfileIconItem = ({
       </div>
       <p
         className={clsx(
-          "text-center text-xs",
+          "text-center text-sm font-semibold",
           `text-${ColorEnum[variant.status].toLocaleLowerCase()}-${
             disabled ? "400" : "600"
           }`
@@ -269,8 +269,8 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
   return (
     <>
       {session?.profile?.status && (
-        <div className="flex flex-col gap-y bg-alpha-white px-6 py">
-          <div className="flex items-center">
+        <div className="flex flex-col gap-y border-b bg-alpha-white px py">
+          <div className="flex items-center pb">
             <div className="flex flex-1 items-center gap-x-2">
               <UserCircleIcon className="h-16 w-16 text-primary" />
               <div className="flex flex-col gap-y-1">
@@ -332,11 +332,11 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
         !session?.profile.roles.some(
           (role) => role?.name === "admin" || role?.name === "seller"
         ) && (
-          <div className="bg-alpha-white">
+          <div className="border-b bg-alpha-white pb">
             <Link
               href={"/request-seller"}
               ref={productContainerRef}
-              className={`relative flex flex-shrink-0 transform flex-col items-center justify-center bg-center bg-no-repeat align-middle transition-all duration-1000 ease-out`}
+              className={`relative flex flex-shrink-0 transform flex-col items-center justify-center rounded-xl bg-center bg-no-repeat align-middle transition-all duration-1000 ease-out`}
             >
               <div
                 style={{
@@ -348,7 +348,7 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
                   src={"/images/be-seller.png"}
                   alt={"be-seller"}
                   fill
-                  className="object-contain"
+                  className="rounded-xl object-contain"
                 />
               </div>
             </Link>
@@ -367,7 +367,7 @@ const ProfileIndex = ({ session }: { session: Session | null }) => {
           />
         ))}
       </div> */}
-      <div className="grid grid-cols-4 gap gap-y-6 bg-alpha-white px-6 py">
+      <div className="flex flex-col items-start justify-start gap-y-6 bg-alpha-white px py">
         {_small_icons
           .concat(session ? _small_logout_icons : _small_signin_icons)
           .map(({ id, status, ...props }) => (

@@ -9,7 +9,7 @@ const ProductSectionContainer: React.FC<
 > = ({ title = "", spaceless, bgTransparent, children }) => {
   return (
     <div
-      className={`${spaceless ? "" : "p"} ${
+      className={`${spaceless ? "" : "p px-6"} ${
         bgTransparent ? "" : "bg-alpha-white"
       } flex flex-col gap-y py-8`}
     >

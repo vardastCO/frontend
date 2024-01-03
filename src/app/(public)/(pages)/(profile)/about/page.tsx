@@ -35,21 +35,17 @@ const AboutPage = async () => {
     <>
       {isMobileView && (
         <>
-          <div className="mx-auto w-[calc(48%)] pt lg:w-1/2">
+          <div className="mx-auto w-[calc(48%)] pt-11 md:pt lg:w-1/2">
             <Image
               src={logo}
               alt="وردست"
               className="w-full shrink-0 object-contain"
             />
           </div>
-          <p className="mx-auto">
-            نسخه
-            <span className="px-2 text-primary">1.15.12</span>
-          </p>
         </>
       )}
-      <div className="flex flex-1 flex-col items-center justify-start gap-y-11 divide-y-0.5 divide-alpha-white">
-        <div className="w-full">
+      <div className="flex flex-1 flex-col items-center justify-start gap-y-11 divide-y-0.5 divide-alpha-white px pt-11 md:px-0 md:pt-0">
+        <div className="flex h-full w-full flex-col gap-y md:h-auto md:flex-none md:gap-y-0">
           {!isMobileView && (
             <div className="my-7 flex items-center gap-x-4 py">
               <InformationCircleIcon className="h-10 w-10 text-primary" />
@@ -85,28 +81,28 @@ const AboutPage = async () => {
               </div>
               <div className="grid grid-cols-4 gap-7">
                 <div className="flex flex-col items-start gap-y rounded-xl bg-alpha-white p-7">
-                  <div className="flex items-center justify-center rounded bg-primary-50 p">
+                  <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <CubeIcon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">کالاها</h3>
                   <p>توضیحاتی از دسته بندی ها اینجا نوشته می شود</p>
                 </div>
                 <div className="flex flex-col items-start gap-y rounded-xl bg-alpha-white p-7">
-                  <div className="flex items-center justify-center rounded bg-primary-50 p">
+                  <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <Squares2X2Icon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">دسته بندی ها</h3>
                   <p>توضیحاتی از دسته بندی ها اینجا نوشته می شود</p>
                 </div>
                 <div className="flex flex-col items-start gap-y rounded-xl bg-alpha-white p-7">
-                  <div className="flex items-center justify-center rounded bg-primary-50 p">
+                  <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <BuildingStorefrontIcon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">فروشندگان</h3>
                   <p>توضیحاتی از دسته بندی ها اینجا نوشته می شود</p>
                 </div>
                 <div className="flex flex-col items-start gap-y rounded-xl bg-alpha-white p-7">
-                  <div className="flex items-center justify-center rounded bg-primary-50 p">
+                  <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <HomeModernIcon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">برندها</h3>
@@ -121,25 +117,25 @@ const AboutPage = async () => {
               </div>
               <div className="grid grid-cols-4 gap-7">
                 <div className="flex items-center justify-start gap-x rounded-xl bg-alpha-white p-7">
-                  <div className="flex items-center justify-center rounded bg-primary-50 p">
+                  <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <GlobeAltIcon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">وبسایت</h3>
                 </div>
                 <div className="flex items-center justify-start gap-x rounded-xl bg-alpha-white p-7">
-                  <div className="flex items-center justify-center rounded bg-primary-50 p">
+                  <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <EnvelopeIcon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">ایمیل</h3>
                 </div>
                 <div className="flex items-center justify-start gap-x rounded-xl bg-alpha-white p-7">
-                  <div className="flex items-center justify-center rounded bg-primary-50 p">
+                  <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <PhoneArrowDownLeftIcon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">تماس با وردست</h3>
                 </div>
                 <div className="flex items-center justify-start gap-x rounded-xl bg-alpha-white p-7">
-                  <div className="flex items-center justify-center rounded bg-primary-50 p">
+                  <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <MapIcon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">کالاها</h3>
@@ -149,9 +145,14 @@ const AboutPage = async () => {
           </>
         )}
       </div>
-      <div className="flex flex-col items-center gap-y-2 py-11">
-        <h2>محصولی از شرکت خلق ارزش مهستان</h2>
-        <p className="text-xs font-bold text-primary">(وردست)</p>
+      <div className="flex flex-col items-center gap-y-2 py md:py-11">
+        <p className="text-md font-semibold md:text-lg">
+          محصولی از شرکت خلق ارزش مهستان
+        </p>
+        <p className="text-md mx-auto">
+          <span className="text-alpha-500">نسخه</span>
+          <span className="px-2 text-primary">1.15.12</span>
+        </p>
       </div>
     </>
   )

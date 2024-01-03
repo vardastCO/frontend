@@ -64,7 +64,7 @@ export const TabTitleWithExtraData = ({
           ({digitsEnToFa(convertToPersianDate(createdDate))})
         </span>
       ) : (
-        <span className="text-xs">{"_"}</span>
+        <span className="text-xs">{"(-)"}</span>
       )}
     </div>
   )
@@ -177,7 +177,7 @@ const BrandOrSellerProfile = ({
             >
               <div
                 className={clsx(
-                  "mx-1 cursor-pointer rounded-full border-2 bg-alpha-white px-4 py-2.5 text-sm",
+                  "mx-1 cursor-pointer rounded-full border bg-alpha-white px-4 py-2.5 text-sm",
                   value === activeTab
                     ? "border-primary bg-primary text-alpha-white"
                     : "border-alpha-300"

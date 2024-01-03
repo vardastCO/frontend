@@ -28,7 +28,6 @@ import { getProductQueryFn } from "@core/queryFns/productQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import ProductAttributes from "@/app/(public)/(pages)/product/components/product-attributes"
 import ProductDescription from "@/app/(public)/(pages)/product/components/product-description"
-import ProductDetails from "@/app/(public)/(pages)/product/components/product-details"
 import ProductImages from "@/app/(public)/(pages)/product/components/product-images"
 import ProductOffers from "@/app/(public)/(pages)/product/components/product-offers"
 import ProductIntroduce from "@/app/(public)/(pages)/product/components/ProductIntroduce"
@@ -187,8 +186,10 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
         className="grid grid-cols-1 gap-1 lg:grid-cols-[5fr_7fr]"
         style={{
           paddingBottom:
-            document.getElementById("bottom-navigation-buy-box")
-              ?.clientHeight ?? 0
+            typeof window !== "undefined"
+              ? document?.getElementById("bottom-navigation-buy-box")
+                  ?.clientHeight
+              : 0
         }}
       >
         <div className="flex flex-col bg-alpha-white">
@@ -197,11 +198,13 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
               <ProductImages
                 isMobileView={isMobileView}
                 images={product.images as ProductImage[]}
+                session={session}
+                product={product as Product}
               />
             )}
           </div>
 
-          <ProductIntroduce session={session} product={product as Product} />
+          <ProductIntroduce product={product as Product} />
         </div>
 
         {groupedAttributes.filter((item) => !!item.isRequired).length > 0 && (
@@ -222,7 +225,11 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
         )}
 
         {product.attributeValues.length > 0 && (
-          <ProductDetails
+          // <ProductDetails
+          //   attributes={groupedAttributes as GroupedAttributes[]}
+          // />
+          <ProductAttributes
+            title="ویژگی‌ها"
             attributes={groupedAttributes as GroupedAttributes[]}
           />
         )}

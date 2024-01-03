@@ -28,7 +28,7 @@ const PrivacyPage = async () => {
       )}
       <div className="flex-1">
         <div
-          className="leading-10"
+          className="px leading-10 md:px-0"
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         ></div>
       </div>

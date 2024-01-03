@@ -141,7 +141,7 @@ const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
     >
       <TabsList className="w-full">
         <TabsTrigger
-          className={clsx("w-1/2 bg-alpha-white !pb-2 !pt-4 font-semibold ")}
+          className={clsx("w-1/2 bg-alpha-white !pb-3 !pt-5 font-semibold ")}
           value={EntityTypeEnum.Product}
         >
           <TabTitleWithExtraData
@@ -150,7 +150,7 @@ const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
           />
         </TabsTrigger>
         <TabsTrigger
-          className={clsx("w-1/2 bg-alpha-white !pb-2 !pt-4 font-semibold ")}
+          className={clsx("w-1/2 bg-alpha-white !pb-3 !pt-5 font-semibold ")}
           value={EntityTypeEnum.Seller}
         >
           <TabTitleWithExtraData
@@ -159,7 +159,7 @@ const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
           />
         </TabsTrigger>
         <TabsTrigger
-          className={clsx("w-1/2 bg-alpha-white !pb-2 !pt-4 font-semibold ")}
+          className={clsx("w-1/2 bg-alpha-white !pb-3 !pt-5 font-semibold ")}
           value={EntityTypeEnum.Brand}
         >
           <TabTitleWithExtraData

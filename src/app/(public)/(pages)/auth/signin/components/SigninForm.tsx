@@ -249,10 +249,10 @@ const SigninForm = (_: Props) => {
           <AlertDescription>{message}</AlertDescription>
         </Alert>
       )}
-      <div className="flex h-full flex-col justify-start gap-y-6 pt-[22vw] md:items-center md:pt">
+      <div className="flex h-full flex-col justify-start gap-y-6 px-3 pt-[22vw] md:items-center md:pt">
         {formState === LoginOptions.VERIFY_OTP ? (
           <>
-            <h2 className="font-semibold">لطفا کد تایید را وارد کنید.</h2>
+            <h3 className="font-semibold">لطفا کد تایید را وارد کنید.</h3>
             <p className="text-alpha-800">
               کد تایید برای شماره {digitsEnToFa(formStepOne.watch("cellphone"))}
               پیامک شد.
@@ -260,8 +260,8 @@ const SigninForm = (_: Props) => {
           </>
         ) : (
           <>
-            <h1 className="font-semibold">ورود | ثبت‌نام</h1>
-            <div className="flex flex-col gap-y">
+            <h3 className="font-semibold">ورود | ثبت‌نام</h3>
+            <div className="text-md flex flex-col gap-y-2">
               <p className="text-alpha-800">سلام!</p>
               <p className="text-alpha-800">
                 لطفا شماره موبایل خود را وارد کنید.
@@ -286,7 +286,7 @@ const SigninForm = (_: Props) => {
                       {/* <FormLabel>{t("common:username")}</FormLabel> */}
                       <FormControl>
                         <Input
-                          placeholder={t("common:username")}
+                          placeholder={t("common:cellphone")}
                           type="text"
                           {...field}
                         />
@@ -500,13 +500,13 @@ const SigninForm = (_: Props) => {
               </>
             )}
             {formState !== LoginOptions.VERIFY_OTP && (
-              <div>
-                ورود به معنای پذیرش
+              <div className="text-sm">
+                ورود شما به معنای پذیرش
                 <Link href="/privacy" className="text-primary underline">
                   {" "}
                   شرایط و قوانین وردست{" "}
                 </Link>
-                می‌باشد
+                می‌باشد.
               </div>
             )}
           </div>
