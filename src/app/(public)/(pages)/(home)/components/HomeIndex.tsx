@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
 import { Session } from "next-auth"
 
@@ -40,6 +40,7 @@ type HomeIndexProps = {
 }
 
 const HomeIndex = ({ isMobileView, session }: HomeIndexProps) => {
+  const [mount, setMount] = useState(false)
   const allProductsQuery = useQuery<GetAllProductsQuery>(
     [
       QUERY_FUNCTIONS_KEY.ALL_PRODUCTS_QUERY_KEY,
@@ -103,6 +104,10 @@ const HomeIndex = ({ isMobileView, session }: HomeIndexProps) => {
     }
   )
 
+  useEffect(() => {
+    setMount(true)
+  }, [])
+
   const homeProps: IHomeProps = useMemo(
     () => ({
       session,
@@ -126,10 +131,16 @@ const HomeIndex = ({ isMobileView, session }: HomeIndexProps) => {
 
   return (
     <>
-      {isMobileView ? (
-        <MobileHomeIndex {...homeProps} />
+      {mount ? (
+        <>
+          {isMobileView ? (
+            <MobileHomeIndex {...homeProps} />
+          ) : (
+            <DesktopHomeIndex {...homeProps} />
+          )}
+        </>
       ) : (
-        <DesktopHomeIndex {...homeProps} />
+        <></>
       )}
     </>
   )
