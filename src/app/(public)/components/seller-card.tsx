@@ -64,10 +64,10 @@ const SellerCard = ({ seller }: SellerCardProps) => {
             <p className="text-primary-500">
               {seller?.total ? `${digitsEnToFa(seller?.total)} محصول` : ""}
             </p>
-            <p className="flex items-center gap-x-2 text-alpha-600">
+            <div className="flex items-center gap-x-2 text-alpha-600">
               <MapPinIcon className="h-4 w-4 text-alpha-600" />
               {seller.addresses.length > 0 && seller.addresses[0].province.name}
-            </p>
+            </div>
             {seller.rating && seller?.rating > 0 ? (
               <Rating rating={seller.rating} />
             ) : (
