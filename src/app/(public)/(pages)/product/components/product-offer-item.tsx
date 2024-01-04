@@ -200,10 +200,10 @@ const ProductOfferItem = ({ hasContactButton, offer, uom }: Props) => {
               </Link>
               {offer?.seller?.addresses &&
                 offer?.seller?.addresses.length > 0 && (
-                  <div className="flex items-center gap-x-2 text-alpha-600">
+                  <p className="flex items-center gap-x-2 text-alpha-600">
                     <MapPinIcon className="h-4 w-4 text-alpha-600" />
                     {offer?.seller?.addresses[0].province.name}
-                  </div>
+                  </p>
                 )}
               <div className="flex justify-between gap-x">
                 <div>

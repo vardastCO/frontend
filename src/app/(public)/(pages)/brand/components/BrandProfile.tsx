@@ -197,47 +197,44 @@ const CategoriesTab = ({
             key={id}
             value={String(id)}
           >
-            <>
+            <div
+              ref={sliderRef}
+              className={clsx("h-full w-[20vw] flex-shrink-0 cursor-pointer")}
+            >
               <div
-                ref={sliderRef}
-                className={clsx("h-full w-[20vw] flex-shrink-0 cursor-pointer")}
+                className={clsx("flex h-full flex-col justify-start gap-y-4")}
               >
                 <div
-                  className={clsx("flex h-full flex-col justify-start gap-y-4")}
+                  style={{
+                    height: slideWidth
+                  }}
+                  className={clsx(
+                    "relative w-full overflow-hidden rounded-full border border-alpha-400 bg-alpha-50",
+                    id === +activeTab ? "border-2 border-primary" : ""
+                  )}
                 >
-                  <div
-                    style={{
-                      height: slideWidth
-                    }}
-                    className={clsx(
-                      "relative w-full overflow-hidden rounded-full border border-alpha-400 bg-alpha-50",
-                      id === +activeTab ? "border-2 border-primary" : ""
-                    )}
-                  >
-                    <Image
-                      src={
-                        (imageCategory &&
-                          (imageCategory[0]?.file.presignedUrl
-                            ?.url as string)) ??
-                        "" ??
-                        `/images/categories/${id}.png`
-                      }
-                      alt="category"
-                      fill
-                      className="rounded-xl object-contain"
-                    />
-                  </div>
-                  <h5
-                    className={clsx(
-                      "relative z-20 line-clamp-2 h-10 whitespace-pre-wrap bg-opacity-60 text-center text-sm font-semibold",
-                      id === +activeTab ? "text-primary" : ""
-                    )}
-                  >
-                    {title}
-                  </h5>
+                  <Image
+                    src={
+                      (imageCategory &&
+                        (imageCategory[0]?.file.presignedUrl?.url as string)) ??
+                      "" ??
+                      `/images/categories/${id}.png`
+                    }
+                    alt="category"
+                    fill
+                    className="rounded-xl object-contain"
+                  />
                 </div>
+                <h5
+                  className={clsx(
+                    "relative z-20 line-clamp-2 h-10 whitespace-pre-wrap bg-opacity-60 text-center text-sm font-semibold",
+                    id === +activeTab ? "text-primary" : ""
+                  )}
+                >
+                  {title}
+                </h5>
               </div>
-            </>
+            </div>
           </SegmentsListItem>
         ))}
       </SegmentsList>

@@ -35,10 +35,10 @@ const MobileHomeTopBlogs = ({
 
   return (
     <MobileHomeSection
-      viewAllHref="https://blog.vardast.com/"
+      viewAllHref={`https://blog.vardast.com/`}
       bgWhite
       title="جدیدترین اخبار و مطالب"
-      block={true}
+      block
     >
       <div className="overflow-hidden">
         <Swiper
@@ -86,13 +86,13 @@ const MobileHomeTopBlogs = ({
                   <h4 className="w-full truncate text-justify font-semibold">
                     {blog?.title}
                   </h4>
-                  <div className="w-full truncate text-justify text-sm">
+                  <p className="w-full truncate text-justify text-sm">
                     <div
                       dangerouslySetInnerHTML={{
                         __html: blog?.description || ""
                       }}
                     ></div>
-                  </div>
+                  </p>
                 </div>
               </Link>
             </SwiperSlide>

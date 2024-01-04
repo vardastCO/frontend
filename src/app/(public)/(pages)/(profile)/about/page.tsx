@@ -161,12 +161,12 @@ const AboutPage = async () => {
         <p className="text-md font-semibold md:text-lg">
           محصولی از شرکت خلق ارزش مهستان
         </p>
-        <div className="text-md mx-auto">
+        <p className="text-md mx-auto">
           <span className="text-alpha-500">نسخه</span>
           <span className="px-2 text-primary">
             {digitsEnToFa(1) + "." + digitsEnToFa(0) + "." + digitsEnToFa(1)}
           </span>
-        </div>
+        </p>
       </div>
     </>
   )
