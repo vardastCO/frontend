@@ -200,20 +200,20 @@ export const metadata: Metadata = {
     ]
   },
   manifest: "/manifest.json",
-  themeColor: myColors.primary[600],
   formatDetection: {
     email: false,
     address: false,
     telephone: false
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    viewportFit: "cover"
   }
 }
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: myColors.primary[600],
+  maximumScale: 1,
+  viewportFit: "cover"
+}
 export default function AdminLayout({
   children
 }: {

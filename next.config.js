@@ -14,9 +14,9 @@ const nextConfig = {
     return config
   },
   productionBrowserSourceMaps: true,
-  experimental: {
-    serverActions: true
-  },
+  // experimental: {
+  //   serverActions: true
+  // },
   images: {
     dangerouslyAllowSVG: true,
     domains: [
