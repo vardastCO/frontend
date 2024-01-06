@@ -48,7 +48,7 @@ const SellerCard = ({ seller }: SellerCardProps) => {
               />
             ) : (
               <Image
-                src={"/images/blank.png"}
+                src={"/images/seller-blank.png"}
                 alt={seller.name}
                 fill
                 sizes="(max-width: 640px) 33vw, 10vw"

@@ -98,7 +98,7 @@ const BrandOrSellerCard = forwardRef(
                 />
               ) : (
                 <Image
-                  src={"/images/blank.png"}
+                  src={"/images/seller-blank.png"}
                   alt={content.name}
                   fill
                   className="object-contain"
