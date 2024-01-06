@@ -2,6 +2,7 @@
 
 import { useEffect } from "react"
 import Image from "next/image"
+import Link from "next/link"
 
 import { Button } from "@core/components/ui/button"
 
@@ -24,9 +25,14 @@ export default function Error({
         <Image src={sadFace} alt="Something went wrong!" />
         <h1 className="mt-4 font-bold">ببخشید!</h1>
         <h2>خطایی هنگام درست کردن صفحه رخ داده...</h2>
-        <Button onClick={() => reset()} className="mt-8">
-          تلاش مجدد
-        </Button>
+        <div className="flex flex-col gap-y">
+          <Button onClick={() => reset()} className="mt-8">
+            تلاش مجدد
+          </Button>
+          <Link href="/" className="inline-block text-sm text-primary-500">
+            برگشت به خانه
+          </Link>
+        </div>
       </div>
     </div>
   )

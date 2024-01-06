@@ -8,7 +8,7 @@ import clsx from "clsx"
 import { Product } from "@/generated"
 
 import Link from "@core/components/shared/Link"
-import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/category/components/CategoryListLoader"
 import PriceTitle from "@/app/(public)/components/PriceTitle"
 import { ProductContainerType } from "@/app/(public)/components/ProductListContainer"
 import Rating from "@/app/(public)/components/Rating"

@@ -89,6 +89,8 @@ const SellersTab = ({
 }) => {
   if (!brandToSellerQuery.data) notFound()
 
+  console.log({ brandToSellerQuery })
+
   return (
     <BrandsOrSellersContainer>
       {({ selectedItemId, setSelectedItemId }) => (

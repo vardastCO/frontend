@@ -10,7 +10,7 @@ import { GetAllBlogsQuery } from "@/generated"
 
 import Link from "@core/components/shared/Link"
 import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
-import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/category/components/CategoryListLoader"
 
 const MobileHomeTopBlogs = ({
   slidesPerView,

@@ -223,13 +223,13 @@ const ProductOfferItem = ({ hasContactButton, offer, uom }: Props) => {
               </div>
               {offer.lastPublicConsumerPrice?.amount && uom.name && (
                 <div className="flex justify-between text-xs text-alpha-500">
-                  <span>
+                  <div>
                     {digitsEnToFa(
                       formatDistanceToNow(new Date(offer.createdAt).getTime(), {
                         addSuffix: true
                       })
                     )}
-                  </span>
+                  </div>
                   <span>هر {uom.name}</span>
                 </div>
               )}

@@ -7,7 +7,7 @@ import clsx from "clsx"
 
 import CardAvatar from "@core/components/shared/CardAvatar"
 import Link from "@core/components/shared/Link"
-import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/category/components/CategoryListLoader"
 
 export type SliderItemProps = {
   data: {

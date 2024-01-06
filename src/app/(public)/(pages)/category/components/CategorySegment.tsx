@@ -2,7 +2,7 @@
 
 import { Category } from "@/generated"
 
-import CategoryCircleItem from "@/app/(public)/(pages)/categories/components/CategoryCircleItem"
+import CategoryCircleItem from "@/app/(public)/(pages)/category/components/CategoryCircleItem"
 
 const CategorySegment = ({
   categories,

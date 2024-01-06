@@ -1,12 +1,13 @@
 "use client"
 
+import { notFound } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 
 import { GetCategoryQuery } from "@/generated"
 
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-import CategoriesList from "@/app/(public)/(pages)/categories/components/CategoriesList"
+import CategoriesList from "@/app/(public)/(pages)/category/components/CategoriesList"
 
 interface CategoriesListProps {
   categoryId: string
@@ -18,6 +19,10 @@ const CategoriesPage = ({ categoryId }: CategoriesListProps) => {
     queryFn: () => getCategoryQueryFn(+categoryId)
   })
 
+  if (!data) {
+    // return <NoProductFound />
+    return notFound()
+  }
   return (
     <CategoriesList
       data={data?.category.children}

@@ -4,11 +4,10 @@ import { useState } from "react"
 
 import { GetCategoryQuery } from "@/generated"
 
-import CategoryListContainer from "@/app/(public)/(pages)/categories/components/CategoryListContainer"
-import CategoryListItem from "@/app/(public)/(pages)/categories/components/CategoryListItem"
-import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
-import CategorySkeleton from "@/app/(public)/(pages)/categories/components/CategorySkeleton"
-import NoProductFound from "@/app/(public)/components/no-product-found"
+import CategoryListContainer from "@/app/(public)/(pages)/category/components/CategoryListContainer"
+import CategoryListItem from "@/app/(public)/(pages)/category/components/CategoryListItem"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/category/components/CategoryListLoader"
+import CategorySkeleton from "@/app/(public)/(pages)/category/components/CategorySkeleton"
 
 interface CategoriesListProps {
   isLoading: boolean
@@ -34,10 +33,6 @@ const CategoriesList = ({
     )
   }
 
-  if (!data) {
-    return <NoProductFound />
-  }
-
   return (
     <CategoryListContainer
       isSubcategory={isSubcategory}
@@ -53,7 +48,7 @@ const CategoriesList = ({
               }}
               href={
                 category.childrenCount > 0
-                  ? `/categories/${category.id}/${category.title}`
+                  ? `/category/${category.id}/${category.title}`
                   : `/products/${category.id}/${category.title}`
               }
               selectedItemId={selectedItemId}
@@ -67,7 +62,7 @@ const CategoriesList = ({
                   (category?.imageCategory[0]?.file.presignedUrl
                     ?.url as string)) ??
                 "" ??
-                `/images/categories/${category.id}.png`
+                `/images/category/${category.id}.png`
               }
             />
           )

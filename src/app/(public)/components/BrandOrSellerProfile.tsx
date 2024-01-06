@@ -104,7 +104,7 @@ const BrandOrSellerProfile = ({
     <div className="flex flex-col md:flex-row">
       <div className="flex flex-col justify-start md:w-1/3">
         <div className="flex flex-col gap-y bg-alpha-white px py-5">
-          <div className="flex grid grid-cols-9 items-center justify-center">
+          <div className="grid grid-cols-9 items-center justify-center">
             <div></div>
             <div className="col-span-7 flex justify-center py-5">
               <div className="relative w-[35vw] rounded-full border-2 border-alpha-400 p-0.5 shadow-lg">

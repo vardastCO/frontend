@@ -10,7 +10,10 @@ export async function GET(
   if (id) {
     try {
       const data = await getSellerQueryFn(+id)
-      return NextResponse.json(data, { status: 200 })
+      if (data.seller.name && data.seller.id) {
+        return NextResponse.json(data, { status: 200 })
+      }
+      return NextResponse.json({ message: "not found" }, { status: 404 })
     } catch {
       return NextResponse.json({ message: "not found" }, { status: 404 })
     }

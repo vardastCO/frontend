@@ -13,7 +13,7 @@ import MobileHomeNewestProducts from "@/app/(public)/(pages)/(home)/components/M
 import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
 import MobileHomeTopBlogs from "@/app/(public)/(pages)/(home)/components/MobileHomeTopBlogs"
 import MobileHomeTopEntities from "@/app/(public)/(pages)/(home)/components/MobileHomeTopEntities"
-import CategoryCircleItem from "@/app/(public)/(pages)/categories/components/CategoryCircleItem"
+import CategoryCircleItem from "@/app/(public)/(pages)/category/components/CategoryCircleItem"
 
 import logoHorizontal from "@/assets/desktop-home-top-banner.svg"
 
@@ -46,7 +46,7 @@ const DesktopHomeIndex = ({
         </div>
         <div className="border-t-2 border-alpha-100 bg-alpha-white">
           <div className="container mx-auto py-9">
-            <MobileHomeSection viewAllHref="/categories" title="دسته بندی‌ها">
+            <MobileHomeSection viewAllHref="/category" title="دسته بندی‌ها">
               <div className="grid grid-cols-7">
                 {(
                   getVocabularyQueryFcQuery.data?.vocabulary

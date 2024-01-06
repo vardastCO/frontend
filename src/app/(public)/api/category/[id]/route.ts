@@ -10,7 +10,11 @@ export async function GET(
   if (id) {
     try {
       const data = await getCategoryBasicsQueryFn(+id)
-      return NextResponse.json(data, { status: 200 })
+
+      if (data.category.id && data.category.title) {
+        return NextResponse.json(data, { status: 200 })
+      }
+      return NextResponse.json({ message: "not found" }, { status: 404 })
     } catch {
       return NextResponse.json({ message: "not found" }, { status: 404 })
     }

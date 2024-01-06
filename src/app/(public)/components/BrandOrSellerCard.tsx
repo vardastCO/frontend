@@ -6,7 +6,7 @@ import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { Brand, Seller } from "@/generated"
 
 import Link from "@core/components/shared/Link"
-import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/category/components/CategoryListLoader"
 import { RatingSkeleton } from "@/app/(public)/components/Rating"
 
 export const BrandOrSellerCardSkeleton = () => {

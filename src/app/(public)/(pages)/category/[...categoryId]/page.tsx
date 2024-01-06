@@ -6,7 +6,7 @@ import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import { getCategoryQueryFn } from "@core/queryFns/categoryQueryFns"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-import CategoriesPage from "@/app/(public)/(pages)/categories/components/CategoriesPage"
+import CategoriesPage from "@/app/(public)/(pages)/category/components/CategoriesPage"
 
 interface CategoryIdPageIndexProps {
   params: {
@@ -23,7 +23,12 @@ export async function generateMetadata(
 
     return {
       title: data.category.title,
-      description: data.category.description
+      description: data.category.description,
+      alternates: {
+        canonical: encodeURI(
+          `${process.env.NEXT_PUBLIC_URL}/category/${data.category.id}/${data.category.title}`
+        )
+      }
     }
   } catch (error) {
     console.log("generateMetadata category")

@@ -157,7 +157,7 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   },
   {
     forceEqual: true,
-    path: "/categories"
+    path: "/category"
   },
   {
     forceEqual: true,
@@ -214,7 +214,7 @@ export const _navbar_items: NavbarItem[] = [
     id: 0
   },
   {
-    href: "/categories/vocabularies",
+    href: "/categories",
     Icon: Squares2X2Icon,
     ActiveIcon: SolidSquares2X2Icon,
     title: "دسته‌بندی",

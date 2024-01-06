@@ -30,7 +30,7 @@ export async function generateMetadata(
     const data = await getProductQueryFn(id)
 
     return {
-      title: data.product.title || data.product.name,
+      title: data.product.name || data.product.title,
       description: data.product.metaDescription,
       alternates: {
         canonical: encodeURI(

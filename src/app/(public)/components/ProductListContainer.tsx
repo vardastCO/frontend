@@ -2,7 +2,7 @@
 import { ReactElement, useState } from "react"
 import clsx from "clsx"
 
-import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/category/components/CategoryListLoader"
 
 export enum ProductContainerType {
   PHOTO = "photo",

@@ -10,7 +10,7 @@ import { Swiper, SwiperRef, SwiperSlide } from "swiper/react"
 import { GetBannerHomePageQuery } from "@/generated"
 
 import Link from "@core/components/shared/Link"
-import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/category/components/CategoryListLoader"
 
 export const BulletSwiper = ({
   contentSize = 0,

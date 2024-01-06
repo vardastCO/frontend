@@ -29,13 +29,15 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
-  const searchPathRegexp = pathToRegexp("/products/:slug1/:slug2?")
-  const searchPathRegexpText = searchPathRegexp.exec(request.nextUrl.pathname)
-  if (searchPathRegexpText) {
-    const id = searchPathRegexpText[1]
-    const title = searchPathRegexpText[2]
+  const productsPathRegexp = pathToRegexp("/products/:slug1/:slug2?")
+  const productsPathRegexpText = productsPathRegexp.exec(
+    request.nextUrl.pathname
+  )
+  if (productsPathRegexpText) {
+    const id = productsPathRegexpText[1]
+    const title = productsPathRegexpText[2]
     const data = await fetch(
-      `http://${request.nextUrl.hostname}:${request.nextUrl.port}/api/categories/${id}`
+      `http://${request.nextUrl.hostname}:${request.nextUrl.port}/api/category/${id}`
     )
     if (data && data.status === 200) {
       const res = await data.json()
@@ -98,6 +100,32 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
+  const categoryPathRegexp = pathToRegexp("/category/:slug1/:slug2?")
+  const categoryPathRegexpText = categoryPathRegexp.exec(
+    request.nextUrl.pathname
+  )
+  if (categoryPathRegexpText) {
+    const id = categoryPathRegexpText[1]
+    const title = categoryPathRegexpText[2]
+    const data = await fetch(
+      `http://${request.nextUrl.hostname}:${request.nextUrl.port}/api/category/${id}`
+    )
+
+    if (data && data.status === 200) {
+      const res = await data.json()
+      if (!title || title !== encodeURI(res.category.title)) {
+        request.nextUrl.searchParams.delete("lang")
+        return NextResponse.redirect(
+          new URL(
+            `/category/${res.category.id}/${res.category.title}?${request.nextUrl.searchParams}`,
+            request.url
+          ),
+          301
+        )
+      }
+    }
+  }
+
   return NextResponse.rewrite(request.nextUrl.href)
 }
 
@@ -106,6 +134,7 @@ export const config = {
     "/product/:path*",
     "/products/:path*",
     "/brand/:path*",
+    "/category/:path*",
     "/seller/:path*"
   ]
 }

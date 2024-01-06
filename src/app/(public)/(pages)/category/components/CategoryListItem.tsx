@@ -3,7 +3,7 @@ import { addCommas, digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
 
 import Link from "@core/components/shared/Link"
-import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/category/components/CategoryListLoader"
 
 interface IVocabularyItem {
   title: string

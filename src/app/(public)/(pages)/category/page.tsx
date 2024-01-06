@@ -8,7 +8,7 @@ import withMobileHeader from "@core/middlewares/withMobileHeader"
 import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
 import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
 import { getVocabularyQueryFn } from "@core/queryFns/vocabularyQueryFns"
-import VocabulariesPage from "@/app/(public)/(pages)/categories/components/VocabulariesPage"
+import VocabulariesPage from "@/app/(public)/(pages)/category/components/VocabulariesPage"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {

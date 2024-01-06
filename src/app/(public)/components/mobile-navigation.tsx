@@ -62,7 +62,7 @@ const MobileNavigation = (_: Props) => {
     {
       forceEqual: false,
       dynamicRouteAllow: true,
-      path: "categories"
+      path: "category"
     },
     {
       forceEqual: false,

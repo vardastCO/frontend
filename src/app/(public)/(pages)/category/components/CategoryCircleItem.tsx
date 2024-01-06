@@ -6,7 +6,7 @@ import { Category } from "@/generated"
 
 import remToPixels from "@core/utils/remToPixel"
 import Link from "@core/components/shared/Link"
-import { ICategoryListLoader } from "@/app/(public)/(pages)/categories/components/CategoryListLoader"
+import { ICategoryListLoader } from "@/app/(public)/(pages)/category/components/CategoryListLoader"
 
 type Props = {
   width: number
@@ -22,7 +22,7 @@ export default function CategoryCircleItem({ width, data }: Props) {
       onClick={() => {
         setSelectedItemId(data.id)
       }}
-      href={`/categories/${data.id}/${data.title}`}
+      href={`/category/${data.id}/${data.title}`}
       className={clsx(
         "flex h-full flex-shrink-0 flex-col justify-start gap-y-4 pl-5"
       )}
