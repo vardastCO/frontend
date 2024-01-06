@@ -37,7 +37,6 @@ import MobileSortFilter from "@/app/(public)/components/mobile-sort-filter"
 import ProductCard, {
   ProductCardSkeleton
 } from "@/app/(public)/components/product-card"
-import ProductSort from "@/app/(public)/components/product-sort"
 import ProductListContainer, {
   ProductContainerType
 } from "@/app/(public)/components/ProductListContainer"
@@ -294,19 +293,19 @@ const ProductList = ({
     </div>
   )
 
-  const DesktopHeader = (
-    <div className="flex items-center py-1 md:py-3">
-      <ProductSort
-        sort={sort}
-        onSortChanged={(sort) => {
-          setSort(sort)
-          const params = new URLSearchParams(searchParams as any)
-          params.set("orderBy", `${sort}`)
-          push(pathname + "?" + params.toString())
-        }}
-      />
-    </div>
-  )
+  // const DesktopHeader = (
+  //   <div className="flex items-center py-1 md:py-3">
+  //     <ProductSort
+  //       sort={sort}
+  //       onSortChanged={(sort) => {
+  //         setSort(sort)
+  //         const params = new URLSearchParams(searchParams as any)
+  //         params.set("orderBy", `${sort}`)
+  //         push(pathname + "?" + params.toString())
+  //       }}
+  //     />
+  //   </div>
+  // )
 
   const MobileHeader = (
     <div className="sticky top-0 z-50 border-b bg-alpha-white p">
@@ -419,7 +418,8 @@ const ProductList = ({
     <DesktopMobileViewOrganizer
       isMobileView={isMobileView}
       DesktopSidebar={DesktopSidebar}
-      DesktopHeader={DesktopHeader}
+      // DesktopHeader={DesktopHeader}
+      DesktopHeader={<></>}
       MobileHeader={hasFilter ? MobileHeader : <></>}
       Content={Content}
     />
