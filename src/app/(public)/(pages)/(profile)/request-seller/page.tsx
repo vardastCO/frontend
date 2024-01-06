@@ -16,7 +16,11 @@ export async function generateMetadata(): Promise<Metadata> {
 const ProfileSellerPage = async () => {
   const session = await getServerSession(authOptions)
 
-  if (!session?.profile.roles.some((role) => role?.name === "user")) {
+  if (!session) {
+    redirect("/auth/signin")
+  }
+
+  if (session?.profile.roles.some((role) => role?.name === "seller")) {
     redirect("/")
   }
 

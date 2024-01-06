@@ -28,6 +28,7 @@ const CategoriesPage = ({ categoryId }: CategoriesListProps) => {
       data={data?.category.children}
       isLoading={isLoading}
       description={data?.category.description ?? undefined}
+      href={data?.category.url ?? undefined}
       isSubcategory
     />
   )

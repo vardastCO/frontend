@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
 import { Session } from "next-auth"
@@ -85,6 +86,7 @@ const NotFoundItemsHelp = ({ text = "کالا" }) => {
 const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
   const [type, setType] = useState<EntityTypeEnum>(EntityTypeEnum.Product)
   const [cacheFlag, setCacheFlag] = useState(false)
+  const router = useRouter()
 
   const productQuery = useQuery<GetUserFavoriteProductsQuery>({
     queryKey: [
@@ -129,6 +131,16 @@ const FavoritesPageIndex = ({ session }: { session: Session | null }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (!session) {
+      router.push("/auth/signin")
+    }
+
+    if (!session?.profile.roles.some((role) => role?.name === "seller")) {
+      router.push("/")
+    }
+  }, [router, session])
 
   return (
     <Tabs

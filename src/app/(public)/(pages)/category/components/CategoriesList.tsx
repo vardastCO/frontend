@@ -13,12 +13,14 @@ interface CategoriesListProps {
   isLoading: boolean
   isSubcategory?: boolean
   description?: string
+  href?: string
   data?: GetCategoryQuery["category"]["children"]
 }
 
 const CategoriesList = ({
   isLoading,
   description,
+  href,
   data,
   isSubcategory
 }: CategoriesListProps) => {
@@ -37,6 +39,7 @@ const CategoriesList = ({
     <CategoryListContainer
       isSubcategory={isSubcategory}
       description={description}
+      href={href}
     >
       {data?.map(
         (category) =>

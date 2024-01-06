@@ -6,11 +6,11 @@ query GetCategory($id: Int, $slug: String) {
     icon
     sort
     isActive
-
     childrenCount
     id
     productsCount
     description
+    url
     children {
       id
       title
@@ -19,7 +19,7 @@ query GetCategory($id: Int, $slug: String) {
       icon
       sort
       isActive
-
+      url
       description
       childrenCount
       productsCount
@@ -31,7 +31,7 @@ query GetCategory($id: Int, $slug: String) {
         icon
         sort
         isActive
-
+        url
         childrenCount
       }
       imageCategory {
@@ -53,7 +53,7 @@ query GetCategory($id: Int, $slug: String) {
       icon
       sort
       isActive
-
+      url
       childrenCount
     }
     parentsChain {
@@ -64,7 +64,7 @@ query GetCategory($id: Int, $slug: String) {
       icon
       sort
       isActive
-
+      url
       childrenCount
     }
   }

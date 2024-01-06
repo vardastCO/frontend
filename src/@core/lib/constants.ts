@@ -138,6 +138,10 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
   },
   {
     forceEqual: false,
+    path: "/request-seller"
+  },
+  {
+    forceEqual: false,
     path: "/profile"
   },
   {
@@ -238,7 +242,7 @@ export const _about_items = [
 
   // { Icon: LucideMail, href: "" },
 
-  { Icon: LucidePhoneIncoming, href: "tel:+9892187132500" }
+  { Icon: LucidePhoneIncoming, href: "tel:+9892187132501" }
 
   // { Icon: LucideMapPin, href: "" }
 ]

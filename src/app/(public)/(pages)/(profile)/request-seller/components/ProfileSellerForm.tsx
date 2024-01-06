@@ -54,11 +54,13 @@ const ProfileSellerForm = () => {
     onSuccess: () => {
       form.reset()
       toast({
-        description: "درخواست شما با موفقیت ثبت شد",
-        duration: 2000,
+        title: "درخواست شما با موفقیت ثبت شد",
+        description: "تیم پشتیبانی وردست به زودی با شما تماس خواهند گرفت.",
+        duration: 8000,
         variant: "success"
       })
-      router.back()
+      router.refresh()
+      router.replace("/")
     }
   })
 

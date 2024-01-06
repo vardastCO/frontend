@@ -102,7 +102,7 @@ const BrandOrSellerProfile = ({
   const isSellerQuery = () => type === EntityTypeEnum.Seller
 
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex h-full flex-col md:flex-row">
       <div className="flex flex-col justify-start md:w-1/3">
         <div className="flex flex-col gap-y bg-alpha-white px py-5">
           <div className="grid grid-cols-9 items-center justify-center">

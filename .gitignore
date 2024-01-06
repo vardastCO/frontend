@@ -44,3 +44,5 @@ public/workbox-*
 
 # Sentry Config File
 .sentryclirc
+
+.next_auth_secret

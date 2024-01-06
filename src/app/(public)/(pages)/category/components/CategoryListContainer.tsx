@@ -5,9 +5,13 @@ import React, { PropsWithChildren, useState } from "react"
 import Link from "@core/components/shared/Link"
 
 const CategoryListContainer: React.FC<
-  PropsWithChildren<{ isSubcategory?: boolean; description?: string }>
-> = ({ isSubcategory, description, children }) => {
-  const [more, setMore] = useState(false)
+  PropsWithChildren<{
+    isSubcategory?: boolean
+    description?: string
+    href?: string
+  }>
+> = ({ isSubcategory, description, href, children }) => {
+  const [more] = useState(false)
 
   return (
     <>
@@ -23,10 +27,10 @@ const CategoryListContainer: React.FC<
           </div>
           <Link
             className="text-left text-primary"
-            onClick={() => {
-              setMore(!more)
-            }}
-            href=""
+            // onClick={() => {
+            //   setMore(!more)
+            // }}
+            href={href || ""}
           >
             {more ? "کمتر" : "بیشتر"}
           </Link>

@@ -11,6 +11,7 @@ query GetAllBrands($indexBrandInput: IndexBrandInput) {
       name
       slug
       rating
+      total
       logoFile {
         id
         uuid
