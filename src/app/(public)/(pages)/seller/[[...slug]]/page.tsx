@@ -167,6 +167,7 @@ const SellerIndex = async ({
 }
 
 export default withMobileHeader(SellerIndex, {
+  hasLogo: true
   // hasFavorite: {}
   // hasShare: true
 })

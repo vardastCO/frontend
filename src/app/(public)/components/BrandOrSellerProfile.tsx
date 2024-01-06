@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { notFound } from "next/navigation"
+import { MapPinIcon } from "@heroicons/react/24/outline"
 import { CheckBadgeIcon } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import { UseQueryResult } from "@tanstack/react-query"
@@ -106,7 +107,7 @@ const BrandOrSellerProfile = ({
         <div className="flex flex-col gap-y bg-alpha-white px py-5">
           <div className="grid grid-cols-9 items-center justify-center">
             <div></div>
-            <div className="col-span-7 flex justify-center py-5">
+            <div className="col-span-7 flex flex-col items-center justify-center py-5">
               <div className="relative w-[35vw] rounded-full border-2 border-alpha-400 p-0.5 shadow-lg">
                 {isSellerQuery() && (data as SellerQuery).isBlueTik && (
                   <>
@@ -137,6 +138,18 @@ const BrandOrSellerProfile = ({
                     />
                   )}
                 </div>
+              </div>
+              <div className="flex flex-col items-center py">
+                <p>{data.name}</p>
+                <p className="flex h-4 items-center gap-x-1 py-1 text-xs text-alpha-600">
+                  {data?.addresses?.length > 0 &&
+                    data.addresses[0].city.name && (
+                      <>
+                        <MapPinIcon className="h-3 w-3 text-alpha-600" />
+                        {data.addresses[0].city.name}
+                      </>
+                    )}
+                </p>
               </div>
             </div>
             <div className="flex h-full flex-col justify-start">
