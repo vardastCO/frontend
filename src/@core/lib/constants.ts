@@ -17,9 +17,6 @@ import {
   // LucideHome,
   LucideIcon,
   LucideInfo,
-  // LucideLayoutGrid,
-  LucideMail,
-  LucideMapPin,
   LucideNewspaper,
   LucidePhone,
   LucidePhoneIncoming
@@ -237,13 +234,13 @@ export const _navbar_items: NavbarItem[] = [
 ]
 
 export const _about_items = [
-  { Icon: LucideGlobe, href: "" },
+  { Icon: LucideGlobe, href: "https://blog.vardast.com" },
 
-  { Icon: LucideMail, href: "" },
+  // { Icon: LucideMail, href: "" },
 
-  { Icon: LucidePhoneIncoming, href: "" },
+  { Icon: LucidePhoneIncoming, href: "tel:+9892187132500" }
 
-  { Icon: LucideMapPin, href: "" }
+  // { Icon: LucideMapPin, href: "" }
 ]
 
 export const _profile_items = [

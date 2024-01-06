@@ -65,7 +65,7 @@ const AboutPage = async () => {
           </p>
           {isMobileView && (
             <div className="mx-auto flex w-full flex-1 flex-col items-center justify-center gap-y-8">
-              <div className="grid w-full auto-cols-auto grid-cols-4 items-center">
+              <div className="grid w-full auto-cols-auto grid-cols-2 items-center">
                 {_about_items.map((props, index) => (
                   <IconProvider key={index} {...props} />
                 ))}
