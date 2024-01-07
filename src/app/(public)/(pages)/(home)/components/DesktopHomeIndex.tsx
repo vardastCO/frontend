@@ -9,6 +9,7 @@ import { Brand, Category, Seller } from "@/generated"
 import { Button } from "@core/components/ui/button"
 import useWindowSize from "@core/hooks/use-window-size"
 import { IHomeProps } from "@/app/(public)/(pages)/(home)/components/HomeIndex"
+import HomeTopSellers from "@/app/(public)/(pages)/(home)/components/HomeTopSellers"
 import MobileHomeNewestProducts from "@/app/(public)/(pages)/(home)/components/MobileHomeNewestProducts"
 import MobileHomeSection from "@/app/(public)/(pages)/(home)/components/MobileHomeSection"
 import MobileHomeTopBlogs from "@/app/(public)/(pages)/(home)/components/MobileHomeTopBlogs"
@@ -66,11 +67,16 @@ const DesktopHomeIndex = ({
         </div>
         <div className="border-t-2 border-alpha-100 bg-alpha-white py-9">
           <div className="container mx-auto ">
-            <MobileHomeTopEntities
+            {/* <MobileHomeTopEntities
               centeredSlides={false}
               slidesPerView={width > 1366 ? 4.4 : 3.4}
               width={width * (width > 1366 ? 0.18 : 0.22)}
               __typename="Seller"
+              title="جدیدترین فروشنده‌ها"
+              query={allSellersCount.data?.sellers.data.slice(0, 8) as Seller[]}
+            /> */}
+            <HomeTopSellers
+              isMobileView={false}
               title="جدیدترین فروشنده‌ها"
               query={allSellersCount.data?.sellers.data.slice(0, 8) as Seller[]}
             />

@@ -4,6 +4,7 @@ import { Brand, Category, Seller } from "@/generated"
 
 import useWindowSize from "@core/hooks/use-window-size"
 import { IHomeProps } from "@/app/(public)/(pages)/(home)/components/HomeIndex"
+import HomeTopSellers from "@/app/(public)/(pages)/(home)/components/HomeTopSellers"
 import MobileHomeCategory from "@/app/(public)/(pages)/(home)/components/MobileHomeCategory"
 import MobileHomeNewestProducts from "@/app/(public)/(pages)/(home)/components/MobileHomeNewestProducts"
 import MobileHomeSlider from "@/app/(public)/(pages)/(home)/components/MobileHomeSlider"
@@ -31,9 +32,13 @@ const MobileHomeIndex = ({
           ) as Category[]
         }
       />
-      <MobileHomeTopEntities
+      {/* <MobileHomeTopEntities
         width={width * 0.9}
         __typename="Seller"
+        title="جدیدترین فروشنده‌ها"
+        query={allSellersCount.data?.sellers.data.slice(0, 8) as Seller[]}
+      /> */}
+      <HomeTopSellers
         title="جدیدترین فروشنده‌ها"
         query={allSellersCount.data?.sellers.data.slice(0, 8) as Seller[]}
       />

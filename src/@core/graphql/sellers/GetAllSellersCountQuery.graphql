@@ -15,6 +15,21 @@ query GetAllSellersCount($indexSellerInput: IndexSellerInput) {
         }
       }
       name
+      brands {
+        id
+        logoFile {
+          id
+          presignedUrl {
+            url
+          }
+        }
+      }
+      addresses {
+        city {
+          id
+          name
+        }
+      }
       rating
       total
     }

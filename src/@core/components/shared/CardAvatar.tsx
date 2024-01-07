@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-const CardAvatar = ({ url = "", name = "" }: { url: string; name: string }) => {
+const CardAvatar = ({ url = "", name }: { url: string; name?: string }) => {
   return (
     <div className="flex items-center justify-start gap-x">
       <div className="relative h-14 w-14 overflow-hidden rounded-full border border-alpha-400">
@@ -11,7 +11,7 @@ const CardAvatar = ({ url = "", name = "" }: { url: string; name: string }) => {
           className="h-full w-full rounded-full object-fill"
         />
       </div>
-      <h5 className="text-right font-semibold">{name}</h5>
+      {name && <h5 className="text-right font-semibold">{name}</h5>}
     </div>
   )
 }
