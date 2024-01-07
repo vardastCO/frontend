@@ -108,7 +108,7 @@ const BrandOrSellerProfile = ({
           <div className="grid grid-cols-9 items-center justify-center">
             <div></div>
             <div className="col-span-7 flex flex-col items-center justify-center py-5">
-              <div className="relative w-[35vw] rounded-full border-2 border-alpha-400 p-0.5 shadow-lg">
+              <div className="relative w-[35vw] rounded-full border-2 border-alpha-400 p-0.5 shadow-lg md:h-full md:w-full">
                 {isSellerQuery() && (data as SellerQuery).isBlueTik && (
                   <>
                     <CheckBadgeIcon className="w-h-7 absolute right-1 top-0 z-20 h-7 -translate-y-1 translate-x-1 text-info" />
@@ -139,18 +139,18 @@ const BrandOrSellerProfile = ({
                   )}
                 </div>
               </div>
-              <div className="flex flex-col items-center py">
-                <p>{data.name}</p>
-                <p className="flex h-4 items-center gap-x-1 py-1 text-xs text-alpha-600">
+              {isSellerQuery() && (
+                <div className="flex flex-col items-center pt">
+                  <p>{data.name}</p>
                   {data?.addresses?.length > 0 &&
                     data.addresses[0].city.name && (
-                      <>
+                      <p className="flex h-4 items-center gap-x-1 py-1 text-xs text-alpha-600">
                         <MapPinIcon className="h-3 w-3 text-alpha-600" />
                         {data.addresses[0].city.name}
-                      </>
+                      </p>
                     )}
-                </p>
-              </div>
+                </div>
+              )}
             </div>
             <div className="flex h-full flex-col justify-start">
               <FavoriteIcon

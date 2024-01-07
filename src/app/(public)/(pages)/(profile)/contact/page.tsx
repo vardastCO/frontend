@@ -1,15 +1,17 @@
 import { Metadata } from "next"
 import { MapIcon, PhoneIcon } from "@heroicons/react/24/outline"
-import {
-  PhoneIcon as PhoneIconSolid,
-  QuestionMarkCircleIcon
-} from "@heroicons/react/24/solid"
+import { PhoneIcon as PhoneIconSolid } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
+import { dehydrate } from "@tanstack/react-query"
 import clsx from "clsx"
 
+import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
-import FilterBlock from "@/app/(public)/components/filter-block"
+import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
+import { getAllFaqQueryFns } from "@core/queryFns/getAllFaqQueryFns"
+import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
+import Faq from "@/app/(public)/(pages)/(profile)/contact/components/Faq"
 
 import ContactForm from "./components/ContactForm"
 
@@ -21,6 +23,14 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const ContactPage = async () => {
   const isMobileView = CheckIsMobileView()
+  const queryClient = getQueryClient()
+
+  await queryClient.prefetchQuery(
+    [QUERY_FUNCTIONS_KEY.GET_ALL_FAQ],
+    getAllFaqQueryFns
+  )
+
+  const dehydratedState = dehydrate(queryClient)
 
   return (
     <>
@@ -81,22 +91,11 @@ const ContactPage = async () => {
               </div>
             </div>
           </div>
-          <div className="mt-11 flex flex-col rounded-3xl bg-alpha-white p-11">
-            <div className="my-7 flex items-center gap-x-4 py">
-              <QuestionMarkCircleIcon className="h-10 w-10 text-primary" />
-              <h2 className="font-bold">پرسش های متداول</h2>
-            </div>
-
-            <div className="flex flex-col gap-y divide-y-0.5">
-              <FilterBlock title="سوال شماره ۱">fasdfasdfds</FilterBlock>
-              <FilterBlock title="سوال شماره ۱">fasdfasdfds</FilterBlock>
-              <FilterBlock title="سوال شماره ۱">fasdfasdfds</FilterBlock>
-              <FilterBlock title="سوال شماره ۱">fasdfasdfds</FilterBlock>
-              <FilterBlock title="سوال شماره ۱">fasdfasdfds</FilterBlock>
-            </div>
-          </div>
         </>
       )}
+      <ReactQueryHydrate state={dehydratedState}>
+        <Faq />
+      </ReactQueryHydrate>
     </>
   )
 }

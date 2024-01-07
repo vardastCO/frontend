@@ -238,11 +238,11 @@ export const _navbar_items: NavbarItem[] = [
 ]
 
 export const _about_items = [
-  { Icon: LucideGlobe, href: "https://blog.vardast.com" },
+  { Icon: LucideGlobe, href: "https://blog.vardast.com", title: "بلاگ" },
 
   // { Icon: LucideMail, href: "" },
 
-  { Icon: LucidePhoneIncoming, href: "tel:+9892187132501" }
+  { Icon: LucidePhoneIncoming, href: "tel:+9892187132501", title: "شماره تماس" }
 
   // { Icon: LucideMapPin, href: "" }
 ]

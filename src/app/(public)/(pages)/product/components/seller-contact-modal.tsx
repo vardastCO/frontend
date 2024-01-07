@@ -40,7 +40,7 @@ export const AddressItem = ({
           <Link
             href={`https://www.google.com/maps/search/?api=1&query=${address?.latitude},${address?.longitude}`}
             target="_blank"
-            className="text-left text-lg font-semibold text-info"
+            className="text-left text-lg font-semibold text-info underline"
             prefetch={false}
           >
             نمایش روی نقشه
@@ -112,7 +112,7 @@ const SellerContactModal = (_: SellerContactModalProps) => {
                     mobile.number
                   }`}
                   dir="ltr"
-                  className="font-semibold"
+                  className="font-semibold underline"
                 >
                   {mobile?.country?.phonePrefix &&
                     mobile?.code &&
@@ -134,7 +134,7 @@ const SellerContactModal = (_: SellerContactModalProps) => {
                 <Link
                   href={`tel:+98${tel.code ? +tel.code : ""}${tel.number}`}
                   dir="ltr"
-                  className="font-semibold"
+                  className="font-semibold underline"
                 >
                   {tel?.country?.phonePrefix &&
                     tel?.code &&

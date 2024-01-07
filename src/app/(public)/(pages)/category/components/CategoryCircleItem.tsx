@@ -24,7 +24,7 @@ export default function CategoryCircleItem({ width, data }: Props) {
       }}
       href={`/category/${data.id}/${data.title}`}
       className={clsx(
-        "flex h-full flex-shrink-0 flex-col justify-start gap-y-4 pl-5"
+        "flex h-full flex-shrink-0 flex-col justify-start gap-y-4 pl-5 md:mx-auto"
       )}
       style={{
         width

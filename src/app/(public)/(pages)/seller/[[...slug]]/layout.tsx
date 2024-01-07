@@ -1,12 +1,8 @@
-export default async function Layout({
-  children
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <div className="flex flex-col">{children}</div>
-    // <div className="flex h-full flex-col gap-y-8 bg-alpha-white pt">
-    //   {children}
-    // </div>
-  )
-}
+import { PropsWithChildren } from "react"
+
+import MobileBaseLayout from "@/app/(public)/components/MobileBaseLayout"
+
+const Layout: React.FC<PropsWithChildren> = ({ children }) => (
+  <MobileBaseLayout spaceLess>{children}</MobileBaseLayout>
+)
+export default Layout

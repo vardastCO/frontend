@@ -3,25 +3,20 @@ import Image from "next/image"
 import {
   BuildingStorefrontIcon,
   CubeIcon,
-  EnvelopeIcon,
-  GlobeAltIcon,
   GlobeAsiaAustraliaIcon,
   HomeModernIcon,
   InformationCircleIcon,
-  MapIcon,
-  PhoneArrowDownLeftIcon,
   QuestionMarkCircleIcon,
   Squares2X2Icon
 } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 
+import Link from "@core/components/shared/Link"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import { _about_items } from "@core/lib/constants"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
 
 import logo from "@/assets/logo-horizontal-v1-persian-light-bg.svg"
-
-import IconProvider from "./components/IconProvider"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -64,10 +59,20 @@ const AboutPage = async () => {
             زد.
           </p>
           {isMobileView && (
-            <div className="mx-auto flex w-full flex-1 flex-col items-center justify-center gap-y-8">
-              <div className="grid w-full auto-cols-auto grid-cols-2 items-center">
-                {_about_items.map((props, index) => (
-                  <IconProvider key={index} {...props} />
+            <div className="mx-auto flex w-full flex-1 flex-col items-center justify-center">
+              <div className="flex w-full flex-col items-start  gap-y-8">
+                {_about_items.map(({ Icon, href, title }, index) => (
+                  <Link
+                    href={href}
+                    key={index}
+                    className="flex items-center justify-start gap-x gap-y-7 rounded-xl bg-alpha-white"
+                  >
+                    <div className="flex items-center justify-center rounded bg-alpha-50 p">
+                      <Icon className="h-6 w-6 text-primary" />
+                      {/* <IconProvider key={index} {...props} /> */}
+                    </div>
+                    <h3 className="font-semibold">{title}</h3>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -128,13 +133,19 @@ const AboutPage = async () => {
                 <h2 className="font-bold">راه‌های ارتباط با وردست</h2>
               </div>
               <div className="grid grid-cols-4 gap-7">
-                <div className="flex items-center justify-start gap-x rounded-xl bg-alpha-white p-7">
-                  <div className="flex items-center justify-center rounded bg-alpha-50 p">
-                    <GlobeAltIcon className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="font-semibold">وبسایت</h3>
-                </div>
-                <div className="flex items-center justify-start gap-x rounded-xl bg-alpha-white p-7">
+                {_about_items.map(({ Icon, href, title }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="flex items-center justify-start gap-x rounded-xl bg-alpha-white p-7"
+                  >
+                    <div className="flex items-center justify-center rounded bg-alpha-50 p">
+                      <Icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <h3 className="font-semibold">{title}</h3>
+                  </Link>
+                ))}
+                {/* <div className="flex items-center justify-start gap-x rounded-xl bg-alpha-white p-7">
                   <div className="flex items-center justify-center rounded bg-alpha-50 p">
                     <EnvelopeIcon className="h-6 w-6 text-primary" />
                   </div>
@@ -151,7 +162,7 @@ const AboutPage = async () => {
                     <MapIcon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="font-semibold">نقشه</h3>
-                </div>
+                </div> */}
               </div>
             </div>
           </>
