@@ -128,7 +128,8 @@ const HomeTopSellers = ({ query, isMobileView = true, title }: Props) => {
                                 >
                                   <Image
                                     src={
-                                      brand?.logoFile?.presignedUrl.url ?? ""
+                                      brand?.logoFile?.presignedUrl.url ??
+                                      "/images/seller-blank.png"
                                     }
                                     alt="category"
                                     fill
