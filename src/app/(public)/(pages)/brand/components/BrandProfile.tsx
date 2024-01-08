@@ -89,8 +89,6 @@ const SellersTab = ({
 }) => {
   if (!brandToSellerQuery.data) notFound()
 
-  console.log({ brandToSellerQuery })
-
   return (
     <BrandsOrSellersContainer>
       {({ selectedItemId, setSelectedItemId }) => (
@@ -253,13 +251,13 @@ const CategoriesTab = ({
               <ProductCardSkeleton />
             </>
           ) : (
-            <InfiniteScrollPagination
-              CardLoader={() => <ProductCardSkeleton />}
-              infiniteQuery={allProductsQuery}
-            >
-              {(page, ref) => (
-                <ProductListContainer>
-                  {({ selectedItemId, setSelectedItemId }) => (
+            <ProductListContainer>
+              {({ selectedItemId, setSelectedItemId }) => (
+                <InfiniteScrollPagination
+                  CardLoader={() => <ProductCardSkeleton />}
+                  infiniteQuery={allProductsQuery}
+                >
+                  {(page, ref) => (
                     <>
                       {page.products.data.map((product, index) => (
                         <ProductCard
@@ -276,9 +274,9 @@ const CategoriesTab = ({
                       ))}
                     </>
                   )}
-                </ProductListContainer>
+                </InfiniteScrollPagination>
               )}
-            </InfiniteScrollPagination>
+            </ProductListContainer>
           )}
         </SegmentsContent>
       ))}
@@ -320,13 +318,13 @@ const ProductsTab = ({ productsProps }: { productsProps: BrandProfile }) => {
       <ProductCardSkeleton />
     </>
   ) : (
-    <InfiniteScrollPagination
-      CardLoader={() => <ProductCardSkeleton />}
-      infiniteQuery={allProductsQuery}
-    >
-      {(page, ref) => (
-        <ProductListContainer>
-          {({ selectedItemId, setSelectedItemId }) => (
+    <ProductListContainer>
+      {({ selectedItemId, setSelectedItemId }) => (
+        <InfiniteScrollPagination
+          CardLoader={() => <ProductCardSkeleton />}
+          infiniteQuery={allProductsQuery}
+        >
+          {(page, ref) => (
             <>
               {page.products.data.map((product, index) => (
                 <ProductCard
@@ -341,9 +339,9 @@ const ProductsTab = ({ productsProps }: { productsProps: BrandProfile }) => {
               ))}
             </>
           )}
-        </ProductListContainer>
+        </InfiniteScrollPagination>
       )}
-    </InfiniteScrollPagination>
+    </ProductListContainer>
   )
 }
 

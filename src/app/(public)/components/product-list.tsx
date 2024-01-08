@@ -387,13 +387,15 @@ const ProductList = ({
   )
 
   const Content = (
-    <InfiniteScrollPagination
-      CardLoader={() => <ProductCardSkeleton containerType={containerType} />}
-      infiniteQuery={allProductsQuery}
-    >
-      {(page, ref) => (
-        <ProductListContainer type={containerType}>
-          {({ selectedItemId, setSelectedItemId }) => (
+    <ProductListContainer type={containerType}>
+      {({ selectedItemId, setSelectedItemId }) => (
+        <InfiniteScrollPagination
+          CardLoader={() => (
+            <ProductCardSkeleton containerType={containerType} />
+          )}
+          infiniteQuery={allProductsQuery}
+        >
+          {(page, ref) => (
             <>
               {page.products.data.map((product, index) => (
                 <ProductCard
@@ -409,9 +411,9 @@ const ProductList = ({
               ))}
             </>
           )}
-        </ProductListContainer>
+        </InfiniteScrollPagination>
       )}
-    </InfiniteScrollPagination>
+    </ProductListContainer>
   )
 
   return (

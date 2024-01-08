@@ -108,13 +108,13 @@ const ProductsTab = ({ productsProps }: { productsProps: SellerProfile }) => {
       )}
     </div>
   ) : (
-    <InfiniteScrollPagination
-      CardLoader={() => <ProductCardSkeleton />}
-      infiniteQuery={allProductsQuery}
-    >
-      {(page, ref) => (
-        <ProductListContainer>
-          {({ selectedItemId, setSelectedItemId }) => (
+    <ProductListContainer>
+      {({ selectedItemId, setSelectedItemId }) => (
+        <InfiniteScrollPagination
+          CardLoader={() => <ProductCardSkeleton />}
+          infiniteQuery={allProductsQuery}
+        >
+          {(page, ref) => (
             <>
               {page.products.data.map((product, index) => (
                 <ProductCard
@@ -129,9 +129,9 @@ const ProductsTab = ({ productsProps }: { productsProps: SellerProfile }) => {
               ))}
             </>
           )}
-        </ProductListContainer>
+        </InfiniteScrollPagination>
       )}
-    </InfiniteScrollPagination>
+    </ProductListContainer>
   )
 }
 
@@ -261,13 +261,13 @@ const CategoriesTab = ({
               <ProductCardSkeleton />
             </>
           ) : (
-            <InfiniteScrollPagination
-              CardLoader={() => <ProductCardSkeleton />}
-              infiniteQuery={allProductsQuery}
-            >
-              {(page, ref) => (
-                <ProductListContainer>
-                  {({ selectedItemId, setSelectedItemId }) => (
+            <ProductListContainer>
+              {({ selectedItemId, setSelectedItemId }) => (
+                <InfiniteScrollPagination
+                  CardLoader={() => <ProductCardSkeleton />}
+                  infiniteQuery={allProductsQuery}
+                >
+                  {(page, ref) => (
                     <>
                       {page.products.data.map((product, index) => (
                         <ProductCard
@@ -284,9 +284,9 @@ const CategoriesTab = ({
                       ))}
                     </>
                   )}
-                </ProductListContainer>
+                </InfiniteScrollPagination>
               )}
-            </InfiniteScrollPagination>
+            </ProductListContainer>
           )}
         </SegmentsContent>
       ))}
@@ -415,13 +415,13 @@ const SellerProfile = ({
         className: "!bg-alpha-100 h-full",
         Content: () => {
           return (
-            <InfiniteScrollPagination
-              CardLoader={BrandOrSellerCardSkeleton}
-              infiniteQuery={brandsOfQuery}
-            >
-              {(page, ref) => (
-                <BrandsOrSellersContainer>
-                  {({ selectedItemId, setSelectedItemId }) => (
+            <BrandsOrSellersContainer>
+              {({ selectedItemId, setSelectedItemId }) => (
+                <InfiniteScrollPagination
+                  CardLoader={BrandOrSellerCardSkeleton}
+                  infiniteQuery={brandsOfQuery}
+                >
+                  {(page, ref) => (
                     <>
                       {page.brandsOfSeller.data.map(
                         (brandsOfSeller, index) =>
@@ -444,9 +444,9 @@ const SellerProfile = ({
                       )}
                     </>
                   )}
-                </BrandsOrSellersContainer>
+                </InfiniteScrollPagination>
               )}
-            </InfiniteScrollPagination>
+            </BrandsOrSellersContainer>
           )
         }
       }
