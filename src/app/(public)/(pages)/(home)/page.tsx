@@ -71,7 +71,6 @@ const Index = async () => {
   const dehydratedState = dehydrate(queryClient)
   return (
     <ReactQueryHydrate state={dehydratedState}>
-      <h1 className="hidden">{process.env.NEXT_PUBLIC_SLOGAN}</h1>
       <HomeIndex isMobileView={isMobileView} session={session} />
     </ReactQueryHydrate>
   )

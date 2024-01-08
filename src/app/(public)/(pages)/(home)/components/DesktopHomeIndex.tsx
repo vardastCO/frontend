@@ -111,7 +111,10 @@ const DesktopHomeIndex = ({
         </div>
         <div className="border-t-2 border-alpha-100">
           <div className="container relative mx-auto py-9">
-            <h2 className="py-7 font-semibold">دسته بندی‌های اصلی وردست</h2>
+            <div className="flex items-center gap-x-1 font-semibold">
+              <p className="text-2xl">دسته بندی‌های اصلی</p>
+              <h1 className="text-2xl text-primary">وردست</h1>
+            </div>
             <div className={clsx("gap-y-6", !blogFlag && "line-clamp-6")}>
               {getVocabularyQueryFcQuery.data?.vocabulary.categories.map(
                 (category) => (

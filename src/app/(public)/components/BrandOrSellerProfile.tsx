@@ -139,7 +139,7 @@ const BrandOrSellerProfile = ({
                   )}
                 </div>
               </div>
-              {isSellerQuery() && (
+              {(!isMobileView || isSellerQuery()) && (
                 <div className="flex flex-col items-center pt">
                   <p>{data.name}</p>
                   {data?.addresses?.length > 0 &&
