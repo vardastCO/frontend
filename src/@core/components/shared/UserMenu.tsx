@@ -59,7 +59,7 @@ const UserMenu = () => {
                   </>
                 </Button> */}
                 <Button
-                  onClick={() => signOut()}
+                  onClick={() => signOut({ callbackUrl: "/" })}
                   variant="ghost"
                   className="justify-start text-start"
                 >

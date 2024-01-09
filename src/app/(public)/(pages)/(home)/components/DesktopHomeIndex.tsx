@@ -96,8 +96,14 @@ const DesktopHomeIndex = ({
           </div>
         </div>
         <div className="border-t-2 border-alpha-100 bg-alpha-white">
-          <div className="container mx-auto py-9">
+          <div className="container mx-auto rounded-xl py-9">
             <MobileHomeNewestProducts allProductsQuery={allProductsQuery} />
+            {/* <SameCategories
+              hasExtraItem={{
+                title: "جدیدترین کالاها"
+              }}
+              products={allProductsQuery.data?.products.data as Product[]}
+            /> */}
           </div>
         </div>
         <div className="border-t-2 border-alpha-100 bg-alpha-white">

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
 import clsx from "clsx"
@@ -48,9 +48,8 @@ type Props = { isMobileView: boolean }
 
 const SigninForm = (_: Props) => {
   const { t } = useTranslation()
-  // const session = useSession()
   const router = useRouter()
-  // const searchParams = useSearchParams()
+  const searchParams = useSearchParams()
   const [formState, setFormState] = useState<LoginOptions>(LoginOptions.OTP)
   const [validationKey, setValidationKey] = useState<string>("")
   const [errors, setErrors] = useState<ClientError | null>()
@@ -113,7 +112,6 @@ const SigninForm = (_: Props) => {
             setLoginErrors(null)
             setMessage(message as string)
             session.update()
-            // router.push("/")
             router.back()
           }
         })
@@ -197,7 +195,6 @@ const SigninForm = (_: Props) => {
         setLoginErrors(null)
         setMessage(message as string)
         session.update()
-        // router.push("/")
         router.back()
       }
     })
@@ -205,22 +202,16 @@ const SigninForm = (_: Props) => {
 
   // useEffect(() => {
   //   if (session?.status === "authenticated") {
-  //     redirect(searchParams.get("callbackUrl") || "/")
+  //     if (!!searchParams.get("callbackUrl")) {
+  //       redirect(searchParams.get("callbackUrl") as string)
+  //     } else {
+  //       router.back()
+  //     }
   //   }
-  // }, [searchParams, session?.status])
+  // }, [router, searchParams, session?.status])
 
   return (
     <>
-      {/* <Link href="/"> */}
-      {/* {isMobileView && (
-        <Image
-          src={logoType}
-          alt={process.env.NEXT_PUBLIC_TITLE as string}
-          className="mx-auto w-3/5 py-20"
-        />
-      )} */}
-      {/* </Link> */}
-
       {errors && (
         <Alert variant="danger">
           <LucideAlertOctagon />
@@ -249,6 +240,7 @@ const SigninForm = (_: Props) => {
           <AlertDescription>{message}</AlertDescription>
         </Alert>
       )}
+
       <div className="flex h-full flex-col justify-start gap-y-6 px-3 pt-[22vw] md:items-center md:pt">
         {formState === LoginOptions.VERIFY_OTP ? (
           <>
@@ -269,6 +261,7 @@ const SigninForm = (_: Props) => {
             </div>
           </>
         )}
+
         <div className="flex min-h-[calc(100vw/4)] flex-col justify-center md:mx-auto md:w-1/4">
           {formState === LoginOptions.PASSWORD && (
             <Form {...form}>
@@ -283,7 +276,6 @@ const SigninForm = (_: Props) => {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      {/* <FormLabel>{t("common:username")}</FormLabel> */}
                       <FormControl>
                         <Input
                           placeholder={t("common:cellphone")}
@@ -300,7 +292,6 @@ const SigninForm = (_: Props) => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      {/* <FormLabel>{t("common:password")}</FormLabel> */}
                       <FormControl>
                         <Input
                           placeholder={t("common:password")}
@@ -329,7 +320,6 @@ const SigninForm = (_: Props) => {
                   name="cellphone"
                   render={({ field }) => (
                     <FormItem>
-                      {/* <FormLabel>{t("common:cellphone")}</FormLabel> */}
                       <FormControl>
                         <Input
                           type="tel"
@@ -360,7 +350,6 @@ const SigninForm = (_: Props) => {
                   name="otp"
                   render={({ field }) => (
                     <FormItem>
-                      {/* <FormLabel>{t("common:otp")}</FormLabel> */}
                       <FormControl>
                         <Input
                           type="tel"
@@ -402,6 +391,7 @@ const SigninForm = (_: Props) => {
               </form>
             </Form>
           )}
+
           <div className="flex flex-col gap-y">
             {formState !== LoginOptions.VERIFY_OTP && (
               <div className="flex flex-col justify-center gap-y-7 py-7">
@@ -455,6 +445,7 @@ const SigninForm = (_: Props) => {
                 دریافت رمز یکبار مصرف
               </Button>
             )}
+
             {formState === LoginOptions.VERIFY_OTP && (
               <>
                 <Button
@@ -471,14 +462,6 @@ const SigninForm = (_: Props) => {
                 >
                   ارسال مجدد رمز یکبار مصرف
                 </Button>
-
-                {/* <Link
-                  type="button"
-                  className="btn btn-secondary btn-md"
-                  href={"/profile"}
-                >
-                  {t("common:back")}
-                </Link> */}
                 <Button
                   type="submit"
                   form="verify-otp-form"

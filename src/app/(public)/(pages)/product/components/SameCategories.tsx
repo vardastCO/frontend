@@ -1,23 +1,14 @@
 "use client"
 
-import { Product } from "@/generated"
+import ProductSlider, {
+  ProductSliderProps
+} from "@/app/(public)/components/ProductSlider"
 
-import ProductSlider from "@/app/(public)/components/ProductSlider"
-
-type SameCategoriesProps = {
-  products: Array<Product>
-}
-
-const SameCategories = ({ products }: SameCategoriesProps) => {
+const SameCategories = ({ products, hasExtraItem }: ProductSliderProps) => {
   return (
     // <ProductSectionContainer spaceless title="کالاهای مشابه">
     <div className="bg-secondary py-6">
-      <ProductSlider
-        hasExtraItem={{
-          title: "کالاهای مشابه"
-        }}
-        products={products}
-      />
+      <ProductSlider hasExtraItem={hasExtraItem} products={products} />
     </div>
     // </ProductSectionContainer>
   )

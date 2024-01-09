@@ -8,7 +8,8 @@ import {
   ArrowRightOnRectangleIcon,
   InformationCircleIcon,
   NewspaperIcon,
-  PhoneIcon as PhoneIconOutline
+  PhoneIcon as PhoneIconOutline,
+  QuestionMarkCircleIcon
 } from "@heroicons/react/24/outline"
 import { UserCircleIcon } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
@@ -120,6 +121,14 @@ const _small_icons: BigSmallIconProps[] = [
     text: "تماس با ما",
     href: "/contact",
     Icon: PhoneIconOutline,
+    color: ColorEnum.ALPHA,
+    status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA
+  },
+  {
+    id: 5,
+    text: "سوالات متداول",
+    href: "/faq",
+    Icon: QuestionMarkCircleIcon,
     color: ColorEnum.ALPHA,
     status: ProfileIconVariantStatusEnum.ACTIVE_ALPHA
   }

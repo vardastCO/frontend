@@ -237,7 +237,10 @@ const ProductPage = ({ id, isMobileView }: ProductPageProps) => {
           <ProductDescription description={product.description} />
         )}
         {isMobileView && product.sameCategory.length > 0 && (
-          <SameCategories products={product.sameCategory as Product[]} />
+          <SameCategories
+            hasExtraItem={{ title: "کالاهای مشابه" }}
+            products={product.sameCategory as Product[]}
+          />
         )}
       </div>
       {product.lowestPrice && (

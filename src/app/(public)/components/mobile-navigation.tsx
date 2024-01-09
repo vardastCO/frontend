@@ -90,6 +90,11 @@ const MobileNavigation = (_: Props) => {
       path: "sellers"
     },
     {
+      forceEqual: true,
+      dynamicRouteAllow: true,
+      path: "faq"
+    },
+    {
       forceEqual: false,
       dynamicRouteAllow: true,
       path: "brand"

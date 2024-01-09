@@ -63,7 +63,7 @@ const HomeTopSellers = ({ query, isMobileView = true, title }: Props) => {
                     >
                       <div
                         className={clsx(
-                          "relative flex h-full flex-col justify-between rounded-2xl border-2 bg-alpha-white shadow-lg",
+                          "relative flex h-full flex-col justify-start rounded-2xl border bg-alpha-white shadow-lg",
                           selectedItemId === id
                             ? "border-2 border-primary"
                             : "border-alpha-200"
@@ -88,7 +88,7 @@ const HomeTopSellers = ({ query, isMobileView = true, title }: Props) => {
                               src={logoFile?.presignedUrl.url ?? ""}
                               alt="category"
                               fill
-                              className="h-full w-full object-fill"
+                              className="h-full w-full object-contain"
                             />
                           </div>
                         </div>
@@ -97,15 +97,15 @@ const HomeTopSellers = ({ query, isMobileView = true, title }: Props) => {
                           style={{
                             paddingTop: slideWidth / 4
                           }}
-                          className="mt-6 flex flex-col items-center gap-y-2"
+                          className="mt-6 flex flex-col items-center gap-y-2 pb-6"
                         >
-                          <p className="text-center">{name}</p>
-                          {addresses?.length > 0 && addresses[0].city.name && (
-                            <p className="flex h-4 items-center gap-x-1 py-1 text-xs text-alpha-600">
-                              <MapPinIcon className="h-3 w-3 text-alpha-600" />
-                              {addresses[0].city.name}
-                            </p>
-                          )}
+                          <p className="text-center">{name || ""}</p>
+                          <p className="flex h-4 items-center gap-x-1 py-1 text-xs text-alpha-600">
+                            <MapPinIcon className="h-3 w-3 text-alpha-600" />
+                            {(addresses?.length > 0 &&
+                              addresses[0].city.name) ||
+                              "-"}
+                          </p>
                         </div>
                         <div className="p pt-0">
                           <p className="border-t py pt-6">فروشنده برندهای:</p>
@@ -117,7 +117,7 @@ const HomeTopSellers = ({ query, isMobileView = true, title }: Props) => {
                             {brands.slice(0, 3).map((brand) => (
                               <div
                                 key={brand?.id}
-                                className="relative z-20 flex flex-col items-center justify-between bg-alpha-50 bg-opacity-60 text-center font-semibold"
+                                className="relative z-20 flex flex-col items-center justify-between bg-opacity-60 text-center font-semibold"
                               >
                                 <div
                                   style={{

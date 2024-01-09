@@ -94,7 +94,10 @@ const FrontPageHeader = ({ session }: Props) => {
           )
         )}
         {session?.user && (
-          <Button variant={"danger"} onClick={() => signOut()}>
+          <Button
+            variant={"danger"}
+            onClick={() => signOut({ callbackUrl: "/" })}
+          >
             خروج
           </Button>
         )}

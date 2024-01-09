@@ -60,18 +60,18 @@ const AboutPage = async () => {
           </p>
           {isMobileView && (
             <div className="mx-auto flex w-full flex-1 flex-col items-center justify-center">
-              <div className="flex w-full flex-col items-start  gap-y-8">
-                {_about_items.map(({ Icon, href, title }, index) => (
+              <div className="flex w-full items-center justify-center gap-x-11 gap-y-8">
+                {_about_items.map(({ Icon, href }, index) => (
                   <Link
                     href={href}
                     key={index}
-                    className="flex items-center justify-start gap-x gap-y-7 rounded-xl bg-alpha-white"
+                    className="flex flex-col items-center justify-start gap-x gap-y-7 rounded-xl bg-alpha-white"
                   >
                     <div className="flex items-center justify-center rounded bg-alpha-50 p">
                       <Icon className="h-6 w-6 text-primary" />
                       {/* <IconProvider key={index} {...props} /> */}
                     </div>
-                    <h3 className="font-semibold">{title}</h3>
+                    {/* <h3 className="font-semibold">{title}</h3> */}
                   </Link>
                 ))}
               </div>

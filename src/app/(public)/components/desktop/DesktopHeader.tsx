@@ -77,20 +77,20 @@ const DesktopHeader = ({ session }: DesktopHeaderProps) => {
           <Search isMobileView={false} />
         </div>
         <div className="col-span-3 flex h-full justify-end">
-          {!!session ? (
+          {!!session?.profile ? (
             <div className="flex flex-col gap-y bg-alpha-white px-6">
               <div className="flex items-center gap-x-4">
                 <div className="flex flex-1 items-center gap-x-2">
                   <UserCircleIcon className="h-12 w-12 text-primary" />
                   <div className="flex flex-col gap-y-1">
                     <h4 className="font-semibold">
-                      {session?.profile.fullName
-                        ? session?.profile.fullName
+                      {session?.profile?.fullName
+                        ? session?.profile?.fullName
                         : "نام کاربری"}
                     </h4>
                     <p className="text-sm font-semibold text-alpha-400">
-                      {session?.profile.cellphone
-                        ? digitsEnToFa(session?.profile.cellphone)
+                      {session?.profile?.cellphone
+                        ? digitsEnToFa(session?.profile?.cellphone)
                         : digitsEnToFa("09123456789")}
                     </p>
                   </div>

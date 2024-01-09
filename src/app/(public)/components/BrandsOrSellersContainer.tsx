@@ -16,7 +16,11 @@ const BrandsOrSellersContainer: React.FC<IBrandsOrSellersContainer> = ({
   const [selectedItemId, setSelectedItemId] =
     useState<ICategoryListLoader>(null)
   return (
-    <div className={clsx("grid grid-cols-3 gap p pb-5 xl:grid-cols-5")}>
+    <div
+      className={clsx(
+        "grid grid-cols-3 gap p pb-5 md:grid-cols-4 lg:grid-cols-5"
+      )}
+    >
       {children({ selectedItemId, setSelectedItemId })}
     </div>
   )

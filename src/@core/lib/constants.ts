@@ -157,6 +157,10 @@ export const _withNavigationRoutes: WithNavigationRouteItem[] = [
     path: "/about"
   },
   {
+    forceEqual: false,
+    path: "/faq"
+  },
+  {
     forceEqual: true,
     path: "/category"
   },

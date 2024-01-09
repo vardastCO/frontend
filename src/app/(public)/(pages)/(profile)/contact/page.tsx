@@ -2,16 +2,10 @@ import { Metadata } from "next"
 import { MapIcon, PhoneIcon } from "@heroicons/react/24/outline"
 import { PhoneIcon as PhoneIconSolid } from "@heroicons/react/24/solid"
 import { digitsEnToFa } from "@persian-tools/persian-tools"
-import { dehydrate } from "@tanstack/react-query"
 import clsx from "clsx"
 
-import getQueryClient from "@core/clients/getQueryClient"
 import { CheckIsMobileView } from "@core/actions/checkIsMobileView"
 import withMobileHeader from "@core/middlewares/withMobileHeader"
-import { ReactQueryHydrate } from "@core/providers/ReactQueryHydrate"
-import { getAllFaqQueryFns } from "@core/queryFns/getAllFaqQueryFns"
-import QUERY_FUNCTIONS_KEY from "@core/queryFns/queryFunctionsKey"
-import Faq from "@/app/(public)/(pages)/(profile)/contact/components/Faq"
 
 import ContactForm from "./components/ContactForm"
 
@@ -23,14 +17,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const ContactPage = async () => {
   const isMobileView = CheckIsMobileView()
-  const queryClient = getQueryClient()
-
-  await queryClient.prefetchQuery(
-    [QUERY_FUNCTIONS_KEY.GET_ALL_FAQ],
-    getAllFaqQueryFns
-  )
-
-  const dehydratedState = dehydrate(queryClient)
 
   return (
     <>
@@ -93,9 +79,6 @@ const ContactPage = async () => {
           </div>
         </>
       )}
-      <ReactQueryHydrate state={dehydratedState}>
-        <Faq />
-      </ReactQueryHydrate>
     </>
   )
 }

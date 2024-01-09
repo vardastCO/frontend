@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { redirect } from "next/navigation"
 import { LucideInfo } from "lucide-react"
 import { getServerSession } from "next-auth"
 
@@ -16,14 +15,6 @@ export const metadata: Metadata = {
 
 const AdminIndex = async () => {
   const session = await getServerSession(authOptions)
-
-  if (
-    !session?.profile.roles.some(
-      (role) => role?.name === "admin" || role?.name === "seller"
-    )
-  ) {
-    redirect("/")
-  }
 
   return (
     <div>

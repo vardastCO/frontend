@@ -13,6 +13,8 @@ import {
   RefreshUserMutationDocument
 } from "@/generated"
 
+import AuthLogger from "@core/lib/auth-logger"
+
 async function refreshAccessToken(tokenObject: any) {
   try {
     // Get a new set of tokens with a refreshToken
@@ -59,6 +61,7 @@ export const authOptions: AuthOptions = {
     signIn: "/auth/signin",
     signOut: "/"
   },
+  logger: AuthLogger(),
   providers: [
     CredentialsProvider({
       name: "Otp",
@@ -72,25 +75,27 @@ export const authOptions: AuthOptions = {
       },
       // @ts-ignore
       authorize: async (credentials, request) => {
-        const { signInType, username, password, cellphone, validationKey } =
-          credentials as {
-            cellphone: string
-            validationKey: string
-            username: string
-            password: string
-            signInType: string
-          }
-
-        const client = new GraphQLClient(
-          process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
-          {
-            headers: {
-              "user-agent": request.headers ? request.headers["user-agent"] : ""
-            }
-          }
-        )
-
         try {
+          const { signInType, username, password, cellphone, validationKey } =
+            credentials as {
+              cellphone: string
+              validationKey: string
+              username: string
+              password: string
+              signInType: string
+            }
+
+          const client = new GraphQLClient(
+            process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
+            {
+              headers: {
+                "user-agent": request.headers
+                  ? request.headers["user-agent"]
+                  : ""
+              }
+            }
+          )
+
           if (signInType === "otp") {
             const data: LoginWithOtpMutation = await client.request(
               LoginWithOtpDocument,
@@ -102,7 +107,7 @@ export const authOptions: AuthOptions = {
               }
             )
             if (!data) {
-              return false
+              throw new Error("Authorization failed")
             }
 
             return {
@@ -126,7 +131,7 @@ export const authOptions: AuthOptions = {
             )
 
             if (!data) {
-              return false
+              throw new Error("Authorization failed")
             }
 
             return {
@@ -139,14 +144,16 @@ export const authOptions: AuthOptions = {
             }
           }
         } catch (error) {
-          // @ts-ignore
-          if (error?.response) {
-            throw new Error(
-              // @ts-ignore
-              error?.response?.errors[0]?.extensions?.displayMessage
-            )
-          }
-          throw new Error("خطای ورود")
+          console.error("Error in authorize function:", error)
+          return Promise.resolve(null)
+        }
+        return credentials
+      },
+      async signOut({ callbackUrl }: { callbackUrl: string }) {
+        // Your sign-out logic here
+        // Redirect the user to the specified callbackUrl after signing out
+        return {
+          url: callbackUrl || "/" // Default to the root path if callbackUrl is not provided
         }
       }
     })
@@ -175,20 +182,21 @@ export const authOptions: AuthOptions = {
 
         return Promise.resolve(token)
       } catch (error) {
-        throw new Error("خطای ورود غیر مجاز")
+        console.error("Error in jwt callback:", error)
       }
+      return token
     },
     session: async ({ session, token }) => {
-      const userClient = new GraphQLClient(
-        process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
-        {
-          headers: {
-            authorization: `Bearer ${token.accessToken}`
-          }
-        }
-      )
-
       try {
+        const userClient = new GraphQLClient(
+          process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT || "",
+          {
+            headers: {
+              authorization: `Bearer ${token.accessToken}`
+            }
+          }
+        )
+
         const userInfo: GetWhoAmIQuery =
           await userClient.request(GetWhoAmIDocument)
         session.accessToken = token.accessToken as string
@@ -200,14 +208,14 @@ export const authOptions: AuthOptions = {
         session.error = token.error as string
         return session
       } catch (error) {
-        console.log(
-          "====================================ddddddddddddddddddddddddddddd"
-        )
-        console.log(error)
-
-        // @ts-ignore
-        throw new Error(error.response.errors[0].extensions.displayMessage)
+        console.error("Error in session callback:", error)
       }
+      return session
+    },
+    // @ts-ignore
+    onError: async (error, _, __) => {
+      console.error("NextAuth.js error:", error)
+      return false
     }
   }
 }

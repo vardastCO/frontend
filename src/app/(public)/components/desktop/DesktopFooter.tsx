@@ -45,6 +45,7 @@ export default function DesktopFooter({}: Props) {
               <Link href="/contact">تماس با وردست</Link>
               <Link href="/about">درباره وردست</Link>
               <Link href="/privacy">قوانین و مقررات</Link>
+              <Link href="/faq">سوالات متداول</Link>
             </div>
             {/* <div className="flex flex-col gap-y-2.5">
               <h3 className="pb">جدیدترین مطالب</h3>

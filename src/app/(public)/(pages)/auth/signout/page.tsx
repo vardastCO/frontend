@@ -7,7 +7,7 @@ import Loading from "@core/components/shared/Loading"
 
 export default function SignOutPage() {
   useEffect(() => {
-    signOut({ callbackUrl: "/auth/signin", redirect: true })
+    signOut({ callbackUrl: "/" })
   }, [])
 
   return (

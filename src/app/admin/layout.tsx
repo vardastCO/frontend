@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
+import { signOut } from "next-auth/react"
 
 import { authOptions } from "@core/lib/authOptions"
 // import { signOut } from "next-auth/react"
@@ -15,10 +15,9 @@ export default async function AdminLayout({
 }) {
   const session = await getServerSession(authOptions)
 
-  if (!session) redirect("/auth/signin")
-  // if (session.error === "RefreshAccessTokenError") {
-  //   signOut({ callbackUrl: "/auth/signin", redirect: true })
-  // }
+  if (!session || session.error === "RefreshAccessTokenError") {
+    signOut({ callbackUrl: "/auth/signin", redirect: true })
+  }
 
   return <AdminLayoutComponent>{children}</AdminLayoutComponent>
 }
